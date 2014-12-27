@@ -5085,26 +5085,38 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixLinkWhitespace(string articleText, string articleTitle)
         {
-            //remove undesirable space from beginning of wikilink (space before wikilink) - parse this line first
-            articleText = LinkWhitespace1.Replace(articleText, " [[$1]]");
+            // Performance strategy: get list of all wikilinks, only apply regexes to whole article text if matching wikilinks
+            List<string> allWikiLinks = (from Match m in WikiRegexes.SimpleWikiLink.Matches(articleText) select m.Value).ToList();
 
-            //remove undesirable space from beginning of wikilink and move it outside link - parse this line second
-            articleText = LinkWhitespace2.Replace(articleText, " [[$1]]");
+            if(allWikiLinks.Any(s => s.StartsWith("[[ ")))
+            {
+                //remove undesirable space from beginning of wikilink (space before wikilink) - parse this line first
+                articleText = LinkWhitespace1.Replace(articleText, " [[$1]]");
+
+                //remove undesirable space from beginning of wikilink and move it outside link - parse this line second
+                articleText = LinkWhitespace2.Replace(articleText, " [[$1]]");
+            }
 
             //remove undesirable double space from middle of wikilink (up to 61 characters in wikilink)
-            articleText = LinkWhitespace3.Replace(articleText, "[[$1 $2]]");
+            if(allWikiLinks.Any(s => s.Contains("  ")))
+                articleText = LinkWhitespace3.Replace(articleText, "[[$1 $2]]");
 
-            //remove undesirable space from end of wikilink (space after wikilink) - parse this line first
-            articleText = LinkWhitespace4.Replace(articleText, "[[$1]] ");
+            if(allWikiLinks.Any(s => s.Contains(" ]]")))
+            {
+                //remove undesirable space from end of wikilink (space after wikilink) - parse this line first
+                articleText = LinkWhitespace4.Replace(articleText, "[[$1]] ");
 
-            //remove undesirable space from end of wikilink and move it outside link - parse this line second
-            articleText = LinkWhitespace5.Replace(articleText, "[[$1]] ");
+                //remove undesirable space from end of wikilink and move it outside link - parse this line second
+                articleText = LinkWhitespace5.Replace(articleText, "[[$1]] ");
+            }
 
             //remove undesirable double space between wikilinked dates
-            articleText = DateLinkWhitespace.Replace(articleText, "$1");
+            if(allWikiLinks.Any(s => s.Contains("  ")))
+                articleText = DateLinkWhitespace.Replace(articleText, "$1");
 
             // [[link #section]] or [[link# section]] --> [[link#section]], don't change if hash in part of text of section link
-            articleText = SectionLinkWhitespace.Replace(articleText, m => (Hash.Matches(m.Value).Count == 1) ? m.Groups[1].Value.TrimEnd() + "#" + m.Groups[2].Value.TrimStart() : m.Value);
+            if(allWikiLinks.Any(s => (s.Contains("# ") || s.Contains(" #"))))
+                articleText = SectionLinkWhitespace.Replace(articleText, m => (Hash.Matches(m.Value).Count == 1) ? m.Groups[1].Value.TrimEnd() + "#" + m.Groups[2].Value.TrimStart() : m.Value);
 
             // correct [[page# section]] to [[page#section]]
             if (articleTitle.Length > 0)
