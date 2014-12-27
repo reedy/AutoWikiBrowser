@@ -1810,15 +1810,27 @@ namespace WikiFunctions.Parse
         /// <returns>the update wiki text</returns>
         private static string SameNamedRefShortText(string articleText)
         {
-            if(ShortNameReferenceQuick.IsMatch(articleText))
+            // Peformance: get a list of all the short named refs that could be condensed
+            // then only attempt replacement if some found and matching long named refs found
+            List<string> ShortNamed = new List<string>();
+            foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
+            {
+                string refname = m.Groups[2].Value;
+
+                if(m.Groups[3].Value.Length < 30 && ShortNameReferenceQuick.IsMatch(m.Value) 
+                    && !ShortNamed.Contains(refname))
+                    ShortNamed.Add(refname);
+            }
+
+            if(ShortNamed.Count > 0)
             {
                 foreach (Match m in LongNamedReferences.Matches(articleText))
                 {
                     string refname = m.Groups[2].Value;
 
-                    // don't apply if short ref is a page ref
-                    if(m.Groups[3].Value.Length > 30)
-                        articleText = Regex.Replace(articleText, @"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?|{{\s*[Cc]ite *\w+\s*}})\s*<\s*/\s*ref>)",
+                   // don't apply if short ref is a page ref
+                   if(ShortNamed.Contains(refname) && m.Groups[3].Value.Length > 30)
+                      articleText = Regex.Replace(articleText, @"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?|{{\s*[Cc]ite *\w+\s*}})\s*<\s*/\s*ref>)",
                                                     m2=> PageRef.IsMatch(m2.Groups[3].Value) ? m2.Value : @"<ref name=""" + refname + @"""/>");
                 }
             }
