@@ -6692,7 +6692,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text.</returns>
         public static string LivingPeople(string articleText, string articleTitle)
         {
-            Match m = WikiRegexes.BirthsCategory.Match(articleText);
+            Match m = WikiRegexes.BirthsCategory.Match(GetCats(articleText));
 
             // do not add living people category unless 'XXXX births' category is present
             if (!m.Success)
