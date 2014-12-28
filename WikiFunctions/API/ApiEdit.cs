@@ -624,39 +624,41 @@ namespace WikiFunctions.API
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
 
-            // Token needed as of 1.18
-            // TODO: Make token getting optional..
-            string result = HttpGet(
-                new Dictionary<string, string>
-                {
-                    {"action", "query"},
-                    {"prop", "info"},
-                    {"meta", "tokens"}, // Since 1.24
-                    {"type", "watch"},
-                    {"intoken", "watch"}, // Pre 1.24 compat
-                    {"titles", title}
-                },
-                ActionOptions.All);
-
-            CheckForErrors(result);
-
-            try
+            if (string.IsNullOrEmpty(Page.WatchToken))
             {
-                XmlReader xr = CreateXmlReader(result);
-                if (!xr.ReadToFollowing("tokens") && !xr.ReadToFollowing("page"))
+                // Token needed as of 1.18
+                string result = HttpGet(
+                    new Dictionary<string, string>
+                    {
+                        {"action", "query"},
+                        {"prop", "info"},
+                        {"meta", "tokens"}, // Since 1.24
+                        {"type", "watch"},
+                        {"intoken", "watch"}, // Pre 1.24 compat
+                        {"titles", title}
+                    },
+                    ActionOptions.All);
+
+                CheckForErrors(result);
+
+                try
                 {
-                    throw new Exception("Cannot find <page> element");
+                    XmlReader xr = CreateXmlReader(result);
+                    if (!xr.ReadToFollowing("tokens") && !xr.ReadToFollowing("page"))
+                    {
+                        throw new Exception("Cannot find <page> element");
+                    }
+                    Page.WatchToken = xr.GetAttribute("watchtoken");
                 }
-                Page.WatchToken = xr.GetAttribute("watchtoken");
-            }
-            catch (Exception ex)
-            {
-                throw new BrokenXmlException(this, ex);
+                catch (Exception ex)
+                {
+                    throw new BrokenXmlException(this, ex);
+                }
             }
 
             if (Aborting) throw new AbortedException(this);
 
-            result = HttpPost(
+            var result2 = HttpPost(
                 new Dictionary<string, string>
                 {
                     {"action", "watch"}
@@ -667,7 +669,7 @@ namespace WikiFunctions.API
                     {"token", Page.WatchToken}
                 },
                 ActionOptions.All);
-            CheckForErrors(result, "watch");
+            CheckForErrors(result2, "watch");
         }
 
         public void Unwatch(string title)
@@ -827,33 +829,43 @@ namespace WikiFunctions.API
             Reset();
             Action = "delete";
 
-            string result = HttpGet(
-                new Dictionary<string, string>
-                {
-                    {"action", "query"},
-                    {"prop", "info"},
-                    {"meta", "tokens"}, // Since 1.24
-                    {"type", "delete"},
-                    {"intoken", "delete"}, // Pre 1.24 compat
-                    {"titles", title}
-
-                },
-                ActionOptions.All);
-
-            CheckForErrors(result);
-
-            try
+            if (string.IsNullOrEmpty(Page.DeleteToken))
             {
-                XmlReader xr = CreateXmlReader(result);
-                if (!xr.ReadToFollowing("tokens") && !xr.ReadToFollowing("page"))
+                var result = HttpGet(
+                    new Dictionary<string, string>
+                    {
+                        {"action", "query"},
+                        {"prop", "info"},
+                        {"meta", "tokens"}, // Since 1.24
+                        {"type", "csrf"},
+                        {"intoken", "delete"}, // Pre 1.24 compat
+                        {"titles", title}
+
+                    },
+                    ActionOptions.All);
+
+                CheckForErrors(result);
+
+                try
                 {
-                    throw new Exception("Cannot find <page> element");
+                    XmlReader xr = CreateXmlReader(result);
+                    if (xr.ReadToFollowing("tokens"))
+                    {
+                        Page.DeleteToken = xr.GetAttribute("csrftoken");
+                    }
+                    else if (!xr.ReadToFollowing("page"))
+                    {
+                        throw new Exception("Cannot find <page> element");
+                    }
+                    else
+                    {
+                        Page.DeleteToken = xr.GetAttribute("deletetoken");
+                    }
                 }
-                Page.DeleteToken = xr.GetAttribute("deletetoken");
-            }
-            catch (Exception ex)
-            {
-                throw new BrokenXmlException(this, ex);
+                catch (Exception ex)
+                {
+                    throw new BrokenXmlException(this, ex);
+                }
             }
 
             if (Aborting) throw new AbortedException(this);
@@ -867,7 +879,7 @@ namespace WikiFunctions.API
 
             //post.AddIfTrue(User.IsBot, "bot", null);
             post.AddIfTrue(watch, "watch", null);
-            result = HttpPost(
+            var result2 = HttpPost(
                 new Dictionary<string, string>
                 {
                     {"action", "delete"}
@@ -875,7 +887,7 @@ namespace WikiFunctions.API
                 post,
                 ActionOptions.All);
 
-            CheckForErrors(result);
+            CheckForErrors(result2);
 
             Reset();
         }
@@ -905,34 +917,44 @@ namespace WikiFunctions.API
             Reset();
             Action = "protect";
 
-            string result = HttpGet(
-                new Dictionary<string, string>
-                {
-                    {"action", "query"},
-                    {"prop", "info"},
-                    {"meta", "tokens"}, // Since 1.24
-                    {"type", "protect"},
-                    {"intoken", "protect"}, // Pre 1.24 compat
-                    {"titles", title}
-
-                },
-                ActionOptions.All);
-
-            CheckForErrors(result);
-            Page = new PageInfo(result);
-
-            try
+            if (string.IsNullOrEmpty(Page.ProtectToken))
             {
-                XmlReader xr = CreateXmlReader(result);
-                if (!xr.ReadToFollowing("tokens") && !xr.ReadToFollowing("page"))
+                string result = HttpGet(
+                    new Dictionary<string, string>
+                    {
+                        {"action", "query"},
+                        {"prop", "info"},
+                        {"meta", "tokens"}, // Since 1.24
+                        {"type", "csrf"},
+                        {"intoken", "protect"}, // Pre 1.24 compat
+                        {"titles", title}
+
+                    },
+                    ActionOptions.All);
+
+                CheckForErrors(result);
+                Page = new PageInfo(result);
+
+                try
                 {
-                    throw new Exception("Cannot find <page> element");
+                    XmlReader xr = CreateXmlReader(result);
+                    if (xr.ReadToFollowing("tokens"))
+                    {
+                        Page.ProtectToken = xr.GetAttribute("csrftoken");
+                    }
+                    else if (!xr.ReadToFollowing("page"))
+                    {
+                        throw new Exception("Cannot find <page> element");
+                    }
+                    else
+                    {
+                        Page.ProtectToken = xr.GetAttribute("protecttoken");
+                    }
                 }
-                Page.ProtectToken = xr.GetAttribute("protecttoken");
-            }
-            catch (Exception ex)
-            {
-                throw new BrokenXmlException(this, ex);
+                catch (Exception ex)
+                {
+                    throw new BrokenXmlException(this, ex);
+                }
             }
 
             if (Aborting) throw new AbortedException(this);
@@ -967,7 +989,7 @@ namespace WikiFunctions.API
             //post.AddIfTrue(User.IsBot, "bot", null);
             post.AddIfTrue(watch, "watch", null);
 
-            result = HttpPost(
+            var result2 = HttpPost(
                 new Dictionary<string, string>
                 {
                     {"action", "protect"}
@@ -975,7 +997,7 @@ namespace WikiFunctions.API
                 post,
                 ActionOptions.All);
 
-            CheckForErrors(result);
+            CheckForErrors(result2);
 
             Reset();
         }
@@ -1001,6 +1023,7 @@ namespace WikiFunctions.API
             Reset();
             Action = "move";
 
+            // TODO: Refactor token handling to make it optionsal
             string result = HttpGet(
                 new Dictionary<string, string>
                 {
