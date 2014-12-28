@@ -274,29 +274,34 @@ namespace WikiFunctions.API
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="url"></param>
         /// <param name="request"></param>
         /// <param name="options"></param>
-        /// <returns></returns>
-        protected string AppendOptions(string url, Dictionary<string, string> request, ActionOptions options)
+        protected void AppendOptions(Dictionary<string, string> request, ActionOptions options)
         {
             if ((options & ActionOptions.CheckMaxlag) > 0 && Maxlag > 0)
             {
-                url += "&maxlag=" + Maxlag;
+                request.Add("maxlag", Maxlag.ToString());
             }
 
             if ((options & ActionOptions.RequireLogin) > 0)
             {
-                url += "&assert=user";
+                request.Add("assert", "user");
             }
 
             if (request.ContainsKey("action") && request["action"] == "query"
                 && ((options & ActionOptions.CheckNewMessages) > 0))
             {
-                url += "&meta=userinfo|notifications&uiprop=hasmsg&notprop=count";
+                if (request.ContainsKey("meta"))
+                {
+                    request["meta"] += "|userinfo|notifications";
+                }
+                else
+                {
+                    request.Add("meta", "userinfo|notifications");
+                }
+                request.Add("uiprop", "hasmsg");
+                request.Add("notprop", "count");
             }
-
-            return url;
         }
 
         /// <summary>
@@ -307,9 +312,8 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected string BuildUrl(Dictionary<string, string> request, ActionOptions options)
         {
-            string url = ApiURL + "?format=xml" + BuildQuery(request);
-
-            return AppendOptions(url, request, options);
+            AppendOptions(request, options);
+            return ApiURL + "?format=xml" + BuildQuery(request);
         }
 
         /// <summary>
@@ -1466,6 +1470,7 @@ namespace WikiFunctions.API
                 ProhibitDtd = false
             });
         }
+
         #endregion
     }
 
