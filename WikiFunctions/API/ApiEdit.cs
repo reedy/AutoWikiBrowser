@@ -738,7 +738,9 @@ namespace WikiFunctions.API
                 {"action", "query"},
                 {"converttitles", null},
                 {"prop", "info|revisions"},
-                {"intoken", "edit"}, // TODO: Migrate tokens
+                {"meta", "tokens"}, // Since 1.24
+                {"type", "csrf|watch"}, // CSRF is for most actions
+                {"intoken", "edit|protect|delete|move|watch"}, // Pre 1.24 compat
                 {"titles", title},
                 {"inprop", "protection|watched|displaytitle"},
                 {"rvprop", "content|timestamp"}, // timestamp|user|comment|

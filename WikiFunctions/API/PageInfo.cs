@@ -105,12 +105,25 @@ namespace WikiFunctions.API
             Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             IsWatched = (xr.GetAttribute("watched") != null);
 
-            // TODO: Check if tokens exist, and load in at Open time
-            EditToken = xr.GetAttribute("edittoken");
-            // ProtectToken = xr.GetAttribute("protecttoken");
-            // DeleteToken = xr.GetAttribute("deletetoken");
-            // MoveToken = xr.GetAttribute("movetoken");
-            // WatchToken = xr.GetAttribute("watchtoken");
+            var tokens = doc.GetElementsByTagName("tokens");
+            if (tokens.Count == 0)
+            {
+                // Token support for < 1.24
+                EditToken = xr.GetAttribute("edittoken");
+                ProtectToken = xr.GetAttribute("protecttoken");
+                DeleteToken = xr.GetAttribute("deletetoken");
+                MoveToken = xr.GetAttribute("movetoken");
+                WatchToken = xr.GetAttribute("watchtoken");
+            }
+            else if (tokens[0].Attributes != null)
+            {
+                EditToken = tokens[0].Attributes["csrftoken"].Value;
+                ProtectToken = tokens[0].Attributes["csrftoken"].Value;
+                DeleteToken = tokens[0].Attributes["csrftoken"].Value;
+                MoveToken = tokens[0].Attributes["csrftoken"].Value;
+                WatchToken = tokens[0].Attributes["watchtoken"].Value;
+            }
+
             TokenTimestamp = xr.GetAttribute("starttimestamp");
 
             long revId;
@@ -144,6 +157,7 @@ namespace WikiFunctions.API
 
             xr.ReadToDescendant("rev");
             Timestamp = xr.GetAttribute("timestamp");
+
             Text = Tools.ConvertToLocalLineEndings(xr.ReadString());
         }
 
