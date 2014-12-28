@@ -141,6 +141,7 @@ namespace WikiFunctions
             Language = general.GetAttribute("lang");
             IsRightToLeft = general.HasAttribute("rtl");
             CapitalizeFirstLetter = general.GetAttribute("case") == "first-letter";
+            MediaWikiVersion = general.GetAttribute("generator").Replace("MediaWiki ", "");
 
             if (query["namespaces"] == null || query["namespacealiases"] == null)
                 return false;
@@ -253,13 +254,18 @@ namespace WikiFunctions
         { get; private set; }
 
         /// <summary>
+        /// Version of MediaWiki this site is running on
+        /// </summary>
+        public string MediaWikiVersion { get; private set; }
+
+        /// <summary>
         /// ISO code of current language
         /// </summary>
         public string Language
         { get; private set; }
 
         /// <summary>
-        /// RTL
+        /// Is the wiki RTL?
         /// </summary>
         public bool IsRightToLeft
         { get; private set; }
@@ -290,9 +296,6 @@ namespace WikiFunctions
             return result;
         }
 
-        #region Service functions
-        #endregion
-
         #region Helpers
         public void OpenPageInBrowser(string title)
         {
@@ -302,6 +305,17 @@ namespace WikiFunctions
         public void OpenPageHistoryInBrowser(string title)
         {
             Tools.OpenArticleHistoryInBrowser(title);
+        }
+
+        /// <summary>
+        /// Returns whether the version of MediaWiki running on this site is >= than the version
+        /// specified in the version parameter.
+        /// </summary>
+        /// <param name="version">Version</param>
+        /// <returns></returns>
+        public bool IsMediaWikiVersionHigherThan(string version)
+        {
+            return String.Compare(MediaWikiVersion, version, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         #endregion

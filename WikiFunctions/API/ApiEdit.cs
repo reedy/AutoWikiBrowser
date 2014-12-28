@@ -92,6 +92,8 @@ namespace WikiFunctions.API
                 }
                 ProxyCache.Add(url, ProxySettings);
             }
+
+            MediaWiki124OrLater = SiteInfo.CreateOrLoad(this).IsMediaWikiVersionHigherThan("1.24");
         }
 
         public IApiEdit Clone()
@@ -142,6 +144,11 @@ namespace WikiFunctions.API
         /// 
         /// </summary>
         public bool NewMessageThrows { get; set; }
+
+        /// <summary>
+        /// If this Wiki is using MediaWiki 1.24 or later
+        /// </summary>
+        protected bool MediaWiki124OrLater { get; set; }
 
         /// <summary>
         /// Action for which we have edit token
