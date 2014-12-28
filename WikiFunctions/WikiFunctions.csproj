@@ -75,10 +75,6 @@
     <Compile Include="Controls\NamespacesControl.Designer.cs">
       <DependentUpon>NamespacesControl.cs</DependentUpon>
     </Compile>
-    <None Include="CustomModules\BooModuleCompiler.cs" />
-    <None Include="CustomModules\CppModuleCompiler.cs">
-      <SubType>Code</SubType>
-    </None>
     <Compile Include="Controls\TypoStatsControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -87,10 +83,6 @@
     </Compile>
     <Compile Include="CustomModules\CSharpModuleCompiler.cs" />
     <Compile Include="CustomModules\CustomModuleCompiler.cs" />
-    <None Include="CustomModules\NemerleModuleCompiler.cs">
-      <SubType>Code</SubType>
-    </None>
-    <None Include="CustomModules\JSharpModuleCompiler.cs" />
     <Compile Include="CustomModules\VbModuleCompiler.cs" />
     <Compile Include="Diff\Diff.cs" />
     <Compile Include="Diff\Patch.cs" />
