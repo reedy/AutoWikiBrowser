@@ -307,17 +307,6 @@ namespace WikiFunctions
             Tools.OpenArticleHistoryInBrowser(title);
         }
 
-        /// <summary>
-        /// Returns whether the version of MediaWiki running on this site is >= than the version
-        /// specified in the version parameter.
-        /// </summary>
-        /// <param name="version">Version</param>
-        /// <returns></returns>
-        public bool IsMediaWikiVersionHigherThan(string version)
-        {
-            return String.Compare(MediaWikiVersion, version, StringComparison.OrdinalIgnoreCase) >= 0;
-        }
-
         #endregion
 
         #region IXmlSerializable Members
