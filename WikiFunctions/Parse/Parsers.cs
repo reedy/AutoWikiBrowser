@@ -403,7 +403,7 @@ namespace WikiFunctions.Parse
             string newTags = "";
 
             // get the zeroth section (text upto first heading)
-            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            string zerothSection = Tools.GetZerothSection(articleText);
 
             // get the rest of the article including first heading (may be null if entire article falls in zeroth section)
             string restOfArticle = articleText.Substring(zerothSection.Length);
@@ -848,7 +848,7 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            string zerothSection = Tools.GetZerothSection(articleText);
             string restOfArticle = articleText.Substring(zerothSection.Length);
             articleText = zerothSection;
 
@@ -4780,7 +4780,7 @@ namespace WikiFunctions.Parse
             if (existingBirthYear.Length == 4 || existingDeathYear.Length == 4)
             {
                 string birthDateFound = "", deathDateFound = "";
-                string zerothSection = WikiRegexes.ZerothSection.Match(articletext).Value;
+                string zerothSection = Tools.GetZerothSection(articletext);
 
                 // remove references, wikilinks, templates
                 zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
@@ -5861,7 +5861,7 @@ namespace WikiFunctions.Parse
             // 2) Clean up self wikilinks
             string escTitle = Regex.Escape(articleTitle), escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
 
-            string articleTextAtStart = articleText, zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            string articleTextAtStart = articleText, zerothSection = Tools.GetZerothSection(articleText);
             string restOfArticle = articleText.Substring(zerothSection.Length);
             string zerothSectionHidden, zerothSectionHiddenOriginal;
 
@@ -6613,7 +6613,7 @@ namespace WikiFunctions.Parse
                     return false;
             }
 
-            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            string zerothSection = Tools.GetZerothSection(articleText);
 
             // not about a person if it's not the principle article on the subject
             if (SeeAlsoOrMain.IsMatch(zerothSection))
@@ -6829,7 +6829,7 @@ namespace WikiFunctions.Parse
             int catCount = WikiRegexes.Category.Matches(articleText).Count;
 
             // get the zeroth section (text upto first heading)
-            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            string zerothSection = Tools.GetZerothSection(articleText);
 
             // remove references and long wikilinks (but allow an ISO date) that may contain false positives of birth/death date
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");

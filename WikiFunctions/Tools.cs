@@ -834,7 +834,22 @@ namespace WikiFunctions
 
 			return sections.ToArray();
 		}
-		
+
+        private static readonly Regex HeadingStart = new Regex(@"^==", RegexOptions.Multiline);
+
+        /// <summary>
+        /// Matches the first section of an article, if the article has sections, else the whole article
+        /// </summary>
+        public static string GetZerothSection(string articleText)
+        {
+            Match m = HeadingStart.Match(articleText);
+
+            if(m.Success)
+                return articleText.Substring(0, m.Index);
+
+            return articleText;
+        }
+
 		/// <summary>
 		/// returns how much of the given text starts with only items matched by the given regex, allowing for whitespace only
 		/// E.g. whether a portion of text starts only with one or more wiki templates
