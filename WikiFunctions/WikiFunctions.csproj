@@ -87,6 +87,7 @@
     <Compile Include="Diff\Diff.cs" />
     <Compile Include="Diff\Patch.cs" />
     <Compile Include="Diff\UnifiedDiff.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Lists\Providers\AdvancedRegexHtmlScraper.cs">
       <SubType>Form</SubType>

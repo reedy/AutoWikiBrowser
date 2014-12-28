@@ -442,26 +442,34 @@ namespace WikiFunctions
                 if (!mPage.Exists) return false;
 
                 // Send text to parser
-                string[] parsebeforebits = parser.ParseApi(new[,] {{"page", mPage.Title}})
-                    .Split(new[] {"</text>"}, StringSplitOptions.None);
+                string[] parsebeforebits = parser.ParseApi(
+                    new Dictionary<string, string> {{"page", mPage.Title}})
+                    .Split(new[] {"</text>"},
+                        StringSplitOptions.None
+                    );
                 string[] parseafterbits =
-                    parser.ParseApi(new[,]
-                                    {{"title", mPage.Title}, {"text", mArticleText}, {"pst", null}, {"disablepp", null}})
-                        .Split(new[] {"</text>"}, StringSplitOptions.None);
+                    parser.ParseApi(
+                        new Dictionary<string, string>
+                        {{"title", mPage.Title}, {"text", mArticleText}, {"pst", null}, {"disablepp", null}})
+                        .Split(new[] {"</text>"},
+                            StringSplitOptions.None
+                        );
 
                 // First half: interwiki and category links
                 // The API will churn them out in the order they go in, so we'll need to sort them ourselves
-                string[] beforecatslangs = parsebeforebits[1].Split(new [] { '<' });
-                string[] aftercatslangs = parseafterbits[1].Split(new [] { '<' });
+                string[] beforecatslangs = parsebeforebits[1].Split(new[] {'<'});
+                string[] aftercatslangs = parseafterbits[1].Split(new[] {'<'});
                 Array.Sort(beforecatslangs);
                 Array.Sort(aftercatslangs);
                 if (beforecatslangs.Length != aftercatslangs.Length
-                    || string.Compare(string.Join("", beforecatslangs), string.Join("", aftercatslangs)) != 0) return false;
+                    || string.Compare(string.Join("", beforecatslangs), string.Join("", aftercatslangs)) != 0)
+                    return false;
 
                 // Second half: cosmetic changes to text (such as template redirect bypassing)
                 // We'll need to strip the text of the cache markers and metadata to make old and new comparable
                 // and then remove some common whitespace changes for good measure
-                parsebeforebits[0] = Regex.Replace(parsebeforebits[0], "&lt;!--(([^&]*?)NewPP limit report| Saved in parser cache)([^&]*?)--&gt;", "");
+                parsebeforebits[0] = Regex.Replace(parsebeforebits[0],
+                    "&lt;!--(([^&]*?)NewPP limit report| Saved in parser cache)([^&]*?)--&gt;", "");
                 const string whitespace1 = "&lt;p&gt;&lt;br /&gt;&lt;/p&gt;\n";
                 parsebeforebits[0] = parsebeforebits[0].Replace(whitespace1, "");
                 parseafterbits[0] = parseafterbits[0].Replace(whitespace1, "");
