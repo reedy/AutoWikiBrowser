@@ -122,6 +122,7 @@ namespace WikiFunctions.API
                 DeleteToken = tokens[0].Attributes["csrftoken"].Value;
                 MoveToken = tokens[0].Attributes["csrftoken"].Value;
                 WatchToken = tokens[0].Attributes["watchtoken"].Value;
+                RollbackToken = tokens[0].Attributes["rollbacktoken"].Value;
             }
 
             TokenTimestamp = xr.GetAttribute("starttimestamp");
@@ -243,6 +244,12 @@ namespace WikiFunctions.API
         /// Watch Token
         /// </summary>
         public string WatchToken
+        { get; internal set; }
+
+        /// <summary>
+        /// Rollback Token
+        /// </summary>
+        public string RollbackToken
         { get; internal set; }
 
         /// <summary>

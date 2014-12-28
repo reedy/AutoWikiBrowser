@@ -741,7 +741,7 @@ namespace WikiFunctions.API
                 {"converttitles", null},
                 {"prop", "info|revisions"},
                 {"meta", "tokens"}, // Since 1.24
-                {"type", "csrf|watch"}, // CSRF is for most actions
+                {"type", "csrf|watch|rollback"}, // CSRF is for most actions
                 {"intoken", "edit|protect|delete|move|watch"}, // Pre 1.24 compat
                 {"titles", title},
                 {"inprop", "protection|watched|displaytitle"},
@@ -933,7 +933,6 @@ namespace WikiFunctions.API
                     ActionOptions.All);
 
                 CheckForErrors(result);
-                Page = new PageInfo(result);
 
                 try
                 {
@@ -1210,24 +1209,32 @@ namespace WikiFunctions.API
 
         public void Rollback(string title, string user)
         {
-            string result = HttpGet(
-                new Dictionary<string, string>
+            if (string.IsNullOrEmpty(Page.RollbackToken))
+            {
+                string result = HttpGet(
+                    new Dictionary<string, string>
+                    {
+                        {"action", "query"},
+                        {"prop", "revisions"},
+                        {"meta", "tokens"}, // Since 1.24
+                        {"type", "rollback"},
+                        {"rvtoken", "rollback"}, // Pre 1.24 compat
+                        {"titles", title}
+
+                    },
+                    ActionOptions.All);
+
+                CheckForErrors(result, "query");
+
+                XmlReader xr = CreateXmlReader(result);
+                if (!xr.ReadToFollowing("tokens") && !xr.ReadToFollowing("page"))
                 {
-                    {"action", "query"},
-                    {"prop", "revisions"},
-                    {"rvtoken", "rollback"},
-                    {"titles", title}
+                    throw new Exception("Cannot find <page> element");
+                }
+                Page.RollbackToken = xr.GetAttribute("rollbacktoken");
+            }
 
-                },
-                ActionOptions.All);
-
-            CheckForErrors(result, "query");
-
-            XmlReader xr = CreateXmlReader(result);
-            if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
-            string rollbackToken = xr.GetAttribute("rollbacktoken");
-
-            result = HttpPost(
+            var result2 = HttpPost(
                 new Dictionary<string, string>
                 {
                     {"action", "rollback"}
@@ -1235,10 +1242,10 @@ namespace WikiFunctions.API
                 new Dictionary<string, string>
                 {
                     {"title", title},
-                    {"token", rollbackToken}
+                    {"token", Page.RollbackToken}
                 });
 
-            CheckForErrors(result, "rollback");
+            CheckForErrors(result2, "rollback");
         }
 
         public string ExpandTemplates(string title, string text)
