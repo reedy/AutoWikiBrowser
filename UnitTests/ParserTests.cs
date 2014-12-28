@@ -10961,11 +10961,13 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsFalse(Parsers.Conversions(a1 + a3).Contains(@"{{multiple issues"));
 
             // before first heading tag can be used
-            const string a7 = @"{{trivia}} ==heading==";
+            const string a7 = @"{{trivia}}
+==heading==";
             Assert.IsTrue(parser.MultipleIssuesOld(a5 + a3 + a7).Contains(@"{{multiple issues|POV|prose|spam|trivia = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
             // don't grab tags in later sections of article
-            const string a6 = @"==head== {{essay}}";
+            const string a6 = @"
+==head== {{essay}}";
             Assert.AreEqual(a5 + a3 + a6, parser.MultipleIssuesOld(a5 + a3 + a6));
         }
 
