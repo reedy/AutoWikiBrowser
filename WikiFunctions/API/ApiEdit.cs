@@ -738,7 +738,7 @@ namespace WikiFunctions.API
                 {"action", "query"},
                 {"converttitles", null},
                 {"prop", "info|revisions"},
-                {"intoken", "edit"},
+                {"intoken", "edit"}, // TODO: Migrate tokens
                 {"titles", title},
                 {"inprop", "protection|watched|displaytitle"},
                 {"rvprop", "content|timestamp"}, // timestamp|user|comment|
@@ -830,7 +830,9 @@ namespace WikiFunctions.API
                 {
                     {"action", "query"},
                     {"prop", "info"},
-                    {"intoken", "delete"},
+                    {"meta", "tokens"}, // Since 1.24
+                    {"type", "delete"},
+                    {"intoken", "delete"}, // Pre 1.24 compat
                     {"titles", title}
 
                 },
@@ -841,7 +843,10 @@ namespace WikiFunctions.API
             try
             {
                 XmlReader xr = CreateXmlReader(result);
-                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+                if (!xr.ReadToFollowing("tokens") && !xr.ReadToFollowing("page"))
+                {
+                    throw new Exception("Cannot find <page> element");
+                }
                 Page.DeleteToken = xr.GetAttribute("deletetoken");
             }
             catch (Exception ex)
@@ -903,7 +908,9 @@ namespace WikiFunctions.API
                 {
                     {"action", "query"},
                     {"prop", "info"},
-                    {"intoken", "protect"},
+                    {"meta", "tokens"}, // Since 1.24
+                    {"type", "protect"},
+                    {"intoken", "protect"}, // Pre 1.24 compat
                     {"titles", title}
 
                 },
@@ -915,7 +922,10 @@ namespace WikiFunctions.API
             try
             {
                 XmlReader xr = CreateXmlReader(result);
-                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+                if (!xr.ReadToFollowing("tokens") && !xr.ReadToFollowing("page"))
+                {
+                    throw new Exception("Cannot find <page> element");
+                }
                 Page.ProtectToken = xr.GetAttribute("protecttoken");
             }
             catch (Exception ex)
@@ -994,7 +1004,9 @@ namespace WikiFunctions.API
                 {
                     {"action", "query"},
                     {"prop", "info"},
-                    {"intoken", "move"},
+                    {"meta", "tokens"}, // Since 1.24
+                    {"type", "move"},
+                    {"intoken", "move"}, // Pre 1.24 compat
                     {"titles", title + "|" + newTitle}
 
                 },
@@ -1006,7 +1018,10 @@ namespace WikiFunctions.API
             try
             {
                 XmlReader xr = CreateXmlReader(result);
-                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+                if (!xr.ReadToFollowing("tokens") && !xr.ReadToFollowing("page"))
+                {
+                    throw new Exception("Cannot find <page> element");
+                }
 
                 invalid = xr.MoveToAttribute("invalid");
 
@@ -1079,7 +1094,7 @@ namespace WikiFunctions.API
                     {"format", "xml"},
                     {"prop", "text|displaytitle|langlinks|categories"}
                 },
-                queryParameters); //Should we be checking for maxlag?
+                queryParameters); // TODO: Should we be checking for maxlag?
 
             CheckForErrors(result, "parse");
 
