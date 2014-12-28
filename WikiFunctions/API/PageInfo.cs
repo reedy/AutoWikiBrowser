@@ -54,7 +54,7 @@ namespace WikiFunctions.API
                     OriginalTitle = Title = first["from"].Value;
                     Exists = true;
                     Text = "";
-                    return; //We're not going to have any page text
+                    return; // We're not going to have any page text as there is a redirect loop
                 }
 
                 redirectFrom = first != null ? first["from"].Value : "";
@@ -70,6 +70,12 @@ namespace WikiFunctions.API
 
             if (!xr.ReadToFollowing("page"))
             {
+                if (redirects.Count > 0)
+                {
+                    // If there are redirects, but no page element, chances are it's a redirect to IW or something
+                    // similar
+                    return;
+                }
                 throw new Exception("Cannot find <page> element");
             }
 
