@@ -91,11 +91,6 @@ namespace WikiFunctions.CustomModules
 
 
             AddToList(modules, typeof(VbModuleCompiler));
-            //AddToList(modules, typeof(NemerleModuleCompiler));
-            //AddToList(modules, typeof(CppModuleCompiler));
-            //AddToList(modules, typeof(BooModuleCompiler));
-            //AddToList(modules, typeof(JSharpModuleCompiler));
-
             return modules.ToArray();
         }
 
