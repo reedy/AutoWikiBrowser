@@ -423,6 +423,14 @@ bar"));
         }
 
         [Test]
+        public void GetZerothSection()
+        {
+            Assert.AreEqual("Hello" + "\r\n", Tools.GetZerothSection("Hello" + "\r\n" + "==Heading=="));
+            Assert.AreEqual("Hello" + "\r\n", Tools.GetZerothSection("Hello" + "\r\n" + "===Heading==="));
+            Assert.AreEqual("Hello" + "\r\n", Tools.GetZerothSection("Hello" + "\r\n"));
+        }
+
+        [Test]
         public void RemoveMatches()
         {
             MatchCollection matches = Regex.Matches("abc bce cde def", "[ce]");
