@@ -631,9 +631,10 @@ namespace WikiFunctions.API
                 {
                     {"action", "query"},
                     {"prop", "info"},
-                    {"intoken", "watch"},
+                    {"meta", "tokens"}, // Since 1.24
+                    {"type", "watch"},
+                    {"intoken", "watch"}, // Pre 1.24 compat
                     {"titles", title}
-
                 },
                 ActionOptions.All);
 
@@ -642,7 +643,10 @@ namespace WikiFunctions.API
             try
             {
                 XmlReader xr = CreateXmlReader(result);
-                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+                if (!xr.ReadToFollowing("tokens") && !xr.ReadToFollowing("page"))
+                {
+                    throw new Exception("Cannot find <page> element");
+                }
                 Page.WatchToken = xr.GetAttribute("watchtoken");
             }
             catch (Exception ex)
