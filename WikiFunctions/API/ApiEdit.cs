@@ -1022,44 +1022,52 @@ namespace WikiFunctions.API
             Reset();
             Action = "move";
 
-            // TODO: Refactor token handling to make it optionsal
-            string result = HttpGet(
-                new Dictionary<string, string>
-                {
-                    {"action", "query"},
-                    {"prop", "info"},
-                    {"meta", "tokens"}, // Since 1.24
-                    {"type", "move"},
-                    {"intoken", "move"}, // Pre 1.24 compat
-                    {"titles", title + "|" + newTitle}
-
-                },
-                ActionOptions.All);
-
-            CheckForErrors(result, "query");
-
-            bool invalid;
-            try
+            if (!string.IsNullOrEmpty(Page.MoveToken))
             {
-                XmlReader xr = CreateXmlReader(result);
-                if (!xr.ReadToFollowing("tokens") && !xr.ReadToFollowing("page"))
+                string result = HttpGet(
+                    new Dictionary<string, string>
+                    {
+                        {"action", "query"},
+                        {"prop", "info"},
+                        {"meta", "tokens"}, // Since 1.24
+                        {"type", "csrf"},
+                        {"intoken", "move"}, // Pre 1.24 compat
+                        {"titles", title + "|" + newTitle}
+
+                    },
+                    ActionOptions.All);
+
+                CheckForErrors(result, "query");
+
+                bool invalid;
+                try
                 {
-                    throw new Exception("Cannot find <page> element");
+                    XmlReader xr = CreateXmlReader(result);
+
+                    bool readToPage = xr.ReadToFollowing("page");
+                    invalid = xr.MoveToAttribute("invalid");
+                    if (!xr.ReadToFollowing("tokens") && readToPage)
+                    {
+                        Page.MoveToken = xr.GetAttribute("movetoken");
+                    }
+                    else if (!readToPage)
+                    {
+                        throw new Exception("Cannot find <page> element");
+                    }
+
+                    Page.MoveToken = xr.GetAttribute("csrftoken");
+                }
+                catch (Exception ex)
+                {
+                    throw new BrokenXmlException(this, ex);
                 }
 
-                invalid = xr.MoveToAttribute("invalid");
-
-                Page.MoveToken = xr.GetAttribute("movetoken");
-            }
-            catch (Exception ex)
-            {
-                throw new BrokenXmlException(this, ex);
+                if (invalid)
+                    throw new ApiException(this, "invalidnewtitle",
+                        new ArgumentException("Target page invalid", "newTitle"));
             }
 
             if (Aborting) throw new AbortedException(this);
-
-            if (invalid)
-                throw new ApiException(this, "invalidnewtitle", new ArgumentException("Target page invalid", "newTitle"));
 
             var post = new Dictionary<string, string>
             {
@@ -1075,7 +1083,7 @@ namespace WikiFunctions.API
             //post.AddIfTrue(User.IsBot, "bot", null);
             post.AddIfTrue(watch, "watch", null);
 
-            result = HttpPost(
+            var result2 = HttpPost(
                 new Dictionary<string, string>
                 {
                     {"action", "move"}
@@ -1083,7 +1091,7 @@ namespace WikiFunctions.API
                 post,
                 ActionOptions.All);
 
-            CheckForErrors(result, "move");
+            CheckForErrors(result2, "move");
 
             Reset();
         }
