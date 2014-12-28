@@ -4615,9 +4615,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             }
             catch (ApiException ae)
             {
-                if (ae.Message == "invalidnewtitle")
+                if (ae is InvalidTitleException || ae is InterwikiException)
                 {
-                    MessageBox.Show("Target title is invalid", "Invalid Target page");
+                    MessageBox.Show(ae.Message, "Invalid Target page");
                     return;
                 }
                 ErrorHandler.HandleException(ae);
