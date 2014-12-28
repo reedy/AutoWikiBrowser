@@ -56,7 +56,6 @@
     <Compile Include="RegexAssert.cs" />
     <Compile Include="RegexTests.cs" />
     <Compile Include="CacheTests.cs" />
-    <Compile Include="SiteInfoTests.cs" />
     <Compile Include="SorterTests.cs" />
     <Compile Include="SummaryTests.cs" />
     <Compile Include="TemplateTests.cs" />
