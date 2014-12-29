@@ -28,11 +28,6 @@ namespace WikiFunctions.Controls
         public EditProtectControl()
         {
             InitializeComponent();
-            lbMove.SelectedIndex = 0;
-            lbEdit.SelectedIndex = 0;
-
-            lbEdit.Items.Clear();
-            lbMove.Items.Clear();
 
             // add basic protection levels
             foreach (var p in ProtectionLevel.BasicLevels)
@@ -43,27 +38,27 @@ namespace WikiFunctions.Controls
 
             // then add any custom protection levels per wiki
             // see https://noc.wikimedia.org/conf/highlight.php?file=InitialiseSettings.php at the wgRestrictionLevels section
-            if(Variables.LangCode.Equals("en"))
+            if (Variables.LangCode.Equals("en"))
             {
                 lbEdit.Items.Add(new ProtectionLevel("templateeditor", "Template editor"));
                 lbMove.Items.Add(new ProtectionLevel("templateeditor", "Template editor"));
             }
-            else   if(Variables.LangCode.Equals("ar"))
+            else if (Variables.LangCode.Equals("ar"))
             {
                 lbEdit.Items.Add(new ProtectionLevel("autoreview", "autoreview"));
                 lbMove.Items.Add(new ProtectionLevel("autoreview", "autoreview"));
             }
-            else   if(Variables.LangCode.Equals("ckb") || Variables.LangCode.Equals("he"))
+            else if (Variables.LangCode.Equals("ckb") || Variables.LangCode.Equals("he"))
             {
                 lbEdit.Items.Add(new ProtectionLevel("autopatrol", "autopatrol"));
                 lbMove.Items.Add(new ProtectionLevel("autopatrol", "autopatrol"));
             }
-            else   if(Variables.LangCode.Equals("pl"))
+            else if (Variables.LangCode.Equals("pl"))
             {
                 lbEdit.Items.Add(new ProtectionLevel("editor", "editor"));
                 lbMove.Items.Add(new ProtectionLevel("editor", "editor"));
             }
-            else   if(Variables.LangCode.Equals("pt"))
+            else if (Variables.LangCode.Equals("pt"))
             {
                 lbEdit.Items.Add(new ProtectionLevel("autoreviewer", "autoreviewer"));
                 lbMove.Items.Add(new ProtectionLevel("autoreviewer", "autoreviewer"));

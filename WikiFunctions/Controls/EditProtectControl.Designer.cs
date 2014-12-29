@@ -50,10 +50,6 @@
             // 
             this.lbMove.Enabled = false;
             this.lbMove.FormattingEnabled = true;
-            this.lbMove.Items.AddRange(new object[] {
-            "Unprotected",
-            "Semi-protected",
-            "Fully protected"});
             this.lbMove.Location = new System.Drawing.Point(157, 16);
             this.lbMove.Name = "lbMove";
             this.lbMove.Size = new System.Drawing.Size(145, 56);
@@ -72,10 +68,6 @@
             // lbEdit
             // 
             this.lbEdit.FormattingEnabled = true;
-            this.lbEdit.Items.AddRange(new object[] {
-            "Unprotected",
-            "Semi-protected",
-            "Fully protected"});
             this.lbEdit.Location = new System.Drawing.Point(6, 16);
             this.lbEdit.Name = "lbEdit";
             this.lbEdit.Size = new System.Drawing.Size(145, 56);
@@ -87,7 +79,7 @@
             this.lblEdit.AutoSize = true;
             this.lblEdit.Location = new System.Drawing.Point(3, 0);
             this.lblEdit.Name = "lblEdit";
-            this.lblEdit.Size = new System.Drawing.Size(25, 13);
+            this.lblEdit.Size = new System.Drawing.Size(61, 13);
             this.lblEdit.TabIndex = 12;
             this.lblEdit.Text = "Create/Edit";
             // 
