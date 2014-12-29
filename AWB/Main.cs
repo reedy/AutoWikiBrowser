@@ -938,8 +938,7 @@ namespace AutoWikiBrowser
                 RunProcessPageBackground.Complete += AutomaticallyDoAnythingComplete;
                 return;
             }
-            else
-                CompleteProcessPage();
+            CompleteProcessPage();
         }
 
         /// <summary>
