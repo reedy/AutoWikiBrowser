@@ -648,7 +648,7 @@ namespace WikiFunctions.Parse
             string zerothsectionNoMI = Tools.ReplaceWithSpaces(zerothsection, MIMC);
 
             // count distinct templates
-            int totalTemplates = Tools.DeduplicateList(Templates.Matches(zerothsectionNoMI).OfType<Match>().Select(m => m.Groups[0].Value).ToList()).Count();
+            int totalTemplates = Tools.DeduplicateList((from Match m in Templates.Matches(zerothsectionNoMI) select m.Value).ToList()).Count();
 
             // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
             if(totalTemplates == 0 && existingMultipleIssues)
@@ -3408,7 +3408,7 @@ namespace WikiFunctions.Parse
 			// CHECKWIKI error 93
             articleText = MultipleHttpInLink.Replace(articleText, "$1");
             articleText = MultipleFtpInLink.Replace(articleText, "$1");
-            articleText = WikiRegexes.UrlTemplate.Replace(articleText, m=> m.Groups[0].Value.Replace("http://http://", "http://"));
+            articleText = WikiRegexes.UrlTemplate.Replace(articleText, m=> m.Value.Replace("http://http://", "http://"));
 
             //repair bad external links
             articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
@@ -3488,7 +3488,7 @@ namespace WikiFunctions.Parse
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
 
             // make double spaces within wikilinks just single spaces
-            articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Groups[0].Value.Replace("_#", "#").Replace("  ", " "));
+            articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Value.Replace("_#", "#").Replace("  ", " "));
 
             // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
             // fix incorrect <br> of <br.>, <\br> and <br\> - CHECKWIKI error 02
