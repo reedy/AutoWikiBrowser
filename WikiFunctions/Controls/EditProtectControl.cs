@@ -70,6 +70,9 @@ namespace WikiFunctions.Controls
                 lbEdit.Items.Add(p);
                 lbMove.Items.Add(p);
             }
+
+            lbEdit.SelectedIndex = 0;
+            lbMove.SelectedIndex = 0;
         }
 
         private void chkUnlock_CheckedChanged(object sender, EventArgs e)
@@ -98,13 +101,15 @@ namespace WikiFunctions.Controls
         [Browsable(false)]
         public string EditProtectionLevel
         {
-            get 
-            {
-                return GetProtectionLevel(lbEdit);
-            }
+            get { return GetProtectionLevel(lbEdit); }
             set
             {
                 if (DesignMode) return;
+                if (string.IsNullOrEmpty(value))
+                {
+                    lbMove.SelectedIndex = 0;
+                    return;
+                }
                 EnsureProtectionLevelExists(value);
                 lbEdit.SelectedItem = value;
             }
@@ -113,13 +118,15 @@ namespace WikiFunctions.Controls
         [Browsable(false)]
         public string MoveProtectionLevel
         {
-            get
-            {
-                return GetProtectionLevel(lbMove);
-            }
+            get { return GetProtectionLevel(lbMove); }
             set
             {
                 if (DesignMode) return;
+                if (string.IsNullOrEmpty(value))
+                {
+                    lbMove.SelectedIndex = 0;
+                    return;
+                }
                 EnsureProtectionLevelExists(value);
                 lbMove.SelectedItem = value;
             }
@@ -178,7 +185,7 @@ namespace WikiFunctions.Controls
             if (obj is ProtectionLevel)
                 return (obj as ProtectionLevel).Group == Group;
             if (obj is string)
-                return Group == (string)obj;
+                return Group == (string) obj;
             return false;
         }
 
@@ -188,14 +195,14 @@ namespace WikiFunctions.Controls
         }
 
         public static readonly ProtectionLevel[] BasicLevels =
-            {
-                new ProtectionLevel("", "Unprotected"),
-                new ProtectionLevel("autoconfirmed", "Semi-protected")
-            };
+        {
+            new ProtectionLevel("", "Unprotected"),
+            new ProtectionLevel("autoconfirmed", "Semi-protected")
+        };
 
-         public static readonly ProtectionLevel[] Sysop =
-            {
-                new ProtectionLevel("sysop", "Fully protected")
-            };
+        public static readonly ProtectionLevel[] Sysop =
+        {
+            new ProtectionLevel("sysop", "Fully protected")
+        };
     }
 }

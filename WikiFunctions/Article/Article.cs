@@ -1742,8 +1742,14 @@ namespace WikiFunctions
             {
                 dlgArticleAction.Summary = _lastProtect;
 
-                dlgArticleAction.EditProtectionLevel = session.Page.EditProtection;
-                dlgArticleAction.MoveProtectionLevel = session.Page.MoveProtection;
+                if (!string.IsNullOrEmpty(session.Page.EditProtection))
+                {
+                    dlgArticleAction.EditProtectionLevel = session.Page.EditProtection;
+                }
+                if (!string.IsNullOrEmpty(session.Page.MoveProtection))
+                {
+                    dlgArticleAction.MoveProtectionLevel = session.Page.MoveProtection;
+                }
 
                 if (dlgArticleAction.ShowDialog() == DialogResult.OK)
                 {

@@ -169,9 +169,7 @@
             // 
             // MoveDelete
             // 
-            this.MoveDelete.EditProtectionLevel = "";
             this.MoveDelete.Location = new System.Drawing.Point(62, 64);
-            this.MoveDelete.MoveProtectionLevel = "";
             this.MoveDelete.Name = "MoveDelete";
             this.MoveDelete.Size = new System.Drawing.Size(313, 101);
             this.MoveDelete.TabIndex = 6;
@@ -194,7 +192,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(423, 219);
+            this.ClientSize = new System.Drawing.Size(413, 209);
             this.Controls.Add(this.chkDealWithAssoc);
             this.Controls.Add(this.chkWatch);
             this.Controls.Add(this.chkNoRedirect);
