@@ -826,7 +826,7 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");
 
-            Reset();
+            //Reset();
             Action = "delete";
 
             if (string.IsNullOrEmpty(Page.DeleteToken))
@@ -914,7 +914,7 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");
 
-            Reset();
+            //Reset();
             Action = "protect";
 
             if (string.IsNullOrEmpty(Page.ProtectToken))
@@ -1019,7 +1019,7 @@ namespace WikiFunctions.API
 
             if (title == newTitle) throw new ArgumentException("Page cannot be moved to the same title");
 
-            Reset();
+            //Reset();
             Action = "move";
 
             if (!string.IsNullOrEmpty(Page.MoveToken))
