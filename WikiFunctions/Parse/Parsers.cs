@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -618,10 +618,8 @@ namespace WikiFunctions.Parse
 
             articleText = MultipleIssuesOldCleanup(articleText);
 
-            // Remove multiple issues with zero tags
-            articleText = WikiRegexes.MultipleIssues.Replace( articleText, MultipleIssuesSingleTag);
-
-            articleText = WikiRegexes.MultipleIssues.Replace(articleText, m=> Regex.Replace(m.Value, "(\r\n)+", "\r\n"));
+            // Remove multiple issues with zero tags, fix excess newlines
+            articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesSingleTag);
 
             // get sections
             string[] sections = Tools.SplitToSections(articleText);
@@ -782,7 +780,8 @@ namespace WikiFunctions.Parse
             if (Tools.GetTemplateArgumentCount(newValue) == 0)
                 return "";
 
-            return m.Value;
+            // clean excess newlines
+            return Regex.Replace(m.Value, "(\r\n)+", "\r\n");
         }
 
         /// <summary>
