@@ -5094,8 +5094,8 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixLinkWhitespace(string articleText, string articleTitle)
         {
-            // Performance strategy: get list of all wikilinks, only apply regexes to whole article text if matching wikilinks
-            List<string> allWikiLinks = (from Match m in WikiRegexes.SimpleWikiLink.Matches(articleText) select m.Value).ToList();
+            // Performance strategy: get list of all wikilinks, deduplicate, only apply regexes to whole article text if matching wikilinks
+            List<string> allWikiLinks = Tools.DeduplicateList((from Match m in WikiRegexes.SimpleWikiLink.Matches(articleText) select m.Value).ToList());
 
             if(allWikiLinks.Any(s => s.StartsWith("[[ ")))
             {
@@ -5110,7 +5110,7 @@ namespace WikiFunctions.Parse
             if(allWikiLinks.Any(s => s.Contains("  ")))
                 articleText = LinkWhitespace3.Replace(articleText, "[[$1 $2]]");
 
-            if(allWikiLinks.Any(s => s.Contains(" ]]")))
+            if(allWikiLinks.Any(s => s.EndsWith(" ]]")))
             {
                 //remove undesirable space from end of wikilink (space after wikilink) - parse this line first
                 articleText = LinkWhitespace4.Replace(articleText, "[[$1]] ");
