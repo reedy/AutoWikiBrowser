@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -851,6 +851,10 @@ Jones 2005</ref>"));
 </references>";
 
             Assert.AreEqual(LDR, Parsers.AddMissingReflist(LDR));
+
+            // Nothing to indicate end of article: goes at end
+            Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
+{{Reflist}}", Parsers.AddMissingReflist(SingleRef));
         }
 
         [Test]

@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿﻿﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -2937,6 +2937,8 @@ namespace WikiFunctions.Parse
                 else if (Category.IsMatch(articleText))
                     // try to move just above categories
                     articleText = CategoryToReferences.Replace(articleText, "$3\r\n$1$2");
+                else // not moved, so extra blank line required before heading
+                    articleText = articleText.Replace("\r\n==References==", "\r\n\r\n==References==");
             }
 
             return articleText;
