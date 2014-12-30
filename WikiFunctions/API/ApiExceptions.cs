@@ -399,7 +399,7 @@ namespace WikiFunctions.API
             {
                 builder.AppendFormat("<tr><td>Post</td><td>{0}</td></tr>", PostQuery);
             }
-#if DEBUG5
+#if DEBUG
             if (!string.IsNullOrEmpty(Content))
             {
                 builder.AppendFormat("<tr><td>Content</td><td>{0}</td></tr>", Content);
