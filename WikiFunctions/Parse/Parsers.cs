@@ -5171,7 +5171,7 @@ namespace WikiFunctions.Parse
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // TODO, better to not apply to text within imagemaps
-            if (articleText.IndexOf(@"[[" + articleTitle, StringComparison.OrdinalIgnoreCase) > -1
+            if (Regex.IsMatch(articleText, @"\[\[\s*(" + Tools.CaseInsensitive(escTitle) + @")\s*(?:\]|\|)")
                 && !WikiRegexes.ImageMap.IsMatch(articleText)
                 && !WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText)
                 && !TaxoboxColour.IsMatch(articleText))
