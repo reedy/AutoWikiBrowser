@@ -5161,9 +5161,14 @@ namespace WikiFunctions.Parse
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
-            // Performance: on articles with lots of links better to filter down to those that could be changed by canonicalization, rather than running regex replace against all links
             List<Match> wikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(articleText) select m).ToList();
+
+            // See if any self interwikis that need fixing later
+            bool hasAnySelfInterwikis = wikiLinks.Any(m => m.Value.Contains(Variables.LangCode + ":"));
+
+            // Performance: on articles with lots of links better to filter down to those that could be changed by canonicalization, rather than running regex replace against all links
             wikiLinks.RemoveAll(link => link.Value.IndexOfAny("&%_".ToCharArray()) < 0);
+
             foreach(Match m in wikiLinks)
             {
                 string res = WikiRegexes.WikiLink.Replace(m.Value, FixLinksWikilinkCanonicalizeME);
@@ -5198,7 +5203,8 @@ namespace WikiFunctions.Parse
             }
 
             // fix for self interwiki links
-            articleText = FixSelfInterwikis(articleText);
+            if(hasAnySelfInterwikis)
+                articleText = FixSelfInterwikis(articleText);
 
             noChange = articleText.Equals(articleTextAtStart);
             return articleText;
