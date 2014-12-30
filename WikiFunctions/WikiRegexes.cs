@@ -427,7 +427,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches all wikilinks (including interwikis, images, categories etc.) up to pipe or end of wikilink. Group 1 is the target of the wikilink
         /// </summary>
-        public static readonly Regex WikiLink = new Regex(@"\[\[(.*?)(?:\]\]|\|)");
+        public static readonly Regex WikiLink = new Regex(@"\[\[([^\]\|]+)(?:\]\]|\|)");
 
         /// <summary>
         /// Matches piped wikilinks, group 1 is target, group 2 the text
