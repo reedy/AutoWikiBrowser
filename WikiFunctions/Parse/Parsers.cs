@@ -1,4 +1,4 @@
-﻿﻿﻿﻿/*
+﻿﻿﻿﻿﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -5315,13 +5315,12 @@ namespace WikiFunctions.Parse
         /// <returns>The simplified article text.</returns>
         public static string SimplifyLinks(string articleText)
         {
-			// Performance: get a list of unique links to avoid processing duplicate links more than once
-			List<string> pipedLinks = Tools.DeduplicateList((from Match m in WikiRegexes.PipedWikiLink.Matches(articleText) select m.Value).ToList());
+            // Performance: get a list of unique links to avoid processing duplicate links more than once
+            List<string> pipedLinks = Tools.DeduplicateList((from Match m in WikiRegexes.PipedWikiLink.Matches(articleText) select m.Value).ToList());
 
-			foreach (string pl in pipedLinks)
+            foreach (string pl in pipedLinks)
             {
                 Match m = WikiRegexes.PipedWikiLink.Match(pl);
-                string n = m.Value;
                 string a = m.Groups[1].Value.Trim();
 
                 string b = (Namespace.Determine(a) != Namespace.Category)
@@ -5334,7 +5333,7 @@ namespace WikiFunctions.Parse
                 if (CanonicalizeTitle(b).Equals(a) || CanonicalizeTitle(b).Equals(Tools.TurnFirstToLower(a)) 
                     || CanonicalizeTitle(a).Equals(b) || CanonicalizeTitle(a).Equals(Tools.TurnFirstToLower(b)))
                 {
-                    articleText = articleText.Replace(n, "[[" + b.Replace("_", " ") + "]]");
+                    articleText = articleText.Replace(pl, "[[" + b.Replace("_", " ") + "]]");
                 }
                 else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a), StringComparison.Ordinal))
                 {
@@ -5349,14 +5348,14 @@ namespace WikiFunctions.Parse
                     }
                     if (doBreak)
                         continue;
-                    articleText = articleText.Replace(n, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
+                    articleText = articleText.Replace(pl, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
                 }
                 else
                 {
                     string newlink = "[[" + a + "|" + b + "]]";
 
-                    if (newlink != n)
-                        articleText = articleText.Replace(n, newlink);
+                    if (newlink != pl)
+                        articleText = articleText.Replace(pl, newlink);
                 }
             }
 
