@@ -864,10 +864,10 @@ Jones 2005</ref>"));
             const string SingleRef = @"now <ref>foo</ref>", Cat = @"
 [[Category:Here]]";
             Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
-{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
+{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Cat),"add references sections above categories");
 
             Variables.SetProjectLangCode("fr");
-            Assert.AreEqual(SingleRef + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
+            Assert.AreEqual(SingleRef + Cat, Parsers.AddMissingReflist(SingleRef + Cat),"do nothing in non-en sites");
 
             Variables.SetProjectLangCode("en");
             Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
