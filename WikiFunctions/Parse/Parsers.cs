@@ -5315,8 +5315,12 @@ namespace WikiFunctions.Parse
         /// <returns>The simplified article text.</returns>
         public static string SimplifyLinks(string articleText)
         {
-            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(articleText))
+			// Performance: get a list of unique links to avoid processing duplicate links more than once
+			List<string> pipedLinks = Tools.DeduplicateList((from Match m in WikiRegexes.PipedWikiLink.Matches(articleText) select m.Value).ToList());
+
+			foreach (string pl in pipedLinks)
             {
+                Match m = WikiRegexes.PipedWikiLink.Match(pl);
                 string n = m.Value;
                 string a = m.Groups[1].Value.Trim();
 
