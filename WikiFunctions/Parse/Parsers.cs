@@ -1,4 +1,4 @@
-﻿﻿﻿/*
+﻿﻿﻿﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -535,6 +535,10 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string MultipleIssuesOldSingleTagME(Match m)
         {
+			// Performance: nothing to do if no named parameters
+			if(Tools.GetTemplateParameterValues(m.Value).Count == 0)
+			    return m.Value;
+
             string newValue = Conversions(Tools.RemoveTemplateParameter(m.Value, "section"));
 
             if (Tools.GetTemplateArgumentCount(newValue) == 1 && !WikiRegexes.NestedTemplates.IsMatch(Tools.GetTemplateArgument(newValue, 1)))
