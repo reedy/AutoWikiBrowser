@@ -2194,7 +2194,7 @@ namespace WikiFunctions.Parse
             // performance: run replacements on templates from intersected list
             TFH.IntersectWith(WikiRegexes.AllTemplateRedirectsHS);
 
-            if(TFH.Count > 0)
+            if(TFH.Any())
             {
                 articleText = Tools.NestedTemplateRegex(TFH.ToList()).Replace(articleText, m2=>
                                                                               {
