@@ -5225,7 +5225,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Converts [[foo|''foo''']] → '''[[foo|foo]]''' for bold or italics
+        /// Converts [[foo|'''foo''']] → '''[[foo|foo]]''' for bold or italics
         /// only simplify where link & target values are the same without bold/italics (first letter case insensitive
         /// </summary>
         /// <param name="m"></param>
