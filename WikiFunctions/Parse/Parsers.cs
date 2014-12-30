@@ -5141,6 +5141,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex InfoBoxSingleAlbum = Tools.NestedTemplateRegex(new[] { "Infobox Single", "Infobox single", "Infobox album", "Infobox Album" });
         private static readonly Regex TaxoboxColour = Tools.NestedTemplateRegex(new[] { "taxobox colour", "taxobox color" });
         private static readonly Regex TrailingPipe = new Regex(@"\|\s*\]");
+        private static readonly Regex PipeApos = new Regex(@"\|''");
 
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
         /// <summary>
@@ -5161,7 +5162,10 @@ namespace WikiFunctions.Parse
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
             articleText = WikiRegexes.WikiLink.Replace(articleText, FixLinksWikilinkCanonicalizeME);
-            articleText = WikiRegexes.PipedWikiLink.Replace(articleText, FixLinksWikilinkBoldItalicsME);
+
+            // PipeApos regex for performance
+            if(PipeApos.IsMatch(articleText))
+                articleText = WikiRegexes.PipedWikiLink.Replace(articleText, FixLinksWikilinkBoldItalicsME);
 
             // fix excess trailing pipe, TrailingPipe regex for performance
             if(TrailingPipe.IsMatch(articleText))
