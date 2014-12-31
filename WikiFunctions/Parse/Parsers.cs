@@ -8235,7 +8235,7 @@ namespace WikiFunctions.Parse
                 // DatedTemplates can be first character upper or lower
                 t2.AddRange(WikiRegexes.DatedTemplates.Where(s => t.Contains(Tools.TurnFirstToUpper(s))));
 
-                if(t2.Count > 0)
+                if(t2.Any())
                     articleText = Tools.NestedTemplateRegex(t2).Replace(articleText, TagUpdaterME);
             }
 
