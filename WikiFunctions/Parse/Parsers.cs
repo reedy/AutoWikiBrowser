@@ -2269,30 +2269,36 @@ namespace WikiFunctions.Parse
             return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
         }
 
-        private static readonly Regex NestedTemplates = new Regex(@"{{\s*([^{}\|]+)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
+        private static readonly Regex NestedTemplates = new Regex(@"{{\s*([^{}\|]+)((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))}}");
 
         /// <summary>
-        /// Extracts a list of all templates used in the input text. Template name given in first letter upper
+        /// Extracts a list of all templates used in the input text, supporting any level of template nesting. Template name given in first letter upper
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
         private static List<string> GetAllTemplates(string articleText)
         {
-            /* performance: faster to process all templates, extract rough template name then get exact template names later
-             than to get exact template name for each template found */
+            /* performance: process all templates in bulk, extract template contents and reprocess. This is faster than loop applying template match on individual basis. 
+            Extract rough template name then get exact template names later, faster to deduplicate then get exact template names */
             // process all templates, handle nested templates to any level of nesting
             List<string> TFH = new List<string>();
-            foreach(Match m in NestedTemplates.Matches(articleText))
-            {
-                TFH.Add(m.Groups[1].Value);
-                string template = m.Value.Substring(2);
 
-                while(NestedTemplates.IsMatch(template))
-                {
-                    Match m2 = NestedTemplates.Match(template);
-                    TFH.Add(m2.Groups[1].Value);
-                    template = template.Substring(m2.Index + 2);
-                }
+            List<Match> nt = new List<Match>();
+            HashSet<string> temps = new HashSet<string>();
+
+            for(;;)
+            {
+                nt = (from Match m in NestedTemplates.Matches(articleText) select m).ToList();
+
+                if(!nt.Any())
+                    break;
+
+                // add raw template names to list
+                TFH.AddRange((from Match m in nt select m.Groups[1].Value).ToList());
+
+                // set text to content of matched templates to process again for any (further) nested templates
+                temps = new HashSet<string>((from Match m in nt select m.Groups[2].Value).ToList());
+                articleText = String.Join(",", temps.ToArray());
             }
 
             // now extract exact template names
