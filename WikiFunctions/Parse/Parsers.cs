@@ -2140,15 +2140,7 @@ namespace WikiFunctions.Parse
         public static List<string> LoadDatedTemplates(string text)
         {
             text = WikiRegexes.UnformattedText.Replace(text, "");
-            List<string> DTs = new List<string>();
-
-            foreach (Match m in TlOrTlx.Matches(text))
-            {
-                string templateName = m.Groups[3].Value.Trim('|').TrimEnd('}').Trim();
-                DTs.Add(Tools.TurnFirstToUpper(templateName));
-            }
-
-            return DTs;
+            return (from Match m in TlOrTlx.Matches(text) select Tools.TurnFirstToUpper(m.Groups[3].Value.Trim('|').TrimEnd('}').Trim())).ToList();
         }
 
         /// <summary>
