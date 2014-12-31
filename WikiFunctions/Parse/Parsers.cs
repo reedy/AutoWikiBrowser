@@ -2322,6 +2322,7 @@ namespace WikiFunctions.Parse
             if (RenamedTemplateParameters.Count == 0)
                 return articleText;
 
+            // build Regex to match templates with parmeters to rename, plus list of old parameter names if not already cached
             if (RenameTemplateParametersTemplates == null)
             {
                 List<string> Templates = new List<string>();
