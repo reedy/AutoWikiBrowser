@@ -2399,7 +2399,7 @@ namespace WikiFunctions.Parse
         /// Loads List of templates, old parameter, new parameter from within {{AWB rename template parameter}}
         /// </summary>
         /// <param name="text">Source page of {{AWB rename template parameter}} rules</param>
-        /// <returns>List of templates, old parameter, new parameter</returns>
+        /// <returns>List of templates (first letter lower), old parameter, new parameter</returns>
         public static List<WikiRegexes.TemplateParameters> LoadRenamedTemplateParameters(string text)
         {
             text = WikiRegexes.UnformattedText.Replace(text, "");
