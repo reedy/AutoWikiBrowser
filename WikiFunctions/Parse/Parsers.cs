@@ -2145,7 +2145,7 @@ namespace WikiFunctions.Parse
             foreach (Match m in TlOrTlx.Matches(text))
             {
                 string templateName = m.Groups[3].Value.Trim('|').TrimEnd('}').Trim();
-                DTs.Add(templateName);
+                DTs.Add(Tools.TurnFirstToUpper(templateName));
             }
 
             return DTs;
@@ -8232,8 +8232,7 @@ namespace WikiFunctions.Parse
             {
                 List<string> t = GetAllTemplates(articleText), t2 = new List<string>();
 
-                // DatedTemplates can be first character upper or lower
-                t2.AddRange(WikiRegexes.DatedTemplates.Where(s => t.Contains(Tools.TurnFirstToUpper(s))));
+                t2.AddRange(t.Where(s => WikiRegexes.DatedTemplates.Contains(s)));
 
                 if(t2.Any())
                     articleText = Tools.NestedTemplateRegex(t2).Replace(articleText, TagUpdaterME);
