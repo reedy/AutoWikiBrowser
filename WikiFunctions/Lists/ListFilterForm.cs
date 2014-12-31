@@ -110,16 +110,7 @@ namespace WikiFunctions.Lists
 
         private void RemoveDuplicatesNew()
         {
-            Article[] unique = new List<Article>(_destListBox).Distinct().ToArray();
-
-            // Avoid performance penalty of AddRange if deduplication didn't remove any articles
-            if(_destListBox.Items.Count != unique.Length)
-            {
-                _destListBox.BeginUpdate();
-                _destListBox.Items.Clear();
-                _destListBox.Items.AddRange(unique);
-                _destListBox.EndUpdate();
-            }
+            ClearAndAdd(_destListBox.Distinct().ToArray());
         }
 
         private void RemoveDuplicatesOld()
@@ -132,12 +123,17 @@ namespace WikiFunctions.Lists
                     _list.Add(a);
             }
 
+            ClearAndAdd(_list.ToArray());
+        }
+
+        private void ClearAndAdd(Article[] newlist)
+        {
             // Avoid performance penalty of AddRange if deduplication didn't remove any articles
-            if(_list.Count != _destListBox.Items.Count)
+            if(_destListBox.Items.Count != newlist.Length)
             {
                 _destListBox.BeginUpdate();
                 _destListBox.Items.Clear();
-                _destListBox.Items.AddRange(_list.ToArray());
+                _destListBox.Items.AddRange(newlist);
                 _destListBox.EndUpdate();
             }
         }
