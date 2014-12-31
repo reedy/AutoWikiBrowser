@@ -1947,6 +1947,9 @@ bar|text}}"));
             Assert.AreEqual(multipleTemplates.Match(@"{{ Foo|bar={{one}}|he=there}}").Groups[3].Value, @"|bar={{one}}|he=there}}", "Group 3 is template from bar to end");
             Assert.AreEqual(multipleTemplates.Match(@"{{ Foo|bar={{one}}|he=ther {{e}}}}").Groups[3].Value, @"|bar={{one}}|he=ther {{e}}}}", "Group 3 is template from bar to end");
 
+            Assert.AreEqual(multipleTemplates.Match(@"{{ Foo|bar={{one}}|he=there}}").Groups[4].Value, @"|bar={{one}}|he=there", "Group 4 is template from bar to end excluding end }}");
+            Assert.AreEqual(multipleTemplates.Match(@"{{ Foo|bar={{one}}|he=ther {{e}}}}").Groups[4].Value, @"|bar={{one}}|he=ther {{e}}", "Group 4 is template from bar to end excluding end }}");
+
             Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo}}"));
             Assert.IsTrue(multipleTemplates.IsMatch(@"{{Foo}}"));
             Assert.IsTrue(multipleTemplates.IsMatch(@"{{ foo}}"));
