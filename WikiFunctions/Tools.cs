@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 (C) 2007 Martin Richards
 (C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
@@ -3009,7 +3009,7 @@ Message: {2}
 		/// Supports nested templates and comments at end of template call
 		/// </summary>
 		/// <param name="templatename">The template name</param>
-		/// <returns>A Regex matching calls to the template, match group 2 being the template name</returns>
+		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 is template arguments from bar to end, group 4 is arguments from bar without final }}</returns>
 		public static Regex NestedTemplateRegex(string templatename)
 		{
 			if (templatename.Length == 0)
@@ -3024,7 +3024,7 @@ Message: {2}
 		/// </summary>
 		/// <param name="templatename">The template name</param>
 		/// <param name="compiled">Whether to return a compiled regex</param>
-		/// <returns>A Regex matching calls to the template, match group 2 being the template name</returns>
+		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 is template arguments from bar to end, group 4 is arguments from bar without final }}</returns>
 		public static Regex NestedTemplateRegex(string templatename, bool compiled)
 		{
 			if (templatename.Length == 0)
@@ -3038,7 +3038,7 @@ Message: {2}
 		/// Supports nested templates and comments at end of template call
 		/// </summary>
 		/// <param name="templatenames">The list of template names</param>
-		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 being the template argument(s)</returns>
+		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 is template arguments from bar to end, group 4 is arguments from bar without final }}</returns>
 		public static Regex NestedTemplateRegex(ICollection<string> templatenames)
 		{
 			return NestedTemplateRegex(templatenames, false);
@@ -3050,7 +3050,7 @@ Message: {2}
 		/// </summary>
 		/// <param name="templatenames">The list of template names</param>
 		/// <param name="compiled">Whether to return a compiled regex</param>
-		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 being the template argument(s)</returns>
+		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 is template arguments from bar to end, group 4 is arguments from bar without final }}</returns>
 		public static Regex NestedTemplateRegex(ICollection<string> templatenames, bool compiled)
 		{
 			if (templatenames.Count == 0)
