@@ -8228,7 +8228,7 @@ namespace WikiFunctions.Parse
         public static string TagUpdater(string articleText)
         {
             articleText = ht.Hide(articleText);
-            if(WikiRegexes.DatedTemplates.Count > 0)
+            if(WikiRegexes.DatedTemplates.Any())
             {
                 List<string> t = GetAllTemplates(articleText), t2 = new List<string>();
 
