@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -10706,7 +10706,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void UpdateFactTag()
         {
             WikiRegexes.DatedTemplates.Clear();
-            WikiRegexes.DatedTemplates.Add("fact");
+            WikiRegexes.DatedTemplates.Add("Fact");
 
             //Test of updating some of the non dated tags
             string text = parser.Tagger("{{fact}}", "Test", false, out noChange, ref summary);
@@ -10730,7 +10730,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
             Globals.UnitTestBoolValue = false;
             WikiRegexes.DatedTemplates.Clear();
-            WikiRegexes.DatedTemplates.Add("citation needed");
+            WikiRegexes.DatedTemplates.Add("Citation needed");
             string text = parser.Tagger("{{citation needed}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(@"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
@@ -10739,6 +10739,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             text = parser.Tagger("{{ citation needed}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(@"{{ citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+
+            text = parser.Tagger("{{Citation needed}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(text.Contains(@"{{Citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
             text = parser.Tagger("{{citation needed|reason=something}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(@"{{citation needed|reason=something|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
@@ -10764,8 +10767,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void UpdateWikifyTag()
         {
             WikiRegexes.DatedTemplates.Clear();
-            WikiRegexes.DatedTemplates.Add("wikify");
-            WikiRegexes.DatedTemplates.Add("wikify section");
+            WikiRegexes.DatedTemplates.Add("Wikify");
+            WikiRegexes.DatedTemplates.Add("Wikify section");
             string correct = @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
             string text = parser.Tagger("{{wikify}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(correct));
@@ -10787,7 +10790,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void TagUpdaterAddDate()
         {
             WikiRegexes.DatedTemplates.Clear();
-            WikiRegexes.DatedTemplates.Add("wikify");
+            WikiRegexes.DatedTemplates.Add("Wikify");
 
             string correct = @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
 
@@ -10823,7 +10826,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             const string commentedOut = @"<!-- {{wikify}} -->";
             Assert.AreEqual(commentedOut, Parsers.TagUpdater(commentedOut), "ignores commented out tags");
 
-            WikiRegexes.DatedTemplates.Add("clarify");
+            WikiRegexes.DatedTemplates.Add("Clarify");
             string nochange=@"{{Clarify|date=May 2014|reason=Use Template:Cite web or similar}}";
             Assert.AreEqual(nochange, Parsers.TagUpdater(nochange));
         }
@@ -10831,8 +10834,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void TagUpdaterFormatDate()
         {
-            WikiRegexes.DatedTemplates.Add("dead link");
-            WikiRegexes.DatedTemplates.Add("wikify");
+            WikiRegexes.DatedTemplates.Add("Dead link");
+            WikiRegexes.DatedTemplates.Add("Wikify");
             Assert.AreEqual(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date=" + System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish) + @"}}</ref>", Parsers.TagUpdater(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link}}</ref>"));
 
             Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=may 2010}}"), "corrects lower case month name");
