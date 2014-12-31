@@ -834,11 +834,11 @@ http://www.site.com
         [Test]
         public void FixLinks()
         {
-            Article a = new Article("a", @"A [[ B ]]");
+            Article a = new Article("a", @"A [[_B ]]");
             a.FixLinks(false);
             Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
             
-            a = new Article("a", @"A [[ B ]]");
+            a = new Article("a", @"A [[ B_]]");
             a.FixLinks(true);
             Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
             
