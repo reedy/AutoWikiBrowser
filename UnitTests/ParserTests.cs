@@ -10367,14 +10367,16 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
 {{National Heroes of Indonesia}}
 
+<!-- comments do not affect page length and therefore do not affect page tagging as well -->
+
 {{Persondata
 | NAME              = Fakhruddin, KH
 | ALTERNATIVE NAMES =
-| SHORT DESCRIPTION =
-| DATE OF BIRTH     =
-| PLACE OF BIRTH    =
-| DATE OF DEATH     =
-| PLACE OF DEATH    =
+| SHORT DESCRIPTION = National hero of Indonesia
+| DATE OF BIRTH     = 1804
+| PLACE OF BIRTH    = Indonesia
+| DATE OF DEATH     = 1904
+| PLACE OF DEATH    = Earth
 }}";
 
         [Test]
