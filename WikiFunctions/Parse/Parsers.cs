@@ -2284,7 +2284,7 @@ namespace WikiFunctions.Parse
             List<string> TFH = new List<string>();
 
             List<Match> nt = new List<Match>();
-            HashSet<string> temps = new HashSet<string>();
+            HashSet<string> templateContents = new HashSet<string>();
 
             for(;;)
             {
@@ -2297,19 +2297,14 @@ namespace WikiFunctions.Parse
                 TFH.AddRange((from Match m in nt select m.Groups[1].Value).ToList());
 
                 // set text to content of matched templates to process again for any (further) nested templates
-                temps = new HashSet<string>((from Match m in nt select m.Groups[2].Value).ToList());
-                articleText = String.Join(",", temps.ToArray());
+                templateContents = new HashSet<string>((from Match m in nt select m.Groups[2].Value).ToList());
+                articleText = String.Join(",", templateContents.ToArray());
             }
 
             // now extract exact template names
             TFH = Tools.DeduplicateList(TFH);
-            List<string> TFH2 = new List<string>();
-            foreach(string s in TFH)
-            {
-                TFH2.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}")));
-            }
 
-            return Tools.DeduplicateList(TFH2);
+            return Tools.DeduplicateList((from string s in TFH select Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}"))).ToList());
         }
 
         private static Regex RenameTemplateParametersTemplates;
