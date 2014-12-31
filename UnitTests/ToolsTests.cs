@@ -1940,9 +1940,12 @@ bar|text}}"));
 
             Regex multipleTemplates = Tools.NestedTemplateRegex(ListOfTemplates);
 
-            Assert.AreEqual(multipleTemplates.Match(@"{{foo}}").Groups[2].Value, @"foo");
-            Assert.AreEqual(multipleTemplates.Match(@"{{ Foo}}").Groups[2].Value, @"Foo");
-            Assert.AreEqual(multipleTemplates.Match(@"{{ Foo|bar}}").Groups[3].Value, @"|bar}}");
+            Assert.AreEqual(multipleTemplates.Match(@"{{foo}}").Groups[2].Value, @"foo", "Group 2 is template name");
+            Assert.AreEqual(multipleTemplates.Match(@"{{ Foo}}").Groups[2].Value, @"Foo", "Group 2 is template name");
+            Assert.AreEqual(multipleTemplates.Match(@"{{ Foo|bar}}").Groups[3].Value, @"|bar}}", "Group 3 is template from bar to end");
+            Assert.AreEqual(multipleTemplates.Match(@"{{ Foo|bar=one|he=there}}").Groups[3].Value, @"|bar=one|he=there}}", "Group 3 is template from bar to end");
+            Assert.AreEqual(multipleTemplates.Match(@"{{ Foo|bar={{one}}|he=there}}").Groups[3].Value, @"|bar={{one}}|he=there}}", "Group 3 is template from bar to end");
+            Assert.AreEqual(multipleTemplates.Match(@"{{ Foo|bar={{one}}|he=ther {{e}}}}").Groups[3].Value, @"|bar={{one}}|he=ther {{e}}}}", "Group 3 is template from bar to end");
 
             Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo}}"));
             Assert.IsTrue(multipleTemplates.IsMatch(@"{{Foo}}"));
