@@ -1360,15 +1360,17 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixLivingThingsRelatedDates(string articleText)
         {
-            articleText = BoldToBracket.Replace(articleText, m=>
-                                                {
-                                                    string newvalue = m.Groups[2].Value;
+            // Three born/died regexes wrapped like this for performance
+            if(Regex.IsMatch(articleText, @"'''\s*\([BbDd]"))
+                articleText = BoldToBracket.Replace(articleText, m=>
+                                                    {
+                                                        string newvalue = m.Groups[2].Value;
 
-                                                    newvalue = DiedDateRegex.Replace(newvalue, "died $1"); // date of death
-                                                    newvalue = DOBRegex.Replace(newvalue, "born $1"); // date of birth
-                                                    newvalue = BornDeathRegex.Replace(newvalue, "$1 – $3"); // birth and death
-                                                    return  m.Groups[1].Value + newvalue;
-                                                });
+                                                        newvalue = DiedDateRegex.Replace(newvalue, "died $1"); // date of death
+                                                        newvalue = DOBRegex.Replace(newvalue, "born $1"); // date of birth
+                                                        newvalue = BornDeathRegex.Replace(newvalue, "$1 – $3"); // birth and death
+                                                        return  m.Groups[1].Value + newvalue;
+                                                    });
 
             if (DOBRegexDashQuick.IsMatch(articleText) && !DOBRegexDash.IsMatch(WikiRegexes.InfoBox.Match(articleText).Value))
                 articleText = DOBRegexDash.Replace(articleText, "$1born $2)"); // date of birth – dash
