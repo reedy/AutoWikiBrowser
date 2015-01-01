@@ -379,7 +379,7 @@ namespace WikiFunctions
         public static List<string> AllTemplateRedirectsList;
 
         /// <summary>
-        /// List of templates that should be dated (with 'date=Month YYYY' on en-wiki), from https://en.wikipedia.org/wiki/Wikipedia:AWB/Dated_templates, see Category:Wikipedia maintenance categories sorted by month
+        /// List of templates that should be dated (with 'date=Month YYYY' on en-wiki), loaded as first letter upper from https://en.wikipedia.org/wiki/Wikipedia:AWB/Dated_templates, see Category:Wikipedia maintenance categories sorted by month
         /// </summary>
         public static List<string> DatedTemplates = new List<string>();
         
@@ -1324,17 +1324,17 @@ namespace WikiFunctions
         public static Regex EmptyTemplate;
 
         /// <summary>
-        /// Matches bold italic text, group 1 being the text in bold italics
+        /// Matches bold italic text, group 1 being the text in bold italics (wiki format ''''' only)
         /// </summary>
         public static readonly Regex BoldItalics = new Regex(@"(?<!')'{5}((?:[^']+|.*?[^'])?)'{5}(?!')");
 
         /// <summary>
-        /// Matches italic text, group 1 being the text in italics
+        /// Matches italic text, group 1 being the text in italics (wiki format '' only)
         /// </summary>
         public static readonly Regex Italics = new Regex(@"(?<!')'{2}((?:[^']+|[^'].*?[^'])?)'{2}(?!')");
 
         /// <summary>
-        /// Matches bold text, group 1 being the text in bold
+        /// Matches bold text, group 1 being the text in bold (wiki format ''' only)
         /// </summary>
         public static readonly Regex Bold = new Regex(@"(?<!')'{3}((?:[^']+|.*?[^'])?)'{3}(?!')");
         
