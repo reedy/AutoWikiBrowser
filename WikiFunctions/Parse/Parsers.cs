@@ -2944,7 +2944,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly RegexReplacement[] RefSimple= {
+        private static readonly RegexReplacement[] RefSimple = {
             new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>",  RegexOptions.Singleline), "<ref>"),
             // <ref name="Fred" /ref> --> <ref name="Fred"/>
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*(?:ref|/)\s*>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1/>"),
@@ -3031,8 +3031,8 @@ namespace WikiFunctions.Parse
             
             if(RedRefQuick.IsMatch(articleText.ToLower()))
                 articleText = RedRef.Replace(articleText, "$1</ref>");
-            
-			// Chinese do not use spaces to separate sentences
+
+            // Chinese do not use spaces to separate sentences
             if (Variables.LangCode.Equals("zh"))
                 articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +", "$1");
 
@@ -3044,11 +3044,8 @@ namespace WikiFunctions.Parse
         {
             string newValue = m.Value;
 
-            if(!newValue.Equals("<ref>")) // avoid running regexes if already correct
-            {
-                foreach (RegexReplacement rr in RefSimple)
-                    newValue = rr.Regex.Replace(newValue, rr.Replacement);
-            }
+            foreach (RegexReplacement rr in RefSimple)
+                newValue = rr.Regex.Replace(newValue, rr.Replacement);
 
             return newValue;
         }
