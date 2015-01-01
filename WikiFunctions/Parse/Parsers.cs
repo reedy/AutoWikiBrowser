@@ -5589,7 +5589,11 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("zh"))
             {
                 // only apply um (micrometre) fix on English wiki to avoid German word "um"
-                articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[2].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : m.Groups[1].Value + "&nbsp;" + m.Groups[2].Value);
+                // Check on number plus word for performance
+                List<string> NumText = Tools.DeduplicateList((from Match m in Regex.Matches(articleText, @"\b[0-9]+ *[B-Wc-zµ/°]+") select m.Value).ToList());
+                string res = String.Join("\r\n", NumText.ToArray());
+                if(WikiRegexes.UnitsWithoutNonBreakingSpaces.IsMatch(res))
+                    articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[2].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : m.Groups[1].Value + "&nbsp;" + m.Groups[2].Value);
 
                 articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
 
