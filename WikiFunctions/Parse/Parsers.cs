@@ -3007,11 +3007,12 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>"), "</ref>")
 
         };
-        
-        public static readonly Regex RefTags = new Regex(@"<\s*ref[^<>]*>", RegexOptions.IgnoreCase);
-        public static readonly Regex RedRefQuick = new Regex(@"<\s*(?:/\s*red|ref\s*/)\s*>");
+
+        // Matches possibly bad ref tags, but not the most common valid formats
+        private static readonly Regex PossiblyBadRefTags = new Regex(@"<\s*[Rr][Ee][Ff][^<>]*>(?<!(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref>|<ref name *= *""[^{}""<>]+""( ?/)?>))");
+        private static readonly Regex RedRefQuick = new Regex(@"<\s*(?:/\s*red|ref\s*/)\s*>");
         // <ref>...<ref/> --> <ref>...</ref> or <ref>...</red> --> <ref>...</ref>
-        public static readonly Regex RedRef = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>", RegexOptions.IgnoreCase);
+        private static readonly Regex RedRef = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>", RegexOptions.IgnoreCase);
         
         // Covered by TestFixReferenceTags
         /// <summary>
@@ -3035,7 +3036,8 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode.Equals("zh"))
                 articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +", "$1");
 
-            return RefTags.Replace(articleText, FixReferenceTagsME);
+            // Performance: apply ref tag fixes only to ref tags that might be invalid
+            return PossiblyBadRefTags.Replace(articleText, FixReferenceTagsME);
         }
         
         private static string FixReferenceTagsME(Match m)
