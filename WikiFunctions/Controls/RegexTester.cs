@@ -73,7 +73,15 @@ namespace WikiFunctions.Controls
 
         public string ArticleText
         {
-            set { txtInput.Text = value; }
+            set 
+            {
+                 /* Performance: simple "txtInput.Text = value" has poor performance (due to having WrapText=true), using append text improves performance by 2x
+                 For example if find box is a long wiki page .Text= takes 16 seconds, .AppendText only 7 */
+                 txtInput.Text = "";
+                 txtInput.AppendText(value);
+                 txtInput.Select(0, 0);
+                 txtInput.ScrollToCaret();
+            }
         }
 
         public string Find
