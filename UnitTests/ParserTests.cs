@@ -5293,7 +5293,6 @@ http://example.com }}");
             Assert.AreEqual(@"2:75a.m.", parser.FixNonBreakingSpaces(@"2:75a.m."), "invalid minutes number");
             Assert.AreEqual(@"36:15a.m.", parser.FixNonBreakingSpaces(@"36:15a.m."), "invalid hours number");
             Assert.AreEqual(@"16:15c.m.", parser.FixNonBreakingSpaces(@"16:15c.m."), "invalid suffix");
-	
         }
 
         [Test]
@@ -5328,10 +5327,9 @@ http://example.com }}");
             Assert.AreEqual(@"at 5&nbsp;°C today", parser.FixNonBreakingSpaces(@"at 5 °C today"));
             Assert.AreEqual(@"at 55&nbsp;°F today", parser.FixNonBreakingSpaces(@"at 55°F today"));
             Assert.AreEqual(@"at 55&nbsp;°F today", parser.FixNonBreakingSpaces(@"at 55  °F today"));
+            Assert.AreEqual(@"at 55&nbsp;°F today", parser.FixNonBreakingSpaces(@"at 55 °F today"), "invisible nbsp (Unicode U+00A0) before unit");
 
-			Assert.AreEqual(@"a 50.2&nbsp;m (170&nbsp;ft) road", parser.FixNonBreakingSpaces(@"a 50.2 m (170 ft) road"),"invisible nbsp before m and ft");
-
-			//Assert.AreEqual(@" ", @"&nbsp;");
+			Assert.AreEqual(@"a 50.2&nbsp;m (170&nbsp;ft) road", parser.FixNonBreakingSpaces(@"a 50.2 m (170 ft) road"), "invisible nbsp (Unicode U+00A0) before m and ft");
 
 			// no changes for these
             genFixes.AssertNotChanged(@"nearly 5m people");
