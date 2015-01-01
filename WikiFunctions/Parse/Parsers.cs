@@ -1423,7 +1423,7 @@ namespace WikiFunctions.Parse
                     NamedRefsIndexes.TryGetValue(m.Groups[4].Value, out ref1Index);
                     int ref2Index = m.Index;
 
-                    if (ref1Index < ref2Index && ref2Index > 0 && ref1Index > 0 && m.Groups[3].Index < referencestags)
+                    if (ref1Index < ref2Index && ref1Index > 0 && m.Groups[3].Index < referencestags)
                     {
                         string whitespace = m.Groups[2].Value;
                         string rptemplate = m.Groups[5].Value;
