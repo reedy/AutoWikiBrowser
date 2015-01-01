@@ -803,7 +803,7 @@ namespace WikiFunctions
         /// Matches abbreviated SI units without a non-breaking space, notably does not correct millimetres without a space due to firearms articles using this convention
         /// </summary>
         /// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
-        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"(\b\d?\.?\d+)[\s\u00a0]*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|ft|dB|[kGM]?Hz|m/s|°[CF])\b(?<!(\d?\.?\d+)mm)");
+        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"(\b\d?\.?\d+)[\s\u00a0]*([cmknuµ][mgWN]|m?mol|cd|mi|lb[fs]?|b?hp|mph|ft|dB|[kGM]?Hz|m/s|°[CF])\b(?<!(\d?\.?\d+)mm)");
 
         // covered by TestFixNonBreakingSpaces
         /// <summary>
