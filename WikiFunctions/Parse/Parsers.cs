@@ -5590,12 +5590,13 @@ namespace WikiFunctions.Parse
             {
                 // only apply um (micrometre) fix on English wiki to avoid German word "um"
                 // Check on number plus word for performance
-                List<string> NumText = Tools.DeduplicateList((from Match m in Regex.Matches(articleText, @"\b[0-9]+ *[B-Wc-zµ/°]+") select m.Value).ToList());
+                List<string> NumText = Tools.DeduplicateList((from Match m in Regex.Matches(articleText, @"\b[0-9]+[ \u00a0]*[B-Wc-zµ/°]+") select m.Value).ToList());
                 string res = String.Join("\r\n", NumText.ToArray());
                 if(WikiRegexes.UnitsWithoutNonBreakingSpaces.IsMatch(res))
                     articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[2].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : m.Groups[1].Value + "&nbsp;" + m.Groups[2].Value);
 
-                articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
+                if(NumText.Any(s => (s.EndsWith("in") || s.EndsWith("ft") || s.EndsWith("oz"))))
+                    articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
 
                 if(articleText.Contains(@"&nbsp;ft")) // check for performance
                     articleText = WikiRegexes.MetresFeetConversionNonBreakingSpaces.Replace(articleText, @"$1&nbsp;m");
@@ -5609,11 +5610,8 @@ namespace WikiFunctions.Parse
             // It works only for dotted lower-case a.m. or p.m.
             if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
             {
-                if(articleText.Contains(".m.")) // check for performance
-                {
-                    articleText = WikiRegexes.ClockTimeWithZero.Replace(articleText, "$1&nbsp;$2");
-                    articleText = WikiRegexes.ClockTime.Replace(articleText, "$1&nbsp;$2");
-                }
+                if(articleText.Contains(".m.")) // check for performance. Set &nbsp; and trim excess leading zero
+                    articleText = WikiRegexes.ClockTime.Replace(articleText, m => Regex.Replace(m.Groups[1].Value, @"0(\d:)", "$1") + "&nbsp;" + m.Groups[2].Value);
 
                 // Removes space or non-breaking space from percent per [[WP:PERCENT]].
                 // Avoid doing this for more spaces to prevent false positives.
