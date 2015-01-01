@@ -2991,7 +2991,7 @@ namespace WikiFunctions.Parse
         };
 
         private static readonly RegexReplacement[] RefComplex = {
-            // <REF> and <Ref> to <ref>
+            // <REF>, </REF> and <Ref> to lowercase ref
             new RegexReplacement(new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))"), "$1ref$2"),
             // remove any spaces between consecutive references -- WP:REFPUNC
             new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)"), "$1"),
