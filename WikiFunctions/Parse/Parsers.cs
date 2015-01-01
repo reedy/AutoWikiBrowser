@@ -1143,37 +1143,30 @@ namespace WikiFunctions.Parse
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
-            
-            string articleTextAtStart = articleText;
-            for (; ; )
-            {
-                /* performance check: on most articles no date changes, on long articles HideMore is slow, so if no changes to raw text
-                 * don't need to perform actual check on HideMore text, and this is faster overall
-                 * Secondly: faster to apply regexes to each date found than to apply regexes to whole article text
-                 */
-                bool reparse = false;
-                foreach(Match m in MonthsRegexNoSecondBreak.Matches(articleText))
-                {
-                    // take up to 25 characters before match, unless match within first 25 characters of article
-                    string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
-                    
-                    string after = FixDatesAInternal(before);
 
-                    if(!after.Equals(before))
-                    {
-                        reparse = true;
-                        articleText = articleText.Replace(before, after);
-                        break;
-                    }
-                }
-                if (!reparse)
+            /* performance check: on most articles no date changes, on long articles HideMore is slow, so if no changes to raw text
+             * don't need to perform actual check on HideMore text, and this is faster overall
+             * Secondly: faster to apply regexes to each date found than to apply regexes to whole article text
+             */
+            bool changes = false;
+            foreach(Match m in MonthsRegexNoSecondBreak.Matches(articleText))
+            {
+                // take up to 25 characters before match, unless match within first 25 characters of article
+                string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
+                
+                string after = FixDatesAInternal(before);
+
+                if(!after.Equals(before))
+                {
+                    changes = true;
                     break;
+                }
             }
 
-            if(articleText.Equals(articleTextAtStart))
-                return articleTextAtStart;
+            if(!changes)
+                return articleText;
 
-            articleText = HideTextImages(articleTextAtStart);
+            articleText = HideTextImages(articleText);
 
             articleText = FixDatesAInternal(articleText);
 
