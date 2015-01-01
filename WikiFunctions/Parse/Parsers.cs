@@ -6650,7 +6650,7 @@ namespace WikiFunctions.Parse
             string cats = MDS.RemoveCats(ref articleText, articleTitle);
             articleText += cats;
 
-            if (WikiRegexes.DeathsOrLivingCategory.Matches(articleText).Count > 1)
+            if (WikiRegexes.DeathsOrLivingCategory.Matches(cats).Count > 1)
                 return false;
 
             if (WikiRegexes.Persondata.Matches(articleText).Count == 1
