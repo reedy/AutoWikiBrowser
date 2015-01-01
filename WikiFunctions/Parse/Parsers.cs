@@ -5510,7 +5510,7 @@ namespace WikiFunctions.Parse
                 CategoryStart += "Category:";
 
             // fix extra brackets: three or more at end
-            articleText = Regex.Replace(articleText, @"(?<=" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])\]+", "");
+            articleText = Regex.Replace(articleText, @"(" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])\]+", "$1");
             // three or more at start
             articleText = Regex.Replace(articleText, @"\[+(?=" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])", "");
 
