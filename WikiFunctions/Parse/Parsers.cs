@@ -5595,18 +5595,17 @@ namespace WikiFunctions.Parse
             // Chinese do not use spaces to separate sentences/words
             if (!Variables.LangCode.Equals("zh"))
             {
+                // only apply um (micrometre) fix on English wiki to avoid German word "um"
+                articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[2].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : m.Groups[1].Value + "&nbsp;" + m.Groups[2].Value);
 
-	        	// only apply um (micrometre) fix on English wiki to avoid German word "um"
-	            articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[2].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : m.Groups[1].Value + "&nbsp;" + m.Groups[2].Value);
+                articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
 
-	            articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
+                if(articleText.Contains(@"&nbsp;ft")) // check for performance
+                    articleText = WikiRegexes.MetresFeetConversionNonBreakingSpaces.Replace(articleText, @"$1&nbsp;m");
 
-	            if(articleText.Contains(@"&nbsp;ft")) // check for performance
-	                articleText = WikiRegexes.MetresFeetConversionNonBreakingSpaces.Replace(articleText, @"$1&nbsp;m");
-
-	            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Pagination
-	            // add non-breaking space after pp. abbreviation for pages.
-	            articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Pagination
+                // add non-breaking space after pp. abbreviation for pages.
+                articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");
             }
 
             // Add non-breaking space to 12-hour clock times [[MOS:TIME]].
