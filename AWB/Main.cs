@@ -1061,8 +1061,10 @@ namespace AutoWikiBrowser
         {
             Tools.WriteDebug("PageLoaded", "TheArticle.ArticleText length is " + TheArticle.ArticleText.Length);
             
-            // TODO on long articles this takes > 500 ms, why?
-            // disabling TextChanged or wrapping in visible/enabled toggles doesn't resolve it
+            // For some reason can get very poor performance setting txtEdit.Text (up to 30 seconds on longest en-wiki articles) after processing a few pages
+            // Toggling word wrap seems to solve this, not sure why
+            txtEdit.WordWrap = !txtEdit.WordWrap;
+            txtEdit.WordWrap = !txtEdit.WordWrap;
             txtEdit.Text = TheArticle.ArticleText;
 
             Variables.Profiler.Profile("Set edit box text");
