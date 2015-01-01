@@ -1381,7 +1381,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches a percentage with a space or a non-breaking space
         /// </summary>
-        public static readonly Regex Percent = new Regex(@"\s(\(?[-±\+]?\d+\.?\d*)(\s|\s?\&nbsp;)\%(\p{P}|\)?\s)");
+        public static readonly Regex Percent = new Regex(@"\s(\(?[-±\+]?\d+\.?\d*)(\s|\s?\&nbsp;)%(\p{P}|\)?\s)");
 
         /// <summary>
         /// Matches a currency symbol with a space or a non-breaking space
