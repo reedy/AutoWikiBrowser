@@ -5614,7 +5614,8 @@ namespace WikiFunctions.Parse
                 // Removes space or non-breaking space from percent per [[WP:PERCENT]].
                 // Avoid doing this for more spaces to prevent false positives.
                 // Don't fix space in all wikis. For instance sv:Procent requires a space inbetween
-                articleText = WikiRegexes.Percent.Replace(articleText, " $1%$3");
+                if(Regex.IsMatch(articleText, @"%(\p{P}|\)?\s)")) // check for performance
+                    articleText = WikiRegexes.Percent.Replace(articleText, " $1%$3");
 
                 // Removes space or non-breaking space from percent per [[WP:CURRENCY]]  if they consist of a nonalphabetic symbol only.
                 // Avoid doing this for more spaces to prevent false positives.
