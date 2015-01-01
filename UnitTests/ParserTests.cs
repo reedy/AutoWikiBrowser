@@ -68,6 +68,7 @@ namespace UnitTests
         public void TestSimplifyReferenceTags()
         {
             Assert.AreEqual("<ref name= \"foo\" />", Parsers.SimplifyReferenceTags("<ref name= \"foo\"></ref>"));
+            Assert.AreEqual("<ref name = \"foo\" />", Parsers.SimplifyReferenceTags("<ref name = \"foo\"></ref>"));
             Assert.AreEqual("<ref name=\"foo\" />", Parsers.SimplifyReferenceTags("<ref name=\"foo\" >< / ref >"));
             Assert.AreEqual("<ref name=\"foo\" />", Parsers.SimplifyReferenceTags("<ref name=\"foo\" ></ref>"));
 
