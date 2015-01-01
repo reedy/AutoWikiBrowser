@@ -2876,7 +2876,7 @@ namespace WikiFunctions.Parse
             return ReferenceListTags.Replace(articleText, ReflistMatchEvaluator);
         }
 
-        private static readonly Regex EmptyReferences = new Regex(@"(<ref\s+name\s*=\s*(?:""|')?[^<>=\r\n]+?(?:""|')?)\s*(?:/\s*)?>\s*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex EmptyReferences = new Regex(@"(<ref\s+name\s*=\s*[^<>=\r\n]+?)\s*(?:/\s*)?>\s*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Covered by: FootnotesTests.TestSimplifyReferenceTags()
         /// <summary>
