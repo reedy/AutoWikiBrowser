@@ -429,12 +429,12 @@ en, sq, ru
 		    string rt = Tools.RedirectTarget(articleText);
 		    if(rt.Length > 0 && WikiRegexes.Category.IsMatch(@"[[" + rt + @"]]"))
 				return "";
-			
+
 			// don't operate on pages with (incorrectly) multiple defaultsorts
 			MatchCollection mc = WikiRegexes.Defaultsort.Matches(articleText);
 			if (mc.Count > 1)
 				return "";
-			
+
 			List<string> categoryList = new List<string>();
 			string originalArticleText = articleText;
 			string articleTextNoComments = WikiRegexes.Comments.Replace(articleText, "");
@@ -465,26 +465,28 @@ en, sq, ru
 
 			                                                                   return "";
 			                                                               });
-			}
-
-			// if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
-			if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
-			{
-				articleText = originalArticleText;
-				return "";
-			}
-
-			if (AddCatKey)
-				categoryList = CatKeyer(categoryList, articleTitle);
-
-			articleText = CatCommentRegex.Replace(articleText, m =>
-			                                      {
-			                                          categoryList.Insert(0, m.Value);
-			                                          return "";
-			                                      }, 1);
-
-			string defaultSort = "";
 			
+
+                // if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
+                if(!Tools.UnformattedTextNotChanged(originalArticleText.Substring(cutoff), articleText.Substring(cutoff)))
+                {
+                    articleText = originalArticleText;
+                    return "";
+                }
+
+                if (AddCatKey)
+                    categoryList = CatKeyer(categoryList, articleTitle);
+
+                if(CatCommentRegex.IsMatch(cut))
+                    articleText = CatCommentRegex.Replace(articleText, m =>
+                                                          {
+                                                              categoryList.Insert(0, m.Value);
+                                                              return "";
+                                                          }, 1);
+
+			}
+            string defaultSort = "";
+
 			if(Variables.LangCode.Equals("sl") && LifeTime.IsMatch(articleText))
 			{
 				defaultSort = LifeTime.Match(articleText).Value;
