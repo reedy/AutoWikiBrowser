@@ -8669,7 +8669,6 @@ namespace WikiFunctions.Parse
              if (!Variables.LangCode.Equals("en"))
                 return false;
 
-            articleText = WikiRegexes.Comments.Replace(articleText, "");
             int refstemplateindex = 0, reflength = 0;
             foreach(Match m in WikiRegexes.ReferencesTemplate.Matches(articleText))
             {
@@ -8679,7 +8678,10 @@ namespace WikiFunctions.Parse
                 refstemplateindex= m.Index;
                 reflength = m.Length;
             }
-            return Regex.IsMatch(articleText.Substring(refstemplateindex+reflength), WikiRegexes.ReferenceEndGR);
+            articleText = articleText.Substring(refstemplateindex+reflength);
+            articleText = WikiRegexes.Comments.Replace(articleText, "");
+
+            return Regex.IsMatch(articleText, WikiRegexes.ReferenceEndGR);
         }
 
         /// <summary>
