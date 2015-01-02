@@ -6451,8 +6451,6 @@ namespace WikiFunctions.Parse
             if (!Namespace.IsMainSpace(articleTitle))
                 articleTitle = Tools.RemoveNamespaceString(articleTitle);
 
-            string sort = GetCategorySort(articleText, articleTitle, out matches);
-
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(articleText);
             if (ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
             {
@@ -6490,6 +6488,7 @@ namespace WikiFunctions.Parse
                 // AWB's generation of its own sortkey may be incorrect for people, provide option not to insert in this situation
                 if (ds.Count == 0)
                 {
+                    string sort = GetCategorySort(articleText, articleTitle, out matches);
                     // So that this does not get confused by sort keys of "*", " ", etc.
                     // MW bug: DEFAULTSORT does not treat leading spaces the same way as categories do
                     // if all existing categories use a suitable sortkey, insert that rather than generating a new one
