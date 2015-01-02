@@ -575,6 +575,9 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
             
             a = new Article("A", "[[A|B|C]]");
             Assert.AreEqual(1, a.DoublepipeLinks().Count);
+
+            a = new Article("A", "[[A||BC]]");
+            Assert.AreEqual(1, a.DoublepipeLinks().Count);
             
             a = new Article("A", "[[|A]]");
             Assert.AreEqual(1, a.TargetlessLinks().Count);
