@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Linq;
 using WikiFunctions.TalkPages;
 
 namespace WikiFunctions.Parse
@@ -258,10 +259,9 @@ en, sq, ru
 		{
 			return input.Replace("\r\n", "").Replace(">", "").Replace("\n", "");
 		}
-		
+
 		private static readonly Regex CommentedOutEnInterwiki = new Regex("<!-- ?\\[\\[en:.*?\\]\\] ?-->");
-		private static readonly Regex SPMQuick = Tools.NestedTemplateRegex("short pages monitor");
-		
+
 		/// <summary>
 		/// Sorts article meta data, including optional whitespace fixing
 		/// </summary>
@@ -285,11 +285,14 @@ en, sq, ru
 		    if (Namespace.Determine(articleTitle) == Namespace.Template) // Don't sort on templates
 		        return articleText;
 
+            // Performance: get all the templates so "move template" functions below only called when template(s) present in article
+            List<string> alltemplates = Parsers.GetAllTemplates(articleText);
+
 		    // short pages monitor check for en-wiki: keep at very end of article if present
 		    // See [[Template:Long comment/doc]]
 		    // SPM regex quick check for performance on long pages
 		    string shortPagesMonitor = "";
-		    if(Variables.LangCode.Equals("en") && SPMQuick.IsMatch(articleText))
+		    if(Variables.LangCode.Equals("en") && alltemplates.Contains("Short pages monitor"))
 		    {
 		        Match spm = WikiRegexes.ShortPagesMonitor.Match(articleText);
 		        
@@ -302,32 +305,50 @@ en, sq, ru
 
 			articleText = CommentedOutEnInterwiki.Replace(articleText, "");
 
-			string personData = Tools.Newline(RemovePersonData(ref articleText));
-			string disambig = Tools.Newline(RemoveDisambig(ref articleText));
+			string personData = "";
+            if(TemplateExists(alltemplates, WikiRegexes.Persondata))
+                personData = Tools.Newline(RemovePersonData(ref articleText));
+
+			string disambig = "";
+            if(TemplateExists(alltemplates, WikiRegexes.Disambigs))
+                disambig = Tools.Newline(RemoveDisambig(ref articleText));
+
 			string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
+
 			string interwikis = Tools.Newline(Interwikis(ref articleText));
 
 			if(Namespace.IsMainSpace(articleTitle))
 			{
 			    // maintenance templates above infoboxes etc., zeroth section only
-			    if (Variables.LangCode.Equals("en"))
+                if(TemplateExists(alltemplates, WikiRegexes.MaintenanceTemplates))
 			    {
-			        string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-			        string restOfArticle = articleText.Substring(zerothSection.Length);
+			        string zerothSection = Tools.GetZerothSection(articleText);
+                    string restOfArticle = articleText.Substring(zerothSection.Length);
 			        articleText = MoveMaintenanceTags(zerothSection) + restOfArticle;
 			    }
 
-			    // Dablinks above maintance tags per [[WP:LAYOUT]]
+            // Dablinks above maintance tags per [[WP:LAYOUT]]
+            if(TemplateExists(alltemplates, WikiRegexes.Dablinks))
 			    articleText = MoveDablinks(articleText);
 
 			    if (Variables.LangCode.Equals("en"))
 			    {
-			        articleText = MovePortalTemplates(articleText);
-			        articleText = MoveTemplateToSeeAlsoSection(articleText, WikiRegexes.WikipediaBooks);
-			        articleText = MoveSisterlinks(articleText);
-			        articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
+                    if(TemplateExists(alltemplates, WikiRegexes.PortalTemplate))
+                        articleText = MovePortalTemplates(articleText);
+
+                    if(TemplateExists(alltemplates, WikiRegexes.WikipediaBooks))
+                        articleText = MoveTemplateToSeeAlsoSection(articleText, WikiRegexes.WikipediaBooks);
+
+                    if(TemplateExists(alltemplates, WikiRegexes.SisterLinks))
+                        articleText = MoveSisterlinks(articleText);
+
+                    if(alltemplates.Contains("Ibid"))
+                        articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
+
 			        articleText = MoveExternalLinks(articleText);
+
 			        articleText = MoveSeeAlso(articleText);
+
 			    }
 			}
 			// two newlines here per https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
@@ -336,13 +357,15 @@ en, sq, ru
 			string strStub = "";
 			
 			// Category: can use {{Verylargestub}}/{{popstub}} which is not a stub template, don't do stub sorting
-			if(!Namespace.Determine(articleTitle).Equals(Namespace.Category))
+			if(!Namespace.Determine(articleTitle).Equals(Namespace.Category) && TemplateExists(alltemplates, new Regex(Variables.Stub)))
 			    strStub = Tools.Newline(RemoveStubs(ref articleText), (Variables.LangCode.Equals("ru") || Variables.LangCode.Equals("sl") || Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz")) ? 1 : 2);
 
 			// filter out excess white space and remove "----" from end of article
 			articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
+
 			articleText += disambig;
-			articleText = WikiRegexes.MultipleIssues.Replace(articleText, m=> Regex.Replace(m.Value, "(\r\n)+", "\r\n"));
+            if(TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
+                articleText = WikiRegexes.MultipleIssues.Replace(articleText, m=> Regex.Replace(m.Value, "(\r\n)+", "\r\n"));
 
 			switch (Variables.LangCode)
 			{
@@ -382,6 +405,14 @@ en, sq, ru
 			// Only trim start on Category namespace, restore any saved short page monitor text
 			return (Namespace.Determine(articleTitle) == Namespace.Category ?  articleText.Trim() : articleText.TrimEnd()) + shortPagesMonitor;
 		}
+        
+        /// <summary>
+        /// Returns whether the given regex matches any of the (first name upper) templates in the given list
+        /// </summary>
+        private static bool TemplateExists(List<string> templatesFound, Regex r)
+        {
+            return templatesFound.Where(s => r.IsMatch(@"{{" + s + "}}")).Any();
+        }
 		
 		private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");
 		private static readonly Regex CatsForDeletion = new Regex(@"\[\[Category:(Pages|Categories|Articles) for deletion\]\]"); 
@@ -531,29 +562,21 @@ en, sq, ru
 		{
 			// Per https://ru.wikipedia.org/wiki/Википедия:Опросы/Использование_служебных_разделов/Этап_2#.D0.A1.D0.BB.D1.83.D0.B6.D0.B5.D0.B1.D0.BD.D1.8B.D0.B5_.D1.88.D0.B0.D0.B1.D0.BB.D0.BE.D0.BD.D1.8B
 			// Russian Wikipedia places stubs before navboxes
-			// Category: can use {{Verylargestub}}/{{popstub}} which is not a stub template
 			if (Variables.LangCode.Equals("ru"))
 				return "";
 
 			List<string> stubList = new List<string>();
-			MatchCollection matches = WikiRegexes.PossiblyCommentedStub.Matches(articleText);
-			if (matches.Count == 0) return "";
 
-			StringBuilder sb = new StringBuilder(articleText);
-
-			for (int i = matches.Count - 1; i >= 0; i--)
-			{
-				Match m = matches[i];
-				string x = m.Value;
-				if (!Regex.IsMatch(x, Variables.SectStub))
+            articleText = WikiRegexes.PossiblyCommentedStub.Replace(articleText, m => {
+                if(!Regex.IsMatch(m.Value, Variables.SectStub))
 				{
-					stubList.Add(x);
-					sb.Remove(m.Index, x.Length);
+					stubList.Add(m.Value);
+					return "";
 				}
-			}
-			articleText = sb.ToString();
+            
+                return m.Value;
+            });
 
-			stubList.Reverse();
 			return (stubList.Count != 0) ? ListToString(stubList) : "";
 		}
 
@@ -592,7 +615,7 @@ en, sq, ru
 			string originalArticletext = articleText;
 			
 			// get the zeroth section (text upto first heading)
-			string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            string zerothSection = Tools.GetZerothSection(articleText);
 
 			// avoid moving commented out Dablinks
 			if (Variables.LangCode != "en" || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
@@ -967,11 +990,12 @@ en, sq, ru
 		public string Interwikis(ref string articleText)
 		{
 		    string interWikiComment = "";
-		    articleText = InterLangRegex.Replace(articleText, m =>
-		                                         {
-		                                             interWikiComment = m.Value;
-		                                             return "";
-		                                         }, 1);
+            if(articleText.Contains("<!--"))
+                articleText = InterLangRegex.Replace(articleText, m =>
+                                                     {
+                                                         interWikiComment = m.Value;
+                                                         return "";
+                                                     }, 1);
 
 			string interWikis = ListToString(RemoveLinkFGAs(ref articleText));
 			
