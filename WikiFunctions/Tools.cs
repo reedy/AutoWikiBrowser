@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 (C) 2007 Martin Richards
 (C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
@@ -652,7 +652,7 @@ namespace WikiFunctions
 		}
 		
 		/// <summary>
-		/// Prepends a newline to the string
+		/// Prepends a newline to the string, only if string not empty
 		/// </summary>
 		/// <param name="s">The input string</param>
 		/// <returns>The input string with newline prepended</returns>
@@ -662,7 +662,7 @@ namespace WikiFunctions
 		}
 
 		/// <summary>
-		/// Prepends the specified number of newlines to the string
+		/// Prepends the specified number of newlines to the string, only if string not empty
 		/// </summary>
 		/// <param name="s">Input string</param>
 		/// <param name="n">Number of newlines to prepend</param>
@@ -731,12 +731,10 @@ namespace WikiFunctions
 		/// </summary>
 		public static int InterwikiCount(string text)
 		{
-			int count = 0;
-			foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(text))
-			{
-				if (SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower())) count++;
-			}
-			return count;
+            // Performance: faster to get all wikilinks and filter on interwiki matches than simply run the regex on the whole article text
+            List<string> allWikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(text) where m.Value.Contains(":") select m.Value).ToList();
+
+            return allWikiLinks.Where(s => SiteMatrix.Languages.Contains(WikiRegexes.PossibleInterwikis.Match(s + "]]").Groups[1].Value.ToLower())).Count();
 		}
 		
 		private static readonly Regex FlagIOC = NestedTemplateRegex("flagIOC");
