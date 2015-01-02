@@ -2860,9 +2860,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 // Find multiple wikilinks
                 //get all the links, ignore commented out text etc.
-                lbDuplicateWikilinks.BeginUpdate();
                 lbDuplicateWikilinks.Items.AddRange(Tools.DuplicateWikiLinks(articleText).ToArray());
-                lbDuplicateWikilinks.EndUpdate();
             }
             lblDuplicateWikilinks.Visible = lbDuplicateWikilinks.Visible = btnRemove.Visible = (lbDuplicateWikilinks.Items.Count > 0);
         }
