@@ -2263,7 +2263,19 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
-        private static List<string> GetAllTemplates(string articleText)
+        public static List<string> GetAllTemplates(string articleText)
+        {
+            if(Globals.SystemCore3500Available)
+                return GetAllTemplatesNew(articleText);
+            return GetAllTemplatesOld(articleText);
+        }
+
+        /// <summary>
+        /// Extracts a list of all templates used in the input text, supporting any level of template nesting. Template name given in first letter upper. Most performant version using HashSet.
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        private static List<string> GetAllTemplatesNew(string articleText)
         {
             /* performance: process all templates in bulk, extract template contents and reprocess. This is faster than loop applying template match on individual basis. 
             Extract rough template name then get exact template names later, faster to deduplicate then get exact template names */
@@ -2292,6 +2304,41 @@ namespace WikiFunctions.Parse
             TFH = Tools.DeduplicateList(TFH);
 
             return Tools.DeduplicateList((from string s in TFH select Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}"))).ToList());
+        }
+
+        /// <summary>
+        /// Extracts a list of all templates used in the input text. Template name given in first letter upper. .NET 2.0 version not using HashSet
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        private static List<string> GetAllTemplatesOld(string articleText)
+        {
+            /* performance: faster to process all templates, extract rough template name then get exact template names later
+             than to get exact template name for each template found */
+            // process all templates, handle nested templates to any level of nesting
+            List<string> TFH = new List<string>();
+            foreach(Match m in NestedTemplates.Matches(articleText))
+            {
+                TFH.Add(m.Groups[1].Value);
+                string template = m.Value.Substring(2);
+
+                while(NestedTemplates.IsMatch(template))
+                {
+                    Match m2 = NestedTemplates.Match(template);
+                    TFH.Add(m2.Groups[1].Value);
+                    template = template.Substring(m2.Index + 2);
+                }
+            }
+
+            // now extract exact template names
+            TFH = Tools.DeduplicateList(TFH);
+            List<string> TFH2 = new List<string>();
+            foreach(string s in TFH)
+            {
+                TFH2.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}")));
+            }
+
+            return Tools.DeduplicateList(TFH2);
         }
 
         private static Regex RenameTemplateParametersTemplates;
