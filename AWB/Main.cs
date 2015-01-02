@@ -2858,44 +2858,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 lblDates.Text = Dates + WikiRegexes.ISODatesQuick.Matches(articleTextNoImagesURLs).Count + "/" + WikiRegexes.DayMonth.Matches(articleTextNoImagesURLs).Count
                     + "/" + WikiRegexes.MonthDay.Matches(articleTextNoImagesURLs).Count;
 
-                // Find multiple links
-                ArrayList arrayLinks = new ArrayList();
-
+                // Find multiple wikilinks
                 //get all the links, ignore commented out text etc.
-                foreach (Match m in WikiRegexes.WikiLink.Matches(Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText.Matches(articleText))))
-                {
-                    string x = m.Groups[1].Value;
-                    // don't count wikilinked dates or targetless links as duplicate links
-                    if (!WikiRegexes.Dates.IsMatch(x) && !WikiRegexes.Dates2.IsMatch(x) && x.Length > 0)
-                    {
-                        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Multiple_links
-                        // make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
-                        arrayLinks.Add(Tools.TurnFirstToUpper(x));
-                    }
-                }
-
-                lbDuplicateWikilinks.Sorted = true;
-
-                /* add the duplicate articles to the listbox
-                 * Sort array list of all links, then loop through list, keeping count of occurrences of each one.
-                 * One change of link, add to duplicates list only if > 1 occurrence in list. */
-                arrayLinks.Sort();
-                int counter = 0;
-                string last = "";
                 lbDuplicateWikilinks.BeginUpdate();
-                foreach (string z in arrayLinks)
-                {
-                    if(z.Equals(last))
-                        counter++;
-                    else
-                    {
-                        if(counter > 1)
-                            lbDuplicateWikilinks.Items.Add(last + @" (" + counter + @")");
-
-                        counter = 1;
-                        last = z;
-                    }
-                }
+                lbDuplicateWikilinks.Items.AddRange(Tools.DuplicateWikiLinks(articleText).ToArray());
                 lbDuplicateWikilinks.EndUpdate();
             }
             lblDuplicateWikilinks.Visible = lbDuplicateWikilinks.Visible = btnRemove.Visible = (lbDuplicateWikilinks.Items.Count > 0);
