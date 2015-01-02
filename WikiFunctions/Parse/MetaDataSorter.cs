@@ -998,30 +998,30 @@ en, sq, ru
                                                      }, 1);
 
 			string interWikis = ListToString(RemoveLinkFGAs(ref articleText));
-			
+
 			if(interWikiComment.Length > 0)
 				interWikis += interWikiComment + "\r\n";
-			
+
 			interWikis += ListToString(RemoveInterWikis(ref articleText));
-			
+
 			return interWikis;
 		}
 
 		/// <summary>
-		/// Extracts all of the interwiki links from the article text, handles comments beside interwiki links
+		/// Extracts all of the interwiki links from the article text, handles comments beside interwiki links (not inline comments)
 		/// </summary>
 		/// <param name="articleText">Article text with interwikis removed</param>
 		/// <returns>List of interwikis</returns>
 		private List<string> RemoveInterWikis(ref string articleText)
 		{
 			List<string> interWikiList = new List<string>();
-			
-			// interwikis without any inline comments
-			List<string> interWikiListLinksOnly = new List<string>();
-			MatchCollection matches = WikiRegexes.PossibleInterwikis.Matches(articleText);
-			if (matches.Count == 0)
-				return interWikiList;
-			
+
+            // Performance: faster to get all wikilinks and filter on interwiki matches than simply run the regex on the whole article text
+            List<string> allWikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(articleText) where m.Value.Contains(":") select m.Value).ToList();
+
+            if(!allWikiLinks.Where(s => WikiRegexes.PossibleInterwikis.IsMatch(s + "]]")).Any())
+                return interWikiList;
+
 			// get all unformatted text in article to avoid taking interwikis from comments etc.
 		    StringBuilder ut = new StringBuilder();
 			foreach(Match u in WikiRegexes.UnformattedText.Matches(articleText))
@@ -1030,8 +1030,9 @@ en, sq, ru
 			string unformattedText = ut.ToString();
 
 			List<Match> goodMatches = new List<Match>();
+            List<string> interWikiListLinksOnly = new List<string>();
 
-			foreach (Match m in matches)
+			foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(articleText))
 			{
 				string site = m.Groups[1].Value.Trim().ToLower();
 				
