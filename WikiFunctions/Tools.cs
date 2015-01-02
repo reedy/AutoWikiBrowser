@@ -781,7 +781,9 @@ namespace WikiFunctions
                 dupeWikiLinks.Add(kvp.Key + @" (" + kvp.Value + @")");
 
             // ensure list is sorted
-            return dupeWikiLinks.Sort();
+            dupeWikiLinks.Sort();
+            
+            return dupeWikiLinks;
         }
 
 		// Covered by ToolsTests.RemoveSyntax
