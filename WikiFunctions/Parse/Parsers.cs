@@ -2578,7 +2578,11 @@ namespace WikiFunctions.Parse
         /// <returns>Dictionary of links with double pipes found</returns>
         public static Dictionary<int, int> DoublePipeLinks(string articleText)
         {
+            // Performance strategy: get list of all internal wikilinks, filter to those with two | in
+            if((from Match m in WikiRegexes.SimpleWikiLink.Matches(articleText) where m.Value.Count(s => s == '|') > 1 select m.Value).ToList().Any())
             return DictionaryOfMatches(articleText, WikiRegexes.DoublePipeLink);
+
+            return (new Dictionary<int, int>());
         }
 
         private const string SiCitStart = @"(?si)(\|\s*";
