@@ -5413,11 +5413,11 @@ namespace WikiFunctions.Parse
                 string b2 = CanonicalizeTitle(b), a2 = CanonicalizeTitle(a);
                 string lb = Tools.TurnFirstToLower(b), la = Tools.TurnFirstToLower(a);
 
-                if (b2.Equals(a) || b2.Equals(la) || a2.Equals(b) || a2.Equals(lb))
+                if (b2.Equals(a) || b2.Equals(la) || a2.Equals(b) || a2.Equals(lb)) // target and text the same after cleanup and case conversion e.g. [[A|a]] or [[Foo_bar|Foo bar]] etc.
                 {
                     articleText = articleText.Replace(pl, "[[" + b.Replace("_", " ") + "]]");
                 }
-                else if (lb.StartsWith(la, StringComparison.Ordinal))
+                else if (lb.StartsWith(la, StringComparison.Ordinal)) // target is substring of text e.g. [[Dog|Dogs]] --> [[Dog]]s
                 {
                     bool doBreak = false;
                     foreach (char ch in b.Remove(0, a.Length))
@@ -5432,7 +5432,7 @@ namespace WikiFunctions.Parse
                         continue;
                     articleText = articleText.Replace(pl, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
                 }
-                else
+                else // there may be whitepsace trimming around the pipe to apply
                 {
                     string newlink = "[[" + a + "|" + b + "]]";
 
