@@ -5395,22 +5395,29 @@ namespace WikiFunctions.Parse
         /// <returns>The simplified article text.</returns>
         public static string SimplifyLinks(string articleText)
         {
-            // Performance: get a list of unique links to avoid processing duplicate links more than once
+            // Performance: first get a list of unique links to avoid processing duplicate links more than once
             List<string> pipedLinks = Tools.DeduplicateList((from Match m in WikiRegexes.PipedWikiLink.Matches(articleText) select m.Value).ToList());
 
+            // Performance: second determine if any links with pipe whitepace to clean
+            string Category = Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:";
+            bool whitepaceTrimNeeded = pipedLinks.Any(s => ((s.Contains("| ") && !s.Contains(Category)) || s.Contains(" |") || (!s.Contains("| ]]") && s.Contains(" ]]"))));
+Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             foreach (string pl in pipedLinks)
             {
                 Match m = WikiRegexes.PipedWikiLink.Match(pl);
-                string a = m.Groups[1].Value.Trim();
+                string a = m.Groups[1].Value.Trim(), b = m.Groups[2].Value;
 
                 // Must retain space after pipe in Category namespace
-                string b = (Namespace.Determine(a) != Namespace.Category)
+                if(whitepaceTrimNeeded)
+                {
+                    b = (Namespace.Determine(a) != Namespace.Category)
                     ? m.Groups[2].Value.Trim()
                     : m.Groups[2].Value.TrimEnd(new[] { ' ' });
 
-                if (b.Length == 0)
-                    continue;
-                    
+                    if (b.Length == 0)
+                        continue;
+                 }
+
                 string b2 = CanonicalizeTitle(b), a2 = CanonicalizeTitle(a);
                 string lb = Tools.TurnFirstToLower(b), la = Tools.TurnFirstToLower(a);
 
@@ -5433,7 +5440,7 @@ namespace WikiFunctions.Parse
                         continue;
                     articleText = articleText.Replace(pl, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
                 }
-                else // there may be whitepsace trimming around the pipe to apply
+                else if(whitepaceTrimNeeded) // whitepsace trimming around the pipe to apply
                 {
                     string newlink = "[[" + a + "|" + b + "]]";
 
