@@ -4823,13 +4823,13 @@ namespace WikiFunctions.Parse
         /// <returns>The updated persondata template call</returns>
         private static string CompletePersonDataDate(string personData, string articletext)
         {
-            Parsers p = new Parsers();
             // get the existing values
             string existingBirthYear = Tools.GetTemplateParameterValue(personData, "DATE OF BIRTH", true);
             string existingDeathYear = Tools.GetTemplateParameterValue(personData, "DATE OF DEATH", true);
 
             if (existingBirthYear.Length == 4 || existingDeathYear.Length == 4)
             {
+                Parsers p = new Parsers();
                 string birthDateFound = "", deathDateFound = "";
                 string zerothSection = Tools.GetZerothSection(articletext);
 
