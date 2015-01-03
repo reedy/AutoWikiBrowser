@@ -4568,6 +4568,7 @@ namespace WikiFunctions.Parse
         /// Matches the {{death  date}} family of templates
         /// </summary>
         private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new[] { "death date", "death-date", "dda", "death date and age", "deathdateandage", "deathdate" }, true);
+        private static List<string> PersonDataLowerCaseParameters = new List<string>(new[] { "name", "alternative names", "short description", "date of birth", "place of birth", "date of death", "place of death" });
 
         /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
@@ -4601,14 +4602,17 @@ namespace WikiFunctions.Parse
             {
                 originalPersonData = WikiRegexes.Persondata.Match(articleText).Value;
                 newPersonData = originalPersonData;
-                // use uppercase parameters if making changes
-                newPersonData = Tools.RenameTemplateParameter(newPersonData, "name", "NAME");
-                newPersonData = Tools.RenameTemplateParameter(newPersonData, "alternative names", "ALTERNATIVE NAMES");
-                newPersonData = Tools.RenameTemplateParameter(newPersonData, "short description", "SHORT DESCRIPTION");
-                newPersonData = Tools.RenameTemplateParameter(newPersonData, "date of birth", "DATE OF BIRTH");
-                newPersonData = Tools.RenameTemplateParameter(newPersonData, "place of birth", "PLACE OF BIRTH");
-                newPersonData = Tools.RenameTemplateParameter(newPersonData, "date of death", "DATE OF DEATH");
-                newPersonData = Tools.RenameTemplateParameter(newPersonData, "place of death", "PLACE OF DEATH");
+                // use uppercase parameters if making changes, rename any lowercase ones
+                if(Tools.GetTemplateParameterValues(newPersonData).Where(s => PersonDataLowerCaseParameters.Contains(s.Key)).Any())
+                {
+                    newPersonData = Tools.RenameTemplateParameter(newPersonData, "name", "NAME");
+                    newPersonData = Tools.RenameTemplateParameter(newPersonData, "alternative names", "ALTERNATIVE NAMES");
+                    newPersonData = Tools.RenameTemplateParameter(newPersonData, "short description", "SHORT DESCRIPTION");
+                    newPersonData = Tools.RenameTemplateParameter(newPersonData, "date of birth", "DATE OF BIRTH");
+                    newPersonData = Tools.RenameTemplateParameter(newPersonData, "place of birth", "PLACE OF BIRTH");
+                    newPersonData = Tools.RenameTemplateParameter(newPersonData, "date of death", "DATE OF DEATH");
+                    newPersonData = Tools.RenameTemplateParameter(newPersonData, "place of death", "PLACE OF DEATH");
+                }
             }
 
             // attempt completion of some persondata fields
