@@ -6576,22 +6576,21 @@ namespace WikiFunctions.Parse
         private static string DefaultsortTitlesWithDiacritics(string articleText, string articleTitle, int categories, bool articleAboutAPerson)
         {
             // need some categories and no defaultsort, and a sortkey not the same as the article title
-            if (((Tools.FixupDefaultSort(articleTitle) != articleTitle && !articleAboutAPerson) ||
-                 (Tools.MakeHumanCatKey(articleTitle, articleText) != articleTitle && articleAboutAPerson))
-                && categories > 0 && !WikiRegexes.Defaultsort.IsMatch(articleText))
+            if (categories > 0 && !WikiRegexes.Defaultsort.IsMatch(articleText))
             {
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
                 // if article is about a person, attempt to add a surname, forenames sort key rather than the tidied article title
-                string sortkey = articleAboutAPerson
-                    ? Tools.MakeHumanCatKey(articleTitle, articleText)
-                    : Tools.FixupDefaultSort(articleTitle);
+                string sortkey = articleAboutAPerson ? Tools.MakeHumanCatKey(articleTitle, articleText) : Tools.FixupDefaultSort(articleTitle);
 
                 // sortkeys now not case sensitive
                 if (!sortkey.ToLower().Equals(articleTitle.ToLower()) || Tools.RemoveDiacritics(articleTitle) != articleTitle)
+                {
                     articleText += Tools.Newline("{{DEFAULTSORT:") + sortkey + "}}";
 
-                return (ExplicitCategorySortkeys(articleText, sortkey));
+                    return (ExplicitCategorySortkeys(articleText, sortkey));
+                }
             }
+
             return articleText;
         }
 
