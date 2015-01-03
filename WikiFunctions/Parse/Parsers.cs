@@ -6599,10 +6599,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SeeAlsoOrMain = Tools.NestedTemplateRegex(new[] { "See also", "Seealso", "Main" });
         private static readonly Regex RefImproveBLP = Tools.NestedTemplateRegex("RefimproveBLP");
 
-        private static readonly Regex IMA = Tools.NestedTemplateRegex(new[]
-                                                                      {
-                                                                          "Infobox musical artist", "Infobox singer"
-                                                                      });
+        private static readonly Regex IMA = Tools.NestedTemplateRegex(new[] { "Infobox musical artist", "Infobox singer" });
 
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
