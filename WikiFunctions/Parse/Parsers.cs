@@ -5409,13 +5409,15 @@ namespace WikiFunctions.Parse
 
                 if (b.Length == 0)
                     continue;
+                    
+                string b2 = CanonicalizeTitle(b), a2 = CanonicalizeTitle(a);
+                string lb = Tools.TurnFirstToLower(b), la = Tools.TurnFirstToLower(a);
 
-                if (CanonicalizeTitle(b).Equals(a) || CanonicalizeTitle(b).Equals(Tools.TurnFirstToLower(a)) 
-                    || CanonicalizeTitle(a).Equals(b) || CanonicalizeTitle(a).Equals(Tools.TurnFirstToLower(b)))
+                if (b2.Equals(a) || b2.Equals(la) || a2.Equals(b) || a2.Equals(lb))
                 {
                     articleText = articleText.Replace(pl, "[[" + b.Replace("_", " ") + "]]");
                 }
-                else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a), StringComparison.Ordinal))
+                else if (lb.StartsWith(la, StringComparison.Ordinal))
                 {
                     bool doBreak = false;
                     foreach (char ch in b.Remove(0, a.Length))
