@@ -3323,6 +3323,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"(?<=[\s\[>=](?:ht|f))(tps?):(?:/|////?)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase);
+        private static readonly Regex CellpaddingTypoQuick = new Regex(@"\bcel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase);
 
         //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
         private static readonly Regex RemoveNoPropertyFontTags = new Regex(@"<font>([^<>]+)</font>", RegexOptions.IgnoreCase);
@@ -3357,7 +3358,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SquareBracketsInExternalLinks = new Regex(@"(\[https?://(?>[^\[\]<>]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled);
 
         // CHECKWIKI error 2: fix incorrect <br> of <br.>, <\br>, <br\> and <br./> etc.
-        private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>|< *br\. */>|< *br */([a-z/0-9•]|br)>|< *br *\?>|</ *br */?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex IncorrectBr = new Regex(@"<(\\ *br *| *br *\\ *| *br\. */?| *br */([a-z/0-9•]|br)| *br *\?|/ *br */?)>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex IncorrectClosingItalics = new Regex(@"<i *[\\/] *>");
         private static readonly Regex IncorrectClosingHtmlTags = new Regex(@"< */?(center|gallery|small|sub|sup) */ *>");
 
@@ -3365,7 +3366,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexHeadingWithHorizontalRule = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHTTPNumber = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN = new Regex(@"(?:ISBN(?:-1[03])?:|\[\[ISBN\]\])\s*(\d)", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexISBN2 = new Regex(@"(ISBN-(?!1[03]\b))", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexISBN2 = new Regex(@"ISBN-(?!1[03]\b)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *(\d)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexExternalLinkOnWholeLine = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex SyntaxRegexClosingBracket = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
@@ -3459,10 +3460,13 @@ namespace WikiFunctions.Parse
 
 			//  CHECKWIKI error 69
             articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
-            articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
+            if(articleText.Contains("ISBN-"))
+                articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
 
-            articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
-            articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
+            if(articleText.Contains("PMID:"))
+                articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
+            if(CellpaddingTypoQuick.IsMatch(articleText))
+                articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
 
             articleText = RemoveNoPropertyFontTags.Replace(articleText, "$1");
 
@@ -3492,9 +3496,11 @@ namespace WikiFunctions.Parse
 
             // fixes for square brackets used within external links
             // fix newline(s) in external link description - Partially CHECKWIKI error 80
-            articleText = SingleSquareBrackets.Replace(articleText, m =>
+            if((from Match m in SingleSquareBrackets.Matches(articleText) where m.Value.Contains("//") select m.Value).ToList().Any())
+                articleText = SingleSquareBrackets.Replace(articleText, m =>
                                                        {
                                                            string newvalue = m.Value;
+
                                                            if(newvalue.Contains("\r\n") && !newvalue.Substring(1).Contains("[") && ExternalLinksStart.IsMatch(newvalue))
                                                                newvalue = newvalue.Replace("\r\n", " ");
                                                            
@@ -3524,9 +3530,6 @@ namespace WikiFunctions.Parse
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
-
-            // make double spaces within wikilinks just single spaces
-            articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Value.Replace("_#", "#").Replace("  ", " "));
 
             // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
             // fix incorrect <br> of <br.>, <\br> and <br\> - CHECKWIKI error 02
@@ -5147,7 +5150,12 @@ namespace WikiFunctions.Parse
 
             //remove undesirable double space from middle of wikilink (up to 61 characters in wikilink)
             if(allWikiLinks.Any(s => s.Contains("  ")))
-                articleText = LinkWhitespace3.Replace(articleText, "[[$1 $2]]");
+                while(LinkWhitespace3.IsMatch(articleText))
+                    articleText = LinkWhitespace3.Replace(articleText, "[[$1 $2]]");
+
+            // Remove underscore before hash
+            if(allWikiLinks.Any(s => s.Contains("_#")))
+                articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Value.Replace("_#", "#"));
 
             if(allWikiLinks.Any(s => s.EndsWith(" ]]")))
             {

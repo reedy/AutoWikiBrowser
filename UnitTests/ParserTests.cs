@@ -3707,13 +3707,13 @@ Template:foo}}"));
         }
 
         [Test]
-        public void FixSyntaxSpacing()
+        public void FixLinkWhitespaceSpacing()
         {
-            Assert.AreEqual("[[Foo]]", Parsers.FixSyntax("[[Foo]]"));
-            Assert.AreEqual("[[Foo Bar]]", Parsers.FixSyntax("[[Foo Bar]]"));
-            Assert.AreEqual("[[Foo Bar]]", Parsers.FixSyntax("[[Foo  Bar]]"));
-            Assert.AreEqual("[[Foo Bar was]]", Parsers.FixSyntax("[[Foo  Bar  was]]"), "fixes multiple double spaces in single link");
-            Assert.AreEqual("[[Foo Bar|Bar]]", Parsers.FixSyntax("[[Foo  Bar|Bar]]"));
+            Assert.AreEqual("[[Foo]]", Parsers.FixLinkWhitespace("[[Foo]]", "Test"));
+            Assert.AreEqual("[[Foo Bar]]", Parsers.FixLinkWhitespace("[[Foo Bar]]", "Test"));
+            Assert.AreEqual("[[Foo Bar]]", Parsers.FixLinkWhitespace("[[Foo  Bar]]", "Test"));
+            Assert.AreEqual("[[Foo Bar was]]", Parsers.FixLinkWhitespace("[[Foo  Bar  was]]", "Test"), "fixes multiple double spaces in single link");
+            Assert.AreEqual("[[Foo Bar|Bar]]", Parsers.FixLinkWhitespace("[[Foo  Bar|Bar]]", "Test"));
         }
 
         [Test]
@@ -3883,7 +3883,7 @@ Template:foo}}"));
             Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", "bar", out noChange));
 
             Assert.AreEqual(@"[[foo|bar]]", Parsers.FixSyntax(@"[[foo||bar]]"));
-            Assert.AreEqual("[[somelink#a]]", Parsers.FixSyntax("[[somelink_#a]]"));
+            Assert.AreEqual("[[somelink#a]]", Parsers.FixLinkWhitespace("[[somelink_#a]]", "Test"));
         }
 
         [Test]
@@ -4391,7 +4391,7 @@ Image:X.JPG|Japanese classification systemJapanese classification systemJapanese
             Assert.AreEqual(@"[[Foo]]  bar", Parsers.FixSyntax(@"[[Foo] ] bar"), "fixes links broken by punctuation");
             Assert.AreEqual(@"[[Foo]]''", Parsers.FixSyntax(@"[[Foo]'']"), "fixes links broken by punctuation");
 
-            Assert.AreEqual(@"[[panka Smith]] (Local national)", Parsers.FixSyntax(@"[panka  Smith]] (Local national)"), "bracket and whitespace fix in one");
+            Assert.AreEqual(@"[[panka Smith]] (Local national)", Parsers.FixLinkWhitespace(Parsers.FixSyntax(@"[panka  Smith]] (Local national)"), "Test"), "bracket and whitespace fix in one");
 
             const string Football = @"{{Infobox football biography
 | playername     = D
