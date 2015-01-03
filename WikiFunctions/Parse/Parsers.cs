@@ -5403,6 +5403,7 @@ namespace WikiFunctions.Parse
                 Match m = WikiRegexes.PipedWikiLink.Match(pl);
                 string a = m.Groups[1].Value.Trim();
 
+                // Must retain space after pipe in Category namespace
                 string b = (Namespace.Determine(a) != Namespace.Category)
                     ? m.Groups[2].Value.Trim()
                     : m.Groups[2].Value.TrimEnd(new[] { ' ' });
