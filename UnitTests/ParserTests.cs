@@ -6356,6 +6356,12 @@ was"));
 {{cn}} 
 }}", TemplateRedirects), "renames when template nested");
 
+            Assert.AreEqual(@"now {{citation needed|
+{{citation needed}} 
+}}", Parsers.TemplateRedirects(@"now {{fact|
+{{cn}} 
+}}", TemplateRedirects), "renames nested templates, both levels");
+
             Assert.AreEqual(@"now {{one|
 {{two|
 {{citation needed}} 

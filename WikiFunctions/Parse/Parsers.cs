@@ -2185,8 +2185,10 @@ namespace WikiFunctions.Parse
                 string all = String.Join(" ", TemplatesFound.Select(s => "{{" + s + "}}").ToArray());
                 TemplateRedirects = TemplateRedirects.Where(s => s.Key.IsMatch(all)).ToDictionary(x => x.Key, y => y.Value);
 
-                // performance: thirdly then run replacement for only those matching templates, and only against the matching rules
-                articleText = Tools.NestedTemplateRegex(TemplatesFound.ToList()).Replace(articleText, m2=>
+                // performance: thirdly then run replacement for only those matching templates, and only against the matching rules, handle nested templates
+                Regex MatchedTemplates = Tools.NestedTemplateRegex(TemplatesFound.ToList());
+                while(MatchedTemplates.IsMatch(articleText))
+                    articleText = MatchedTemplates.Replace(articleText, m2=>
                                                                               {
                                                                                   string res = m2.Value;
                                                                                   
