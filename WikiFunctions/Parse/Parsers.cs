@@ -2175,18 +2175,18 @@ namespace WikiFunctions.Parse
         {
             // performance: first check there's a match between templates used in article and listed template redirects
             // using intersection of HashSet lists of the two
-            HashSet<string> TFH = new HashSet<string>(GetAllTemplates(articleText));
-            TFH.IntersectWith(WikiRegexes.AllTemplateRedirectsHS);
+            HashSet<string> TemplatesFound = new HashSet<string>(GetAllTemplates(articleText));
+            TemplatesFound.IntersectWith(WikiRegexes.AllTemplateRedirectsHS);
 
             // run replacements only if matches found
-            if(TFH.Any())
+            if(TemplatesFound.Any())
             {
                 // performance: secondly filter the TemplateRedirects dictionary down to those rules matching templates used in article
-                string all = String.Join(" ", TFH.Select(s => "{{" + s + "}}").ToArray());
+                string all = String.Join(" ", TemplatesFound.Select(s => "{{" + s + "}}").ToArray());
                 TemplateRedirects = TemplateRedirects.Where(s => s.Key.IsMatch(all)).ToDictionary(x => x.Key, y => y.Value);
 
                 // performance: thirdly then run replacement for only those matching templates, and only against the matching rules
-                articleText = Tools.NestedTemplateRegex(TFH.ToList()).Replace(articleText, m2=>
+                articleText = Tools.NestedTemplateRegex(TemplatesFound.ToList()).Replace(articleText, m2=>
                                                                               {
                                                                                   string res = m2.Value;
                                                                                   
