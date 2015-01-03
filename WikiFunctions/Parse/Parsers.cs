@@ -4801,15 +4801,20 @@ namespace WikiFunctions.Parse
             }
 
             // call parser function for futher date fixes
-            dateFound = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + dateFound + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
+            if(dateFound.Length > 0)
+            {
+                dateFound = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + dateFound + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
 
-            dateFound = Tools.ConvertDate(dateFound, DeterminePredominantDateLocale(articletext, false)).Trim('-');
+                dateFound = Tools.ConvertDate(dateFound, DeterminePredominantDateLocale(articletext, false)).Trim('-');
 
-            // check ISO dates valid (in case dda used zeros for month/day)
-            if (dateFound.Contains("-") && !WikiRegexes.ISODates.IsMatch(dateFound))
-                return personData;
+                // check ISO dates valid (in case dda used zeros for month/day)
+                if (dateFound.Contains("-") && !WikiRegexes.ISODates.IsMatch(dateFound))
+                    return personData;
 
-            return Tools.SetTemplateParameterValue(personData, field, dateFound, true);
+                return Tools.SetTemplateParameterValue(personData, field, dateFound, true);
+            }
+            
+            return personData;
         }
 
         private static readonly Regex BracketedBirthDeathDate = new Regex(@"\(([^()]+)\)", RegexOptions.Compiled);
@@ -7106,8 +7111,6 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
-
-        //private static readonly Regex InfoboxValue = new Regex(@"\s*\|[^{}\|=]+?\s*=\s*.*", RegexOptions.Compiled);
 
         /// <summary>
         /// Returns the value of the given fields from the page's infobox, where available
