@@ -3821,7 +3821,7 @@ Template:foo}}"));
 
 #if debug
 			// In Chinese Wikipedia  the text inside and outside of the link should be directly connected
-            Variables.SetProjectLangCode("zh);
+            Variables.SetProjectLangCode("zh");
             Assert.AreEqual(@"their new[http://www.site.com site]", Parsers.FixSyntax(@"their new[http://www.site.com site]"));
             Assert.AreEqual(@"their new [http://www.site.com site]was", Parsers.FixSyntax(@"their new [http://www.site.com site]was"));
             Assert.AreEqual(@"their new[http://www.site.com site]was", Parsers.FixSyntax(@"their new[http://www.site.com site]was"));
