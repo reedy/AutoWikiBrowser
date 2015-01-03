@@ -2166,23 +2166,26 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// TemplateRedirects using HashSets
+        /// Most performant version of TemplateRedirects using HashSets
         /// </summary>
         /// <param name="articleText"></param>
         /// <param name="TemplateRedirects"></param>
         /// <returns></returns>
         private static string TemplateRedirectsHashSet(string articleText, Dictionary<Regex, string> TemplateRedirects)
         {
-            // performance: check there's a match between templates found and listed redirects
-            // using intersection of lists of the two
+            // performance: first check there's a match between templates used in article and listed template redirects
+            // using intersection of HashSet lists of the two
             HashSet<string> TFH = new HashSet<string>(GetAllTemplates(articleText));
-
-            // if matches found, run replacements
-            // performance: run replacements on templates from intersected list
             TFH.IntersectWith(WikiRegexes.AllTemplateRedirectsHS);
 
+            // run replacements only if matches found
             if(TFH.Any())
             {
+                // performance: secondly filter the TemplateRedirects dictionary down to those rules matching templates used in article
+                string all = String.Join(" ", TFH.Select(s => "{{" + s + "}}").ToArray());
+                TemplateRedirects = TemplateRedirects.Where(s => s.Key.IsMatch(all)).ToDictionary(x => x.Key, y => y.Value);
+
+                // performance: thirdly then run replacement for only those matching templates, and only against the matching rules
                 articleText = Tools.NestedTemplateRegex(TFH.ToList()).Replace(articleText, m2=>
                                                                               {
                                                                                   string res = m2.Value;
