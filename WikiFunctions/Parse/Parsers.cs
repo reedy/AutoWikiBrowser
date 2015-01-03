@@ -3411,7 +3411,8 @@ namespace WikiFunctions.Parse
             articleText = articleText.Replace(@"</strike>", @"</s>");
 
             // remove empty <gallery> tags
-            articleText = EmptyGallery.Replace(articleText, "");
+            while(EmptyGallery.IsMatch(articleText))
+                articleText = EmptyGallery.Replace(articleText, "");
 
             // fix italic html tags
             // <b /> may refer to </b> or <br />

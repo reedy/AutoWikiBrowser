@@ -3672,6 +3672,7 @@ Template:foo}}"));
             const string Gallery = @"<gallery>Image1.jpeg</gallery>";
 
             Assert.AreEqual(Gallery, Parsers.FixSyntax(Gallery));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<gallery> <gallery><gallery>   </gallery></gallery></gallery>"), "Cleans nested empty gallery tags");
         }
 
         [Test]
