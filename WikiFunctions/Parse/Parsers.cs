@@ -4578,15 +4578,16 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string PersonData(string articleText, string articleTitle)
         {
+            int personDataCount = WikiRegexes.Persondata.Matches(articleText).Count;
             if (!Variables.IsWikipediaEN
-                || WikiRegexes.Persondata.Matches(articleText).Count > 1
-                || (articleText.Contains("{{Persondata") && WikiRegexes.Persondata.Matches(articleText).Count == 0)) // skip in case of existing persondata with unbalanced brackets
+                || personDataCount > 1
+                || (articleText.Contains("{{Persondata") && personDataCount == 0)) // skip in case of existing persondata with unbalanced brackets
                 return articleText;
 
             string originalPersonData, newPersonData;
 
             // add default persondata if missing
-            if (!WikiRegexes.Persondata.IsMatch(articleText))
+            if (personDataCount == 0)
             {
                 if (IsArticleAboutAPerson(articleText, articleTitle, true))
                 {
