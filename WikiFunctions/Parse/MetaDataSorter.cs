@@ -315,7 +315,7 @@ en, sq, ru
 
 			string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
 
-			string interwikis = Tools.Newline(Interwikis(ref articleText));
+			string interwikis = Tools.Newline(Interwikis(ref articleText, TemplateExists(alltemplates, WikiRegexes.LinkFGAs))); 
 
 			if(Namespace.IsMainSpace(articleTitle))
 			{
@@ -348,7 +348,6 @@ en, sq, ru
 			        articleText = MoveExternalLinks(articleText);
 
 			        articleText = MoveSeeAlso(articleText);
-
 			    }
 			}
 			// two newlines here per https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
@@ -982,6 +981,17 @@ en, sq, ru
 			articleText = Tools.RemoveMatches(articleText, matches);
 			return linkFGAList;
 		}
+        
+        /// <summary>
+		/// Extracts all of the interwiki featured article and interwiki links from the article text
+		/// Ignores interwikis in comments/nowiki tags
+		/// </summary>
+		/// <param name="articleText">Article text with interwiki and interwiki featured article links removed</param>
+		/// <returns>string of interwiki featured article and interwiki links</returns>
+		public string Interwikis(ref string articleText)
+        {
+            return Interwikis(ref articleText, true);
+        }
 
 		/// <summary>
 		/// Extracts all of the interwiki featured article and interwiki links from the article text
@@ -989,7 +999,7 @@ en, sq, ru
 		/// </summary>
 		/// <param name="articleText">Article text with interwiki and interwiki featured article links removed</param>
 		/// <returns>string of interwiki featured article and interwiki links</returns>
-		public string Interwikis(ref string articleText)
+		public string Interwikis(ref string articleText, bool linkFGAsInText)
 		{
 		    string interWikiComment = "";
             if(articleText.Contains("<!--"))
@@ -999,7 +1009,11 @@ en, sq, ru
                                                          return "";
                                                      }, 1);
 
-			string interWikis = ListToString(RemoveLinkFGAs(ref articleText));
+            string interWikis = "";
+
+            // Only search for linkFGAs if necessary
+            if(linkFGAsInText)
+                interWikis = ListToString(RemoveLinkFGAs(ref articleText));
 
 			if(interWikiComment.Length > 0)
 				interWikis += interWikiComment + "\r\n";
@@ -1019,16 +1033,18 @@ en, sq, ru
 			List<string> interWikiList = new List<string>();
 
             // Performance: faster to get all wikilinks and filter on interwiki matches than simply run the regex on the whole article text
-            List<string> allWikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(articleText) where m.Value.Contains(":") select m.Value).ToList();
+            List<string> allWikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(articleText) where m.Value.Contains(":") select m.Value + "]]").ToList();
 
-            if(!allWikiLinks.Where(s => WikiRegexes.PossibleInterwikis.IsMatch(s + "]]")).Any())
+            string allPossibleInterwikis = String.Join(" ", allWikiLinks.ToArray());
+
+            if(!(from Match m in WikiRegexes.PossibleInterwikis.Matches(allPossibleInterwikis) where PossibleInterwikis.Contains(m.Groups[1].Value.Trim().ToLower()) select m.Value).Any())
                 return interWikiList;
 
 			// get all unformatted text in article to avoid taking interwikis from comments etc.
 		    StringBuilder ut = new StringBuilder();
 			foreach(Match u in WikiRegexes.UnformattedText.Matches(articleText))
 				ut.Append(u.Value);
-			
+
 			string unformattedText = ut.ToString();
 
 			List<Match> goodMatches = new List<Match>();
