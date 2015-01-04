@@ -750,20 +750,21 @@ en, sq, ru
 		private static readonly Regex SeeAlsoToEnd = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
 		/// <summary>
-		/// Moves template calls to the see also section of the article
+		/// Moves template calls to the top of the "see also" section of the article
 		/// </summary>
 		/// <param name="articleText">The article text</param>
 		/// <param name="TemplateToMove">The template calls to move</param>
 		/// <returns>The updated article text</returns>
 		public static string MoveTemplateToSeeAlsoSection(string articleText, Regex TemplateToMove)
 		{
+            MatchCollection mc = TemplateToMove.Matches(articleText);
 			// need to have a 'see also' section to move the template to
-			if(TemplateToMove.Matches(articleText).Count < 1 || WikiRegexes.SeeAlso.Matches(articleText).Count != 1)
+			if(mc.Count < 1 || WikiRegexes.SeeAlso.Matches(articleText).Count != 1)
 				return articleText;
 			
 			string originalArticletext = articleText;
 
-			foreach (Match m in TemplateToMove.Matches(articleText))
+			foreach (Match m in mc)
 			{
 				string TemplateFound = m.Value;
 				string seeAlsoSectionString = SeeAlsoSection.Match(articleText).Value;
@@ -783,7 +784,8 @@ en, sq, ru
 					articleText = Regex.Replace(articleText, @"^" + Regex.Escape(TemplateFound) + @" *(?:\r\n)?", "", RegexOptions.Multiline);
 
 					articleText = articleText.Replace(TemplateFound, "");
-					
+
+                    // place template at top of see also section
 					articleText = WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(TemplateFound));
 				}
 			}
