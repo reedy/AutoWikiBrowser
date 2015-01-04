@@ -5609,12 +5609,26 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             else
                 CategoryStart += "Category:";
 
-            // fix extra brackets: three or more at end
-            articleText = Regex.Replace(articleText, @"(" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])\]+", "$1");
-            // three or more at start
-            articleText = Regex.Replace(articleText, @"\[+(?=" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])", "");
+            // Performance: only need to apply changes to portion of article containing categories
+            Match cq = WikiRegexes.CategoryQuick.Match(articleText);
 
-            return WikiRegexes.LooseCategory.Replace(articleText, LooseCategoryME);
+            if(cq.Success)
+            {
+                // Allow some characters before category start in case of excess opening braces
+                int cutoff = Math.Max(0, cq.Index-2);
+                string cats = articleText.Substring(cutoff);
+
+                // fix extra brackets: three or more at end
+                cats = Regex.Replace(cats, @"(" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])\]+", "$1");
+                // three or more at start
+                cats = Regex.Replace(cats, @"\[+(?=" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])", "");
+
+                cats = WikiRegexes.LooseCategory.Replace(cats, LooseCategoryME);
+                
+                articleText = articleText.Substring(0, cutoff) + cats;
+            }
+            
+            return articleText;
         }
         
         private static string LooseCategoryME(Match m)
