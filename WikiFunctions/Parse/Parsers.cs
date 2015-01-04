@@ -5594,6 +5594,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         }
 
         private static readonly Regex WordWhitespaceEndofline = new Regex(@"(\w+)\s+$", RegexOptions.Compiled);
+        private static string CategoryStart;
 
         // Covered by: LinkTests.TestFixCategories()
         /// <summary>
@@ -5603,11 +5604,8 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string articleText)
         {
-            string CategoryStart = @"[[";
-            if(Variables.Namespaces.ContainsKey(Namespace.Category))
-                CategoryStart += Variables.Namespaces[Namespace.Category];
-            else
-                CategoryStart += "Category:";
+            if(string.IsNullOrEmpty(CategoryStart))
+                CategoryStart = @"[[" + (Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:");
 
             // Performance: only need to apply changes to portion of article containing categories
             Match cq = WikiRegexes.CategoryQuick.Match(articleText);
@@ -5630,10 +5628,9 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             
             return articleText;
         }
-        
+
         private static string LooseCategoryME(Match m)
         {
-            string CategoryStart = @"[[" + Variables.Namespaces[Namespace.Category];
             if (!Tools.IsValidTitle(m.Groups[1].Value))
                 return m.Value;
 
