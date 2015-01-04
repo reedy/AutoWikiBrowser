@@ -114,14 +114,11 @@ namespace WikiFunctions.ReplaceSpecial
         private void UpdateRegexOptionCheckboxes()
         {
             bool enable = ReplaceIsRegexCheckbox.Checked;
-            ReplaceIsCaseSensitiveCheckBox.Enabled = enable;
             ReplaceIsMultilineCheckBox.Enabled = enable;
             ReplaceIsSinglelineCheckbox.Enabled = enable;
             TestFind.Enabled = enable;
 
             enable = IfIsRegexCheckBox.Checked;
-            //now case-insensitive checks are supported
-            //IfIsCaseSensitiveCheckBox.Enabled = enable;
             IfIsMultilineCheckbox.Enabled = enable;
             IfIsSinglelineCheckBox.Enabled = enable;
             TestIf.Enabled = enable;
