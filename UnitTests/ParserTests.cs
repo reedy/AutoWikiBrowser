@@ -5913,36 +5913,28 @@ Bar", "Test"), "inserts blank line if one missing");
         public void TestFixHeadingsBadHeaders()
         {
             Assert.IsFalse(Parsers.FixHeadings(@"==Introduction==
-'''Foo''' great.", "Foo").Contains(@"==Introduction=="));
+'''Foo''' great.", "Foo").Contains(@"==Introduction=="), "Excess heading at start");
             Assert.IsFalse(Parsers.FixHeadings(@"==Introduction:==
-'''Foo''' great.", "Foo").Contains(@"==Introduction:=="));
-            Assert.IsFalse(Parsers.FixHeadings(@"==Introduction:==
-'''Foo''' great.", "Foo").Contains(@"==Introduction=="));
+'''Foo''' great.", "Foo").Contains(@"==Introduction:=="), "Excess heading at start, with colon");
             Assert.IsFalse(Parsers.FixHeadings(@"=='''Introduction'''==
-'''Foo''' great.", "Foo").Contains(@"==Introduction=="));
-            Assert.IsFalse(Parsers.FixHeadings(@"=='''Introduction'''==
-'''Foo''' great.", "Foo").Contains(@"=='''Introduction'''=="));
+'''Foo''' great.", "Foo").Contains(@"Introduction"), "Excess heading at start, with bold");
             Assert.IsFalse(Parsers.FixHeadings(@"=='''Introduction:'''==
-'''Foo''' great.", "Foo").Contains(@"=='''Introduction:'''=="));
-            Assert.IsFalse(Parsers.FixHeadings(@"=='''Introduction:'''==
-'''Foo''' great.", "Foo").Contains(@"=='''Introduction'''=="));
-            Assert.IsFalse(Parsers.FixHeadings(@"=='''Introduction:'''==
-'''Foo''' great.", "Foo").Contains(@"==Introduction:=="));
-            Assert.IsFalse(Parsers.FixHeadings(@"=='''Introduction:'''==
-'''Foo''' great.", "Foo").Contains(@"==Introduction=="));
+'''Foo''' great.", "Foo").Contains(@"=='''Introduction:'''=="), "Excess heading at start, with bold and colon");
+            Assert.IsFalse(Parsers.FixHeadings(@"===Introduction===
+'''Foo''' great.", "Foo").Contains(@"===Introduction==="), "Excess heading at start, level 3");
 
             Assert.IsFalse(Parsers.FixHeadings(@"==About==
-'''Foo''' great.", "Foo").Contains(@"==About=="));
+'''Foo''' great.", "Foo").Contains(@"==About=="), "Excess heading at start About");
             Assert.IsFalse(Parsers.FixHeadings(@"==Description==
-'''Foo''' great.", "Foo").Contains(@"==Description=="));
+'''Foo''' great.", "Foo").Contains(@"==Description=="), "Excess heading at start Description");
             Assert.IsFalse(Parsers.FixHeadings(@"==Overview==
-'''Foo''' great.", "Foo").Contains(@"==Overview=="));
+'''Foo''' great.", "Foo").Contains(@"==Overview=="), "Excess heading at start Overview");
             Assert.IsFalse(Parsers.FixHeadings(@"==Definition==
-'''Foo''' great.", "Foo").Contains(@"==Definition=="));
+'''Foo''' great.", "Foo").Contains(@"==Definition=="), "Excess heading at start Definition");
             Assert.IsFalse(Parsers.FixHeadings(@"==Profile==
-'''Foo''' great.", "Foo").Contains(@"==Profile=="));
+'''Foo''' great.", "Foo").Contains(@"==Profile=="), "Excess heading at start Profile");
             Assert.IsFalse(Parsers.FixHeadings(@"==General information==
-'''Foo''' great.", "Foo").Contains(@"==General information=="));
+'''Foo''' great.", "Foo").Contains(@"==General information=="), "Excess heading at start General information");
 
             Assert.AreEqual(Parsers.FixHeadings(@"==Introduction==
 '''Foo''' great.", "Foo"),@"
