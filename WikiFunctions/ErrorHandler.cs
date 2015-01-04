@@ -101,7 +101,7 @@ namespace WikiFunctions
 
             var thread = ex is ApiException ? (ex as ApiException).ThrowingThread : Thread.CurrentThread;
             if (thread.Name != "Main thread")
-                errorMessage.AppendLine("nThread: " + thread.Name);
+                errorMessage.AppendLine("Thread: " + thread.Name);
 
             errorMessage.Append("<table>");
             FormatException(ex, errorMessage, ExceptionKind.TopLevel);
