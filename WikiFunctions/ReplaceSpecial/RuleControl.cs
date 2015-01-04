@@ -114,6 +114,8 @@ namespace WikiFunctions.ReplaceSpecial
         private void UpdateRegexOptionCheckboxes()
         {
             bool enable = ReplaceIsRegexCheckbox.Checked;
+            ReplaceIsMultilineCheckBox.Enabled = enable;
+            ReplaceIsSinglelineCheckbox.Enabled = enable;
             TestFind.Enabled = enable;
 
             enable = IfIsRegexCheckBox.Checked;
