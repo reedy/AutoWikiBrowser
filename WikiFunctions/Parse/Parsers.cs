@@ -800,10 +800,9 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            int firstPortal = WikiRegexes.PortalTemplate.Match(articleText).Index;
-
             string originalArticleText = articleText;
             List<string> Portals = new List<string>();
+            int firstPortal = WikiRegexes.PortalTemplate.Match(articleText).Index;
 
             foreach (Match m in WikiRegexes.PortalTemplate.Matches(articleText))
             {
@@ -6344,14 +6343,17 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns></returns>
         public static bool CategoryMatch(string articleText, string categoryName)
         {
-            // quick check for performance
-            if(articleText.IndexOf(categoryName, StringComparison.OrdinalIgnoreCase) == -1)
-                return false;
-            
-            Regex anyCategory = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
-                                          @"\s*" + Regex.Escape(categoryName) + @"\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+            // for performance only search article from first category
+            Match cq = WikiRegexes.CategoryQuick.Match(articleText);
 
-            return anyCategory.IsMatch(articleText);
+            if(cq.Success)
+            {
+                Regex anyCategory = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] + @"\s*" + Regex.Escape(categoryName) + @"\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.IgnoreCase);
+
+                return anyCategory.IsMatch(articleText.Substring(cq.Index));
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -7260,6 +7262,9 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         {
             articleText = articleText.Replace("{{msg:", "{{");
 
+            // Performance: get all the templates so template changing functions below only called when template(s) present in article
+            List<string> alltemplates = Parsers.GetAllTemplates(articleText);
+
             foreach (KeyValuePair<Regex, string> k in RegexConversion)
             {
                 articleText = k.Key.Replace(articleText, k.Value);
@@ -7267,7 +7272,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             bool BASEPAGENAMEInRefs = false;
 
-            if(WikiRegexes.BASEPAGENAMETemplates.IsMatch(articleText))
+            if(TemplateExists(alltemplates, WikiRegexes.BASEPAGENAMETemplates))
             {
                 foreach (Match m in WikiRegexes.Refs.Matches(articleText))
                 {
@@ -7287,20 +7292,20 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> or {{sfn}} references in article, uses regex from WikiRegexes.Refs
             // does not change templates with section / reason tags
-            if (NoFootnotes.IsMatch(articleText) && (Footnote.IsMatch(articleText) || TotalRefsNotGrouped(articleText) > 0))
+            if (TemplateExists(alltemplates, NoFootnotes) && (TemplateExists(alltemplates, Footnote) || TotalRefsNotGrouped(articleText) > 0))
                 articleText = NoFootnotes.Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes"));
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
             articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
 
-            bool mifound = false;
-            articleText = WikiRegexes.MultipleIssues.Replace(articleText, m =>
-                                                             {
-                                                                 mifound = true;
-                                                                 return Tools.RemoveExcessTemplatePipes(m.Value);
-                                                             });
+            bool mifound = TemplateExists(alltemplates, WikiRegexes.MultipleIssues);
+
             if(mifound)
             {
+                articleText = WikiRegexes.MultipleIssues.Replace(articleText, m =>
+                                                             {
+                                                                 return Tools.RemoveExcessTemplatePipes(m.Value);
+                                                             });
                 // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)
                 while (MultipleIssuesUndatedTags.IsMatch(articleText))
                     articleText = MultipleIssuesUndatedTags.Replace(articleText, "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
@@ -7346,20 +7351,32 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                 articleText = Tools.RenameTemplate(articleText, "refimprove section", "BLP sources section", false);
             }
 
-            articleText = MergePortals(articleText);
+            if(TemplateExists(alltemplates, WikiRegexes.PortalTemplate))
+                articleText = MergePortals(articleText);
 
-            articleText = MergeTemplatesBySection(articleText);
+            if(TemplateExists(alltemplates, SectionMergedTemplatesR))
+                articleText = MergeTemplatesBySection(articleText);
 
             // clean up Template:/underscores in infobox names
-            articleText = WikiRegexes.InfoBox.Replace(articleText, m =>
+            if(TemplateExists(alltemplates, WikiRegexes.InfoBox))
+                articleText = WikiRegexes.InfoBox.Replace(articleText, m =>
                                                       {
                                                           string newName = CanonicalizeTitle(m.Groups[1].Value);
                                                           return (newName.Equals(m.Groups[1].Value) ? m.Value : Tools.RenameTemplate(m.Value, newName));
                                                       });
 
-            articleText = Dablinks(articleText);
+            if(TemplateExists(alltemplates, WikiRegexes.Dablinks))
+                articleText = Dablinks(articleText);
 
             return articleText;
+        }
+        
+        /// <summary>
+        /// Returns whether the given regex matches any of the (first name upper) templates in the given list
+        /// </summary>
+        private static bool TemplateExists(List<string> templatesFound, Regex r)
+        {
+            return templatesFound.Where(s => r.IsMatch(@"{{" + s + "|}}")).Any();
         }
 
         private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", "BLP sources", "expand", "BLP unsourced" });
