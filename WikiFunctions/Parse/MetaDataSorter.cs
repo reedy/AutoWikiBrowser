@@ -360,6 +360,8 @@ en, sq, ru
 			    strStub = Tools.Newline(RemoveStubs(ref articleText), (Variables.LangCode.Equals("ru") || Variables.LangCode.Equals("sl") || Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz")) ? 1 : 2);
 
 			// filter out excess white space and remove "----" from end of article
+            if(Namespace.IsMainSpace(articleTitle))
+                articleText = articleText.TrimEnd(); // better to trim here than process more slowly in RemoveWhiteSpace where <poem> checks etc. needed
 			articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
 
 			articleText += disambig;
