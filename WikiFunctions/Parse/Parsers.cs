@@ -231,7 +231,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadingsLifeCareer = new Regex("(== *)Life and Career( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase);
 
-        private static readonly Regex RegexBadHeaderStartOfAticle = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexBadHeaderStartOfAticle = new Regex("^={1,4} ?'*(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?)'* ?={1,4}", RegexOptions.IgnoreCase);
 
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline);
         private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s");
@@ -270,6 +270,9 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixHeadings(string articleText, string articleTitle)
         {
+            // remove unnecessary general header from start of article
+            articleText = RegexBadHeaderStartOfAticle.Replace(articleText, "");
+
             // one blank line before each heading per MOS:HEAD
             // avoid special case of indented text that may be code with lost of == that matches a heading
             if (Variables.IsWikipediaEN)
@@ -279,13 +282,15 @@ namespace WikiFunctions.Parse
                     articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, m => m.Groups[2].Value.Contains("==") ? m.Value : "\r\n\r\n" + m.Groups[1].Value);
             }
 
+            // Fixes after this do not need to be applied to zeroth section (which may be very long on some articles), so for performance only appply to text after zeroth section
+            string zerothSection = Tools.GetZerothSection(articleText);
+            string restOfArticle = articleText.Substring(zerothSection.Length);
+            articleText = restOfArticle;
+
             // Removes level 2 heading if it matches pagetitle
             articleText = Regex.Replace(articleText, @"^(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
 
             articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m));
-
-            // remove unnecessary general header from start of article
-            articleText = RegexBadHeaderStartOfAticle.Replace(articleText, "");
 
             // CHECKWIKI error 8. Add missing = in some headers
             articleText = ReferencesExternalLinksSeeAlsoUnbalancedRight.Replace(articleText, "$1=\r\n");
@@ -323,7 +328,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            return articleText;
+            return zerothSection + articleText;
         }
 
         private static readonly Regex SpaceNewLineEnd = new Regex(@" +(\s+)$");
