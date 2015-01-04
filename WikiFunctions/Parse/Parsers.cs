@@ -307,6 +307,7 @@ namespace WikiFunctions.Parse
                     originalarticleText = articleText;
                     if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
                     {
+                        // get index of last level 3+ heading
                         int upone = 0;
                         foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
                         {
