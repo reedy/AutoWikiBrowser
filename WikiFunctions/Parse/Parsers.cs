@@ -299,24 +299,27 @@ namespace WikiFunctions.Parse
             articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
 
             // only apply if all level 3 headings and lower are before the fist of references/external links/see also
-            string originalarticleText = "";
-            while (!originalarticleText.Equals(articleText))
+            if (Namespace.IsMainSpace(articleTitle))
             {
-                originalarticleText = articleText;
-                if (Namespace.IsMainSpace(articleTitle) && !WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
+                string originalarticleText = "";
+                while (!originalarticleText.Equals(articleText))
                 {
-                    int upone = 0;
-                    foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
+                    originalarticleText = articleText;
+                    if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
                     {
-                        if (m.Index > upone)
-                            upone = m.Index;
+                        int upone = 0;
+                        foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
+                        {
+                            if (m.Index > upone)
+                                upone = m.Index;
+                        }
+
+                        if (!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
+                            articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
                     }
 
-                    if (!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
-                        articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
+                    articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleText, "");
                 }
-
-                articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleText, "");
             }
 
             return articleText;
