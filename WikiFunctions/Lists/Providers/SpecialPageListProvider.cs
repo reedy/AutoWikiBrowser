@@ -71,6 +71,7 @@ namespace WikiFunctions.Lists.Providers
             }
         }
 
+        // ReSharper disable once RedundantAssignment
         public List<Article> MakeList(params string[] searchCriteria)
         {
             if (Visible)
@@ -82,7 +83,7 @@ namespace WikiFunctions.Lists.Providers
 
             if (ShowDialog() == DialogResult.OK)
             {
-                searchCriteria = txtPages.Text.Split(new [] { '|' });
+                searchCriteria = txtPages.Text.Split('|');
 
                 ISpecialPageProvider item = (ISpecialPageProvider)cmboSourceSelect.SelectedItem;
 
@@ -91,7 +92,7 @@ namespace WikiFunctions.Lists.Providers
                 else if (item.PagesNeeded)
                     MessageBox.Show("Pages needed!");
                 else
-                    list = item.MakeList(Namespace.Determine(cboNamespace.Text), new[] { "" });
+                    list = item.MakeList(Namespace.Determine(cboNamespace.Text), "");
             }
 
             Hide();
