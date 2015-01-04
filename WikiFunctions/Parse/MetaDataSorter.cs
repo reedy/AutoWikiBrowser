@@ -759,23 +759,30 @@ en, sq, ru
 		{
             MatchCollection mc = TemplateToMove.Matches(articleText);
 			// need to have a 'see also' section to move the template to
-			if(mc.Count < 1 || WikiRegexes.SeeAlso.Matches(articleText).Count != 1)
+			if(mc.Count < 1)
 				return articleText;
 			
 			string originalArticletext = articleText;
+            bool templateMoved = false;
 
 			foreach (Match m in mc)
 			{
 				string TemplateFound = m.Value;
-				string seeAlsoSectionString = SeeAlsoSection.Match(articleText).Value;
-				int seeAlsoIndex = SeeAlsoSection.Match(articleText).Index;
+                Match sa = SeeAlsoSection.Match(articleText);
+				string seeAlsoSectionString = sa.Value;
+				int seeAlsoIndex = sa.Index;
 
 				// if SeeAlsoSection didn't match then 'see also' must be last section
 				if (seeAlsoSectionString.Length == 0)
 				{
-					seeAlsoSectionString = SeeAlsoToEnd.Match(articleText).Value;
-					seeAlsoIndex = SeeAlsoToEnd.Match(articleText).Index;
+                    Match sae = SeeAlsoToEnd.Match(articleText);
+					seeAlsoSectionString = sae.Value;
+					seeAlsoIndex = sae.Index;
 				}
+                
+                // if still not found then no "see also" section to move templates to
+                if (seeAlsoSectionString.Length == 0)
+                    break;
 
 				// only move templates NOT currently in 'see also'
 				if (m.Index < seeAlsoIndex || m.Index > (seeAlsoIndex + seeAlsoSectionString.Length))
@@ -787,10 +794,11 @@ en, sq, ru
 
                     // place template at top of see also section
 					articleText = WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(TemplateFound));
+                    templateMoved = true;
 				}
 			}
 
-			if(Tools.UnformattedTextNotChanged(originalArticletext, articleText))
+			if(templateMoved && Tools.UnformattedTextNotChanged(originalArticletext, articleText))
 				return articleText;
 
 			return originalArticletext;
