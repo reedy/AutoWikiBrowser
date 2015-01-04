@@ -400,7 +400,7 @@ en, sq, ru
 			        articleText += personData + categories + strStub;
 			        break;
 			}
-			articleText = (articleText + interwikis);
+			articleText += interwikis;
 
 			// Only trim start on Category namespace, restore any saved short page monitor text
 			return (Namespace.Determine(articleTitle) == Namespace.Category ?  articleText.Trim() : articleText.TrimEnd()) + shortPagesMonitor;
