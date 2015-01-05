@@ -3497,21 +3497,27 @@ namespace WikiFunctions.Parse
             // [[Category:foo}}
             articleText = CategoryCurlyBracketsEnd.Replace(articleText, @"[[$1]]");
 
-            // fixes for missing/unbalanced brackets
-            articleText = RefCitationMissingOpeningBraces.Replace(articleText, @"$1{{$2");
-            articleText = RefTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
+            // fixes for missing/unbalanced brackets, for performance only run if article has unbalanced templates
+            string withouttemplates = WikiRegexes.NestedTemplates.Replace(articleText, "");
+
+            if(withouttemplates.IndexOf("{{", StringComparison.Ordinal) > -1 || withouttemplates.IndexOf("}}", StringComparison.Ordinal) > -1)
+            {
+                articleText = RefCitationMissingOpeningBraces.Replace(articleText, @"$1{{$2");
+                articleText = RefTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
+                articleText = TemplateIncorrectBracesAtStart.Replace(articleText, @"{{$1");
+                articleText = CitationTemplateSingleBraceAtStart.Replace(articleText, @"{$1");
+                if(ReferenceTemplateQuadBracesAtEndQuick.IsMatch(articleText))
+                    articleText = ReferenceTemplateQuadBracesAtEnd.Replace(articleText, @"$1");
+                articleText = CitationTemplateIncorrectBraceAtStart.Replace(articleText, @"{{$1");
+                if(CitationTemplateIncorrectBracesAtEndQuick.IsMatch(articleText))
+                    articleText = CitationTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
+            }
+
             articleText = RefExternalLinkUsingBraces.Replace(articleText, @"[$1$2]$3");
-            articleText = TemplateIncorrectBracesAtStart.Replace(articleText, @"{{$1");
-            articleText = CitationTemplateSingleBraceAtStart.Replace(articleText, @"{$1");
-            if(ReferenceTemplateQuadBracesAtEndQuick.IsMatch(articleText))
-                articleText = ReferenceTemplateQuadBracesAtEnd.Replace(articleText, @"$1");
-            articleText = CitationTemplateIncorrectBraceAtStart.Replace(articleText, @"{{$1");
-            if(CitationTemplateIncorrectBracesAtEndQuick.IsMatch(articleText))
-                articleText = CitationTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
             articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"$1[$2");
             articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"$1]$2");
-            articleText = BracesWithinDefaultsort.Replace(articleText, @"$1}}");
 
+            articleText = BracesWithinDefaultsort.Replace(articleText, @"$1}}");
 			// adds missing http:// to bare url references lacking it - CHECKWIKI error 62
 			articleText = RefURLMissingHttp.Replace(articleText,@"$1http://www.");
 
