@@ -4050,9 +4050,9 @@ world</font>"));
             Assert.AreEqual(@"<ref name=""Fred"">{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=""Fred"">{cite web|url=a|title=b}}</ref>"));
             Assert.AreEqual(@"<ref>{{citation|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{citation|url=a|title=b}}</ref>"));
 
-            Assert.AreEqual(@"<ref> {{Citation|", Parsers.FixSyntax(@"<ref> {Citation|"));
-            Assert.AreEqual(@"<ref> {{cite web|", Parsers.FixSyntax(@"<ref> {cite web|"));
-            Assert.AreEqual(@"* {{Citation|", Parsers.FixSyntax(@"* {Citation|"));
+            Assert.AreEqual(@"<ref> {{Citation|title=}}", Parsers.FixSyntax(@"<ref> {Citation|title=}}"));
+            Assert.AreEqual(@"<ref> {{cite web|title=}}", Parsers.FixSyntax(@"<ref> {cite web|title=}}"));
+            Assert.AreEqual(@"* {{Citation|title=}}", Parsers.FixSyntax(@"* {Citation|title=}}"));
 
             Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}}</ref>"));
             Assert.AreEqual(@"<ref> {{cite web|url=a|title=b}} </ref>", Parsers.FixSyntax(@"<ref> {{cite web|url=a|title=b}}}} </ref>"));
