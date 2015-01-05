@@ -1324,6 +1324,10 @@ There}}"), "handles parameters with newlines");
             Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));
 
             Assert.IsTrue(returned.Count.Equals(2));
+            
+            Assert.AreEqual(Tools.GetTemplateParametersValues(template, parameters)[0],"abc");
+            Assert.AreEqual(Tools.GetTemplateParametersValues(template, parameters)[1],"1 May 2009");
+
 
             parameters.Add("page");
             returned.Add("");
