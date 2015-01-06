@@ -3721,17 +3721,29 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         private static string FixSmallTags(string articleText)
         {
-            // don't apply if there are uncosed tags
-            if (!WikiRegexes.Small.IsMatch(articleText) || UnclosedTags(articleText).Count > 0)
-                return articleText;
+            Match sm = WikiRegexes.Small.Match(articleText);
 
-            foreach (Regex rx in SmallTagRegexes)
+            // Performance: restrict changes to portion of article text containing small tags
+            if(sm.Success)
             {
-                articleText = rx.Replace(articleText, FixSmallTagsME);
-            }
+                int cutoff = Math.Max(0, sm.Index-999);
+                string beforesmall = articleText.Substring(0, cutoff);
+                articleText = articleText.Substring(cutoff);
 
-            // fixes for small tags surrounding ref/sup/sub tags
-            articleText = WikiRegexes.Small.Replace(articleText, FixSmallTagsME2);
+                // don't apply if there are uncosed tags
+                if (UnclosedTags(articleText).Count == 0)
+                {
+                    foreach(Regex rx in SmallTagRegexes)
+                    {
+                        articleText = rx.Replace(articleText, FixSmallTagsME);
+                    }
+
+                    // fixes for small tags surrounding ref/sup/sub tags
+                    articleText = WikiRegexes.Small.Replace(articleText, FixSmallTagsME2);
+                }
+
+                return beforesmall + articleText;
+            }
 
             return articleText;
         }
