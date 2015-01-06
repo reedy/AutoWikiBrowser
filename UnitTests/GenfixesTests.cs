@@ -340,7 +340,7 @@ a");
 [[Category:Blues rock groups]]
 
 
-{{Norway-band-stub}}", after = @"{{multiple issues|
+{{Norway-band-stub}}", after = @"{{Multiple issues|
 {{Unreferenced|date=December 2009}}
 {{Underlinked|date=November 2006}}
 {{Notability|1=Music|date=September 2010}}

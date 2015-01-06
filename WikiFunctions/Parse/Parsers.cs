@@ -678,7 +678,7 @@ namespace WikiFunctions.Parse
             // multiple issues with some old style tags would have new style added
             
             if(!existingMultipleIssues)
-                zerothsection = @"{{multiple issues}}" + "\r\n" + zerothsection;
+                zerothsection = @"{{Multiple issues}}" + "\r\n" + zerothsection;
             
             // add each template to MI
             foreach(Match m in Templates.Matches(zerothsectionNoMI))
@@ -755,7 +755,7 @@ namespace WikiFunctions.Parse
             }
             else // create new MI and add each template
             {
-                newsection = "{{multiple issues|section=yes|\r\n";
+                newsection = "{{Multiple issues|section=yes|\r\n";
                 
                 foreach(Match m in Templates.Matches(sectionPortion))
                     newsection += (m.Value + "\r\n");

@@ -11434,13 +11434,13 @@ foo
         {
             Assert.AreEqual(@"", parser.MultipleIssues(@""));
             
-            Assert.AreEqual(@"{{multiple issues|
+            Assert.AreEqual(@"{{Multiple issues|
 {{wikify}}
 {{unreferenced}}
 {{POV}}
 }}", parser.MultipleIssues(@"{{wikify}} {{unreferenced}} {{POV}}"), "preserves tag order adding new tags");
             
-            Assert.AreEqual(@"{{multiple issues|
+            Assert.AreEqual(@"{{Multiple issues|
 {{wikify}}
 {{unreferenced}}
 {{POV}}
@@ -11449,7 +11449,7 @@ foo
 ==hello==", parser.MultipleIssues(@"{{wikify}}{{unreferenced}}{{POV}}
 ==hello=="), "takes tags from same line");
             
-            Assert.AreEqual(@"{{multiple issues|
+            Assert.AreEqual(@"{{Multiple issues|
 {{wikify}}
 {{unreferenced}}
 {{POV}}
@@ -11466,7 +11466,7 @@ foo
         [Test]
         public void MultipleIssuesNewZerothTagParameters()
         {
-            Assert.AreEqual(@"{{multiple issues|
+            Assert.AreEqual(@"{{Multiple issues|
 {{underlinked|date=May 2012}}
 {{unreferenced}}
 {{POV}}
@@ -11475,7 +11475,7 @@ foo
 ==hello==", parser.MultipleIssues(@"{{underlinked|date=May 2012}}{{unreferenced}}{{POV}}
 ==hello=="), "takes tags with dates");
             
-            Assert.AreEqual(@"{{multiple issues|
+            Assert.AreEqual(@"{{Multiple issues|
 {{underlinked|date=May 2012|reason=x}}
 {{unreferenced}}
 {{POV}}
@@ -11488,7 +11488,7 @@ foo
         [Test]
         public void MultipleIssuesNewTagZeroth()
         {
-            Assert.AreEqual(@"{{multiple issues|
+            Assert.AreEqual(@"{{Multiple issues|
 {{underlinked|date=May 2012}}
 {{unreferenced}}
 {{POV}}
@@ -11501,7 +11501,7 @@ Text
 {{POV}}
 ==hello=="), "takes tags from anywhere in zeroth section");
             
-            Assert.AreEqual(@"{{multiple issues|
+            Assert.AreEqual(@"{{Multiple issues|
 {{underlinked|date=May 2012}}
 {{unreferenced}}
 {{POV}}
@@ -11722,7 +11722,7 @@ Text
             Assert.AreEqual(@"", parser.MultipleIssues(@""));
             
             Assert.AreEqual(@"==sec==
-{{multiple issues|section=yes|
+{{Multiple issues|section=yes|
 {{wikify section}}
 {{expand section}}
 {{POV-section}}
@@ -11730,7 +11730,7 @@ Text
 {{wikify section}} {{expand section}} {{POV-section}}"), "preserves tag order adding new tags");
             
             Assert.AreEqual(@"==sec==
-{{multiple issues|section=yes|
+{{Multiple issues|section=yes|
 {{wikify section}}
 {{expand section}}
 {{POV-section}}
@@ -11742,7 +11742,7 @@ A
 ==hello=="), "takes tags from same line");
             
             Assert.AreEqual(@"==sec==
-{{multiple issues|section=yes|
+{{Multiple issues|section=yes|
 {{wikify section}}
 {{expand section}}
 {{POV-section}}
@@ -11760,7 +11760,7 @@ A
         public void MultipleIssuesNewSectionTagParameters()
         {
             Assert.AreEqual(@"==sec==
-{{multiple issues|section=yes|
+{{Multiple issues|section=yes|
 {{wikify section|date=May 2012}}
 {{expand section}}
 {{POV-section}}
@@ -11772,7 +11772,7 @@ A
 ==hello=="), "takes tags with dates");
             
             Assert.AreEqual(@"==sec==
-{{multiple issues|section=yes|
+{{Multiple issues|section=yes|
 {{wikify section|date=May 2012|reason=x}}
 {{expand section}}
 {{POV-section}}
@@ -11795,7 +11795,7 @@ Text
             Assert.AreEqual(After, parser.MultipleIssues(After), "Does not take tags from after text in section");
 
             Assert.AreEqual(@"==sec==
-{{multiple issues|section=yes|
+{{Multiple issues|section=yes|
 {{wikify section|date=May 2012}}
 {{expand section}}
 {{POV-section}}
