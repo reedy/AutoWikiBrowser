@@ -3558,8 +3558,14 @@ namespace WikiFunctions.Parse
             //fix uneven bracketing on links
             if(articleText.ToLower().Contains("[[http"))
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
-            articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
-            articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
+
+            string nobrackets = SingleSquareBrackets.Replace(articleText, "");
+            if(nobrackets.IndexOf('[') > -1 || nobrackets.IndexOf(']') > -1)
+            {
+                articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
+                articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
+            }
+
             articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
