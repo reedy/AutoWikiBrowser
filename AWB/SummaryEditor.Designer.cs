@@ -81,7 +81,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(395, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Default &Edit Summaries (AWB will use these as the start of the page edit summary"):";
+            this.label1.Text = "Default &Edit Summaries (AWB will use these as the start of the page edit summary" +
+    "):";
             // 
             // SummaryEditor
             // 
