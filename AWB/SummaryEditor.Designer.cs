@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Summaries = new System.Windows.Forms.TextBox();
+            this.Summaries = new System.Windows.Forms.RichTextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnSort = new System.Windows.Forms.Button();
@@ -37,13 +37,12 @@
             // 
             // Summaries
             // 
-            this.Summaries.AcceptsReturn = true;
             this.Summaries.Location = new System.Drawing.Point(12, 25);
-            this.Summaries.Multiline = true;
-            this.Summaries.Name = "Default Edit Summaries";
-            this.Summaries.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Summaries.Name = "Summaries";
+            this.Summaries.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.Summaries.Size = new System.Drawing.Size(609, 299);
             this.Summaries.TabIndex = 1;
+            this.Summaries.Text = "";
             // 
             // btnCancel
             // 
@@ -80,9 +79,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 13);
+            this.label1.Size = new System.Drawing.Size(395, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Default &Edit Summaries (AWB will use these as the start of the page edit summary):";
+            this.label1.Text = "Default &Edit Summaries (AWB will use these as the start of the page edit summary"):";
             // 
             // SummaryEditor
             // 
@@ -108,7 +107,7 @@
 
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
-        public System.Windows.Forms.TextBox Summaries;
+        public System.Windows.Forms.RichTextBox Summaries;
         private System.Windows.Forms.Button btnSort;
         private System.Windows.Forms.Label label1;
     }
