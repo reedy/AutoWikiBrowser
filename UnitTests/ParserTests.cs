@@ -2290,13 +2290,13 @@ B"));
         {
             Assert.AreEqual(@"here [http://www.site.com text here]", Parsers.FixSyntax(@"here [http://www.site.com text
 here]"), "newline removed");
-            Assert.AreEqual(@"here [http://www.site.com text here ]", Parsers.FixSyntax(@"here [http://www.site.com text here
-]"), "newline removed");
+            Assert.AreEqual(@"here [http://www.site.com text here2 ]", Parsers.FixSyntax(@"here [http://www.site.com text here2
+]"), "newline removed2");
             Assert.AreEqual(@"here [http://www.site.com text here there]", Parsers.FixSyntax(@"here [http://www.site.com text
 here
 there]"), "multiple newlines removed");
             Assert.AreEqual(@"here [http://www.site.com text here]", Parsers.FixSyntax(@"here [http://www.site.com |text
-here]"), "newline removed");
+here]"), "newline removed3");
 
             Assert.AreEqual(@"here [http://www.site.com text here]", Parsers.FixSyntax(@"here [http://www.site.com text here]"), "no change if no new line");
         }
@@ -3615,12 +3615,12 @@ Template:foo}}"));
         public void FixSyntaxExternalLinkBrackets()
         {
             Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[http://example.com] site"));
-            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[http://example.com] site"));
-            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[[http://example.com] site"));
-            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[http://example.com]] site"));
-            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[http://example.com]] site"));
-            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[[http://example.com]]] site"));
-            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[ http://example.com]] site"));
+            Assert.AreEqual("[http://example.com] site2", Parsers.FixSyntax("[[http://example.com] site2"));
+            Assert.AreEqual("[http://example.com] site3", Parsers.FixSyntax("[[[http://example.com] site3"));
+            Assert.AreEqual("[http://example.com] site4", Parsers.FixSyntax("[http://example.com]] site4"));
+            Assert.AreEqual("[http://example.com] site5", Parsers.FixSyntax("[[http://example.com]] site5"));
+            Assert.AreEqual("[http://example.com] site6", Parsers.FixSyntax("[[[http://example.com]]] site6"));
+            Assert.AreEqual("[http://example.com] site7", Parsers.FixSyntax("[[ http://example.com]] site7"));
             Assert.AreEqual(@"[http://example.com]
 * List 2", Parsers.FixSyntax(@"[[http://example.com
 * List 2"));
