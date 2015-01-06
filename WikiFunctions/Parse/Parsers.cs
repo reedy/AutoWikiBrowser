@@ -3726,7 +3726,7 @@ namespace WikiFunctions.Parse
             // Performance: restrict changes to portion of article text containing small tags
             if(sm.Success)
             {
-                int cutoff = Math.Max(0, sm.Index-999);
+                int cutoff = Math.Max(0, sm.Index-999); // if <ref><small> then must allow offset before <small> tag
                 string beforesmall = articleText.Substring(0, cutoff);
                 articleText = articleText.Substring(cutoff);
 
