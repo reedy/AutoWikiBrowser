@@ -3620,7 +3620,7 @@ Template:foo}}"));
             Assert.AreEqual("[http://example.com] site4", Parsers.FixSyntax("[http://example.com]] site4"));
             Assert.AreEqual("[http://example.com] site5", Parsers.FixSyntax("[[http://example.com]] site5"));
             Assert.AreEqual("[http://example.com] site6", Parsers.FixSyntax("[[[http://example.com]]] site6"));
-            Assert.AreEqual("[http://example.com] site7", Parsers.FixSyntax("[[ http://example.com]] site7"));
+            Assert.AreEqual("[http://example.com] site7", Parsers.FixSyntax(Parsers.FixLinkWhitespace("[[ http://example.com]] site7", "Test")));
             Assert.AreEqual(@"[http://example.com]
 * List 2", Parsers.FixSyntax(@"[[http://example.com
 * List 2"));
