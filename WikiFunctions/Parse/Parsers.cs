@@ -3577,8 +3577,8 @@ namespace WikiFunctions.Parse
 
             if (!Variables.LangCode.Equals("zh"))
             {
-            articleText = ExternalLinkWordSpacingBefore.Replace(articleText, " $1");
-            articleText = ExternalLinkWordSpacingAfter.Replace(articleText, "$1 $2");
+                articleText = ExternalLinkWordSpacingBefore.Replace(articleText, " $1");
+                articleText = ExternalLinkWordSpacingAfter.Replace(articleText, "$1 $2");
             }
 
             // CHECKWIKI error 65: Image description ends with break – https://tools.wmflabs.org/checkwiki/cgi-bin/checkwiki.cgi?project=enwiki&view=only&id=65
