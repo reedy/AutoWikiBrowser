@@ -3523,11 +3523,10 @@ namespace WikiFunctions.Parse
 
             // fixes for external links: internal square brackets, newlines or pipes - Partially CHECKWIKI error 80
             // Performance: filter down to matches with likely external link (contains //) and has pipe, newline or internal square brackets
-            List<Match> ssb = (from Match m in SingleSquareBrackets.Matches(articleText)
-                where m.Value.Contains("//") && (m.Value.Contains("|") || m.Value.Contains("\r\n") || m.Value.Substring(3).Contains("[") || m.Value.Trim(']').Contains("]"))
-                    select m).ToList();
+            List<Match> ssb = (from Match m in SingleSquareBrackets.Matches(articleText) select m).ToList();
+            List<Match> ssbExternalLink = ssb.Where(m => m.Value.Contains("//") && (m.Value.Contains("|") || m.Value.Contains("\r\n") || m.Value.Substring(3).Contains("[") || m.Value.Trim(']').Contains("]"))).ToList();
 
-            foreach(Match m in ssb)
+            foreach(Match m in ssbExternalLink)
             {
                string newvalue = m.Value;
 
@@ -3564,7 +3563,8 @@ namespace WikiFunctions.Parse
             articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
-            articleText = DoublePipeInWikiLink.Replace(articleText, "|");
+            if(ssb.Where(s => s.Value.Contains("||")).Any())
+                articleText = DoublePipeInWikiLink.Replace(articleText, "|");
 
             // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
             // fix incorrect <br> of <br.>, <\br> and <br\> - CHECKWIKI error 02
