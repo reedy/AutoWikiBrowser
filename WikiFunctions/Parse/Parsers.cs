@@ -3521,20 +3521,26 @@ namespace WikiFunctions.Parse
 			// adds missing http:// to bare url references lacking it - CHECKWIKI error 62
 			articleText = RefURLMissingHttp.Replace(articleText,@"$1http://www.");
 
-            // fixes for square brackets used within external links
-            // fix newline(s) in external link description - Partially CHECKWIKI error 80
-            if((from Match m in SingleSquareBrackets.Matches(articleText) where m.Value.Contains("//") select m.Value).ToList().Any())
-                articleText = SingleSquareBrackets.Replace(articleText, m =>
-                                                       {
-                                                           string newvalue = m.Value;
+            // fixes for external links: internal square brackets, newlines or pipes - Partially CHECKWIKI error 80
+            // Performance: filter down to matches with likely external link (contains //) and has pipe, newline or internal square brackets
+            List<Match> ssb = (from Match m in SingleSquareBrackets.Matches(articleText)
+                where m.Value.Contains("//") && (m.Value.Contains("|") || m.Value.Contains("\r\n") || m.Value.Substring(3).Contains("[") || m.Value.Trim(']').Contains("]"))
+                    select m).ToList();
 
-                                                           if(newvalue.Contains("\r\n") && !newvalue.Substring(1).Contains("[") && ExternalLinksStart.IsMatch(newvalue))
-                                                               newvalue = newvalue.Replace("\r\n", " ");
-                                                           
-                                                           newvalue = SquareBracketsInExternalLinks.Replace(newvalue, SquareBracketsInExternalLinksME);
-                                                           
-                                                           return PipedExternalLink.Replace(newvalue, "$1 $2");
-                                                       });
+            foreach(Match m in ssb)
+            {
+               string newvalue = m.Value;
+
+                if(newvalue.Contains("\r\n") && !newvalue.Substring(1).Contains("[") && ExternalLinksStart.IsMatch(newvalue))
+                   newvalue = newvalue.Replace("\r\n", " ");
+               
+                newvalue = SquareBracketsInExternalLinks.Replace(newvalue, SquareBracketsInExternalLinksME);
+
+                newvalue = PipedExternalLink.Replace(newvalue, "$1 $2");
+
+                if (!m.Value.Equals(newvalue))
+                    articleText = articleText.Replace(m.Value, newvalue);
+            };
 
             // needs to be applied after SquareBracketsInExternalLinks
             if (!SyntaxRegexFileWithHTTP.IsMatch(articleText))
@@ -3623,7 +3629,7 @@ namespace WikiFunctions.Parse
         }
         
         /// <summary>
-        /// Fixes bracket problems within external links
+        /// Fixes bracket problems within external links, converting internal [ or ] to &#91; or &#93; respectively
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
