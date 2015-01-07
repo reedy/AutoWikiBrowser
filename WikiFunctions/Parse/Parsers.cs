@@ -3362,7 +3362,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefExternalLinkMissingStartBracket = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?){?((?:ht|f)tps?://[^{}\[\]<>]+\][^{}\[\]<>]*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex RefExternalLinkMissingEndBracket = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?\[\s*(?:ht|f)tps?://[^{}\[\]<>]+)}?(</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex RefCitationMissingOpeningBraces = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>\s*)\(?\(?([Cc]it[ae][^{}]+}}\s*</ref>)", RegexOptions.Compiled);
-        private static readonly Regex BracesWithinDefaultsort = new Regex(@"({{DEFAULTSORT[^{}\[\]]+)[\]\[]+}}", RegexOptions.Compiled);
         private static readonly Regex DeadlinkOutsideRef = new Regex(@"(</ref>) ?(\{\{[Dd]ead ?link\s*\|\s*date\s*=[^{}\|]+\}\})", RegexOptions.Compiled);
 
         // refs with wording and bare link: combine the two
@@ -3517,7 +3516,6 @@ namespace WikiFunctions.Parse
             articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"$1[$2");
             articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"$1]$2");
 
-            articleText = BracesWithinDefaultsort.Replace(articleText, @"$1}}");
 			// adds missing http:// to bare url references lacking it - CHECKWIKI error 62
 			articleText = RefURLMissingHttp.Replace(articleText,@"$1http://www.");
 
@@ -3602,7 +3600,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Trims whitespace around DEFAULTSORT value, ensures 'whitepace only' DEFAULTSORT left unchanged
+        /// Trims whitespace around DEFAULTSORT value, ensures 'whitepace only' DEFAULTSORT left unchanged, removes trailing square brackets
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
@@ -3614,7 +3612,7 @@ namespace WikiFunctions.Parse
             if (key.Trim().Length == 0)
                 return m.Value;
 
-            returned += (key.Trim() + @"}}");
+            returned += (key.Trim().TrimEnd("[]".ToCharArray()).Trim() + @"}}");
 
             // handle case where defaultsort ended by newline, preserve newline at end of defaultort returned
             string end = m.Groups["end"].Value;
