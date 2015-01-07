@@ -5189,14 +5189,17 @@ namespace WikiFunctions.Parse
                 return -1;
 
             // now return the unbalanced one that's left
-            int open = Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count;
-            int closed = Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count;
+            int o = articleText.IndexOf(openingBrackets, StringComparison.Ordinal), c = articleText.IndexOf(closingBrackets, StringComparison.Ordinal);
+            if(o > -1 || c > -1)
+            {
+                int open = Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count;
+                int closed = Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count;
 
-            if (open == 0 && closed >= 1)
-                return articleText.IndexOf(closingBrackets);
-            if (open >= 1)
-                return articleText.IndexOf(openingBrackets);
-
+                if(open == 0 && closed >= 1)
+                    return c;
+                if(open >= 1)
+                    return o;
+            }
             return -1;
         }
 
