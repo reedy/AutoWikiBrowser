@@ -3501,7 +3501,8 @@ namespace WikiFunctions.Parse
             if(CellpaddingTypoQuick.IsMatch(articleText))
                 articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
 
-            articleText = RemoveNoPropertyFontTags.Replace(articleText, "$1");
+            if(SimpleTagsList.Where(s => s.Contains("font")).Any())
+                articleText = RemoveNoPropertyFontTags.Replace(articleText, "$1");
 
             // {{Category:foo]] or {{Category:foo}}
             articleText = CategoryCurlyBrackets.Replace(articleText, @"[[$1]]");
