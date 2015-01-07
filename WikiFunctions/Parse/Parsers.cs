@@ -3615,7 +3615,8 @@ namespace WikiFunctions.Parse
             articleText = FixSyntaxSubstRefTags(articleText);
 
             // ensure magic word behaviour switches such as __TOC__ are in upper case
-            articleText = WikiRegexes.MagicWordsBehaviourSwitches.Replace(articleText, m=> @"__" + m.Groups[1].Value.ToUpper() + @"__");
+            if(articleText.IndexOf("__", StringComparison.Ordinal) > -1)
+                articleText = WikiRegexes.MagicWordsBehaviourSwitches.Replace(articleText, m=> @"__" + m.Groups[1].Value.ToUpper() + @"__");
 
             return articleText.Trim();
         }
