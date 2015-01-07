@@ -3591,7 +3591,8 @@ namespace WikiFunctions.Parse
 
             // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
             // fix incorrect <br> of <br.>, <\br> and <br\> - CHECKWIKI error 02
-            articleText = IncorrectBr.Replace(articleText, "<br />");
+            if(SimpleTagsList.Where(s => (s.Contains("br") && !s.Equals("<br>") && !s.Equals("<br/>"))).Any())
+                articleText = IncorrectBr.Replace(articleText, "<br />");
 
             // CHECKWIKI errors 55, 63, 66, 77
             articleText = FixSmallTags(articleText);
