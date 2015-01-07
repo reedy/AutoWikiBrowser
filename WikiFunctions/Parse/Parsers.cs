@@ -3595,7 +3595,8 @@ namespace WikiFunctions.Parse
                 articleText = IncorrectBr.Replace(articleText, "<br />");
 
             // CHECKWIKI errors 55, 63, 66, 77
-            articleText = FixSmallTags(articleText);
+            if(SimpleTagsList.Where(s => s.Contains("small")).Any())
+                articleText = FixSmallTags(articleText);
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"$1[$3 $2]");
             
