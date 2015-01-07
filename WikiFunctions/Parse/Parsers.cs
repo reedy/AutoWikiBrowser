@@ -3482,7 +3482,8 @@ namespace WikiFunctions.Parse
             articleText = WikiRegexes.UrlTemplate.Replace(articleText, m => m.Value.Replace("http://http://", "http://"));
 
             //repair bad external links
-            articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
+            if(articleText.ToLower().Contains(":http"))
+                articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
 
             if (!SyntaxRegexHTTPNumber.IsMatch(articleText))
             {
