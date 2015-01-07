@@ -3378,8 +3378,7 @@ namespace WikiFunctions.Parse
 
         // CHECKWIKI error 2: fix incorrect <br> of <br.>, <\br>, <br\> and <br./> etc.
         private static readonly Regex IncorrectBr = new Regex(@"<(\\ *br *| *br *\\ *| *br\. */?| *br */([a-z/0-9•]|br)| *br *\?|/ *br */?)>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex IncorrectClosingItalics = new Regex(@"<i *[\\/] *>");
-        private static readonly Regex IncorrectClosingHtmlTags = new Regex(@"< */?(center|gallery|small|sub|sup) */ *>");
+        private static readonly Regex IncorrectClosingHtmlTags = new Regex(@"< */?(center|gallery|small|sub|sup|i) *[\\/] *>");
 
         private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^(<hr>|-{5,})", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHeadingWithHorizontalRule = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
@@ -3391,6 +3390,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexClosingBracket = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexOpeningBracket = new Regex(@"([^[]|^)\[([^[])", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexFileWithHTTP = new Regex("\\[\\["+Variables.NamespacesCaseInsensitive[Namespace.File]+":[^]]*http", RegexOptions.Compiled);
+        private static readonly Regex SimpleTags = new Regex(@"<[^>""\-=]+>");
 
         /// <summary>
         /// Matches double piped links e.g. [[foo||bar]] (CHECKWIKI error 32)
@@ -3422,31 +3422,43 @@ namespace WikiFunctions.Parse
 
             articleText = Tools.TemplateToMagicWord(articleText);
 
-			// fix for <sup/>, <sub/>, <center/>, <small/> etc.
-            articleText = IncorrectClosingHtmlTags.Replace(articleText,"</$1>");
+            // get a list of all the simple html tags (not with properties) used in the article, so we can selectively apply HTML tag fixes below
+            List<string> SimpleTagsList = Tools.DeduplicateList((from Match m in SimpleTags.Matches(articleText)
+                                                                          select Regex.Replace(m.Value, @"\s", "").ToLower()).ToList());
+
+			// fix for <sup/>, <sub/>, <center/>, <small/>, <i/> etc.
+            if(SimpleTagsList.Where(s => (s.EndsWith("/>") || s.Contains(@"\"))).Any())
+                articleText = IncorrectClosingHtmlTags.Replace(articleText,"</$1>");
 
             // The <strike> tag is not supported in HTML5. - CHECKWIKI error 42
-            articleText = articleText.Replace(@"<strike>", @"<s>");
-            articleText = articleText.Replace(@"</strike>", @"</s>");
+            if(SimpleTagsList.Where(s => s.Contains("strike")).Any())
+            {
+                articleText = articleText.Replace(@"<strike>", @"<s>");
+                articleText = articleText.Replace(@"</strike>", @"</s>");
+            }
 
-            // remove empty <gallery> tags
-            while(EmptyGallery.IsMatch(articleText))
-                articleText = EmptyGallery.Replace(articleText, "");
-
-            // fix italic html tags
-            // <b /> may refer to </b> or <br />
-            articleText = IncorrectClosingItalics.Replace(articleText, "</i>");
+            // remove empty <gallery> tags, allow for nested tags
+            if(SimpleTagsList.Where(s => s.Contains("gallery")).Any())
+            {
+                while(EmptyGallery.IsMatch(articleText))
+                    articleText = EmptyGallery.Replace(articleText, "");
+            }
 
             // merge italic/bold html tags if there are one after the other
             //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Another_bug_on_italics
-            articleText = articleText.Replace("</b><b>", "");
-            articleText = articleText.Replace("</i><i>", "");
+            if(SimpleTagsList.Where(s => s.StartsWith("<b")).Any())
+                articleText = articleText.Replace("</b><b>", "");
+            if(SimpleTagsList.Where(s => s.StartsWith("<i")).Any())
+                articleText = articleText.Replace("</i><i>", "");
 
             //replace html with wiki syntax - CHECKWIKI error 26 and 38
-            while(SyntaxRegexItalicBoldEm.IsMatch(articleText))
-                articleText = SyntaxRegexItalicBoldEm.Replace(articleText, BoldItalicME);
+            if(SimpleTagsList.Where(s => Regex.IsMatch(s, @"<(i|em|b)\b")).Any())
+            {
+                while(SyntaxRegexItalicBoldEm.IsMatch(articleText))
+                    articleText = SyntaxRegexItalicBoldEm.Replace(articleText, BoldItalicME);
+            }
 
-            if(articleText.Contains("<hr>") || articleText.Contains("-----"))
+            if(SimpleTagsList.Where(s => s.StartsWith("<hr")).Any() || articleText.Contains("-----"))
                 articleText = SyntaxRegexHorizontalRule.Replace(articleText, "----");
 
             //remove appearance of double line break
@@ -3467,7 +3479,7 @@ namespace WikiFunctions.Parse
 			// CHECKWIKI error 93
             articleText = MultipleHttpInLink.Replace(articleText, "$1");
             articleText = MultipleFtpInLink.Replace(articleText, "$1");
-            articleText = WikiRegexes.UrlTemplate.Replace(articleText, m=> m.Value.Replace("http://http://", "http://"));
+            articleText = WikiRegexes.UrlTemplate.Replace(articleText, m => m.Value.Replace("http://http://", "http://"));
 
             //repair bad external links
             articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
