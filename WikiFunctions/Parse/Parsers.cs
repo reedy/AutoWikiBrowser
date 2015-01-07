@@ -3527,8 +3527,13 @@ namespace WikiFunctions.Parse
             }
 
             articleText = RefExternalLinkUsingBraces.Replace(articleText, @"[$1$2]$3");
-            articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"$1[$2");
-            articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"$1]$2");
+
+            string nobrackets = SingleSquareBrackets.Replace(articleText, "");
+            if(nobrackets.IndexOf('[') > -1 || nobrackets.IndexOf(']') > -1)
+            {
+                articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"$1[$2");
+                articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"$1]$2");
+            }
 
 			// adds missing http:// to bare url references lacking it - CHECKWIKI error 62
 			articleText = RefURLMissingHttp.Replace(articleText,@"$1http://www.");
@@ -3571,7 +3576,7 @@ namespace WikiFunctions.Parse
             if(articleText.ToLower().Contains("[[http"))
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
-            string nobrackets = SingleSquareBrackets.Replace(articleText, "");
+            nobrackets = SingleSquareBrackets.Replace(articleText, "");
             if(nobrackets.IndexOf('[') > -1 || nobrackets.IndexOf(']') > -1)
             {
                 articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
