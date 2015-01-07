@@ -847,7 +847,7 @@ namespace WikiFunctions
 
 			foreach (string s in lines)
 			{
-				if (WikiRegexes.Headings.IsMatch(s))
+                if (s.StartsWith("=") && WikiRegexes.Headings.IsMatch(s)) // StartsWith check for performance
 				{
 					if (section.Length > 0)
 					{
