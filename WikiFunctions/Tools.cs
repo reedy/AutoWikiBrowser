@@ -834,31 +834,24 @@ namespace WikiFunctions
 
 		// Covered by ToolsTests.SplitToSections()
 		/// <summary>
-		/// Splits wikitext to sections
+		/// Splits wikitext to sections based on any level wiki heading
 		/// </summary>
 		/// <param name="articleText">Page text</param>
 		/// <returns>Array of strings, each represents a section with its heading (if any)</returns>
 		public static string[] SplitToSections(string articleText)
 		{
-			string[] lines = articleText.Split(new[] { "\r\n" }, StringSplitOptions.None);
-
 			List<string> sections = new List<string>();
-			StringBuilder section = new StringBuilder();
 
-			foreach (string s in lines)
-			{
-                if (s.StartsWith("=") && WikiRegexes.Headings.IsMatch(s)) // StartsWith check for performance
-				{
-					if (section.Length > 0)
-					{
-						sections.Add(section.ToString());
-						section.Length = 0;
-					}
-				}
-				section.Append(s);
-				section.Append("\r\n");
-			}
-			if (section.Length > 0) sections.Add(section.ToString());
+            int lastmatchpos = 0;
+            foreach(Match m in WikiRegexes.Headings.Matches(articleText))
+            {
+                if(m.Index > 0) // Don't add empty first section if page starts with heading
+                    sections.Add(articleText.Substring(lastmatchpos, m.Index-lastmatchpos));
+                lastmatchpos = m.Index;
+            }
+
+            // Add text of final section, plus extra newline at end
+            sections.Add(articleText.Substring(lastmatchpos) + "\r\n");
 
 			return sections.ToArray();
 		}
