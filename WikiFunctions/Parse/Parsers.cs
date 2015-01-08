@@ -3491,13 +3491,6 @@ namespace WikiFunctions.Parse
                 articleText = SingleTripleSlashInHttpLink.Replace(articleText, "$1://$2");
             }
 
-			//  CHECKWIKI error 69
-            articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
-            if(articleText.Contains("ISBN-"))
-                articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
-
-            if(articleText.Contains("PMID:"))
-                articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
             if(CellpaddingTypoQuick.IsMatch(articleText))
                 articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
 
@@ -3564,6 +3557,17 @@ namespace WikiFunctions.Parse
                 articleText = SyntaxRegexWikilinkMissingClosingBracket.Replace(articleText, "[[$1]]");
                 articleText = SyntaxRegexWikilinkMissingOpeningBracket.Replace(articleText, "[[$1]]");
             }
+
+            //  CHECKWIKI error 69
+            bool isbnDash = articleText.Contains("ISBN-");
+            if(isbnDash || articleText.Contains("ISBN:") || ssb.Where(m => m.Value.Equals("[[ISBN]]")).Any())
+                articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
+
+            if(isbnDash)
+                articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
+
+            if(articleText.Contains("PMID:"))
+                articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
 
             //CHECKWIKI error 86
             if(articleText.ToLower().Contains("[[http"))
