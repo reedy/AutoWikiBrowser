@@ -117,10 +117,7 @@ namespace WikiFunctions.Parse
 
             foreach (DataGridViewRow dataGridRow in dataGridView1.Rows)
             {
-                if (dataGridRow.IsNewRow)
-                    continue;
-
-                if (dataGridRow.Cells["find"].Value == null)
+                if (dataGridRow.IsNewRow || dataGridRow.Cells["find"].Value == null)
                     continue;
 
                 _replacementList.Add(RowToReplacement(dataGridRow));
