@@ -380,37 +380,37 @@ bar"));
         [Test]
         public void SplitToSections()
         {
-            string[] sections = Tools.SplitToSections("foo\r\n==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
+            string[] sections = Tools.SplitToSections("foo\r\n==bar=\r\nboo1\r\n\r\n= boz =\r\n==quux==");
             CollectionAssert.AreEqual(new[]
                                       {
                                           "foo\r\n",
-                                          "==bar=\r\nboo\r\n\r\n",
+                                          "==bar=\r\nboo1\r\n\r\n",
                                           "= boz =\r\n",
                                           "==quux==\r\n"
                                       }, sections);
 
-            sections = Tools.SplitToSections("==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
+            sections = Tools.SplitToSections("==bar=\r\nboo2\r\n\r\n= boz =\r\n==quux==");
             CollectionAssert.AreEqual(new[]
                                       {
-                                          "==bar=\r\nboo\r\n\r\n",
+                                          "==bar=\r\nboo2\r\n\r\n",
                                           "= boz =\r\n",
                                           "==quux==\r\n"
                                       }, sections);
 
-            sections = Tools.SplitToSections("\r\n==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
-            CollectionAssert.AreEqual(new[]
-                                      {
-                                          "\r\n",
-                                          "==bar=\r\nboo\r\n\r\n",
-                                          "= boz =\r\n",
-                                          "==quux==\r\n"
-                                      }, sections);
-
-            sections = Tools.SplitToSections("\r\n==bar=\r\nboo\r\n\r\n=== boz ===\r\n==quux==");
+            sections = Tools.SplitToSections("\r\n==bar=\r\nboo3\r\n\r\n= boz =\r\n==quux==");
             CollectionAssert.AreEqual(new[]
                                       {
                                           "\r\n",
-                                          "==bar=\r\nboo\r\n\r\n",
+                                          "==bar=\r\nboo3\r\n\r\n",
+                                          "= boz =\r\n",
+                                          "==quux==\r\n"
+                                      }, sections);
+
+            sections = Tools.SplitToSections("\r\n==bar=\r\nboo4\r\n\r\n=== boz ===\r\n==quux==");
+            CollectionAssert.AreEqual(new[]
+                                      {
+                                          "\r\n",
+                                          "==bar=\r\nboo4\r\n\r\n",
                                           "=== boz ===\r\n",
                                           "==quux==\r\n"
                                       }, sections);
