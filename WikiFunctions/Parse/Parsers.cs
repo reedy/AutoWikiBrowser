@@ -5173,18 +5173,10 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="openingBrackets"></param>
         /// <param name="closingBrackets"></param>
-        /// <param name="bracketsRegex"></param>
-        /// <returns>Index of any unbalanced brackets found</returns>
+        /// <param name="bracketsRegex">Regex that matches correctly balanced (possibly nested) bracket combinations</param>
+        /// <returns>Index of the first of any unbalanced brackets found</returns>
         private static int UnbalancedBrackets(string articleText, string openingBrackets, string closingBrackets, Regex bracketsRegex)
         {
-            //TODO: move everything possible to the parent function, however, it shouldn't be performed blindly,
-            //without a performance review
-
-            if (openingBrackets.Equals("[")) // need to remove double square brackets first
-                articleText = Tools.ReplaceWithSpaces(articleText, DoubleSquareBrackets);
-            else if (openingBrackets.Equals("{")) // need to remove double curly brackets first
-                articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates);
-
             // replace all the valid balanced bracket sets with spaces
             articleText = Tools.ReplaceWithSpaces(articleText, bracketsRegex);
 
@@ -5193,16 +5185,16 @@ namespace WikiFunctions.Parse
                 return -1;
 
             // now return the unbalanced one that's left
-            int o = articleText.IndexOf(openingBrackets, StringComparison.Ordinal), c = articleText.IndexOf(closingBrackets, StringComparison.Ordinal);
-            if(o > -1 || c > -1)
+            int open = articleText.IndexOf(openingBrackets, StringComparison.Ordinal), closed = articleText.IndexOf(closingBrackets, StringComparison.Ordinal);
+            if(open > -1 || closed > -1)
             {
-                int open = Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count;
-                int closed = Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count;
+                int openCount = Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count;
+                int closedCount = Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count;
 
-                if(open == 0 && closed >= 1)
-                    return c;
-                if(open >= 1)
-                    return o;
+                if(openCount == 0 && closedCount >= 1)
+                    return closed;
+                if(openCount >= 1)
+                    return open;
             }
             return -1;
         }
