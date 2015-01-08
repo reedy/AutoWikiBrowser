@@ -3559,7 +3559,7 @@ namespace WikiFunctions.Parse
             };
 
             // needs to be applied after SquareBracketsInExternalLinks
-            if (!SyntaxRegexFileWithHTTP.IsMatch(articleText))
+            if((nobrackets.IndexOf('[') > -1 || nobrackets.IndexOf(']') > -1) && !SyntaxRegexFileWithHTTP.IsMatch(articleText))
             {
                 articleText = SyntaxRegexWikilinkMissingClosingBracket.Replace(articleText, "[[$1]]");
                 articleText = SyntaxRegexWikilinkMissingOpeningBracket.Replace(articleText, "[[$1]]");
