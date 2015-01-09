@@ -5108,11 +5108,12 @@ namespace WikiFunctions.Parse
             return title;
         }
 
-        private static readonly Regex SingleCurlyBrackets = new Regex(@"{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))})", RegexOptions.Compiled);
-        private static readonly Regex DoubleSquareBrackets = new Regex(@"\[\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\]\])", RegexOptions.Compiled);
-        private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled);
-        private static readonly Regex SingleRoundBrackets = new Regex(@"\(((?>[^\(\)]+|\((?<DEPTH>)|\)(?<-DEPTH>))*(?(DEPTH)(?!))\))", RegexOptions.Compiled);
-        private static readonly Regex Tags = new Regex(@"\<((?>[^\<\>]+|\<(?<DEPTH>)|\>(?<-DEPTH>))*(?(DEPTH)(?!))\>)", RegexOptions.Compiled);
+        private static readonly Regex SingleCurlyBrackets = new Regex(@"{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))})", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+        private static readonly Regex DoubleCurlyBrackets = new Regex(@"{{(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+        private static readonly Regex DoubleSquareBrackets = new Regex(@"\[\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\]\])", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+        private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+        private static readonly Regex SingleRoundBrackets = new Regex(@"\(((?>[^\(\)]+|\((?<DEPTH>)|\)(?<-DEPTH>))*(?(DEPTH)(?!))\))", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+        private static readonly Regex Tags = new Regex(@"\<((?>[^\<\>]+|\<(?<DEPTH>)|\>(?<-DEPTH>))*(?(DEPTH)(?!))\>)", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
         private static readonly Regex HideNestedBrackets = new Regex(@"&#9[13];");
         private static readonly Regex AmountComparison = new Regex(@"[<>]\s*\d", RegexOptions.Compiled);
         private static readonly Regex TemplatesWithUnbalancedBrackets = Tools.NestedTemplateRegex(new [] {"LSJ", ")!", "!("});
@@ -5137,7 +5138,7 @@ namespace WikiFunctions.Parse
 
             bracketLength = 2;
 
-            int unbalancedfound = UnbalancedBrackets(articleText, "{{", "}}", WikiRegexes.NestedTemplates);
+            int unbalancedfound = UnbalancedBrackets(articleText, "{{", "}}", DoubleCurlyBrackets);
             if (unbalancedfound > -1)
                 return unbalancedfound;
 
@@ -5177,7 +5178,14 @@ namespace WikiFunctions.Parse
         /// <returns>Index of the first of any unbalanced brackets found</returns>
         private static int UnbalancedBrackets(string articleText, string openingBrackets, string closingBrackets, Regex bracketsRegex)
         {
-            // replace all the valid balanced bracket sets with spaces
+            // Performance: use Regex.Split with regexes with no capturing groups to get array of text not matched by the regex
+            // Then filter this to see if any unbalanced brackets remain. Return if none remain
+            string[] nobrack = bracketsRegex.Split(articleText).Where(s => (s.IndexOf(openingBrackets, StringComparison.Ordinal) > -1 || s.IndexOf(closingBrackets, StringComparison.Ordinal) > -1)).ToArray();
+
+            if(nobrack.Length == 0)
+                return -1;
+
+            // If here then some unbalanced brackets were found, so use (slower) ReplaceWithSpaces so we can find index of unbalanced bracket in original text
             articleText = Tools.ReplaceWithSpaces(articleText, bracketsRegex);
 
             // for tags don't mark "> 50 cm" as unbalanced
