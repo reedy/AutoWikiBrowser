@@ -300,31 +300,37 @@ namespace WikiFunctions.Parse
             // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Standard_level_2_headers
             // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
-           	// only apply if all level 3 headings and lower are before the fist of references/external links/see also
+           	// only apply if all level 3 headings and lower are before the first of references/external links/see also
             if(Namespace.IsMainSpace(articleTitle))
             {
-	            string articleTextLocal = articleText;
-	            articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
-
-                string originalarticleText = "";
-                while (!originalarticleText.Equals(articleText))
+                List<string> theHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText)
+                                                        where !ReferencesExternalLinksSeeAlso.IsMatch(m.Value)
+                                                        select m.Value).ToList();
+                if(!theHeadings.Where(s => WikiRegexes.HeadingLevelTwo.IsMatch(s)).Any())
                 {
-                    originalarticleText = articleText;
-                    if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
+                    string articleTextLocal = articleText;
+                    articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
+
+                    string originalarticleText = "";
+                    while(!originalarticleText.Equals(articleText))
                     {
-                        // get index of last level 3+ heading
-                        int upone = 0;
-                        foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
+                        originalarticleText = articleText;
+                        if(!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
                         {
-                            if (m.Index > upone)
-                                upone = m.Index;
+                            // get index of last level 3+ heading
+                            int upone = 0;
+                            foreach(Match m in RegexHeadingUpOneLevel.Matches(articleText))
+                            {
+                                if(m.Index > upone)
+                                    upone = m.Index;
+                            }
+
+                            if(!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
+                                articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
                         }
 
-                        if (!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
-                            articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
+                        articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleText, "");
                     }
-
-                    articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleText, "");
                 }
             }
 
