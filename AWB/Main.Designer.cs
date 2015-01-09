@@ -233,8 +233,8 @@ namespace AutoWikiBrowser
             this.btnFindAndReplaceAdvanced = new System.Windows.Forms.Button();
             this.btnMoreFindAndReplce = new System.Windows.Forms.Button();
             this.chkSkipIfContains = new System.Windows.Forms.CheckBox();
-            this.txtSkipIfNotContains = new System.Windows.Forms.TextBox();
-            this.txtSkipIfContains = new System.Windows.Forms.TextBox();
+            this.txtSkipIfNotContains = new System.Windows.Forms.RichTextBox();
+            this.txtSkipIfContains = new System.Windows.Forms.RichTextBox();
             this.chkSkipIfNotContains = new System.Windows.Forms.CheckBox();
             this.chkSkipIsRegex = new System.Windows.Forms.CheckBox();
             this.chkSkipAfterProcessing = new System.Windows.Forms.CheckBox();
@@ -2145,6 +2145,8 @@ namespace AutoWikiBrowser
             this.txtSkipIfNotContains.TabIndex = 3;
             this.ToolTip.SetToolTip(this.txtSkipIfNotContains, "Skip pages that do not contain this text");
             this.txtSkipIfNotContains.TextChanged += new System.EventHandler(this.txtSkipIfNotContains_TextChanged);
+            this.txtSkipIfNotContains.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtSkipIfNotContains.Multiline = false;
             // 
             // txtSkipIfContains
             // 
@@ -2155,6 +2157,8 @@ namespace AutoWikiBrowser
             this.txtSkipIfContains.TabIndex = 1;
             this.ToolTip.SetToolTip(this.txtSkipIfContains, "Skip pages that contain this text");
             this.txtSkipIfContains.TextChanged += new System.EventHandler(this.txtSkipIfContains_TextChanged);
+            this.txtSkipIfContains.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtSkipIfContains.Multiline = false;
             // 
             // chkSkipIfNotContains
             // 
@@ -4636,8 +4640,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSkipCaseSensitive;
         private System.Windows.Forms.CheckBox chkSkipIsRegex;
         private System.Windows.Forms.CheckBox chkSkipIfNotContains;
-        private System.Windows.Forms.TextBox txtSkipIfContains;
-        private System.Windows.Forms.TextBox txtSkipIfNotContains;
+        private System.Windows.Forms.RichTextBox txtSkipIfContains;
+        private System.Windows.Forms.RichTextBox txtSkipIfNotContains;
         private System.Windows.Forms.CheckBox chkSkipIfContains;
         private System.Windows.Forms.CheckBox chkSkipNoPageLinks;
         private System.Windows.Forms.CheckBox chkSkipGeneralFixes;
