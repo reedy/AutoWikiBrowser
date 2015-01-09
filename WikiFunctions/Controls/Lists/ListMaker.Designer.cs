@@ -33,7 +33,7 @@
             this.UserInputTextBox = new System.Windows.Forms.TextBox();
             this.lblNumOfPages = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.txtPage = new System.Windows.Forms.TextBox();
+            this.txtPage = new System.Windows.Forms.RichTextBox();
             this.lblUserInput = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.lblSourceSelect = new System.Windows.Forms.Label();
@@ -125,6 +125,8 @@
             this.txtPage.MouseMove += new System.Windows.Forms.MouseEventHandler(this.txtNewArticle_MouseMove);
             this.txtPage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtNewArticle_KeyDown);
             this.txtPage.TextChanged += new System.EventHandler(this.txtNewArticle_TextChanged);
+            this.txtPage.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtPage.Multiline = false;
             // 
             // lblUserInput
             // 
@@ -502,7 +504,7 @@
         private WikiFunctions.Controls.Lists.ListBoxArticle lbArticles;
         private System.Windows.Forms.Label lblNumOfPages;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.TextBox txtPage;
+        private System.Windows.Forms.RichTextBox txtPage;
         private System.Windows.Forms.Label lblUserInput;
         private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.Label lblSourceSelect;
