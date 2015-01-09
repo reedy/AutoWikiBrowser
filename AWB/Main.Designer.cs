@@ -261,7 +261,7 @@ namespace AutoWikiBrowser
             this.lblbotEditsStop = new System.Windows.Forms.Label();
             this.chkFindCaseSensitive = new System.Windows.Forms.CheckBox();
             this.chkFindRegex = new System.Windows.Forms.CheckBox();
-            this.txtFind = new System.Windows.Forms.TextBox();
+            this.txtFind = new System.Windows.Forms.RichTextBox();
             this.chkSkipNoCatChange = new System.Windows.Forms.CheckBox();
             this.chkRemoveSortKey = new System.Windows.Forms.CheckBox();
             this.chkSkipOnlyMinorFaR = new System.Windows.Forms.CheckBox();
@@ -2457,6 +2457,8 @@ namespace AutoWikiBrowser
             this.txtFind.TextChanged += new System.EventHandler(this.ResetFind);
             this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
             this.txtFind.MouseHover += new System.EventHandler(this.txtFind_MouseHover);
+            this.txtFind.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtFind.Multiline = false;
             // 
             // chkSkipNoCatChange
             // 
@@ -4538,7 +4540,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkFindCaseSensitive;
         private System.Windows.Forms.Button btnFind;
         private System.Windows.Forms.CheckBox chkFindRegex;
-        private System.Windows.Forms.TextBox txtFind;
+        private System.Windows.Forms.RichTextBox txtFind;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.ComboBox cmboEditSummary;
         private System.Windows.Forms.GroupBox AlertGroup;
