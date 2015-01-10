@@ -5998,9 +5998,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns></returns>
         private static string BoldedSelfLinks(string articleTitle, string articleText)
         {
-            if (WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
-                return articleText;
-            
             string escTitle = Regex.Escape(articleTitle);
 
             Regex plainLink = new Regex(@"'''\[\[\s*(" + escTitle + @"|" + Tools.TurnFirstToLower(escTitle) + @")\s*\]\]'''");
@@ -6039,8 +6036,12 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             HideText Hider2 = new HideText();
             HideText Hider3 = new HideText(true, true, true);
+
+            bool includeonlyNoinclude = WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText);
+
             // 1) clean up bolded self links first
-            articleText = BoldedSelfLinks(articleTitle, articleText);
+            if(!includeonlyNoinclude)
+                articleText = BoldedSelfLinks(articleTitle, articleText);
 
             // 2) Clean up self wikilinks
             string escTitle = Regex.Escape(articleTitle), escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
@@ -6052,7 +6053,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             // first check for any self links and no bold title, if found just convert first link to bold and return
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
-            if(!WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText) && !SelfLinks(zerothSection, articleTitle).Equals(zerothSection))
+            if(!includeonlyNoinclude && !SelfLinks(zerothSection, articleTitle).Equals(zerothSection))
             {
                 // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
                 zerothSectionHidden = Hider2.HideMore(zerothSection, false, false, false);
