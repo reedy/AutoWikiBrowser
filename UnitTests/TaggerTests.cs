@@ -30,30 +30,6 @@ using System.Collections.Generic;
 
 namespace UnitTests
 {
-    /// <summary>
-    /// This class must be inhertited by test fixtures that use most parts of WikiFunctions.
-    /// It ensures that WikiFunctions is aware that it's being called from unit tests, and
-    /// that global data is initialised.
-    /// </summary>
-    public class RequiresInitialization
-    {
-        static RequiresInitialization()
-        {
-            Globals.UnitTestMode = true;
-            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
-        }
-    }
-
-    public class RequiresParser : RequiresInitialization
-    {
-        protected Parsers parser;
-
-        public RequiresParser()
-        {
-            parser = new Parsers();
-        }
-    }
-
     [TestFixture]
     public class TaggerTests : RequiresParser
     {
