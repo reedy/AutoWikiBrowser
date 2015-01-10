@@ -428,6 +428,7 @@
         this.NameTextbox.TabIndex = 1;
         this.NameTextbox.DoubleClick += new System.EventHandler(this.NameTextbox_DoubleClick);
         this.NameTextbox.TextChanged += new System.EventHandler(this.NameTextbox_TextChanged);
+        this.NameTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NameTextbox_KeyDown);
         // 
         // label4
         // 

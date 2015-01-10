@@ -144,6 +144,19 @@ namespace WikiFunctions.ReplaceSpecial
             NameTextbox.SelectAll();
         }
 
+        private void NameTextbox_KeyDown(object sender, KeyEventArgs e)
+        {            
+            if (e.Modifiers == Keys.Control)
+            {
+                if (e.KeyCode == Keys.A)
+                {
+                    NameTextbox.SelectAll();
+                    e.SuppressKeyPress = true;
+                    e.Handled = true;
+                }
+            }
+        }
+
         private void TestIf_Click(object sender, EventArgs e)
         {
             contextMenu.Show(TestIf, 0, TestIf.Height);
