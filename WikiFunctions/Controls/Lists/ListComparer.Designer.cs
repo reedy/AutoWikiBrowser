@@ -138,6 +138,7 @@
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.copyToolStripMenuItem.Text = "Copy selected";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             // 
             // removeSelectedToolStripMenuItem
             // 
@@ -145,6 +146,7 @@
             this.removeSelectedToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.removeSelectedToolStripMenuItem.Text = "Remove selected";
             this.removeSelectedToolStripMenuItem.Click += new System.EventHandler(this.removeSelectedToolStripMenuItem_Click);
+            this.removeSelectedToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             // 
             // btnGo
             // 

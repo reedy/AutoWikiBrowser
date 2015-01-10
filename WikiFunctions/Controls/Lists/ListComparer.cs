@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 ListComparer
 Copyright (C) 2007 Martin Richards
 
@@ -213,7 +213,10 @@ namespace WikiFunctions.Controls.Lists
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.Copy(MenuItemOwner(sender));
+			ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+
+			if(selectedListBox != null)
+				Tools.Copy(selectedListBox);
         }
 
         private static ListBoxArticle MenuItemOwner(object sender)
@@ -243,8 +246,12 @@ namespace WikiFunctions.Controls.Lists
 
         private void removeSelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MenuItemOwner(sender).RemoveSelected(true);
-            UpdateCounts();
+			ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+
+			if(selectedListBox != null)
+				selectedListBox.RemoveSelected(true);
+
+			UpdateCounts();
         }
 
         private void AddListToListMaker(ListMaker lm, IEnumerable<Article> lb)
