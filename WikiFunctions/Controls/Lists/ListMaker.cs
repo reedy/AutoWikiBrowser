@@ -453,6 +453,16 @@ namespace WikiFunctions.Controls.Lists
         {
             if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
                 btnGenerate.PerformClick();
+            
+            if (e.Modifiers == Keys.Control)
+            {
+                if (e.KeyCode == Keys.A)
+                {
+                    UserInputTextBox.SelectAll();
+                    e.SuppressKeyPress = true;
+                    e.Handled = true;
+                }
+            }
         }
 
         private void mnuListBox_Opening(object sender, CancelEventArgs e)
