@@ -13,26 +13,27 @@ namespace UnitTests
         [Test]
         public void CategoryTests()
         {
-            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test]]", "Simple case");
             RegexAssert.IsMatch(WikiRegexes.CategoryQuick, "[[Category:Test]]");
-            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|{{PAGENAME}}]]");
-            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|{{subst:PAGENAME}}]]");
-            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test now]]");
-            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|Key]]");
-            RegexAssert.IsMatch(WikiRegexes.Category, "[[ Category : Test now| Key]]");
-            RegexAssert.IsMatch(WikiRegexes.Category, "[[CATEGORY :Test]]");
-            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:_Test]]");
-            RegexAssert.IsMatch(WikiRegexes.Category, "[[_Category:Test]]");
-            RegexAssert.IsMatch(WikiRegexes.Category, "[[_Category:Test_]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|{{PAGENAME}}]]", " use of {{PAGENAME}}");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|{{subst:PAGENAME}}]]", " use of {{subst:PAGENAME}}");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test now]]", "Space in name");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|Key]]", "Simple sortkey");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[ Category : Test now| Key]]", "Spaced sortkey");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[CATEGORY :Test]]", "Uppercase");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:_Test]]", "Leading underscore in name");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[_Category:Test]]", "leading underscore");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[_Category:Test_]]", "Trailing underscores");
             RegexAssert.IsMatch(WikiRegexes.CategoryQuick, "[[_Category:Test_]]");
 
-            RegexAssert.NoMatch(WikiRegexes.Category, "[[Test]]");
-            RegexAssert.NoMatch(WikiRegexes.Category, "[[Image:Test.jpg]]");
+            RegexAssert.NoMatch(WikiRegexes.Category, "[[Test]]", "Wikilink");
+            RegexAssert.NoMatch(WikiRegexes.Category, "[[Image:Test.jpg]]", "Image link");
             RegexAssert.NoMatch(WikiRegexes.Category, @"[[Category:
-1910 births]]");
+1910 births]]", "Newline in category name");
             RegexAssert.NoMatch(WikiRegexes.Category, @"[[Category:1910 births
-]]");
-            Assert.AreEqual("Test now", WikiRegexes.Category.Match("[[Category:Test now]]").Groups[1].Value);
+]]", "newline in category name 2");
+            Assert.AreEqual("Test now", WikiRegexes.Category.Match("[[Category:Test now]]").Groups[1].Value, "Group 1 is category name");
+            Assert.AreEqual("Test now", WikiRegexes.Category.Match("[[Category: Test now ]]").Groups[1].Value, "Group 1 is category name, trimmed");
 
             #if DEBUG
             Variables.SetProjectLangCode("sv");
