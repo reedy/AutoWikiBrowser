@@ -63,6 +63,7 @@
     <Compile Include="RetfTests.cs" />
     <Compile Include="LinkTests.cs" />
     <Compile Include="FormattingTests.cs" />
+    <Compile Include="TaggerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WikiFunctions\WikiFunctions.csproj">
