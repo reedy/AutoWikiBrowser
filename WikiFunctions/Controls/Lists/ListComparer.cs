@@ -260,5 +260,20 @@ namespace WikiFunctions.Controls.Lists
             articles.AddRange(lb);
             lm.Add(articles);
         }
+
+		private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+
+			if(selectedListBox != null)
+            {
+        	    selectedListBox.BeginUpdate();
+        	
+        	    SendKeys.SendWait("{HOME}");
+        	    SendKeys.SendWait("+{END}");
+        	
+        	    selectedListBox.EndUpdate();
+            }
+        }
     }
 }
