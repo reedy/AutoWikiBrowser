@@ -102,6 +102,7 @@
             this.selectAllToolStripMenuItem});
             this.mnuList.Name = "mnuDuplicates";
             this.mnuList.Size = new System.Drawing.Size(195, 148);
+            this.mnuList.Opening += new System.ComponentModel.CancelEventHandler(this.mnuList_Opening);
             // 
             // transferToListMaker1ToolStripMenuItem
             // 

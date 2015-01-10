@@ -275,5 +275,16 @@ namespace WikiFunctions.Controls.Lists
         	    selectedListBox.EndUpdate();
             }
         }
+
+		private void mnuList_Opening(object sender, EventArgs e)
+        {
+            ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+
+			if(selectedListBox != null)
+            {
+				transferToListMaker1ToolStripMenuItem.Enabled = transferToListMaker2ToolStripMenuItem.Enabled = openInBrowserToolStripMenuItem.Enabled 
+                = copyToolStripMenuItem.Enabled =  removeSelectedToolStripMenuItem.Enabled =  selectAllToolStripMenuItem.Enabled = selectedListBox.Items.Count > 0;
+            }
+        }
     }
 }
