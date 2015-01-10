@@ -61,6 +61,8 @@
     <Compile Include="TemplateTests.cs" />
     <Compile Include="ToolsTests.cs" />
     <Compile Include="RetfTests.cs" />
+    <Compile Include="LinkTests.cs" />
+    <Compile Include="FormattingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WikiFunctions\WikiFunctions.csproj">
