@@ -7584,8 +7584,8 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns>The tagged article.</returns>
         public string Tagger(string articleText, string articleTitle, bool restrictOrphanTagging, ref string summary)
         {
- 			if(!TaggerPermitted(articleText, articleTitle))
- 				return articleText;
+            if(!TaggerPermitted(articleText, articleTitle))
+                return articleText;
 
             tagsRemoved.Clear();
             tagsAdded.Clear();
@@ -7631,8 +7631,11 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             }
 
             // refresh
-            commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
-            commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
+            if(tagsRemoved.Count > 0)
+            {
+                commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
+                commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
+            }
 
             //remove disambiguation if disambiguation cleanup exists (en-wiki only)
             if (Variables.LangCode.Equals("en") && WikiRegexes.DisambigsCleanup.IsMatch(templates) && WikiRegexes.DisambigsCleanup.IsMatch(commentsStripped))
