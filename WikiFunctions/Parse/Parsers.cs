@@ -7649,7 +7649,11 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             int totalCategories;
             // ignore commented out wikilinks, and any in {{Proposed deletion/dated}}
-            int wikiLinkCount = Tools.LinkCount(ProposedDeletionDatedEndorsed.Replace(commentsStripped, ""));
+            string forLinkCount = commentsStripped;
+            if(ProposedDeletionDatedEndorsed.IsMatch(templates))
+                forLinkCount = ProposedDeletionDatedEndorsed.Replace(forLinkCount, "");
+
+            int wikiLinkCount = Tools.LinkCount(forLinkCount);
 
             #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
@@ -7662,7 +7666,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                 // stubs add non-hidden stub categories, don't count these in categories count
                 // also don't count "Proposed deletion..." cats
                 // limitation: in the unlikely event that the article has only redlinked cats then it is {{uncat}} but we won't tag it as such
-                totalCategories = RegularCategories(articleText).Count;
+                totalCategories = RegularCategories(commentsStripped, false).Count;
 
                 // templates may add categories to page that are not [[Category...]] links, so use API call for accurate Category count
                 if(totalCategories == 0)
@@ -8082,19 +8086,30 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// </summary>
         /// <param name="articleText">Wiki text</param>
         /// <returns>List of regular categories</returns>
-        public static List<Article> RegularCategories(string articleText)
+        public static List<Article> RegularCategories(string articleText, bool hideComments)
         {
             // Don't count commented out categories
-            articleText = WikiRegexes.MathPreSourceCodeComments.Replace(articleText, "");
+            if(hideComments)
+                articleText = WikiRegexes.MathPreSourceCodeComments.Replace(articleText, "");
 
             List<Article> Cats = new List<Article>();
-            
+
             foreach (Match m in WikiRegexes.Category.Matches(articleText))
             {
                 Cats.Add(new Article(m.Groups[1].Value.Trim()));
             }
 
             return RegularCategories(Cats);
+        }
+
+        /// <summary>
+        /// Returns the categories that are not stub or proposed deletion categories from the input article text
+        /// </summary>
+        /// <param name="articleText">Wiki text</param>
+        /// <returns>List of regular categories</returns>
+        public static List<Article> RegularCategories(string articleText)
+        {
+            return RegularCategories(articleText, true);
         }
 
         private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv =
