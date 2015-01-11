@@ -7591,36 +7591,42 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             tagsAdded.Clear();
             int tagsrenamed = 0;
 
+            // Performance: get all templates so most template checks can be against this rather than whole article text
+            string templates = String.Join(" ", GetAllTemplates(articleText).Select(s => "{{" + s + "}}").ToArray());
+
             string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             string commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
-            commentsCategoriesStripped = WikiRegexes.Defaultsort.Replace(commentsCategoriesStripped, "");
+            if(WikiRegexes.Defaultsort.IsMatch(templates))
+                commentsCategoriesStripped = WikiRegexes.Defaultsort.Replace(commentsCategoriesStripped, "");
             Sorter.Interwikis(ref commentsStripped);
 
-            // bulleted or indented text should weigh less than simple text.
-            // for example, actor stubs may contain large filmographies
-            string crapStripped = BulletedText.Replace(WikiRegexes.NestedTemplates.Replace(commentsCategoriesStripped, " "), "");
-            int words = (Tools.WordCount(commentsCategoriesStripped, 999) + Tools.WordCount(crapStripped, 999)) / 2;
-
             // remove stub tags from long articles, don't move section stubs
-            if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
+            if(WikiRegexes.Stub.IsMatch(templates) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
-                articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
+                // bulleted or indented text should weigh less than simple text.
+                // for example, actor stubs may contain large filmographies
+                string crapStripped = BulletedText.Replace(WikiRegexes.NestedTemplates.Replace(commentsCategoriesStripped, " "), "");
+                int words = (Tools.WordCount(commentsCategoriesStripped, 999) + Tools.WordCount(crapStripped, 999)) / 2;
+                if(words > StubMaxWordCount)
+                {
+                    articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
 
-                if (Variables.LangCode.Equals("ar"))
-                {
-                    tagsRemoved.Add("بذرة");
-                }
-                else if (Variables.LangCode.Equals("arz"))
-                {
-                    tagsRemoved.Add("تقاوى");
-                }
-                else if (Variables.LangCode.Equals("hy"))
-                {
-                    tagsRemoved.Add("Անավարտ");
-                }
-                else
-                {
-                    tagsRemoved.Add("stub");
+                    if(Variables.LangCode.Equals("ar"))
+                    {
+                        tagsRemoved.Add("بذرة");
+                    }
+                    else if(Variables.LangCode.Equals("arz"))
+                    {
+                        tagsRemoved.Add("تقاوى");
+                    }
+                    else if(Variables.LangCode.Equals("hy"))
+                    {
+                        tagsRemoved.Add("Անավարտ");
+                    }
+                    else
+                    {
+                        tagsRemoved.Add("stub");
+                    }
                 }
             }
 
@@ -7629,7 +7635,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
 
             //remove disambiguation if disambiguation cleanup exists (en-wiki only)
-            if (Variables.LangCode.Equals("en") && WikiRegexes.DisambigsCleanup.IsMatch(commentsStripped))
+            if (Variables.LangCode.Equals("en") && WikiRegexes.DisambigsCleanup.IsMatch(templates) && WikiRegexes.DisambigsCleanup.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.DisambigsGeneral.Replace(articleText, "").Trim();
             }
@@ -7689,10 +7695,15 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             }
 
             // discount persondata, comments, infoboxes and categories from wikify/underlinked and stub evaluation
-            string lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
-            lengthtext = WikiRegexes.InfoBox.Replace(lengthtext, "");
-            lengthtext = Drugbox.Replace(lengthtext, "");
-            lengthtext = WikiRegexes.ReferenceList.Replace(lengthtext, "");
+            string lengthtext = commentsCategoriesStripped;
+            if(WikiRegexes.Persondata.IsMatch(templates))
+                lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
+            if(WikiRegexes.InfoBox.IsMatch(templates))
+                lengthtext = WikiRegexes.InfoBox.Replace(lengthtext, "");
+            if(Drugbox.IsMatch(templates))
+                lengthtext = Drugbox.Replace(lengthtext, "");
+            if(WikiRegexes.ReferenceList.IsMatch(templates))
+                lengthtext = WikiRegexes.ReferenceList.Replace(lengthtext, "");
 
             int length = lengthtext.Length + 1;
             bool underlinked = (wikiLinkCount < 0.0025 * length);
@@ -7728,83 +7739,94 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             }
 
             // rename existing {{improve categories}} else add uncategorized tag
-            if (totalCategories == 0 && ImproveCategories.IsMatch(articleText))
+            if (totalCategories == 0 && ImproveCategories.IsMatch(templates))
+            {
                 articleText = Tools.RenameTemplate(articleText, "improve categories", "Uncategorized");
+                templates = Tools.RenameTemplate(templates, "improve categories", "Uncategorized");
+            }
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
             // nl wiki doesn't use {{Uncategorized}} template
             // prevent wictionary redirects from being tagged as uncategorised
-            if (words > 6 && totalCategories == 0
-                && !WikiRegexes.Uncat.IsMatch(articleText)
+            if (totalCategories == 0
+                && !WikiRegexes.Uncat.IsMatch(templates)
                 && Variables.LangCode != "nl")
             {
-                if (WikiRegexes.Stub.IsMatch(commentsStripped))
+                // bulleted or indented text should weigh less than simple text.
+                // for example, actor stubs may contain large filmographies
+                string crapStripped = BulletedText.Replace(WikiRegexes.NestedTemplates.Replace(commentsCategoriesStripped, " "), "");
+                int words = (Tools.WordCount(commentsCategoriesStripped, 10) + Tools.WordCount(crapStripped, 10)) / 2;
+
+                if(words > 6)
                 {
-                    // add uncategorized stub tag
-                    if (Variables.LangCode.Equals("ar"))
+                    if (WikiRegexes.Stub.IsMatch(commentsStripped))
                     {
-                        articleText += Tools.Newline("{{بذرة غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
-                    }
-                    else if (Variables.LangCode.Equals("arz"))
-                    {
-                        articleText += Tools.Newline("{{تقاوى مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[قالب:تقاوى مش متصنفه|تقاوى مش متصنفه]]");
-                    }
-                    else if(Variables.LangCode.Equals("hy")) // same template for uncat and uncat stub
-                    {
-                        articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("Կատեգորիա չկա");
-                    }
-                    else if(Variables.LangCode.Equals("sv")) // same template for uncat and uncat stub
-                    {
-                        articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[Mall:Okategoriserad|okategoriserad]]");
+                        // add uncategorized stub tag
+                        if (Variables.LangCode.Equals("ar"))
+                        {
+                            articleText += Tools.Newline("{{بذرة غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
+                        }
+                        else if (Variables.LangCode.Equals("arz"))
+                        {
+                            articleText += Tools.Newline("{{تقاوى مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("[[قالب:تقاوى مش متصنفه|تقاوى مش متصنفه]]");
+                        }
+                        else if(Variables.LangCode.Equals("hy")) // same template for uncat and uncat stub
+                        {
+                            articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("Կատեգորիա չկա");
+                        }
+                        else if(Variables.LangCode.Equals("sv")) // same template for uncat and uncat stub
+                        {
+                            articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("[[Mall:Okategoriserad|okategoriserad]]");
+                        }
+                        else
+                        {
+                            articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
+                        }
                     }
                     else
                     {
-                        articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
-                    }
-                }
-                else
-                {
-                    if (Variables.LangCode.Equals("ar"))
-                    {
-                        articleText += Tools.Newline("{{غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[CAT:UNCAT|مقالات غير مصنفة]]");
-                    }
-                    else if (Variables.LangCode.Equals("arz"))
-                    {
-                        articleText += Tools.Newline("{{مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[CAT:UNCAT|مش متصنفه]]");
-                    }
-                    else if(Variables.LangCode.Equals("el"))
-                    {
-                        articleText += Tools.Newline("{{Ακατηγοριοποίητο|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[Πρότυπο:Ακατηγοριοποίητο|ακατηγοριοποίητο]]");
-                    }
-                    else if(Variables.LangCode.Equals("hy"))
-                    {
-                        articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("Կատեգորիա չկա");
-                    }
-                    else if(Variables.LangCode.Equals("sv"))
-                    {
-                        articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[Mall:Okategoriserad|okategoriserad]]");
-                    }
-                    else
-                    {
-                        articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
+                        if (Variables.LangCode.Equals("ar"))
+                        {
+                            articleText += Tools.Newline("{{غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("[[CAT:UNCAT|مقالات غير مصنفة]]");
+                        }
+                        else if (Variables.LangCode.Equals("arz"))
+                        {
+                            articleText += Tools.Newline("{{مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("[[CAT:UNCAT|مش متصنفه]]");
+                        }
+                        else if(Variables.LangCode.Equals("el"))
+                        {
+                            articleText += Tools.Newline("{{Ακατηγοριοποίητο|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("[[Πρότυπο:Ακατηγοριοποίητο|ακατηγοριοποίητο]]");
+                        }
+                        else if(Variables.LangCode.Equals("hy"))
+                        {
+                            articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("Կատեգորիա չկա");
+                        }
+                        else if(Variables.LangCode.Equals("sv"))
+                        {
+                            articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("[[Mall:Okategoriserad|okategoriserad]]");
+                        }
+                        else
+                        {
+                            articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
+                        }
                     }
                 }
             }
 
             // remove {{Uncategorized}} if > 0 real categories (stub categories not counted)
             // rename {{Uncategorized}} to {{Uncategorized stub}} if stub with zero categories (stub categories not counted)
-            if (WikiRegexes.Uncat.IsMatch(articleText))
+            if (WikiRegexes.Uncat.IsMatch(templates))
             {
                 if (totalCategories > 0)
                 {
@@ -7861,8 +7883,8 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             if (wikiLinkCount == 0 &&
                 !WikiRegexes.DeadEnd.IsMatch(articleText) &&
-                !WikiRegexes.SIAs.IsMatch(articleText) &&
-                !WikiRegexes.NonDeadEndPageTemplates.IsMatch(articleText) &&
+                !WikiRegexes.SIAs.IsMatch(templates) &&
+                !WikiRegexes.NonDeadEndPageTemplates.IsMatch(templates) &&
                 !WikiRegexes.MeaningsOfMinorPlanetNames.IsMatch(articleTitle)
                )
             {
@@ -7907,7 +7929,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             }
             // add underlinked/wikify tag, don't add underlinked/wikify if {{dead end}} already present
             // Dont' tag SIA pages, may create wikilinks from templates
-            else if (wikiLinkCount < 3 && underlinked &&  length > 400 && !WikiRegexes.Wikify.IsMatch(articleText)
+            else if (wikiLinkCount < 3 && underlinked && length > 400 && !WikiRegexes.Wikify.IsMatch(articleText)
                      && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify")
                      && !WikiRegexes.DeadEnd.IsMatch(articleText)
                      && !WikiRegexes.SIAs.IsMatch(articleText)
@@ -8195,6 +8217,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                     tagsRemoved.Add("orphan");
                 }
             }
+
             return articleText;
         }
 
