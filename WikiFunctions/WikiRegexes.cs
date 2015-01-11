@@ -46,7 +46,7 @@ namespace WikiFunctions
             TemplateNameRegex = Tools.TemplateNameRegex();
 
             Category = new Regex(@"\[\[[\s_]*" + category +
-                                 @"[ _]*(.*?)[ _]*(?:\|([^\|\]]*))?[ _]*\]\]");
+                                 @"[ _]*([^[\]|\r\n]*?)[ _]*(?:\|([^\|\]]*))?[ _]*\]\]");
 
             CategoryQuick = new Regex(@"\[\[[\s_]*" + category);
 
