@@ -7592,7 +7592,14 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             int tagsrenamed = 0;
 
             // Performance: get all templates so most template checks can be against this rather than whole article text
+            // Due to old-style Multiple issues template need to add full value of any MI templates back in
             string templates = String.Join(" ", GetAllTemplates(articleText).Select(s => "{{" + s + "}}").ToArray());
+            
+            if(WikiRegexes.MultipleIssues.IsMatch(templates))
+            {
+                foreach(Match mi in WikiRegexes.MultipleIssues.Matches(articleText))
+                    templates += mi.Value;
+            }
 
             string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             string commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
@@ -7677,7 +7684,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             }
 
             // remove dead end if > 0 wikilinks on page
-            if (wikiLinkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
+            if (wikiLinkCount > 0 && WikiRegexes.DeadEnd.IsMatch(templates))
             {
                 if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
                     articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
@@ -7968,7 +7975,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                 }
             }
             else if (wikiLinkCount > 3 && !underlinked &&
-                     WikiRegexes.Wikify.IsMatch(articleText))
+                     WikiRegexes.Wikify.IsMatch(templates))
             {
                 if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
                     articleText = WikiRegexes.Wikify.Replace(articleText, "");
@@ -7995,8 +8002,8 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             // rename unreferenced --> refimprove if has existing refs, update date
             // if have both unreferenced and refimprove, and have some refs then just remove unreferenced
-            if (WikiRegexes.Unreferenced.IsMatch(commentsCategoriesStripped)
-                && (TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(articleText).Count) > 0)
+            if (WikiRegexes.Unreferenced.IsMatch(templates)
+                && (TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(commentsCategoriesStripped).Count) > 0)
             {
                 articleText = Unreferenced.Replace(articleText, m2 => 
                                                    {
