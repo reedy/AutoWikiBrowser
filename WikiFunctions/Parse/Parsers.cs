@@ -8441,20 +8441,30 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns>The updated article text</returns>
         public static string TagUpdater(string articleText)
         {
-            articleText = ht.Hide(articleText);
             if(WikiRegexes.DatedTemplates.Any())
             {
                 List<string> t = GetAllTemplates(articleText), t2 = new List<string>();
 
                 t2.AddRange(t.Where(s => WikiRegexes.DatedTemplates.Contains(s)));
 
+                // only work to do if article has any of the DatedTemplates in it
                 if(t2.Any())
+                {
+                    string originalArticleText = articleText;
                     articleText = Tools.NestedTemplateRegex(t2).Replace(articleText, TagUpdaterME);
+
+                    // Performance: only worth aplying Hide if we made changes to raw articleText
+                    if(!originalArticleText.Equals(articleText))
+                    {
+                        articleText = ht.Hide(originalArticleText);
+                        articleText = Tools.NestedTemplateRegex(t2).Replace(articleText, TagUpdaterME);
+                        articleText = FixSyntaxSubstRefTags(articleText);
+                        articleText = ht.AddBack(articleText);
+                    }
+                }
             }
 
-            articleText = FixSyntaxSubstRefTags(articleText);
-
-            return ht.AddBack(articleText);
+            return articleText;
         }
 
         private static readonly Regex CurlyBraceEnd = new Regex(@"(?:\| *)?}}$", RegexOptions.Compiled);
