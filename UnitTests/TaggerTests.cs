@@ -434,7 +434,7 @@ namespace UnitTests
             // {{improve categories}} --> {{uncat stub}} if no cats and stub
             Globals.UnitTestIntValue = 0;
             text = parser.Tagger(@"{{improve categories}}  {{foo-stub}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsTrue(text.Contains(@"{{uncategorized stub"));
+            Assert.IsTrue(text.Contains(@"{{uncategorized stub"), "improve cats to uncat stub");
             Assert.IsFalse(text.Contains(@"{{improve categories"));
 
             // Do not add underlinked if page is small with a single wikilink
