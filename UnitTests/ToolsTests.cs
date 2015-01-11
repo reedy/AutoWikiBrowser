@@ -256,6 +256,16 @@ namespace UnitTests
 |}
 bar"));
 
+            Assert.AreEqual(2, Tools.WordCount(@"foo
+{|
+! test !! {{test}}
+|-
+| test
+| test || test
+|-
+|}
+bar"));
+
             Assert.AreEqual(1, Tools.WordCount(@"foo
 {| class=""wikitable""
 ! test !! test
