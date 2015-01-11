@@ -7598,7 +7598,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             // bulleted or indented text should weigh less than simple text.
             // for example, actor stubs may contain large filmographies
-            string crapStripped = BulletedText.Replace(commentsCategoriesStripped, "");
+            string crapStripped = BulletedText.Replace(WikiRegexes.NestedTemplates.Replace(commentsCategoriesStripped, " "), "");
             int words = (Tools.WordCount(commentsCategoriesStripped, 999) + Tools.WordCount(crapStripped, 999)) / 2;
 
             // remove stub tags from long articles, don't move section stubs
