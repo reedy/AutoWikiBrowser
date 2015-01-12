@@ -739,22 +739,37 @@ namespace WikiFunctions
 		
 		private static readonly Regex FlagIOC = NestedTemplateRegex("flagIOC");
 
-		// Covered by ToolsTests.LinkCountTests
-		/// <summary>
-		/// Returns the number of mainspace wikilinks i.e. [[links]] in the string
-		/// </summary>
-		public static int LinkCount(string text)
-		{
-			int res = FlagIOC.Matches(text).Count;
+        // Covered by ToolsTests.LinkCountTests
+        /// <summary>
+        /// Returns the number of mainspace wikilinks i.e. [[links]] in the string, capped at the input limit
+        /// </summary>
+        public static int LinkCount(string text, int limit)
+        {
+            int res = FlagIOC.Matches(text).Count;
 
-			// count only mainspace links, not image/category/interwiki/template links
-			foreach(Match m in WikiRegexes.WikiLink.Matches(text))
-			{
-				if(Namespace.Determine(m.Groups[1].Value).Equals(Namespace.Mainspace))
-					res++;
-			}
-			return res;
-		}
+            if(res >= limit)
+                return limit;
+
+            // count only mainspace links, not image/category/interwiki/template links
+            foreach(Match m in WikiRegexes.WikiLink.Matches(text))
+            {
+                if(Namespace.Determine(m.Groups[1].Value).Equals(Namespace.Mainspace))
+                    res++;
+
+                if(res >= limit)
+                    return res;
+            }
+            return res;
+        }
+
+        // Covered by ToolsTests.LinkCountTests
+        /// <summary>
+        /// Returns the number of mainspace wikilinks i.e. [[links]] in the string
+        /// </summary>
+        public static int LinkCount(string text)
+        {
+            return LinkCount(text, 9999999);
+        }
 
 		/// <summary>
 		/// Returns a sorted list of duplicate wikilinks in the input text (links converted to first letter upper) in format: name (count)
