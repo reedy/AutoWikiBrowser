@@ -39,8 +39,8 @@ Namespace AutoWikiBrowser.CustomModules
 
         Dim awb As WikiFunctions.Plugin.IAutoWikiBrowser
 
-        Public Sub New(ByRef mAWB As WikiFunctions.Plugin.IAutoWikiBrowser)
-            awb = mAWB
+        Public Sub New(ByRef _awb As WikiFunctions.Plugin.IAutoWikiBrowser)
+            awb = _awb
         End Sub
 ";
             }
