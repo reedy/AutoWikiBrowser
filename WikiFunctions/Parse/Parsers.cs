@@ -7605,7 +7605,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             string commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
             if(WikiRegexes.Defaultsort.IsMatch(templates))
                 commentsCategoriesStripped = WikiRegexes.Defaultsort.Replace(commentsCategoriesStripped, "");
-            Sorter.Interwikis(ref commentsStripped);
+            Sorter.Interwikis(ref commentsStripped, false);
 
             // remove stub tags from long articles, don't move section stubs
             if(WikiRegexes.Stub.IsMatch(templates) && WikiRegexes.Stub.IsMatch(commentsStripped))
