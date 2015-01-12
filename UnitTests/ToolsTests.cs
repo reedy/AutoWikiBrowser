@@ -991,17 +991,18 @@ John", "*"));
         [Test]
         public void LinkCountTests()
         {
-            Assert.AreEqual(0, Tools.LinkCount(@"foo"));
-            Assert.AreEqual(0, Tools.LinkCount(@"[foo]"));
-            Assert.AreEqual(0, Tools.LinkCount(@"[[Image:foo.png]]"));
-            Assert.AreEqual(0, Tools.LinkCount(@"[[File:foo.png]]"));
-            Assert.AreEqual(0, Tools.LinkCount(@"[[Template:Dn]]"));
+            Assert.AreEqual(0, Tools.LinkCount(@"foo"), "No links");
+            Assert.AreEqual(0, Tools.LinkCount(@"[foo]"), "broken links not counted");
+            Assert.AreEqual(0, Tools.LinkCount(@"[[Image:foo.png]]"), "Image links not counted");
+            Assert.AreEqual(0, Tools.LinkCount(@"[[File:foo.png]]"), "File links not counted");
+            Assert.AreEqual(0, Tools.LinkCount(@"[[Template:Dn]]"), "Templates not counted");
+            Assert.AreEqual(1, Tools.LinkCount(@"now [[en:foo]] was great"), "Interwikis are counted");
             Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]"));
             Assert.AreEqual(1, Tools.LinkCount(@"[[Image:foo.png]] and [[foo]]"));
-            Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"));
+            Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"), "counts piped links");
             Assert.AreEqual(1, Tools.LinkCount(@"{{flagIOC}}"));
-            Assert.AreEqual(1, Tools.LinkCount(@"now [[Magic: the gathering]] was great"));
-            Assert.AreEqual(3, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]] {{flagIOC}}"));
+            Assert.AreEqual(1, Tools.LinkCount(@"now [[Magic: the gathering]] was great"), "handles mainspace wikilink with colon");
+            Assert.AreEqual(3, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]] {{flagIOC}}"), "counts flagIOC template as a link");
         }
 
         [Test]
