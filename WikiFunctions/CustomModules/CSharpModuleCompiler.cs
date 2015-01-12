@@ -40,9 +40,9 @@ namespace AutoWikiBrowser.CustomModules
     {
         WikiFunctions.Plugin.IAutoWikiBrowser awb;
 
-        public CustomModule(WikiFunctions.Plugin.IAutoWikiBrowser mAWB)
+        public CustomModule(WikiFunctions.Plugin.IAutoWikiBrowser _awb)
         {
-           awb =  mAWB;
+           awb =  _awb;
         }
 ";
             }
