@@ -7663,7 +7663,21 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             if(ProposedDeletionDatedEndorsed.IsMatch(templates))
                 forLinkCount = ProposedDeletionDatedEndorsed.Replace(forLinkCount, "");
 
-            int wikiLinkCount = Tools.LinkCount(forLinkCount);
+            // discount persondata, comments, infoboxes and categories from wikify/underlinked and stub evaluation
+            string lengthtext = commentsCategoriesStripped;
+            if(WikiRegexes.Persondata.IsMatch(templates))
+                lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
+            if(WikiRegexes.InfoBox.IsMatch(templates))
+                lengthtext = WikiRegexes.InfoBox.Replace(lengthtext, "");
+            if(Drugbox.IsMatch(templates))
+                lengthtext = Drugbox.Replace(lengthtext, "");
+            if(WikiRegexes.ReferenceList.IsMatch(templates))
+                lengthtext = WikiRegexes.ReferenceList.Replace(lengthtext, "");
+
+            int length = lengthtext.Length + 1;
+            int linkLimit = (int)(0.0025 * length)+1;
+            int wikiLinkCount = Tools.LinkCount(forLinkCount, linkLimit);
+            bool underlinked = (wikiLinkCount < 0.0025 * length);
 
             #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
@@ -7707,20 +7721,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                     }
                 }
             }
-
-            // discount persondata, comments, infoboxes and categories from wikify/underlinked and stub evaluation
-            string lengthtext = commentsCategoriesStripped;
-            if(WikiRegexes.Persondata.IsMatch(templates))
-                lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
-            if(WikiRegexes.InfoBox.IsMatch(templates))
-                lengthtext = WikiRegexes.InfoBox.Replace(lengthtext, "");
-            if(Drugbox.IsMatch(templates))
-                lengthtext = Drugbox.Replace(lengthtext, "");
-            if(WikiRegexes.ReferenceList.IsMatch(templates))
-                lengthtext = WikiRegexes.ReferenceList.Replace(lengthtext, "");
-
-            int length = lengthtext.Length + 1;
-            bool underlinked = (wikiLinkCount < 0.0025 * length);
 
             if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
                 !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(commentsCategoriesStripped))
