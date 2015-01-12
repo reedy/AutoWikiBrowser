@@ -58,9 +58,9 @@
             // txtCode
             // 
             this.txtCode.AcceptsTab = true;
-            this.txtCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCode.ContextMenuStrip = this.mnuTextBox;
             this.txtCode.Font = new System.Drawing.Font("Courier New", 9F);
             this.txtCode.Location = new System.Drawing.Point(11, 332);
@@ -84,26 +84,26 @@
             this.toolStripSeparator1,
             this.selectAllToolStripMenuItem});
             this.mnuTextBox.Name = "mnuMakeFromTextBox";
-            this.mnuTextBox.Size = new System.Drawing.Size(168, 126);
+            this.mnuTextBox.Size = new System.Drawing.Size(165, 126);
             // 
             // menuitemMakeFromTextBoxUndo
             // 
             this.menuitemMakeFromTextBoxUndo.Name = "menuitemMakeFromTextBoxUndo";
             this.menuitemMakeFromTextBoxUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(167, 22);
+            this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(164, 22);
             this.menuitemMakeFromTextBoxUndo.Text = "&Undo";
             this.menuitemMakeFromTextBoxUndo.Click += new System.EventHandler(this.menuitemMakeFromTextBoxUndo_Click);
             // 
             // toolStripSeparator27
             // 
             this.toolStripSeparator27.Name = "toolStripSeparator27";
-            this.toolStripSeparator27.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator27.Size = new System.Drawing.Size(161, 6);
             // 
             // menuitemMakeFromTextBoxCut
             // 
             this.menuitemMakeFromTextBoxCut.Name = "menuitemMakeFromTextBoxCut";
             this.menuitemMakeFromTextBoxCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.menuitemMakeFromTextBoxCut.Size = new System.Drawing.Size(167, 22);
+            this.menuitemMakeFromTextBoxCut.Size = new System.Drawing.Size(164, 22);
             this.menuitemMakeFromTextBoxCut.Text = "Cu&t";
             this.menuitemMakeFromTextBoxCut.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCut_Click);
             // 
@@ -111,7 +111,7 @@
             // 
             this.menuitemMakeFromTextBoxCopy.Name = "menuitemMakeFromTextBoxCopy";
             this.menuitemMakeFromTextBoxCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.menuitemMakeFromTextBoxCopy.Size = new System.Drawing.Size(167, 22);
+            this.menuitemMakeFromTextBoxCopy.Size = new System.Drawing.Size(164, 22);
             this.menuitemMakeFromTextBoxCopy.Text = "&Copy";
             this.menuitemMakeFromTextBoxCopy.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCopy_Click);
             // 
@@ -119,25 +119,26 @@
             // 
             this.menuitemMakeFromTextBoxPaste.Name = "menuitemMakeFromTextBoxPaste";
             this.menuitemMakeFromTextBoxPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.menuitemMakeFromTextBoxPaste.Size = new System.Drawing.Size(167, 22);
+            this.menuitemMakeFromTextBoxPaste.Size = new System.Drawing.Size(164, 22);
             this.menuitemMakeFromTextBoxPaste.Text = "&Paste";
             this.menuitemMakeFromTextBoxPaste.Click += new System.EventHandler(this.menuitemMakeFromTextBoxPaste_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.selectAllToolStripMenuItem.Text = "&Select All";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
             // btnClose
             // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.Location = new System.Drawing.Point(577, 30);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
@@ -148,6 +149,7 @@
             // 
             // btnMake
             // 
+            this.btnMake.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMake.Enabled = false;
             this.btnMake.Location = new System.Drawing.Point(484, 30);
             this.btnMake.Name = "btnMake";
@@ -159,6 +161,7 @@
             // 
             // cmboLang
             // 
+            this.cmboLang.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmboLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboLang.FormattingEnabled = true;
             this.cmboLang.Items.AddRange(new object[] {
@@ -172,6 +175,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(280, 35);
             this.label1.Name = "label1";
@@ -181,8 +185,8 @@
             // 
             // lblStart
             // 
-            this.lblStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStart.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStart.Location = new System.Drawing.Point(12, 76);
             this.lblStart.Name = "lblStart";
@@ -192,8 +196,8 @@
             // 
             // lblEnd
             // 
-            this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEnd.Font = new System.Drawing.Font("Courier New", 9F);
             this.lblEnd.Location = new System.Drawing.Point(9, 495);
             this.lblEnd.Name = "lblEnd";
@@ -236,13 +240,13 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guideToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.guideToolStripMenuItem.Text = "&Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
@@ -261,6 +265,7 @@
             // 
             // lblBuilt
             // 
+            this.lblBuilt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblBuilt.AutoSize = true;
             this.lblBuilt.Location = new System.Drawing.Point(280, 57);
             this.lblBuilt.Name = "lblBuilt";
@@ -286,8 +291,10 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.txtCode);
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(680, 581);
             this.Name = "CustomModule";
             this.ShowIcon = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Module";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomModule_FormClosing);
             this.mnuTextBox.ResumeLayout(false);
