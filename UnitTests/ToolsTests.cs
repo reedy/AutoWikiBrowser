@@ -1003,6 +1003,10 @@ John", "*"));
             Assert.AreEqual(1, Tools.LinkCount(@"{{flagIOC}}"));
             Assert.AreEqual(1, Tools.LinkCount(@"now [[Magic: the gathering]] was great"), "handles mainspace wikilink with colon");
             Assert.AreEqual(3, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]] {{flagIOC}}"), "counts flagIOC template as a link");
+            
+            Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]] and [[foo2]]", 1), "count capped at limit");
+            Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]] and [[foo2]]", 2), "count capped at limit");
+            Assert.AreEqual(2, Tools.LinkCount(@"{{flagIOC}} {{flagIOC}} {{flagIOC}}", 2), "count capped at limit, flagIOC");
         }
 
         [Test]
