@@ -59,7 +59,9 @@ namespace AutoWikiBrowser
             get { return cmboLang.SelectedItem.ToString(); }
             set
             {
-                foreach (CustomModuleCompiler c in from CustomModuleCompiler c in cmboLang.Items where c.CanHandleLanguage(value) select c)
+                foreach (
+                    CustomModuleCompiler c in
+                        from CustomModuleCompiler c in cmboLang.Items where c.CanHandleLanguage(value) select c)
                 {
                     cmboLang.SelectedItem = c;
                     return;
@@ -76,7 +78,7 @@ namespace AutoWikiBrowser
         /// </summary>
         public CustomModuleCompiler Compiler
         {
-            get { return (CustomModuleCompiler)cmboLang.SelectedItem; }
+            get { return (CustomModuleCompiler) cmboLang.SelectedItem; }
         }
 
         /// <summary>
@@ -103,7 +105,8 @@ namespace AutoWikiBrowser
 
         private const string BuiltPrefix = "Custom Module Built At: ";
 
-        IModule M;
+        private IModule M;
+
         /// <summary>
         /// 
         /// </summary>
@@ -139,12 +142,16 @@ namespace AutoWikiBrowser
             try
             {
                 CompilerParameters cp = new CompilerParameters
-                                            {
-                                                GenerateExecutable = false,
-                                                IncludeDebugInformation = false
-                                            };
+                {
+                    GenerateExecutable = false,
+                    IncludeDebugInformation = false
+                };
 
-                foreach (var path in AppDomain.CurrentDomain.GetAssemblies().Select(asm => asm.Location).Where(path => !string.IsNullOrEmpty(path)))
+                foreach (
+                    var path in
+                        AppDomain.CurrentDomain.GetAssemblies()
+                            .Select(asm => asm.Location)
+                            .Where(path => !string.IsNullOrEmpty(path)))
                 {
                     cp.ReferencedAssemblies.Add(path);
                 }
@@ -154,7 +161,7 @@ namespace AutoWikiBrowser
                 bool hasErrors = false;
                 if (results.Errors.Count > 0)
                 {
-                    StringBuilder builder = new StringBuilder();//"Compilation messages:\r\n");
+                    StringBuilder builder = new StringBuilder(); //"Compilation messages:\r\n");
                     foreach (CompilerError err in results.Errors)
                     {
                         hasErrors |= !err.IsWarning;
@@ -169,7 +176,7 @@ namespace AutoWikiBrowser
                         builder.Append("\r\n");
                     }
 
-                    MessageBox.Show(this, builder.ToString(), 
+                    MessageBox.Show(this, builder.ToString(),
                         "Compilation " + (hasErrors ? "errors" : "warnings"));
 
                     if (hasErrors)
@@ -181,7 +188,7 @@ namespace AutoWikiBrowser
 
                 foreach (Type t in results.CompiledAssembly.GetTypes().Where(t => t.GetInterface("IModule") != null))
                 {
-                    Module = (IModule)Activator.CreateInstance(t, Program.AWB);
+                    Module = (IModule) Activator.CreateInstance(t, Program.AWB);
                 }
             }
             catch (Exception ex)
@@ -228,11 +235,12 @@ namespace AutoWikiBrowser
         {
             MessageBox.Show(@"A module allows you to process the article text using your own dotnet code.
 
-Use the ""Makes module"" button to compile and load the code.
+Use the ""Make module"" button to compile and load the code.
 
 The method ""ProcessArticle"" is called when AWB is applying all its own processes. Do not change the sigature of this method.
 
-The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace is 0 etc., the string ""Summary"" must be set to the message to append to the summary (or can be an empty string), the bool ""Skip"" must be set whether to skip the article or not.", "Guide", MessageBoxButtons.OK, MessageBoxIcon.Information);
+The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace is 0 etc., the string ""Summary"" must be set to the message to append to the summary (or can be an empty string), the bool ""Skip"" must be set whether to skip the article or not.",
+                "Guide", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void chkModuleEnabled_CheckedChanged(object sender, EventArgs e)
@@ -242,10 +250,14 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
 
         private void chkFixedwidth_CheckedChanged(object sender, EventArgs e)
         {
-            txtCode.Font = lblStart.Font = lblEnd.Font = chkFixedwidth.Checked ? new Font("Courier New", 9) : new Font("Microsoft Sans Serif", 8);
+            txtCode.Font =
+                lblStart.Font =
+                    lblEnd.Font =
+                        chkFixedwidth.Checked ? new Font("Courier New", 9) : new Font("Microsoft Sans Serif", 8);
         }
 
         #region txtCode Context Menu
+
         private void menuitemMakeFromTextBoxUndo_Click(object sender, EventArgs e)
         {
             txtCode.Undo();
@@ -270,6 +282,7 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
         {
             txtCode.SelectAll();
         }
+
         #endregion
     }
 }
