@@ -284,5 +284,21 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
         }
 
         #endregion
+
+        private void showOnlyCodeBoxToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            var check = showOnlyCodeBoxToolStripMenuItem.Checked;
+            lblStart.Visible = !check;
+            lblEnd.Visible = !check;
+            if (check)
+            {
+                txtCode.Dock = DockStyle.Fill;
+            }
+            else
+            {
+                txtCode.Dock = DockStyle.None;
+                txtCode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+            }
+        }
     }
 }
