@@ -63,12 +63,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCode.ContextMenuStrip = this.mnuTextBox;
             this.txtCode.Font = new System.Drawing.Font("Courier New", 9F);
-            this.txtCode.Location = new System.Drawing.Point(15, 332);
+            this.txtCode.Location = new System.Drawing.Point(12, 332);
             this.txtCode.MaxLength = 0;
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtCode.Size = new System.Drawing.Size(637, 160);
+            this.txtCode.Size = new System.Drawing.Size(640, 160);
             this.txtCode.TabIndex = 10;
             this.txtCode.TabStop = false;
             this.txtCode.WordWrap = false;
@@ -199,16 +199,16 @@
             this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEnd.Font = new System.Drawing.Font("Courier New", 9F);
-            this.lblEnd.Location = new System.Drawing.Point(9, 495);
+            this.lblEnd.Location = new System.Drawing.Point(12, 495);
             this.lblEnd.Name = "lblEnd";
-            this.lblEnd.Size = new System.Drawing.Size(643, 39);
+            this.lblEnd.Size = new System.Drawing.Size(640, 39);
             this.lblEnd.TabIndex = 11;
             // 
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
             this.lblStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.lblStatus.Location = new System.Drawing.Point(82, 35);
+            this.lblStatus.Location = new System.Drawing.Point(83, 35);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(93, 13);
             this.lblStatus.TabIndex = 2;
@@ -217,7 +217,7 @@
             // chkModuleEnabled
             // 
             this.chkModuleEnabled.AutoSize = true;
-            this.chkModuleEnabled.Location = new System.Drawing.Point(11, 34);
+            this.chkModuleEnabled.Location = new System.Drawing.Point(12, 34);
             this.chkModuleEnabled.Name = "chkModuleEnabled";
             this.chkModuleEnabled.Size = new System.Drawing.Size(65, 17);
             this.chkModuleEnabled.TabIndex = 1;
@@ -255,7 +255,7 @@
             this.chkFixedwidth.AutoSize = true;
             this.chkFixedwidth.Checked = true;
             this.chkFixedwidth.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFixedwidth.Location = new System.Drawing.Point(11, 56);
+            this.chkFixedwidth.Location = new System.Drawing.Point(12, 56);
             this.chkFixedwidth.Name = "chkFixedwidth";
             this.chkFixedwidth.Size = new System.Drawing.Size(100, 17);
             this.chkFixedwidth.TabIndex = 3;
