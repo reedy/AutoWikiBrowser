@@ -37,6 +37,7 @@
             // 
             // Summaries
             // 
+            this.Summaries.AcceptsTab = true;
             this.Summaries.Location = new System.Drawing.Point(12, 25);
             this.Summaries.Name = "Summaries";
             this.Summaries.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
