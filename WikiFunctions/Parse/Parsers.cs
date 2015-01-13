@@ -8270,7 +8270,8 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns>The updated article text</returns>
         private string TagEmptySection(string articleText)
         {
-            if (!Variables.LangCode.Equals("en"))
+            // Regex check for performance
+            if (!Variables.LangCode.Equals("en") || !Regex.IsMatch(articleText, @"==\s+==[^=]"))
                 return articleText;
 
             string originalarticleText = "";
