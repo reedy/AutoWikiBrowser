@@ -329,6 +329,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Module";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomModule_FormClosing);
+            this.Resize += new System.EventHandler(this.CustomModule_Resize);
             this.mnuTextBox.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
