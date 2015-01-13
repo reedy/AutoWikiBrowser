@@ -3073,7 +3073,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"<ref>\s*</ref>"), ""),
             // Trailing spaces at the beginning of a reference, within the reference
             new RegexReplacement(new Regex(@"(<ref[^<>\{\}\/]*>) +"), "$1"),
-            // whitespace cleaning
+            // whitespace cleaning of </ref>
             new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>"), "</ref>")
 
         };
