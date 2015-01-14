@@ -473,6 +473,7 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
             AssertHidden("<pre style=quux>foo\r\nbar</pre>");
             AssertHidden("<math>foo\r\nbar</math>");
             AssertHidden("{{math|foo\r\nbar}}");
+            AssertHidden("{{code|foo\r\nbar}}");
             AssertHidden("<timeline>foo\r\nbar</timeline>");
             AssertHidden("<timeline foo=bar>foo\r\nbar</timeline>");
             AssertHidden("<nowiki>foo\r\nbar</nowiki>");
