@@ -73,7 +73,7 @@ namespace WikiFunctions.Parse
         }
         
         private static readonly Regex CiteTitle = new Regex(@"(?<=\|\s*(?:trans_)?title\s*=\s*)[^\|{}<>]+", RegexOptions.Compiled);
-        private static readonly Regex Mathtemplate = Tools.NestedTemplateRegex("math");
+        private static readonly Regex MathCodetemplate = Tools.NestedTemplateRegex(new [] { "math", "code" });
 
         /// <summary>
         /// Hides Unformatted text (nowiki, pre, math, html comments, timelines), source tags
@@ -87,7 +87,7 @@ namespace WikiFunctions.Parse
 
             Replace(WikiRegexes.SourceCode.Matches(articleText), ref articleText);
             Replace(WikiRegexes.NotATypo.Matches(articleText), ref articleText);
-            Replace(Mathtemplate.Matches(articleText), ref articleText);                 
+            Replace(MathCodetemplate.Matches(articleText), ref articleText);                 
 
             var matches = (from Match m in WikiRegexes.UnformattedText.Matches(articleText) where !LeaveMetaHeadings || !NoWikiIgnoreRegex.IsMatch(m.Value) select m).ToList();
             Replace(matches, ref articleText);
