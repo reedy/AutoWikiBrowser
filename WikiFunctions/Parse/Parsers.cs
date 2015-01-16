@@ -3699,7 +3699,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixSyntaxRedirects(string articleText)
         {
-            return WikiRegexes.Redirect.Replace(articleText, m => {
+            articleText = WikiRegexes.Redirect.Replace(articleText, m => {
                                                                       string res = m.Value.Replace("\r\n", " ");
                                                                       res = res.Replace("[[[[", "[[");
                                                                       res = res.Replace("]]]]", "]]");
@@ -3709,7 +3709,10 @@ namespace WikiFunctions.Parse
                                                                       res = res.Replace("=[[", " [[");
                                                                       res = res.Replace(": [[", " [[");
                                                                       return res.Replace(":[[", " [[");
-            });
+
+        	                                            });
+        	
+        	return articleText = RemoveTemplateNamespace(articleText);
         }
 
         /// <summary>
