@@ -3712,7 +3712,7 @@ namespace WikiFunctions.Parse
 
         	                                            });
         	
-        	return articleText = RemoveTemplateNamespace(articleText);
+        	return RemoveTemplateNamespace(articleText);
         }
 
         /// <summary>
