@@ -807,6 +807,12 @@ Jones 2005</ref>"));
             Assert.AreEqual(SingleRef + Tracklist + "\r\n\r\n" + @"==References==
 {{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Tracklist + Cat));
 
+            // after s-end, before cats
+            const string SEnd = @"
+{{s-end}}";
+            Assert.AreEqual(SingleRef + SEnd + "\r\n\r\n" + @"==References==
+{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + SEnd + Cat));
+
             // missing slash in <references>
             const string missingSlash = @"Foo <ref>a</ref>
 ==References==
