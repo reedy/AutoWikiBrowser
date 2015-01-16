@@ -1484,10 +1484,12 @@ namespace WikiFunctions.Lists.Providers
             return MakeList(Namespace.Article, searchCriteria);
         }
 
-        public List<Article> MakeList(int Namespace, params string[] searchCriteria)
+        public List<Article> MakeList(int NamespaceIn, params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
-            list.AddRange(ApiMakeList("list=allusers&aulimit=max", list.Count));
+
+            list.AddRange(Tools.ConvertNamespace(ApiMakeList("list=allusers&aulimit=max", list.Count), Namespace.User));
+
             return list;
         }
 
