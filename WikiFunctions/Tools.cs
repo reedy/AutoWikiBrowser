@@ -1952,6 +1952,40 @@ Message: {2}
 			return newList;
 		}
 
+		/// <summary>
+		/// Turns a list of pages into a list of pages in the input namespace
+		/// Does not convert Special pages
+		/// </summary>
+		/// <param name="list">The list of  pages.</param>
+		/// <param name="NewNamespace">New namespace number</param>
+		/// <returns>The list of articles.</returns>
+		public static List<Article> ConvertNamespace(List<Article> list, int NewNamespace)
+		{
+			List<Article> newList = new List<Article>(list.Count);
+
+			foreach (Article a in list)
+			{
+				string s = ConvertNamespace(a, NewNamespace);
+				newList.Add(a.Equals(s) ? a : new Article(s));
+			}
+			return newList;
+		}
+
+		/// <summary>
+		/// Turns a list of pages into a list of pages in the input namespace
+		/// Does not convert Special pages
+		/// </summary>
+		/// <param name="a">The article</param>
+		/// <param name="NewNamespace">New namespace number</param>
+		/// <returns>The list of articles.</returns>
+		public static string ConvertNamespace(Article a, int NewNamespace)
+		{
+			if (Namespace.IsSpecial(a.NameSpaceKey) || !Variables.Namespaces.ContainsKey(NewNamespace))
+				return a.Name;
+
+			return Variables.Namespaces[NewNamespace] + a.NamespacelessName;
+		}
+
 		// Covered by ToolsTests.FilterSomeArticles()
 		/// <summary>
 		/// Filter out articles which we definately do not want to edit and remove duplicates.
