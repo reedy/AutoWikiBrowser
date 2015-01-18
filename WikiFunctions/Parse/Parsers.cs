@@ -4838,7 +4838,7 @@ namespace WikiFunctions.Parse
                 if (dateFound.Length < 5)
                     dateFound += ("-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3));
             }
-            else if (field.Equals("DATE OF DEATH") && DeathDate.IsMatch(articletext))
+            else if (field.Equals("DATE OF DEATH") && DeathDate.Matches(articletext).Count == 1)
             {
                 sourceValue = Tools.RemoveTemplateParameters(DeathDate.Match(articletext).Value, DfMf);
                 dateFound = Tools.GetTemplateArgument(sourceValue, 1);
