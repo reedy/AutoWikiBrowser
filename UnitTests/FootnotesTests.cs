@@ -88,6 +88,14 @@ namespace UnitTests
 
        Assert.AreEqual("{{Reflist}}", Parsers.FixReferenceListTags(@"<small><references/></small>"));
        Assert.AreEqual("{{Reflist}}", Parsers.FixReferenceListTags(@"<small><references /></small>"));
+
+#if DEBUG
+            Variables.SetProjectLangCode("sv");
+            Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<div class=\"references-small\"><references/>\r\n</div>"));
+
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual("{{Reflist}}", Parsers.FixReferenceListTags("<div class=\"references-small\"><references/>\r\n</div>"));
+#endif
         }
         
 
