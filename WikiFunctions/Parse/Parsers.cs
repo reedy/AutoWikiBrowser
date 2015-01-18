@@ -3064,30 +3064,12 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=\s*>"), "<ref>")
         };
 
-        private static readonly RegexReplacement[] RefComplex = {
-            // <REF>, </REF> and <Ref> to lowercase ref
-            new RegexReplacement(new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))"), "$1ref$2"),
-            // remove any spaces between consecutive references -- WP:REFPUNC
-            new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)"), "$1"),
-            // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
-            new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)"), "$1 $2"),
-            // remove spaces between punctuation and references -- WP:REFPUNC
-            new RegexReplacement(new Regex(@"(?<=[,\.:;]) +(<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)"), "$1"),
-            // empty <ref>...</ref> tags
-            new RegexReplacement(new Regex(@"<ref>\s*</ref>"), ""),
-            // Trailing spaces at the beginning of a reference, within the reference
-            new RegexReplacement(new Regex(@"(<ref[^<>\{\}\/]*>) +"), "$1"),
-            // whitespace cleaning of </ref>
-            new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>"), "</ref>")
-
-        };
-
         // Matches possibly bad ref tags, but not the most common valid formats
         private static readonly Regex PossiblyBadRefTags = new Regex(@"<\s*[Rr][Ee][Ff][^<>]*>(?<!(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref>|<ref name *= *""[^{}""<>]+""( ?/)?>))");
-        private static readonly Regex RedRefQuick = new Regex(@"<\s*(?:/\s*red|ref\s*/)\s*>");
-        // <ref>...<ref/> --> <ref>...</ref> or <ref>...</red> --> <ref>...</ref>
+        // <ref>...<ref/> or <ref>...</red> --> <ref>...</ref>
         private static readonly Regex RedRef = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>", RegexOptions.IgnoreCase);
-        
+        private static readonly Regex AllTagsSpace = new Regex(@"<[^<>]+> *");
+
         // Covered by TestFixReferenceTags
         /// <summary>
         /// Various fixes to the formatting of &lt;ref&gt; reference tags including case conversion and trimming excess whitespace
@@ -3096,14 +3078,43 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixReferenceTags(string articleText)
         {
-            foreach (RegexReplacement rr in RefComplex)
-                articleText = rr.Regex.Replace(articleText, rr.Replacement);
+            // Performance strategy: get all tags in article, filter down to tags that look like ref tags, ignore valid tags, only apply regexes where relevant tags are found
+            List<string> AllTagsList = Tools.DeduplicateList((from Match m in AllTagsSpace.Matches(articleText)
+                where m.Value.IndexOf("re", StringComparison.OrdinalIgnoreCase) > 0 
+                && !m.Value.Equals("<ref>") && !m.Value.Equals("</ref>") && !m.Value.StartsWith(@"<references") && !m.Value.Contains(" group")
+                                                                          select m.Value).ToList());
+
+            // <REF>, </REF> and <Ref> to lowercase ref
+            if(AllTagsList.Where(s => Regex.IsMatch(s, @"R[Ee][Ff]|r[Ee]F")).Any())
+                articleText = Regex.Replace(articleText, @"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))", "$1ref$2");
+
+            // remove any spaces between consecutive references -- WP:REFPUNC
+            if(AllTagsList.Where(s => s.EndsWith(" ")).Any())
+                articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", "$1");
+
+            // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
+            articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)", "$1 $2");
+
+            // remove spaces between punctuation and references -- WP:REFPUNC
+            if(articleText.Contains(" <ref"))
+                articleText = Regex.Replace(articleText, @"(?<=[,\.:;]) +(<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", "$1");
+
+            // empty <ref>...</ref> tags
+            articleText = Regex.Replace(articleText, @"<ref>\s*</ref>", "");
+
+            // Trailing spaces at the beginning of a reference, within the reference
+            if(AllTagsList.Where(s => s.EndsWith(" ")).Any())
+                articleText = Regex.Replace(articleText, @"(<ref[^<>\{\}\/]*>) +", "$1");
+
+            // whitespace cleaning of </ref>
+            if(AllTagsList.Where(s => Regex.IsMatch(s, @"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>")).Any())
+                articleText = Regex.Replace(articleText, @"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", "</ref>");
 
             // trim trailing spaces at the end of a reference, within the reference
             if(articleText.Contains(@" </ref>"))
                 articleText = Regex.Replace(articleText, @" +</ref>", "</ref>");
-            
-            if(RedRefQuick.IsMatch(articleText.ToLower()))
+
+            if(AllTagsList.Where(s => s.StartsWith("<ref/>") || s.StartsWith("</red>")).Any())
                 articleText = RedRef.Replace(articleText, "$1</ref>");
 
             // Chinese do not use spaces to separate sentences
@@ -3111,9 +3122,12 @@ namespace WikiFunctions.Parse
                 articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +", "$1");
 
             // Performance: apply ref tag fixes only to ref tags that might be invalid
-            return PossiblyBadRefTags.Replace(articleText, FixReferenceTagsME);
+            if(AllTagsList.Where(s => !Regex.IsMatch(s, @"(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref name *= *""[^{}""<>]+""( ?/)?>)|</ref>")).Any())
+                articleText = PossiblyBadRefTags.Replace(articleText, FixReferenceTagsME);
+
+            return articleText;
         }
-        
+
         private static string FixReferenceTagsME(Match m)
         {
             string newValue = m.Value;
