@@ -2037,6 +2037,9 @@ world|format=PDF}} was";
 
             string small = i1.Replace("27 June 1950", @"<small>27 June 1950</small>");
             Assert.AreEqual(small + a2, Parsers.PersonData(small + a, "John Doe"), "small tags removed");
+
+            string twoDDA = i1.Replace("27 June 1950", @"{{dda|2005|07|20|1950|06|27|df=yes}} {{dda|2009|07|20|1950|06|27|df=yes}}");
+            Assert.AreEqual(twoDDA + a2, Parsers.PersonData(twoDDA + a, "John Doe"), "Ignores conflicting {{dda}}");
         }
 
         [Test]
