@@ -2924,10 +2924,14 @@ namespace WikiFunctions.Parse
         private static string ReflistMatchEvaluator(Match m)
         {
             // don't change anything if div tags mismatch
-            if (DivStart.Matches(m.Value).Count != DivEnd.Matches(m.Value).Count)
+            if(DivStart.Matches(m.Value).Count != DivEnd.Matches(m.Value).Count)
                 return m.Value;
 
-            if (m.Value.Contains("references-2column") || m.Value.Contains("column-count:2"))
+            // {{reflist}} template not used on sv-wiki
+            if(Variables.LangCode == "sv")
+                return "<references/>";
+
+            if(m.Value.Contains("references-2column") || m.Value.Contains("column-count:2"))
                 return "{{Reflist|2}}";
 
             return "{{Reflist}}";
@@ -2943,7 +2947,7 @@ namespace WikiFunctions.Parse
 
         // Covered by: FootnotesTests.TestFixReferenceListTags()
         /// <summary>
-        /// Replaces various old reference tag formats, with the new {{Reflist}}
+        /// Replaces various old reference tag formats, with the new {{Reflist}}, or &lt;references/&gt; for sv-wiki
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
         /// <returns>The updated article text</returns>
