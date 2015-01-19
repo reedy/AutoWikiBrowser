@@ -71,6 +71,7 @@
     <Reference Include="Microsoft.mshtml" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -97,6 +98,12 @@
     </Compile>
     <Compile Include="CustomModule.Designer.cs">
       <DependentUpon>CustomModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomModuleErrors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomModuleErrors.Designer.cs">
+      <DependentUpon>CustomModuleErrors.cs</DependentUpon>
     </Compile>
     <Compile Include="ExitQuestion.cs">
       <SubType>Form</SubType>
@@ -187,6 +194,9 @@
     <EmbeddedResource Include="CustomModule.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CustomModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomModuleErrors.resx">
+      <DependentUpon>CustomModuleErrors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

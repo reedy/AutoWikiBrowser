@@ -24,7 +24,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.CodeDom.Compiler;
-using System.Reflection;
 using WikiFunctions.Plugin;
 using WikiFunctions;
 using WikiFunctions.CustomModules;
@@ -176,8 +175,12 @@ namespace AutoWikiBrowser
                         builder.Append("\r\n");
                     }
 
-                    MessageBox.Show(this, builder.ToString(),
-                        "Compilation " + (hasErrors ? "errors" : "warnings"));
+                    using (CustomModuleErrors error = new CustomModuleErrors())
+                    {
+                        error.ErrorText = builder.ToString();
+                        error.Text = "Compilation " + (hasErrors ? "errors" : "warnings");
+                        error.ShowDialog(this);
+                    }
 
                     if (hasErrors)
                     {
