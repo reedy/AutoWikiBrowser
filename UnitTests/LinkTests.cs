@@ -2738,11 +2738,14 @@ Template:foo}}"));
 </gallery>"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<gallery>   </gallery>"));
             Assert.AreEqual("", Parsers.FixSyntax(@"< Gallery >   </gallery>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"< GALLERY >   </gallery>"));
 
             const string Gallery = @"<gallery>Image1.jpeg</gallery>";
 
             Assert.AreEqual(Gallery, Parsers.FixSyntax(Gallery));
             Assert.AreEqual("", Parsers.FixSyntax(@"<gallery> <gallery><gallery>   </gallery></gallery></gallery>"), "Cleans nested empty gallery tags");
+            Assert.AreEqual("", Parsers.FixSyntax(@"<center></center>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<gallery> <center></center> </gallery>"));
         }
 
         [Test]
