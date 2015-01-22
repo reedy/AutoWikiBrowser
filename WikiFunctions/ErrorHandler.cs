@@ -207,11 +207,12 @@ namespace WikiFunctions
 
             public string Print(BugFormatter formatter)
             {
-                StringBuilder errorMessage = new StringBuilder(formatter.PrintHeader());
+                StringBuilder errorMessage = new StringBuilder();
 
+                errorMessage.AppendLine(formatter.PrintHeader());
                 errorMessage.AppendLine(formatter.PrintLine("description", ""));
 
-                if (string.IsNullOrEmpty(Thread))
+                if (!string.IsNullOrEmpty(Thread))
                 {
                     errorMessage.AppendLine("Thread: " + Thread);
                 }
@@ -263,8 +264,9 @@ namespace WikiFunctions
             /// <param name="kind">what kind of exception is this</param>
             private static void FormatException(Exception ex, StringBuilder sb, ExceptionKind kind)
             {
+                // TODO: pre isn't phab friendly
                 sb.AppendFormat("<tr><td>{0}:</td><td><code>{1}</code></td></tr>\r\n", KindToString(kind), ex.GetType().Name);
-                sb.AppendFormat("<tr><td>Message:</td><td><code>{0}</code><td></tr>\r\n", ex.Message);
+                sb.AppendFormat("<tr><td>Message:</td><td><code>{0}</code></td></tr>\r\n", ex.Message);
                 sb.AppendFormat("<tr><td>Call stack:</td><td><pre>{0}</pre></td></tr>\r\n", ex.StackTrace);
 
                 if (ex.InnerException != null)
@@ -332,17 +334,17 @@ namespace WikiFunctions
             {
                 public override string PrintHeader()
                 {
-                    return "<table>";
+                    return "";
                 }
 
                 public override string PrintFooter()
                 {
-                    return "</table>";
+                    return "";
                 }
 
                 public override string PrintLine(string key, string value)
                 {
-                    return string.Format("<tr><th>{0}</th><td>{1}</td></tr>", key, value);
+                    return string.Format("**{0}**: {1}", key, value);
                 }
             }
         }
