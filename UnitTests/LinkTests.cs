@@ -3938,6 +3938,11 @@ x
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(6));
 
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> <center> not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+            Assert.IsTrue(uct.ContainsValue(8));
+
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name=<ref name=Foo/> not ended");
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(15));
