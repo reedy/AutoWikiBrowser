@@ -457,7 +457,7 @@ namespace WikiFunctions
             try
             {
                 System.Diagnostics.Process.Start(
-                    "https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&action=edit&section=new");
+                    "https://phabricator.wikimedia.org/maniphest/task/create/?projects=AutoWikiBrowser");
             }
             catch
             {
