@@ -2800,12 +2800,13 @@ namespace WikiFunctions.Parse
             return false;
         }
 
-        private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<!--|(<\s*/?\s*(?:math|(?:source|ref|gallery)\b[^>]*|code|nowiki|pre|small)\s*(?:>|$))", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<!--|(<\s*/?\s*(?:math|(?:source|ref|gallery)\b[^>]*|code|nowiki|pre|small|center)\s*(?:>|$))", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SmallStart = new Regex(@"<\s*small\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex SmallEnd = new Regex(@"<\s*/\s*small\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex SmallNoNestedTags = new Regex(@"<\s*small\s*>((?>[^<>]*|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.IgnoreCase);
+        private static readonly Regex CenterTag = new Regex(@"< *center\b([^>]*?)>([\s\S]*?)</ *center *>", RegexOptions.IgnoreCase);
         /// <summary>
-        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt;, &lt;pre&gt; or &lt;gallery&gt; tags and comments
+        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt;, &lt;pre&gt; &lt;center&gt; or &lt;gallery&gt; tags and comments
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>dictionary of the index and length of any unclosed tags</returns>
@@ -2819,6 +2820,7 @@ namespace WikiFunctions.Parse
             articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.SourceCode.ToString(), RegexOptions.Singleline));
             articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.Refs.ToString(), RegexOptions.Singleline));
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.GalleryTag, 2);
+            articleText = Tools.ReplaceWithSpaces(articleText, CenterTag, 2);
             
             // some (badly done) List of pages can have hundreds of unclosed small tags, causes WikiRegexes.Small to backtrack a lot
             // so workaround solution: if > 10 unclosed small tags, only remove small tags without other tags embedded in them
