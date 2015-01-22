@@ -71,6 +71,7 @@ namespace AutoWikiBrowser
             this.kingboykLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.lblContribs = new System.Windows.Forms.Label();
             this.txtVersions = new System.Windows.Forms.TextBox();
+            this.linkPhabricator = new System.Windows.Forms.LinkLabel();
             this.flwDevs.SuspendLayout();
             this.flwOriginalDevs.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -117,23 +118,23 @@ namespace AutoWikiBrowser
             // linkBugs
             // 
             this.linkBugs.AutoSize = true;
-            this.linkBugs.Location = new System.Drawing.Point(3, 0);
+            this.linkBugs.Location = new System.Drawing.Point(3, 13);
             this.linkBugs.Name = "linkBugs";
-            this.linkBugs.Size = new System.Drawing.Size(61, 13);
+            this.linkBugs.Size = new System.Drawing.Size(56, 13);
             this.linkBugs.TabIndex = 0;
             this.linkBugs.TabStop = true;
-            this.linkBugs.Text = "Bug reports";
+            this.linkBugs.Text = "Bug (Wiki)";
             this.linkBugs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkBugs_LinkClicked);
             // 
             // linkFeatureRequests
             // 
             this.linkFeatureRequests.AutoSize = true;
-            this.linkFeatureRequests.Location = new System.Drawing.Point(3, 13);
+            this.linkFeatureRequests.Location = new System.Drawing.Point(3, 26);
             this.linkFeatureRequests.Name = "linkFeatureRequests";
-            this.linkFeatureRequests.Size = new System.Drawing.Size(86, 13);
+            this.linkFeatureRequests.Size = new System.Drawing.Size(99, 13);
             this.linkFeatureRequests.TabIndex = 1;
             this.linkFeatureRequests.TabStop = true;
-            this.linkFeatureRequests.Text = "Feature requests";
+            this.linkFeatureRequests.Text = "Feature reqs. (Wiki)";
             this.linkFeatureRequests.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkFeatureRequests_LinkClicked);
             // 
             // lblDevs
@@ -175,7 +176,7 @@ namespace AutoWikiBrowser
             // UsageStatsLabel
             // 
             this.UsageStatsLabel.AutoSize = true;
-            this.UsageStatsLabel.Location = new System.Drawing.Point(3, 26);
+            this.UsageStatsLabel.Location = new System.Drawing.Point(108, 0);
             this.UsageStatsLabel.Name = "UsageStatsLabel";
             this.UsageStatsLabel.Size = new System.Drawing.Size(81, 13);
             this.UsageStatsLabel.TabIndex = 2;
@@ -280,6 +281,7 @@ namespace AutoWikiBrowser
             // 
             // flowLayoutPanel3
             // 
+            this.flowLayoutPanel3.Controls.Add(this.linkPhabricator);
             this.flowLayoutPanel3.Controls.Add(this.linkBugs);
             this.flowLayoutPanel3.Controls.Add(this.linkFeatureRequests);
             this.flowLayoutPanel3.Controls.Add(this.UsageStatsLabel);
@@ -340,6 +342,17 @@ namespace AutoWikiBrowser
             this.txtVersions.TabIndex = 13;
             this.txtVersions.TabStop = false;
             this.txtVersions.Text = "Internet Explorer version:\r\n.NET version:\r\nWindows version:";
+            // 
+            // linkPhabricator
+            // 
+            this.linkPhabricator.AutoSize = true;
+            this.linkPhabricator.Location = new System.Drawing.Point(3, 0);
+            this.linkPhabricator.Name = "linkPhabricator";
+            this.linkPhabricator.Size = new System.Drawing.Size(61, 13);
+            this.linkPhabricator.TabIndex = 14;
+            this.linkPhabricator.TabStop = true;
+            this.linkPhabricator.Text = "Phabricator";
+            this.linkPhabricator.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkPhabricator_LinkClicked);
             // 
             // AboutBox
             // 
@@ -415,5 +428,6 @@ namespace AutoWikiBrowser
         private WikiFunctions.Controls.DeveloperLinkLabel kingboykLabel;
         private System.Windows.Forms.Label lblContribs;
         private System.Windows.Forms.TextBox txtVersions;
+        private System.Windows.Forms.LinkLabel linkPhabricator;
     }
 }

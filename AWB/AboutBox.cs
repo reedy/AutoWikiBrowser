@@ -72,5 +72,11 @@ Windows version: {2}",
             UsageStatsLabel.LinkVisited = true;
             UsageStats.OpenUsageStatsURL();
         }
+
+        private void linkPhabricator_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkPhabricator.LinkVisited = true;
+            Tools.OpenURLInBrowser("https://phabricator.wikimedia.org/maniphest/task/create/?projects=AutoWikiBrowser");
+        }
     }
 }
