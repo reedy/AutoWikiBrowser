@@ -42,15 +42,19 @@ namespace WikiFunctions
         {
             Tools.WriteDebug("HandleKnownExceptions", ex.StackTrace.ToString());
             // invalid regex - only ArgumentException, without subclasses
-            if (ex is ArgumentException && (ex.StackTrace.Contains("System.Text.RegularExpressions") || ex.ToString().StartsWith(@"System.ArgumentException: parsing")))
+            if (ex is ArgumentException &&
+                (ex.StackTrace.Contains("System.Text.RegularExpressions") ||
+                 ex.ToString().StartsWith(@"System.ArgumentException: parsing")))
             {
                 MessageBox.Show(ex.Message, "Invalid regular expression",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             //Unsupported Culture, possibly bn-BD
             else if (ex is ArgumentException && Thrower(ex) == "CultureTableRecord.GetCultureTableRecord")
             {
-                MessageBox.Show("Microsoft unfortunately don't support your locale culture. Please try a more common one", "Unsupported culture");
+                MessageBox.Show(
+                    "Microsoft unfortunately don't support your locale culture. Please try a more common one",
+                    "Unsupported culture");
             }
             // network access error
             else if (ex is System.Net.WebException || ex.InnerException is System.Net.WebException)
@@ -59,25 +63,29 @@ namespace WikiFunctions
                 string msg = ex.Message.StartsWith(@"The type initializer for") ? ex.InnerException.Message : ex.Message;
 
                 MessageBox.Show(msg, "Network access error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             // out of memory error
             else if (ex is OutOfMemoryException)
             {
                 MessageBox.Show(ex.Message, "Out of Memory error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             // disk writer error / full
             else if (ex is System.IO.IOException || ex is ConfigurationErrorsException
-                && (ex.InnerException != null && ex.InnerException.InnerException != null
-                && ex.InnerException.InnerException is System.IO.IOException))
+                     && (ex.InnerException != null && ex.InnerException.InnerException != null
+                         && ex.InnerException.InnerException is System.IO.IOException))
             {
                 MessageBox.Show(ex.Message, "I/O error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             // BackGroundRequest Abort called as user pressed stop, this is OK
-			else if (ex is ThreadAbortException && (ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage") || ex.StackTrace.Contains("Parsers.TagOrphans")))
+            else if (ex is ThreadAbortException &&
+                     (ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage") ||
+                      ex.StackTrace.Contains("Parsers.TagOrphans")))
+            {
                 return true;
+            }
             else
             {
                 return false; // We didn't handle the exception
@@ -95,9 +103,22 @@ namespace WikiFunctions
             if (ex == null || HandleKnownExceptions(ex)) return;
 
             // TODO: suggest a bug report for other exceptions
-            ErrorHandler handler = new ErrorHandler { txtError = { Text = ex.Message } };
+            ErrorHandler handler = new ErrorHandler {txtError = {Text = ex.Message}};
 
-            StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
+            var errorMessage = PrintExceptionForWiki(ex);
+            handler.txtDetails.Text = errorMessage;
+
+            handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
+
+            Tools.WriteDebug("HandleException", errorMessage);
+            handler.ShowDialog();
+        }
+
+        public static string PrintExceptionForWiki(Exception ex)
+        {
+            StringBuilder errorMessage =
+                new StringBuilder(
+                    "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
 
             var thread = ex is ApiException ? (ex as ApiException).ThrowingThread : Thread.CurrentThread;
             if (thread.Name != "Main thread")
@@ -111,7 +132,7 @@ namespace WikiFunctions
             if (exception != null)
             {
                 string extra = exception.GetExtraSpecificInformation();
-                if(!string.IsNullOrEmpty(extra))
+                if (!string.IsNullOrEmpty(extra))
                 {
                     errorMessage.AppendLine(extra);
                 }
@@ -128,7 +149,7 @@ namespace WikiFunctions
                         errorMessage.AppendLine(retval);
                 }
             }
-            
+
             errorMessage.AppendLine("~~~~");
 
             errorMessage.AppendLine(" | OS          = " + Environment.OSVersion);
@@ -136,8 +157,8 @@ namespace WikiFunctions
             AssemblyName hostingApp = Assembly.GetExecutingAssembly().GetName();
 
             errorMessage.Append(string.Format(" | version     = {0} ({1}), {2} ({3})", Application.ProductName,
-                                              Application.ProductVersion,
-                                              hostingApp.Name, hostingApp.Version));
+                Application.ProductVersion,
+                hostingApp.Name, hostingApp.Version));
 
             // suppress unhandled exception if Variables constructor says 'ouch'
             string revision;
@@ -150,7 +171,10 @@ namespace WikiFunctions
                 revision = "?";
             }
 
-            if (!revision.Contains("?")) errorMessage.AppendLine(", revision " + revision);
+            if (!revision.Contains("?"))
+            {
+                errorMessage.AppendLine(", revision " + revision);
+            }
 
             errorMessage.AppendLine(" | net     = " + Environment.Version);
 
@@ -158,31 +182,37 @@ namespace WikiFunctions
             {
                 // don't use Tools.WikiEncode here, to keep code portable to updater
                 // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
-                string link = "[" + Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision + "]";
+                string link = "[" + Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" +
+                              CurrentRevision + "]";
 
                 errorMessage.AppendLine(" | duplicate   = [encountered while processing page ''" + link + "'']");
             }
             else if (!string.IsNullOrEmpty(ListMakerText))
+            {
                 errorMessage.AppendLine(" | duplicate   = '''ListMaker Text:''' " + ListMakerText);
+            }
 
             if (!string.IsNullOrEmpty(Variables.URL))
+            {
                 errorMessage.AppendLine(" | site    = " + Variables.URL);
+            }
 
             errorMessage.AppendLine(" | workaround     = <!-- Any workaround for the problem -->");
-            errorMessage.AppendLine(" | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
+            errorMessage.AppendLine(
+                " | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
             errorMessage.AppendLine("}}");
 
-            handler.txtDetails.Text = errorMessage.ToString();
-
-            handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
-
-            Tools.WriteDebug("HandleException", errorMessage.ToString());
-            handler.ShowDialog();
+            return errorMessage.ToString();
         }
 
         #region Static helper functions
 
-        enum ExceptionKind { TopLevel, Inner, LoaderException };
+        private enum ExceptionKind
+        {
+            TopLevel,
+            Inner,
+            LoaderException
+        };
 
         /// <summary>
         /// Formats exception information for bug report
@@ -193,8 +223,8 @@ namespace WikiFunctions
         private static void FormatException(Exception ex, StringBuilder sb, ExceptionKind kind)
         {
             sb.Append("<tr><td>" + KindToString(kind) + ":<td><code>"
-                + ex.GetType().Name + "</code><tr><td>Message:<td><code>"
-                + ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></tr>\r\n");
+                      + ex.GetType().Name + "</code><tr><td>Message:<td><code>"
+                      + ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></tr>\r\n");
 
             if (ex.InnerException != null)
             {
@@ -202,7 +232,7 @@ namespace WikiFunctions
             }
             if (ex is ReflectionTypeLoadException)
             {
-                foreach (Exception e in ((ReflectionTypeLoadException)ex).LoaderExceptions)
+                foreach (Exception e in ((ReflectionTypeLoadException) ex).LoaderExceptions)
                 {
                     FormatException(e, sb, ExceptionKind.LoaderException);
                 }
@@ -321,7 +351,9 @@ namespace WikiFunctions
                 Thread.Sleep(50); // give it some time to clear
                 Clipboard.SetText(txtDetails.Text);
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -329,9 +361,12 @@ namespace WikiFunctions
             linkLabel1.LinkVisited = true;
             try
             {
-                System.Diagnostics.Process.Start("https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&action=edit&section=new");
+                System.Diagnostics.Process.Start(
+                    "https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&action=edit&section=new");
             }
-            catch { }
+            catch
+            {
+            }
         }
     }
 }
