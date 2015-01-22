@@ -198,10 +198,10 @@ namespace AutoWikiBrowser
         {
             static Plugin()
             {
-                ErrorHandler.AppendToEventHandler += ErrorHandler_AppendToEventHandler;
+                ErrorHandler.AppendToErrorHandler += ErrorHandlerAppendToErrorHandler;
             }
 
-            static string ErrorHandler_AppendToEventHandler()
+            static string ErrorHandlerAppendToErrorHandler()
             {
                 if (AWBPlugins.Count == 0 && AWBBasePlugins.Count == 0 && ListMakerPlugins.Count == 0)
                     return "";

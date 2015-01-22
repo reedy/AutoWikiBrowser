@@ -14,14 +14,14 @@ using WikiFunctions.API;
 
 namespace WikiFunctions
 {
-    public delegate string EventHandlerAddition();
+    public delegate string ErrorHandlerAddition();
 
     /// <summary>
     /// This class provides helper functions for handling errors and displaying them to users
     /// </summary>
     public partial class ErrorHandler : Form
     {
-        public static event EventHandlerAddition AppendToEventHandler;
+        public static event ErrorHandlerAddition AppendToErrorHandler;
 
         /// <summary>
         /// Title of the page currently being processed
@@ -105,7 +105,7 @@ namespace WikiFunctions
             // TODO: suggest a bug report for other exceptions
             ErrorHandler handler = new ErrorHandler {txtError = {Text = ex.Message}};
 
-            var errorMessage = PrintExceptionForWiki(ex);
+            var errorMessage = new BugReport(ex).PrintForWiki();
             handler.txtDetails.Text = errorMessage;
 
             handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
@@ -114,153 +114,182 @@ namespace WikiFunctions
             handler.ShowDialog();
         }
 
-        public static string PrintExceptionForWiki(Exception ex)
+        class BugReport
         {
-            StringBuilder errorMessage =
-                new StringBuilder(
-                    "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
+            private string Thread,
+                OS = Environment.OSVersion.ToString(),
+                StackTrace,
+                ApiExtra,
+                AppendedInfo,
+                Version,
+                DotNetVersion,
+                Duplicate;
 
-            var thread = ex is ApiException ? (ex as ApiException).ThrowingThread : Thread.CurrentThread;
-            if (thread.Name != "Main thread")
-                errorMessage.AppendLine("Thread: " + thread.Name);
-
-            errorMessage.Append("<table>");
-            FormatException(ex, errorMessage, ExceptionKind.TopLevel);
-            errorMessage.AppendLine("</table>");
-
-            var exception = ex as ApiException;
-            if (exception != null)
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="ex"></param>
+            public BugReport(Exception ex)
             {
-                string extra = exception.GetExtraSpecificInformation();
-                if (!string.IsNullOrEmpty(extra))
+                var thread = ex is ApiException ? ((ApiException) ex).ThrowingThread : System.Threading.Thread.CurrentThread;
+                if (thread.Name != "Main thread")
                 {
-                    errorMessage.AppendLine(extra);
+                    Thread = thread.Name;
+                }
+
+                StringBuilder stackTrace = new StringBuilder();
+                FormatException(ex, stackTrace, ExceptionKind.TopLevel);
+                StackTrace = stackTrace.ToString();
+
+                var exception = ex as ApiException;
+                if (exception != null)
+                {
+                    ApiExtra = exception.GetExtraSpecificInformation();
+                }
+
+                if (AppendToErrorHandler != null)
+                {
+                    StringBuilder append = new StringBuilder();
+                    foreach (Delegate d in AppendToErrorHandler.GetInvocationList())
+                    {
+                        string retval = d.DynamicInvoke().ToString();
+                        if (!string.IsNullOrEmpty(retval))
+                            append.AppendLine(retval);
+                    }
+                    AppendedInfo = append.ToString();
+                }
+
+                AssemblyName hostingApp = Assembly.GetExecutingAssembly().GetName();
+                Version = string.Format("{0} ({1}), {2} ({3})", Application.ProductName, Application.ProductVersion,
+                    hostingApp.Name, hostingApp.Version);
+
+                DotNetVersion = Environment.Version.ToString();
+
+                // suppress unhandled exception if Variables constructor says 'ouch'
+                try
+                {
+                    Version += ", revision " + Variables.Revision;
+                }
+                catch
+                {
+                }
+
+                if (!string.IsNullOrEmpty(CurrentPage))
+                {
+                    // don't use Tools.WikiEncode here, to keep code portable to updater
+                    // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
+                    string link = "[" + Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" +
+                                  CurrentRevision + "]";
+
+                    Duplicate = "[encountered while processing page ''" + link + "'']";
+                }
+                else if (!string.IsNullOrEmpty(ListMakerText))
+                {
+                    Duplicate = "'''ListMaker Text:''' " + ListMakerText;
                 }
             }
 
-            errorMessage.AppendLine(ex.ToString());
-
-            if (AppendToEventHandler != null)
+            /// <summary>
+            /// Prints a wiki formatted bug report table
+            /// </summary>
+            /// <returns>String using {{AWB bug}} for reporting bugs</returns>
+            public string PrintForWiki()
             {
-                foreach (Delegate d in AppendToEventHandler.GetInvocationList())
+                StringBuilder errorMessage = new StringBuilder("{{AWB bug");
+
+                errorMessage.AppendLine(" | status      = new <!-- when fixed replace with \"fixed\" -->");
+                errorMessage.AppendLine(" | description = ");
+
+                if (string.IsNullOrEmpty(Thread))
                 {
-                    string retval = d.DynamicInvoke().ToString();
-                    if (!string.IsNullOrEmpty(retval))
-                        errorMessage.AppendLine(retval);
+                    errorMessage.AppendLine("Thread: " + Thread);
+                }
+
+                errorMessage.Append("<table>");
+                errorMessage.AppendLine(StackTrace);
+                errorMessage.AppendLine("</table>");
+
+                if (!string.IsNullOrEmpty(ApiExtra))
+                {
+                    errorMessage.AppendLine(ApiExtra);
+                }
+
+                if (!string.IsNullOrEmpty(AppendedInfo))
+                {
+                    errorMessage.AppendLine(AppendedInfo);
+                }
+
+                errorMessage.AppendLine("~~~~");
+
+                errorMessage.AppendLine(" | OS          = " + OS);
+                errorMessage.AppendLine(" | version     = " + Version);
+                errorMessage.AppendLine(" | net         = " + DotNetVersion);
+
+                if (!string.IsNullOrEmpty(Duplicate))
+                {
+                    errorMessage.AppendLine(" | duplicate   = " + Duplicate);
+                }
+
+                if (!string.IsNullOrEmpty(Variables.URL))
+                {
+                    errorMessage.AppendLine(" | site    = " + Variables.URL);
+                }
+
+                errorMessage.AppendLine(" | workaround     = <!-- Any workaround for the problem -->");
+                errorMessage.AppendLine(
+                    " | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
+                errorMessage.AppendLine("}}");
+
+                return errorMessage.ToString();
+            }
+
+            /// <summary>
+            /// Formats exception information for bug report
+            /// </summary>
+            /// <param name="ex">Exception to process</param>
+            /// <param name="sb">StringBuilder used for output</param>
+            /// <param name="kind">what kind of exception is this</param>
+            private static void FormatException(Exception ex, StringBuilder sb, ExceptionKind kind)
+            {
+                sb.AppendFormat("<tr><td>{0}:</td><td><code>{1}</code></td></tr>\r\n", KindToString(kind), ex.GetType().Name);
+                sb.AppendFormat("<tr><td>Message:</td><td><code>{0}</code><td></tr>\r\n", ex.Message);
+                sb.AppendFormat("<tr><td>Call stack:</td><td><pre>{0}</pre></td></tr>\r\n", ex.StackTrace);
+
+                if (ex.InnerException != null)
+                {
+                    FormatException(ex.InnerException, sb, ExceptionKind.Inner);
+                }
+                if (ex is ReflectionTypeLoadException)
+                {
+                    foreach (Exception e in ((ReflectionTypeLoadException) ex).LoaderExceptions)
+                    {
+                        FormatException(e, sb, ExceptionKind.LoaderException);
+                    }
                 }
             }
 
-            errorMessage.AppendLine("~~~~");
-
-            errorMessage.AppendLine(" | OS          = " + Environment.OSVersion);
-
-            AssemblyName hostingApp = Assembly.GetExecutingAssembly().GetName();
-
-            errorMessage.Append(string.Format(" | version     = {0} ({1}), {2} ({3})", Application.ProductName,
-                Application.ProductVersion,
-                hostingApp.Name, hostingApp.Version));
-
-            // suppress unhandled exception if Variables constructor says 'ouch'
-            string revision;
-            try
+            private enum ExceptionKind
             {
-                revision = Variables.Revision;
-            }
-            catch
+                TopLevel,
+                Inner,
+                LoaderException
+            };
+
+            private static string KindToString(ExceptionKind ek)
             {
-                revision = "?";
+                switch (ek)
+                {
+                    case ExceptionKind.Inner:
+                        return "Inner exception";
+                    case ExceptionKind.LoaderException:
+                        return "Loader exception";
+                    default:
+                        return "Exception";
+                }
             }
-
-            if (!revision.Contains("?"))
-            {
-                errorMessage.AppendLine(", revision " + revision);
-            }
-
-            errorMessage.AppendLine(" | net     = " + Environment.Version);
-
-            if (!string.IsNullOrEmpty(CurrentPage))
-            {
-                // don't use Tools.WikiEncode here, to keep code portable to updater
-                // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
-                string link = "[" + Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" +
-                              CurrentRevision + "]";
-
-                errorMessage.AppendLine(" | duplicate   = [encountered while processing page ''" + link + "'']");
-            }
-            else if (!string.IsNullOrEmpty(ListMakerText))
-            {
-                errorMessage.AppendLine(" | duplicate   = '''ListMaker Text:''' " + ListMakerText);
-            }
-
-            if (!string.IsNullOrEmpty(Variables.URL))
-            {
-                errorMessage.AppendLine(" | site    = " + Variables.URL);
-            }
-
-            errorMessage.AppendLine(" | workaround     = <!-- Any workaround for the problem -->");
-            errorMessage.AppendLine(
-                " | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
-            errorMessage.AppendLine("}}");
-
-            return errorMessage.ToString();
         }
 
         #region Static helper functions
-
-        private enum ExceptionKind
-        {
-            TopLevel,
-            Inner,
-            LoaderException
-        };
-
-        /// <summary>
-        /// Formats exception information for bug report
-        /// </summary>
-        /// <param name="ex">Exception to process</param>
-        /// <param name="sb">StringBuilder used for output</param>
-        /// <param name="kind">what kind of exception is this</param>
-        private static void FormatException(Exception ex, StringBuilder sb, ExceptionKind kind)
-        {
-            sb.Append("<tr><td>" + KindToString(kind) + ":<td><code>"
-                      + ex.GetType().Name + "</code><tr><td>Message:<td><code>"
-                      + ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></tr>\r\n");
-
-            if (ex.InnerException != null)
-            {
-                FormatException(ex.InnerException, sb, ExceptionKind.Inner);
-            }
-            if (ex is ReflectionTypeLoadException)
-            {
-                foreach (Exception e in ((ReflectionTypeLoadException) ex).LoaderExceptions)
-                {
-                    FormatException(e, sb, ExceptionKind.LoaderException);
-                }
-            }
-        }
-
-        private static string KindToString(ExceptionKind ek)
-        {
-            switch (ek)
-            {
-                case ExceptionKind.Inner:
-                    return "Inner exception";
-                case ExceptionKind.LoaderException:
-                    return "Loader exception";
-                default:
-                    return "Exception";
-            }
-        }
-
-        /// <summary>
-        /// Returns names of functions in stack trace of an exception
-        /// </summary>
-        /// <param name="ex">Exception to process</param>
-        /// <returns>List of fully qualified function names</returns>
-        public static string[] MethodNames(Exception ex)
-        {
-            return MethodNames(ex.StackTrace);
-        }
 
         private static readonly Regex StackTrace = new Regex(@"([a-zA-Z_0-9\.`]+)(?=\()", RegexOptions.Compiled);
 
@@ -288,21 +317,7 @@ namespace WikiFunctions
         /// <returns>Function names without namespace</returns>
         public static string Thrower(Exception ex)
         {
-            return Thrower(ex.StackTrace);
-        }
-
-        private static readonly string[] PresetNamespaces =
-        {"System.", "Microsoft.", "Mono."};
-
-        /// <summary>
-        /// Returns the name of our function where supposedly error resides;
-        /// it's the last non-framework function in the stack
-        /// </summary>
-        /// <param name="stackTrace"></param>
-        /// <returns>Function names without namespace</returns>
-        public static string Thrower(string stackTrace)
-        {
-            string[] trace = MethodNames(stackTrace);
+            string[] trace = MethodNames(ex.StackTrace);
 
             if (trace.Length == 0) return "unknown function";
 
@@ -330,6 +345,8 @@ namespace WikiFunctions
             return res;
         }
 
+        private static readonly string[] PresetNamespaces =
+        {"System.", "Microsoft.", "Mono."};
 
         #endregion
 
