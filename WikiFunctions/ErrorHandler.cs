@@ -106,7 +106,7 @@ namespace WikiFunctions
             // TODO: suggest a bug report for other exceptions
             ErrorHandler handler = new ErrorHandler {txtError = {Text = ex.Message}};
 
-            var errorMessage = new BugReport(ex).PrintForWiki();
+            var errorMessage = new BugReport(ex).PrintForPhabricator();
             handler.txtDetails.Text = errorMessage;
 
             handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
@@ -209,13 +209,11 @@ namespace WikiFunctions
             {
                 StringBuilder errorMessage = new StringBuilder();
 
-                errorMessage.AppendLine(formatter.PrintHeader());
-                errorMessage.AppendLine(formatter.PrintLine("description", ""));
-
-                if (!string.IsNullOrEmpty(Thread))
+                if (formatter.HasHeaderFooter())
                 {
-                    errorMessage.AppendLine("Thread: " + Thread);
+                    errorMessage.AppendLine(formatter.PrintHeader());
                 }
+                errorMessage.AppendLine(formatter.PrintLine("description", ""));
 
                 errorMessage.Append("<table>");
                 errorMessage.AppendLine(StackTrace);
@@ -236,6 +234,11 @@ namespace WikiFunctions
                     errorMessage.AppendLine("~~~~");
                 }
 
+                if (!string.IsNullOrEmpty(Thread))
+                {
+                    errorMessage.AppendLine(formatter.PrintLine("thread", Thread));
+                }
+
                 errorMessage.AppendLine(formatter.PrintLine("OS", OS));
                 errorMessage.AppendLine(formatter.PrintLine("version", Version));
                 errorMessage.AppendLine(formatter.PrintLine("net", DotNetVersion));
@@ -250,8 +253,11 @@ namespace WikiFunctions
                     errorMessage.AppendLine(formatter.PrintLine("site", Variables.URL));
                 }
 
-                errorMessage.AppendLine(formatter.PrintLine("workaround", "<!-- Any workaround for the problem -->"));
-                errorMessage.AppendLine(formatter.PrintFooter());
+                errorMessage.AppendLine(formatter.PrintLine("workaround", ""));
+                if (formatter.HasHeaderFooter())
+                {
+                    errorMessage.AppendLine(formatter.PrintFooter());
+                }
 
                 return errorMessage.ToString();
             }
@@ -264,10 +270,9 @@ namespace WikiFunctions
             /// <param name="kind">what kind of exception is this</param>
             private static void FormatException(Exception ex, StringBuilder sb, ExceptionKind kind)
             {
-                // TODO: pre isn't phab friendly
-                sb.AppendFormat("<tr><td>{0}:</td><td><code>{1}</code></td></tr>\r\n", KindToString(kind), ex.GetType().Name);
-                sb.AppendFormat("<tr><td>Message:</td><td><code>{0}</code></td></tr>\r\n", ex.Message);
-                sb.AppendFormat("<tr><td>Call stack:</td><td><pre>{0}</pre></td></tr>\r\n", ex.StackTrace);
+                sb.AppendFormat("<tr><th>{0}:</th><td>`{1}`</td></tr>\r\n", KindToString(kind), ex.GetType().Name);
+                sb.AppendFormat("<tr><th>Message:</th><td>`{0}`</td></tr>\r\n", ex.Message);
+                sb.AppendFormat("<tr><th>Call stack:</th><td><pre>{0}</pre></td></tr>\r\n", ex.StackTrace);
 
                 if (ex.InnerException != null)
                 {
@@ -307,6 +312,11 @@ namespace WikiFunctions
                 public abstract string PrintHeader();
                 public abstract string PrintFooter();
                 public abstract string PrintLine(string key, string value);
+
+                public virtual bool HasHeaderFooter()
+                {
+                    return false;
+                }
             }
 
             public class WikiBugFormatter : BugFormatter
@@ -327,6 +337,11 @@ namespace WikiFunctions
                 public override string PrintLine(string key, string value)
                 {
                     return string.Format(" | {0,-14} = {1}", key, value);
+                }
+
+                public override bool HasHeaderFooter()
+                {
+                    return true;
                 }
             }
 
