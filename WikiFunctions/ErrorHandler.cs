@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
@@ -174,6 +175,7 @@ namespace WikiFunctions
                 {
                 }
 
+                // TODO: Phab urls
                 if (!string.IsNullOrEmpty(CurrentPage))
                 {
                     // don't use Tools.WikiEncode here, to keep code portable to updater
@@ -195,10 +197,19 @@ namespace WikiFunctions
             /// <returns>String using {{AWB bug}} for reporting bugs</returns>
             public string PrintForWiki()
             {
-                StringBuilder errorMessage = new StringBuilder("{{AWB bug");
+                return Print(new WikiBugFormatter());
+            }
 
-                errorMessage.AppendLine(" | status      = new <!-- when fixed replace with \"fixed\" -->");
-                errorMessage.AppendLine(" | description = ");
+            public string PrintForPhabricator()
+            {
+                return Print(new PhabricatorBugFormatter());
+            }
+
+            public string Print(BugFormatter formatter)
+            {
+                StringBuilder errorMessage = new StringBuilder(formatter.PrintHeader());
+
+                errorMessage.AppendLine(formatter.PrintLine("description", ""));
 
                 if (string.IsNullOrEmpty(Thread))
                 {
@@ -219,26 +230,27 @@ namespace WikiFunctions
                     errorMessage.AppendLine(AppendedInfo);
                 }
 
-                errorMessage.AppendLine("~~~~");
+                if (formatter is WikiBugFormatter)
+                {
+                    errorMessage.AppendLine("~~~~");
+                }
 
-                errorMessage.AppendLine(" | OS          = " + OS);
-                errorMessage.AppendLine(" | version     = " + Version);
-                errorMessage.AppendLine(" | net         = " + DotNetVersion);
+                errorMessage.AppendLine(formatter.PrintLine("OS", OS));
+                errorMessage.AppendLine(formatter.PrintLine("version", Version));
+                errorMessage.AppendLine(formatter.PrintLine("net", DotNetVersion));
 
                 if (!string.IsNullOrEmpty(Duplicate))
                 {
-                    errorMessage.AppendLine(" | duplicate   = " + Duplicate);
+                    errorMessage.AppendLine(formatter.PrintLine("duplicate", Duplicate));
                 }
 
                 if (!string.IsNullOrEmpty(Variables.URL))
                 {
-                    errorMessage.AppendLine(" | site    = " + Variables.URL);
+                    errorMessage.AppendLine(formatter.PrintLine("site", Variables.URL));
                 }
 
-                errorMessage.AppendLine(" | workaround     = <!-- Any workaround for the problem -->");
-                errorMessage.AppendLine(
-                    " | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
-                errorMessage.AppendLine("}}");
+                errorMessage.AppendLine(formatter.PrintLine("workaround", "<!-- Any workaround for the problem -->"));
+                errorMessage.AppendLine(formatter.PrintFooter());
 
                 return errorMessage.ToString();
             }
@@ -287,6 +299,52 @@ namespace WikiFunctions
                         return "Exception";
                 }
             }
+
+            public abstract class BugFormatter
+            {
+                public abstract string PrintHeader();
+                public abstract string PrintFooter();
+                public abstract string PrintLine(string key, string value);
+            }
+
+            public class WikiBugFormatter : BugFormatter
+            {
+                public override string PrintHeader()
+                {
+                    return @"{{AWB bug\r\n" + PrintLine("status", "new <!-- when fixed replace with \"fixed\" -->");
+                }
+
+                public override string PrintFooter()
+                {
+                    return
+                        PrintLine("fix_version",
+                            "<!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->") +
+                        "\r\n}}";
+                }
+
+                public override string PrintLine(string key, string value)
+                {
+                    return string.Format(" | {0,-14} = {1}", key, value);
+                }
+            }
+
+            public class PhabricatorBugFormatter : BugFormatter
+            {
+                public override string PrintHeader()
+                {
+                    return "<table>";
+                }
+
+                public override string PrintFooter()
+                {
+                    return "</table>";
+                }
+
+                public override string PrintLine(string key, string value)
+                {
+                    return string.Format("<tr><th>{0}</th><td>{1}</td></tr>", key, value);
+                }
+            }
         }
 
         #region Static helper functions
@@ -319,18 +377,18 @@ namespace WikiFunctions
         {
             string[] trace = MethodNames(ex.StackTrace);
 
-            if (trace.Length == 0) return "unknown function";
+            if (trace.Length == 0)
+            {
+                return "unknown function";
+            }
 
             string res = "";
             foreach (string t in trace)
             {
-                bool match = false;
-                foreach (string ns in PresetNamespaces)
+                if (PresetNamespaces.Any(ns => t.StartsWith(ns)))
                 {
-                    if (t.StartsWith(ns)) match = true;
-                }
-                if (match)
                     res = trace[0];
+                }
                 else
                 {
                     res = t;
@@ -340,7 +398,10 @@ namespace WikiFunctions
 
             // strip namespace for clarity
             var res2 = Regex.Match(res, @"\w+\.{1,2}\w+$").Value;
-            if (res2.Length > 0) return res2;
+            if (res2.Length > 0)
+            {
+                return res2;
+            }
 
             return res;
         }
