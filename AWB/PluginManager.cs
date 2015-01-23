@@ -27,6 +27,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+using System.Linq;
 using AutoWikiBrowser.Plugins;
 using WikiFunctions.Plugin;
 using WikiFunctions;
@@ -208,40 +209,29 @@ namespace AutoWikiBrowser
 
                 StringBuilder builder = new StringBuilder();
 
-                builder.AppendLine("<table>");
-                builder.AppendLine("<tr>");
-                builder.AppendLine("<th>AWBPlugins</th>");
-                builder.AppendLine("<th>AWBBasePlugins</th>");
-                builder.AppendLine("<th>ListMakerPlugins</th>");
-                builder.AppendLine("</tr>");
+                builder.AppendLine("```");
 
-                builder.AppendLine("<tr>");
-                builder.AppendLine("<td>");
-
+                builder.AppendLine("AWBPlugins");
                 foreach (var p in AWBPlugins)
                 {
-                    builder.AppendLine("*" + p.Key);
+                    builder.AppendLine("- " + p.Key);
                 }
+                builder.AppendLine();
 
-                builder.AppendLine("</td>");
-                builder.AppendLine("<td>");
-
+                builder.AppendLine("AWBBasePlugins");
                 foreach (var p in AWBBasePlugins)
                 {
-                    builder.AppendLine("*" + p.Key);
+                    builder.AppendLine("- " + p.Key);
                 }
+                builder.AppendLine();
 
-                builder.AppendLine("</td>");
-                builder.AppendLine("<td>");
-
+                builder.AppendLine("ListMakerPlugins");
                 foreach (var p in ListMakerPlugins)
                 {
-                    builder.AppendLine("*" + p.Key);
+                    builder.AppendLine("- " + p.Key);
                 }
 
-                builder.AppendLine("</td>");
-                builder.AppendLine("</tr>");
-                builder.AppendLine("</table>");
+                builder.AppendLine("```");
 
                 return builder.ToString();
             }
@@ -258,43 +248,12 @@ namespace AutoWikiBrowser
             public static readonly List<IAWBPlugin> FailedPlugins = new List<IAWBPlugin>();
 
             /// <summary>
-            /// String of plugins formatted like
-            /// * [[WP:AWB/Plugin]]
-            /// </summary>
-            /// <returns></returns>
-            internal static string GetPluginsWikiTextBlock()
-            {
-                StringBuilder retval = new StringBuilder();
-                foreach (KeyValuePair<string, IAWBPlugin> plugin in AWBPlugins)
-                {
-                    retval.AppendLine("* " + plugin.Value.WikiName);
-                }
-                return retval.ToString();
-            }
-
-            /// <summary>
-            /// Gets the Number of Plugins currently Loaded
-            /// </summary>
-            /// <returns>Number of Plugins</returns>
-            internal static int Count()
-            {
-                return AWBPlugins.Count + AWBBasePlugins.Count + ListMakerPlugins.Count;
-            }
-
-            /// <summary>
             /// Gets a List of all the plugin names currently loaded
             /// </summary>
             /// <returns>List of Plugin Names</returns>
             internal static List<string> GetAWBPluginList()
             {
-                List<string> plugins = new List<string>();
-
-                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
-                {
-                    plugins.Add(a.Key);
-                }
-
-                return plugins;
+                return AWBPlugins.Select(a => a.Key).ToList();
             }
 
             /// <summary>
@@ -303,14 +262,7 @@ namespace AutoWikiBrowser
             /// <returns>List of Plugin Names</returns>
             internal static List<string> GetBasePluginList()
             {
-                List<string> plugins = new List<string>();
-
-                foreach (KeyValuePair<string, IAWBBasePlugin> a in AWBBasePlugins)
-                {
-                    plugins.Add(a.Key);
-                }
-
-                return plugins;
+                return AWBBasePlugins.Select(a => a.Key).ToList();
             }
 
             /// <summary>
@@ -319,14 +271,7 @@ namespace AutoWikiBrowser
             /// <returns>List of Plugin Names</returns>
             internal static List<string> GetListMakerPluginList()
             {
-                List<string> plugins = new List<string>();
-
-                foreach (KeyValuePair<string, IListMakerPlugin> a in ListMakerPlugins)
-                {
-                    plugins.Add(a.Key);
-                }
-
-                return plugins;
+                return ListMakerPlugins.Select(a => a.Key).ToList();
             }
 
             /// <summary>
