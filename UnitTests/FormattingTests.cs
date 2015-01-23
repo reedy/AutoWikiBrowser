@@ -882,6 +882,16 @@ was"));
         }
 
         [Test]
+        public void FixOrdinalTests()
+        {
+            Assert.AreEqual("1st day at school", Parsers.FixOrdinals(@"1<sup>st</sup> day at school"),"1st");
+            Assert.AreEqual("2nd day at school", Parsers.FixOrdinals(@"2<sup>nd</sup> day at school"),"2nd");
+            Assert.AreEqual("3rd day at school", Parsers.FixOrdinals(@"3<sup>rd</sup> day at school"),"3rd");
+            Assert.AreEqual("4th day at school", Parsers.FixOrdinals(@"4<sup>th</sup> day at school"),"4th");
+        }
+
+
+        [Test]
         public void FixSmallTags()
         {
             const string s1 = @"<small>foo</small>";

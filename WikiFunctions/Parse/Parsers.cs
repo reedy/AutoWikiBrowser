@@ -5777,6 +5777,20 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             return Temperature.Replace(articleText, m => "°" + m.Groups[1].Value.ToUpper());
         }
 
+        //Ordinal number found inside <sup> tags.
+        private static readonly Regex SupOrdinal = new Regex(@"(\d)<sup>(st|nd|rd|th)</sup>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Remove sup tags from ordinals per [[WP:ORDINAL]].
+        /// CHECKWIKI error 101
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public static string FixOrdinals(string articleText)
+        {
+            return SupOrdinal.Replace(articleText, @"$1$2");
+        }
+
         /// <summary>
         /// Apply non-breaking spaces for abbreviated SI units, imperial units, pp for pages. Remove incorrect space before % symbol
         /// </summary>
