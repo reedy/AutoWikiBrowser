@@ -3151,6 +3151,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12]\d|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months);
         private static readonly Regex Ordinal = new Regex(@"\d(?:st|nd|rd|th)");
         private static readonly Regex MonthsAct = new Regex(@"\b(?:January|February|March|April|May|June|July|August|September|October|November|December) Act\b");
+        //Ordinal number found inside <sup> tags.
+        private static readonly Regex SupOrdinal = new Regex(@"(\d)<sup>(st|nd|rd|th)</sup>", RegexOptions.Compiled);
 
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
@@ -3595,6 +3597,11 @@ namespace WikiFunctions.Parse
             if(articleText.Contains("PMID:"))
                 articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
 
+			// Remove sup tags from ordinals per [[WP:ORDINAL]].
+			// CHECKWIKI error 101
+            if(articleText.ToLower().Contains("<sup>"))
+			articleText = SupOrdinal.Replace(articleText, @"$1$2");
+			
             //CHECKWIKI error 86
             if(articleText.ToLower().Contains("[[http"))
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
@@ -5775,20 +5782,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         public static string FixTemperatures(string articleText)
         {
             return Temperature.Replace(articleText, m => "°" + m.Groups[1].Value.ToUpper());
-        }
-
-        //Ordinal number found inside <sup> tags.
-        private static readonly Regex SupOrdinal = new Regex(@"(\d)<sup>(st|nd|rd|th)</sup>", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Remove sup tags from ordinals per [[WP:ORDINAL]].
-        /// CHECKWIKI error 101
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns>The modified article text.</returns>
-        public static string FixOrdinals(string articleText)
-        {
-            return SupOrdinal.Replace(articleText, @"$1$2");
         }
 
         /// <summary>

@@ -1399,9 +1399,6 @@ namespace WikiFunctions
             AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
             Variables.Profiler.Profile("FixTemperatures");
 
-            AWBChangeArticleText("Fix ordinals", Parsers.FixOrdinals(ArticleText), true);
-            Variables.Profiler.Profile("FixOrdinals");
-
             if (!noMOSComplianceFixes)
             {
                 AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
