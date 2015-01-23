@@ -3597,11 +3597,11 @@ namespace WikiFunctions.Parse
             if(articleText.Contains("PMID:"))
                 articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
 
-			// Remove sup tags from ordinals per [[WP:ORDINAL]].
-			// CHECKWIKI error 101
-            if(articleText.ToLower().Contains("<sup>"))
-			articleText = SupOrdinal.Replace(articleText, @"$1$2");
-			
+            // Remove sup tags from ordinals per [[WP:ORDINAL]].
+            // CHECKWIKI error 101
+            if(SimpleTagsList.Where(s => s.Contains("sup")).Any())
+                articleText = SupOrdinal.Replace(articleText, @"$1$2");
+
             //CHECKWIKI error 86
             if(articleText.ToLower().Contains("[[http"))
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
