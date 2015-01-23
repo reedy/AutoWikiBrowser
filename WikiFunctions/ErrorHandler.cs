@@ -214,19 +214,17 @@ namespace WikiFunctions
                     errorMessage.AppendLine(formatter.PrintHeader());
                 }
                 errorMessage.AppendLine(formatter.PrintLine("description", ""));
+                errorMessage.AppendLine(formatter.PrintLine("workaround", ""));
+
+                errorMessage.AppendLine("--------------------------");
 
                 errorMessage.Append("<table>");
-                errorMessage.AppendLine(StackTrace);
+                errorMessage.Append(StackTrace);
                 errorMessage.AppendLine("</table>");
 
                 if (!string.IsNullOrEmpty(ApiExtra))
                 {
                     errorMessage.AppendLine(ApiExtra);
-                }
-
-                if (!string.IsNullOrEmpty(AppendedInfo))
-                {
-                    errorMessage.AppendLine(AppendedInfo);
                 }
 
                 if (formatter is WikiBugFormatter)
@@ -243,17 +241,16 @@ namespace WikiFunctions
                 errorMessage.AppendLine(formatter.PrintLine("version", Version));
                 errorMessage.AppendLine(formatter.PrintLine("net", DotNetVersion));
 
-                if (!string.IsNullOrEmpty(Duplicate))
-                {
-                    errorMessage.AppendLine(formatter.PrintLine("duplicate", Duplicate));
-                }
-
                 if (!string.IsNullOrEmpty(Variables.URL))
                 {
                     errorMessage.AppendLine(formatter.PrintLine("site", Variables.URL));
                 }
 
-                errorMessage.AppendLine(formatter.PrintLine("workaround", ""));
+                if (!string.IsNullOrEmpty(AppendedInfo))
+                {
+                    errorMessage.AppendLine(AppendedInfo);
+                }
+
                 if (formatter.HasHeaderFooter())
                 {
                     errorMessage.AppendLine(formatter.PrintFooter());
