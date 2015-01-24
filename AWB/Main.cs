@@ -4991,8 +4991,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 text = "";
             }
 
-            if (text.Length > 0)
-                WikiRegexes.TemplateRedirects = Parsers.LoadTemplateRedirects(text);
+            // always make this call even if no text found (if changed project from one to another must make sure redirects are cleared)
+            WikiRegexes.TemplateRedirects = Parsers.LoadTemplateRedirects(text);
         }
 
         private void LoadDatedTemplates()
