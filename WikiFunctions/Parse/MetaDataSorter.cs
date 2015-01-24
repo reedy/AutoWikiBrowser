@@ -417,7 +417,6 @@ en, sq, ru
 		
 		private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");
 		private static readonly Regex CatsForDeletion = new Regex(@"\[\[Category:(Pages|Categories|Articles) for deletion\]\]");
-        private static Regex RemoveCatsAllCats;
 
 		/// <summary>
 		/// Extracts DEFAULTSORT + categories from the article text; removes duplicate categories, cleans whitespace and underscores
@@ -443,12 +442,6 @@ en, sq, ru
 
 			// allow comments between categories, and keep them in the same place, only grab any comment after the last category if on same line
 			// whitespace: remove all whitespace after, but leave a blank newline before a heading (rare case where category not in last section)
-            if(RemoveCatsAllCats == null)
-                RemoveCatsAllCats = new Regex(@"<!-- [^<>]*?\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
-			                    + @".*?(\]\]|\|.*?\]\]).*?-->|\[\["
-			                    + Variables.NamespacesCaseInsensitive[Namespace.Category]
-			                    + @".*?(\]\]|\|.*?\]\])(\s*⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->|\s*<!--.*?-->(?=\r\n\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
-			                    + @")|\s*(?=\r\n==)|\s*)?", RegexOptions.Singleline);
 			
 			// performance: apply regex on portion of article containing category links rather than whole text
 			Match cq = WikiRegexes.CategoryQuick.Match(articleText);
@@ -457,7 +450,7 @@ en, sq, ru
 			{
 			    int cutoff = Math.Max(0, cq.Index -500);
 			    string cut = articleText.Substring(cutoff);
-			    articleText = articleText.Substring(0, cutoff) + RemoveCatsAllCats.Replace(cut, m =>
+			    articleText = articleText.Substring(0, cutoff) + WikiRegexes.RemoveCatsAllCats.Replace(cut, m =>
 			                                                               {
 			                                                                   if (!CatsForDeletion.IsMatch(m.Value))
 			                                                                       categoryList.Add(m.Value.Trim());
