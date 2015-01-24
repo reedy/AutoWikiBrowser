@@ -48,6 +48,12 @@ namespace WikiFunctions
             Category = new Regex(@"\[\[[\s_]*" + category +
                                  @"[ _]*([^[\]|\r\n]*?)[ _]*(?:\|([^\|\]]*))?[ _]*\]\]");
 
+			// allow comments between categories, and keep them in the same place, only grab any comment after the last category if on same line
+			// whitespace: remove all whitespace after, but leave a blank newline before a heading (rare case where category not in last section)
+            RemoveCatsAllCats = new Regex(@"<!-- [^<>]*?\[\[\s*" + category + @".*?(\]\]|\|.*?\]\]).*?-->|\[\[" + category
+			                    + @".*?(\]\]|\|.*?\]\])(\s*⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->|\s*<!--.*?-->(?=\r\n\[\[\s*" + category
+			                    + @")|\s*(?=\r\n==)|\s*)?", RegexOptions.Singleline);
+
             CategoryQuick = new Regex(@"\[\[[\s_]*" + category);
 
             // Match file name by using allowed character list, [October 2012 any Unicode word characters] then a file extension (these are mandatory on mediawiki), then optional closing ]]
@@ -698,6 +704,8 @@ namespace WikiFunctions
         /// Matches categories, group 1 being the category name
         /// </summary>
         public static Regex Category;
+
+        public static Regex RemoveCatsAllCats;
 
         /// <summary>
         /// Matches the start of a category link
