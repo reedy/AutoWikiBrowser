@@ -43,6 +43,14 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Kategori:Test]]");
             RegexAssert.IsMatch(WikiRegexes.CategoryQuick, "[[Kategori:Test]]");
 
+            Variables.SetProjectLangCode("el");
+            Variables.NamespacesCaseInsensitive.Remove(Namespace.Category);
+            Variables.NamespacesCaseInsensitive.Add(Namespace.Category, "[Κκ]ατηγορία:");
+            WikiRegexes.MakeLangSpecificRegexes();
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Κατηγορία:Δοκιμή]]");
+            RegexAssert.IsMatch(WikiRegexes.CategoryQuick, "[[Κατηγορία:Δοκιμή]]");
+
+
             Variables.SetProjectLangCode("en");
             Variables.NamespacesCaseInsensitive.Remove(Namespace.Category);
             Variables.NamespacesCaseInsensitive.Add(Namespace.Category, @"(?i:Category)\s*:");
