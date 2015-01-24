@@ -5703,8 +5703,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string articleText)
         {
-            if(string.IsNullOrEmpty(CategoryStart))
-                CategoryStart = @"[[" + (Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:");
+            CategoryStart = @"[[" + (Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:");
 
             // Performance: only need to apply changes to portion of article containing categories
             Match cq = WikiRegexes.CategoryQuick.Match(articleText);
