@@ -1279,6 +1279,9 @@ was [[foo|bar]] too"));
 
             Assert.AreEqual(@"[http://www.hup.harvard.edu/catalog.php?isbn=9780674372993 example]", Parsers.FixSyntax(@"[http://www.hup.harvard.edu/catalog.php?isbn=9780674372993 example]"), "no change inside url");
             Assert.AreEqual(@"foo<ref name=""isbn0-19-517234-5"" />", Parsers.FixSyntax(@"foo<ref name=""isbn0-19-517234-5"" />"), "no change inside ref");
+
+            Assert.AreEqual(@"ISBN 9711005522", Parsers.FixSyntax(@"[[ISBN]] [[Special:BookSources/9711005522|9711005522]]"), "ISBNT substed");
+            Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[ISBN]] [[Special:BookSources/9780881925166|9780881925166]]"), "ISBNT substed");
         }
 
 

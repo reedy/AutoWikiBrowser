@@ -3417,6 +3417,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexHTTPNumber = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN = new Regex(@"(?:ISBN(?:-1[03])?:|\[\[ISBN\]\])\s*(\d)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN2 = new Regex(@"ISBN-(?!1[03]\b)", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexISBN3 = new Regex(@"\[\[ISBN\]\]\s\[\[Special\:BookSources[^\|]*\|([^\]]*)\]\]", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *(\d)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexExternalLinkOnWholeLine = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex SyntaxRegexClosingBracket = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
@@ -3597,6 +3598,9 @@ namespace WikiFunctions.Parse
 
             if(isbnDash)
                 articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
+            
+            if(ssb.Where(m => m.Value.Equals("[[ISBN]]")).Any())
+            	articleText = SyntaxRegexISBN3.Replace(articleText, "ISBN $1");
 
             if(articleText.Contains("PMID:"))
                 articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
