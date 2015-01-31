@@ -3643,17 +3643,15 @@ namespace WikiFunctions.Parse
                 articleText = IncorrectBr.Replace(articleText, "<br />");
 
             articleText = IncorrectBr2.Replace(articleText, m=>
- 
                                                     {
-                                                        string newvalue = m.Groups[1].Value;
-
                                                         if(m.Groups[1].Value == "left")
-                                                        	return "{{clear|left}}";
+                                                            return "{{clear|left}}";
                                                         else if(m.Groups[1].Value == "right")
-                                                        	return "{{clear|right}}";
-                                                       	else
-                                                        	return "{{clear}}";
-                                                    });
+                                                            return "{{clear|right}}";
+
+                                                        return "{{clear}}";
+                                                    }
+                                                );
             
             // CHECKWIKI errors 55, 63, 66, 77
             if(SimpleTagsList.Where(s => s.Contains("small")).Any())
