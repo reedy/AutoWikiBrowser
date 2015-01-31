@@ -3111,6 +3111,19 @@ world</font>"));
         }
 
         [Test]
+        public void TestFixObsoleteBrAttributes()
+        {
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=both />"));
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=""both"" />"));
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=all />"));
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=""all"" />"));
+            Assert.AreEqual("{{clear|left}}", Parsers.FixSyntax(@"<br clear=left />"));
+            Assert.AreEqual("{{clear|left}}", Parsers.FixSyntax(@"<br clear=""left"" />"));
+            Assert.AreEqual("{{clear|right}}", Parsers.FixSyntax(@"<br clear=right />"));
+            Assert.AreEqual("{{clear|right}}", Parsers.FixSyntax(@"<br clear=""right"" />"));
+        }
+
+        [Test]
         public void FixUnbalancedBracketsCiteTemplates()
         {
             Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}</ref>"));

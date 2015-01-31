@@ -3410,6 +3410,9 @@ namespace WikiFunctions.Parse
 
         // CHECKWIKI error 2: fix incorrect <br> of <br.>, <\br>, <br\> and <br./> etc.
         private static readonly Regex IncorrectBr = new Regex(@"<(\\ *br *| *br *\\ *| *br\. */?| *br */([a-z/0-9•]|br)| *br *\?|/ *br */?)>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        // CHECKWIKI error 2: https://en.wikipedia.org/wiki/Wikipedia:HTML5#Other_obsolete_attributes
+        private static readonly Regex IncorrectBr2 = new Regex(@"<br\s*clear\s*=\s*""?(both|all|left|right)""?\s*\/?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         private static readonly Regex IncorrectClosingHtmlTags = new Regex(@"< */?(center|gallery|small|sub|sup|i) *[\\/] *>");
 
         private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^(<hr>|-{5,})", RegexOptions.Compiled | RegexOptions.Multiline);
@@ -3639,6 +3642,19 @@ namespace WikiFunctions.Parse
             if(SimpleTagsList.Where(s => (s.Contains("br") && !s.Equals("<br>") && !s.Equals("<br/>"))).Any())
                 articleText = IncorrectBr.Replace(articleText, "<br />");
 
+            articleText = IncorrectBr2.Replace(articleText, m=>
+ 
+                                                    {
+                                                        string newvalue = m.Groups[1].Value;
+
+                                                        if(m.Groups[1].Value == "left")
+                                                        	return "{{clear|left}}";
+                                                        else if(m.Groups[1].Value == "right")
+                                                        	return "{{clear|right}}";
+                                                       	else
+                                                        	return "{{clear}}";
+                                                    });
+            
             // CHECKWIKI errors 55, 63, 66, 77
             if(SimpleTagsList.Where(s => s.Contains("small")).Any())
                 articleText = FixSmallTags(articleText);
