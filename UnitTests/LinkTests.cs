@@ -3114,6 +3114,7 @@ world</font>"));
         public void TestFixObsoleteBrAttributes()
         {
             Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=both />"));
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<Br clear=both />"));
             Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=""both"" />"));
             Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=all />"));
             Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=""all"" />"));
