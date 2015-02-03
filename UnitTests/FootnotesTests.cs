@@ -398,6 +398,14 @@ End of.";
 
             Assert.AreEqual(correctpart + a, Parsers.ReorderReferences(correctpart + a));
             Assert.AreEqual(correctpart + b, Parsers.ReorderReferences(correctpart + b));
+
+#if DEBUG
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(correctpart + b.Replace("reflist", "références"), Parsers.ReorderReferences(correctpart + b.Replace("reflist", "références")));
+
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(correctpart + b, Parsers.ReorderReferences(correctpart + b));
+#endif
         }
 
         [Test]
