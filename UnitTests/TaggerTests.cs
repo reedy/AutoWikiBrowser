@@ -1806,7 +1806,7 @@ text -->
 {{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 
 ==Foo2==
-"));
+"), "Commented out text not changed");
             Assert.IsTrue(summary.Contains("Empty section (1)"));
 
             twoTwos = @"==Foo1==
@@ -1817,7 +1817,7 @@ text -->
             Assert.IsTrue(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 
 ==Foo2==
-"));
+"), "Standard empty section is tagged");
 
             // tagging multiple sections
             summary = "";
@@ -1825,7 +1825,7 @@ text -->
             Assert.IsTrue(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 
 ==Foo2==
-"));
+"), "Extra whitespace handled");
             Assert.IsTrue(summary.Contains("Empty section (3)"));
 
             // not empty
@@ -1834,7 +1834,7 @@ x
 ==Foo2==
 ";
             returned = parser.Tagger(twoTwos, "test", false, ref summary);
-            Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "Section not empty");
 
             // level 3
             twoTwos = @"===Foo1===
@@ -1842,7 +1842,7 @@ x
 ===Foo2===
 ";
             returned = parser.Tagger(twoTwos, "test", false, ref summary);
-            Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "Empty level 3 sections not tagged");
 
             // commented out sections - no change
             returned = parser.Tagger(commentedOutTwoTwos, "test", false, ref summary);
