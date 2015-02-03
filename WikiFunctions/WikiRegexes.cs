@@ -304,7 +304,10 @@ namespace WikiFunctions
                 new Regex(
                     @"(<!-- ?\{\{" + Variables.Stub + @"\b\}\}.*?-->|\{\{" + Variables.Stub + @"\s*(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
 
-            
+            if(Variables.LangCode.Equals("fr"))
+                ReferenceList = Tools.NestedTemplateRegex(new [] { "références", "references", "reflist" });
+            else
+                ReferenceList = Tools.NestedTemplateRegex(new [] { "reflist", "references-small", "references-2column"});            
         }
         
         private const string UncatTemplatesAR = @"(غير مصنفة|غير مصنف|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub|بذرة غير مصنفة)";
@@ -1145,7 +1148,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the "reflist", "references-small", "references-2column" references display templates
         /// </summary>
-        public static readonly Regex ReferenceList = Tools.NestedTemplateRegex(new [] { "reflist", "references-small", "references-2column"});
+        public static Regex ReferenceList;
 
         /// <summary>
         /// Matches infoboxes, group 1 being the template name of the infobox
