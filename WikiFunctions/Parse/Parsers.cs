@@ -1393,7 +1393,6 @@ namespace WikiFunctions.Parse
         // regex below ensures a forced match on second and third of consecutive references
         private static readonly Regex OutofOrderRefs3 = new Regex(@"(?<=\s*(?:\/\s*|>[^<>]+</ref)>\s*(?:{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?)" + OutofOrderRefs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        private static readonly Regex RefsTemplates = Tools.NestedTemplateRegex(new [] { "reflist", "reflink", "ref-list", "ref-link", "reference", "listaref", "refs" });
         private static readonly Regex RefsTag = new Regex(@"<\s*references");
 
         /// <summary>
@@ -1456,7 +1455,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static int RefsTemplateIndex(string articleText)
         {
-            Match r1 = RefsTemplates.Match(articleText);
+            Match r1 = WikiRegexes.ReferenceList.Match(articleText);
             if(r1.Success)
                 return r1.Index;
 
