@@ -912,6 +912,7 @@ http://www.site.com
             Assert.AreEqual(Namespace.User, Namespace.Determine("user:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user_talk:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user%20talk:foo"));
+            Assert.AreEqual(Namespace.BookTalk, Namespace.Determine("Book talk:Math"));
         }
         
         [Test]
@@ -960,6 +961,7 @@ http://www.site.com
 
             Assert.IsFalse(Namespace.IsMainSpace("File:Test"));
             Assert.IsFalse(Namespace.IsMainSpace("Image:Test"));
+            Assert.IsFalse(Namespace.IsMainSpace("Book talk:Math"));
         }
 
         [Test]
