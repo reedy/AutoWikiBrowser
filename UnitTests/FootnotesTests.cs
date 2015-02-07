@@ -401,9 +401,11 @@ End of.";
 
 #if DEBUG
             Variables.SetProjectLangCode("fr");
+            WikiRegexes.MakeLangSpecificRegexes();
             Assert.AreEqual(correctpart + b.Replace("reflist", "références"), Parsers.ReorderReferences(correctpart + b.Replace("reflist", "références")));
 
             Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
             Assert.AreEqual(correctpart + b, Parsers.ReorderReferences(correctpart + b));
 #endif
         }

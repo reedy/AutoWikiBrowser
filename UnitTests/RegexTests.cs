@@ -2113,11 +2113,13 @@ Bert").Groups[2].Value, "foo bar\r");
 
 #if DEBUG
             Variables.SetProjectLangCode("fr");
+            WikiRegexes.MakeLangSpecificRegexes();
             Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{références}}"));
             Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references}}"));
             Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{reflist}}"));
 
             Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
             Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{reflist}}"));
             Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references-small}}"));
             Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references-2column}}"));
