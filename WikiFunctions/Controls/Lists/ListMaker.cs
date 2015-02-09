@@ -1299,7 +1299,8 @@ namespace WikiFunctions.Controls.Lists
 
         private void lbArticles_DoubleClick(object sender, EventArgs e)
         {
-            LoadArticlesInBrowser();
+            if ((lbArticles.SelectedItems.Count < 10) || (MessageBox.Show("Opening " + lbArticles.SelectedItems.Count + " articles in your browser at once could cause your system to run slowly, and even stop responding.\r\nAre you sure you want to continue?", "Continue?", MessageBoxButtons.YesNo) == DialogResult.Yes))
+                LoadArticlesInBrowser();
         }
 
         private void moveToTopToolStripMenuItem_Click(object sender, EventArgs e)
