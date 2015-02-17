@@ -1490,31 +1490,25 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// For private use, static to avoid unneeded reinitialisation
+        /// Computes the MD5 sum of a string
         /// </summary>
-        private static readonly System.Security.Cryptography.MD5 Md5Summer = System.Security.Cryptography.MD5.Create();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <param name="input">String to get MD5 sum of</param>
+        /// <returns>MD5 sum</returns>
         protected static string MD5(string input)
         {
             return MD5(Encoding.UTF8.GetBytes(input));
         }
 
         /// <summary>
-        /// 
+        /// Computes the MD5 sum of a byte array
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <param name="input">Byte array to get MD5 sum of</param>
+        /// <returns>MD5 sum</returns>
         protected static string MD5(byte[] input)
         {
-            byte[] hash = Md5Summer.ComputeHash(input);
-
+            var summer = System.Security.Cryptography.MD5.Create();
             StringBuilder sb = new StringBuilder(20);
-            foreach (byte t in hash)
+            foreach (byte t in summer.ComputeHash(input))
             {
                 sb.Append(t.ToString("x2"));
             }
