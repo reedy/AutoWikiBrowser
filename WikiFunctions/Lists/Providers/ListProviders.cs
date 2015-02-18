@@ -183,7 +183,7 @@ namespace WikiFunctions.Lists.Providers
         { get { return "Categories on page"; } }
 
         public override string UserInputTextBoxText
-        { get { return "Pages"; } }
+        { get { return "Pages:"; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
@@ -1360,7 +1360,7 @@ namespace WikiFunctions.Lists.Providers
         { get { return "Protected Pages"; } }
 
         public override string UserInputTextBoxText
-        { get { return "Pages"; } }
+        { get { return "Pages:"; } }
     }
 
     /// <summary>
@@ -1377,7 +1377,7 @@ namespace WikiFunctions.Lists.Providers
         { get { return "Pages without Language Links"; } }
 
         public override string UserInputTextBoxText
-        { get { return "Pages"; } }
+        { get { return "Pages:"; } }
     }
 
     /// <summary>
