@@ -172,7 +172,18 @@ namespace WikiFunctions.Lists.Providers
 
         public override string UserInputTextBoxText
         {
-            get { return Variables.Namespaces[Namespace.Category]; }
+            get
+            {
+                string value;
+                if (Variables.Namespaces.TryGetValue(Namespace.Category, out value))
+                {
+                    return value;
+                }
+                else
+                {
+                    return Variables.CanonicalNamespaces[Namespace.Category];
+                }
+            }
         }
 
         public override void Selected() { }
