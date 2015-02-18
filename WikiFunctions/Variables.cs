@@ -152,7 +152,7 @@ namespace WikiFunctions
         public static Dictionary<int, string> Namespaces = new Dictionary<int, string>(40);
 
         /// <summary>
-        /// Aliases for current namspaces
+        /// Aliases for current namespaces
         /// </summary>
         public static Dictionary<int, List<string>> NamespaceAliases;
 
