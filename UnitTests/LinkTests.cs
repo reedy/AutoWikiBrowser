@@ -1259,6 +1259,21 @@ was [[foo|bar]] too"));
         }
 
         [Test]
+        public void LivingPeopleTestsEnOnly()
+        {
+#if DEBUG
+            const string Before = @"'''Fred Smith''' (born 1960) is a bloke.
+[[Category:1960 births|Smith, Fred]]";
+
+            Variables.SetProjectLangCode("sco");
+            Assert.AreEqual(Before, Parsers.LivingPeople(Before, "A"));
+
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(Before + @"[[Category:Living people|Smith, Fred]]", Parsers.LivingPeople(Before, "A"));
+#endif
+        }
+
+        [Test]
         public void FixISBNFormat()
         {
             Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN: 1245781549"), "removes colon after ISBN");
