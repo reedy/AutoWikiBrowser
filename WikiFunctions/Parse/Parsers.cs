@@ -3010,6 +3010,10 @@ namespace WikiFunctions.Parse
             {
                 articleText += "\r\n==References==\r\n{{Reflist}}";
 
+                // now sort metadata in case Category at top of article
+                Parsers p = new Parsers();
+                articleText = p.SortMetaData(articleText, "A", false);
+
                 // try to move just above external links
                 if (ExternalLinksHeading.IsMatch(articleText))
                     articleText = ExternalLinksToReferences.Replace(articleText, "$2\r\n$1");
