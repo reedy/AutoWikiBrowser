@@ -182,9 +182,17 @@ namespace WikiFunctions.DBScanner
 
             List<Scan> s = new List<Scan>();
 
+            // First set of checks: article namespace and title contains/not contains checks
             if (Namespaces.Count > 0)
                 s.Add(new CheckNamespace(Namespaces));
 
+            if (chkTitleContains.Checked)
+                s.Add(new TitleContains(TitleDoesRegex));
+
+            if (chkTitleDoesNotContain.Checked)
+                s.Add(new TitleDoesNotContain(TitleDoesNotRegex));
+
+            // Second set of checks: redirects, article contains/not contains checks
             if (chkIgnoreRedirects.Checked)
                 s.Add(new IsNotRedirect());
 
@@ -193,12 +201,6 @@ namespace WikiFunctions.DBScanner
 
             if (chkArticleDoesNotContain.Checked)
                 s.Add(new TextDoesNotContainRegex(ArticleDoesNotContain));
-
-            if (chkTitleContains.Checked)
-                s.Add(new TitleContains(TitleDoesRegex));
-
-            if (chkTitleDoesNotContain.Checked)
-                s.Add(new TitleDoesNotContain(TitleDoesNotRegex));
 
             if (chkSearchDates.Checked)
                 s.Add(new DateRange(dtpFrom.Value, dtpTo.Value));
