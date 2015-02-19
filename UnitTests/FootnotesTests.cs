@@ -798,7 +798,11 @@ Jones 2005</ref>"));
 [[Category:Here]]", ExtLinks = @"==External links==
 *[http://www.site.com hello]";
             Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
-{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
+{{Reflist}}" + "\r\n" + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
+
+            // article has category out of place
+            Assert.AreEqual(SingleRef + "\r\n" + @"==References==
+{{Reflist}}" + "\r\n" + Cat, Parsers.AddMissingReflist(Cat + SingleRef));
 
             // above references section
             const string References = @"==References==
@@ -812,8 +816,8 @@ Jones 2005</ref>"));
 {{Reflist}}" + "\r\n" + ExtLinks, Parsers.AddMissingReflist(SingleRef + "\r\n" + ExtLinks));
 
             // reflist already present
-            Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
-{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + "\r\n\r\n" + @"==References==
+            Assert.AreEqual(SingleRef + "\r\n" + @"==References==
+{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + "\r\n" + @"==References==
 {{Reflist}}" + Cat));
 
             // after tracklist, before cats
@@ -823,13 +827,13 @@ Jones 2005</ref>"));
 | foo2
 }}";
             Assert.AreEqual(SingleRef + Tracklist + "\r\n\r\n" + @"==References==
-{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Tracklist + Cat));
+{{Reflist}}" + "\r\n" + Cat, Parsers.AddMissingReflist(SingleRef + Tracklist + Cat));
 
             // after s-end, before cats
             const string SEnd = @"
 {{s-end}}";
             Assert.AreEqual(SingleRef + SEnd + "\r\n\r\n" + @"==References==
-{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + SEnd + Cat));
+{{Reflist}}" + "\r\n" + Cat, Parsers.AddMissingReflist(SingleRef + SEnd + Cat));
 
             // missing slash in <references>
             const string missingSlash = @"Foo <ref>a</ref>
@@ -865,14 +869,14 @@ Jones 2005</ref>"));
             const string SingleRef = @"now <ref>foo</ref>", Cat = @"
 [[Category:Here]]";
             Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
-{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Cat),"add references sections above categories");
+{{Reflist}}" + "\r\n" + Cat, Parsers.AddMissingReflist(SingleRef + Cat),"add references sections above categories");
 
             Variables.SetProjectLangCode("fr");
             Assert.AreEqual(SingleRef + Cat, Parsers.AddMissingReflist(SingleRef + Cat),"do nothing in non-en sites");
 
             Variables.SetProjectLangCode("en");
             Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
-{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
+{{Reflist}}" + "\r\n" + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
 #endif
         }
 
