@@ -6940,6 +6940,9 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns>The updated article text.</returns>
         public static string LivingPeople(string articleText, string articleTitle)
         {
+            if(Variables.LangCode.Equals("sco"))
+                return articleText;
+
             Match m = WikiRegexes.BirthsCategory.Match(GetCats(articleText));
 
             // do not add living people category unless 'XXXX births' category is present
