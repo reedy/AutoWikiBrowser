@@ -5533,7 +5533,7 @@ namespace WikiFunctions.Parse
             // Performance: first get a list of unique links to avoid processing duplicate links more than once
             List<string> pipedLinks = Tools.DeduplicateList((from Match m in WikiRegexes.PipedWikiLink.Matches(articleText) select m.Value).ToList());
 
-            // Performance: second determine if any links with pipe whitepace to clean
+            // Performance: second determine if any links with pipe whitespace to clean
             string Category = Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:";
             bool whitepaceTrimNeeded = pipedLinks.Any(s => ((s.Contains("| ") && !s.Contains(Category)) || s.Contains(" |") || (!s.Contains("| ]]") && s.Contains(" ]]"))));
 Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
