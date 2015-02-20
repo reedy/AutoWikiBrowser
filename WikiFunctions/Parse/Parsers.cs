@@ -5359,6 +5359,12 @@ namespace WikiFunctions.Parse
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
             List<Match> wikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(articleText) select m).ToList();
+            
+            // Replace {{!}} with a standard pipe
+            List<Match> wikiLinksWithExclamation = wikiLinks.Where(m => m.Value.Contains(@"{{!}}")).ToList();
+            
+            foreach(Match m in wikiLinksWithExclamation)
+            	articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{!}}", "|"));
 
             // See if any self interwikis that need fixing later
             bool hasAnySelfInterwikis = wikiLinks.Any(m => m.Value.Contains(Variables.LangCode + ":"));
