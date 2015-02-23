@@ -105,6 +105,12 @@ namespace WikiFunctions.Parse
                 Replace(WikiRegexes.Images.Matches(articleText), ref articleText);
                 Replace(WikiRegexes.ImageMap.Matches(articleText), ref articleText);
                 Replace(CiteTitle.Matches(articleText), ref articleText);
+
+                // gallery tag does not require Image: namespace link before image in gallery, so hide anything before pipe
+                articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
+                    string res = m.Value;
+                    Replace(ImageToBar.Matches(res), ref res);
+                    return res;});
             }
 
             return articleText;
