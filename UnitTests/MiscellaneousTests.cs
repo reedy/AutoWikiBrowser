@@ -417,6 +417,12 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
 " + Hidden + @"|Bar, detail
 " + Hidden + "|" + Hidden + @" Street
 </gallery>"), "Wiki formatting within image description handled OK");
+
+            Assert.IsTrue(Regex.IsMatch(Hide(@"<gallery>
+quux.JPEG|text
+</gallery>"), @"<gallery>
+" + Hidden + @"|text
+</gallery>"), "One image link without namespace hidden, description retained");
         }
 
         [Test]
