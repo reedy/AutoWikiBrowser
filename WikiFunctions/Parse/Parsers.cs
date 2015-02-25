@@ -3745,7 +3745,7 @@ namespace WikiFunctions.Parse
         /// Performs fixes to redirect pages:
         /// * removes newline between #REDIRECT and link (CHECKWIKI error 36)
         /// * removes equal sing and double dot between #REDIRECT and link (CHECKWIKI error 36)
-        /// * removes uneccessary brackets around redirect
+        /// * Template to Magic word conversion; removes unnecessary brackets around redirect
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
@@ -3763,7 +3763,9 @@ namespace WikiFunctions.Parse
                                                                       return res.Replace(":[[", " [[");
 
         	                                            });
-        	
+
+            articleText = Tools.TemplateToMagicWord(articleText);
+
         	return RemoveTemplateNamespace(articleText);
         }
 
