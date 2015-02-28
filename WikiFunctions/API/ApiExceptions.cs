@@ -414,7 +414,7 @@ namespace WikiFunctions.API
     /// 
     /// </summary>
     /// <remarks>
-    /// Part of workaround for https://bugzilla.wikimedia.org/show_bug.cgi?id=39492
+    /// Part of workaround for https://phabricator.wikimedia.org/T41492
     /// </remarks>
     public class RedirectToSpecialPageException : ApiException
     {

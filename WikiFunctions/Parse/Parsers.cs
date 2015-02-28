@@ -3673,7 +3673,7 @@ namespace WikiFunctions.Parse
             // CHECKWIKI error 65: Image description ends with break – https://tools.wmflabs.org/checkwiki/cgi-bin/checkwiki.cgi?project=enwiki&view=only&id=65
             articleText = WikiRegexes.FileNamespaceLink.Replace(articleText, m=> WikilinkEndsBr.Replace(m.Value, @"]]"));
 
-            // workaround for bugzilla 2700: {{subst:}} doesn't work within ref tags
+            // workaround for https://phabricator.wikimedia.org/T4700 -- {{subst:}} doesn't work within ref tags
             articleText = FixSyntaxSubstRefTags(articleText);
 
             // ensure magic word behaviour switches such as __TOC__ are in upper case
@@ -3770,7 +3770,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// workaround for bugzilla 2700: {{subst:}} doesn't work within ref tags
+        /// workaround for https://phabricator.wikimedia.org/T4700 -- {{subst:}} doesn't work within ref tags
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
@@ -5425,7 +5425,7 @@ namespace WikiFunctions.Parse
         private static string FixLinksWikilinkCanonicalizeME(Match m)
         {
             string theTarget = m.Groups[1].Value, y = m.Value;
-            // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
+            // don't convert %27%27 -- https://phabricator.wikimedia.org/T10932
             if (theTarget.Length > 0 && !theTarget.Contains("%27%27"))
             {
                 string newTarget;
@@ -5798,7 +5798,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         {
             string imageName = m.Groups[2].Value;
             // only apply underscore/URL encoding fixes to image name (group 2)
-            // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
+            // don't convert %27%27 -- https://phabricator.wikimedia.org/T10932
             string x = "[[" + Namespace.Normalize(m.Groups[1].Value, 6) + (imageName.Contains("%27%27") ? imageName : CanonicalizeTitle(imageName).Trim()) + m.Groups[3].Value.Trim() + "]]";
 
             return x;
@@ -8511,7 +8511,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <summary>
         /// Sets the date (month & year) for undated cleanup tags that take a date, from https://en.wikipedia.org/wiki/Wikipedia:AWB/Dated_templates
         /// Avoids changing tags in unformatted text areas (wiki comments etc.)
-        /// Note: bugzilla 2700 means {{subst:}} within ref tags doesn't work, AWB doesn't do anything about it
+        /// Note: https://phabricator.wikimedia.org/T4700 means {{subst:}} within ref tags doesn't work, AWB doesn't do anything about it
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The updated article text</returns>

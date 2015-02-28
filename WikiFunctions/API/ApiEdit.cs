@@ -801,7 +801,7 @@ namespace WikiFunctions.API
                 get,
                 new Dictionary<string, string>
                 {
-                    // order matters here - https://bugzilla.wikimedia.org/show_bug.cgi?id=14210#c4
+                    // order matters here - https://phabricator.wikimedia.org/T16210#183159
                     {"md5", MD5(pageText)},
                     {"summary", summary},
                     {"basetimestamp", Page.Timestamp},
@@ -1399,7 +1399,7 @@ namespace WikiFunctions.API
             var redirects = api.GetElementsByTagName("r");
             if (action == "query" && redirects.Count >= 1) //We have redirects
             {
-                // Workaround for https://bugzilla.wikimedia.org/show_bug.cgi?id=39492
+                // Workaround for https://phabricator.wikimedia.org/T41492
                 if (Namespace.IsSpecial(Namespace.Determine(redirects[redirects.Count - 1].Attributes["to"].Value)))
                 {
                     throw new RedirectToSpecialPageException(this);
