@@ -8,13 +8,11 @@ namespace WikiFunctions.CustomModules
     {
         public CSharpCustomModule()
         {
-            Dictionary<string, string> providerOptions = new Dictionary<string, string>();
-            if (Globals.SystemCore3500Available)
-            {
-                providerOptions.Add("CompilerVersion", "v3.5");
-            }
-
-            Compiler = new CSharpCodeProvider(providerOptions);
+            Compiler = Globals.SystemCore3500Available
+                // Parameterised constructor only available in .NET >= 3.5
+                // https://msdn.microsoft.com/en-us/library/bb537926(v=vs.90).aspx
+                ? new CSharpCodeProvider(new Dictionary<string, string> {{"CompilerVersion", "v3.5"}})
+                : new CSharpCodeProvider();
         }
 
         public override string Name
