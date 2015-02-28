@@ -245,7 +245,6 @@ namespace WikiFunctions
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Uu]nderlinked|Փակ)(?:\|(?:[^{}]+|" +DateYearMonthParameter +@"))?}}|\s*Փակ\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
 					Wikify = new Regex(@"{{\s*Վիքիֆիկացում(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
                     InUse = Tools.NestedTemplateRegex(new[] {"Խմբագրում եմ"});
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA"});
                     break;
                 case "it":
                     InUse = Tools.NestedTemplateRegex(new[] {"WIP", "Wip" });

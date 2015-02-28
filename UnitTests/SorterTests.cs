@@ -1382,44 +1382,7 @@ Text";
 
 			Assert.AreEqual(f + d, parser2.SortMetaData(f + d, "foo"));
 		}
-		
-		[Test]
-		public void InterWikiTestsLinkFAOrder()
-		{
-			#if DEBUG
-			Variables.SetProjectLangCode("ar");
-			WikiRegexes.MakeLangSpecificRegexes();
-			string a1 = @"{{DEFAULTSORT:Boleyn, Anne}}
-
-", a2 = @"{{وصلة مقالة مختارة|bs}}
-{{وصلة مقالة مختارة|no}}
-{{وصلة مقالة مختارة|sv}}
-[[bs:Anne Boleyn]]
-[[br:Anne Boleyn]]";
-
-			string b = a2;
-			string c = a1 + a2;
-
-			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref c), "Ar Link FA order not changed");
-			
-			Variables.SetProjectLangCode("en");
-			WikiRegexes.MakeLangSpecificRegexes();
-			string e1 = @"{{DEFAULTSORT:Boleyn, Anne}}
-
-", e2 = @"{{Link FA|bs}}
-{{Link FA|no}}
-{{Link FA|sv}}
-[[ar:آن بولين]]
-[[bs:Anne Boleyn]]
-[[br:Anne Boleyn]]";
-
-			string f = e2;
-			string g = e1 + e2;
-
-			Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g), "En Link FA order not changed");
-			#endif
-		}
-		
+				
 		[Test]
 		public void SortOtherLanguages()
 		{
