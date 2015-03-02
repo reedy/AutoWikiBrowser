@@ -174,12 +174,7 @@ namespace WikiFunctions.Disambiguation
 
         private void OnUserInput(object sender, EventArgs e)
         {
-            bool l = true;
-            foreach (DabControl d in Dabs)
-            {
-                l &= d.CanSave;
-            }
-            btnDone.Enabled = l;
+            btnDone.Enabled = Dabs.Aggregate(true, (current, d) => current & d.CanSave);
         }
 
         private void DabForm_Load(object sender, EventArgs e)
@@ -192,7 +187,6 @@ namespace WikiFunctions.Disambiguation
             }
             if (SavedLeft != 0)
             {
-
                 Left = SavedLeft;
                 Top = SavedTop;
             }
