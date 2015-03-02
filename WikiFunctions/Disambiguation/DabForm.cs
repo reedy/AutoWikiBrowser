@@ -37,6 +37,7 @@ namespace WikiFunctions.Disambiguation
         /// if true, all processing should be immediately halted
         /// </summary>
         public bool Abort;
+
         private bool BotMode;
 
         private readonly List<string> Variants = new List<string>();
@@ -129,29 +130,30 @@ namespace WikiFunctions.Disambiguation
                     return articleText;
             }
 
-       /* https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_22#Errors_disambiguating.2C_possibly_due_to_link_occurring_more_than_once_in_a_line
-        * to perform replace perform each replace via regex, take user's chosen link from the matching dab by index */
-       int a = 0;
-       bool DnPunctuation = false;
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_22#Errors_disambiguating.2C_possibly_due_to_link_occurring_more_than_once_in_a_line
+            // to perform replace perform each replace via regex, take user's chosen link from the matching dab by index
+            int a = 0;
+            bool dnPunctuation = false;
 
-       newText = Search.Replace(newText, m2 => {
-                                    string res = Dabs[a].NoChange ? m2.Value : Dabs[a].Result;
+            newText = Search.Replace(newText, m2 =>
+            {
+                string res = Dabs[a].NoChange ? m2.Value : Dabs[a].Result;
 
-                                    if(res.Contains(@"{{dn}}"))
-                                        DnPunctuation = true;
+                if (res.Contains(@"{{dn}}"))
+                    dnPunctuation = true;
 
-                                    a++;
-                                    return res;
-                                });
+                a++;
+                return res;
+            });
 
-       if (!newText.Equals(articleText))
-           skip = false;
+            if (!newText.Equals(articleText))
+                skip = false;
 
-       // want ''[[link]]''{{dn}} rather than ''[[link]]{{dn}}''
-       if(DnPunctuation)
-           newText = DnPunctuationR.Replace(newText, "$1$3$2");
+            // want ''[[link]]''{{dn}} rather than ''[[link]]{{dn}}''
+            if (dnPunctuation)
+                newText = DnPunctuationR.Replace(newText, "$1$3$2");
 
-       return Parse.Parsers.StickyLinks(newText);
+            return Parse.Parsers.StickyLinks(newText);
         }
 
         private void btnResetAll_Click(object sender, EventArgs e)
@@ -228,7 +230,7 @@ namespace WikiFunctions.Disambiguation
         private void btnArticle_Click(object sender, EventArgs e)
         {
             contextMenuStripOther.Show(this, new Point(btnArticle.Left, btnArticle.Top + btnArticle.Height),
-                                       ToolStripDropDownDirection.BelowRight);
+                ToolStripDropDownDirection.BelowRight);
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
