@@ -1484,7 +1484,7 @@ namespace AutoWikiBrowser
                 NudgeTimer.Stop();
                 txtEdit.Text = "";
 
-                //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Endless_cycle_of_loading_and_skipping
+                //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_15#Endless_cycle_of_loading_and_skipping
                 bool successfullyremoved = listMaker.Remove(TheArticle);
 
                 SameArticleNudges = 0;
