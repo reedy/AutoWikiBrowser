@@ -2425,7 +2425,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         [Test]
         public void CleanSortKey()
         {
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Not_replacing_.26_with_.22and.22_in_sort_values
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_20#Not_replacing_.26_with_.22and.22_in_sort_values
             Assert.AreEqual(@"and", Tools.CleanSortKey(@"&"), "per SORTKEY");
             Assert.AreEqual(@"A and B", Tools.CleanSortKey(@"A & B"), "&");
             Assert.AreEqual(@"Ai-Ais", Tools.CleanSortKey(@"ǀAi-ǀAis"), "removes weird character");

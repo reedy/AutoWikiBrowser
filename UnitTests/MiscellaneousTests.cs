@@ -1716,7 +1716,7 @@ __TOC__", articleTextIn);
             Assert.AreEqual(allInTemplate, articleTextIn);
             
             // no change -- only after template on same line
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Section_header_added_in_wrong_position
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_15#Section_header_added_in_wrong_position
             const string allAfterTemplate = @"{{archive box|words}} extra foo
 
 {{another one}}";
