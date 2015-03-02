@@ -158,7 +158,7 @@ namespace WikiFunctions.AWBSettings
             }
             catch (Exception ex)
             {
-                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#InvalidOperationException_in_UserPrefs.SavePrefs
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_22#InvalidOperationException_in_UserPrefs.LoadPrefs_.2F_UserPrefs.SavePrefs
                 // Saving settings will fail if permissions problems, so handle this
                 if (ex is InvalidOperationException && ex.Message.Contains("CS0016"))
                 {

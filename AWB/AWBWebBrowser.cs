@@ -42,7 +42,7 @@ class AWBWebBrowser : WebBrowser
             catch
             {
                 // So system reported that Assembly does load, but it still doesn't work
-                // See https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Single_click_to_focus_the_edit_box_to_a_line_-_no_longer_works_with_SVN9282
+                // See https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_23#Single_click_to_focus_the_edit_box_to_a_line_-_no_longer_works_with_SVN9282
                 return false;
             }
         }

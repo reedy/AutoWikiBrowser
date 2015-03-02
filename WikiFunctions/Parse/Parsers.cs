@@ -3484,7 +3484,7 @@ namespace WikiFunctions.Parse
             }
 
             // merge italic/bold html tags if there are one after the other
-            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Another_bug_on_italics
+            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_21#Another_bug_on_italics
             if(SimpleTagsList.Where(s => s.StartsWith("<b")).Any())
                 articleText = articleText.Replace("</b><b>", "");
             if(SimpleTagsList.Where(s => s.StartsWith("<i")).Any())
@@ -5596,7 +5596,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         }
 
         // Covered by: LinkTests.TestStickyLinks()
-        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Link_simplification_too_greedy_-_eating_spaces -- disabled as genfix
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_15#Link_simplification_too_greedy_-_eating_spaces -- disabled as genfix
         /// <summary>
         /// Joins nearby words with links
         ///   e.g. "[[Russian literature|Russian]] literature" to "[[Russian literature]]"
@@ -5987,7 +5987,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// </summary>
         public string FixUnicode(string articleText)
         {
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Probably_odd_characters_being_treated_even_more_oddly
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_15#Probably_odd_characters_being_treated_even_more_oddly
             articleText = articleText.Replace('\x2029', ' ');
 
             // https://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion

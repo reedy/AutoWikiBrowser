@@ -129,7 +129,7 @@ namespace WikiFunctions.Disambiguation
                     return articleText;
             }
 
-       /* https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Errors_disambiguating.2C_possibly_due_to_link_occurring_more_than_once_in_a_line
+       /* https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_22#Errors_disambiguating.2C_possibly_due_to_link_occurring_more_than_once_in_a_line
         * to perform replace perform each replace via regex, take user's chosen link from the matching dab by index */
        int a = 0;
        bool DnPunctuation = false;

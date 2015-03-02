@@ -489,7 +489,7 @@ en, sq, ru
 			}
 			else
 			{
-				// ignore commented out DEFAULTSORT – https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Moving_DEFAULTSORT_in_HTML_comments
+				// ignore commented out DEFAULTSORT – https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Moving_DEFAULTSORT_in_HTML_comments
 				if (mc.Count > 0 && WikiRegexes.Defaultsort.Matches(articleTextNoComments).Count == mc.Count)
 					defaultSort = mc[0].Value;
 			}

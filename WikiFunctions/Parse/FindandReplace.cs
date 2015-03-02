@@ -57,7 +57,7 @@ namespace WikiFunctions.Parse
         /// Returns proper direction arrow depending on locale
         /// Currently returns only LTR arrow due to direction conflict
         /// demonstrated by https://ar.wikipedia.org/w/index.php?diff=1192871
-        /// July 2012: from discusison at https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#The_arrow_in_.22replaced.22_edit_summaries_points_the_wrong_way_in_right-to-left_languages
+        /// July 2012: from discusison at https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_20#The_arrow_in_.22replaced.22_edit_summaries_points_the_wrong_way_in_right-to-left_languages
         /// Arrow derivation reinstated
         /// </summary>
         public static string Arrow
@@ -211,7 +211,7 @@ namespace WikiFunctions.Parse
 
             if (chkIgnoreMore.Checked)
             {
-                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#FormatException_in_HideText.AddBackMore
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_24#FormatException_in_HideText.AddBackMore
                 // FIXME: Usages of IgnoreMore with number (or M) replacement done in the FindAndReplace can cause corruption
                 // e.g. Replacing 2 with "" ⌊⌊⌊⌊M2⌋⌋⌋⌋ becomes ⌊⌊⌊⌊M⌋⌋⌋⌋
                 // This cannot then be added back

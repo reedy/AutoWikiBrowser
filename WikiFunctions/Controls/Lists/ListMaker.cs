@@ -670,7 +670,7 @@ namespace WikiFunctions.Controls.Lists
                 s = Tools.WikiDecode(s);
 
             //Remove Left-to-right marks from title
-            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Doesn.27t_skip_pages_with_left-to-right_marks
+            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_21#Doesn.27t_skip_pages_with_left-to-right_marks
             s = s.Replace("‎", "").Trim();
 
             return s;
