@@ -951,7 +951,7 @@ namespace WikiFunctions.DBScanner
 
         private void lnkWmfDumps_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Tools.OpenURLInBrowser("http://dumps.wikimedia.org/");
+            Tools.OpenURLInBrowser("https://dumps.wikimedia.org/");
         }
 
         private void lnkWikiPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
