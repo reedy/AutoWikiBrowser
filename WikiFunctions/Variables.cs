@@ -602,6 +602,10 @@ namespace WikiFunctions
                 var uri = new Uri(Protocol + customProject);
                 URLEnd = uri.AbsolutePath;
                 URL = protocol + uri.Host;
+                if (uri.Port != 80)
+                {
+                    URL += ":" + uri.Port;
+                }
                 CustomProject = customProject;
             }
             else
