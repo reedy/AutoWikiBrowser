@@ -342,7 +342,7 @@ namespace AutoWikiBrowser
             this.lblImageWith = new System.Windows.Forms.Label();
             this.txtImageWith = new System.Windows.Forms.TextBox();
             this.txtImageReplace = new System.Windows.Forms.TextBox();
-            this.cmboImages = new System.Windows.Forms.ComboBox();
+            this.cmboImages = new WikiFunctions.Controls.ComboBoxInvoke();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lblNewlineCharacters = new System.Windows.Forms.Label();
             this.lblUse = new System.Windows.Forms.Label();
@@ -350,7 +350,7 @@ namespace AutoWikiBrowser
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.txtNewCategory2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.cmboCategorise = new System.Windows.Forms.ComboBox();
+            this.cmboCategorise = new WikiFunctions.Controls.ComboBoxInvoke();
             this.tpDab = new System.Windows.Forms.TabPage();
             this.panelDab = new System.Windows.Forms.Panel();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
@@ -4503,7 +4503,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSkipNoImgChange;
         private System.Windows.Forms.TextBox txtImageWith;
         private System.Windows.Forms.TextBox txtImageReplace;
-        private System.Windows.Forms.ComboBox cmboImages;
+        private WikiFunctions.Controls.ComboBoxInvoke cmboImages;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.RadioButton rdoPrepend;
         private System.Windows.Forms.RadioButton rdoAppend;
@@ -4515,7 +4515,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkRemoveSortKey;
         private System.Windows.Forms.TextBox txtNewCategory2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cmboCategorise;
+        private WikiFunctions.Controls.ComboBoxInvoke cmboCategorise;
         private System.Windows.Forms.TextBox txtNewCategory;
         private System.Windows.Forms.TabPage tpDab;
         private System.Windows.Forms.Panel panelDab;
