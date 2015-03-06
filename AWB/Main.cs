@@ -2237,11 +2237,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 lblUserNotifications.Visible = true;
             }
 
-            int n = TheSession.User.Notifications;
-
             lblUserNotifications.Text = TheSession.User.Notifications.ToString();
 
-            if(n > 0)
+            if(TheSession.User.Notifications > 0)
             {
                 lblUserNotifications.BackColor = Color.Tomato;
                 lblUserNotifications.Font = new Font(lblUserNotifications.Font, FontStyle.Bold);
@@ -2257,13 +2255,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             if (string.IsNullOrEmpty(TheSession.User.Name))
             {
-                if (Variables.Namespaces.ContainsKey(Namespace.User))
-                    lblUserName.Text = Variables.Namespaces[Namespace.User];
-                else lblUserName.Text = "User:";
+                lblUserName.Text = Variables.Namespaces.ContainsKey(Namespace.User)
+                    ? Variables.Namespaces[Namespace.User]
+                    : "User:";
             }
-
             else
+            {
                 lblUserName.Text = TheSession.User.Name;
+            }
 
             if (TheSession.Status == WikiStatusResult.Registered)
             {
