@@ -1625,7 +1625,7 @@ namespace AutoWikiBrowser
                 }
 
                 // replace/add/remove categories
-                if (cmboCategorise.SelectedIndex != 0)
+                if (GetCategoriseComboBoxSelectedIndex() != 0)
                 {
                     theArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
                                               cmboCategorise.SelectedIndex, Parser, chkSkipNoCatChange.Checked,
@@ -1813,6 +1813,21 @@ namespace AutoWikiBrowser
             {
                 Variables.Profiler.Flush();
             }
+        }
+
+        /// <summary>
+        /// Somewhat of a hack for Invoke related error
+        /// 
+        /// Cross-thread operation not valid: Control 'cmboCategorise' accessed from a thread other than the thread it was created on.
+        /// </summary>
+        /// <returns></returns>
+        private int GetCategoriseComboBoxSelectedIndex()
+        {
+            if (!InvokeRequired)
+            {
+                return cmboCategorise.SelectedIndex;
+            }
+            return (int)Invoke(new GenericDelegateReturnInt(GetCategoriseComboBoxSelectedIndex));
         }
 
         bool diffAccessViolationSeen;
@@ -4256,8 +4271,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 chkSkipIfNoRegexTypo.Checked = chkSkipIfNoRegexTypo.Enabled = false;
                 return;
             }
-            else
-                chkSkipIfNoRegexTypo.Enabled = true;
+            chkSkipIfNoRegexTypo.Enabled = true;
 
             if (chkRegExTypo.Checked && BotMode)
             {
@@ -4305,6 +4319,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         }
 
         private delegate void GenericDelegate();
+        private delegate int GenericDelegateReturnInt();
+
         private delegate void GenericDelegate1Parm(string parm);
 
         private void RegexTyposComplete(BackgroundRequest req)
