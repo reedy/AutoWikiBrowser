@@ -1367,8 +1367,12 @@ namespace WikiFunctions.API
                         throw new SharedRepoException(this, errorMessage);
                     case "hookaborted":
                         throw new MediaWikiSaysNoException(this, errorMessage);
-                    //case "confirmemail":
-                    //
+                    case "readonly":
+                        throw new MediaWikiReadOnlyException(this,
+                            errorMessage + "\r\n\r\nReason: " + error.Attributes["readonlyreason"].Value);
+
+                        //case "confirmemail":
+                        //
                     default:
                         if (errorCode.Contains("disabled"))
                         {

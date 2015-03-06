@@ -565,7 +565,9 @@ namespace AutoWikiBrowser
                 {
                     case "editconflict":
                         //TODO: must be a less crude way
-                        MessageBox.Show(this, "There has been an edit conflict. AWB will now re-apply its changes on the updated page.\r\nPlease re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit conflict");
+                        MessageBox.Show(this,
+                            "There has been an edit conflict. AWB will now re-apply its changes on the updated page.\r\nPlease re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.",
+                            "Edit conflict");
                         NudgeTimer.Stop();
                         Start();
                         break;
@@ -583,21 +585,32 @@ namespace AutoWikiBrowser
                         break;
 
                     case "badmd5":
-                        SkipPage("API MD5 hash error: The page you are editing may contain an unsupported or invalid Unicode character");
+                        SkipPage(
+                            "API MD5 hash error: The page you are editing may contain an unsupported or invalid Unicode character");
                         break;
 
                     case "assertuserfailed":
                         HandleLogoff();
                         break;
 
-                     case "badtoken":
+                    case "badtoken":
                         HandleLogoff();
                         break;
 
                     case "blocked":
                         MessageBox.Show("API reports this user is blocked from editing.",
-                                        "User blocked", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            "User blocked", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         Stop();
+                        break;
+
+                    case "readonly":
+                        MessageBox.Show(((ApiErrorException)ex).ApiErrorMessage,
+                            "Wiki read-only", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        Stop();
+                        break;
+
+                    case "tpt-target-page":
+                        SkipPage("Translation pages cannot currently be edited");
                         break;
 
                     default:
@@ -631,10 +644,6 @@ namespace AutoWikiBrowser
             else if (ex is RedirectToSpecialPageException)
             {
                 SkipPage("Page is a redirect to a special page");
-            }
-            else if (ex is TranslationPageEditException)
-            {
-                SkipPage("Translation pages cannot currently be edited");
             }
             else if (ex is WebException || (ex is IOException && ex.Message.Contains("0x2746")))
             {

@@ -97,7 +97,7 @@ namespace WikiFunctions.API
         }
 
         public ApiErrorException(ApiEdit editor, string errorCode, string errorMessage)
-            : base(editor, "Bot API returned the following error: '" + errorMessage + "'")
+            : base(editor, "API returned the following error: '" + errorMessage + "'")
         {
             ErrorCode = errorCode;
             ApiErrorMessage = errorMessage;
@@ -228,6 +228,14 @@ namespace WikiFunctions.API
         }
     }
 
+    public class MediaWikiReadOnlyException : ApiErrorException
+    {
+        public MediaWikiReadOnlyException(ApiEdit editor, string errorMessage)
+            : base(editor, "readonly", errorMessage)
+        {
+        }
+    }
+
     /// <summary>
     /// Thrown when assertion in API call fails
     /// </summary>
@@ -319,10 +327,10 @@ namespace WikiFunctions.API
     /// 
     /// API has given an error of "Unknown error: \"tpt-target-page\""
     /// </summary>
-    public class TranslationPageEditException : ApiException
+    public class TranslationPageEditException : ApiErrorException
     {
         public TranslationPageEditException(ApiEdit editor)
-            : base(editor, "Can't edit Translation Pages")
+            : base(editor, "tpt-target-page", "Can't edit Translation Pages")
         {
         }
     }
