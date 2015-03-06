@@ -314,6 +314,20 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
+    /// Thrown when we attempt to edit a subpage managed by the Translate extension.
+    /// Usually a Namespace:Foo/de type subpage
+    /// 
+    /// API has given an error of "Unknown error: \"tpt-target-page\""
+    /// </summary>
+    public class TranslationPageEditException : ApiException
+    {
+        public TranslationPageEditException(ApiEdit editor)
+            : base(editor, "Can't edit Translation Pages")
+        {
+        }
+    }
+
+    /// <summary>
     /// Thrown when server requests to solve a captcha.
     /// Note: we currently don't support captchas in any way other than stopping and reporting.
     /// </summary>

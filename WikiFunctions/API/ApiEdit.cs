@@ -1374,6 +1374,10 @@ namespace WikiFunctions.API
                         {
                             throw new FeatureDisabledException(this, errorCode, errorMessage);
                         }
+                        if (errorMessage == "Unknown error: \"tpt-target-page\"")
+                        {
+                            throw new TranslationPageEditException(this);
+                        }
 
                         throw new ApiErrorException(this, errorCode, errorMessage);
                 }
