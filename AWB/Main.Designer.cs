@@ -913,8 +913,8 @@ namespace AutoWikiBrowser
             // 
             this.openPageInBrowserToolStripMenuItem.Name = "openPageInBrowserToolStripMenuItem";
             this.openPageInBrowserToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+P";
-            this.openPageInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
-                        | System.Windows.Forms.Keys.P)));
+            this.openPageInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.P)));
             this.openPageInBrowserToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.openPageInBrowserToolStripMenuItem.Text = "&Open page in browser";
             this.openPageInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openPageInBrowserToolStripMenuItem_Click);
@@ -930,8 +930,8 @@ namespace AutoWikiBrowser
             // 
             this.openHistoryMenuItem.Name = "openHistoryMenuItem";
             this.openHistoryMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+H";
-            this.openHistoryMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
-                        | System.Windows.Forms.Keys.H)));
+            this.openHistoryMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.H)));
             this.openHistoryMenuItem.Size = new System.Drawing.Size(295, 22);
             this.openHistoryMenuItem.Text = "Open page &history in browser";
             this.openHistoryMenuItem.Click += new System.EventHandler(this.openHistoryMenuItem_Click);
@@ -1005,67 +1005,67 @@ namespace AutoWikiBrowser
             // loadDefaultSettingsToolStripMenuItem
             // 
             this.loadDefaultSettingsToolStripMenuItem.Name = "loadDefaultSettingsToolStripMenuItem";
-            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.loadDefaultSettingsToolStripMenuItem.Text = "R&eset to original default settings";
             this.loadDefaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadDefaultSettingsToolStripMenuItem_Click);
             // 
             // loadSettingsToolStripMenuItem
             // 
             this.loadSettingsToolStripMenuItem.Name = "loadSettingsToolStripMenuItem";
-            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.loadSettingsToolStripMenuItem.Text = "&Open settings...";
             this.loadSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSettingsToolStripMenuItem_Click);
             // 
             // recentToolStripMenuItem
             // 
             this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
-            this.recentToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.recentToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.recentToolStripMenuItem.Text = "&Recent settings";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(219, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(240, 6);
             // 
             // saveSettingsToolStripMenuItem
             // 
             this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.saveSettingsToolStripMenuItem.Text = "&Save settings";
             this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
             // 
             // saveSettingsAsToolStripMenuItem
             // 
             this.saveSettingsAsToolStripMenuItem.Name = "saveSettingsAsToolStripMenuItem";
-            this.saveSettingsAsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.saveSettingsAsToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.saveSettingsAsToolStripMenuItem.Text = "Save settings &as...";
             this.saveSettingsAsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsAsToolStripMenuItem_Click);
             // 
             // saveAsDefaultToolStripMenuItem
             // 
             this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
-            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.saveAsDefaultToolStripMenuItem.Text = "Save settings as &default";
             this.saveAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(219, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(240, 6);
             // 
             // profilesToolStripMenuItem
             // 
             this.profilesToolStripMenuItem.Name = "profilesToolStripMenuItem";
             this.profilesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+L";
             this.profilesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.profilesToolStripMenuItem.Text = "Log &in/&Profiles...";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
             // 
             // logOutToolStripMenuItem
             // 
             this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
-            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.logOutToolStripMenuItem.Text = "Log out";
             this.logOutToolStripMenuItem.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
             // 
@@ -1074,20 +1074,20 @@ namespace AutoWikiBrowser
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
             this.reloadToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+R";
             this.reloadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.reloadToolStripMenuItem.Text = "Re&fresh status/typos";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // toolStripSeparator17
             // 
             this.toolStripSeparator17.Name = "toolStripSeparator17";
-            this.toolStripSeparator17.Size = new System.Drawing.Size(219, 6);
+            this.toolStripSeparator17.Size = new System.Drawing.Size(240, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -1176,72 +1176,76 @@ namespace AutoWikiBrowser
             // 
             this.sortAlphabeticallyToolStripMenuItem.CheckOnClick = true;
             this.sortAlphabeticallyToolStripMenuItem.Name = "sortAlphabeticallyToolStripMenuItem";
-            this.sortAlphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.sortAlphabeticallyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.A)));
+            this.sortAlphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.sortAlphabeticallyToolStripMenuItem.Text = "&Keep alphabetized";
             this.sortAlphabeticallyToolStripMenuItem.Click += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
-            this.sortAlphabeticallyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.A)));
             // 
             // removeDuplicatesToolStripMenuItem
             // 
             this.removeDuplicatesToolStripMenuItem.CheckOnClick = true;
             this.removeDuplicatesToolStripMenuItem.Name = "removeDuplicatesToolStripMenuItem";
-            this.removeDuplicatesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.removeDuplicatesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.U)));
+            this.removeDuplicatesToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.removeDuplicatesToolStripMenuItem.Text = "Remove &duplicates";
             this.removeDuplicatesToolStripMenuItem.Click += new System.EventHandler(this.removeDuplicatesToolStripMenuItem_Click);
-            this.removeDuplicatesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.U)));
             // 
             // filterOutNonMainSpaceToolStripMenuItem
             // 
             this.filterOutNonMainSpaceToolStripMenuItem.CheckOnClick = true;
             this.filterOutNonMainSpaceToolStripMenuItem.Name = "filterOutNonMainSpaceToolStripMenuItem";
-            this.filterOutNonMainSpaceToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.filterOutNonMainSpaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.M)));
+            this.filterOutNonMainSpaceToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.filterOutNonMainSpaceToolStripMenuItem.Text = "Remove non-&main space";
             this.filterOutNonMainSpaceToolStripMenuItem.CheckedChanged += new System.EventHandler(this.filterOutNonMainSpaceToolStripMenuItem_Click);
-            this.filterOutNonMainSpaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.M)));
             // 
             // toolStripSeparator28
             // 
             this.toolStripSeparator28.Name = "toolStripSeparator28";
-            this.toolStripSeparator28.Size = new System.Drawing.Size(203, 6);
+            this.toolStripSeparator28.Size = new System.Drawing.Size(280, 6);
             // 
             // convertToTalkPagesToolStripMenuItem
             // 
             this.convertToTalkPagesToolStripMenuItem.Name = "convertToTalkPagesToolStripMenuItem";
-            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.convertToTalkPagesToolStripMenuItem.Text = "Con&vert to talk pages";
             this.convertToTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertToTalkPagesToolStripMenuItem_Click);
             // 
             // convertFromTalkPagesToolStripMenuItem
             // 
             this.convertFromTalkPagesToolStripMenuItem.Name = "convertFromTalkPagesToolStripMenuItem";
-            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.convertFromTalkPagesToolStripMenuItem.Text = "Convert &from talk pages";
             this.convertFromTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertFromTalkPagesToolStripMenuItem_Click);
             // 
             // toolStripSeparator30
             // 
             this.toolStripSeparator30.Name = "toolStripSeparator30";
-            this.toolStripSeparator30.Size = new System.Drawing.Size(203, 6);
+            this.toolStripSeparator30.Size = new System.Drawing.Size(280, 6);
             // 
             // specialFilterToolStripMenuItem1
             // 
             this.specialFilterToolStripMenuItem1.Name = "specialFilterToolStripMenuItem1";
-            this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(206, 22);
+            this.specialFilterToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.F)));
+            this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(283, 22);
             this.specialFilterToolStripMenuItem1.Text = "Fi&lter...";
             this.specialFilterToolStripMenuItem1.Click += new System.EventHandler(this.specialFilterToolStripMenuItem_Click);
-            this.specialFilterToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.F)));
             // 
             // saveListToTextFileToolStripMenuItem
             // 
             this.saveListToTextFileToolStripMenuItem.Name = "saveListToTextFileToolStripMenuItem";
-            this.saveListToTextFileToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.saveListToTextFileToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.saveListToTextFileToolStripMenuItem.Text = "&Save list...";
             this.saveListToTextFileToolStripMenuItem.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem_Click);
             // 
             // clearCurrentListToolStripMenuItem
             // 
             this.clearCurrentListToolStripMenuItem.Name = "clearCurrentListToolStripMenuItem";
-            this.clearCurrentListToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.clearCurrentListToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.clearCurrentListToolStripMenuItem.Text = "Clear current list";
             this.clearCurrentListToolStripMenuItem.Click += new System.EventHandler(this.clearCurrentListToolStripMenuItem_Click);
             // 
@@ -1329,9 +1333,10 @@ namespace AutoWikiBrowser
             // 
             this.preParseModeToolStripMenuItem.CheckOnClick = true;
             this.preParseModeToolStripMenuItem.Name = "preParseModeToolStripMenuItem";
+            this.preParseModeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.E)));
             this.preParseModeToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.preParseModeToolStripMenuItem.Text = "Use pre-parse m&ode";
-            this.preParseModeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.E)));
             // 
             // toolStripSeparator14
             // 
@@ -1512,8 +1517,8 @@ namespace AutoWikiBrowser
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.T)));
+            this.testRegexToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.T)));
             this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.testRegexToolStripMenuItem.Text = "Regex &tester";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.launchRegexTester);
@@ -1521,8 +1526,8 @@ namespace AutoWikiBrowser
             // launchDumpSearcherToolStripMenuItem
             // 
             this.launchDumpSearcherToolStripMenuItem.Name = "launchDumpSearcherToolStripMenuItem";
-            this.launchDumpSearcherToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.D)));
+            this.launchDumpSearcherToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
             this.launchDumpSearcherToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.launchDumpSearcherToolStripMenuItem.Text = "&Database scanner";
             this.launchDumpSearcherToolStripMenuItem.Click += new System.EventHandler(this.launchDumpSearcherToolStripMenuItem_Click);
@@ -1675,6 +1680,7 @@ namespace AutoWikiBrowser
             this.lblUserNotifications.Size = new System.Drawing.Size(14, 17);
             this.lblUserNotifications.Text = " ";
             this.lblUserNotifications.ToolTipText = "User notifications";
+            this.lblUserNotifications.Visible = false;
             this.lblUserNotifications.Click += new System.EventHandler(this.lblUserNotifications_Click);
             // 
             // lblUserName
@@ -1802,8 +1808,8 @@ namespace AutoWikiBrowser
             // btnStart
             // 
             this.btnStart.BackColor = System.Drawing.Color.Transparent;
-            this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStart.Enabled = false;
+            this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStart.Location = new System.Drawing.Point(155, 33);
             this.btnStart.Name = "btnStart";
@@ -1953,7 +1959,7 @@ namespace AutoWikiBrowser
             this.chkAutoTagger.TabIndex = 0;
             this.chkAutoTagger.Text = "Auto tag";
             this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{orphan}}, {{deadend}}, {{underlinked}}, {{ibid}} and {{stub}}" +
-                    " tags when appropriate");
+        " tags when appropriate");
             // 
             // chkUnicodifyWhole
             // 
@@ -1988,7 +1994,7 @@ namespace AutoWikiBrowser
             this.chkNudge.TabIndex = 0;
             this.chkNudge.Text = "Resave (\"nudge\")  if stuck";
             this.ToolTip.SetToolTip(this.chkNudge, "If checked, AWB will get a nudge if it is stuck: first after 2 minutes, then in d" +
-                    "ecreasing intervals");
+        "ecreasing intervals");
             // 
             // chkLock
             // 
@@ -1999,7 +2005,7 @@ namespace AutoWikiBrowser
             this.chkLock.TabIndex = 2;
             this.chkLock.Text = "Lock";
             this.ToolTip.SetToolTip(this.chkLock, "Lock the Default Edit Summary\r\nPrevents the Default Edit Summary from being chang" +
-                    "ed");
+        "ed");
             this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
             // 
             // chkMinor
@@ -2140,25 +2146,27 @@ namespace AutoWikiBrowser
             // 
             this.txtSkipIfNotContains.Enabled = false;
             this.txtSkipIfNotContains.Location = new System.Drawing.Point(106, 41);
+            this.txtSkipIfNotContains.Multiline = false;
             this.txtSkipIfNotContains.Name = "txtSkipIfNotContains";
+            this.txtSkipIfNotContains.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
             this.txtSkipIfNotContains.Size = new System.Drawing.Size(154, 20);
             this.txtSkipIfNotContains.TabIndex = 3;
+            this.txtSkipIfNotContains.Text = "";
             this.ToolTip.SetToolTip(this.txtSkipIfNotContains, "Skip pages that do not contain this text");
             this.txtSkipIfNotContains.TextChanged += new System.EventHandler(this.txtSkipIfNotContains_TextChanged);
-            this.txtSkipIfNotContains.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtSkipIfNotContains.Multiline = false;
             // 
             // txtSkipIfContains
             // 
             this.txtSkipIfContains.Enabled = false;
             this.txtSkipIfContains.Location = new System.Drawing.Point(106, 17);
+            this.txtSkipIfContains.Multiline = false;
             this.txtSkipIfContains.Name = "txtSkipIfContains";
+            this.txtSkipIfContains.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
             this.txtSkipIfContains.Size = new System.Drawing.Size(154, 20);
             this.txtSkipIfContains.TabIndex = 1;
+            this.txtSkipIfContains.Text = "";
             this.ToolTip.SetToolTip(this.txtSkipIfContains, "Skip pages that contain this text");
             this.txtSkipIfContains.TextChanged += new System.EventHandler(this.txtSkipIfContains_TextChanged);
-            this.txtSkipIfContains.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtSkipIfContains.Multiline = false;
             // 
             // chkSkipIfNotContains
             // 
@@ -2247,7 +2255,7 @@ namespace AutoWikiBrowser
             this.chkSkipGeneralFixes.TabIndex = 6;
             this.chkSkipGeneralFixes.Text = "Only genfixes";
             this.ToolTip.SetToolTip(this.chkSkipGeneralFixes, "Automatically skips pages when only general fixes changes were automatically made" +
-                    "");
+        "");
             this.chkSkipGeneralFixes.UseVisualStyleBackColor = true;
             this.chkSkipGeneralFixes.CheckedChanged += new System.EventHandler(this.chkSkipGeneralFixes_CheckedChanged);
             // 
@@ -2260,7 +2268,7 @@ namespace AutoWikiBrowser
             this.chkSkipMinorGeneralFixes.TabIndex = 7;
             this.chkSkipMinorGeneralFixes.Text = "Only minor genfixes";
             this.ToolTip.SetToolTip(this.chkSkipMinorGeneralFixes, "Automatically skips pages when only minor general fixes changes were automaticall" +
-                    "y made (applies to mainspace genfixes only)");
+        "y made (applies to mainspace genfixes only)");
             this.chkSkipMinorGeneralFixes.UseVisualStyleBackColor = true;
             // 
             // chkSkipCasing
@@ -2454,15 +2462,16 @@ namespace AutoWikiBrowser
             // txtFind
             // 
             this.txtFind.Location = new System.Drawing.Point(6, 19);
+            this.txtFind.Multiline = false;
             this.txtFind.Name = "txtFind";
+            this.txtFind.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
             this.txtFind.Size = new System.Drawing.Size(98, 20);
             this.txtFind.TabIndex = 0;
+            this.txtFind.Text = "";
             this.ToolTip.SetToolTip(this.txtFind, "The text to find in the page ");
             this.txtFind.TextChanged += new System.EventHandler(this.ResetFind);
             this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
             this.txtFind.MouseHover += new System.EventHandler(this.txtFind_MouseHover);
-            this.txtFind.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtFind.Multiline = false;
             // 
             // chkSkipNoCatChange
             // 
@@ -2523,7 +2532,7 @@ namespace AutoWikiBrowser
             this.AlertGroup.TabStop = false;
             this.AlertGroup.Text = "Alerts";
             this.ToolTip.SetToolTip(this.AlertGroup, "Displays alerts for the current page over problems in the page text that may requ" +
-                    "ire manual correction");
+        "ire manual correction");
             // 
             // lbAlerts
             // 
@@ -2680,8 +2689,8 @@ namespace AutoWikiBrowser
             // 
             // txtReviewEditSummary
             // 
-            this.txtReviewEditSummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtReviewEditSummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtReviewEditSummary.BackColor = System.Drawing.SystemColors.Window;
             this.txtReviewEditSummary.Enabled = false;
             this.txtReviewEditSummary.Location = new System.Drawing.Point(291, 3);
@@ -3509,9 +3518,9 @@ namespace AutoWikiBrowser
             // 
             // txtDabVariants
             // 
-            this.txtDabVariants.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDabVariants.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDabVariants.Location = new System.Drawing.Point(6, 19);
             this.txtDabVariants.Multiline = true;
             this.txtDabVariants.Name = "txtDabVariants";
@@ -3837,8 +3846,8 @@ namespace AutoWikiBrowser
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.listMaker);
             this.panel1.Controls.Add(this.MainTab);
@@ -3872,8 +3881,8 @@ namespace AutoWikiBrowser
             // 
             // EditBoxTab
             // 
-            this.EditBoxTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditBoxTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.EditBoxTab.Controls.Add(this.tpEdit);
             this.EditBoxTab.Controls.Add(this.tpHistory);
             this.EditBoxTab.Controls.Add(this.tpLinks);
@@ -3916,8 +3925,8 @@ namespace AutoWikiBrowser
             // txtEdit
             // 
             this.txtEdit.AcceptsTab = true;
-            this.txtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtEdit.ContextMenuStrip = this.mnuTextBox;
             this.txtEdit.DetectUrls = false;
             this.txtEdit.Enabled = false;
@@ -4007,9 +4016,9 @@ namespace AutoWikiBrowser
             // 
             // articleActionLogControl1
             // 
-            this.articleActionLogControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.articleActionLogControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.articleActionLogControl1.Location = new System.Drawing.Point(3, 3);
             this.articleActionLogControl1.Margin = new System.Windows.Forms.Padding(4);
             this.articleActionLogControl1.Name = "articleActionLogControl1";
@@ -4029,9 +4038,9 @@ namespace AutoWikiBrowser
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.Location = new System.Drawing.Point(3, 3);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -4101,9 +4110,9 @@ namespace AutoWikiBrowser
             // 
             // OverallTypoStats
             // 
-            this.OverallTypoStats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.OverallTypoStats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.OverallTypoStats.ComparerFactory = this.OverallTypoStats;
             this.OverallTypoStats.IsOverallStats = true;
             this.OverallTypoStats.Location = new System.Drawing.Point(3, 16);
@@ -4223,9 +4232,9 @@ namespace AutoWikiBrowser
             // 
             this.webBrowser.AllowNavigation = false;
             this.webBrowser.AllowWebBrowserDrop = false;
-            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowser.Location = new System.Drawing.Point(0, 25);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";

@@ -2229,8 +2229,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             if(!Variables.NotificationsEnabled)
             {
-                lblUserNotifications.Text = " ";
+                lblUserNotifications.Visible = false;
                 return;
+            }
+            if (!lblUserNotifications.Visible)
+            {
+                lblUserNotifications.Visible = true;
             }
 
             int n = TheSession.User.Notifications;
@@ -5191,6 +5195,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             DisableButtons();
             if (TheSession.User.HasMessages)
                 WeHaveNewMessages();
+
+            UpdateUserNotifications();
         }
 
         private void chkMinor_CheckedChanged(object sender, EventArgs e)
