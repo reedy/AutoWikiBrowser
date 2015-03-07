@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Net;
@@ -282,16 +283,11 @@ namespace WikiFunctions
         /// <remarks>Only called if language != en</remarks>
         public Dictionary<string, string> GetMessages(params string[] names)
         {
-            string json = Editor.HttpGet(ApiPath + "?format=json&action=query&meta=allmessages&continue=&ammessages=" + string.Join("|", names));
-
-            Dictionary<string, string> result = new Dictionary<string, string>(names.Length);
-            var rawObj = JObject.Parse(json);
-            foreach (var item in rawObj["query"]["allmessages"])
-            {
-                result.Add(item.Value<string>("name"), item.Value<string>("*"));
-            }
-
-            return result;
+            return JObject.Parse(
+                Editor.HttpGet(ApiPath + "?format=json&action=query&meta=allmessages&continue=&ammessages=" +
+                               string.Join("|", names)))["query"]["allmessages"].ToDictionary(
+                                   k => k.Value<string>("name"),
+                                   v => v.Value<string>("*"));
         }
 
         #region Helpers
