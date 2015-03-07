@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Net;
+using Newtonsoft.Json.Linq;
 using WikiFunctions.API;
 
 namespace WikiFunctions
@@ -200,7 +201,7 @@ namespace WikiFunctions
             var errorCode = error.GetAttribute("code");
             if (!string.IsNullOrEmpty(errorCode))
             {
-                switch(errorCode)
+                switch (errorCode)
                 {
                     case "readapidenied":
                         return new ReadApiDeniedException();
@@ -278,19 +279,16 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="names"></param>
         /// <returns></returns>
+        /// <remarks>Only called if language != en</remarks>
         public Dictionary<string, string> GetMessages(params string[] names)
         {
-            string output = Editor.HttpGet(ApiPath + "?format=xml&action=query&meta=allmessages&ammessages=" + string.Join("|", names));
-
-            XmlDocument xd = new XmlDocument();
-            xd.LoadXml(output);
+            string json = Editor.HttpGet(ApiPath + "?format=json&action=query&meta=allmessages&continue=&ammessages=" + string.Join("|", names));
 
             Dictionary<string, string> result = new Dictionary<string, string>(names.Length);
-
-            foreach (XmlNode xn in xd.GetElementsByTagName("message"))
+            var rawObj = JObject.Parse(json);
+            foreach (var item in rawObj["query"]["allmessages"])
             {
-                if (xn.Attributes != null)
-                    result[xn.Attributes["name"].Value] = xn.InnerText;
+                result.Add(item.Value<string>("name"), item.Value<string>("*"));
             }
 
             return result;
