@@ -196,7 +196,6 @@ namespace WikiFunctions
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|نهاية مسدودة)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify =Tools.NestedTemplateRegex(@"ويكي");
                     InUse = Tools.NestedTemplateRegex(new[] {"إنشاء", "تحرر", "Underconstruction", "تحت الإنشاء", "تحت الأنشاء", "يحرر", "إنشاء مقالة", "انشاء مقالة", "Inuse", "تحرير كثيف", "يحرر المقالة", "تحت التحرير", "قيد الاستخدام" });
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"وصلة مقالة مختارة", "وصلة مقالة جيدة" });
                     break;
                 case "arz":
                     Orphan = Tools.NestedTemplateRegex(@"يتيمه");
@@ -234,7 +233,6 @@ namespace WikiFunctions
                     break;
                 case "fr":
                     InUse = Tools.NestedTemplateRegex(new[] {"En cours" });
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"lien BA", "lien AdQ", "lien PdQ"});
                     break;
                 case "hu":
                     InUse = Tools.NestedTemplateRegex(new[] {"Építés alatt", "Fejlesztés"});
@@ -273,9 +271,6 @@ namespace WikiFunctions
                     Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
                     InUse = Tools.NestedTemplateRegex(new[] {"Pågår", "Information kommer", "Pågående uppdateringar", "Ständiga uppdateringar", "PÅGÅR", "Påbörjad", "Bearbetning pågår"});
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "länk UA", "lank UA", "UA", "GA"});
-                    break;
-                case "tr":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link SM", "link FA", "link FL", "link SL", "link KM", "link GA"});
                     break;
                 case "vi":
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "Liên kết chọn lọc", "LKCL", "FA link"});
