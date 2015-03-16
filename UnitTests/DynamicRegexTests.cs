@@ -1396,14 +1396,6 @@ pp
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Destacato|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Destacau|ar}}"));
 
-            Variables.SetProjectLangCode("vi");
-            WikiRegexes.MakeLangSpecificRegexes();
-
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Liên kết chọn lọc|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{LKCL|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{FA link|ar}}"));
-
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif

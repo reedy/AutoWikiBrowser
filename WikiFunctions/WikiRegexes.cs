@@ -254,7 +254,6 @@ namespace WikiFunctions
                     break;
                 case "ro":
                     InUse = Tools.NestedTemplateRegex(new[] {"S-dezvoltare"});
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "link AF", "legătură AC", "legătură AF", "legătură AB"});
                     break;
                 case "ru":
                     Orphan = Tools.NestedTemplateRegex(@"изолированная статья");
@@ -271,9 +270,6 @@ namespace WikiFunctions
                     Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
                     InUse = Tools.NestedTemplateRegex(new[] {"Pågår", "Information kommer", "Pågående uppdateringar", "Ständiga uppdateringar", "PÅGÅR", "Påbörjad", "Bearbetning pågår"});
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "länk UA", "lank UA", "UA", "GA"});
-                    break;
-                case "vi":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "Liên kết chọn lọc", "LKCL", "FA link"});
                     break;
                 case "zh":
                     DateYearMonthParameter = @"time={{subst:#time:c}}";
