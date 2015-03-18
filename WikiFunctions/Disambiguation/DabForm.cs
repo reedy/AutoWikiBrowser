@@ -52,9 +52,9 @@ namespace WikiFunctions.Disambiguation
         private readonly Session Session;
 
         /// <summary>
-        /// Matches end of wikilink then {{dn}} template then punctuation
+        /// Matches end of wikilink then {{Disambiguation needed}} template then punctuation
         /// </summary>
-        private static readonly Regex DnPunctuationR = new Regex(@"(\]\])({{dn}})([.,'"":;]+)");
+        private static readonly Regex DnPunctuationR = new Regex(@"(\]\])({{Disambiguation needed}})([.,'"":;]+)");
 
         /// <summary>
         /// Displays a form that promts user for disambiguation
@@ -139,7 +139,7 @@ namespace WikiFunctions.Disambiguation
             {
                 string res = Dabs[a].NoChange ? m2.Value : Dabs[a].Result;
 
-                if (res.Contains(@"{{dn}}"))
+                if (res.Contains(@"{{Disambiguation needed}}"))
                     dnPunctuation = true;
 
                 a++;
@@ -149,7 +149,7 @@ namespace WikiFunctions.Disambiguation
             if (!newText.Equals(articleText))
                 skip = false;
 
-            // want ''[[link]]''{{dn}} rather than ''[[link]]{{dn}}''
+            // want ''[[link]]''{{Disambiguation needed}} rather than ''[[link]]{{Disambiguation needed}}''
             if (dnPunctuation)
                 newText = DnPunctuationR.Replace(newText, "$1$3$2");
 

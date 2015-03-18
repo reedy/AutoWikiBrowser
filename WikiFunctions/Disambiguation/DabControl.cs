@@ -206,8 +206,8 @@ namespace WikiFunctions.Disambiguation
                         CurrentLink = VisibleLink + LinkTrail;
                         break;
 
-                    case 2: //{{dn}}
-                        CurrentLink = Match.Value + "{{dn}}";
+                    case 2: //{{Disambiguation needed}}
+                        CurrentLink = Match.Value + "{{Disambiguation needed}}";
                         break;
 
                     default: //everything else
