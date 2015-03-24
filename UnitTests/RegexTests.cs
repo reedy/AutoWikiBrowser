@@ -1185,6 +1185,7 @@ fast„ "));
             Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite press release|url=a|title=b}}"));
             Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite encyclopedia|url=a|title=b}}"));
             Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite AV media|url=a|title=b}}"));
+            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{vcite2 journal}}"));
 
             // name derivation
             Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{cite web|url=a|title=b}}").Groups[2].Value, "cite web");
