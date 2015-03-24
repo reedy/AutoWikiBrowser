@@ -2764,6 +2764,7 @@ Template:foo}}"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<gallery> <gallery><gallery>   </gallery></gallery></gallery>"), "Cleans nested empty gallery tags");
             Assert.AreEqual("", Parsers.FixSyntax(@"<center></center>"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<gallery> <center></center> </gallery>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<blockquote></blockquote>"));
         }
 
         [Test]

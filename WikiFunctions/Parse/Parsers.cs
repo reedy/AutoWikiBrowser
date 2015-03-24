@@ -3437,9 +3437,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex DoublePipeInWikiLink = new Regex(@"(?<=\[\[[^\[\[\r\n\|{}]+)\|\|(?=[^\[\[\r\n\|{}]+\]\])", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches empty gallery or center tags (zero or more whitespace)
+        /// Matches empty gallery, center or blockquote tags (zero or more whitespace)
         /// </summary>
-        private static readonly Regex EmptyGalleryCenter = new Regex(@"<\s*([Gg]allery|[Cc]enter)\s*>\s*<\s*/\s*\1\s*>", RegexOptions.IgnoreCase);
+        private static readonly Regex EmptyTags = new Regex(@"<\s*([Gg]allery|[Cc]enter|[Bb]lockquote)\s*>\s*<\s*/\s*\1\s*>", RegexOptions.IgnoreCase);
 
         private static readonly System.Globalization.CultureInfo BritishEnglish = new System.Globalization.CultureInfo("en-GB");
 
@@ -3476,11 +3476,11 @@ namespace WikiFunctions.Parse
                 articleText = articleText.Replace(@"</strike>", @"</s>");
             }
 
-            // remove empty <gallery> or <center> tags, allow for nested tags
-            if(SimpleTagsList.Where(s => s.Contains("gallery") || s.Contains("center")).Any())
+            // remove empty <gallery>, <center> or <blockquote> tags, allow for nested tags
+            if(SimpleTagsList.Where(s => s.Contains("gallery") || s.Contains("center") || s.Contains("blockquote")).Any())
             {
-                while(EmptyGalleryCenter.IsMatch(articleText))
-                    articleText = EmptyGalleryCenter.Replace(articleText, "");
+                while(EmptyTags.IsMatch(articleText))
+                    articleText = EmptyTags.Replace(articleText, "");
             }
 
             // merge italic/bold html tags if there are one after the other
