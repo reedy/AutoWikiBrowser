@@ -297,7 +297,7 @@ namespace WikiFunctions
             if(Variables.LangCode.Equals("fr"))
                 ReferenceList = Tools.NestedTemplateRegex(new [] { "références", "references", "reflist" });
             else
-                ReferenceList = Tools.NestedTemplateRegex(new [] { "reflist", "references-small", "references-2column"});            
+                ReferenceList = Tools.NestedTemplateRegex(new [] { "reflist", "references-small", "references-2column"});
         }
         
         private const string UncatTemplatesAR = @"(غير مصنفة|غير مصنف|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub|بذرة غير مصنفة)";
@@ -947,7 +947,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various citation templates {{citation}}, {{cite web}} etc. on en-wiki
         /// </summary>
-        public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "cite news", "cite journal", "cite book", "citation", "cite conference", "cite hansard", "cite manual", "cite paper", "cite press release", "cite encyclopedia", "cite AV media" }, false);
+        public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "cite news", "cite journal", "cite book", "citation", "cite conference", "cite hansard", "cite manual", "cite paper", "cite press release", "cite encyclopedia", "cite AV media", "vcite2 journal" }, false);
         
         /// <summary>
         /// Matches the various url templates {{URL}} etc. on en-wiki
