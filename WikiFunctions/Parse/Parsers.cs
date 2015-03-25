@@ -3054,7 +3054,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)[\+\-]?(\s*""[^<>=""\/]+?""\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1=$2"),
 
             // <ref "foo bar"> --> <ref name="foo bar">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+)(""[^<>=""\/]+?""\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1name=$2"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+)=?\s*(""[^<>=""\/]+?""\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1name=$2"),
 
             // ref name typos
             new RegexReplacement(new Regex(@"(<\s*ref\s+n)(me\s*=)",  RegexOptions.IgnoreCase), "$1a$2"),
