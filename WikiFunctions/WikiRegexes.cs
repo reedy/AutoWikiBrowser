@@ -226,10 +226,6 @@ namespace WikiFunctions
                     break;
                 case "es":
                     InUse = Tools.NestedTemplateRegex(new[] {"En uso", "Enuso" });
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "destacado", "bueno"});
-                    break;
-                case "eu":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "FA link", "NA lotura"});
                     break;
                 case "fr":
                     InUse = Tools.NestedTemplateRegex(new[] {"En cours" });
