@@ -2542,7 +2542,7 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
   | booktitle = AIAA Space 2007
   | pages = Paper No. AIAA-2007–6023
   | year = 2007
-  | accessdate = }}";
+  }}";
 
             Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1)); // range over 999 pages
         }
@@ -2610,11 +2610,9 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
             const string nochange5a = @"{{cite book | isbn = 084
  | pages = 3-262, 8-106, 15-20
  | url =
- | accessdate =
 }}", nochange5b = @"{{cite book | isbn = 084
  | pages = 3-262, 3-106, 15-20
  | url =
- | accessdate =
 }}";
             Assert.AreEqual(nochange5a, Parsers.FixCitationTemplates(nochange5a), "overlapping ranges");
             Assert.AreEqual(nochange5b, Parsers.FixCitationTemplates(nochange5b), "overlapping ranges, same start");
