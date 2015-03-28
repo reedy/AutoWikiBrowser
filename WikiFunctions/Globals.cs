@@ -27,29 +27,6 @@ namespace WikiFunctions
     /// </summary>
     public static class Globals
     {
-        static Globals()
-        {
-            /* Assembly.Load determines whether assembly can be loaded OK.
-            * If AppDomain.CurrentDomain.GetAssemblies is used, this returns what assemblies are available,
-            * which is not what we want since assemblies may be 'available' but not loadable for use */
-            try
-            {
-                //Assembly.Load("System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
-                systemCore3500Avail = true;
-            }
-            catch
-            {
-            }
-
-            try
-            {
-                //Assembly.Load("Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
-                mSHTMLAvailable = true;
-            }
-            catch
-            {
-            }
-        }
 
         /// <summary>
         /// Whether we are running under Windows
@@ -72,28 +49,6 @@ namespace WikiFunctions
         public static Version WikiFunctionsVersion
         {
             get { return Assembly.GetAssembly(typeof(Variables)).GetName().Version; }
-        }
-
-        private static readonly bool systemCore3500Avail;
-
-        /// <summary>
-        /// Returns whether System.Core, Version=3.5.0.0 is loaded
-        /// So whether HashSets can be used (should be available in all .NET 2 but seems to rely on a cetain service pack level)
-        /// </summary>
-        public static bool SystemCore3500Available
-        {
-            get { return systemCore3500Avail; }
-        }
-
-        private static readonly bool mSHTMLAvailable;
-
-        /// <summary>
-        /// Returns whether Microsoft.mshtml, Version=7.0.3300.0 is loaded
-        /// So whether IHTMLDocument2 object in AWBWebBrowser can be used
-        /// </summary>
-        public static bool MSHTMLAvailable
-        {
-            get { return mSHTMLAvailable; }
         }
 
         #region Unit tests support

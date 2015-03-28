@@ -89,14 +89,7 @@ namespace WikiFunctions.Controls.Lists
         /// <param name="lb3">List Box where the duplicates should go</param>
         public static void CompareLists(IList<Article> list1, List<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
         {
-            if(Globals.SystemCore3500Available)
-                CompareListsNew(list1, list2, lb1, lb2, lb3);
-            else
-                CompareListsOld(list1, list2, lb1, lb2, lb3);
-        }
-        
-        private static void CompareListsNew(IList<Article> list1, List<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
-        {
+
             lb1.BeginUpdate();
             lb2.BeginUpdate();
             lb3.BeginUpdate();
@@ -105,40 +98,6 @@ namespace WikiFunctions.Controls.Lists
             lb2.Items.AddRange(list2.Except(list1).ToArray());
             lb3.Items.AddRange(list1.Intersect(list2).ToArray());
 
-            lb1.EndUpdate();
-            lb2.EndUpdate();
-            lb3.EndUpdate();
-        }
-        
-        private static void CompareListsOld(IList<Article> list1, List<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
-        {
-            lb1.BeginUpdate();
-            lb2.BeginUpdate();
-            lb3.BeginUpdate();
-            while (list1.Count > 0)
-            {
-                Article a = list1[0];
-                if (list2.Contains(a))
-                {
-                    lb3.Items.Add(a);
-                    if (list2.IndexOf(a) > 0)
-                    {
-                        foreach (Article a2 in list2.GetRange(0, list2.IndexOf(a) - 1))
-                        {
-                            lb2.Items.Add(a2);
-                            list2.Remove(a2);
-                        }
-                    }
-                    list2.Remove(a);
-                }
-                else
-                    lb1.Items.Add(a);
-                list1.Remove(a);
-            }
-            foreach (Article article in list2)
-            {
-                lb2.Items.Add(article);
-            }
             lb1.EndUpdate();
             lb2.EndUpdate();
             lb3.EndUpdate();

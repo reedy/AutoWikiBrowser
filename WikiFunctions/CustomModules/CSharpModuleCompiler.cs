@@ -8,16 +8,12 @@ namespace WikiFunctions.CustomModules
     {
         public CSharpCustomModule()
         {
-            Compiler = Globals.SystemCore3500Available
-                // Parameterised constructor only available in .NET >= 3.5
-                // https://msdn.microsoft.com/en-us/library/bb537926(v=vs.90).aspx
-                ? new CSharpCodeProvider(new Dictionary<string, string> {{"CompilerVersion", "v3.5"}})
-                : new CSharpCodeProvider();
+            Compiler = new CSharpCodeProvider(new Dictionary<string, string> {{"CompilerVersion", "v3.5"}});
         }
 
         public override string Name
         {
-            get { return (Globals.SystemCore3500Available ? "C# 3.5" : "C# 2.0"); }
+            get { return "C# 3.5"; }
         }
 
         public override string CodeStart
@@ -28,9 +24,8 @@ namespace WikiFunctions.CustomModules
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using WikiFunctions;" + (Globals.SystemCore3500Available ? @"
-using System.Linq;" : "") +
-                       @"
+using WikiFunctions;
+using System.Linq;
 
 namespace AutoWikiBrowser.CustomModules
 {

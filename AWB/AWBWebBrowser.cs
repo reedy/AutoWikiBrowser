@@ -22,7 +22,7 @@ class AWBWebBrowser : WebBrowser
     {
         Document.ExecCommand("Copy", false, null);
     }
-    
+
     /// <summary>
     /// Returns whether there is currently any text selected
     /// Only works if Microsoft.mshtml.dll is available
@@ -33,20 +33,16 @@ class AWBWebBrowser : WebBrowser
     /// <returns></returns>
     public bool TextSelected()
     {
-        if(Globals.MSHTMLAvailable)
+        try
         {
-            try
-            {
-                return TextSelectedChecked();
-            }
-            catch
-            {
-                // So system reported that Assembly does load, but it still doesn't work
-                // See https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_23#Single_click_to_focus_the_edit_box_to_a_line_-_no_longer_works_with_SVN9282
-                return false;
-            }
+            return TextSelectedChecked();
         }
-        return false;
+        catch
+        {
+            // So system reported that Assembly does load, but it still doesn't work
+            // See https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_23#Single_click_to_focus_the_edit_box_to_a_line_-_no_longer_works_with_SVN9282
+            return false;
+        }
     }
 
     /// <summary>
