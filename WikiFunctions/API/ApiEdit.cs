@@ -1528,7 +1528,7 @@ namespace WikiFunctions.API
         {
             return XmlReader.Create(new StringReader(result), new XmlReaderSettings
             {
-                ProhibitDtd = false
+                DtdProcessing = DtdProcessing.Parse
             });
         }
 
