@@ -1450,10 +1450,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void MultipleIssuesTitleCase()
         {
             // title case parameters converted to lowercase
-            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.MultipleIssuesOld(@"{{article issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
-            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.MultipleIssuesOld(@"{{article issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
-            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008| expand = June 2007}}", parser.MultipleIssuesOld(@"{{article issues|POV=May 2008|cleanup=May 2008| Expand = June 2007}}"));
-            Assert.AreEqual(@"{{Articleissues|BLPunsourced=May 2008|cleanup=May 2008|expand=June 2007}}", parser.MultipleIssuesOld(@"{{Articleissues|BLPunsourced=May 2008|Cleanup=May 2008|expand=June 2007}}"));
+            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|underlinked=June 2007}}", parser.MultipleIssuesOld(@"{{article issues|POV=May 2008|cleanup=May 2008|Underlinked=June 2007}}"));
+            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008| underlinked = June 2007}}", parser.MultipleIssuesOld(@"{{article issues|POV=May 2008|cleanup=May 2008| Underlinked = June 2007}}"));
+            Assert.AreEqual(@"{{Articleissues|BLPunsourced=May 2008|cleanup=May 2008|underlinked=June 2007}}", parser.MultipleIssuesOld(@"{{Articleissues|BLPunsourced=May 2008|Cleanup=May 2008|underlinked=June 2007}}"));
             Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|unreferencedBLP=June 2007}}", parser.MultipleIssuesOld(@"{{article issues|POV=May 2008|cleanup=May 2008|UnreferencedBLP=June 2007}}"));
         }
 
@@ -1467,10 +1466,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssuesOld(@"{{multipleissues|
             cleanup=January 2008}} Article text here"));
             Assert.AreEqual(@"{{cleanup|date=January 2009}} Article text here", parser.MultipleIssuesOld(@"{{multipleissues|cleanup=January 2009}} Article text here"));
-            Assert.AreEqual(@"{{trivia|date=January 2008}} Article text here", parser.MultipleIssuesOld(@"{{multipleissues|trivia = January 2008}} Article text here"));
-            Assert.AreEqual(@"{{trivia|date=May 2010}} Article text here", parser.MultipleIssuesOld(@"{{multipleissues|trivia = May 2010}} Article text here"));
-            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssuesOld(@"{{multipleissues|cleanup=January 2008|}} Article text here"));
-            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssuesOld(@"{{multiple issues|cleanup=January 2008|}} Article text here"));
             Assert.AreEqual(@"{{OR|date=January 2008}} Article text here", parser.MultipleIssuesOld(@"{{multipleissues|OR=January 2008}} Article text here"));
 
             // no changes
@@ -1592,9 +1587,9 @@ Chris.";
         [Test]
         public void MultipleIssuesDupeParameters()
         {
-            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", parser.MultipleIssuesOld(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}{{POV}}"), "duplicate undated tag removed");
-            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", parser.MultipleIssuesOld(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}{{POV|date=June 2010}}"), "duplicate dated tag removed");
-            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", parser.MultipleIssuesOld(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}{{Expand}}{{POV}}"), "duplicate undated tags removed");
+            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|underlinked =March 2009|POV=May 2008}}", parser.MultipleIssuesOld(@"{{Multiple issues|wikify=May 2008|COI=May 2008|underlinked =March 2009|POV=May 2008}}{{POV}}"), "duplicate undated tag removed");
+            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|underlinked =March 2009|POV=May 2008}}", parser.MultipleIssuesOld(@"{{Multiple issues|wikify=May 2008|COI=May 2008|underlinked =March 2009|POV=May 2008}}{{POV|date=June 2010}}"), "duplicate dated tag removed");
+            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|underlinked =March 2009|POV=May 2008}}", parser.MultipleIssuesOld(@"{{Multiple issues|wikify=May 2008|COI=May 2008|underlinked =March 2009|POV=May 2008}}{{Underlinked}}{{POV}}"), "duplicate undated tags removed");
         }
 
         [Test]
@@ -1602,7 +1597,7 @@ Chris.";
         {
             // addition of date
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand}}"));
-            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI=May 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|expand|COI=May 2008}}"));
+            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|underlinked={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI=May 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|underlinked|COI=May 2008}}"));
 
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|notability={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI=May 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|notability|COI=May 2008}}"));
 
@@ -1663,7 +1658,7 @@ Chris.";
         public void MultipleIssuesUnref()
         {
             string at = @"Foo
-[[Category:Living people]]", ai = @"{{Multiple issues|wikify=May 2008 | expand=June 2007 | COI=March 2010  | unref=June 2009}}";
+[[Category:Living people]]", ai = @"{{Multiple issues|wikify=May 2008 | underlinked=June 2007 | COI=March 2010  | unref=June 2009}}";
 
             Assert.AreEqual(ai.Replace("unref", "BLP unsourced") + at, parser.MultipleIssuesOld(ai + at), "unref changed if article about a person");
             Assert.AreEqual(ai.Replace("unref", "BLP unsourced") + at, parser.MultipleIssuesOld(ai.Replace("unref", "unreferenced") + at), "unreferenced changed if article about a person");
@@ -1671,7 +1666,7 @@ Chris.";
             Assert.AreEqual(ai + "foo", parser.MultipleIssuesOld(ai + "foo"), "unref not changed if article not about a person");
             Assert.AreEqual(ai + "foo {{persondata|here=there}}", parser.MultipleIssuesOld(ai + "foo {{persondata|here=there}}"), "unref not changed if article not about a living person");
 
-            Assert.IsTrue(parser.MultipleIssuesOld(@"{{wikify|date=May 2008}} {{expand|date=June 2007}} {{COI|date=March 2008}} {{unref|date=June 2009}} " + at).Contains("BLP unsourced"), "unref changed if article about a person when adding {{Multiple issues}}");
+            Assert.IsTrue(parser.MultipleIssuesOld(@"{{wikify|date=May 2008}} {{underlinked|date=June 2007}} {{COI|date=March 2008}} {{unref|date=June 2009}} " + at).Contains("BLP unsourced"), "unref changed if article about a person when adding {{Multiple issues}}");
         }
 
         [Test]
