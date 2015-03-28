@@ -771,9 +771,6 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Wikify|date=March 2009}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|underlinked=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{article issues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{multiple issues|wikify=May 2008|a=b|c=d}}"));
             Assert.AreEqual(WikiRegexes.Wikify.Replace(@"{{multiple issues|a=b|c=d|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "$1"), @"{{multiple issues|a=b|c=d}}");
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|a=b|c=d| wikify = May 2008|a=b|c=d}}"));
 
@@ -837,12 +834,9 @@ now stubborn}}");
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|}}"));
 
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|dead end={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|unreferenced=May 2010 | dead end={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b}}"));
 
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|wikify ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|dead end ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|peacock ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|unreferenced =August 2010|cleanup =March 2009|COI =April 2009|BLP sources = April 2009|autobiography = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|dead end = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
             Assert.AreEqual(@"{{multiple issues|peacock=September 2010|wikify=September 2010|BLP unsourced = July 2010}}", WikiRegexes.DeadEnd.Replace(@"{{multiple issues|deadend=September 2010|peacock=September 2010|wikify=September 2010|BLP unsourced = July 2010}}", "$1"));
 
