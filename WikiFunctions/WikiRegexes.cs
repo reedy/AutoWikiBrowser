@@ -1060,11 +1060,6 @@ namespace WikiFunctions
         public static readonly Regex UnlinkedFloruit = new Regex(@"\(\s*(?:[Ff]l)\.*\s*(\d\d)");
 
         /// <summary>
-        /// Matches {{expand}} tag and its redirects and also {{expand}} within {{multiple issues}}
-        /// </summary>
-        public static readonly Regex Expand = new Regex(@"({{\s*(?:Expand)(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*expand\s*=[^{}\|]+)", RegexOptions.IgnoreCase);
-
-        /// <summary>
         /// Matches {{orphan}} tag, including in {{Multiple issues}}, named group MI is the {{Multiple issues}} template call up to the orphan tag
         /// </summary>
         public static Regex Orphan;
