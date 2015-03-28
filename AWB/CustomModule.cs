@@ -149,10 +149,12 @@ namespace AutoWikiBrowser
                 foreach (
                     var path in
                         AppDomain.CurrentDomain.GetAssemblies()
-                            .Where(asm => !asm.IsDynamic)
-                            .Where(asm => !asm.Location.Contains("mscorlib"))
-                            .Select(asm => asm.Location)
-                            .Where(path => !string.IsNullOrEmpty(path)))
+                            .Where(
+                                asm =>
+                                    !asm.IsDynamic &&
+                                    !asm.Location.Contains("mscorlib") &&
+                                    !string.IsNullOrEmpty(asm.Location))
+                            .Select(asm => asm.Location))
                 {
                     cp.ReferencedAssemblies.Add(path);
                 }
