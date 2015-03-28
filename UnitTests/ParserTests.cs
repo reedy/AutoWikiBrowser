@@ -2103,29 +2103,6 @@ Text
 
 ==hello=="), "adds tags to existing MI, MI new style, tags before MI");
             
-            Assert.AreEqual(@"{{multiple issues|wikify=May 2012|peacock=May 2012|POV=May 2012|
-{{unreferenced}}
-}}
-
-
-==hello==", parser.MultipleIssues(@"{{multiple issues|wikify=May 2012|peacock=May 2012|POV=May 2012}}
-{{unreferenced}}
-
-==hello=="), "adds tags to existing MI, MI old style");
-            
-            Assert.AreEqual(@"{{multiple issues|wikify=May 2012|peacock=May 2012|POV=May 2012|
-{{unreferenced}}
-{{POV}}
-}}
-
-
-
-==hello==", parser.MultipleIssues(@"{{multiple issues|wikify=May 2012|peacock=May 2012|POV=May 2012}}
-{{unreferenced}}
-{{POV}}
-
-==hello=="), "adds tags to existing MI, MI old style");
-            
             Assert.AreEqual(@"{{multiple issues|
 {{wikify|date=May 2012}}
 {{unreferenced}}
@@ -2138,18 +2115,8 @@ Text
 {{unreferenced}}
 
 ==hello=="), "adds 1 tag to existing MI with 1 tag, MI new style");
-            
-            Assert.AreEqual(@"{{multiple issues|wikify=May 2012|
-{{unreferenced}}
-}}
 
-
-==hello==", parser.MultipleIssues(@"{{multiple issues|wikify=May 2012}}
-{{unreferenced}}
-
-==hello=="), "adds 1 tag to existing MI with 1 tag, MI old style");
-            
-            Assert.AreEqual(@"{{multiple issues|
+        	Assert.AreEqual(@"{{multiple issues|
 {{wikify|date=May 2012}}
 {{peacock}}
 {{POV}}
@@ -2193,11 +2160,6 @@ Text
 }} Article text here"));
             Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"{{multipleissues|
             cleanup=January 2008}} Article text here"));
-            Assert.AreEqual(@"{{cleanup|date=January 2009}} Article text here", parser.MultipleIssues(@"{{multipleissues|cleanup=January 2009}} Article text here"));
-            Assert.AreEqual(@"{{trivia|date=January 2008}} Article text here", parser.MultipleIssues(@"{{multipleissues|trivia = January 2008}} Article text here"));
-            Assert.AreEqual(@"{{trivia|date=May 2010}} Article text here", parser.MultipleIssues(@"{{multipleissues|trivia = May 2010}} Article text here"));
-            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"{{multipleissues|cleanup=January 2008|}} Article text here"));
-            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"{{multiple issues|cleanup=January 2008|}} Article text here"));
             Assert.AreEqual(@"{{OR|date=January 2008}} Article text here", parser.MultipleIssues(@"{{multipleissues|OR=January 2008}} Article text here"));
 
             // no changes
@@ -2401,16 +2363,6 @@ Text
 ==hello=="), "adds tags to existing MI, MI new style, tags before MI");
             
             Assert.AreEqual(@"==sec==
-{{multiple issues|wikify=May 2012|underlinked=May 2012|POV=May 2012|
-{{unreferenced section}}
-}}
-==hello==", parser.MultipleIssues(@"==sec==
-{{multiple issues|wikify=May 2012|underlinked=May 2012|POV=May 2012}}
-{{unreferenced section}}
-
-==hello=="), "adds tags to existing MI, MI old style");
-            
-            Assert.AreEqual(@"==sec==
 {{multiple issues|
 {{wikify section|date=May 2012}}
 {{unreferenced section}}
@@ -2422,16 +2374,6 @@ Text
 {{unreferenced section}}
 
 ==hello=="), "adds 1 tag to existing MI with 1 tag, MI new style");
-            
-            Assert.AreEqual(@"==sec==
-{{multiple issues|wikify section=May 2012|
-{{unreferenced section}}
-}}
-==hello==", parser.MultipleIssues(@"==sec==
-{{multiple issues|wikify section=May 2012}}
-{{unreferenced section}}
-
-==hello=="), "adds 1 tag to existing MI with 1 tag, MI old style");
             
             Assert.AreEqual(@"==sec==
 {{multiple issues|
