@@ -151,7 +151,6 @@ namespace AutoWikiBrowser
                         AppDomain.CurrentDomain.GetAssemblies()
                             .Where(
                                 asm =>
-                                    !asm.IsDynamic &&
                                     !asm.Location.Contains("mscorlib") &&
                                     !string.IsNullOrEmpty(asm.Location))
                             .Select(asm => asm.Location))
