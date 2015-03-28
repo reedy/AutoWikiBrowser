@@ -149,6 +149,7 @@ namespace AutoWikiBrowser
                 foreach (
                     var path in
                         AppDomain.CurrentDomain.GetAssemblies()
+                            .Where(asm => !asm.IsDynamic)
                             .Select(asm => asm.Location)
                             .Where(path => !string.IsNullOrEmpty(path)))
                 {
