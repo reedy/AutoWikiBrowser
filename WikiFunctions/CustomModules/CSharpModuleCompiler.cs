@@ -8,12 +8,12 @@ namespace WikiFunctions.CustomModules
     {
         public CSharpCustomModule()
         {
-            Compiler = new CSharpCodeProvider(new Dictionary<string, string> {{"CompilerVersion", "v3.5"}});
+            Compiler = new CSharpCodeProvider(new Dictionary<string, string> {{"CompilerVersion", "v4.0"}});
         }
 
         public override string Name
         {
-            get { return "C# 3.5"; }
+            get { return "C# 4.0"; }
         }
 
         public override string CodeStart
