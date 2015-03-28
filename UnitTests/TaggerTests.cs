@@ -1596,26 +1596,20 @@ Chris.";
         public void ArticleIssuesDates()
         {
             // addition of date
-            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand}}"));
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|underlinked={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI=May 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|underlinked|COI=May 2008}}"));
 
-            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|notability={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI=May 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|notability|COI=May 2008}}"));
-
             // multiple dates
-            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|external links={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand|external links}}"));
-            Assert.AreEqual(@"{{Multiple issues|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|external links=June 2009}}", Parsers.Conversions(@"{{Multiple issues|wikify|expand|external links=June 2009}}"));
+            Assert.AreEqual(@"{{Multiple issues|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|copyedit={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|external links=June 2009}}", Parsers.Conversions(@"{{Multiple issues|wikify|copyedit|external links=June 2009}}"));
 
             // removal of date word
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand date=March 2009|POV=May 2008}}"));
             Assert.AreEqual(@"{{Multiple issues|wikify =May 2008|COI =May 2008|expand =March 2009|POV =May 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify date=May 2008|COI date=May 2008|expand date=March 2009|POV date=May 2008}}"));
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand date=March 2009}}"));
-            Assert.AreEqual(@"{{Multiple issues|unreferenced=March 2009|wikify=March 2009|cleanup=March 2009|autobiography={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = April 2009}}", Parsers.Conversions(@"{{Multiple issues|unreferenced=March 2009|wikify=March 2009|cleanup=March 2009|autobiography={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI =date April 2009}}"));
             Assert.AreEqual(@"{{Multiple issues|wikify ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|POV ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Multiple issues|wikify date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|POV date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.AreEqual(@"{{Multiple issues|underlinked =February 2009|out of date =October 2009|context =October 2009}}", Parsers.Conversions(@"{{Multiple issues|underlinked =February 2009|out of date date=October 2009|context date=October 2009}}"));
 
             // clean of 'do-attempt =July 2006|att=April 2008'
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|do-attempt =April 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|COI=May 2008|do-attempt =July 2006|att=April 2008}}"));
-            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|do-attempt =April 2008|COI=May 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|do-attempt =July 2006|att=April 2008|COI=May 2008}}"));
 
             // clean of "Copyedit|for=grammar|date=April 2009"to "Copyedit=April 2009"
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|Copyedit =April 2009}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|COI=May 2008|Copyedit for=grammar|date=April 2009}}"));
@@ -1643,14 +1637,14 @@ Chris.";
 #if DEBUG
             Variables.SetProjectLangCode("fr");
 
-            const string a1 = @"{{Wikify}} {{expand}}", a2 = @" {{COI}}", a3 = @" the article";
+            const string a1 = @"{{Wikify}} {{copyedit}}", a2 = @" {{COI}}", a3 = @" the article";
 
             // adding new {{article issues}}
-            Assert.IsFalse(parser.MultipleIssuesOld(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI}}"));
+            Assert.IsFalse(parser.MultipleIssuesOld(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|copyedit = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI}}"));
 
             Variables.SetProjectLangCode("en");
 
-            Assert.IsTrue(parser.MultipleIssuesOld(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsTrue(parser.MultipleIssuesOld(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|copyedit = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 #endif
         }
 
