@@ -1646,7 +1646,8 @@ Text
         public void RemoveExcessTemplatePipes()
         {
             // extra pipe
-            Assert.AreEqual(@"{{Multiple issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{Multiple issues|sections=May 2008||POV=March 2008|COI=May 2009}}"));
+            Assert.AreEqual(@"{{Multiple issues|{{sections|date=May 2008}}{{POV|date=March 2008}}{{COI|date=May 2009}}}}", Parsers.Conversions(@"{{Multiple issues|{{sections|date=May 2008}}{{POV|date=March 2008}}{{COI|date=May 2009}}|}}"));
+            Assert.AreEqual(@"{{Multiple issues|{{sections|date=May 2008}}{{POV|date=March 2008}}{{COI|date=May 2009}}}}", Parsers.Conversions(@"{{Multiple issues||{{sections|date=May 2008}}{{POV|date=March 2008}}{{COI|date=May 2009}}}}"));
             Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.FixCitationTemplates(@"{{cite web | url=http://www.site.com || title=hello}}"));
             Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.FixCitationTemplates(@"{{cite web || url=http://www.site.com || title=hello}}"));
             Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.FixCitationTemplates(@"{{cite web | url=http://www.site.com | | title=hello}}"));
@@ -1911,7 +1912,6 @@ Foo
             Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues | section= y}}"));
 
             // no match, 'section' and 'sections' are different parameters for the template
-            Assert.AreEqual(@"{{Multiple issues|cleanup=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Multiple issues|cleanup=May 2008|POV=March 2008}}"));
             Assert.AreEqual(@"{{Multiple issues|sections=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Multiple issues|sections=May 2008|POV=March 2008}}"));
         }
 
@@ -2515,7 +2515,7 @@ Text
         public void MultipleIssuesOldDateField()
         {
             // don't remove date field where expert field is using it
-            const string ESD = @"{{Article issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}";
+            const string ESD = @"{{Multiple issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}";
             Assert.AreEqual(ESD, parser.MultipleIssues(ESD));
 
             // can remove date field when expert=Month YYYY
@@ -2526,9 +2526,6 @@ Text
             
             // removal of unneeded date field
             Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.MultipleIssues(@"{{multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008|date = March 2007}}"));
-            Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.MultipleIssues(@"{{multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008| date=March 2007}}"));
-            Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.MultipleIssues(@"{{multiple issues|wikfy=May 2008|COI=May 2008|date = March 2007|cleanup=May 2008}}"));
-
             Assert.AreEqual(@"{{Multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.MultipleIssues(@"{{Multiple issues|wikfy=May 2008|COI=May 2008|date = March 2007|cleanup=May 2008}}"));
         }
     }
