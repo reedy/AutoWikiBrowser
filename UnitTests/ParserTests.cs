@@ -1898,18 +1898,17 @@ Foo
         }
 
         [Test]
-        public void TestRemoveEmptyArticleIssues()
+        public void TestRemoveEmptyMultipleIssues()
         {
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues}}"));
             Assert.AreEqual(@"", Parsers.Conversions(@"{{Articleissues}}"));
             Assert.AreEqual(@"", Parsers.Conversions(@"{{article issues}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{articleissues}}"));
             Assert.AreEqual(@"", Parsers.Conversions(@"{{articleissues }}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|article=y}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|article = y}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|section = y}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|section= y}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues | section= y}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues|article=y}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues|article = y}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues|section = y}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues|section= y}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues | section= y}}"));
 
             // no match, 'section' and 'sections' are different parameters for the template
             Assert.AreEqual(@"{{Multiple issues|sections=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Multiple issues|sections=May 2008|POV=March 2008}}"));
@@ -2504,11 +2503,10 @@ Text
         public void MultipleIssuesOldTitleCase()
         {
             // title case parameters converted to lowercase
-            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.MultipleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
-            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.MultipleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
-            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008| expand = June 2007}}", parser.MultipleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008| Expand = June 2007}}"));
-            Assert.AreEqual(@"{{Articleissues|BLPunsourced=May 2008|cleanup=May 2008|expand=June 2007}}", parser.MultipleIssues(@"{{Articleissues|BLPunsourced=May 2008|Cleanup=May 2008|expand=June 2007}}"));
-            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|unreferencedBLP=June 2007}}", parser.MultipleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008|UnreferencedBLP=June 2007}}"));
+            Assert.AreEqual(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.MultipleIssues(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
+            Assert.AreEqual(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.MultipleIssues(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
+            Assert.AreEqual(@"{{Multiple issues|POV=May 2008|cleanup=May 2008| expand = June 2007}}", parser.MultipleIssues(@"{{Multiple issues|POV=May 2008|cleanup=May 2008| Expand = June 2007}}"));
+            Assert.AreEqual(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|unreferencedBLP=June 2007}}", parser.MultipleIssues(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|UnreferencedBLP=June 2007}}"));
         }
         
         [Test]
