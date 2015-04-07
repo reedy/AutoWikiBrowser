@@ -83,10 +83,9 @@ namespace WikiFunctions.TalkPages
             // 11. {{Image requested}}
             // 12. {{Press}} and {{Connected contributor}}
             // 13. {{To do}}
-            // 14. {{Maintained}}
-            // 15. {{Find sources notice}}, {{Reliable sources for medical articles}}
-            // 16. {{Split from}}, {{Split to}}
-            // 17. {{Merge from}}, {{Merge-to}}
+            // 14. {{Find sources notice}}, {{Reliable sources for medical articles}}
+            // 15. {{Split from}}, {{Split to}}
+            // 16. {{Merge from}}, {{Merge-to}}
 
             string wpbsBefore = WikiRegexes.WikiProjectBannerShellTemplate.Match(articleText).Value;
             bool blanklinesinwpbsBefore = wpbsBefore.Contains("\r\n\r\n");
@@ -94,7 +93,6 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplates(articleText, MergeTemplates);
             articleText = MoveTalkTemplates(articleText, SplitTemplates);
             articleText = MoveTalkTemplates(articleText, FindSource);
-            articleText = MoveTalkTemplate(articleText, Maintained);
             articleText = MoveTalkTemplate(articleText, TodoTemplate);
             articleText = MoveTalkTemplates(articleText, PressConnected);
             articleText = MoveTalkTemplate(articleText, ImageRequested);
@@ -235,7 +233,6 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested", "Reqphoto" });
         private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
         private static readonly Regex TodoTemplate = Tools.NestedTemplateRegex(new[] { "To do", "Todo", "To-do" });
-        private static readonly Regex Maintained = Tools.NestedTemplateRegex(new[] { "Maintained" });
         private static readonly Regex FindSource = Tools.NestedTemplateRegex(new[] { "Find sources notice", "Reliable sources for medical articles" });
         private static readonly Regex SplitTemplates = Tools.NestedTemplateRegex(new[] { "Split from", "Split to" });
         private static readonly Regex MergeTemplates = Tools.NestedTemplateRegex(new[] { "Merge from", "Merge-to" });

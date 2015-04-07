@@ -209,7 +209,6 @@ namespace WikiFunctions
                     break;
                 case "ca":
                     InUse = Tools.NestedTemplateRegex(new[] {"Modificant", "Editant-se", "Editant" });
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "enllaç AD" });
                     break;
                 case "el":
                     Orphan = Tools.NestedTemplateRegex(@"Ορφανό");

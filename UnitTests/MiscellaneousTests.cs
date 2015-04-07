@@ -1165,7 +1165,7 @@ http://www.site.com
 
             articleText = b + "\r\n" + "\r\n" + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + j + "\r\n" + "\r\n" + "\r\n" + i + "\r\n" + "\r\n" + "\r\n";
 
-            string k=@"{{To do}}", l=@"{{Maintained|[[User:Foo|bar]]}}", m=@"{{Find sources notice}}", n=@"{{Split from|foo}}";
+            string k=@"{{To do}}", m=@"{{Find sources notice}}", n=@"{{Split from|foo}}";
 
 			correct = correct + k + "\r\n";
 			articleText = correct;
@@ -1179,12 +1179,7 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"bacdefhgji with newlines at the end and in the middle");
 
-            correct = correct + l + "\r\n";
-            articleText = correct;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText, "abcdefghijkl");
-
-            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + k + "\r\n" + g + "\r\n" + j + "\r\n" + l + "\r\n" + i + "\r\n" + h;
+            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + k + "\r\n" + g + "\r\n" + j + "\r\n" + i + "\r\n" + h;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "bacdefkgjlih");
 
@@ -1193,7 +1188,7 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "abcdefghijklmn");
 
-            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + k + "\r\n" + n + "\r\n" + g + "\r\n" + j + "\r\n" + m + "\r\n" + l + "\r\n" + i + "\r\n" + h;
+            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + k + "\r\n" + n + "\r\n" + g + "\r\n" + j + "\r\n" + m + "\r\n" + i + "\r\n" + h;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "bacdefkngjmlih");
 
@@ -1262,7 +1257,7 @@ http://www.site.com
 
             articleText = b + "\r\n" + "\r\n" + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + j + "\r\n" + "\r\n" + "\r\n" + i + "\r\n" + "\r\n" + "\r\n";
 
-            string k=@"{{To do}}", l=@"{{Maintained|[[User:Foo|bar]]}}";
+            string k=@"{{To do}}";
 
 			correct = correct + k + "\r\n";
 			articleText = correct;
@@ -1275,15 +1270,6 @@ http://www.site.com
 
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"bacdefhgji with newlines at the end and in the middle");
-
-            correct = correct + l + "\r\n";
-            articleText = correct;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText, "abcdefghijkl");
-
-            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + k + "\r\n" + g + "\r\n" + j + "\r\n" + l + "\r\n" + i + "\r\n" + h;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText, "bacdefkgjlih");
 
         }
 
