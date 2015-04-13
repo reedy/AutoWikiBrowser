@@ -204,9 +204,6 @@ namespace WikiFunctions
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|نهايه مسدوده)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify =Tools.NestedTemplateRegex(@"ويكى");
                     break;
-                case "br":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "liamm PuB", "lien AdQ", "lien BA" });
-                    break;
                 case "ca":
                     InUse = Tools.NestedTemplateRegex(new[] {"Modificant", "Editant-se", "Editant" });
                     break;
@@ -220,7 +217,6 @@ namespace WikiFunctions
                     break;
                 case "eo":
                     InUse = Tools.NestedTemplateRegex(new[] {"Redaktas", "Redaktata", "Uzata" });
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "ligoElstara" });
                     break;
                 case "es":
                     InUse = Tools.NestedTemplateRegex(new[] {"En uso", "Enuso" });
