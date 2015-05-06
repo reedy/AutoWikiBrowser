@@ -1370,23 +1370,6 @@ pp
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link GA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FL|ar}}"));
-        }
-
-        [Test]
-        public void LinkFGAsOtherLanguages()
-        {
-            #if DEBUG
-            Variables.SetProjectLangCode("an");
-            WikiRegexes.MakeLangSpecificRegexes();
-
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Destacato|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Destacau|ar}}"));
-
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
         }
 
     }

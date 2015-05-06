@@ -236,11 +236,11 @@ namespace WikiFunctions
                     break;
                 case "it":
                     InUse = Tools.NestedTemplateRegex(new[] {"WIP", "Wip" });
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link FL", "link AdQ", "link V", "link VdQ", "link GA" });
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AdQ", "link V", "link VdQ", "link GA" });
                     break;
                 case "pt":
                     InUse = Tools.NestedTemplateRegex(new[] {"Em edição", "Emuso", "Emedição"});
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "bom interwiki", "interwiki destacado", "FA"});
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "bom interwiki", "interwiki destacado", "FA", "link FL"});
                     break;
                 case "ro":
                     InUse = Tools.NestedTemplateRegex(new[] {"S-dezvoltare"});
@@ -273,7 +273,7 @@ namespace WikiFunctions
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(?:\|(?:[^{}]+|" +DateYearMonthParameter +@"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify = new Regex(@"(?:{{\s*(?:Wikify|Underlinked)(?:\s*\|\s*(?:" +DateYearMonthParameter +@"|.*?))?}}|({{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*(?:wikify|underlinked)\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.IgnoreCase);
                     InUse = Tools.NestedTemplateRegex(new[] {"Inuse", "In use", "GOCEinuse", "goceinuse", "in creation", "increation" });
-                    LinkFGAs =  Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "link FL"});
+                    LinkFGAs =  Tools.NestedTemplateRegex(new [] {"link FA", "link GA"});
                     break;
 
             }
