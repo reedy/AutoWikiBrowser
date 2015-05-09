@@ -236,7 +236,6 @@ namespace WikiFunctions
                     break;
                 case "it":
                     InUse = Tools.NestedTemplateRegex(new[] {"WIP", "Wip" });
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AdQ", "link V", "link VdQ", "link GA" });
                     break;
                 case "pt":
                     InUse = Tools.NestedTemplateRegex(new[] {"Em edição", "Emuso", "Emedição"});
@@ -259,7 +258,6 @@ namespace WikiFunctions
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
                     Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
                     InUse = Tools.NestedTemplateRegex(new[] {"Pågår", "Information kommer", "Pågående uppdateringar", "Ständiga uppdateringar", "PÅGÅR", "Påbörjad", "Bearbetning pågår"});
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "länk UA", "lank UA", "UA", "GA"});
                     break;
                 case "zh":
                     DateYearMonthParameter = @"time={{subst:#time:c}}";
