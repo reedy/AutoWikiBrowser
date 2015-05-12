@@ -5375,8 +5375,8 @@ namespace WikiFunctions.Parse
                     articleText = articleText.Replace(m.Value, res);
             }
 
-            // Check for performance
-            if(articleText.Contains("|''"))
+            // First check for performance, second to avoid (dodgy) apostrophe after link
+            if(articleText.Contains("|''") && !articleText.Contains(@"]]'"))
                 articleText = WikiRegexes.PipedWikiLink.Replace(articleText, FixLinksWikilinkBoldItalicsME);
 
             // fix excess trailing pipe, TrailingPipe regex for performance
