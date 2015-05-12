@@ -8788,7 +8788,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         private static readonly Regex coinsParam = new Regex(@"[&;]rft\.([a-z0-9]+)=([^&]+)");
 
         /// <summary>
-        /// Returns a dictonary of COinS parameter and value from the input text
+        /// Returns a dictionary of COinS parameter and value from the input text
         /// Only first set of COinS data is processed
         /// </summary>
         /// <param name="text">Raw HTML containing COinS data</param>
