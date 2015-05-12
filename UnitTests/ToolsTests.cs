@@ -1676,6 +1676,8 @@ def
             string d = "";
             Assert.IsTrue(Params.TryGetValue("second", out d));
             Assert.AreEqual("def <!--com-->", d, "parameter with space and comment retrieved correctly");
+
+            Assert.AreEqual(@"{{foo|first=abc|second2=def|second2=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second2=def|second2=def}}"));
         }
 
         [Test]
