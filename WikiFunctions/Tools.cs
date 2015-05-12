@@ -2734,6 +2734,10 @@ Message: {2}
 						Params.Add(paramName, paramValue);
 					else
 					{
+                        // do not remove parameter if ends with digit (e.g. last2 parameter), more likely needs renaming (e.g. last3) than removing 
+                        if(Regex.IsMatch(paramName, @".+[0-9]$"))
+                            continue;
+
 						string earlierParamValue;
 						Params.TryGetValue(paramName, out earlierParamValue);
 						
