@@ -3057,6 +3057,10 @@ Foo}}"));
             Assert.AreEqual(@"[[foo|'bar']]", Parsers.FixLinks(@"[[foo|'bar']]", "a", out nochange));
             Assert.IsTrue(nochange);
 
+            // No change if (dodgy) apostrope just after link
+            Assert.AreEqual(@"[[foo|''bar'']]'", Parsers.FixLinks(@"[[foo|''bar'']]'", "a", out nochange));
+            Assert.IsTrue(nochange);
+
             Assert.AreEqual(@"[[foo|]]", Parsers.FixLinks(@"[[foo|]]", "a", out nochange));
             Assert.IsTrue(nochange);
             
