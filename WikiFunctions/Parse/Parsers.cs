@@ -7622,6 +7622,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                                                                                     {
                                                                                         Limit = 10
                                                                                     };
+        private static readonly LinksOnPageListProvider LinksOnPageProv = new LinksOnPageListProvider();
 
         private readonly List<string> tagsRemoved = new List<string>();
         private readonly List<string> tagsAdded = new List<string>();
@@ -7744,7 +7745,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                 totalCategories = Globals.UnitTestIntValue;
             }
             else
-                #endif
+            #endif
             {
                 // stubs add non-hidden stub categories, don't count these in categories count
                 // also don't count "Proposed deletion..." cats
@@ -7754,6 +7755,10 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                 // templates may add categories to page that are not [[Category...]] links, so use API call for accurate Category count
                 if(totalCategories == 0)
                     totalCategories = RegularCategories(CategoryProv.MakeList(new[] { articleTitle })).Count;
+
+                // If no mainspace links found, use API call to get link count (filter to mainspace links only), as we will not be counting any links transcluded from templates
+                if(wikiLinkCount == 0)
+                    wikiLinkCount = LinksOnPageProv.MakeList(new[] { articleTitle }).Where(l => (l.NameSpaceKey == Namespace.Mainspace)).Count();
             }
 
             // remove dead end if > 0 wikilinks on page
