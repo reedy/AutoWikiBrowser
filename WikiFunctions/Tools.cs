@@ -753,7 +753,7 @@ namespace WikiFunctions
             // count only mainspace links, not image/category/interwiki/template links
             foreach(Match m in WikiRegexes.WikiLink.Matches(text))
             {
-                if(Namespace.Determine(m.Groups[1].Value).Equals(Namespace.Mainspace))
+                if(Namespace.IsMainSpace(m.Groups[1].Value))
                     res++;
 
                 if(res >= limit)
