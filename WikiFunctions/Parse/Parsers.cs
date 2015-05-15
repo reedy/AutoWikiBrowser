@@ -1753,6 +1753,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex PageRef = new Regex(@"\s*(?:(?:[Pp]ages?|[Pp][pg]?[:\.]?)|^)\s*[XVI\d]", RegexOptions.Compiled);
+        private static readonly Regex RefNameFromGroup = new Regex(@"<\s*ref\s+name\s*=\s*(?<nm>[^<>]*?)\s*group|group\s*=\s*[^<>]*?\s*name\s*=\s*(?<nm>[^<>]*?)\s*/?\s*>");
 
         /// <summary>
         /// Corrects named references where the reference is the same but the reference name is different
@@ -1767,6 +1768,10 @@ namespace WikiFunctions.Parse
 
             Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
 
+            // get list of all ref names used in group refs
+            List<string> RefsInGroupRef = (from Match m in WikiRegexes.RefsGrouped.Matches(articleText) 
+                select RefNameFromGroup.Match(m.Value).Groups["nm"].Value.Trim(@"'""".ToCharArray())).ToList();
+
             foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
             {
                 string refname = m.Groups[2].Value, refvalue = m.Groups[3].Value, existingname;
@@ -1779,8 +1784,8 @@ namespace WikiFunctions.Parse
 
                 NamedRefs.TryGetValue(refvalue, out existingname);
 
-                // don't apply to ibid short ref
-                if (existingname.Length > 0 && !existingname.Equals(refname) && !WikiRegexes.IbidLocCitation.IsMatch(refvalue))
+                // don't apply to ibid short ref, don't change if ref name used in a group ref
+                if (existingname.Length > 0 && !existingname.Equals(refname) && !WikiRegexes.IbidLocCitation.IsMatch(refvalue) && !RefsInGroupRef.Contains(existingname))
                 {
                     string newRefName = refname, oldRefName = existingname;
 
