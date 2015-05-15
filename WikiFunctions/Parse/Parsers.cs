@@ -4287,7 +4287,7 @@ namespace WikiFunctions.Parse
                     newValue = Tools.RemoveTemplateParameter(newValue, "origdate");            	
             }
 
-            	// newlines to spaces in title field if URL used, otherwise display broken
+            // newlines to spaces in title field if URL used, otherwise display broken
             if (theURL.Length > 0 && theTitle.Contains("\r\n"))
             {
                 theTitle = theTitle.Replace("\r\n", " ");
@@ -4295,7 +4295,6 @@ namespace WikiFunctions.Parse
                 paramsFound.Add("title", theTitle);
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "title", theTitle);
             }
-
 
             // {{sv icon}} -> sv in language=
             if(LangTemplate.IsMatch(newValue))
@@ -4339,13 +4338,9 @@ namespace WikiFunctions.Parse
                 pages = Tools.GetTemplateParameterValue(newValue, "pages");
             }
 
-            // date = YYYY --> year = YYYY if year the same
-            // with Lua no need to rename date to year when date = YYYY
-            if (TheDate.Length == 4)
-            {
-                if(TheYear.Equals(TheDate))
+            // with Lua no need to rename date to year when date = YYYY, just remove year and date duplicating each other
+            if (TheDate.Length == 4 && TheYear.Equals(TheDate))
                     newValue = Tools.RemoveTemplateParameter(newValue, "date");
-            }
 
             // year = full date --> date = full date
             if (TheYear.Length > 5)
@@ -4417,8 +4412,7 @@ namespace WikiFunctions.Parse
             }
 
             // {{cite web}} for Google books -> {{Cite book}}
-            if (templatename.Contains("web") && newValue.Contains("http://books.google.")
-                && TheWork.Length == 0)
+            if (templatename.Contains("web") && newValue.Contains("http://books.google.") && TheWork.Length == 0)
                 newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
 
             // remove leading zero in day of month
@@ -4430,7 +4424,7 @@ namespace WikiFunctions.Parse
                 accessdate = Tools.GetTemplateParameterValue(newValue, "accessdate");
             }
 
-            if (Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
+            if(Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
             {
                 // remove any empty accessdaymonth, accessmonthday, accessmonth and accessyear
                 newValue = AccessDayMonthDay.Replace(newValue, "");
