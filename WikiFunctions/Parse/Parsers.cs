@@ -4297,7 +4297,7 @@ namespace WikiFunctions.Parse
             }
 
             // {{sv icon}} -> sv in language=
-            if(LangTemplate.IsMatch(newValue))
+            if(lang.Contains("{{"))
             {
                 newValue = LangTemplate.Replace(newValue, "$1$3");
                 lang = Tools.GetTemplateParameterValue(newValue, "language");
