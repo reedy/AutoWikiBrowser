@@ -654,7 +654,16 @@ Jones 2005</ref>"));
 
             // don't merge ibid refs
             string nochange = @"Foo<ref name=Jones>ibid</ref> and bar<ref name =A5>ibid</ref>";
+            Assert.AreEqual(nochange, Parsers.SameRefDifferentName(nochange));
 
+            // don't rename ref is used in a group ref
+            nochange = @"Foo<ref name=Jones group=A/> and bar<ref name =Jones>Text</ref> and <ref name =JonesY>Text</ref>";
+            Assert.AreEqual(nochange, Parsers.SameRefDifferentName(nochange));
+            nochange = @"Foo<ref name=""Jones"" group=A/> and bar<ref name =""Jones"">Text2</ref> and <ref name =JonesY>Text2</ref>";
+            Assert.AreEqual(nochange, Parsers.SameRefDifferentName(nochange));
+            nochange = @"Foo<ref name='Jones' group=A/> and bar<ref name =Jones>Text3</ref> and <ref name =JonesY>Text3</ref>";
+            Assert.AreEqual(nochange, Parsers.SameRefDifferentName(nochange));
+            nochange = @"Foo<ref group=A name=Jones /> and bar<ref name =Jones>Text4</ref> and <ref name =JonesY>Text4</ref>";
             Assert.AreEqual(nochange, Parsers.SameRefDifferentName(nochange));
         }
 
