@@ -4123,8 +4123,6 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{\s*(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID|OCLC|PMC|LCCN|ASIN|ARXIV|ASIN\-TLD|BIBCODE|ID|ISBN13|JFM|JSTOR|MR|OL|OSTI|RFC|SSRN|URL|ZBL))(\s*=\s*[^{}\|]{3,})");
-
         private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)");
 
         private static readonly Regex WorkInItalics = new Regex(@"(\|\s*work\s*=\s*)''([^'{}\|]+)''(?=\s*(?:\||}}))");
@@ -4155,17 +4153,6 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            // {{cite web}}/{{cite book}} etc. need lower case field names; two loops in case a single template has multiple uppercase fields
-            // exceptionally, identifiers such as 'ISBN' are allowed in upper case
-            for (; ; )
-            {
-                string articleText2 = UppercaseCiteFields.Replace(articleText, UppercaseCiteFieldsME);
-
-                if (articleText2.Equals(articleText))
-                    break;
-                articleText = articleText2;
-            }
-
             articleText = WikiRegexes.CiteTemplate.Replace(articleText, FixCitationTemplatesME);
 
             articleText = WikiRegexes.HarvTemplate.Replace(articleText, m =>
@@ -4195,17 +4182,6 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static string UppercaseCiteFieldsME(Match m)
-        {
-            bool urlmatch = CiteUrl.Match(m.Value).Value.Contains(m.Groups[2].Value);
-
-            // check not within URL
-            if (!urlmatch)
-                return (m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
-
-            return m.Value;
-        }
-
         private static readonly Regex IdISBN = new Regex(@"^ISBN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
         private static readonly Regex IdASIN = new Regex(@"^ASIN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
         private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
@@ -4225,6 +4201,11 @@ namespace WikiFunctions.Parse
             Dictionary<string, string> paramsFound = new Dictionary<string, string>();
             // remove duplicated fields, ensure the URL is not touched (may have pipes in)
             newValue = Tools.RemoveDuplicateTemplateParameters(newValue, paramsFound);
+
+            // fix cite params not in lower case, allowing for ISBN, DOI identifiers being uppercase, avoiding changing text within malformatted URL
+            foreach(string notlowercaseCiteParam in paramsFound.Keys.ToList().Where(p => (p.ToLower() != p) && !Regex.IsMatch(p, @"(?:IS[BS]N|DOI|PMID|OCLC|PMC|LCCN|ASIN|ARXIV|ASIN\-TLD|BIBCODE|ID|ISBN13|JFM|JSTOR|MR|OL|OSTI|RFC|SSRN|URL|ZBL)")
+                && !CiteUrl.Match(newValue).Value.Contains(p)).ToList())
+                newValue = Tools.RenameTemplateParameter(newValue, notlowercaseCiteParam, notlowercaseCiteParam.ToLower());
 
             string theURL,
                 id,
