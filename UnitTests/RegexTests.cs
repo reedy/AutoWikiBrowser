@@ -800,6 +800,7 @@ Foo
             RegexAssert.Matches(WikiRegexes.RefsGrouped, @"<ref group= ""foo/bar""/>", @"<ref group= ""foo/bar""/>");
             RegexAssert.Matches(WikiRegexes.RefsGrouped, @"<ref group= ""foo/bar"">a</ref>", @"<ref group= ""foo/bar"">a</ref>");
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref name=A group=foo/>", "<ref name=A group=foo/>");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, @"<ref group=""ref"" name=""Cannon""/>", @"<ref group=""ref"" name=""Cannon""/>");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo<!-- bar --></ref>", "<ref group=X>foo<!-- bar --></ref>");
