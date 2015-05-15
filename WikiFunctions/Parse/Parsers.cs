@@ -2603,7 +2603,7 @@ namespace WikiFunctions.Parse
         }
 
         private const string SiCitStart = @"(?si)(\|\s*";
-        private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
+        private const string CitAccessdate = SiCitStart + @"(?:access|archive)\-?date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
 
         private static readonly RegexReplacement[] CiteTemplateIncorrectISOAccessdates = {
@@ -2700,7 +2700,7 @@ namespace WikiFunctions.Parse
             Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);            
 
             string accessdate, date, date2, archivedate, airdate, journal;
-            if(!paramsFound.TryGetValue("accessdate", out accessdate))
+            if(!paramsFound.TryGetValue("accessdate", out accessdate) && !paramsFound.TryGetValue("access-date", out accessdate))
                 accessdate = "";
             if(!paramsFound.TryGetValue("date", out date))
                 date = "";
@@ -4086,7 +4086,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly List<string> DateFields = new List<string>(new[] { "date", "accessdate", "archivedate", "airdate" });
+        private static readonly List<string> DateFields = new List<string>(new[] { "date", "accessdate", "access-date", "archivedate", "airdate" });
 
         /// <summary>
         /// Updates dates in citation templates to use the strict predominant date format in the article (en wiki only)
@@ -4133,9 +4133,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplatesJournalIssue = new Regex(@"(?<=\|\s*issue\s*=\s*)(?:issues?|(?:nos?|iss)(?:[\.,;:]|\b)|numbers?[\.,;:]?)(?:&nbsp;)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesPageRangeName = new Regex(@"(\|\s*)page(\s*=\s*\d+\s*(?:–|, )\s*\d)");
 
-        private static readonly Regex AccessDateYear = new Regex(@"(?<=\|\s*accessdate\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" + WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})");
+        private static readonly Regex AccessDateYear = new Regex(@"(?<=\|\s*access\-?date\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" + WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})");
         private static readonly Regex AccessDayMonthDay = new Regex(@"\|\s*access(?:daymonth|month(?:day)?|year)\s*=\s*(?=\||}})");
-        private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+(?:20[01]|1[89]\d)\d)?(\s*(?:\||}}))");
+        private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?\-?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+(?:20[01]|1[89]\d)\d)?(\s*(?:\||}}))");
 
         private static readonly Regex LangTemplate = new Regex(@"(\|\s*language\s*=\s*)({{(\w{2}) icon}}\s*)(?=\||}})");
 
@@ -4251,7 +4251,7 @@ namespace WikiFunctions.Parse
                 TheIssue = "";
             if(!paramsFound.TryGetValue("accessyear", out accessyear))
                 accessyear = "";
-            if(!paramsFound.TryGetValue("accessdate", out accessdate))
+            if(!paramsFound.TryGetValue("accessdate", out accessdate) && !paramsFound.TryGetValue("access-date", out accessdate))
                 accessdate = "";
             if(!paramsFound.TryGetValue("pages", out pages))
                 pages = "";
