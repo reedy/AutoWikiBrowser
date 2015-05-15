@@ -4288,7 +4288,7 @@ namespace WikiFunctions.Parse
             }
 
             // newlines to spaces in title field if URL used, otherwise display broken
-            if (theURL.Length > 0 && theTitle.Contains("\r\n"))
+            if (theTitle.Contains("\r\n") && theURL.Length > 0)
             {
                 theTitle = theTitle.Replace("\r\n", " ");
                 paramsFound.Remove("title");
@@ -4303,11 +4303,11 @@ namespace WikiFunctions.Parse
                 lang = Tools.GetTemplateParameterValue(newValue, "language");
             }
             // remove language=English on en-wiki
-            else if (lang.Equals("english", StringComparison.OrdinalIgnoreCase) || lang.Equals("en", StringComparison.OrdinalIgnoreCase))
+            if (lang.Equals("english", StringComparison.OrdinalIgnoreCase) || lang.Equals("en", StringComparison.OrdinalIgnoreCase))
                 newValue = Tools.RemoveTemplateParameter(newValue, "language");
             
             // remove italics for work field for book/periodical, but not website -- auto italicised by template
-            if (TheWork.Length > 0 && !TheWork.Contains("."))
+            if (TheWork.Contains("''") && !TheWork.Contains("."))
                 newValue = WorkInItalics.Replace(newValue, "$1$2");
 
             // remove quotes around title field: are automatically added by template markup
