@@ -4284,7 +4284,7 @@ namespace WikiFunctions.Parse
 
             if(paramsFound.ContainsKey("origdate") && origdate.Length == 0)
             {
-                newValue = Tools.RemoveTemplateParameter(newValue, "origdate");            	
+                newValue = Tools.RemoveTemplateParameter(newValue, "origdate");
             }
 
             // newlines to spaces in title field if URL used, otherwise display broken
