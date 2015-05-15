@@ -4186,7 +4186,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex IdASIN = new Regex(@"^ASIN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
         private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
         private static readonly Regex ISBNDash = new Regex(@"(\d)[–](\d|X$)");
-		private static readonly Regex BalancedArrows = new Regex(@"(?:«([^»]+)»|‹([^›]+)›)");
+        private static readonly Regex BalancedArrows = new Regex(@"(?:«([^»]+)»|‹([^›]+)›)");
 
         /// <summary>
         /// Performs fixes to a given citation template call
@@ -4284,7 +4284,7 @@ namespace WikiFunctions.Parse
 
             if(paramsFound.ContainsKey("origdate") && origdate.Length == 0)
             {
-                    newValue = Tools.RemoveTemplateParameter(newValue, "origdate");            	
+                newValue = Tools.RemoveTemplateParameter(newValue, "origdate");            	
             }
 
             // newlines to spaces in title field if URL used, otherwise display broken
@@ -4318,10 +4318,10 @@ namespace WikiFunctions.Parse
                 if(paramsFound.TryGetValue(dequoteParam, out quotetitle))
                 {
                     string before = quotetitle;
-					// convert curly quotes to straight quotes per [[MOS:PUNCT]], but » or › may be section delimeter
-					// so only change those when balanced. Note regular <> characters are not changed.
+                    // convert curly quotes to straight quotes per [[MOS:PUNCT]], but » or › may be section delimeter
+                    // so only change those when balanced. Note regular <> characters are not changed.
                     quotetitle = WikiRegexes.CurlyDoubleQuotes.Replace(quotetitle, @"""");
-					quotetitle = BalancedArrows.Replace(quotetitle, @"""$1$2""");
+                    quotetitle = BalancedArrows.Replace(quotetitle, @"""$1$2""");
 
                     if (quotetitle.Contains(@"""") && !quotetitle.Trim('"').Contains(@""""))
                         quotetitle = quotetitle.Trim('"');
@@ -4336,11 +4336,13 @@ namespace WikiFunctions.Parse
             {
                 newValue = CiteTemplatePagesPP.Replace(newValue, "");
                 pages = Tools.GetTemplateParameterValue(newValue, "pages");
+                paramsFound.Remove("pages");
+                paramsFound.Add("pages", pages);
             }
 
             // with Lua no need to rename date to year when date = YYYY, just remove year and date duplicating each other
             if (TheDate.Length == 4 && TheYear.Equals(TheDate))
-                    newValue = Tools.RemoveTemplateParameter(newValue, "date");
+                newValue = Tools.RemoveTemplateParameter(newValue, "date");
 
             // year = full date --> date = full date
             if (TheYear.Length > 5)
@@ -4424,22 +4426,25 @@ namespace WikiFunctions.Parse
                 accessdate = Tools.GetTemplateParameterValue(newValue, "accessdate");
             }
 
-            if(Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
+            if(paramsFound.Where(s => s.Key.Contains("access") && !s.Key.Contains("date")).Count() > 0)
             {
-                // remove any empty accessdaymonth, accessmonthday, accessmonth and accessyear
-                newValue = AccessDayMonthDay.Replace(newValue, "");
+                if(Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
+                {
+                    // remove any empty accessdaymonth, accessmonthday, accessmonth and accessyear
+                    newValue = AccessDayMonthDay.Replace(newValue, "");
 
-                // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
-                if(accessyear.Length == 4)
-                    newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
+                    // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
+                    if(accessyear.Length == 4)
+                        newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
+                }
+
+                // remove accessyear where accessdate is present and contains said year
+                if (accessyear.Length > 0 && accessdate.Contains(accessyear))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
             }
 
-            // remove accessyear where accessdate is present and contains said year
-            if (accessyear.Length > 0 && accessdate.Contains(accessyear))
-                newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
-
             // fix unspaced comma ranges, avoid pages=12,345 as could be valid page number
-            if (Regex.Matches(pages, @"\b\d{1,2},\d{3}\b").Count == 0)
+            if (pages.Contains(",") && Regex.Matches(pages, @"\b\d{1,2},\d{3}\b").Count == 0)
             {
                 while (UnspacedCommaPageRange.IsMatch(pages))
                 {
