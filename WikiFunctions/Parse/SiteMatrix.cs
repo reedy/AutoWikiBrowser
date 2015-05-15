@@ -127,7 +127,17 @@ namespace WikiFunctions.Parse
             foreach (XmlNode lang in matrix.GetElementsByTagName("language"))
             {
                 string langCode = lang.Attributes["code"].Value;
-                string langName = lang.Attributes["name"].Value;
+                string langName;
+
+                // handle case of wiki not having a name value in sitematrix data				
+                try
+                {
+                    langName = lang.Attributes["name"].Value;
+                }
+				catch
+                {
+                    langName = langCode;
+                }
 
                 Languages.Add(langCode);
                 LanguageNames[langCode] = langName;
