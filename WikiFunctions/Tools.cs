@@ -2796,22 +2796,25 @@ Message: {2}
 		/// <returns>The updated template call</returns>
 		public static string RemoveExcessTemplatePipes(string templatecall)
 		{
-			string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
-			string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+            if(SpacedPipes.IsMatch(templatecall))
+            {
+                string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
+                string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
 
-			while (SpacedPipes.IsMatch(pipecleanedtemplate))
-			{
-				Match m = SpacedPipes.Match(pipecleanedtemplate);
-				
-				// imatch is like "|   |" or "| }}" so remove first | and whitespace
-				templatecall = templatecall.Remove(m.Index, m.Groups[1].Length);
+                while (SpacedPipes.IsMatch(pipecleanedtemplate))
+                {
+                    Match m = SpacedPipes.Match(pipecleanedtemplate);
 
-				pipecleanedtemplate = PipeCleanedTemplate(templatecall);
-			}
+                    // imatch is like "|   |" or "| }}" so remove first | and whitespace
+                    templatecall = templatecall.Remove(m.Index, m.Groups[1].Length);
 
-			// check for URL breakage due to unescaped pipes in URL
-			if(originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
-				return originalTemplateCall;
+                    pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+                }
+
+                // check for URL breakage due to unescaped pipes in URL
+                if(originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
+                    return originalTemplateCall;
+            }
 
 			return templatecall;
 		}
