@@ -2673,11 +2673,11 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string CiteTemplateDates(string articleText)
         {
-            // cite podcast is non-compliant to citation core standards; don't apply fixes when ambiguous dates present
-            if (!Variables.IsWikipediaEN || CitePodcast.IsMatch(articleText) || AmbiguousCiteTemplateDates(articleText))
+            // cite podcast is non-compliant to citation core standards
+            if (!Variables.IsWikipediaEN || CitePodcast.IsMatch(articleText))
                 return articleText;
 
-            string articleTextlocal = "";
+            string articleTextlocal = "", originalArticleText = articleText;
 
             // loop in case a single citation has multiple dates to be fixed
             while (!articleTextlocal.Equals(articleText))
@@ -2687,6 +2687,11 @@ namespace WikiFunctions.Parse
                 // loop in case a single citation has multiple dates to be fixed
                 articleText =  WikiRegexes.CiteTemplate.Replace(articleText,  CiteTemplateME);
             }
+
+            // don't apply fixes when ambiguous dates present, for performance only appply this check if changes made
+            if(!originalArticleText.Equals(articleText) && AmbiguousCiteTemplateDates(originalArticleText))
+                return originalArticleText;
+
             return articleText;
         }
 
