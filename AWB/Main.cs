@@ -46,6 +46,8 @@ using AutoWikiBrowser.Plugins;
 using System.Web;
 using System.Net;
 
+using ThreadState = System.Threading.ThreadState;
+
 namespace AutoWikiBrowser
 {
     //TODO:Move any code that doesn't need to be directly behind the form to WF or other code files (Preferably WF)
@@ -3541,10 +3543,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 Profiles.ShowDialog();
                 if (!TheSession.User.IsLoggedIn) return;
             }
-            else if((RunProcessPageBackground != null && (RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Running 
-            || RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Background)) ||
-            (RunReparseEditBoxBackground != null && (RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Running 
-            || RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Background)))
+            else if ((RunProcessPageBackground != null &&
+                      (RunProcessPageBackground.ThreadStatus() == ThreadState.Running
+                       || RunProcessPageBackground.ThreadStatus() == ThreadState.Background)) ||
+                     (RunReparseEditBoxBackground != null &&
+                      (RunReparseEditBoxBackground.ThreadStatus() == ThreadState.Running
+                       || RunReparseEditBoxBackground.ThreadStatus() == ThreadState.Background)))
             {
                 StatusLabelText = "Background process running";
                 return;
