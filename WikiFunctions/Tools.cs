@@ -2763,7 +2763,7 @@ Message: {2}
 			return templatecall;
 		}
 		
-		private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*(.*?)(?=\||}}$)", RegexOptions.Singleline);
+		private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*([^}|]*)(?=\||}}$)", RegexOptions.Singleline);
 		
 		/// <summary>
 		/// Returns duplicate named parameters in a template call
