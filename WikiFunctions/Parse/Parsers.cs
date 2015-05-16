@@ -2487,7 +2487,6 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
-        private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb" });
         private static readonly Regex CiteArXiv = Tools.NestedTemplateRegex(new[] { "cite arxiv", "cite arXiv" });
         private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([\w_\d- ']+)\s*=\s*([^\|}]+)");
         private static readonly Regex citeWebParameters = new Regex(@"^(access-?date|agency|archive-?date|archive-?url|arxiv|ARXIV|asin|ASIN|asin-tld|ASIN-TLD|at|[Aa]uthor\d*|author\d*-first|author-?format|author\d*-last|author-?link\d*|author\d*-?link|authors|author-mask|author-name-separator|author-separator|bibcode|BIBCODE|date|dead-?url|dictionary|display-?authors|display-?editors|doi|DOI|DoiBroken|doi-broken|doi-broken-date|doi_brokendate|doi-inactive-date|doi_inactivedate|edition|[Ee]ditor|editor\d*|editor\d*-first|editor-?format|EditorGiven\d*|editor\d*-given|editor\d*-last|editor\d*-?link|editor-?mask|editor-name-separator|EditorSurname\d*|editor\d*-surname|editor-first\d*|editor-given\d*|editor-last\d*|editor-surname\d*|editorlink\d*|editors|[Ee]mbargo|encyclopa?edia|first\d*|format|given\d*|id|ID|ignoreisbnerror|ignore-isbn-error|institution|isbn|ISBN|isbn13|ISBN13|issn|ISSN|issue|jfm|JFM|journal|jstor|JSTOR|language|last\d*|lastauthoramp|last-author-amp|lay-?date|lay-?source|lay-?summary|lay-?url|lccn|LCCN|location|magazine|mr|MR|newspaper|no-?pp|number|oclc|OCLC|ol|OL|orig-?year|others|osti|pp?|pages?|people|periodical|place|pmc|PMC|pmid|PMID|postscript|publication-?(?:place|date)|publisher|quotation|quote|[Rr]ef|registration|rfc|RFC|script\-title|separator|series|series-?link|ssrn|SSRN|subscription|surname\d*|title|trans[_-]title|type|url|URL|version|via|volume|website|work|year|zbl|ZBL)\b", RegexOptions.Compiled);
@@ -2502,19 +2501,6 @@ namespace WikiFunctions.Parse
         public static Dictionary<int, int> BadCiteParameters(string articleText)
         {
             Dictionary<int, int> found = new Dictionary<int, int>();
-
-            // unknown parameters in cite web
-            foreach (Match m in CiteWeb.Matches(articleText))
-            {
-                // ignore parameters in templates within cite
-                string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
-
-                foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
-                {
-                    if (!citeWebParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
-                        found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
-                }
-            }
 
             // unknown parameters in cite arXiv
             foreach (Match m in CiteArXiv.Matches(articleText))
@@ -2531,6 +2517,19 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {
+                // unknown parameters in cite web
+                if(m.Groups[2].Value.EndsWith("web"))
+                {
+                    // ignore parameters in templates within cite
+                    string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
+
+                    foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
+                    {
+                        if (!citeWebParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
+                            found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
+                    }
+                }
+
                 string pipecleaned = Tools.PipeCleanedTemplate(m.Value, false);
 
                 // no equals between two separator pipes
@@ -4302,6 +4301,7 @@ namespace WikiFunctions.Parse
                 newValue = LangTemplate.Replace(newValue, "$1$3");
                 lang = Tools.GetTemplateParameterValue(newValue, "language");
             }
+
             // remove language=English on en-wiki
             if (lang.Equals("english", StringComparison.OrdinalIgnoreCase) || lang.Equals("en", StringComparison.OrdinalIgnoreCase))
                 newValue = Tools.RemoveTemplateParameter(newValue, "language");
