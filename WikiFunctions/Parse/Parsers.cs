@@ -2755,7 +2755,7 @@ namespace WikiFunctions.Parse
             foreach(string s in parameters)
             {
                 if(s.Length > 4 && !WikiRegexes.ISODates.IsMatch(s)
-                   && !Regex.IsMatch(s, @"^(\d{1,2} *|)" + WikiRegexes.MonthsNoGroup))
+                   && !Regex.IsMatch(s, @"^(\d{1,2} *)?" + WikiRegexes.MonthsNoGroup))
                     return true;
             }
             return false;
