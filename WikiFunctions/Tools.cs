@@ -2409,7 +2409,7 @@ Message: {2}
 			if(caseInsensitiveParameterName)
 				ro |= RegexOptions.IgnoreCase;
 			
-			Regex paramRegex = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", ro);
+			Regex paramRegex = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=([^}|]*)(?=\||}}$)", ro);
 
 			string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
 
