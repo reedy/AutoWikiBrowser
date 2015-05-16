@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace WikiFunctions
 {
@@ -10,6 +11,11 @@ namespace WikiFunctions
             {
                 dict.Add(key, value);
             }
+        }
+
+        public static bool IsIn<T>(this T @this, params T[] possibles)
+        {
+            return ((IList) possibles).Contains(@this);
         }
     }
 }

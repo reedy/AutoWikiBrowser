@@ -3543,12 +3543,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 Profiles.ShowDialog();
                 if (!TheSession.User.IsLoggedIn) return;
             }
-            else if ((RunProcessPageBackground != null &&
-                      (RunProcessPageBackground.ThreadStatus() == ThreadState.Running
-                       || RunProcessPageBackground.ThreadStatus() == ThreadState.Background)) ||
-                     (RunReparseEditBoxBackground != null &&
-                      (RunReparseEditBoxBackground.ThreadStatus() == ThreadState.Running
-                       || RunReparseEditBoxBackground.ThreadStatus() == ThreadState.Background)))
+            else if (
+                (RunProcessPageBackground != null &&
+                 RunProcessPageBackground.ThreadStatus().IsIn(ThreadState.Running, ThreadState.Background)) ||
+                (RunReparseEditBoxBackground != null &&
+                 RunReparseEditBoxBackground.ThreadStatus().IsIn(ThreadState.Running, ThreadState.Background))
+                )
             {
                 StatusLabelText = "Background process running";
                 return;
