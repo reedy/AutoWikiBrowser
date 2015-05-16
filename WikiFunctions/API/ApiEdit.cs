@@ -1199,6 +1199,7 @@ namespace WikiFunctions.API
                 {
                     {"title", title},
                     {"text", text},
+                    {"pst", null},
                     {"disablepp", null}
                 });
 
