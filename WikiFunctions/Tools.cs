@@ -2715,9 +2715,7 @@ Message: {2}
 		/// <returns>The updated template call</returns>
 		public static string RemoveDuplicateTemplateParameters(string templatecall, Dictionary<string, string> Params)
 		{
-			string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
-
-			string updatedTemplateCall = "";
+			string originalTemplateCall = templatecall, updatedTemplateCall = "";
 
 			while(!updatedTemplateCall.Equals(templatecall))
 			{
@@ -2752,11 +2750,16 @@ Message: {2}
 					}
 				}
 			}
-			
-			// check for URL breakage due to unescaped pipes in URL
-			if(originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
-				return originalTemplateCall;
-			
+
+            // check for URL breakage due to unescaped pipes in URL
+			if(!templatecall.Equals(originalTemplateCall))
+            {
+                string originalURL = CiteUrl.Match(originalTemplateCall).Groups[1].Value.TrimEnd("|".ToCharArray());
+
+                if(originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
+                    return originalTemplateCall;
+            }
+
 			return templatecall;
 		}
 		
