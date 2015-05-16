@@ -86,6 +86,7 @@ Is this SVN (1) or a release (2)? ");
                 Copy(currFolder, tmp, "AutoWikiBrowser.exe.config");
                 Copy(currFolder, tmp, "WikiFunctions.dll");
                 Copy(currFolder, tmp, "AWBUpdater.exe");
+                Copy(currFolder, tmp, "Newtonsoft.Json.dll");
 
                 CreateTextFile(tmp + "Diff.dll", "This file is not used anymore, but is preserved for compatibility "
                     + "with older versions of AWBUpdater.");
