@@ -2964,7 +2964,11 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string FixReferenceListTags(string articleText)
         {
-        	articleText = ReferenceListSmallTags.Replace(articleText, ReflistMatchEvaluator);
+            // check for performance
+            if(articleText.IndexOf(@"<references", StringComparison.OrdinalIgnoreCase) < 0)
+                return articleText;
+
+            articleText = ReferenceListSmallTags.Replace(articleText, ReflistMatchEvaluator);
             return ReferenceListTags.Replace(articleText, ReflistMatchEvaluator);
         }
 
