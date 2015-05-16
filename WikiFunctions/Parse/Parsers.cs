@@ -7057,11 +7057,11 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             // no work to do if already has a birth and a death/living cat
             if(dolmatch && bimatch)
-                return YearOfBirthDeathMissingCategory(articleText);
+                return YearOfBirthDeathMissingCategory(articleText, cats);
 
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible
             if ((articleText.Length > 15000 && !bimatch && !dolmatch) || (!dolmatch && WikiRegexes.Refs.Matches(articleText).Count > 20))
-                return YearOfBirthDeathMissingCategory(articleText);
+                return YearOfBirthDeathMissingCategory(articleText, cats);
 
             string articleTextBefore = articleText;
             int catCount = WikiRegexes.Category.Matches(articleText).Count;
@@ -7217,14 +7217,14 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             // do this check last as IsArticleAboutAPerson can be relatively slow
             if (!articleText.Equals(articleTextBefore) && !IsArticleAboutAPerson(articleTextBefore, articleTitle, parseTalkPage))
-                return YearOfBirthDeathMissingCategory(articleTextBefore);
+                return YearOfBirthDeathMissingCategory(articleTextBefore, cats);
 
             // {{uncat}} --> {{Improve categories}} if we've added cats
             if (WikiRegexes.Category.Matches(articleText).Count > catCount && WikiRegexes.Uncat.IsMatch(articleText)
                 && !WikiRegexes.CatImprove.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, WikiRegexes.Uncat.Match(articleText).Groups[1].Value, "Improve categories");
 
-            return YearOfBirthDeathMissingCategory(articleText);
+            return YearOfBirthDeathMissingCategory(articleText, GetCats(articleText));
         }
 
         private static string CatEnd(string sort)
@@ -7245,12 +7245,10 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns>The updated article text</returns>
-        private static string YearOfBirthDeathMissingCategory(string articleText)
+        private static string YearOfBirthDeathMissingCategory(string articleText, string cats)
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
-
-            string cats = GetCats(articleText);
 
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
             if(Cat4YearBirths.IsMatch(cats))
