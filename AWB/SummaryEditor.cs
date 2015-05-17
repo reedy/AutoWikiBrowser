@@ -32,7 +32,7 @@ namespace AutoWikiBrowser
         private void btnSort_Click(object sender, EventArgs e)
         {
             List<string> list =
-                new List<string>(Summaries.Text.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries));
+                new List<string>(Summaries.Text.Split(new[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries));
             list.Sort();
 
             Summaries.Clear();
