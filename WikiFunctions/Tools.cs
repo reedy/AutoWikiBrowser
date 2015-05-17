@@ -1646,6 +1646,7 @@ Message: {2}
 		}
 
 		private static readonly Regex ExpandTemplatesRegex = new Regex(@"<expandtemplates[^\>]*>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+		private static readonly Regex ExpandTemplatesRegex2 = new Regex(@"<wikitext[^\>]*>(.*?)</wikitext>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
 		/// <summary>
 		/// Expands (substitutes) template calls using the API
@@ -1675,7 +1676,7 @@ Message: {2}
 						result = "Expanded template test return";
 					else
 					{
-						string expandUri = Variables.URLApi + "?action=expandtemplates&format=xml&title=" + WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
+						string expandUri = Variables.URLApi + "?action=expandtemplates&prop=wikitext&format=xml&title=" + WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
 						
 						try
 						{
@@ -1685,7 +1686,13 @@ Message: {2}
 							{
 								continue;
 							}
-							result = HttpUtility.HtmlDecode(m1.Groups[1].Value);
+
+							Match m2 = ExpandTemplatesRegex2.Match(respStr);
+							if (!m2.Success)
+							{
+								continue;
+							}
+							result = HttpUtility.HtmlDecode(m2.Groups[1].Value);
 						}
 						catch
 						{
