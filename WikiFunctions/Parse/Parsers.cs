@@ -628,24 +628,37 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            articleText = MultipleIssuesOldCleanup(articleText);
+            // Performance: get all the templates, only apply mulitple issues functions if relevant templates found
+            List<string> allTemplates = GetAllTemplates(articleText).Select(s => "{{" + s + "}}").ToList();
+            bool hasMI = allTemplates.Where(s => WikiRegexes.MultipleIssues.IsMatch(s)).Any();
 
-            // Remove multiple issues with zero tags, fix excess newlines
-            articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesSingleTag);
-
-            // get sections
-            string[] sections = Tools.SplitToSections(articleText);
-            StringBuilder newarticleText = new StringBuilder();
-
-            foreach(string s in sections)
+            if(hasMI)
             {
-                if(!s.StartsWith("="))
-                    newarticleText.Append(MIZerothSection(s, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates));
-                else
-                    newarticleText.Append(MILaterSection(s, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates).TrimStart());
+                articleText = MultipleIssuesOldCleanup(articleText);
+
+                // Remove multiple issues with zero tags, fix excess newlines
+                articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesSingleTag);
             }
 
-            return newarticleText.ToString().TrimEnd();
+            if(hasMI || allTemplates.Where(s => (WikiRegexes.MultipleIssuesArticleMaintenanceTemplates.IsMatch(s) || 
+                WikiRegexes.MultipleIssuesSectionMaintenanceTemplates.IsMatch(s))).Any())
+            {
+                // get sections
+                string[] sections = Tools.SplitToSections(articleText);
+                StringBuilder newarticleText = new StringBuilder();
+
+                foreach(string s in sections)
+                {
+                    if(!s.StartsWith("="))
+                        newarticleText.Append(MIZerothSection(s, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates));
+                    else
+                        newarticleText.Append(MILaterSection(s, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates).TrimStart());
+                }
+
+                return newarticleText.ToString().TrimEnd();
+            }
+
+            return articleText;
         }
 
         private string MIZerothSection(string zerothsection, Regex Templates)
