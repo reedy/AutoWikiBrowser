@@ -386,8 +386,6 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string MultipleIssuesOld(string articleText)
         {
-            string ESDate = "";
-
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
@@ -416,6 +414,7 @@ namespace WikiFunctions.Parse
 
             // get the rest of the article including first heading (may be null if entire article falls in zeroth section)
             string restOfArticle = articleText.Substring(zerothSection.Length);
+            string ESDate = "";
 
             if (ExpertSubject.IsMatch(zerothSection))
             {
@@ -7247,9 +7246,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns>The updated article text</returns>
         private static string YearOfBirthDeathMissingCategory(string articleText, string cats)
         {
-            if (!Variables.LangCode.Equals("en"))
-                return articleText;
-
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
             if(Cat4YearBirths.IsMatch(cats))
             {
