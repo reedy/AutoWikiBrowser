@@ -1262,7 +1262,8 @@ namespace WikiFunctions.API
             string result = HttpPost(
                 new Dictionary<string, string>
                 {
-                    {"action", "expandtemplates"}
+                    {"action", "expandtemplates"},
+                    {"prop", "wikitext"}
                 },
                 new Dictionary<string, string>
                 {
