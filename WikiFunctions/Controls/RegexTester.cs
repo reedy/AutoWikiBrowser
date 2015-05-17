@@ -263,7 +263,8 @@ namespace WikiFunctions.Controls
         }
 
         private string ReplaceNewLines(string str)
-        { // Display line breaks as \n in the results tree so that they're clear
+        {
+            // Display line breaks as \n in the results tree so that they're clear
             return NewLineRegex.Replace(str, "\\n");
         }
 
