@@ -3590,7 +3590,6 @@ Now [[A],] was."));
             // single uppercase field
             Assert.AreEqual(@"{{cite web|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|FOO=hello|title=hello}}"));
             Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|uRL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{citeweb|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{citeweb|FOO=hello|title=hello}}"));
             Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|UrL=http://members.bib-arch.org|title=hello}}"));
             Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|Url=http://members.bib-arch.org|title=hello}}"));
             Assert.AreEqual(@"{{Cite web|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite web|FOO=hello|title=hello}}"));
@@ -4170,6 +4169,7 @@ http://example.com }}");
             Assert.AreEqual("b   [[a]]  c", Parsers.FixLinkWhitespace("b   [[ a ]]  c", "foo")); // 4 & 5
 
             Assert.AreEqual("[[a]] b", Parsers.FixLinkWhitespace("[[a ]]b", "foo"));
+            Assert.AreEqual("[[a]]" + "\r\n", Parsers.FixLinkWhitespace("[[a ]]" + "\r\n", "foo"));
 
             Assert.AreEqual("[[foo bar]]", Parsers.FixLinkWhitespace("[[foo  bar]]", "foot"));
             Assert.AreEqual("[[foo bar]]", Parsers.FixLinkWhitespace("[[foo  bar]]", ""));
