@@ -884,7 +884,7 @@ namespace WikiFunctions.Parse
             // "{{about|about x..." --> "{{about|x..."
             foreach (Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
             {
-                if (m.Groups[3].Value.TrimStart("| ".ToCharArray()).ToLower().StartsWith("about"))
+                if (m.Groups[3].Value.TrimStart("| ".ToCharArray()).StartsWith("about", StringComparison.OrdinalIgnoreCase))
                     articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value + Regex.Replace(m.Groups[3].Value, @"^\|\s*[Aa]bout\s*", "|"));
             }
 
@@ -3543,7 +3543,7 @@ namespace WikiFunctions.Parse
             articleText = WikiRegexes.UrlTemplate.Replace(articleText, m => m.Value.Replace("http://http://", "http://"));
 
             //repair bad external links
-            if(articleText.ToLower().Contains(":http"))
+            if(articleText.IndexOf(":http", StringComparison.OrdinalIgnoreCase) > -1)
                 articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
 
             if (!SyntaxRegexHTTPNumber.IsMatch(articleText))
@@ -3639,14 +3639,14 @@ namespace WikiFunctions.Parse
                 articleText = SupOrdinal.Replace(articleText, @"$1$2");
 
             //CHECKWIKI error 86
-            if(articleText.ToLower().Contains("[[http"))
+            if(articleText.IndexOf("[[http", StringComparison.OrdinalIgnoreCase) > -1)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
             // if there are some unbalanced brackets, see whether we can fix them
             articleText = FixUnbalancedBrackets(articleText);
 
             //fix uneven bracketing on links
-            if(articleText.ToLower().Contains("[[http"))
+            if(articleText.IndexOf("[[http", StringComparison.OrdinalIgnoreCase) > -1)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
             nobrackets = SingleSquareBrackets.Replace(articleText, "");
