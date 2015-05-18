@@ -8710,12 +8710,12 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             // {{R from title without diacritics}}
 
             // title and redirect target the same if dacritics removed from redirect target
-            if (redirecttarget != Tools.RemoveDiacritics(redirecttarget) && Tools.RemoveDiacritics(redirecttarget) == articleTitle
+            if (redirecttarget != Tools.RemoveDiacritics(redirecttarget) && Tools.RemoveDiacritics(redirecttarget).Equals(articleTitle)
                 && !Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(articleText))
                 return (articleText + " " + WikiRegexes.RFromTitleWithoutDiacriticsString);
 
             // {{R from other capitalisation}}
-            if (redirecttarget.ToLower().Equals(articleTitle.ToLower())
+            if (redirecttarget.Equals(articleTitle, StringComparison.OrdinalIgnoreCase)
                 && !Tools.NestedTemplateRegex(WikiRegexes.RFromOtherCapitaliastionList).IsMatch(articleText))
                 return (articleText + " " + WikiRegexes.RFromOtherCapitalisationString);
 
