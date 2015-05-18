@@ -3182,6 +3182,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex MonthsAct = new Regex(@"\b(?:January|February|March|April|May|June|July|August|September|October|November|December) Act\b");
         //Ordinal number found inside <sup> tags.
         private static readonly Regex SupOrdinal = new Regex(@"(\d)<sup>(st|nd|rd|th)</sup>", RegexOptions.Compiled);
+        private static readonly Regex FixDateOrdinalsAndOfQuick = new Regex(@"[0-9](st|nd|rd|th)|\b0[1-9]\b| of +([0-9]|[A-Z])");
 
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
@@ -3202,7 +3203,11 @@ namespace WikiFunctions.Parse
                 bool reparse = false;
                 // performance: better to loop through all instances of dates and apply regexes to those than
                 // to apply regexes to whole article text
-                foreach(Match m in MonthsRegex.Matches(articleText))
+                // Secondly: filter down only to those portions that could be changed
+                List<Match> monthsm = (from Match m in MonthsRegex.Matches(articleText) select m).Where(m => 
+                    FixDateOrdinalsAndOfQuick.IsMatch(articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length))).ToList();
+
+                foreach(Match m in monthsm)
                 {
                     // take up to 25 characters before match, unless match within first 25 characters of article
                     string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
