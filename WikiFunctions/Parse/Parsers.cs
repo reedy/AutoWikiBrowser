@@ -3236,7 +3236,8 @@ namespace WikiFunctions.Parse
             textPortion = OfBetweenMonthAndYear.Replace(textPortion, "$1 $2");
 
             // don't apply if article title has a month in it (e.g. [[6th of October City]])
-            if (!monthsInTitle)
+            // ordinals check for performance
+            if (!monthsInTitle && Regex.IsMatch(textPortion, @"[0-9](st|nd|rd|th)"))
             {
                 textPortion = OrdinalsInDatesAm.Replace(textPortion, "$1 $2$3");
                 textPortion = OrdinalsInDatesInt.Replace(textPortion, "$1$2$3 $4");
