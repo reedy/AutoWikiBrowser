@@ -3650,13 +3650,13 @@ namespace WikiFunctions.Parse
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
             nobrackets = SingleSquareBrackets.Replace(articleText, "");
-            if(nobrackets.IndexOf('[') > -1 || nobrackets.IndexOf(']') > -1)
+            if(nobrackets.Contains("[") || nobrackets.Contains("]"))
             {
                 articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
                 articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
-            }
-
-            articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
+            
+                articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
+            }            
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
             if(ssb.Where(s => s.Value.Contains("||")).Any())
