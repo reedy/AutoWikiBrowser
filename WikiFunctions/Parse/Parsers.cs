@@ -8313,7 +8313,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             return articleText;
         }
 
-        private static readonly Regex IbidOpCitRef = new Regex(@"<\s*ref\b[^<>]*>\s*(ibid\.?|op\.?\s*cit\.?|loc\.?\s*cit\.?)\b");
+        private static readonly Regex IbidOpCitRef = new Regex(@"<\s*ref\b[^<>]*>\s*(ibid\.?|op\.?\s*cit\.?|loc\.?\s*cit\.?)\b", RegexOptions.IgnoreCase);
         /// <summary>
         /// Tags references of 'ibid' with the {{ibid}} cleanup template, en-wiki mainspace only
         /// </summary>
@@ -8321,7 +8321,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns></returns>
         private string TagRefsIbid(string articleText)
         {
-            if (Variables.LangCode == "en" && IbidOpCitRef.IsMatch(articleText.ToLower()) && !WikiRegexes.Ibid.IsMatch(articleText))
+            if (Variables.LangCode == "en" && IbidOpCitRef.IsMatch(articleText) && !WikiRegexes.Ibid.IsMatch(articleText))
             {
                 tagsAdded.Add("Ibid");
                 return @"{{Ibid|" + WikiRegexes.DateYearMonthParameter + @"}}" + articleText;
