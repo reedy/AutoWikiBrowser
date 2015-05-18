@@ -2893,7 +2893,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex UnitTimeRangeIncorrectMdashQuick = new Regex(@"[-—;]( *[0-9]+)[ &]");
         private static readonly Regex DollarAmountIncorrectMdash = new Regex(@"(\$[1-9]?\d{1,3}\s*)(?:-|—|&mdash;|&#8212;)(\s*\$?[1-9]?\d{1,3})");
         private static readonly Regex AMPMIncorrectMdash = new Regex(@"([01]?\d:[0-5]\d\s*([AP]M)\s*)(?:-|—|&mdash;|&#8212;)(\s*[01]?\d:[0-5]\d\s*([AP]M))", RegexOptions.IgnoreCase);
-        private static readonly Regex AMPMIncorrectMdashQuick = new Regex(@"[AaPp][Mm]\s*[\-—&]");
+        private static readonly Regex AMPMIncorrectMdashQuick = new Regex(@"\b[AP]M\s*[\-—&]", RegexOptions.IgnoreCase);
         private static readonly Regex AgeIncorrectMdash = new Regex(@"([Aa]ge[sd])\s([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)");
         private static readonly Regex SentenceClauseIncorrectMdash = new Regex(@"(?!xn--)(\w{2}|⌊⌊⌊⌊M\d+⌋⌋⌋⌋)\s*--\s*(\w)");
         private static readonly Regex SuperscriptMinus = new Regex(@"(<sup>)(?:-|–|—)(?=\d+</sup>)");
