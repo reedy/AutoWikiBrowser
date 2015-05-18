@@ -3583,14 +3583,16 @@ namespace WikiFunctions.Parse
             articleText = RefExternalLinkUsingBraces.Replace(articleText, @"[$1$2]$3");
 
             string nobrackets = SingleSquareBrackets.Replace(articleText, "");
-            if(nobrackets.IndexOf('[') > -1 || nobrackets.IndexOf(']') > -1)
+            bool orphanedSingleBrackets = (nobrackets.Contains("[") || nobrackets.Contains("]"));
+
+            if(orphanedSingleBrackets)
             {
                 articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"$1[$2");
                 articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"$1]$2");
             }
 
-			// adds missing http:// to bare url references lacking it - CHECKWIKI error 62
-			articleText = RefURLMissingHttp.Replace(articleText,@"$1http://www.");
+            // adds missing http:// to bare url references lacking it - CHECKWIKI error 62
+            articleText = RefURLMissingHttp.Replace(articleText,@"$1http://www.");
 
             // fixes for external links: internal square brackets, newlines or pipes - Partially CHECKWIKI error 80
             // Performance: filter down to matches with likely external link (contains //) and has pipe, newline or internal square brackets
@@ -3613,7 +3615,7 @@ namespace WikiFunctions.Parse
             };
 
             // needs to be applied after SquareBracketsInExternalLinks
-            if((nobrackets.IndexOf('[') > -1 || nobrackets.IndexOf(']') > -1) && !SyntaxRegexFileWithHTTP.IsMatch(articleText))
+            if(orphanedSingleBrackets && !SyntaxRegexFileWithHTTP.IsMatch(articleText))
             {
                 articleText = SyntaxRegexWikilinkMissingClosingBracket.Replace(articleText, "[[$1]]");
                 articleText = SyntaxRegexWikilinkMissingOpeningBracket.Replace(articleText, "[[$1]]");
@@ -3628,7 +3630,7 @@ namespace WikiFunctions.Parse
                 articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
             
             if(ssb.Where(m => m.Value.Equals("[[ISBN]]")).Any())
-            	articleText = SyntaxRegexISBN3.Replace(articleText, "ISBN $1");
+                articleText = SyntaxRegexISBN3.Replace(articleText, "ISBN $1");
 
             if(articleText.Contains("PMID:"))
                 articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
@@ -3639,14 +3641,15 @@ namespace WikiFunctions.Parse
                 articleText = SupOrdinal.Replace(articleText, @"$1$2");
 
             //CHECKWIKI error 86
-            if(articleText.IndexOf("[[http", StringComparison.OrdinalIgnoreCase) > -1)
+            bool DoubleBracketHTTP = articleText.IndexOf("[[http", StringComparison.OrdinalIgnoreCase) > -1;
+            if(DoubleBracketHTTP)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
             // if there are some unbalanced brackets, see whether we can fix them
             articleText = FixUnbalancedBrackets(articleText);
 
             //fix uneven bracketing on links
-            if(articleText.IndexOf("[[http", StringComparison.OrdinalIgnoreCase) > -1)
+            if(DoubleBracketHTTP)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
             nobrackets = SingleSquareBrackets.Replace(articleText, "");
@@ -3668,14 +3671,14 @@ namespace WikiFunctions.Parse
                 articleText = IncorrectBr.Replace(articleText, "<br />");
 
             articleText = IncorrectBr2.Replace(articleText, m=>
-                                                    {
-                                                        if(m.Groups[1].Value == "left")
-                                                            return "{{clear|left}}";
-                                                        else if(m.Groups[1].Value == "right")
-                                                            return "{{clear|right}}";
+                                                {
+                                                    if(m.Groups[1].Value == "left")
+                                                        return "{{clear|left}}";
+                                                    else if(m.Groups[1].Value == "right")
+                                                        return "{{clear|right}}";
 
-                                                        return "{{clear}}";
-                                                    }
+                                                    return "{{clear}}";
+                                                }
                                                 );
             
             // CHECKWIKI errors 55, 63, 66, 77
