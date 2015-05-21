@@ -5284,7 +5284,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex LinkWhitespace1 = new Regex(@"(?: |^)\[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace2 = new Regex(@"(?<=\w)\[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace3 = new Regex(@"\[\[([^\]]{1,30}?) {2,10}([^\]]{1,30})\]\]", RegexOptions.Compiled);
-        private static readonly Regex LinkWhitespace4 = new Regex(@"\[\[([^\]\|]{1,30}) \]\] ", RegexOptions.Compiled);
+        private static readonly Regex LinkWhitespace4 = new Regex(@"\[\[([^\]\|]{1,30}) \]\](\s)", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace5 = new Regex(@"\[\[([^\]]{1,30}) \]\](?=\w)", RegexOptions.Compiled);
 
         private static readonly Regex DateLinkWhitespace = new Regex(@"(?<=\b\[\[(?:\d\d? " + WikiRegexes.MonthsNoGroup + @"|"  + WikiRegexes.MonthsNoGroup + @" \d\d?)\]\](?:,|,?  ))(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase);
@@ -5323,8 +5323,8 @@ namespace WikiFunctions.Parse
 
             if(allWikiLinks.Any(s => s.EndsWith(" ]]")))
             {
-                //remove undesirable space from end of wikilink (space after wikilink) - parse this line first
-                articleText = LinkWhitespace4.Replace(articleText, "[[$1]] ");
+                //remove undesirable space from end of wikilink (whitespace after wikilink) - parse this line first
+                articleText = LinkWhitespace4.Replace(articleText, "[[$1]]$2");
 
                 //remove undesirable space from end of wikilink and move it outside link - parse this line second
                 articleText = LinkWhitespace5.Replace(articleText, "[[$1]] ");
