@@ -300,7 +300,7 @@ namespace WikiFunctions.Parse
                 List<string> theHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText)
                                                         where !ReferencesExternalLinksSeeAlso.IsMatch(m.Value)
                                                         select m.Value).ToList();
-                if(!theHeadings.Where(s => WikiRegexes.HeadingLevelTwo.IsMatch(s)).Any())
+                if(!theHeadings.Any(s => WikiRegexes.HeadingLevelTwo.IsMatch(s)))
                 {
                     string articleTextLocal = articleText;
                     articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
@@ -630,7 +630,7 @@ namespace WikiFunctions.Parse
 
             // Performance: get all the templates, only apply mulitple issues functions if relevant templates found
             List<string> allTemplates = GetAllTemplates(articleText).Select(s => "{{" + s + "}}").ToList();
-            bool hasMI = allTemplates.Where(s => WikiRegexes.MultipleIssues.IsMatch(s)).Any();
+            bool hasMI = allTemplates.Any(s => WikiRegexes.MultipleIssues.IsMatch(s));
 
             if(hasMI)
             {
@@ -640,8 +640,8 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesSingleTag);
             }
 
-            if(hasMI || allTemplates.Where(s => (WikiRegexes.MultipleIssuesArticleMaintenanceTemplates.IsMatch(s) || 
-                WikiRegexes.MultipleIssuesSectionMaintenanceTemplates.IsMatch(s))).Any())
+            if(hasMI || allTemplates.Any(s => (WikiRegexes.MultipleIssuesArticleMaintenanceTemplates.IsMatch(s) || 
+                WikiRegexes.MultipleIssuesSectionMaintenanceTemplates.IsMatch(s))))
             {
                 // get sections
                 string[] sections = Tools.SplitToSections(articleText);
@@ -3116,11 +3116,11 @@ namespace WikiFunctions.Parse
                                                                           select m.Value).ToList());
 
             // <REF>, </REF> and <Ref> to lowercase ref
-            if(AllTagsList.Where(s => Regex.IsMatch(s, @"R[Ee][Ff]|r[Ee]F")).Any())
+            if(AllTagsList.Any(s => Regex.IsMatch(s, @"R[Ee][Ff]|r[Ee]F")))
                 articleText = Regex.Replace(articleText, @"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))", "$1ref$2");
 
             // remove any spaces between consecutive references -- WP:REFPUNC
-            if(AllTagsList.Where(s => s.EndsWith(" ")).Any())
+            if(AllTagsList.Any(s => s.EndsWith(" ")))
                 articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", "$1");
 
             // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
@@ -3134,18 +3134,18 @@ namespace WikiFunctions.Parse
             articleText = Regex.Replace(articleText, @"<ref>\s*</ref>", "");
 
             // Trailing spaces at the beginning of a reference, within the reference
-            if(AllTagsList.Where(s => s.EndsWith(" ")).Any())
+            if(AllTagsList.Any(s => s.EndsWith(" ")))
                 articleText = Regex.Replace(articleText, @"(<ref[^<>\{\}\/]*>) +", "$1");
 
             // whitespace cleaning of </ref>
-            if(AllTagsList.Where(s => Regex.IsMatch(s, @"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>")).Any())
+            if(AllTagsList.Any(s => Regex.IsMatch(s, @"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>")))
                 articleText = Regex.Replace(articleText, @"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", "</ref>");
 
             // trim trailing spaces at the end of a reference, within the reference
             if(articleText.Contains(@" </ref>"))
                 articleText = Regex.Replace(articleText, @" +</ref>", "</ref>");
 
-            if(AllTagsList.Where(s => s.StartsWith("<ref/>") || s.StartsWith("</red>")).Any())
+            if(AllTagsList.Any(s => s.StartsWith("<ref/>") || s.StartsWith("</red>")))
                 articleText = RedRef.Replace(articleText, "$1</ref>");
 
             // Chinese do not use spaces to separate sentences
@@ -3153,7 +3153,7 @@ namespace WikiFunctions.Parse
                 articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +", "$1");
 
             // Performance: apply ref tag fixes only to ref tags that might be invalid
-            if(AllTagsList.Where(s => !Regex.IsMatch(s, @"(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref name *= *""[^{}""<>]+""( ?/)?>)|</ref>")).Any())
+            if(AllTagsList.Any(s => !Regex.IsMatch(s, @"(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref name *= *""[^{}""<>]+""( ?/)?>)|</ref>")))
                 articleText = PossiblyBadRefTags.Replace(articleText, FixReferenceTagsME);
 
             return articleText;
@@ -3494,18 +3494,18 @@ namespace WikiFunctions.Parse
                                                                           select Regex.Replace(m.Value, @"\s", "").ToLower()).ToList());
 
 			// fix for <sup/>, <sub/>, <center/>, <small/>, <i/> etc.
-            if(SimpleTagsList.Where(s => (s.EndsWith("/>") || s.Contains(@"\"))).Any())
+            if(SimpleTagsList.Any(s => (s.EndsWith("/>") || s.Contains(@"\"))))
                 articleText = IncorrectClosingHtmlTags.Replace(articleText,"</$1>");
 
             // The <strike> tag is not supported in HTML5. - CHECKWIKI error 42
-            if(SimpleTagsList.Where(s => s.Contains("strike")).Any())
+            if(SimpleTagsList.Any(s => s.Contains("strike")))
             {
                 articleText = articleText.Replace(@"<strike>", @"<s>");
                 articleText = articleText.Replace(@"</strike>", @"</s>");
             }
 
             // remove empty <gallery>, <center> or <blockquote> tags, allow for nested tags
-            if(SimpleTagsList.Where(s => s.Contains("gallery") || s.Contains("center") || s.Contains("blockquote")).Any())
+            if(SimpleTagsList.Any(s => s.Contains("gallery") || s.Contains("center") || s.Contains("blockquote")))
             {
                 while(EmptyTags.IsMatch(articleText))
                     articleText = EmptyTags.Replace(articleText, "");
@@ -3513,19 +3513,19 @@ namespace WikiFunctions.Parse
 
             // merge italic/bold html tags if there are one after the other
             //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_21#Another_bug_on_italics
-            if(SimpleTagsList.Where(s => s.StartsWith("<b")).Any())
+            if(SimpleTagsList.Any(s => s.StartsWith("<b")))
                 articleText = articleText.Replace("</b><b>", "");
-            if(SimpleTagsList.Where(s => s.StartsWith("<i")).Any())
+            if(SimpleTagsList.Any(s => s.StartsWith("<i")))
                 articleText = articleText.Replace("</i><i>", "");
 
             //replace html with wiki syntax - CHECKWIKI error 26 and 38
-            if(SimpleTagsList.Where(s => Regex.IsMatch(s, @"<(i|em|b)\b")).Any())
+            if(SimpleTagsList.Any(s => Regex.IsMatch(s, @"<(i|em|b)\b")))
             {
                 while(SyntaxRegexItalicBoldEm.IsMatch(articleText))
                     articleText = SyntaxRegexItalicBoldEm.Replace(articleText, BoldItalicME);
             }
 
-            if(SimpleTagsList.Where(s => s.StartsWith("<hr")).Any() || articleText.Contains("-----"))
+            if(SimpleTagsList.Any(s => s.StartsWith("<hr")) || articleText.Contains("-----"))
                 articleText = SyntaxRegexHorizontalRule.Replace(articleText, "----");
 
             //remove appearance of double line break
@@ -3561,7 +3561,7 @@ namespace WikiFunctions.Parse
             if(CellpaddingTypoQuick.IsMatch(articleText))
                 articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
 
-            if(SimpleTagsList.Where(s => s.Contains("font")).Any())
+            if(SimpleTagsList.Any(s => s.Contains("font")))
                 articleText = RemoveNoPropertyFontTags.Replace(articleText, "$1");
 
             // {{Category:foo]] or {{Category:foo}}
@@ -3629,13 +3629,13 @@ namespace WikiFunctions.Parse
 
             //  CHECKWIKI error 69
             bool isbnDash = articleText.Contains("ISBN-");
-            if(isbnDash || articleText.Contains("ISBN:") || ssb.Where(m => m.Value.Equals("[[ISBN]]")).Any())
+            if(isbnDash || articleText.Contains("ISBN:") || ssb.Any(m => m.Value.Equals("[[ISBN]]")))
                 articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
 
             if(isbnDash)
                 articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
             
-            if(ssb.Where(m => m.Value.Equals("[[ISBN]]")).Any())
+            if(ssb.Any(m => m.Value.Equals("[[ISBN]]")))
                 articleText = SyntaxRegexISBN3.Replace(articleText, "ISBN $1");
 
             if(articleText.Contains("PMID:"))
@@ -3643,7 +3643,7 @@ namespace WikiFunctions.Parse
 
             // Remove sup tags from ordinals per [[WP:ORDINAL]].
             // CHECKWIKI error 101
-            if(SimpleTagsList.Where(s => s.Contains("sup")).Any())
+            if(SimpleTagsList.Any(s => s.Contains("sup")))
                 articleText = SupOrdinal.Replace(articleText, @"$1$2");
 
             //CHECKWIKI error 86
@@ -3668,12 +3668,12 @@ namespace WikiFunctions.Parse
             }            
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
-            if(ssb.Where(s => s.Value.Contains("||")).Any())
+            if(ssb.Any(s => s.Value.Contains("||")))
                 articleText = DoublePipeInWikiLink.Replace(articleText, "|");
 
             // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
             // fix incorrect <br> of <br.>, <\br> and <br\> - CHECKWIKI error 02
-            if(SimpleTagsList.Where(s => (s.Contains("br") && !s.Equals("<br>") && !s.Equals("<br/>"))).Any())
+            if(SimpleTagsList.Any(s => (s.Contains("br") && !s.Equals("<br>") && !s.Equals("<br/>"))))
                 articleText = IncorrectBr.Replace(articleText, "<br />");
 
             articleText = IncorrectBr2.Replace(articleText, m=>
@@ -3688,7 +3688,7 @@ namespace WikiFunctions.Parse
                                                 );
             
             // CHECKWIKI errors 55, 63, 66, 77
-            if(SimpleTagsList.Where(s => s.Contains("small")).Any())
+            if(SimpleTagsList.Any(s => s.Contains("small")))
                 articleText = FixSmallTags(articleText);
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"$1[$3 $2]");
@@ -4748,7 +4748,7 @@ namespace WikiFunctions.Parse
                 originalPersonData = WikiRegexes.Persondata.Match(articleText).Value;
                 newPersonData = originalPersonData;
                 // use uppercase parameters if making changes, rename any lowercase ones
-                if(Tools.GetTemplateParameterValues(newPersonData).Where(s => PersonDataLowerCaseParameters.Contains(s.Key)).Any())
+                if(Tools.GetTemplateParameterValues(newPersonData).Any(s => PersonDataLowerCaseParameters.Contains(s.Key)))
                 {
                     newPersonData = Tools.RenameTemplateParameter(newPersonData, "name", "NAME");
                     newPersonData = Tools.RenameTemplateParameter(newPersonData, "alternative names", "ALTERNATIVE NAMES");
@@ -7540,7 +7540,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// </summary>
         private static bool TemplateExists(List<string> templatesFound, Regex r)
         {
-            return templatesFound.Where(s => r.IsMatch(@"{{" + s + "|}}")).Any();
+            return templatesFound.Any(s => r.IsMatch(@"{{" + s + "|}}"));
         }
 
         private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", "BLP sources", "expand", "BLP unsourced" });
