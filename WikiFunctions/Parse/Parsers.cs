@@ -2824,6 +2824,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CenterTag = new Regex(@"<\s*center\s*>((?>(?!<\s*/?\s*center\s*>).|<\s*center\s*>(?<DEPTH>)|<\s*/\s*center\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*center\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         private static readonly Regex SupTag = new Regex(@"<\s*sup\s*>((?>(?!<\s*/?\s*sup\s*>).|<\s*sup\s*>(?<DEPTH>)|<\s*/\s*sup\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*sup\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         private static readonly Regex SubTag = new Regex(@"<\s*sub\s*>((?>(?!<\s*/?\s*sub\s*>).|<\s*sub\s*>(?<DEPTH>)|<\s*/\s*sub\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*sub\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        private static readonly Regex AnyTag = new Regex(@"<([^>]+)>");
         /// <summary>
         ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt;, &lt;pre&gt; &lt;center&gt; &lt;sup&gt; &lt;sub&gt; or &lt;gallery&gt; tags and comments
         /// </summary>
@@ -2832,6 +2833,53 @@ namespace WikiFunctions.Parse
         public static Dictionary<int, int> UnclosedTags(string articleText)
         {
             Dictionary<int, int> back = new Dictionary<int, int>();
+
+            // Peformance: get all tags, compare the count of matched tags of same name
+            // Then do full tag search if unmatched tags found
+
+            // get all tags in format <tag...> in article, discard <br> tags as not a tag pair
+            List<string> AnyTagList = (from Match m in AnyTag.Matches(articleText)
+                where !WikiRegexes.Br.IsMatch(m.Value)
+                select m.Groups[1].Value.Trim().ToLower()).ToList();
+
+            // discard self-closing tags in <tag/> format, discard wiki comments, but keep run-together tags with < in them
+            AnyTagList = AnyTagList.Where(s => !(s.EndsWith("/") && !s.Contains("<")) && !s.StartsWith("!--")).ToList();
+
+            // remove any text after first space, so we're left with tag name only
+            AnyTagList = AnyTagList.Select(s => s.Contains(" ") ? s.Substring(0, s.IndexOf(" ")).Trim() : s).ToList();
+
+            // get the distinct tag names in use
+            List<string> DistinctTags = Tools.DeduplicateList(AnyTagList);
+
+            bool unmatched = false;
+            foreach(string d in DistinctTags)
+            {
+                int start, end;
+
+                if(d.StartsWith("/"))
+                {
+                    end = AnyTagList.Where(s => s.Equals(d)).Count();
+                    start = AnyTagList.Where(s => s.Equals(d.TrimStart('/'))).Count();
+                }
+                else
+                {
+                    end = AnyTagList.Where(s => s.Equals("/" + d)).Count();
+                    start = AnyTagList.Where(s => s.Equals(d)).Count();
+                }
+            
+                if(start != end)
+                {
+                    unmatched = true;
+
+                    break;
+                }
+            }
+
+            // check for unclosed part tag
+            if(!unmatched && !Regex.IsMatch(articleText, @"<[^>]+$"))
+                return back;
+            
+            // if here then have some unmatched tags, so do full clear down and search
 
             // clear out all the matched tags: performance of Refs/SourceCode is better if IgnoreCase avoided
             articleText = articleText.ToLower();
