@@ -2825,6 +2825,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SupTag = new Regex(@"<\s*sup\s*>((?>(?!<\s*/?\s*sup\s*>).|<\s*sup\s*>(?<DEPTH>)|<\s*/\s*sup\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*sup\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         private static readonly Regex SubTag = new Regex(@"<\s*sub\s*>((?>(?!<\s*/?\s*sub\s*>).|<\s*sub\s*>(?<DEPTH>)|<\s*/\s*sub\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*sub\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         private static readonly Regex AnyTag = new Regex(@"<([^<>]+)>");
+        private static readonly Regex TagToEnd = new Regex(@"<[^>]+$");
         /// <summary>
         ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt;, &lt;pre&gt; &lt;center&gt; &lt;sup&gt; &lt;sub&gt; or &lt;gallery&gt; tags and comments
         /// </summary>
@@ -2874,8 +2875,8 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            // check for unclosed part tag
-            if(!unmatched && !Regex.IsMatch(AnyTag.Replace(articleText, ""), @"<[^>]+$"))
+            // check for any unmatched tags or unclosed part tag
+            if(!unmatched && !TagToEnd.IsMatch(AnyTag.Replace(articleText, "")))
                 return back;
             
             // if here then have some unmatched tags, so do full clear down and search
