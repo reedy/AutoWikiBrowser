@@ -2841,8 +2841,8 @@ namespace WikiFunctions.Parse
             List<string> AnyTagList = (from Match m in AnyTag.Matches(articleText)
                 select m.Groups[1].Value.Trim().ToLower()).ToList();
 
-            // discard self-closing tags in <tag/> format, discard wiki comments, but keep run-together tags with < in them
-            AnyTagList = AnyTagList.Where(s => !(s.EndsWith("/") && !s.Contains("<")) && !s.StartsWith("!--")).ToList();
+            // discard self-closing tags in <tag/> format, discard wiki comments
+            AnyTagList = AnyTagList.Where(s => !s.EndsWith("/") && !s.StartsWith("!--")).ToList();
 
             // remove any text after first space, so we're left with tag name only
             AnyTagList = AnyTagList.Select(s => s.Contains(" ") ? s.Substring(0, s.IndexOf(" ")).Trim() : s).ToList();
