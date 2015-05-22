@@ -5302,9 +5302,9 @@ namespace WikiFunctions.Parse
         {
             // Performance: use Regex.Split with regexes with no capturing groups to get array of text not matched by the regex
             // Then filter this to see if any unbalanced brackets remain. Return if none remain
-            string[] nobrack = bracketsRegex.Split(articleText).Where(s => (s.IndexOf(openingBrackets, StringComparison.Ordinal) > -1 || s.IndexOf(closingBrackets, StringComparison.Ordinal) > -1)).ToArray();
+            bool hasBrackets = bracketsRegex.Split(articleText).Any(s => (s.IndexOf(openingBrackets, StringComparison.Ordinal) > -1 || s.IndexOf(closingBrackets, StringComparison.Ordinal) > -1));
 
-            if(nobrack.Length == 0)
+            if(!hasBrackets)
                 return -1;
 
             // If here then some unbalanced brackets were found, so use (slower) ReplaceWithSpaces so we can find index of unbalanced bracket in original text
