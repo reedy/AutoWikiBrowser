@@ -3975,17 +3975,17 @@ x
             Assert.AreEqual(uct.Count, 0);
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <math> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "math");
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(6));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <center> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "center");
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(8));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <center> <center>a</center> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "center doubel");
             Assert.IsTrue(uct.ContainsKey(15),"center key");
             Assert.IsTrue(uct.ContainsValue(8),"center value");
 
@@ -3995,75 +3995,75 @@ x
             Assert.IsTrue(uct.ContainsValue(5),"sup value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <sub> <sub>a</sub> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "sub");
             Assert.IsTrue(uct.ContainsKey(15),"sub key");
             Assert.IsTrue(uct.ContainsValue(5),"sub value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name=<ref name=Foo/> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "ref");
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(35));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "ref 2");
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(5));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name='foo'> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "ref name");
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(16));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <source lang=""bar""> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "source");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <small> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "small");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> < code> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "code");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> < nowiki > not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "nowiki");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <pre> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "pre");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> </pre> not opened");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "/pre");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <gallery> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "gallery");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> </gallery> not opened");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "/gallery");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <!-- not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "<!--");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<!--bar--> <!-- not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "<!-- 2");
             Assert.IsTrue(uct.ContainsKey(11));
 
             uct = Parsers.UnclosedTags(@"<gallery> not ended <gallery>bar</gallery>");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "gallery 2");
             Assert.IsTrue(uct.ContainsKey(20));
 
             uct = Parsers.UnclosedTags(@"<gallery other='a'> not ended <gallery other='a'>bar</gallery>");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "gallery param");
             Assert.IsTrue(uct.ContainsKey(30));
 
             uct = Parsers.UnclosedTags(@"<gallery>A|<div><small>(1717)</small><br/><small><small>Munich</small></div></gallery>");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.AreEqual(uct.Count, 1, "small div");
             Assert.IsTrue(uct.ContainsKey(42));
         }
 
