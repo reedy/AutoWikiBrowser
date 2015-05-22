@@ -2837,9 +2837,8 @@ namespace WikiFunctions.Parse
             // Peformance: get all tags, compare the count of matched tags of same name
             // Then do full tag search if unmatched tags found
 
-            // get all tags in format <tag...> in article, discard <br> tags as not a tag pair
+            // get all tags in format <tag...> in article
             List<string> AnyTagList = (from Match m in AnyTag.Matches(articleText)
-                where !WikiRegexes.Br.IsMatch(m.Value)
                 select m.Groups[1].Value.Trim().ToLower()).ToList();
 
             // discard self-closing tags in <tag/> format, discard wiki comments, but keep run-together tags with < in them
@@ -2848,26 +2847,27 @@ namespace WikiFunctions.Parse
             // remove any text after first space, so we're left with tag name only
             AnyTagList = AnyTagList.Select(s => s.Contains(" ") ? s.Substring(0, s.IndexOf(" ")).Trim() : s).ToList();
 
-            // get the distinct tag names in use
-            List<string> DistinctTags = Tools.DeduplicateList(AnyTagList);
+            // get the distinct tag names in use, discard <br> tags as not a tag pair
+            List<string> DistinctTags = Tools.DeduplicateList(AnyTagList).Where(s => !s.Equals("br")).ToList();
 
+            // determine if unmatched tags by comparing count of opening and closing tags
             bool unmatched = false;
             foreach(string d in DistinctTags)
             {
-                int start, end;
+                int startTagCount, endTagCount;
 
                 if(d.StartsWith("/"))
                 {
-                    end = AnyTagList.Where(s => s.Equals(d)).Count();
-                    start = AnyTagList.Where(s => s.Equals(d.TrimStart('/'))).Count();
+                    endTagCount = AnyTagList.Where(s => s.Equals(d)).Count();
+                    startTagCount = AnyTagList.Where(s => s.Equals(d.TrimStart('/'))).Count();
                 }
                 else
                 {
-                    end = AnyTagList.Where(s => s.Equals("/" + d)).Count();
-                    start = AnyTagList.Where(s => s.Equals(d)).Count();
+                    endTagCount = AnyTagList.Where(s => s.Equals("/" + d)).Count();
+                    startTagCount = AnyTagList.Where(s => s.Equals(d)).Count();
                 }
-            
-                if(start != end)
+
+                if(startTagCount != endTagCount)
                 {
                     unmatched = true;
                     break;
