@@ -7615,7 +7615,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             if(TemplateExists(alltemplates, WikiRegexes.PortalTemplate))
                 articleText = MergePortals(articleText);
 
-            if(TemplateExists(alltemplates, SectionMergedTemplatesR))
+            if(alltemplates.Count(s => SectionMergedTemplatesR.IsMatch(@"{{" + s + "|}}")) > 1)
                 articleText = MergeTemplatesBySection(articleText);
 
             // clean up Template:/underscores in infobox names
