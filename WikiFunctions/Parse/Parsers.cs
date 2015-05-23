@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -2316,7 +2316,7 @@ namespace WikiFunctions.Parse
             /* performance: process all templates in bulk, extract template contents and reprocess. This is faster than loop applying template match on individual basis. 
             Extract rough template name then get exact template names later, faster to deduplicate then get exact template names */
             // process all templates, handle nested templates to any level of nesting
-            List<string> TFH = new List<string>();
+            List<string> TemplateNames = new List<string>();
 
             List<Match> nt = new List<Match>();
             HashSet<string> templateContents = new HashSet<string>();
@@ -2329,7 +2329,7 @@ namespace WikiFunctions.Parse
                     break;
 
                 // add raw template names to list
-                TFH.AddRange((from Match m in nt select m.Groups[1].Value).ToList());
+                TemplateNames.AddRange((from Match m in nt select m.Groups[1].Value).ToList());
 
                 // set text to content of matched templates to process again for any (further) nested templates
                 templateContents = new HashSet<string>((from Match m in nt select m.Groups[2].Value).ToList());
@@ -2337,9 +2337,9 @@ namespace WikiFunctions.Parse
             }
 
             // now extract exact template names
-            TFH = Tools.DeduplicateList(TFH);
+            TemplateNames = Tools.DeduplicateList(TemplateNames);
 
-            return Tools.DeduplicateList((from string s in TFH select Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}"))).ToList());
+            return Tools.DeduplicateList((from string s in TemplateNames select Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}"))).ToList());
         }
 
         /// <summary>
