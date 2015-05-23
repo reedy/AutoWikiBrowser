@@ -405,8 +405,6 @@ namespace WikiFunctions.Parse
                                        MonthYear.IsMatch(Tools.GetTemplateParameterValue(MICall, "expert"))))
                 articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
 
-            //articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
-
             string newTags = "";
 
             // get the zeroth section (text upto first heading)
