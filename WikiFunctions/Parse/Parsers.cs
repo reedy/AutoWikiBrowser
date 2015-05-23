@@ -2339,7 +2339,7 @@ namespace WikiFunctions.Parse
             // now extract exact template names
             TemplateNames = Tools.DeduplicateList(TemplateNames);
 
-            return Tools.DeduplicateList((from string s in TemplateNames select Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}"))).ToList());
+            return Tools.DeduplicateList(TemplateNames.Select(s => Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}"))).ToList());
         }
 
         /// <summary>
