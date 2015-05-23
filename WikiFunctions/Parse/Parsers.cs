@@ -7557,7 +7557,8 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                 articleText = NoFootnotes.Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes"));
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
-            articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
+            if(TemplateExists(alltemplates, SectionTemplates))
+                articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
 
             if(mifound)
             {
