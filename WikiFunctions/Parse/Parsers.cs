@@ -5270,6 +5270,42 @@ namespace WikiFunctions.Parse
 
             bracketLength = 1;
 
+            // Performance: check through whole text counting single brackets, only run detailed checks if find unbalanced brackets
+            int square=0, curly=0, round=0, chevron=0;
+            bool hasUnbalanced = false;
+            
+            foreach(char c in articleText.ToCharArray())
+            {
+                if(c == '[')
+                    square++;
+                else if(c == ']')
+                    square--;
+                else if(c == '{')
+                    curly++;
+                else if(c == '}')
+                    curly--;
+                else if(c == '(')
+                    round++;
+                else if(c == ')')
+                    round--;
+                else if(c == '<')
+                    chevron++;
+                else if(c == '>')
+                    chevron--;
+                
+                // if more closing that opening then have found unbalanced brackets
+                if(square < 0 || curly < 0 || round < 0 || chevron < 0)
+                {
+                    hasUnbalanced = true;
+                    break;
+                }
+            }
+            
+            // if > 0 residual, means more opening brackets than closing
+            if(!hasUnbalanced && square == 0 && curly == 0 && round == 0 && chevron == 0)
+                return -1;
+
+            // if here have found an unbalanced single bracket so run the compare
             unbalancedfound = UnbalancedBrackets(articleText, "{", "}", SingleCurlyBrackets);
             if (unbalancedfound > -1)
                 return unbalancedfound;
