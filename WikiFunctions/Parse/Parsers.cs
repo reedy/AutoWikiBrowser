@@ -2317,13 +2317,11 @@ namespace WikiFunctions.Parse
             Extract rough template name then get exact template names later, faster to deduplicate then get exact template names */
             // process all templates, handle nested templates to any level of nesting
             List<string> TemplateNames = new List<string>();
-
-            List<Match> nt = new List<Match>();
             HashSet<string> templateContents = new HashSet<string>();
 
             for(;;)
             {
-                nt = (from Match m in NestedTemplates.Matches(articleText) select m).ToList();
+                List<Match> nt = (from Match m in NestedTemplates.Matches(articleText) select m).ToList();
 
                 if(!nt.Any())
                     break;
