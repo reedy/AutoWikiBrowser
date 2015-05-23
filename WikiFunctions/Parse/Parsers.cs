@@ -284,7 +284,7 @@ namespace WikiFunctions.Parse
             // Removes level 2 heading if it matches pagetitle
             articleText = Regex.Replace(articleText, @"^(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
 
-            articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m));
+            articleText = WikiRegexes.Headings.Replace(articleText, FixHeadingsME);
 
             // CHECKWIKI error 8. Add missing = in some headers
             articleText = ReferencesExternalLinksSeeAlsoUnbalancedRight.Replace(articleText, "$1=\r\n");
