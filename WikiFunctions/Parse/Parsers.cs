@@ -1173,7 +1173,7 @@ namespace WikiFunctions.Parse
             {
                 // take up to 25 characters before match, unless match within first 25 characters of article
                 string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
-                
+
                 string after = FixDatesAInternal(before);
 
                 if(!after.Equals(before))
@@ -1195,20 +1195,29 @@ namespace WikiFunctions.Parse
 
         private string FixDatesAInternal(string textPortion)
         {
-            textPortion = IncorrectCommaInternationalDates.Replace(textPortion, @"$1 $2");
+            bool hasDash = (textPortion.Contains("-") || textPortion.Contains("–")), hasComma = textPortion.Contains(",");
+            
+            if(hasComma)
+                textPortion = IncorrectCommaInternationalDates.Replace(textPortion, @"$1 $2");
 
-            textPortion = SameMonthInternationalDateRange.Replace(textPortion, @"$1–$2");
+            if(hasDash)
+            {
+                textPortion = SameMonthInternationalDateRange.Replace(textPortion, @"$1–$2");
 
-            textPortion = SameMonthAmericanDateRange.Replace(textPortion, SameMonthAmericanDateRangeME);
+                textPortion = SameMonthAmericanDateRange.Replace(textPortion, SameMonthAmericanDateRangeME);
 
-            textPortion = LongFormatInternationalDateRange.Replace(textPortion, @"$1–$3 $2 $4");
-            textPortion = LongFormatAmericanDateRange.Replace(textPortion, @"$1 $2–$3, $4");
+                textPortion = LongFormatInternationalDateRange.Replace(textPortion, @"$1–$3 $2 $4");
+                textPortion = LongFormatAmericanDateRange.Replace(textPortion, @"$1 $2–$3, $4");
+            }
 
             // run this after the date range fixes
             textPortion = IncorrectCommaAmericanDates.Replace(textPortion, @"$1 $2, $3");
 
             // month range
-            return EnMonthRange.Replace(textPortion, @"$1–$2");
+            if(hasDash)
+                textPortion = EnMonthRange.Replace(textPortion, @"$1–$2");
+        
+            return textPortion;
         }
         
         private static readonly Regex YearRange = new Regex(@"\b[12][0-9]{3}.{0,25}");
