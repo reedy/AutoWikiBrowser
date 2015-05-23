@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -7508,6 +7508,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         private static readonly Regex MultipleIssuesUndatedTags = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*)?|\|)\s*)(?![Ee]xpert)" + WikiRegexes.MultipleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of date)", RegexOptions.Compiled);
         private static readonly Regex NoFootnotes = Tools.NestedTemplateRegex("no footnotes");
+        private static readonly Regex ConversionsCnCommons = Tools.NestedTemplateRegex( new [] {"citation needed", "commons", "commons cat", "commons category" });
         private const string CategoryLivingPeople = @"[[Category:Living people";
 
         /// <summary>
@@ -7522,9 +7523,14 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             // Performance: get all the templates so template changing functions below only called when template(s) present in article
             List<string> alltemplates = Parsers.GetAllTemplates(articleText);
 
-            foreach (KeyValuePair<Regex, string> k in RegexConversion)
+            bool mifound = TemplateExists(alltemplates, WikiRegexes.MultipleIssues);
+
+            if(mifound || TemplateExists(alltemplates, ConversionsCnCommons))
             {
-                articleText = k.Key.Replace(articleText, k.Value);
+                foreach (KeyValuePair<Regex, string> k in RegexConversion)
+                {
+                    articleText = k.Key.Replace(articleText, k.Value);
+                }
             }
 
             bool BASEPAGENAMEInRefs = false;
@@ -7554,8 +7560,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
             articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
-
-            bool mifound = TemplateExists(alltemplates, WikiRegexes.MultipleIssues);
 
             if(mifound)
             {
