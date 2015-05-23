@@ -2329,10 +2329,10 @@ namespace WikiFunctions.Parse
                     break;
 
                 // add raw template names to list
-                TemplateNames.AddRange((from Match m in nt select m.Groups[1].Value).ToList());
+                TemplateNames.AddRange(nt.Select(m => m.Groups[1].Value).ToList());
 
                 // set text to content of matched templates to process again for any (further) nested templates
-                templateContents = new HashSet<string>((from Match m in nt select m.Groups[2].Value).ToList());
+                templateContents = new HashSet<string>(nt.Select(m => m.Groups[2].Value).ToList());
                 articleText = String.Join(",", templateContents.ToArray());
             }
 
