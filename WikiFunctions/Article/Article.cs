@@ -688,17 +688,7 @@ namespace WikiFunctions
             return Unknowns;
         }
 
-        private static readonly List<string> MultipleIssuesKnowns = new List<string>(new[] { "abbreviations", "advert", "autobiography", "biased", "blpdispute", "BLP IMDB refimprove", "BLP IMDB-only refimprove", "BLP IMDb-only refimprove", "BLPrefimprove", "BLP sources", "BLPsources", "BLPunreferenced", "BLPunref", "BLPunsourced", "BLP unsourced", "citations missing", "citationstyle", "citation style",  "citation-style",
-			                                       	"citecheck", "cite check", "cleanup", "cleanup-link rot", "COI", "coi", "colloquial", "confusing", "context", "contradict",
-			                                       	"copyedit", "copy edit", "criticisms", "crystal", "date", "deadend", "dead end", "disputed", "do-attempt", "essay", "essay-like", "examplefarm", "external links", "expand",
-			                                       	"fancruft", "fanpov", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intro length", "intromissing",
-			                                       	"introrewrite", "intro-toolong","intro-tooshort", "laundrylists", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "lead missing", "lead too long", "likeresume", "like resume",
-			                                       	"long", "moreref", "morerefs", "morereferences", "more footnotes", "newsrelease", "notable", "notability", "one source", "onesource", "OR", "or", "organize", "original research", "orphan", "out of date", "peacock",
-			                                       	"plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "primary sources", "prose", "proseline", "quotefarm", "recentism", "refimprove",
-			                                       	"refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "review", "rewrite", "section", "sections", "self-published",
-			                                       	"spam", "story", "synthesis", "inappropriate tone", "technical", "tone", "travelguide", "tooshort", "toolong", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced",
-			                                       	"unrefBLP", "unreferencedBLP", "verylong", "weasel", "wikify", "cleanup-laundry", "over detailed", "cleanup-spam", "cleanup-reorganize", "POV-check", "criticism section", "very long", "example farm", "cleanup-rewrite", "quote farm", "over-quotation", "news release", "unreliable", "unreliable sources",
-			                                       	"linkrot", "no footnotes", "abbreviations", "overly detailed", "NOT"});
+        private static readonly List<string> MultipleIssuesKnowns = new List<string>(new[] { "section"});
         
         /// <summary>
         /// Returns a list of any unknown parameters in any Multiple issues template
