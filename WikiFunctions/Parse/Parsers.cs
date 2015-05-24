@@ -626,7 +626,7 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            // Performance: get all the templates, only apply mulitple issues functions if relevant templates found
+            // Performance: get all the templates, only apply multiple issues functions if relevant templates found
             List<string> allTemplates = GetAllTemplates(articleText).Select(s => "{{" + s + "}}").ToList();
             bool hasMI = allTemplates.Any(s => WikiRegexes.MultipleIssues.IsMatch(s));
 
