@@ -8188,15 +8188,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                                                        return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "refimprove"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
                                                    });
 
-                // update tag in old-style multiple issues
-                Match m = WikiRegexes.MultipleIssues.Match(articleText);
-                if (m.Success && Tools.GetTemplateParameterValue(m.Value, "unreferenced").Length > 0)
-                {
-                    string newValue = Tools.RenameTemplateParameter(m.Value, "unreferenced", "refimprove");
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "refimprove", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
-                    if (!newValue.Equals(m.Value))
-                        articleText = articleText.Replace(m.Value, newValue);
-                }
             }
 
             if (tagsAdded.Count > 0 || tagsRemoved.Count > 0 || tagsrenamed > 0)
