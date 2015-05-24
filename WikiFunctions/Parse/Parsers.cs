@@ -281,19 +281,21 @@ namespace WikiFunctions.Parse
             string zerothSection = Tools.GetZerothSection(articleText);
             string restOfArticle = articleText.Substring(zerothSection.Length);
             articleText = restOfArticle;
-
-            // Removes level 2 heading if it matches pagetitle
-            articleText = Regex.Replace(articleText, @"^(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
-
+            
             // Get all the custom headings, ignoring normal References, External links sections etc.
             List<string> customHeadings = Tools.DeduplicateList((from Match m in WikiRegexes.Headings.Matches(articleText) where !ReferencesExternalLinksSeeAlso.IsMatch(m.Value) select m.Value.ToLower()).ToList());
+
+            // Removes level 2 heading if it matches pagetitle
+            if(customHeadings.Any(h => h.Contains(articleTitle.ToLower())))
+                articleText = Regex.Replace(articleText, @"^(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
 
             // Performance: apply fixes to all headings only if a custom heading matches for the bad headings words
             if(customHeadings.Any(h => BadHeadings.Any(b => h.Contains(b))))
                 articleText = WikiRegexes.Headings.Replace(articleText, FixHeadingsME);
 
             // CHECKWIKI error 8. Add missing = in some headers
-            articleText = ReferencesExternalLinksSeeAlsoUnbalancedRight.Replace(articleText, "$1=\r\n");
+            if(customHeadings.Any(h => Regex.Matches(h, "=").Count == 3))
+                articleText = ReferencesExternalLinksSeeAlsoUnbalancedRight.Replace(articleText, "$1=\r\n");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // CHECKWIKI error 7
