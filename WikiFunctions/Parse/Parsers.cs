@@ -6193,8 +6193,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             if(NoBoldTitle.IsMatch(articleText))
                 return articleText;
 
-            HideText Hider2 = new HideText();
-            HideText Hider3 = new HideText(true, true, true);
+            HideText Hider2 = new HideText(), Hider3 = new HideText(true, true, true);
 
             bool includeonlyNoinclude = WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText);
 
@@ -6242,13 +6241,12 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             Regex boldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
 
             string articleTextNoInfobox = Tools.ReplaceWithSpaces(articleText, WikiRegexes.InfoBox.Matches(articleText));
-            string zerothSectionNoInfobox = Tools.ReplaceWithSpaces(zerothSection, WikiRegexes.InfoBox.Matches(zerothSection));
 
             // if title in bold already exists in article, or paragraph starts with something in bold, don't change anything
             // ignore any bold in infoboxes
             if (boldTitleAlready1.IsMatch(articleTextNoInfobox) || boldTitleAlready2.IsMatch(articleTextNoInfobox)
                 || BoldTitleAlready3.IsMatch(articleTextNoInfobox)
-                || BoldTitleAlready4.IsMatch(zerothSectionNoInfobox) || DfnTag.IsMatch(zerothSection))
+                || BoldTitleAlready4.IsMatch(Tools.ReplaceWithSpaces(zerothSection, WikiRegexes.InfoBox.Matches(zerothSection))) || DfnTag.IsMatch(zerothSection))
                 return articleTextAtStart;
 
             // so no self links to remove, check for the need to add bold
