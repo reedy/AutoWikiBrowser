@@ -6755,12 +6755,14 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                     return articleText;
             }
 
-            if (Variables.LangCode.Equals("en"))
+            // Performance: only apply replace and refresh if defaultsort would change
+            if(ds.Count > 0 && Variables.LangCode.Equals("en") && !DefaultsortME(ds[0]).Equals(ds[0].Value))
+            {
                 articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
 
-            // match again, after normalisation
-            ds = WikiRegexes.Defaultsort.Matches(articleText);
-
+                // match again, after normalisation
+                ds = WikiRegexes.Defaultsort.Matches(articleText);
+            }
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#AWB_didn.27t_fix_special_characters_in_a_pipe
             articleText = FixCategories(articleText);
 
