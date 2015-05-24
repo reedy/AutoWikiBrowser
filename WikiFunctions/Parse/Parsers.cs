@@ -1299,7 +1299,10 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public string FixBrParagraphs(string articleText)
         {
-            articleText = SyntaxRemoveBr.Replace(articleText, "\r\n\r\n");
+            // check for performance
+            if(SyntaxRemoveBrQuick.IsMatch(articleText))
+                articleText = SyntaxRemoveBr.Replace(articleText, "\r\n\r\n");
+
             articleText = SyntaxRemoveParagraphs.Replace(articleText, "\r\n\r\n");
             return SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
         }
@@ -3443,6 +3446,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRemoveParagraphs = new Regex(@"(?<!^[!\|].*)</? ?[Pp]> *", RegexOptions.Multiline);
         // Match execss <br> tags only if current line does not start from ! or | (indicator of table cells)
         private static readonly Regex SyntaxRemoveBr = new Regex(@"(?:(?:<br[\s/]*> *){2,}|\r\n<br[\s/]*>\r\n<br[\s/]*>\r\n)(?<!^[!\|].*)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private static readonly Regex SyntaxRemoveBrQuick = new Regex(@"<br[\s/]*>\s*<br[\s/]*>", RegexOptions.IgnoreCase);
 
         private static readonly Regex MultipleHttpInLink = new Regex(@"(?<=[\s\[>=])(https?(?::?/+|:/*)) *(\1)+", RegexOptions.IgnoreCase);
         private static readonly Regex MultipleFtpInLink = new Regex(@"(?<=[\s\[>=])(ftp(?::?/+|:/*))(\1)+", RegexOptions.IgnoreCase);
