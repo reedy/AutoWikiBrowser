@@ -1664,11 +1664,6 @@ namespace WikiFunctions.Parse
         private const string RefName = @"(?si)<\s*ref\s+name\s*=\s*(?:""|')?";
 
         /// <summary>
-        /// Matches unnamed references i.e. &lt;ref>...&lt;/ref>, group 1 being the ref value
-        /// </summary>
-        private static readonly Regex UnnamedRef = new Regex(@"<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>", RegexOptions.Singleline | RegexOptions.Compiled);
-
-        /// <summary>
         /// Checks for named references
         /// </summary>
         /// <param name="articleText">The article text</param>
@@ -1700,7 +1695,7 @@ namespace WikiFunctions.Parse
             bool haveRefsToFix = false;
 
             // loop through all unnamed refs, add any duplicates to dictionary
-            foreach (Match m in UnnamedRef.Matches(articleText))
+            foreach (Match m in WikiRegexes.UnnamedReferences.Matches(articleText))
             {
                 string fullReference = m.Value;
 
