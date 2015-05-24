@@ -277,11 +277,6 @@ namespace WikiFunctions.Parse
                     articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, m => m.Groups[2].Value.Contains("==") ? m.Value : "\r\n\r\n" + m.Groups[1].Value);
             }
 
-            // Fixes after this do not need to be applied to zeroth section (which may be very long on some articles), so for performance only appply to text after zeroth section
-            string zerothSection = Tools.GetZerothSection(articleText);
-            string restOfArticle = articleText.Substring(zerothSection.Length);
-            articleText = restOfArticle;
-            
             // Get all the custom headings, ignoring normal References, External links sections etc.
             List<string> customHeadings = Tools.DeduplicateList((from Match m in WikiRegexes.Headings.Matches(articleText) where !ReferencesExternalLinksSeeAlso.IsMatch(m.Value) select m.Value.ToLower()).ToList());
 
@@ -333,7 +328,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            return zerothSection + articleText;
+            return articleText;
         }
 
         private static readonly Regex SpaceNewLineEnd = new Regex(@" +(\s+)$");
