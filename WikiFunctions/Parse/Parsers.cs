@@ -6195,15 +6195,13 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             HideText Hider2 = new HideText(), Hider3 = new HideText(true, true, true);
 
-            bool includeonlyNoinclude = WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText);
-
-            // 1) clean up bolded self links first
-            if(!includeonlyNoinclude)
-                articleText = BoldedSelfLinks(articleTitle, articleText);
+            // 1) clean up bolded self links first, provided no noinclude use in article
+            string afterSelfLinks = BoldedSelfLinks(articleTitle, articleText);
+            
+            if(!afterSelfLinks.Equals(articleText) && !WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
+                articleText = afterSelfLinks;
 
             // 2) Clean up self wikilinks
-            string escTitle = Regex.Escape(articleTitle), escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
-
             string articleTextAtStart = articleText, zerothSection = Tools.GetZerothSection(articleText);
             string restOfArticle = articleText.Substring(zerothSection.Length);
             string zerothSectionHidden, zerothSectionHiddenOriginal;
@@ -6211,7 +6209,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             // first check for any self links and no bold title, if found just convert first link to bold and return
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
-            if(!includeonlyNoinclude && !SelfLinks(zerothSection, articleTitle).Equals(zerothSection))
+            if(!SelfLinks(zerothSection, articleTitle).Equals(zerothSection) && !WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
             {
                 // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
                 zerothSectionHidden = Hider2.HideMore(zerothSection, false, false, false);
@@ -6237,6 +6235,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                 || NihongoTitle.IsMatch(articleText))
                 return articleTextAtStart;
 
+            string escTitle = Regex.Escape(articleTitle), escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
             Regex boldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
             Regex boldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
 
