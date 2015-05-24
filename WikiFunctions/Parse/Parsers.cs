@@ -7585,8 +7585,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                         || Tools.GetTemplateArgumentCount(unrefm[0].Value) == 0)
                         articleText = Tools.RenameTemplate(articleText, "unreferenced", "BLP unsourced", false);
                 }
-                else if(mifound) // could be unreferenced parameter in old style MI template
-                    articleText = WikiRegexes.MultipleIssues.Replace(articleText, m => Tools.RenameTemplateParameter(m.Value, "unreferenced", "BLP unsourced"));
 
                 articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
                 articleText = Tools.RenameTemplate(articleText, "primary sources", "BLP primary sources", false);
