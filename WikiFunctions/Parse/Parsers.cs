@@ -6725,9 +6725,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             string originalArticleText = articleText;
             noChange = true;
 
-            if (NoIncludeIncludeOnlyProgrammingElement(articleText))
-                return articleText;
-
             // count categories
             int matches;
 
@@ -6810,7 +6807,16 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                     articleText = ExplicitCategorySortkeys(articleText, defaultsortKey);
                 }
             }
+
             noChange = originalArticleText.Equals(articleText);
+
+            // Performance: run relatively slow NoIncludeIncludeOnlyProgrammingElement check only if needed
+            if(!noChange && NoIncludeIncludeOnlyProgrammingElement(originalArticleText))
+            {
+                noChange = true;
+                return originalArticleText;
+            }
+
             return articleText;
         }
         
