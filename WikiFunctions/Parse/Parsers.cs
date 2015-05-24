@@ -228,11 +228,12 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexBadHeaderStartOfAticle = new Regex("^={1,4} ?'*(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?)'* ?={1,4}", RegexOptions.IgnoreCase);
 
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline);
-        private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s");
+        private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks|[Ss]ee +[Aa]lso) *==\s");
         private static readonly Regex ReferencesExternalLinksSeeAlsoUnbalancedRight = new Regex(@"(== *(?:[Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *=) *\r\n");
 
         private static readonly Regex RegexHeadingColonAtEnd = new Regex(@"^(=+)(\s*[^=\s].*?)\:(\s*\1\s*)$");
         private static readonly Regex RegexHeadingWithBold = new Regex(@"(?<====+.*?)(?:'''|<[Bb]>)(.*?)(?:'''|</[Bb]>)(?=.*?===+)");
+        private static readonly List<string> BadHeadings = new List<string>(new [] {"career", "track listing", " members", "further reading", "related ", " life", "source", " links", "external", "also", "reff", "refer", "refr", "<", "\t", "'''", ":"});
 
         /// <summary>
         /// Fix ==See also== and similar section common errors.
@@ -284,7 +285,12 @@ namespace WikiFunctions.Parse
             // Removes level 2 heading if it matches pagetitle
             articleText = Regex.Replace(articleText, @"^(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
 
-            articleText = WikiRegexes.Headings.Replace(articleText, FixHeadingsME);
+            // Get all the custom headings, ignoring normal References, External links sections etc.
+            List<string> customHeadings = Tools.DeduplicateList((from Match m in WikiRegexes.Headings.Matches(articleText) where !ReferencesExternalLinksSeeAlso.IsMatch(m.Value) select m.Value.ToLower()).ToList());
+
+            // Performance: apply fixes to all headings only if a custom heading matches for the bad headings words
+            if(customHeadings.Any(h => BadHeadings.Any(b => h.Contains(b))))
+                articleText = WikiRegexes.Headings.Replace(articleText, FixHeadingsME);
 
             // CHECKWIKI error 8. Add missing = in some headers
             articleText = ReferencesExternalLinksSeeAlsoUnbalancedRight.Replace(articleText, "$1=\r\n");
@@ -297,10 +303,7 @@ namespace WikiFunctions.Parse
            	// only apply if all level 3 headings and lower are before the first of references/external links/see also
             if(Namespace.IsMainSpace(articleTitle))
             {
-                List<string> theHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText)
-                                                        where !ReferencesExternalLinksSeeAlso.IsMatch(m.Value)
-                                                        select m.Value).ToList();
-                if(!theHeadings.Any(s => WikiRegexes.HeadingLevelTwo.IsMatch(s)))
+                if(!customHeadings.Any(s => WikiRegexes.HeadingLevelTwo.IsMatch(s)))
                 {
                     string articleTextLocal = articleText;
                     articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
