@@ -6722,7 +6722,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         /// <returns>The article text possibly using defaultsort.</returns>
         public static string ChangeToDefaultSort(string articleText, string articleTitle, out bool noChange, bool restrictDefaultsortChanges)
         {
-            string testText = articleText;
+            string originalArticleText = articleText;
             noChange = true;
 
             if (NoIncludeIncludeOnlyProgrammingElement(articleText))
@@ -6810,7 +6810,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                     articleText = ExplicitCategorySortkeys(articleText, defaultsortKey);
                 }
             }
-            noChange = testText.Equals(articleText);
+            noChange = originalArticleText.Equals(articleText);
             return articleText;
         }
         
