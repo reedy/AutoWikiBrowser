@@ -6227,7 +6227,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             // Performance check: if article title not in zeroth section have nothing further to do
             if(zerothSection.IndexOf(BracketedAtEndOfLine.Replace(articleTitle, ""), StringComparison.OrdinalIgnoreCase) < 0)
                 return articleTextAtStart;
-            
+
             // 3) '''Emboldens''' the first occurrence of the article title
 
             // ignore date articles (date in American or international format), nihongo title
@@ -6239,13 +6239,14 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             Regex boldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
             Regex boldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
 
-            string articleTextNoInfobox = Tools.ReplaceWithSpaces(articleText, WikiRegexes.InfoBox.Matches(articleText));
-
             // if title in bold already exists in article, or paragraph starts with something in bold, don't change anything
             // ignore any bold in infoboxes
+            if(BoldTitleAlready4.IsMatch(Tools.ReplaceWithSpaces(zerothSection, WikiRegexes.InfoBox.Matches(zerothSection))) || DfnTag.IsMatch(zerothSection))
+                return articleTextAtStart;
+            
+            string articleTextNoInfobox = Tools.ReplaceWithSpaces(articleText, WikiRegexes.InfoBox.Matches(articleText));
             if (boldTitleAlready1.IsMatch(articleTextNoInfobox) || boldTitleAlready2.IsMatch(articleTextNoInfobox)
-                || BoldTitleAlready3.IsMatch(articleTextNoInfobox)
-                || BoldTitleAlready4.IsMatch(Tools.ReplaceWithSpaces(zerothSection, WikiRegexes.InfoBox.Matches(zerothSection))) || DfnTag.IsMatch(zerothSection))
+                || BoldTitleAlready3.IsMatch(articleTextNoInfobox))
                 return articleTextAtStart;
 
             // so no self links to remove, check for the need to add bold
