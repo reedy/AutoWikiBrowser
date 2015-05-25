@@ -771,10 +771,10 @@ namespace WikiFunctions
             return LinkCount(text, 9999999);
         }
 
-		/// <summary>
-		/// Returns a sorted list of duplicate wikilinks in the input text (links converted to first letter upper) in format: name (count)
-		/// </summary>
-		public static List<string> DuplicateWikiLinks(string text)
+        /// <summary>
+        /// Returns a sorted list of duplicate wikilinks in the input text (links converted to first letter upper) in format: name (count)
+        /// </summary>
+        public static List<string> DuplicateWikiLinks(string text)
         {
             List<string> allWikiLinks = new List<string>();
             List<string> dupeWikiLinks = new List<string>();
@@ -785,7 +785,7 @@ namespace WikiFunctions
             // don't count wikilinked dates or targetless links as duplicate links
             // make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
             allWikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(text) 
-                where m.Groups[1].Value.Length > 0 && !WikiRegexes.Dates.IsMatch(m.Groups[1].Value) && !WikiRegexes.Dates2.IsMatch( m.Groups[1].Value) 
+                where m.Groups[1].Value.Length > 0 && !WikiRegexes.Dates.IsMatch(m.Groups[1].Value) && !WikiRegexes.Dates2.IsMatch(m.Groups[1].Value) 
                     select Tools.TurnFirstToUpper(m.Groups[1].Value)).ToList();
 
             // Take all links found and generate dictionary of link name and count for those with more than one link
