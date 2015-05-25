@@ -782,17 +782,15 @@ namespace WikiFunctions
             // ignore links in commented out text etc.
             text = Tools.ReplaceWithSpaces(text, WikiRegexes.UnformattedText.Matches(text));
 
-            // don't count wikilinked dates or targetless links as duplicate links
             // make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
-            allWikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(text) 
-                where m.Groups[1].Value.Length > 0 && !WikiRegexes.Dates.IsMatch(m.Groups[1].Value) && !WikiRegexes.Dates2.IsMatch(m.Groups[1].Value) 
-                    select Tools.TurnFirstToUpper(m.Groups[1].Value)).ToList();
+            allWikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(text) select Tools.TurnFirstToUpper(m.Groups[1].Value)).ToList();
 
             // Take all links found and generate dictionary of link name and count for those with more than one link
             Dictionary<string, int> dupeLinks = allWikiLinks.GroupBy(x => x).Where(g => g.Count() > 1).ToDictionary(x => x.Key, y => y.Count());
 
             // create list of "Name (count)" from Dictionary
-            dupeWikiLinks = dupeLinks.Select(x => x.Key + @" (" + x.Value + @")").ToList();
+            // don't count wikilinked dates or targetless links as duplicate links
+            dupeWikiLinks = dupeLinks.Where(x => x.Key.Length > 0 && !WikiRegexes.Dates.IsMatch(x.Key) && !WikiRegexes.Dates2.IsMatch(x.Key)).Select(x => x.Key + @" (" + x.Value + @")").ToList();
 
             // ensure list is sorted
             dupeWikiLinks.Sort();
