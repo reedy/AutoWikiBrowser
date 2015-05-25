@@ -792,8 +792,7 @@ namespace WikiFunctions
             Dictionary<string, int> dupeLinks = allWikiLinks.GroupBy(x => x).Where(g => g.Count() > 1).ToDictionary(x => x.Key, y => y.Count());
 
             // create list of "Name (count)" from Dictionary
-            foreach(KeyValuePair<string, int> kvp in dupeLinks)
-                dupeWikiLinks.Add(kvp.Key + @" (" + kvp.Value + @")");
+            dupeWikiLinks = dupeLinks.Select(x => x.Key + @" (" + x.Value + @")").ToList();
 
             // ensure list is sorted
             dupeWikiLinks.Sort();
