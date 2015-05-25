@@ -1488,7 +1488,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;\?\!]|$)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@"(?<=(?:/|ref) *)> *" + RefsPunctuation);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation.Replace(@"\!", "") + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;\?\!])" + RefsPunctuation.Replace(@"\!", "") + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
+        private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;\?\!])" + RefsPunctuation.Replace(@"\!", "") + @"\1 *<");
         private static readonly Regex Footnote = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnb", "Sfnp", "Sfnm", "SfnRef", "Rp"});
         private static readonly Regex PunctuationAfterFootnote = new Regex(@"(?<sfn>" + Footnote + @")(?<punc>[,\.;:\?\!])");
         private static readonly Regex FootnoteAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation + @"\2 *(?<sfn>" + Footnote + @")");
