@@ -436,6 +436,7 @@ en, sq, ru
 			string articleTextNoComments = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments.Matches(articleText));
 
 			// don't operate on pages with (incorrectly) multiple defaultsorts
+            // ignore commented out DEFAULTSORT – https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Moving_DEFAULTSORT_in_HTML_comments
 			MatchCollection mc = WikiRegexes.Defaultsort.Matches(articleTextNoComments);
 			if (mc.Count > 1)
 				return "";
@@ -487,12 +488,8 @@ en, sq, ru
 			{
 				defaultSort = LifeTime.Match(articleText).Value;
 			}
-			else
-			{
-				// ignore commented out DEFAULTSORT – https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Moving_DEFAULTSORT_in_HTML_comments
-				if (mc.Count > 0)
+			else if(mc.Count > 0)
 					defaultSort = mc[0].Value;
-			}
 
 			if (!string.IsNullOrEmpty(defaultSort))
 			{
