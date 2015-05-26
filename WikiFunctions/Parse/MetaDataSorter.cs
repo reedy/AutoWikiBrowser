@@ -431,14 +431,14 @@ en, sq, ru
 		    if(rt.Length > 0 && WikiRegexes.Category.IsMatch(@"[[" + rt + @"]]"))
 				return "";
 
-			// don't operate on pages with (incorrectly) multiple defaultsorts
-			MatchCollection mc = WikiRegexes.Defaultsort.Matches(articleText);
-			if (mc.Count > 1)
-				return "";
-
 			List<string> categoryList = new List<string>();
 			string originalArticleText = articleText;
-			string articleTextNoComments = WikiRegexes.Comments.Replace(articleText, "");
+			string articleTextNoComments = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments.Matches(articleText));
+
+			// don't operate on pages with (incorrectly) multiple defaultsorts
+			MatchCollection mc = WikiRegexes.Defaultsort.Matches(articleTextNoComments);
+			if (mc.Count > 1)
+				return "";
 
 			// allow comments between categories, and keep them in the same place, only grab any comment after the last category if on same line
 			// whitespace: remove all whitespace after, but leave a blank newline before a heading (rare case where category not in last section)
@@ -490,7 +490,7 @@ en, sq, ru
 			else
 			{
 				// ignore commented out DEFAULTSORT – https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Moving_DEFAULTSORT_in_HTML_comments
-				if (mc.Count > 0 && WikiRegexes.Defaultsort.Matches(articleTextNoComments).Count == mc.Count)
+				if (mc.Count > 0)
 					defaultSort = mc[0].Value;
 			}
 
