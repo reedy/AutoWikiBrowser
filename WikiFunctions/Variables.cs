@@ -137,7 +137,7 @@ namespace WikiFunctions
         #region project and language settings
 
         /// <summary>
-        /// Provides access to the en namespace keys
+        /// Provides access to the en namespace keys e.g. Category:
         /// </summary>
         public static readonly Dictionary<int, string> CanonicalNamespaces = new Dictionary<int, string>(20);
 
@@ -147,7 +147,7 @@ namespace WikiFunctions
         public static readonly Dictionary<int, List<string>> CanonicalNamespaceAliases;
 
         /// <summary>
-        /// Provides access to the namespace keys
+        /// Provides access to the namespace keys e.g. Category:
         /// </summary>
         public static Dictionary<int, string> Namespaces = new Dictionary<int, string>(40);
 
