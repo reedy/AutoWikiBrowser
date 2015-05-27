@@ -2850,10 +2850,12 @@ namespace WikiFunctions.Parse
             // remove any text after first space, so we're left with tag name only
             AnyTagList = AnyTagList.Select(s => s.Contains(" ") ? s.Substring(0, s.IndexOf(" ")).Trim() : s).ToList();
 
-            // Count the tag names in use, discard <br> tags as not a tag pair
-            // determine if unmatched tags by comparing count of opening and closing tags
+            // discard <br> and <p> tags as not a tag pair
+            AnyTagList.Where(s => !s.Equals("br") && !s.Equals("p")).ToList();
+
+            // Count the tag names in use, determine if unmatched tags by comparing count of opening and closing tags
             bool unmatched = false;
-            Dictionary<string, int> tagCounts = AnyTagList.Where(s => !s.Equals("br")).GroupBy(x => x).ToDictionary(x => x.Key, y => y.Count());
+            Dictionary<string, int> tagCounts = AnyTagList.GroupBy(x => x).ToDictionary(x => x.Key, y => y.Count());
             foreach(KeyValuePair<string, int> kvp in tagCounts)
             {
                 int matchedCount = 0;
