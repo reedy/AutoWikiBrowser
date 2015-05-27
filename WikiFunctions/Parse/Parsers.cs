@@ -3727,11 +3727,11 @@ namespace WikiFunctions.Parse
             if(SimpleTagsList.Any(s => (s.Contains("br") && !s.Equals("<br>") && !s.Equals("<br/>"))))
                 articleText = IncorrectBr.Replace(articleText, "<br />");
 
-            articleText = IncorrectBr2.Replace(articleText, m=>
+            articleText = IncorrectBr2.Replace(articleText, m =>
                                                 {
                                                     if(m.Groups[1].Value == "left")
                                                         return "{{clear|left}}";
-                                                    else if(m.Groups[1].Value == "right")
+                                                    if(m.Groups[1].Value == "right")
                                                         return "{{clear|right}}";
 
                                                     return "{{clear}}";
@@ -3833,18 +3833,19 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixSyntaxRedirects(string articleText)
         {
-            articleText = WikiRegexes.Redirect.Replace(articleText, m => {
-                                                                      string res = m.Value.Replace("\r\n", " ");
-                                                                      res = res.Replace("[[[[", "[[");
-                                                                      res = res.Replace("]]]]", "]]");
-                                                                      res = res.Replace("[[[", "[[");
-                                                                      res = res.Replace("]]]", "]]");
-                                                                      res = res.Replace("= [[", " [[");
-                                                                      res = res.Replace("=[[", " [[");
-                                                                      res = res.Replace(": [[", " [[");
-                                                                      return res.Replace(":[[", " [[");
+            articleText = WikiRegexes.Redirect.Replace(articleText, m =>
+            {
+                return m.Value.Replace("\r\n", " ")
+                    .Replace("[[[[", "[[")
+                    .Replace("]]]]", "]]")
+                    .Replace("[[[", "[[")
+                    .Replace("]]]", "]]")
+                    .Replace("= [[", " [[")
+                    .Replace("=[[", " [[")
+                    .Replace(": [[", " [[")
+                    .Replace(":[[", " [[");
 
-        	                                            });
+            });
 
             articleText = Tools.TemplateToMagicWord(articleText);
 
