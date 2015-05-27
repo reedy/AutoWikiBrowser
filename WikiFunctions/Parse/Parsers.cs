@@ -2850,31 +2850,19 @@ namespace WikiFunctions.Parse
             // remove any text after first space, so we're left with tag name only
             AnyTagList = AnyTagList.Select(s => s.Contains(" ") ? s.Substring(0, s.IndexOf(" ")).Trim() : s).ToList();
 
-            // get the distinct tag names in use, discard <br> tags as not a tag pair
-            List<string> DistinctTags = Tools.DeduplicateList(AnyTagList).Where(s => !s.Equals("br")).ToList();
-
+            // Count the tag names in use, discard <br> tags as not a tag pair
             // determine if unmatched tags by comparing count of opening and closing tags
             bool unmatched = false;
-            foreach(string d in DistinctTags)
+            Dictionary<string, int> tagCounts = AnyTagList.Where(s => !s.Equals("br")).GroupBy(x => x).ToDictionary(x => x.Key, y => y.Count());
+            foreach(KeyValuePair<string, int> kvp in tagCounts)
             {
-                int startTagCount, endTagCount;
+                int matchedCount = 0;
+                string othertag = kvp.Key.StartsWith("/") ? kvp.Key.TrimStart('/') : "/" + kvp.Key;
+                if(tagCounts.TryGetValue(othertag, out matchedCount) && matchedCount == kvp.Value)
+                    continue;
 
-                if(d.StartsWith("/"))
-                {
-                    endTagCount = AnyTagList.Where(s => s.Equals(d)).Count();
-                    startTagCount = AnyTagList.Where(s => s.Equals(d.TrimStart('/'))).Count();
-                }
-                else
-                {
-                    endTagCount = AnyTagList.Where(s => s.Equals("/" + d)).Count();
-                    startTagCount = AnyTagList.Where(s => s.Equals(d)).Count();
-                }
-
-                if(startTagCount != endTagCount)
-                {
-                    unmatched = true;
-                    break;
-                }
+                unmatched = true;
+                break;
             }
 
             // check for any unmatched tags or unclosed part tag
