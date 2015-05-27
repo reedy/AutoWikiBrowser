@@ -7504,7 +7504,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             return newText;
         }
 
-        private static readonly Regex MultipleIssuesUndatedTags = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*)?|\|)\s*)(?![Ee]xpert)" + WikiRegexes.MultipleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of date)", RegexOptions.Compiled);
         private static readonly Regex NoFootnotes = Tools.NestedTemplateRegex("no footnotes");
         private static readonly Regex ConversionsCnCommons = Tools.NestedTemplateRegex( new [] {"citation needed", "commons", "commons cat", "commons category" });
