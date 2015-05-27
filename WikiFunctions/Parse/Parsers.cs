@@ -2821,12 +2821,13 @@ namespace WikiFunctions.Parse
         private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<!--|(<\s*/?\s*(?:math|(?:source|ref|gallery)\b[^>]*|code|nowiki|pre|small|center|sup|sub)\s*(?:>|$))", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SmallStart = new Regex(@"<\s*small\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex SmallEnd = new Regex(@"<\s*/\s*small\s*>", RegexOptions.IgnoreCase);
-        private static readonly Regex SmallNoNestedTags = new Regex(@"<\s*small\s*>((?>[^<>]*|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex CenterTag = new Regex(@"<\s*center\s*>((?>(?!<\s*/?\s*center\s*>).|<\s*center\s*>(?<DEPTH>)|<\s*/\s*center\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*center\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         private static readonly Regex SupTag = new Regex(@"<\s*sup\s*>((?>(?!<\s*/?\s*sup\s*>).|<\s*sup\s*>(?<DEPTH>)|<\s*/\s*sup\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*sup\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         private static readonly Regex SubTag = new Regex(@"<\s*sub\s*>((?>(?!<\s*/?\s*sub\s*>).|<\s*sub\s*>(?<DEPTH>)|<\s*/\s*sub\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*sub\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         private static readonly Regex AnyTag = new Regex(@"<([^<>]+)>");
         private static readonly Regex TagToEnd = new Regex(@"<[^>]+$");
+        private static readonly Regex SimpleTagPair = new Regex(@"<([^<>]+)>[^<>]+</\1>");
+
         /// <summary>
         ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt;, &lt;pre&gt; &lt;center&gt; &lt;sup&gt; &lt;sub&gt; or &lt;gallery&gt; tags and comments
         /// </summary>
@@ -2836,7 +2837,7 @@ namespace WikiFunctions.Parse
         {
             Dictionary<int, int> back = new Dictionary<int, int>();
 
-            // Peformance: get all tags, compare the count of matched tags of same name
+            // Performance: get all tags, compare the count of matched tags of same name
             // Then do full tag search if unmatched tags found
 
             // get all tags in format <tag...> in article
@@ -2881,29 +2882,29 @@ namespace WikiFunctions.Parse
                 return back;
             
             // if here then have some unmatched tags, so do full clear down and search
-
-            // clear out all the matched tags: performance of Refs/SourceCode is better if IgnoreCase avoided
-            articleText = articleText.ToLower();
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
-            articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.SourceCode.ToString(), RegexOptions.Singleline));
-            articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.Refs.ToString(), RegexOptions.Singleline));
-            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.GalleryTag, 2);
-            articleText = Tools.ReplaceWithSpaces(articleText, CenterTag, 2);
-            articleText = Tools.ReplaceWithSpaces(articleText, SupTag, 2);
-            articleText = Tools.ReplaceWithSpaces(articleText, SubTag, 2);
-            
-            // some (badly done) List of pages can have hundreds of unclosed small tags, causes WikiRegexes.Small to backtrack a lot
-            // so workaround solution: if > 10 unclosed small tags, only remove small tags without other tags embedded in them
-            // Workaround constraint: we might incorrectly report some valid small tags with < or > in them as unclosed
-            int smallstart = SmallStart.Matches(articleText).Count;
-            if(smallstart > 0)
+
+            // some (badly done) List of pages can have hundreds of unclosed small or center tags, causes regex bactracking when using <DEPTH>
+            // so workaround solution: if > 10 unclosed tags, only remove tags without other tags embedded in them
+            // Workaround constraint: we might incorrectly report some valid tags with < or > in them as unclosed
+            if(AnyTagList.Where(s => !s.StartsWith("/")).Count() > (AnyTagList.Where(s => s.StartsWith("/")).Count() + 10))
             {
-                if(smallstart > (SmallEnd.Matches(articleText).Count + 5))
-                    articleText = Tools.ReplaceWithSpaces(articleText, SmallNoNestedTags);
-                else
-                    articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Small);
+                while(SimpleTagPair.IsMatch(articleText))
+                    articleText = Tools.ReplaceWithSpaces(articleText, SimpleTagPair);
+            } 
+            else
+            {
+                // Comprehensive check. Clear out all the matched tags: performance of Refs/SourceCode is better if IgnoreCase avoided
+                articleText = articleText.ToLower();
+                articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.SourceCode.ToString(), RegexOptions.Singleline));
+                articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.Refs.ToString(), RegexOptions.Singleline));
+                articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.GalleryTag, 2);
+                articleText = Tools.ReplaceWithSpaces(articleText, CenterTag, 2);
+                articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Small);
+                articleText = Tools.ReplaceWithSpaces(articleText, SupTag, 2);
+                articleText = Tools.ReplaceWithSpaces(articleText, SubTag, 2);
             }
-            
+
             foreach (Match m in MathSourceCodeNowikiPreTag.Matches(articleText))
             {
                 back.Add(m.Index, m.Length);
