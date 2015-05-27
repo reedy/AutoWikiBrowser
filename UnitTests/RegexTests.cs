@@ -1530,7 +1530,7 @@ words2"));
         }
 
         [Test]
-        public void ArticleIssuesTests()
+        public void MultipleIssuesTests()
         {
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"),"with space");
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues|wikify=May 2008|a=b|c=d}}"), "unspaced");
@@ -1541,18 +1541,17 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|}}"),"empty");
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues}}"), "empty too");
 
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{ multiple issues|wikify=May 2008|a=b|c=d}}"));
 
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{ multiple issues|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|orphan={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|c=d}}"));
 
             // no matches
             Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{ARTICLEISSUES }}"));
-            Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{Bert|Articleissues }}"));
+            Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{Bert|Multipleissues }}"));
         }
 
         [Test]
-        public void ArticleIssuesTemplatesTests()
+        public void MultipleIssuesTemplatesTests()
         {
             //dated
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{abbreviations|date =  April 2009}}"));
@@ -1671,194 +1670,10 @@ words2"));
 
             //undated
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{abbreviations}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{autobiography}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{biased}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{blpdispute}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{BLP sources}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{BLPsources}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{BLP IMDB refimprove}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{citations missing}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{citationstyle}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{citation style}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{citecheck}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cite check}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup-laundry}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup-reorganize}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup-spam}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{COI}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{colloquial}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{confusing}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{context}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{contradict}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{copyedit}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{criticism section}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{criticisms}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{crystal}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{deadend}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{disputed}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{do-attempt}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{essay}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{examplefarm}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{example farm}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{expand}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{expert-subject}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{external links}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{fancruft}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{fanpov}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{fansite}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{fiction}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{game guide}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{gameguide}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{globalize}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{grammar}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{histinfo}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{hoax}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{howto}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{inappropriate person}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{in-universe}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{incomplete}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{intro length}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{intromissing}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{introrewrite}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{intro-toolong}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{intro-tooshort}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup-jargon}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{laundrylists}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{lead too long}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{lead too short}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{likeresume}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{like resume}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{long}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{more footnotes}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{newsrelease}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{news release}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{notable}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{notability}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{onesource}}"));
-
             Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{OR}}"));
-
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{orphan}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{overly detailed}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{over-quotation}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{peacock}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{plot}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{POV}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{primarysources}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{prose}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{proseline}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{quotefarm}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{recent}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{refimprove}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{restructure}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{review}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{rewrite}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{sections}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{self-published}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{spam}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{story}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{synthesis}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{tone}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{tooshort}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{travelguide}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{travel guide}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{trivia}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unbalanced}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unencyclopedic}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreferenced}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreliable sources}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{update}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{weasel}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{wikify}}"));
 
             //undated, first letter capital
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Abbreviations}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Advert}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Autobiography}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Biased}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Blpdispute}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Citations missing}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Citationstyle}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Citecheck}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Cleanup}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Colloquial}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Confusing}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Context}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Contradict}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Copyedit}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Criticisms}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Crystal}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Deadend}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Disputed}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Do-attempt}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Essay}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Examplefarm}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Expand}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{External links}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Fancruft}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Fanpov}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Fansite}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Fiction}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Gameguide}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Globalize}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Grammar}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Histinfo}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Hoax}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Howto}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Inappropriate person}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{In-universe}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Incomplete}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Intro length}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Intromissing}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Introrewrite}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Intro-toolong}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Intro-tooshort}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Cleanup-jargon}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Laundrylists}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Likeresume}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Likeresume}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Long}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Verylong}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{very long}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{No footnotes}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{More footnotes}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Newsrelease}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Notable}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Onesource}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Orphan}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Overly detailed}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Over-quotation}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Peacock}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Plot}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Primarysources}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Primary sources}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Prose}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Proseline}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Quotefarm}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Recent}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Refimprove}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Restructure}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Review}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Rewrite}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Sections}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Self-published}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Spam}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Story}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Synthesis}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Tone}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Tooshort}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Travelguide}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Trivia}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unbalanced}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unencyclopedic}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unreferenced}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unreliable sources}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Update}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Weasel}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Wikify}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Coi}}"));
 
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{BLP unsourced}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{BLPunsourced}}"));
