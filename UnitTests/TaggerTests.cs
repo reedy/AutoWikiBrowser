@@ -1589,13 +1589,8 @@ Chris.";
         }
 
         [Test]
-        public void ArticleIssuesDates()
+        public void MultipleIssuesDates()
         {
-            // addition of date
-            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|underlinked={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI=May 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|underlinked|COI=May 2008}}"));
-
-            // multiple dates
-            Assert.AreEqual(@"{{Multiple issues|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|copyedit={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|external links=June 2009}}", Parsers.Conversions(@"{{Multiple issues|wikify|copyedit|external links=June 2009}}"));
 
             // removal of date word
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand date=March 2009|POV=May 2008}}"));

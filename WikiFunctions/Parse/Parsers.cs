@@ -7567,9 +7567,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                                                              {
                                                                  return Tools.RemoveExcessTemplatePipes(m.Value);
                                                              });
-                // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)
-                while (MultipleIssuesUndatedTags.IsMatch(articleText))
-                    articleText = MultipleIssuesUndatedTags.Replace(articleText, "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
 
                 // clean any 'date' word within {{Multiple issues}} (but not 'update' or 'out of date' fields), place after the date adding rule above (loop due to lookbehind in regex)
                 while (MultipleIssuesDateRemoval.IsMatch(articleText))
