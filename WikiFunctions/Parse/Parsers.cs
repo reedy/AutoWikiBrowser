@@ -3813,6 +3813,10 @@ namespace WikiFunctions.Parse
             return (@"[" + externalLink + @"]");
         }
 
+        private static readonly Regex RedirectBracketsWithPrefix = new Regex(@"[=:] ?\[\[", RegexOptions.Compiled);
+        private static readonly Regex TooManyOpenSquareBrackets = new Regex(@"\[{3,4}", RegexOptions.Compiled);
+        private static readonly Regex TooManyCloseSquareBrackets = new Regex(@"\]{3,4}", RegexOptions.Compiled);
+
         /// <summary>
         /// Performs fixes to redirect pages:
         /// * removes newline between #REDIRECT and link (CHECKWIKI error 36)
@@ -3824,22 +3828,13 @@ namespace WikiFunctions.Parse
         public static string FixSyntaxRedirects(string articleText)
         {
             articleText = WikiRegexes.Redirect.Replace(articleText, m =>
-            {
-                return m.Value.Replace("\r\n", " ")
-                    .Replace("[[[[", "[[")
-                    .Replace("]]]]", "]]")
-                    .Replace("[[[", "[[")
-                    .Replace("]]]", "]]")
-                    .Replace("= [[", " [[")
-                    .Replace("=[[", " [[")
-                    .Replace(": [[", " [[")
-                    .Replace(":[[", " [[");
-
-            });
+                TooManyCloseSquareBrackets.Replace(
+                    TooManyOpenSquareBrackets.Replace(
+                        RedirectBracketsWithPrefix.Replace(m.Value.Replace("\r\n", " "), " [["), "[["), "]]"));
 
             articleText = Tools.TemplateToMagicWord(articleText);
 
-        	return RemoveTemplateNamespace(articleText);
+            return RemoveTemplateNamespace(articleText);
         }
 
         /// <summary>
