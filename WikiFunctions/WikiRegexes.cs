@@ -186,9 +186,6 @@ namespace WikiFunctions
             string uncattemplate = UncatTemplatesEN;
             switch(Variables.LangCode)
             {
-                case "an":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "Destacato", "Destacau" });
-                    break;
                 case "ar":
                     Orphan = Tools.NestedTemplateRegex(@"يتيمة");
                     uncattemplate = UncatTemplatesAR;
