@@ -3985,7 +3985,7 @@ x
             Assert.IsTrue(uct.ContainsValue(8));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <center> <center>a</center> not ended");
-            Assert.AreEqual(uct.Count, 1, "center doubel");
+            Assert.AreEqual(uct.Count, 1, "center double");
             Assert.IsTrue(uct.ContainsKey(15),"center key");
             Assert.IsTrue(uct.ContainsValue(8),"center value");
 
@@ -4065,6 +4065,13 @@ x
             uct = Parsers.UnclosedTags(@"<gallery>A|<div><small>(1717)</small><br/><small><small>Munich</small></div></gallery>");
             Assert.AreEqual(uct.Count, 1, "small div");
             Assert.IsTrue(uct.ContainsKey(42));
+
+            uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small>");
+            Assert.AreEqual(uct.Count, 12, "multiple unclosed small");
+            uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small> <!-- <math> -->");
+            Assert.AreEqual(uct.Count, 12, "multiple unclosed small, ignore comments");
+            uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small> <small>></small>");
+            Assert.AreEqual(uct.Count, 14, "multiple unclosed small, but counts tag containing >");
         }
 
         [Test]
