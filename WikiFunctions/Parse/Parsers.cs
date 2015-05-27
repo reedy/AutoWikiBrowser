@@ -370,9 +370,7 @@ namespace WikiFunctions.Parse
             // Removes bold from level 3 headers and below, as it makes no visible difference
             hAfter = RegexHeadingWithBold.Replace(hAfter, "$1");
 
-            hAfter = WikiRegexes.EmptyBold.Replace(hAfter, "");
-
-            return hAfter;
+            return WikiRegexes.EmptyBold.Replace(hAfter, "");
         }
 
         private const int MinCleanupTagsToCombine = 2; // article must have at least this many tags to combine to {{multiple issues}}
@@ -404,8 +402,6 @@ namespace WikiFunctions.Parse
             if (MICall.Length > 10 && (Tools.GetTemplateParameterValue(MICall, "expert").Length == 0 ||
                                        MonthYear.IsMatch(Tools.GetTemplateParameterValue(MICall, "expert"))))
                 articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
-
-            string newTags = "";
 
             // get the zeroth section (text upto first heading)
             string zerothSection = Tools.GetZerothSection(articleText);
@@ -441,6 +437,8 @@ namespace WikiFunctions.Parse
 
                 return MultipleIssuesBLPUnreferenced(articleText);
             }
+
+            string newTags = "";
 
             foreach (Match m in WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection))
             {
@@ -837,22 +835,20 @@ namespace WikiFunctions.Parse
             if (Portals.Count == 0)
                 return articleText;
 
-            // generate portal string
-            string PortalsToAdd = "";
-            foreach (string portal in Portals)
-                PortalsToAdd += ("|" + portal.Trim());
-
             // merge in new portal if multiple portals
             if (Portals.Count < 2)
                 return originalArticleText;
 
+            // generate portal string
+            string portalsToAdd = Portals.Aggregate("", (current, portal) => current + ("|" + portal.Trim()));
+
             // first merge to see also section
             if (WikiRegexes.SeeAlso.Matches(articleText).Count == 1)
-                return WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal" + PortalsToAdd + @"}}"));
+                return WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal" + portalsToAdd + @"}}"));
 
             // otherwise merge to original location if all portals in same section
             if (Summary.ModifiedSection(originalArticleText, articleText).Length > 0)
-                return articleText.Insert(firstPortal, @"{{Portal" + PortalsToAdd + @"}}" + "\r\n");
+                return articleText.Insert(firstPortal, @"{{Portal" + portalsToAdd + @"}}" + "\r\n");
 
             return originalArticleText;
         }
@@ -1506,11 +1502,11 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             string articleTextOriginal = articleText;
-            bool HasFootnote = Footnote.IsMatch(articleText);
+            bool hasFootnote = Footnote.IsMatch(articleText);
 
             articleText = RefsBeforePunctuation(articleText);
 
-            if(HasFootnote)
+            if(hasFootnote)
             {
                 while(PunctuationAfterFootnote.IsMatch(articleText))
                 {
@@ -1522,7 +1518,7 @@ namespace WikiFunctions.Parse
             // clean duplicate punctuation before ref, not for !!, could be part of wiki table
             if(RefsAfterDupePunctuationQuick.IsMatch(articleText))
                 articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
-            if(HasFootnote && FootnoteAfterDupePunctuationQuick.IsMatch(articleText))
+            if(hasFootnote && FootnoteAfterDupePunctuationQuick.IsMatch(articleText))
                 articleText = FootnoteAfterDupePunctuation.Replace(articleText, "$1$2${sfn}");
 
             // if there have been changes need to call FixReferenceTags in case punctation moved didn't have witespace after it  
@@ -3201,12 +3197,7 @@ namespace WikiFunctions.Parse
 
         private static string FixReferenceTagsME(Match m)
         {
-            string newValue = m.Value;
-
-            foreach (RegexReplacement rr in RefSimple)
-                newValue = rr.Regex.Replace(newValue, rr.Replacement);
-
-            return newValue;
+            return RefSimple.Aggregate(m.Value, (current, rr) => rr.Regex.Replace(current, rr.Replacement));
         }
 
         // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
@@ -3688,15 +3679,15 @@ namespace WikiFunctions.Parse
                 articleText = SupOrdinal.Replace(articleText, @"$1$2");
 
             //CHECKWIKI error 86
-            bool DoubleBracketHTTP = articleText.IndexOf("[[http", StringComparison.OrdinalIgnoreCase) > -1;
-            if(DoubleBracketHTTP)
+            bool doubleBracketHttp = articleText.IndexOf("[[http", StringComparison.OrdinalIgnoreCase) > -1;
+            if(doubleBracketHttp)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
             // if there are some unbalanced brackets, see whether we can fix them
             articleText = FixUnbalancedBrackets(articleText);
 
             //fix uneven bracketing on links
-            if(DoubleBracketHTTP)
+            if(doubleBracketHttp)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
             nobrackets = SingleSquareBrackets.Replace(articleText, "");
@@ -3896,10 +3887,7 @@ namespace WikiFunctions.Parse
                 // don't apply if there are uncosed tags
                 if (UnclosedTags(articleText).Count == 0)
                 {
-                    foreach(Regex rx in SmallTagRegexes)
-                    {
-                        articleText = rx.Replace(articleText, FixSmallTagsME);
-                    }
+                    articleText = SmallTagRegexes.Aggregate(articleText, (current, rx) => rx.Replace(current, FixSmallTagsME));
 
                     // fixes for small tags surrounding ref/sup/sub tags
                     articleText = WikiRegexes.Small.Replace(articleText, FixSmallTagsME2);
