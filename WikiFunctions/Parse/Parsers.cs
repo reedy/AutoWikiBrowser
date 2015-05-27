@@ -7194,7 +7194,8 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             // birth
             if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1
-                                                                     || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
+                                                                     || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection)
+                                                                     || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
                                                                      || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
             {
                 // look for '{{birth date...' template first
@@ -7428,12 +7429,12 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
 
             dateandage = AgeBrackets.Replace(dateandage, "");
 
-            bool AmericanDate = WikiRegexes.AmericanDates.IsMatch(dateandage);
-
             string ISODate = Tools.ConvertDate(dateandage, DateLocale.ISO);
 
             if (ISODate.Equals(dateandage) && !WikiRegexes.ISODates.IsMatch(dateandage))
                 return original;
+
+            bool AmericanDate = WikiRegexes.AmericanDates.IsMatch(dateandage);
 
             // we have ISO date, convert with {{birth date and age}}, American date, set mf=y
             return @"{{birth date and age|" + (AmericanDate ? "mf=y|" : "df=y|") + ISODate.Replace("-", "|") + @"}}";
@@ -7506,7 +7507,7 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             articleText = articleText.Replace("{{msg:", "{{");
 
             // Performance: get all the templates so template changing functions below only called when template(s) present in article
-            List<string> alltemplates = Parsers.GetAllTemplates(articleText);
+            List<string> alltemplates = GetAllTemplates(articleText);
 
             bool mifound = TemplateExists(alltemplates, WikiRegexes.MultipleIssues);
 
@@ -7639,7 +7640,6 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                 newValue = Tools.RemoveTemplateParameter(newValue, "section");
                 newValue = Tools.RenameTemplate(Regex.Replace(newValue, @"\|\s*type\s*=\s*[Ss]ection\s*\|", "|"), existingName + " section");
             }
-
 
             // for {{Unreferenced}} additionally convert list parameter
             if (existingName.ToLower().Equals("unreferenced") && Tools.GetTemplateArgument(newValue, 1).Equals("list"))
@@ -8746,36 +8746,36 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
             if (Namespace.IsMainSpace(articleTitle) && !Namespace.IsMainSpace(redirecttarget) && !WikiRegexes.NestedTemplates.IsMatch(articleText))
             {
                 string template;
-                
+
                 switch (Namespace.Determine(redirecttarget))
                 {
-                    case Namespace.Project :
+                    case Namespace.Project:
                         template = "{{R to project namespace}}";
                         break;
-                    case Namespace.Help :
+                    case Namespace.Help:
                         template = "{{R to help namespace}}";
                         break;
-                    case Namespace.FirstCustom :
+                    case Namespace.FirstCustom:
                         template = "{{R to portal namespace}}";
                         break;
-                    case Namespace.Category :
+                    case Namespace.Category:
                         template = "{{R to category namespace}}";
                         break;
-                    case Namespace.Template :
+                    case Namespace.Template:
                         template = "{{R to template namespace}}";
                         break;
-                    case Namespace.User :
+                    case Namespace.User:
                         template = "{{R to user namespace}}";
                         break;
-                    case Namespace.Talk :
+                    case Namespace.Talk:
                         template = "{{R to talk namespace}}";
                         break;
 
-                        default :
-                            template = "{{R to other namespace}}";
+                    default:
+                        template = "{{R to other namespace}}";
                         break;
                 }
-                
+
                 return (articleText + " " + template);
             }
 
