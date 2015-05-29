@@ -840,7 +840,7 @@ namespace WikiFunctions.Parse
                 return originalArticleText;
 
             // generate portal string
-            string portalsToAdd = Portals.Aggregate("", (current, portal) => current + ("|" + portal.Trim()));
+            string portalsToAdd = Portals.Aggregate("", (current, portal) => current + ("|" + portal));
 
             // first merge to see also section
             if (WikiRegexes.SeeAlso.Matches(articleText).Count == 1)
