@@ -7833,13 +7833,9 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                 // templates may add categories to page that are not [[Category...]] links, so use API call for accurate Category count
                 if(totalCategories == 0)
                     totalCategories = RegularCategories(CategoryProv.MakeList(new[] { articleTitle })).Count;
-
-                // If no mainspace links found, use API call to get link count (filter to mainspace links only), as we will not be counting any links transcluded from templates
-                if(wikiLinkCount == 0)
-                    wikiLinkCount = LinksOnPageProv.MakeList(new[] { articleTitle }).Where(l => (l.NameSpaceKey == Namespace.Mainspace)).Count();
             }
 
-            // remove dead end if > 0 wikilinks on page
+            // remove dead end if > 0 explicit wikilinks on page (don't count any links transcluded from templates)
             if (wikiLinkCount > 0 && WikiRegexes.DeadEnd.IsMatch(templates))
             {
                 if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
@@ -8036,50 +8032,59 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
                                                             });
                 }
             }
-
+            
             if (wikiLinkCount == 0 &&
                 !WikiRegexes.DeadEnd.IsMatch(articleText) &&
                 !WikiRegexes.SIAs.IsMatch(templates) &&
                 !WikiRegexes.NonDeadEndPageTemplates.IsMatch(templates) &&
-                !WikiRegexes.MeaningsOfMinorPlanetNames.IsMatch(articleTitle)
+                !WikiRegexes.MeaningsOfMinorPlanetNames.IsMatch(articleTitle)                
                )
             {
-                // add dead-end tag
-                // no blank line between dead end and orphan tags for ar/arz
-                if (Variables.LangCode.Equals("ar"))
+                int apilinks = 0;
+
+                if (!Globals.UnitTestMode)
+                    apilinks = LinksOnPageProv.MakeList(new[] { articleTitle }).Where(l => (l.NameSpaceKey == Namespace.Mainspace)).Count();
+
+                // for dead end addition, use API call to get wikilink count (filter to mainspace links only), so we do count any links transcluded from templates
+                if(apilinks == 0)
                 {
-                    articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n" + (WikiRegexes.Orphan.IsMatch(articleText) ? "" : "\r\n") + articleText;
-                    tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
-                    // if dead end then remove underlinked/wikify
-                    if(WikiRegexes.Wikify.IsMatch(articleText))
+                    // add dead-end tag
+                    // no blank line between dead end and orphan tags for ar/arz
+                    if (Variables.LangCode.Equals("ar"))
                     {
-                        articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
-                        tagsRemoved.Add("ويكي");
+                        articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n" + (WikiRegexes.Orphan.IsMatch(articleText) ? "" : "\r\n") + articleText;
+                        tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
+                        // if dead end then remove underlinked/wikify
+                        if(WikiRegexes.Wikify.IsMatch(articleText))
+                        {
+                            articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
+                            tagsRemoved.Add("ويكي");
+                        }
                     }
-                }
-                else if (Variables.LangCode.Equals("arz"))
-                {
-                    articleText = "{{نهايه مسدوده|" + WikiRegexes.DateYearMonthParameter + "}}\r\n" + articleText;
-                    tagsAdded.Add("[[:قالب:نهايه مسدوده|نهايه مسدوده]]");
-                    // if dead end then remove underlinked
-                    if(WikiRegexes.Wikify.IsMatch(articleText))
+                    else if (Variables.LangCode.Equals("arz"))
                     {
-                        articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
-                        tagsRemoved.Add("ويكى");
+                        articleText = "{{نهايه مسدوده|" + WikiRegexes.DateYearMonthParameter + "}}\r\n" + articleText;
+                        tagsAdded.Add("[[:قالب:نهايه مسدوده|نهايه مسدوده]]");
+                        // if dead end then remove underlinked
+                        if(WikiRegexes.Wikify.IsMatch(articleText))
+                        {
+                            articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
+                            tagsRemoved.Add("ويكى");
+                        }
                     }
-                }
-                else if (Variables.LangCode != "sv" && !WikiRegexes.Centuryinbox.IsMatch(articleText)
-                         && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b")
-                         && !MinorPlanetListFooter.IsMatch(articleText))
-                {
-                    // Don't add excess newlines between new tags
-                    articleText = "{{Dead end|" + WikiRegexes.DateYearMonthParameter + "}}" + (tagsAdded.Count > 0 ? "\r\n" : "\r\n\r\n") + articleText;
-                    tagsAdded.Add("[[CAT:DE|deadend]]");
-                    // if dead end then remove underlinked
-                    if(articleText.IndexOf("underlinked", StringComparison.OrdinalIgnoreCase) > -1)
+                    else if (Variables.LangCode != "sv" && !WikiRegexes.Centuryinbox.IsMatch(articleText)
+                             && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b")
+                             && !MinorPlanetListFooter.IsMatch(articleText))
                     {
-                        articleText = Tools.NestedTemplateRegex("underlinked").Replace(articleText, "").TrimStart();
-                        tagsRemoved.Add("underlinked");
+                        // Don't add excess newlines between new tags
+                        articleText = "{{Dead end|" + WikiRegexes.DateYearMonthParameter + "}}" + (tagsAdded.Count > 0 ? "\r\n" : "\r\n\r\n") + articleText;
+                        tagsAdded.Add("[[CAT:DE|deadend]]");
+                        // if dead end then remove underlinked
+                        if(articleText.IndexOf("underlinked", StringComparison.OrdinalIgnoreCase) > -1)
+                        {
+                            articleText = Tools.NestedTemplateRegex("underlinked").Replace(articleText, "").TrimStart();
+                            tagsRemoved.Add("underlinked");
+                        }
                     }
                 }
             }
