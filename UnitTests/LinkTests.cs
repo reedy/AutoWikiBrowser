@@ -4072,6 +4072,8 @@ x
             Assert.AreEqual(uct.Count, 12, "multiple unclosed small, ignore comments");
             uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small> <small>></small>");
             Assert.AreEqual(uct.Count, 14, "multiple unclosed small, but counts tag containing >");
+            uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small> <ref name=fo>a</ref> <gallery param=a>b</gallery>");
+            Assert.AreEqual(uct.Count, 12, "multiple unclosed small, don't count ref/gallery with params");
         }
 
         [Test]
