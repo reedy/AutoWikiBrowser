@@ -2868,7 +2868,11 @@ namespace WikiFunctions.Parse
                 return back;
             
             // if here then have some unmatched tags, so do full clear down and search
+            // performance of Refs/SourceCode is better if IgnoreCase avoided
+            articleText = articleText.ToLower();
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.GalleryTag, 2);
+            articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.Refs.ToString(), RegexOptions.Singleline));
 
             // some (badly done) List of pages can have hundreds of unclosed small or center tags, causes regex bactracking when using <DEPTH>
             // so workaround solution: if > 10 unclosed tags, only remove tags without other tags embedded in them
@@ -2880,11 +2884,7 @@ namespace WikiFunctions.Parse
             } 
             else
             {
-                // Comprehensive check. Clear out all the matched tags: performance of Refs/SourceCode is better if IgnoreCase avoided
-                articleText = articleText.ToLower();
                 articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.SourceCode.ToString(), RegexOptions.Singleline));
-                articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.Refs.ToString(), RegexOptions.Singleline));
-                articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.GalleryTag, 2);
                 articleText = Tools.ReplaceWithSpaces(articleText, CenterTag, 2);
                 articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Small);
                 articleText = Tools.ReplaceWithSpaces(articleText, SupTag, 2);
