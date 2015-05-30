@@ -2847,7 +2847,7 @@ namespace WikiFunctions.Parse
             AnyTagList = AnyTagList.Select(s => s.Contains(" ") ? s.Substring(0, s.IndexOf(" ")).Trim() : s).ToList();
 
             // discard <br> and <p> tags as not a tag pair
-            AnyTagList.Where(s => !s.Equals("br") && !s.Equals("p")).ToList();
+            AnyTagList = AnyTagList.Where(s => !s.Equals("br") && !s.Equals("p")).ToList();
 
             // Count the tag names in use, determine if unmatched tags by comparing count of opening and closing tags
             bool unmatched = false;
