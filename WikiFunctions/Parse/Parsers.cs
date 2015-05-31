@@ -3633,7 +3633,7 @@ namespace WikiFunctions.Parse
             }
 
             // adds missing http:// to bare url references lacking it - CHECKWIKI error 62
-            articleText = RefURLMissingHttp.Replace(articleText,@"$1http://www.");
+            articleText = RefURLMissingHttp.Replace(articleText, @"$1http://www.");
 
             // fixes for external links: internal square brackets, newlines or pipes - Partially CHECKWIKI error 80
             // Performance: filter down to matches with likely external link (contains //) and has pipe, newline or internal square brackets
@@ -3704,7 +3704,7 @@ namespace WikiFunctions.Parse
                 articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
             
                 articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
-            }            
+            }
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
             if(ssb.Any(s => s.Value.Contains("||")))
