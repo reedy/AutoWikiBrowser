@@ -3623,21 +3623,23 @@ namespace WikiFunctions.Parse
 
             articleText = RefExternalLinkUsingBraces.Replace(articleText, @"[$1$2]$3");
 
-            string nobrackets = SingleSquareBrackets.Replace(articleText, "");
+            MatchCollection ssbMc = SingleSquareBrackets.Matches(articleText);
+            string nobrackets = Tools.ReplaceWithSpaces(articleText, ssbMc);
             bool orphanedSingleBrackets = (nobrackets.Contains("[") || nobrackets.Contains("]"));
 
             if(orphanedSingleBrackets)
             {
                 articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"$1[$2");
                 articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"$1]$2");
+                
+                // refresh
+                ssbMc = SingleSquareBrackets.Matches(articleText);
             }
 
-            // adds missing http:// to bare url references lacking it - CHECKWIKI error 62
-            articleText = RefURLMissingHttp.Replace(articleText, @"$1http://www.");
 
             // fixes for external links: internal square brackets, newlines or pipes - Partially CHECKWIKI error 80
             // Performance: filter down to matches with likely external link (contains //) and has pipe, newline or internal square brackets
-            List<Match> ssb = (from Match m in SingleSquareBrackets.Matches(articleText) select m).ToList();
+            List<Match> ssb = (from Match m in ssbMc select m).ToList();
             List<Match> ssbExternalLink = ssb.Where(m => m.Value.Contains("//") && (m.Value.Contains("|") || m.Value.Contains("\r\n") || m.Value.Substring(3).Contains("[") || m.Value.Trim(']').Contains("]"))).ToList();
 
             foreach(Match m in ssbExternalLink)
@@ -3661,6 +3663,9 @@ namespace WikiFunctions.Parse
                 articleText = SyntaxRegexWikilinkMissingClosingBracket.Replace(articleText, "[[$1]]");
                 articleText = SyntaxRegexWikilinkMissingOpeningBracket.Replace(articleText, "[[$1]]");
             }
+
+            // adds missing http:// to bare url references lacking it - CHECKWIKI error 62
+            articleText = RefURLMissingHttp.Replace(articleText, @"$1http://www.");
 
             //repair bad Image/external links, ssb check for performance
             if(ssb.Any(m => m.Value.Contains(":") && m.Value.ToLower().Contains(":http")))
@@ -3725,13 +3730,13 @@ namespace WikiFunctions.Parse
                                                     return "{{clear}}";
                                                 }
                                                 );
-            
+
             // CHECKWIKI errors 55, 63, 66, 77
             if(SimpleTagsList.Any(s => s.Contains("small")))
                 articleText = FixSmallTags(articleText);
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"$1[$3 $2]");
-            
+
             articleText = DeadlinkOutsideRef.Replace(articleText, @" $2$1");
 
             if(!Variables.LangCode.Equals("zh"))
