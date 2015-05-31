@@ -3526,7 +3526,7 @@ namespace WikiFunctions.Parse
                                                                           select Regex.Replace(m.Value, @"\s", "").ToLower()).ToList());
 
 			// fix for <sup/>, <sub/>, <center/>, <small/>, <i/> etc.
-            if(SimpleTagsList.Any(s => (s.EndsWith("/>") || s.Contains(@"\"))))
+            if(SimpleTagsList.Any(s => !s.Equals("<br/>") && (s.EndsWith("/>") || s.Contains(@"\"))))
                 articleText = IncorrectClosingHtmlTags.Replace(articleText,"</$1>");
 
             // The <strike> tag is not supported in HTML5. - CHECKWIKI error 42
@@ -3545,7 +3545,7 @@ namespace WikiFunctions.Parse
 
             // merge italic/bold html tags if there are one after the other
             //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_21#Another_bug_on_italics
-            if(SimpleTagsList.Any(s => s.StartsWith("<b")))
+            if(SimpleTagsList.Any(s => s.StartsWith("<b") && !s.StartsWith("<br")))
                 articleText = articleText.Replace("</b><b>", "");
             if(SimpleTagsList.Any(s => s.StartsWith("<i")))
                 articleText = articleText.Replace("</i><i>", "");
@@ -3734,7 +3734,8 @@ namespace WikiFunctions.Parse
             }
 
             // CHECKWIKI error 65: Image description ends with break – https://tools.wmflabs.org/checkwiki/cgi-bin/checkwiki.cgi?project=enwiki&view=only&id=65
-            articleText = WikiRegexes.FileNamespaceLink.Replace(articleText, m=> WikilinkEndsBr.Replace(m.Value, @"]]"));
+            if(ssb.Any(s => s.Value.Contains("<")))
+                articleText = WikiRegexes.FileNamespaceLink.Replace(articleText, m=> WikilinkEndsBr.Replace(m.Value, @"]]"));
 
             // workaround for https://phabricator.wikimedia.org/T4700 -- {{subst:}} doesn't work within ref tags
             articleText = FixSyntaxSubstRefTags(articleText);
