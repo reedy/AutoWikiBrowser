@@ -3522,8 +3522,8 @@ namespace WikiFunctions.Parse
             articleText = Tools.TemplateToMagicWord(articleText);
 
             // get a list of all the simple html tags (not with properties) used in the article, so we can selectively apply HTML tag fixes below
-            List<string> SimpleTagsList = Tools.DeduplicateList((from Match m in SimpleTags.Matches(articleText)
-                                                                          select Regex.Replace(m.Value, @"\s", "").ToLower()).ToList());
+            List<string> SimpleTagsList = Tools.DeduplicateList((from Match m in SimpleTags.Matches(articleText) select m.Value).ToList());
+            SimpleTagsList = Tools.DeduplicateList(SimpleTagsList.Select(s => Regex.Replace(s, @"\s", "").ToLower()).ToList());
 
             // fix for <sup/>, <sub/>, <center/>, <small/>, <i/> etc.
             if(SimpleTagsList.Any(s => !s.Equals("<br/>") && (s.EndsWith("/>") || s.Contains(@"\"))))
