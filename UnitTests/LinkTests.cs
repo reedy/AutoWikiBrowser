@@ -2747,6 +2747,9 @@ Template:foo}}"));
             Assert.AreEqual("{{url|http://test.com}}", Parsers.FixSyntax("{{url|http://http://test.com}}"),"double http inside url template");
             Assert.AreEqual("{{official website|http://test.com}}", Parsers.FixSyntax("{{official website|http://http://test.com}}"),"double http inside official website template");
             Assert.AreEqual("{{foo|http://http://test.com}}", Parsers.FixSyntax("{{foo|http://http://test.com}}"),"no change in a random template");
+
+            Assert.AreEqual("[http://test.com/a.png]", Parsers.FixSyntax("[[Image:http://test.com/a.png]]"), "Image http 1");
+            Assert.AreEqual("[http://test.com/a.png]", Parsers.FixSyntax("[Image:http://test.com/a.png]"), "Image http 2");
         }
  
         [Test]
