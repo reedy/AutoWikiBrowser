@@ -3587,10 +3587,6 @@ namespace WikiFunctions.Parse
             if(badHttpLinks)
                 articleText = WikiRegexes.UrlTemplate.Replace(articleText, m => m.Value.Replace("http://http://", "http://"));
 
-            //repair bad external links
-            if(articleText.IndexOf(":http", StringComparison.OrdinalIgnoreCase) > -1)
-                articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
-
             if (badHttpLinks && !SyntaxRegexHTTPNumber.IsMatch(articleText))
             {
                 articleText = MissingColonInHttpLink.Replace(articleText, "$1://$2");
@@ -3665,6 +3661,10 @@ namespace WikiFunctions.Parse
                 articleText = SyntaxRegexWikilinkMissingClosingBracket.Replace(articleText, "[[$1]]");
                 articleText = SyntaxRegexWikilinkMissingOpeningBracket.Replace(articleText, "[[$1]]");
             }
+
+            //repair bad Image/external links, ssb check for performance
+            if(ssb.Any(m => m.Value.Contains(":") && m.Value.ToLower().Contains(":http")))
+                articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
 
             //  CHECKWIKI error 69
             bool isbnDash = articleText.Contains("ISBN-");
