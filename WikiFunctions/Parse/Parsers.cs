@@ -3725,9 +3725,9 @@ namespace WikiFunctions.Parse
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"$1[$3 $2]");
             
-            articleText = DeadlinkOutsideRef.Replace(articleText,@" $2$1");
+            articleText = DeadlinkOutsideRef.Replace(articleText, @" $2$1");
 
-            if (!Variables.LangCode.Equals("zh"))
+            if(!Variables.LangCode.Equals("zh"))
             {
                 articleText = ExternalLinkWordSpacingBefore.Replace(articleText, " $1");
                 articleText = ExternalLinkWordSpacingAfter.Replace(articleText, "$1 $2");
