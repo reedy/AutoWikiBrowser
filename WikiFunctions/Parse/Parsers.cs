@@ -3513,10 +3513,10 @@ namespace WikiFunctions.Parse
         {
             if (Variables.LangCode.Equals("en"))
             {
-	            // DEFAULTSORT whitespace fix - CHECKWIKI error 88
+                // DEFAULTSORT whitespace fix - CHECKWIKI error 88
                 articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
                 // This category should not be directly added
-	            articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
+                articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
             }
 
             articleText = Tools.TemplateToMagicWord(articleText);
@@ -3525,7 +3525,7 @@ namespace WikiFunctions.Parse
             List<string> SimpleTagsList = Tools.DeduplicateList((from Match m in SimpleTags.Matches(articleText)
                                                                           select Regex.Replace(m.Value, @"\s", "").ToLower()).ToList());
 
-			// fix for <sup/>, <sub/>, <center/>, <small/>, <i/> etc.
+            // fix for <sup/>, <sub/>, <center/>, <small/>, <i/> etc.
             if(SimpleTagsList.Any(s => !s.Equals("<br/>") && (s.EndsWith("/>") || s.Contains(@"\"))))
                 articleText = IncorrectClosingHtmlTags.Replace(articleText,"</$1>");
 
@@ -3575,7 +3575,7 @@ namespace WikiFunctions.Parse
                 articleText = SyntaxRegexListRowBrTagMiddle.Replace(articleText, "$1\r\n$2");
             }
 
-			// CHECKWIKI error 93
+            // CHECKWIKI error 93
             articleText = MultipleHttpInLink.Replace(articleText, "$1");
             articleText = MultipleFtpInLink.Replace(articleText, "$1");
             articleText = WikiRegexes.UrlTemplate.Replace(articleText, m => m.Value.Replace("http://http://", "http://"));
