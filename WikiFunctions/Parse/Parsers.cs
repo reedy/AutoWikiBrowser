@@ -2300,7 +2300,7 @@ namespace WikiFunctions.Parse
             return GetAllTemplatesOld(articleText);
         }
 
-        public static Queue<KeyValuePair<string, string>> GetAllTemplatesNewQueue = new Queue<KeyValuePair<string, string>>();
+        private static Queue<KeyValuePair<string, string>> GetAllTemplatesNewQueue = new Queue<KeyValuePair<string, string>>();
 
         /// <summary>
         /// Extracts a list of all templates used in the input text, supporting any level of template nesting. Template name given in first letter upper. Most performant version using HashSet.
