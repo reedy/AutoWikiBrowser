@@ -3527,6 +3527,8 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixSyntax(string articleText)
         {
+            List<string> alltemplates = GetAllTemplates(articleText);
+
             if (Variables.LangCode.Equals("en"))
             {
                 // DEFAULTSORT whitespace fix - CHECKWIKI error 88
@@ -3535,7 +3537,8 @@ namespace WikiFunctions.Parse
                 articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
             }
 
-            articleText = Tools.TemplateToMagicWord(articleText);
+            if(TemplateExists(alltemplates, WikiRegexes.MagicWordTemplates))
+                articleText = Tools.TemplateToMagicWord(articleText);
 
             // get a list of all the simple html tags (not with properties) used in the article, so we can selectively apply HTML tag fixes below
             List<string> SimpleTagsList = Tools.DeduplicateList((from Match m in SimpleTags.Matches(articleText) select m.Value).ToList());
@@ -3599,7 +3602,7 @@ namespace WikiFunctions.Parse
 
             articleText = MultipleFtpInLink.Replace(articleText, "$1");
 
-            if(badHttpLinks)
+            if(badHttpLinks && TemplateExists(alltemplates, WikiRegexes.UrlTemplate))
                 articleText = WikiRegexes.UrlTemplate.Replace(articleText, m => m.Value.Replace("http://http://", "http://"));
 
             if (badHttpLinks && !SyntaxRegexHTTPNumber.IsMatch(articleText))
@@ -3752,7 +3755,8 @@ namespace WikiFunctions.Parse
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"$1[$3 $2]");
 
-            articleText = DeadlinkOutsideRef.Replace(articleText, @" $2$1");
+            if(TemplateExists(alltemplates, WikiRegexes.DeadLink))
+                articleText = DeadlinkOutsideRef.Replace(articleText, @" $2$1");
 
             if(!Variables.LangCode.Equals("zh"))
             {
