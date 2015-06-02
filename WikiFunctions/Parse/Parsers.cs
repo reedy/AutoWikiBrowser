@@ -636,8 +636,8 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesSingleTag);
             }
 
-            if(hasMI || TemplateExists(alltemplates, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates) || 
-                TemplateExists(alltemplates, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates))
+            if(hasMI || TemplateCount(alltemplates, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates) > 1 || 
+                TemplateCount(alltemplates, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates) > 1)
             {
                 // get sections
                 string[] sections = Tools.SplitToSections(articleText);
@@ -7640,6 +7640,14 @@ Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
         private static bool TemplateExists(List<string> templatesFound, Regex r)
         {
             return templatesFound.Any(s => r.IsMatch(@"{{" + s + "|}}"));
+        }
+
+        /// <summary>
+        /// Returns the count of matches for the given regex against the (first name upper) templates in the given list
+        /// </summary>
+        private static int TemplateCount(List<string> templatesFound, Regex r)
+        {
+            return templatesFound.Where(s => r.IsMatch(@"{{" + s + "|}}")).Count();
         }
 
         private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", "BLP sources", "expand", "BLP unsourced" });
