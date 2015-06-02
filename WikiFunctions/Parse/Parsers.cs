@@ -625,8 +625,8 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // Performance: get all the templates, only apply multiple issues functions if relevant templates found
-            List<string> allTemplates = GetAllTemplates(articleText).Select(s => "{{" + s + "}}").ToList();
-            bool hasMI = allTemplates.Any(s => WikiRegexes.MultipleIssues.IsMatch(s));
+            List<string> alltemplates = GetAllTemplates(articleText);
+            bool hasMI = TemplateExists(alltemplates, WikiRegexes.MultipleIssues);
 
             if(hasMI)
             {
@@ -636,8 +636,8 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesSingleTag);
             }
 
-            if(hasMI || allTemplates.Any(s => (WikiRegexes.MultipleIssuesArticleMaintenanceTemplates.IsMatch(s) || 
-                WikiRegexes.MultipleIssuesSectionMaintenanceTemplates.IsMatch(s))))
+            if(hasMI || TemplateExists(alltemplates, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates) || 
+                TemplateExists(alltemplates, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates))
             {
                 // get sections
                 string[] sections = Tools.SplitToSections(articleText);
