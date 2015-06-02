@@ -1526,11 +1526,6 @@ namespace WikiFunctions
                 AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
                 Variables.Profiler.Profile("AddMissingReflist");
 
-                if (Variables.IsWikipediaEN)
-				{
-                AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), true);
-                Variables.Profiler.Profile("PersonData");
-                }
             }
 
             UnHideText(removeText);
