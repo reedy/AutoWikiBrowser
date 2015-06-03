@@ -1723,11 +1723,11 @@ namespace WikiFunctions.Parse
             StringBuilder result = new StringBuilder(articleText);
 
             // process each duplicate reference in dictionary
+            refs = refs.Where(c => c.Value.Count > 1).ToDictionary(x => x.Key, y => y.Value);
+
             foreach (KeyValuePair<int, List<Ref>> kvp in refs)
             {
                 List<Ref> list = kvp.Value;
-                if (list.Count < 2)
-                    continue; // nothing to consolidate
 
                 // get the reference name to use
                 string friendlyName = DeriveReferenceName(articleText, list[0].InnerText);
