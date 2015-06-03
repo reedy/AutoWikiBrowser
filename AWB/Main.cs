@@ -5191,8 +5191,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             if (TheSession.IsBusy)
                 TheSession.Editor.Abort();
 
-            // English Wikipedia does not use {{Wikify}}
+            // English Wikipedia does not use {{Wikify}} // {{Persondata}}
             wikifyToolStripMenuItem.Visible = !Variables.IsWikipediaEN;
+            metadataTemplateToolStripMenuItem.Visible = !Variables.IsWikipediaEN;
 
             TheArticle = null;
             txtEdit.Text = "";
