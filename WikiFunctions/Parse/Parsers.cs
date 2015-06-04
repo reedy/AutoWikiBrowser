@@ -1644,14 +1644,16 @@ namespace WikiFunctions.Parse
 
                 // duplicate citation fixer (first named): <ref name="Fred">(...)</ref>....<ref>\2</ref> --> ..<ref name="Fred"/>
                 // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>
-                articleText = WikiRegexes.UnnamedReferences.Replace(articleText, m =>
-                                                                    {
-                                                                        string newname;
-                                                                        if(NamedRefs.TryGetValue(m.Groups[1].Value.Trim(), out newname))
-                                                                            return @"<ref name=""" + newname + @"""/>";
-                                                                        
-                                                                        return m.Value;
-                                                                    });
+                List<Match> unr = (from Match m in GetUnnamedRefs(articleText) select m).ToList();
+
+                unr = unr.Where(m => NamedRefs.ContainsKey(m.Groups[1].Value.Trim())).ToList();
+
+                foreach(Match m in unr)
+                {
+                    string newname;
+                    if(NamedRefs.TryGetValue(m.Groups[1].Value.Trim(), out newname))
+                        articleText = articleText.Replace(m.Value, @"<ref name=""" + newname + @"""/>");
+                }
 
                 if (!reparse)
                     break;
@@ -1685,8 +1687,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // get list of all unnamed refs, then filter to only those with duplicate ref content
-            List<Match> allRefs = (from Match m in WikiRegexes.UnnamedReferences.Matches(articleText)
-                                             select m).ToList();
+            List<Match> allRefs = (from Match m in GetUnnamedRefs(articleText) select m).ToList();
 
             allRefs = allRefs.GroupBy(m => m.Groups[1].Value.Trim()).Where(g => g.Count() > 1).SelectMany(m => m).ToList();
 
@@ -2336,25 +2337,25 @@ namespace WikiFunctions.Parse
             return Tools.DeduplicateList(TFH2);
         }
 
-        private static Queue<KeyValuePair<string, List<string>>> GetRefsQueue = new Queue<KeyValuePair<string, List<string>>>();
+        private static Queue<KeyValuePair<string, List<Match>>> GetUnnamedRefsQueue = new Queue<KeyValuePair<string, List<Match>>>();
 
         /// <summary>
         /// Extracts a list of all refs used in the input text
         /// </summary>
         /// <param name="articleText"></param>
-        private static List<string> GetRefs(string articleText)
+        private static List<Match> GetUnnamedRefs(string articleText)
         {
             // For peformance, use cached result if available: articletext plus List of template names
-            List<string> refsList = GetRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+            List<Match> refsList = GetUnnamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
             if(refsList != null)
                 return refsList;
 
-            refsList = (from Match m in WikiRegexes.Refs.Matches(articleText) select m.Value).ToList();
+            refsList = (from Match m in WikiRegexes.UnnamedReferences.Matches(articleText) select m).ToList();
 
             // cache new results, then dequeue oldest if cache full
-            GetRefsQueue.Enqueue(new KeyValuePair<string, List<string>>(articleText,  refsList));
-            if(GetRefsQueue.Count > 10)
-                GetRefsQueue.Dequeue();
+            GetUnnamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText,  refsList));
+            if(GetUnnamedRefsQueue.Count > 10)
+                GetUnnamedRefsQueue.Dequeue();
 
             return refsList;
         }
