@@ -1597,7 +1597,7 @@ namespace WikiFunctions.Parse
                 NamedRefs.Clear();
                 int reflistIndex = RefsTemplateIndex(articleText);
 
-                foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
+                foreach (Match m in GetNamedRefs(articleText))
                 {
                     string refName = m.Groups[2].Value, namedRefValue = m.Groups[3].Value;
 
@@ -1740,7 +1740,7 @@ namespace WikiFunctions.Parse
             List<string> RefsInGroupRef = (from Match m in WikiRegexes.RefsGrouped.Matches(articleText) 
                 select RefNameFromGroup.Match(m.Value).Groups["nm"].Value.Trim(@"'""".ToCharArray())).ToList();
 
-            foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
+            foreach (Match m in GetNamedRefs(articleText))
             {
                 string refname = m.Groups[2].Value, refvalue = m.Groups[3].Value, existingname;
 
@@ -2340,12 +2340,12 @@ namespace WikiFunctions.Parse
         private static Queue<KeyValuePair<string, List<Match>>> GetUnnamedRefsQueue = new Queue<KeyValuePair<string, List<Match>>>();
 
         /// <summary>
-        /// Extracts a list of all refs used in the input text
+        /// Extracts a list of all unnamed refs used in the input text
         /// </summary>
         /// <param name="articleText"></param>
         private static List<Match> GetUnnamedRefs(string articleText)
         {
-            // For peformance, use cached result if available: articletext plus List of template names
+            // For peformance, use cached result if available: articletext plus List matches
             List<Match> refsList = GetUnnamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
             if(refsList != null)
                 return refsList;
@@ -2356,6 +2356,29 @@ namespace WikiFunctions.Parse
             GetUnnamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText,  refsList));
             if(GetUnnamedRefsQueue.Count > 10)
                 GetUnnamedRefsQueue.Dequeue();
+
+            return refsList;
+        }
+
+        private static Queue<KeyValuePair<string, List<Match>>> GetNamedRefsQueue = new Queue<KeyValuePair<string, List<Match>>>();
+
+        /// <summary>
+        /// Extracts a list of all named refs used in the input text
+        /// </summary>
+        /// <param name="articleText"></param>
+        private static List<Match> GetNamedRefs(string articleText)
+        {
+            // For peformance, use cached result if available: articletext plus List matches
+            List<Match> refsList = GetNamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+            if(refsList != null)
+                return refsList;
+
+            refsList = (from Match m in WikiRegexes.NamedReferences.Matches(articleText) select m).ToList();
+
+            // cache new results, then dequeue oldest if cache full
+            GetNamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText,  refsList));
+            if(GetNamedRefsQueue.Count > 10)
+                GetNamedRefsQueue.Dequeue();
 
             return refsList;
         }
