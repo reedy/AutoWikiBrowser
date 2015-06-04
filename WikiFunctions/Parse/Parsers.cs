@@ -1791,7 +1791,7 @@ namespace WikiFunctions.Parse
             // then only attempt replacement if some found and matching long named refs found
             List<string> ShortNamed = (from Match m in ShortNameReference.Matches(articleText) select m.Groups[2].Value).ToList();
 
-            if(ShortNamed.Count > 0)
+            if(ShortNamed.Any())
             {
                 foreach (Match m in LongNamedReferences.Matches(articleText))
                 {
