@@ -2263,9 +2263,9 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static List<string> GetAllTemplatesNew(string articleText)
         {
-            // For peformance, use cached result if available: articletext plus pipe-separated string of template names
+            // For peformance, use cached result if available: articletext plus List of template names
             List<string> found = GetAllTemplatesNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-            if(found != null && found.Any())
+            if(found != null)
                 return found;
                 
             /* performance: process all templates in bulk, extract template contents and reprocess. This is faster than loop applying template match on individual basis. 
@@ -2334,6 +2334,29 @@ namespace WikiFunctions.Parse
             }
 
             return Tools.DeduplicateList(TFH2);
+        }
+
+        private static Queue<KeyValuePair<string, List<string>>> GetRefsQueue = new Queue<KeyValuePair<string, List<string>>>();
+
+        /// <summary>
+        /// Extracts a list of all refs used in the input text
+        /// </summary>
+        /// <param name="articleText"></param>
+        private static List<string> GetRefs(string articleText)
+        {
+            // For peformance, use cached result if available: articletext plus List of template names
+            List<string> refsList = GetRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+            if(refsList != null)
+                return refsList;
+
+            refsList = (from Match m in WikiRegexes.Refs.Matches(articleText) select m.Value).ToList();
+
+            // cache new results, then dequeue oldest if cache full
+            GetRefsQueue.Enqueue(new KeyValuePair<string, List<string>>(articleText,  refsList));
+            if(GetRefsQueue.Count > 10)
+                GetRefsQueue.Dequeue();
+
+            return refsList;
         }
 
         private static Regex RenameTemplateParametersTemplates;
