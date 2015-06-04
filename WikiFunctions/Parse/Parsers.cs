@@ -2254,7 +2254,7 @@ namespace WikiFunctions.Parse
             return GetAllTemplatesOld(articleText);
         }
 
-        private static Queue<KeyValuePair<string, string>> GetAllTemplatesNewQueue = new Queue<KeyValuePair<string, string>>();
+        private static Queue<KeyValuePair<string, List<string>>> GetAllTemplatesNewQueue = new Queue<KeyValuePair<string, List<string>>>();
 
         /// <summary>
         /// Extracts a list of all templates used in the input text, supporting any level of template nesting. Template name given in first letter upper. Most performant version using HashSet.
@@ -2264,9 +2264,9 @@ namespace WikiFunctions.Parse
         private static List<string> GetAllTemplatesNew(string articleText)
         {
             // For peformance, use cached result if available: articletext plus pipe-separated string of template names
-            string found = GetAllTemplatesNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-            if(!String.IsNullOrEmpty(found))
-                return found.Split('|').ToList();
+            List<string> found = GetAllTemplatesNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+            if(found != null && found.Any())
+                return found;
                 
             /* performance: process all templates in bulk, extract template contents and reprocess. This is faster than loop applying template match on individual basis. 
             Extract rough template name then get exact template names later, faster to deduplicate then get exact template names */
@@ -2294,7 +2294,7 @@ namespace WikiFunctions.Parse
             List<string> FinalTemplateNames = TemplateNames.Distinct().Select(s => Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}"))).Distinct().ToList();
 
             // cache new results, then dequeue oldest if cache full
-            GetAllTemplatesNewQueue.Enqueue(new KeyValuePair<string, string>(originalarticleText, string.Join("|", FinalTemplateNames.ToArray())));
+            GetAllTemplatesNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText,  FinalTemplateNames));
             if(GetAllTemplatesNewQueue.Count > 10)
                 GetAllTemplatesNewQueue.Dequeue();
 
