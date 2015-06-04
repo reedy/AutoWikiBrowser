@@ -1672,12 +1672,6 @@ namespace WikiFunctions.Parse
             return WikiRegexes.NamedReferences.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
         }
 
-        private struct Ref
-        {
-            public string Text;
-            public string InnerText;
-        }
-
         /// <summary>
         /// Derives and sets a reference name per [[WP:REFNAME]] for duplicate &lt;ref&gt;s
         /// </summary>
@@ -1690,78 +1684,38 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode.Equals("en") && !HasNamedReferences(articleText))
                 return articleText;
 
-            Dictionary<int, List<Ref>> refs = new Dictionary<int, List<Ref>>();
-            bool haveRefsToFix = false;
+            // get list of all unnamed refs, then filter to only those with duplicate ref content
+            List<Match> allRefs = (from Match m in WikiRegexes.UnnamedReferences.Matches(articleText)
+                                             select m).ToList();
 
-            // loop through all unnamed refs, add any duplicates to dictionary
-            foreach (Match m in WikiRegexes.UnnamedReferences.Matches(articleText))
+            allRefs = allRefs.GroupBy(x => x.Groups[1].Value.Trim()).Where(g => g.Count() > 1).SelectMany(a => a).ToList();
+
+            // do not apply to refs with ibid/loc cit etc.
+            allRefs = allRefs.Where(c => !WikiRegexes.IbidLocCitation.IsMatch(c.Value)).ToList();
+
+            // now process the duplicate refs, add ref name to first and condense the later ones
+            Dictionary<string, string> refNameContent = new Dictionary<string, string>();
+
+            foreach(Match m in allRefs)
             {
-                string fullReference = m.Value;
-
-                // ref contains ibid/loc cit or page needed, don't combine it, could refer to any ref on page
-                if (WikiRegexes.IbidLocCitation.IsMatch(fullReference))
-                    continue;
-
-                string refContent = m.Groups[1].Value.Trim();
-                int hash = refContent.GetHashCode();
-                List<Ref> list;
-                if (refs.TryGetValue(hash, out list))
+                string innerText = m.Groups[1].Value.Trim(), friendlyName;
+                if(!refNameContent.TryGetValue(innerText, out friendlyName))
                 {
-                    list.Add(new Ref { Text = fullReference, InnerText = refContent });
-                    haveRefsToFix = true;
-                }
+                    friendlyName = DeriveReferenceName(articleText, innerText);
+
+                    // check reference name was derived
+                    if(friendlyName.Length <= 3)
+                        continue;
+
+                    Tools.ReplaceOnce(ref articleText, m.Value, @"<ref name=""" + friendlyName + @""">" + innerText + "</ref>");
+                    refNameContent.Add(innerText, friendlyName);
+                } 
                 else
                 {
-                    list = new List<Ref> { new Ref { Text = fullReference, InnerText = refContent } };
-                    refs.Add(hash, list);
+                    articleText = articleText.Replace(m.Value, @"<ref name=""" + friendlyName + @"""/>");
                 }
             }
-
-            if (!haveRefsToFix)
-                return articleText;
-
-            StringBuilder result = new StringBuilder(articleText);
-
-            // process each duplicate reference in dictionary
-            refs = refs.Where(c => c.Value.Count > 1).ToDictionary(x => x.Key, y => y.Value);
-
-            foreach (KeyValuePair<int, List<Ref>> kvp in refs)
-            {
-                List<Ref> list = kvp.Value;
-
-                // get the reference name to use
-                string friendlyName = DeriveReferenceName(articleText, list[0].InnerText);
-
-                // check reference name was derived
-                if (friendlyName.Length <= 3)
-                    continue;
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    StringBuilder newValue = new StringBuilder();
-
-                    newValue.Append(@"<ref name=""");
-                    newValue.Append(friendlyName);
-                    newValue.Append('"');
-
-                    if (i == 0)
-                    {
-                        newValue.Append('>');
-                        newValue.Append(list[0].InnerText);
-                        newValue.Append("</ref>");
-
-                        Tools.ReplaceOnce(result, list[0].Text, newValue.ToString());
-                    }
-                    else
-                    {
-                        newValue.Append("/>");
-                        result.Replace(list[i].Text, newValue.ToString());
-                    }
-                }
-
-                articleText = result.ToString();
-            }
-
+         
             return articleText;
         }
 
