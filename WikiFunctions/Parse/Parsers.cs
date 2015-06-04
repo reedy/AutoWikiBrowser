@@ -1688,10 +1688,10 @@ namespace WikiFunctions.Parse
             List<Match> allRefs = (from Match m in WikiRegexes.UnnamedReferences.Matches(articleText)
                                              select m).ToList();
 
-            allRefs = allRefs.GroupBy(x => x.Groups[1].Value.Trim()).Where(g => g.Count() > 1).SelectMany(a => a).ToList();
+            allRefs = allRefs.GroupBy(m => m.Groups[1].Value.Trim()).Where(g => g.Count() > 1).SelectMany(m => m).ToList();
 
             // do not apply to refs with ibid/loc cit etc.
-            allRefs = allRefs.Where(c => !WikiRegexes.IbidLocCitation.IsMatch(c.Value)).ToList();
+            allRefs = allRefs.Where(m => !WikiRegexes.IbidLocCitation.IsMatch(m.Value)).ToList();
 
             // now process the duplicate refs, add ref name to first and condense the later ones
             Dictionary<string, string> refNameContent = new Dictionary<string, string>();
