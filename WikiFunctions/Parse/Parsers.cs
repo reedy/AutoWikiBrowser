@@ -5488,9 +5488,7 @@ namespace WikiFunctions.Parse
             bool hasAnySelfInterwikis = wikiLinks.Any(l => l.Contains(Variables.LangCode + ":"));
 
             // Performance: on articles with lots of links better to filter down to those that could be changed by canonicalization, rather than running regex replace against all links
-            wikiLinks.RemoveAll(link => link.IndexOfAny("&%_".ToCharArray()) < 0);
-
-            foreach(string l in wikiLinks)
+            foreach(string l in wikiLinks.Where(link => link.IndexOfAny("&%_".ToCharArray()) > -1))
             {
                 string res = WikiRegexes.WikiLink.Replace(l, FixLinksWikilinkCanonicalizeME);
                 if(res != l)
@@ -5502,7 +5500,7 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.PipedWikiLink.Replace(articleText, FixLinksWikilinkBoldItalicsME);
 
             // fix excess trailing pipe, TrailingPipe regex for performance
-            if(TrailingPipe.IsMatch(articleText))
+            if(wikiLinks.Any(link => link.Contains("|") && TrailingPipe.IsMatch(link)))
                 articleText = WikiRegexes.PipedWikiLink.Replace(articleText, m => (m.Groups[2].Value.Trim().EndsWith("|") ? "[[" + m.Groups[1].Value + "|" + m.Groups[2].Value.Trim().TrimEnd('|').Trim() + "]]" : m.Value));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
