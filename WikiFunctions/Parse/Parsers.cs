@@ -5406,7 +5406,7 @@ namespace WikiFunctions.Parse
         public static string FixLinkWhitespace(string articleText, string articleTitle)
         {
             // Performance strategy: get list of all wikilinks, deduplicate, only apply regexes to whole article text if matching wikilinks
-            List<string> allWikiLinks = Tools.DeduplicateList((from Match m in WikiRegexes.SimpleWikiLink.Matches(articleText) select m.Value).ToList());
+            List<string> allWikiLinks = GetAllWikiLinks(articleText);
 
             if(allWikiLinks.Any(s => s.StartsWith("[[ ")))
             {
@@ -5472,29 +5472,29 @@ namespace WikiFunctions.Parse
             string articleTextAtStart = articleText;
             string escTitle = Regex.Escape(articleTitle);
 
-            if (InfoBoxSingleAlbum.IsMatch(articleText))
+            if(TemplateExists(GetAllTemplates(articleText), InfoBoxSingleAlbum))
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
-            List<Match> wikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(articleText) select m).ToList();
+            List<string> wikiLinks = GetAllWikiLinks(articleText);
             
             // Replace {{!}} with a standard pipe
-            List<Match> wikiLinksWithExclamation = wikiLinks.Where(m => m.Value.Contains(@"{{!}}")).ToList();
+            List<string> wikiLinksWithExclamation = wikiLinks.Where(l => l.Contains(@"{{!}}") && !l.Contains("|")).ToList();
             
-            foreach(Match m in wikiLinksWithExclamation)
-            	articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{!}}", "|"));
+            foreach(string e in wikiLinksWithExclamation)
+                articleText = articleText.Replace(e, e.Replace(@"{{!}}", "|"));
 
             // See if any self interwikis that need fixing later
-            bool hasAnySelfInterwikis = wikiLinks.Any(m => m.Value.Contains(Variables.LangCode + ":"));
+            bool hasAnySelfInterwikis = wikiLinks.Any(l => l.Contains(Variables.LangCode + ":"));
 
             // Performance: on articles with lots of links better to filter down to those that could be changed by canonicalization, rather than running regex replace against all links
-            wikiLinks.RemoveAll(link => link.Value.IndexOfAny("&%_".ToCharArray()) < 0);
+            wikiLinks.RemoveAll(link => link.IndexOfAny("&%_".ToCharArray()) < 0);
 
-            foreach(Match m in wikiLinks)
+            foreach(string l in wikiLinks)
             {
-                string res = WikiRegexes.WikiLink.Replace(m.Value, FixLinksWikilinkCanonicalizeME);
-                if(res != m.Value)
-                    articleText = articleText.Replace(m.Value, res);
+                string res = WikiRegexes.WikiLink.Replace(l, FixLinksWikilinkCanonicalizeME);
+                if(res != l)
+                    articleText = articleText.Replace(l, res);
             }
 
             // First check for performance, second to avoid (dodgy) apostrophe after link
@@ -5709,6 +5709,30 @@ namespace WikiFunctions.Parse
             }
 
             return articleText;
+        }
+
+        private static Queue<KeyValuePair<string, List<string>>> GetAllWikiLinksQueue = new Queue<KeyValuePair<string, List<string>>>();
+
+        /// <summary>
+        /// Extracts a list of all distinct wikilinks used in the input text
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        private static List<string> GetAllWikiLinks(string articleText)
+        {
+            // For peformance, use cached result if available: articletext plus List of wikilinks
+            List<string> found = GetAllWikiLinksQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+            if(found != null)
+                return found;
+
+            List<string> allLinks = Tools.DeduplicateList((from Match m in WikiRegexes.SimpleWikiLink.Matches(articleText) select m.Value).ToList());
+
+            // cache new results, then dequeue oldest if cache full
+            GetAllWikiLinksQueue.Enqueue(new KeyValuePair<string, List<string>>(articleText,  allLinks));
+            if(GetAllWikiLinksQueue.Count > 10)
+                GetAllWikiLinksQueue.Dequeue();
+
+            return allLinks;
         }
 
         // Covered by: LinkTests.TestStickyLinks()
