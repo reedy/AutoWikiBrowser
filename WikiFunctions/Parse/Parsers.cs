@@ -5651,7 +5651,7 @@ namespace WikiFunctions.Parse
         public static string SimplifyLinks(string articleText)
         {
             // Performance: first get a list of unique links to avoid processing duplicate links more than once
-            List<string> pipedLinks = Tools.DeduplicateList((from Match m in WikiRegexes.PipedWikiLink.Matches(articleText) select m.Value).ToList());
+            List<string> pipedLinks = GetAllWikiLinks(articleText).Where(link => link.Contains("|")).ToList();
 
             // Performance: second determine if any links with pipe whitespace to clean
             string Category = Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:";
@@ -5660,6 +5660,11 @@ namespace WikiFunctions.Parse
             foreach (string pl in pipedLinks)
             {
                 Match m = WikiRegexes.PipedWikiLink.Match(pl);
+
+                // don't process if only matched part of link eg link is [[Image:...]] link with nested wikilinks
+                if(pl.Length != m.Length)
+                    continue;
+
                 string a = m.Groups[1].Value.Trim(), b = m.Groups[2].Value;
 
                 // Must retain space after pipe in Category namespace
