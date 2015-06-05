@@ -240,6 +240,7 @@ namespace WikiFunctions
                 errorMessage.AppendLine(formatter.PrintLine("OS", OS));
                 errorMessage.AppendLine(formatter.PrintLine("version", Version));
                 errorMessage.AppendLine(formatter.PrintLine("net", DotNetVersion));
+                errorMessage.AppendLine(formatter.PrintLine("duplicate", Duplicate));
 
                 if (!string.IsNullOrEmpty(Variables.URL))
                 {
