@@ -5726,7 +5726,23 @@ namespace WikiFunctions.Parse
             if(found != null)
                 return found;
 
-            List<string> allLinks = Tools.DeduplicateList((from Match m in WikiRegexes.SimpleWikiLink.Matches(articleText) select m.Value).ToList());
+            string text = articleText;
+            List<string> allLinks = new List<string>();
+
+            for(;;)
+            {
+                List<Match> linkMatches = (from Match m in WikiRegexes.SimpleWikiLink.Matches(text) select m).ToList();
+
+                if(!linkMatches.Any())
+                    break;
+
+                allLinks.AddRange(linkMatches.Select(m => m.Value).ToList());
+
+                // set text to content of matched links to process again for any (further) nested links
+                text = String.Join(",",  linkMatches.Select(m => m.Groups[1].Value).ToArray());
+            }
+
+            allLinks = Tools.DeduplicateList(allLinks);
 
             // cache new results, then dequeue oldest if cache full
             GetAllWikiLinksQueue.Enqueue(new KeyValuePair<string, List<string>>(articleText,  allLinks));
