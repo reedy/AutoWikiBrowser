@@ -1724,7 +1724,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefNameFromGroup = new Regex(@"<\s*ref\s+name\s*=\s*(?<nm>[^<>]*?)\s*group|group\s*=\s*[^<>]*?\s*name\s*=\s*(?<nm>[^<>]*?)\s*/?\s*>");
 
         /// <summary>
-        /// Corrects named references where the reference is the same but the reference name is different
+        /// Corrects named references where the reference text is the same but the reference name is different
         /// </summary>
         /// <param name="articleText">the wiki text of the page</param>
         /// <returns>the updated wiki text</returns>
@@ -1734,15 +1734,24 @@ namespace WikiFunctions.Parse
             // refs with same name, but one is very short, so just change to <ref name=foo/> notation
             articleText = SameNamedRefShortText(articleText);
 
-            Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
+            // get named refs, convert to keyvaluepair list of ref name and ref content
+            List<KeyValuePair<string, string>> namedRefsList = GetNamedRefs(articleText).Select(m => new KeyValuePair<string, string>(m.Groups[2].Value, m.Groups[3].Value)).ToList();
 
-            // get list of all ref names used in group refs
+            // filter list to those where ref content occurs more than once
+            namedRefsList = namedRefsList.GroupBy(a => a.Value).Where(g => g.Count() > 1).SelectMany(a => a).ToList();
+
+            if(!namedRefsList.Any())
+                return articleText;
+
+            // get list of all ref names used in group refs, cannot change these
             List<string> RefsInGroupRef = (from Match m in WikiRegexes.RefsGrouped.Matches(articleText) 
                 select RefNameFromGroup.Match(m.Value).Groups["nm"].Value.Trim(@"'""".ToCharArray())).ToList();
 
-            foreach (Match m in GetNamedRefs(articleText))
+            Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
+
+            foreach(KeyValuePair<string, string> kvp in namedRefsList)
             {
-                string refname = m.Groups[2].Value, refvalue = m.Groups[3].Value, existingname;
+                string refname = kvp.Key, refvalue = kvp.Value, existingname;
 
                 if (!NamedRefs.ContainsKey(refvalue))
                 {
@@ -1766,6 +1775,7 @@ namespace WikiFunctions.Parse
                         oldRefName = refname;
                     }
 
+                    // rename the named ref and any short named refs of same name (format <ref name="Foo" />)
                     Regex a = new Regex(@"<\s*ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(oldRefName) + @"(?:""|')?\s*(?=/\s*>|>\s*" + Regex.Escape(refvalue) + @"\s*</ref>)");
 
                     articleText = a.Replace(articleText, @"<ref name=""" + newRefName + @"""");
