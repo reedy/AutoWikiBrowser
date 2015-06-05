@@ -5660,7 +5660,7 @@ namespace WikiFunctions.Parse
             // Performance: second determine if any links with pipe whitespace to clean
             string Category = Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:";
             bool whitepaceTrimNeeded = pipedLinks.Any(s => ((s.Contains("| ") && !s.Contains(Category)) || s.Contains(" |") || (!s.Contains("| ]]") && s.Contains(" ]]"))));
-Tools.WriteDebug("SL", whitepaceTrimNeeded.ToString());
+
             foreach (string pl in pipedLinks)
             {
                 Match m = WikiRegexes.PipedWikiLink.Match(pl);
