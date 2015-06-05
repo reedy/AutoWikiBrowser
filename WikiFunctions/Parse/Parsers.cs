@@ -1790,7 +1790,8 @@ namespace WikiFunctions.Parse
         {
             // Peformance: get a list of all the short named refs that could be condensed
             // then only attempt replacement if some found and matching long named refs found
-            List<string> ShortNamed = (from Match m in ShortNameReference.Matches(articleText) select m.Groups[2].Value).ToList();
+            string justNamedRefs = string.Join("", GetNamedRefs(articleText).Select(m => m.Value).ToArray());
+            List<string> ShortNamed = (from Match m in ShortNameReference.Matches(justNamedRefs) select m.Groups[2].Value).ToList();
 
             if(ShortNamed.Any())
             {
