@@ -109,6 +109,9 @@ namespace UnitTests
 
             // nothing to do here
             Assert.AreEqual("[[dog|]]", Parsers.SimplifyLinks("[[dog|]]"));
+
+            const string nochange = @"[[File:T and E.jpg|right|thumbnail|With [[EW|E]] in 2004]]";
+            Assert.AreEqual(nochange, Parsers.SimplifyLinks(nochange));
         }
 
         [Test]
