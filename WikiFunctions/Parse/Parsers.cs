@@ -5479,9 +5479,7 @@ namespace WikiFunctions.Parse
             List<string> wikiLinks = GetAllWikiLinks(articleText);
             
             // Replace {{!}} with a standard pipe
-            List<string> wikiLinksWithExclamation = wikiLinks.Where(l => l.Contains(@"{{!}}") && !l.Contains("|")).ToList();
-            
-            foreach(string e in wikiLinksWithExclamation)
+            foreach(string e in wikiLinks.Where(l => l.Contains(@"{{!}}") && !l.Contains("|")))
                 articleText = articleText.Replace(e, e.Replace(@"{{!}}", "|"));
 
             // See if any self interwikis that need fixing later
