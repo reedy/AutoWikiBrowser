@@ -112,6 +112,7 @@ namespace UnitTests
 
             const string nochange = @"[[File:T and E.jpg|right|thumbnail|With [[EW|E]] in 2004]]";
             Assert.AreEqual(nochange, Parsers.SimplifyLinks(nochange));
+            Assert.AreEqual(@"[[File:T and E.jpg|right|thumbnail|With [[dog]]s in 2004]]", Parsers.SimplifyLinks(@"[[File:T and E.jpg|right|thumbnail|With [[dog|dogs]] in 2004]]"), "nested link handling");
         }
 
         [Test]
