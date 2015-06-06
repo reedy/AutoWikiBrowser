@@ -9089,7 +9089,7 @@ namespace WikiFunctions.Parse
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         public static bool IsMissingReferencesDisplay(string articleText)
         {
-            if (!Variables.LangCode.Equals("en"))
+            if (!Variables.LangCode.Equals("en") || TemplateExists(GetAllTemplates(articleText), ReflistQuick))
                 return false;
 
             // list-defined references with unbalanced { or } in cite template can cause ReferencesTemplate not to match, hence quick check
