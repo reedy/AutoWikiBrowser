@@ -897,7 +897,7 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex BLPSources = new Regex(@"{{\s*([Bb](LP|lp) ?(sources|[Uu]n(sourced|ref(?:erenced)?))|[Uu]n(sourced|referenced) ?[Bb](LP|lp))\b");
 
-        public const string ReferencesTemplates = @"(\{\{\s*(?:[Rr]ef(?:-?li(?:st|nk)|erence)|[Ll]istaref|[Ll]ist of botanists by author abbreviation footer)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))\}\}|<\s*[Rr]eferences\s*/>|\{\{refs|<\s*references\s*>.*</\s*references\s*>)";
+        public const string ReferencesTemplates = @"(\{\{\s*(?:[Rr]ef(?:-?li(?:st|nk)|erence)|[Ll]istaref|[Ll]ist of botanists by author abbreviation footer|[Aa]irline codes page/bottom)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))\}\}|<\s*[Rr]eferences\s*/>|\{\{refs|<\s*references\s*>.*</\s*references\s*>)";
         
         /// <summary>
         /// Matches a closing &lt;/ref&gt; tag or the {{GR}} template
