@@ -388,7 +388,7 @@ namespace WikiFunctions
         public static string TemplateStart;
 
         /// <summary>
-        /// Matches all wikilinks, categories, images etc. with nested links on same line
+        /// Matches all wikilinks, categories, images etc. with nested links on same line. Group 1 is the link content
         /// </summary>
         public static readonly Regex SimpleWikiLink = new Regex(@"\[\[((?>[^\[\]\n]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]");
 
@@ -1179,7 +1179,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches unnamed references in format &lt;ref&gt;...&lt;/ref&gt; group 1 being the reference text
         /// </summary>
-        public static readonly Regex UnnamedReferences = new Regex(@"<\s*ref\s*>((?>.(?<!<\s*ref\b[^>/]*>|<\s*/\s*ref\s*>)|<\s*ref\b[^>/]*>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*ref\s*>", RegexOptions.Singleline);        
+        public static readonly Regex UnnamedReferences = new Regex(@"<\s*ref\s*>((?>.(?<!<\s*ref\s*>|<\s*/\s*ref\s*>)|<\s*ref\s*>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*ref\s*>", RegexOptions.Singleline);        
 
         // covered by DablinksTests
         /// <summary>
