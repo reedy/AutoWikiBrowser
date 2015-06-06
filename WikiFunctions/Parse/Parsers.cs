@@ -1421,11 +1421,8 @@ namespace WikiFunctions.Parse
             // No need to go collect refs in named refs section: must be used in article
             Dictionary<string, int> NamedRefsIndexes = new Dictionary<string, int>();
             
-            foreach (Match n in GetNamedRefs(articleText))
+            foreach (Match n in GetNamedRefs(articleText).Where(m => m.Index <= referencestags))
             {
-                if(n.Index > referencestags)
-                    break;
-
                 if(!NamedRefsIndexes.ContainsKey(n.Groups[2].Value))
                     NamedRefsIndexes.Add(n.Groups[2].Value, n.Index);
             }
