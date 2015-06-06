@@ -5678,14 +5678,19 @@ namespace WikiFunctions.Parse
                         continue;
                  }
 
-                string b2 = CanonicalizeTitle(b), a2 = CanonicalizeTitle(a);
                 string lb = Tools.TurnFirstToLower(b), la = Tools.TurnFirstToLower(a);
-
-                if (b2.Equals(a) || b2.Equals(la) || a2.Equals(b) || a2.Equals(lb)) // target and text the same after cleanup and case conversion e.g. [[A|a]] or [[Foo_bar|Foo bar]] etc.
+                
+                if(pl.IndexOfAny("&%_".ToCharArray()) > -1) // check for performance
                 {
-                    articleText = articleText.Replace(pl, "[[" + b.Replace("_", " ") + "]]");
+                    string b2 = CanonicalizeTitle(b), a2 = CanonicalizeTitle(a);
+
+                    if (b2.Equals(a) || b2.Equals(la) || a2.Equals(b) || a2.Equals(lb)) // target and text the same after cleanup and case conversion e.g. [[A|a]] or [[Foo_bar|Foo bar]] etc.
+                    {
+                        articleText = articleText.Replace(pl, "[[" + b.Replace("_", " ") + "]]");
+                    }
                 }
-                else if (lb.StartsWith(la, StringComparison.Ordinal)) // target is substring of text e.g. [[Dog|Dogs]] --> [[Dog]]s
+                
+                if (lb.StartsWith(la, StringComparison.Ordinal)) // target is substring of text e.g. [[Dog|Dogs]] --> [[Dog]]s
                 {
                     bool doBreak = false;
                     foreach (char ch in b.Remove(0, a.Length))
