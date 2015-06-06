@@ -5831,8 +5831,11 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixEmptyLinksAndTemplates(string articleText)
         {
-            while(WikiRegexes.EmptyLink.IsMatch(articleText))
-                articleText = WikiRegexes.EmptyLink.Replace(articleText, "");
+            if(GetAllWikiLinks(articleText).Any(link => WikiRegexes.EmptyLink.IsMatch(link)))
+            {
+                while(WikiRegexes.EmptyLink.IsMatch(articleText))
+                    articleText = WikiRegexes.EmptyLink.Replace(articleText, "");
+            }
             return WikiRegexes.EmptyTemplate.Replace(articleText, "");
         }
 
