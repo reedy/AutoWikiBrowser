@@ -2252,7 +2252,7 @@ namespace WikiFunctions.Parse
             return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
         }
 
-        private static readonly Regex NestedTemplates = new Regex(@"{{\s*([^{}\|]+)((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))}}");
+        private static readonly Regex NestedTemplates = new Regex(@"{{\s*([^{}\|]*)((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))}}");
 
         /// <summary>
         /// Extracts a list of all templates used in the input text, supporting any level of template nesting. Template name given in first letter upper
@@ -5836,7 +5836,11 @@ namespace WikiFunctions.Parse
                 while(WikiRegexes.EmptyLink.IsMatch(articleText))
                     articleText = WikiRegexes.EmptyLink.Replace(articleText, "");
             }
-            return WikiRegexes.EmptyTemplate.Replace(articleText, "");
+
+            if(TemplateExists(GetAllTemplates(articleText), WikiRegexes.EmptyTemplate))
+                articleText = WikiRegexes.EmptyTemplate.Replace(articleText, "");
+
+            return articleText;
         }
 
         /// <summary>
