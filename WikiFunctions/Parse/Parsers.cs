@@ -1502,7 +1502,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             string articleTextOriginal = articleText;
-            bool hasFootnote = Footnote.IsMatch(articleText);
+            bool hasFootnote = TemplateExists(GetAllTemplates(articleText), Footnote);
 
             articleText = RefsBeforePunctuation(articleText);
 
