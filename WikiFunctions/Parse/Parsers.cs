@@ -3506,7 +3506,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^(<hr>|-{5,})", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHeadingWithHorizontalRule = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHTTPNumber = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexISBN = new Regex(@"(?:ISBN(?:-1[03])?:|\[\[ISBN\]\])\s*(\d)", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexISBN = new Regex(@"(?:ISBN(?:-1[03])?:|\[\[ISBN\]\]|ISBN\t)\s*(\d)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN2 = new Regex(@"ISBN-(?!1[03]\b)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN3 = new Regex(@"\[\[ISBN\]\]\s\[\[Special\:BookSources[^\|]*\|([^\]]*)\]\]", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *(\d)", RegexOptions.Compiled);
@@ -3699,7 +3699,7 @@ namespace WikiFunctions.Parse
 
             //  CHECKWIKI error 69
             bool isbnDash = articleText.Contains("ISBN-");
-            if(isbnDash || articleText.Contains("ISBN:") || ssb.Any(m => m.Value.Equals("[[ISBN]]")))
+            if(isbnDash || articleText.Contains("ISBN:") || articleText.Contains("ISBN\t") || ssb.Any(m => m.Value.Equals("[[ISBN]]")))
                 articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
 
             if(isbnDash)
