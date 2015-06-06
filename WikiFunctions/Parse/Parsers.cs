@@ -1421,7 +1421,7 @@ namespace WikiFunctions.Parse
             // No need to go collect refs in named refs section: must be used in article
             Dictionary<string, int> NamedRefsIndexes = new Dictionary<string, int>();
             
-            foreach (Match n in WikiRegexes.NamedReferencesIncludingCondensed.Matches(articleText))
+            foreach (Match n in GetNamedRefs(articleText))
             {
                 if(n.Index > referencestags)
                     break;
@@ -1597,7 +1597,7 @@ namespace WikiFunctions.Parse
                 NamedRefs.Clear();
                 int reflistIndex = RefsTemplateIndex(articleText);
 
-                foreach (Match m in GetNamedRefs(articleText))
+                foreach (Match m in GetNamedRefs(articleText).Where(m => m.Groups[3].Value.Length > 0))
                 {
                     string refName = m.Groups[2].Value, namedRefValue = m.Groups[3].Value;
 
@@ -1735,7 +1735,7 @@ namespace WikiFunctions.Parse
             articleText = SameNamedRefShortText(articleText);
 
             // get named refs, convert to keyvaluepair list of ref name and ref content
-            List<KeyValuePair<string, string>> namedRefsList = GetNamedRefs(articleText).Select(m => new KeyValuePair<string, string>(m.Groups[2].Value, m.Groups[3].Value)).ToList();
+            List<KeyValuePair<string, string>> namedRefsList = GetNamedRefs(articleText).Where(m => m.Groups[3].Value.Length > 0).Select(m => new KeyValuePair<string, string>(m.Groups[2].Value, m.Groups[3].Value)).ToList();
 
             // filter list to those where ref content occurs more than once
             namedRefsList = namedRefsList.GroupBy(a => a.Value).Where(g => g.Count() > 1).SelectMany(a => a).ToList();
@@ -2374,7 +2374,7 @@ namespace WikiFunctions.Parse
         private static Queue<KeyValuePair<string, List<Match>>> GetNamedRefsQueue = new Queue<KeyValuePair<string, List<Match>>>();
 
         /// <summary>
-        /// Extracts a list of all named refs used in the input text
+        /// Extracts a list of all named refs, including condensed used in the input text
         /// </summary>
         /// <param name="articleText"></param>
         private static List<Match> GetNamedRefs(string articleText)
@@ -2384,7 +2384,7 @@ namespace WikiFunctions.Parse
             if(refsList != null)
                 return refsList;
 
-            refsList = (from Match m in WikiRegexes.NamedReferences.Matches(articleText) select m).ToList();
+            refsList = (from Match m in WikiRegexes.NamedReferencesIncludingCondensed.Matches(articleText) select m).ToList();
 
             // cache new results, then dequeue oldest if cache full
             GetNamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText,  refsList));
