@@ -3663,7 +3663,6 @@ namespace WikiFunctions.Parse
                 ssbMc = SingleSquareBrackets.Matches(articleText);
             }
 
-
             // fixes for external links: internal square brackets, newlines or pipes - Partially CHECKWIKI error 80
             // Performance: filter down to matches with likely external link (contains //) and has pipe, newline or internal square brackets
             List<Match> ssb = (from Match m in ssbMc select m).ToList();
@@ -3682,7 +3681,7 @@ namespace WikiFunctions.Parse
 
                 if (!m.Value.Equals(newvalue))
                     articleText = articleText.Replace(m.Value, newvalue);
-            };
+            }
 
             // needs to be applied after SquareBracketsInExternalLinks
             if(orphanedSingleBrackets && !SyntaxRegexFileWithHTTP.IsMatch(articleText))
