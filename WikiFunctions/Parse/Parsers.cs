@@ -3434,7 +3434,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DoubleBracketAtEndOfExternalLinkWithinImage = new Regex(@"(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))\](?=\]{3})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex ListExternalLinkEndsCurlyBrace = new Regex(@"^(\* *\[https?://[^<>\[\]]+?)\)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegexWikilinkMissingClosingBracket = new Regex(@"\[\[([^][]*?)\](?=[^\]]*?(?:$|\[|\n))", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexWikilinkMissingClosingBracket = new Regex(@"\[\[([^][]*?)\|?\](?=[^\]]*?(?:$|\[|\n))", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexWikilinkMissingOpeningBracket = new Regex(@"(?<=(?:^|\]|\n)[^\[]*?)\[([^][]*?)\]\](?!\])", RegexOptions.Compiled);
 
         private static readonly Regex SyntaxRegexExternalLinkToImageURL = new Regex("\\[?\\["+Variables.NamespacesCaseInsensitive[Namespace.File]+"(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -4072,7 +4072,9 @@ namespace WikiFunctions.Parse
                             articleTextTemp = ExtraBracketOnWikilinkOpening2.Replace(articleTextTemp, "");
 
                             // if it's <ref>{{{
-                            articleTextTemp = CiteRefEndsTripleOpeningBrace.Replace(articleTextTemp, "$1{{$2");                            break;
+                            articleTextTemp = CiteRefEndsTripleOpeningBrace.Replace(articleTextTemp, "$1{{$2");
+
+                            break;
 
                         case '(':
                             // if it's ((word) then see if removing the extra opening round bracket makes it all balance
