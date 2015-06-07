@@ -335,6 +335,56 @@ End";
 			Assert.AreEqual(LaterSection, parser2.SortMetaData(LaterSection, "A"), "maintenance tags outside of zeroth section not moved");
 		}
 
+[Test]
+        public void MoveMultipleIssues()
+        {
+            const string correct = @"{{multiple issues|
+{{orphan}}
+{{cleanup}}
+}}
+{{infobox foo}}
+
+Fred has a dog.
+[[Category:Dog owners]]";
+
+            Assert.AreEqual(correct, MetaDataSorter.MoveMultipleIssues(@"{{infobox foo}}
+{{multiple issues|
+{{orphan}}
+{{cleanup}}
+}}
+Fred has a dog.
+[[Category:Dog owners]]"), "mi moved above infobox");
+
+            Assert.AreEqual(correct, MetaDataSorter.MoveMultipleIssues(correct), "no change when already correct");
+
+            const string commented = @"{{infobox foo}}
+<!--{{multiple issues|
+{{orphan}}
+{{cleanup}}
+}}-->
+Fred has a dog.
+[[Category:Dog owners]]";
+            Assert.AreEqual(commented, MetaDataSorter.MoveMultipleIssues(commented), "commented out infobox so nothing to do");
+
+            const string noinfobox = @"{{foo}}
+{{multiple issues|
+{{orphan}}
+{{cleanup}}
+}}
+Fred has a dog.
+[[Category:Dog owners]]";
+            Assert.AreEqual(noinfobox, MetaDataSorter.MoveMultipleIssues(noinfobox), "nothing to move if no infobox");
+
+            const string noMI = @"{{infobox foo}}
+{{something|
+{{one}}
+{{two}}
+}}
+Fred has a dog.
+[[Category:Dog owners]]";
+            Assert.AreEqual(noMI, MetaDataSorter.MoveMultipleIssues(noMI), "nothing to move if no MultipleIssues");
+        }
+
 		[Test]
 		public void MovePortalTemplatesTests()
 		{
