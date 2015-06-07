@@ -243,7 +243,7 @@ namespace AutoWikiBrowser
 
 Use the ""Make module"" button to compile and load the code.
 
-The method ""ProcessArticle"" is called when AWB is applying all its own processes. Do not change the sigature of this method.
+The method ""ProcessArticle"" is called when AWB is applying all its own processes. Do not change the signature of this method.
 
 The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace is 0 etc., the string ""Summary"" must be set to the message to append to the summary (or can be an empty string), the bool ""Skip"" must be set whether to skip the article or not.",
                 "Guide", MessageBoxButtons.OK, MessageBoxIcon.Information);
