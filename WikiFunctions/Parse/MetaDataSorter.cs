@@ -324,7 +324,12 @@ en, sq, ru
 			    {
 			        string zerothSection = Tools.GetZerothSection(articleText);
                     string restOfArticle = articleText.Substring(zerothSection.Length);
-			        articleText = MoveMaintenanceTags(zerothSection) + restOfArticle;
+                    zerothSection = MoveMaintenanceTags(zerothSection);
+
+                    if(TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
+                        zerothSection = MoveMultipleIssues(zerothSection);
+
+                    articleText = zerothSection + restOfArticle;
 			    }
 
             // Dablinks above maintance tags per [[WP:LAYOUT]]
@@ -739,6 +744,39 @@ en, sq, ru
 
 			return strMaintTags.Length > 0 ? articleText.Replace(strMaintTags + "\r\n", strMaintTags) : articleText;
 		}
+
+        /// <summary>
+        /// Moves multiple issues template to the top of the article text.
+        /// Does not move tags when only non-infobox templates are above the last tag
+        /// For en-wiki apply this to zeroth section of article only
+        /// </summary>
+        /// <param name="articleText">the article text</param>
+        /// <returns>the modified article text</returns>
+        public static string MoveMultipleIssues(string articleText)
+        {
+            string originalArticleText = articleText;
+            int multipleIssuesIndex=-1, infoboxIndex=-1;
+
+            foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
+            {
+                if (Tools.GetTemplateName(m.Value).ToLower().Contains("infobox"))
+                    infoboxIndex = m.Index;
+                else if(WikiRegexes.MultipleIssues.IsMatch(m.Value))
+                    multipleIssuesIndex = m.Index;
+            }
+
+            if(multipleIssuesIndex > infoboxIndex && infoboxIndex > -1)
+            {
+                string multipleIssues = WikiRegexes.MultipleIssues.Match(articleText).Value;
+
+                articleText = multipleIssues + "\r\n" + articleText.Replace(multipleIssues, "");
+
+                if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
+                    return originalArticleText;
+            }
+
+            return articleText;
+        }
 
 		private static readonly Regex SeeAlsoSection = new Regex(@"(^== *[Ss]ee also *==.*?)(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
 		private static readonly Regex SeeAlsoToEnd = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
