@@ -1849,10 +1849,13 @@ Message: {2}
 			if(originalArticleText.Equals(articleText))
 				return true;
 
-            List<string> before = (from Match m in WikiRegexes.UnformattedText.Matches(originalArticleText)
+            List<string> after = (from Match m in WikiRegexes.UnformattedText.Matches(articleText) 
                 select m.Value).ToList();
 
-			List<string> after = (from Match m in WikiRegexes.UnformattedText.Matches(articleText) 
+            if(!after.Any())
+                return true;
+
+            List<string> before = (from Match m in WikiRegexes.UnformattedText.Matches(originalArticleText)
                 select m.Value).ToList();
 
 			foreach(string s in before)
