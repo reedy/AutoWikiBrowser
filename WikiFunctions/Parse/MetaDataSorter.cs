@@ -446,6 +446,9 @@ en, sq, ru
 			if (mc.Count > 1)
 				return "";
 
+            string defaultSort = "";
+            bool defaultSortRemoved = false;
+
 			// allow comments between categories, and keep them in the same place, only grab any comment after the last category if on same line
 			// whitespace: remove all whitespace after, but leave a blank newline before a heading (rare case where category not in last section)
 			
@@ -456,21 +459,19 @@ en, sq, ru
 			{
 			    int cutoff = Math.Max(0, cq.Index -500);
 			    string cut = articleText.Substring(cutoff);
-			    articleText = articleText.Substring(0, cutoff) + WikiRegexes.RemoveCatsAllCats.Replace(cut, m =>
-			                                                               {
-			                                                                   if (!CatsForDeletion.IsMatch(m.Value))
-			                                                                       categoryList.Add(m.Value.Trim());
-			                                                                   
-			                                                                   // if category not at start of line, leave newline, otherwise text on next line moved up
-			                                                                   if(m.Index > 2 && !cut.Substring(m.Index-2, 2).Trim().Equals(""))
-			                                                                       return "\r\n";
+                cut = WikiRegexes.RemoveCatsAllCats.Replace(cut, m => {
+	                                                                   if (!CatsForDeletion.IsMatch(m.Value))
+	                                                                       categoryList.Add(m.Value.Trim());
+	                                                                   
+	                                                                   // if category not at start of line, leave newline, otherwise text on next line moved up
+	                                                                   if(m.Index > 2 && !cut.Substring(m.Index-2, 2).Trim().Equals(""))
+	                                                                       return "\r\n";
 
-			                                                                   return "";
-			                                                               });
-			
+	                                                                   return "";
+                                                                      });
 
                 // if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
-                if(!Tools.UnformattedTextNotChanged(originalArticleText.Substring(cutoff), articleText.Substring(cutoff)))
+                if(!Tools.UnformattedTextNotChanged(originalArticleText.Substring(cutoff), cut))
                 {
                     articleText = originalArticleText;
                     return "";
@@ -478,6 +479,15 @@ en, sq, ru
 
                 if (AddCatKey)
                     categoryList = CatKeyer(categoryList, articleTitle);
+
+                // remove defaultsort now if we can, faster to remove from cut than whole articleText
+                if(mc.Count > 0 && cut.Contains(mc[0].Value))
+                {
+                    cut = cut.Replace(mc[0].Value, "");
+                    defaultSortRemoved = true;
+                }
+
+                articleText = articleText.Substring(0, cutoff) + cut;
 
                 if(CatCommentRegex.IsMatch(cut))
                     articleText = CatCommentRegex.Replace(articleText, m =>
@@ -487,7 +497,6 @@ en, sq, ru
                                                           }, 1);
 
 			}
-            string defaultSort = "";
 
 			if(Variables.LangCode.Equals("sl") && LifeTime.IsMatch(articleText))
 			{
@@ -498,11 +507,12 @@ en, sq, ru
 
 			if (!string.IsNullOrEmpty(defaultSort))
 			{
-			    articleText = articleText.Replace(defaultSort, "");
+                // if defaultsort wasn't in the cut area before the categories, remove now
+                if(!defaultSortRemoved)
+			        articleText = articleText.Replace(defaultSort, "");
 
 			    if (defaultSort.ToUpper().Contains("DEFAULTSORT"))
 			        defaultSort = TalkPageFixes.FormatDefaultSort(defaultSort);
-			    
 			    defaultSort += "\r\n";
 			}
 
