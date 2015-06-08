@@ -808,13 +808,13 @@ blah";
 
 			string k = i + j;
 
-			Assert.AreEqual(j + "\r\n", parser2.Sorter.RemoveCats(ref k, "test"));
+			Assert.AreEqual(j + "\r\n", parser2.Sorter.RemoveCats(ref k, "test"), "comments between cats");
 
 			// but don't grab any comment just after the last category
 			string l = i + j + @"
 <!--foo-->";
-			Assert.AreEqual(j + "\r\n", parser2.Sorter.RemoveCats(ref l, "test"));
-			Assert.IsTrue(l.Contains("\r\n" + @"<!--foo-->"));
+			Assert.AreEqual(j + "\r\n", parser2.Sorter.RemoveCats(ref l, "test"), "comment after cat");
+			Assert.IsTrue(l.Contains("\r\n" + @"<!--foo-->"), "comment after cat 2");
 
 			const string m = @"[[Category:American women writers]]
 [[Category:Autism activists]]
@@ -836,7 +836,7 @@ blah";
 
 			string p = o;
 
-			Assert.AreEqual(o + "\r\n", parser2.Sorter.RemoveCats(ref p, "test"));
+			Assert.AreEqual(o + "\r\n", parser2.Sorter.RemoveCats(ref p, "test"), "comments on line");
 
 			// comments beside a category are not moved
 			string q = @"#REDIRECT [[Alton Railroad]]
@@ -848,7 +848,7 @@ blah";
 [[Category:Railway companies disestablished in 1950]]<!--http://bulk.resource.org/courts.gov/c/F2/264/264.F2d.445.12430_1.html-->
 [[Category:Defunct Illinois railroads]]";
 			string s = q + r;
-			Assert.AreEqual(r + "\r\n", parser2.Sorter.RemoveCats(ref s, "test"));
+			Assert.AreEqual(r + "\r\n", parser2.Sorter.RemoveCats(ref s, "test"), "comments on line end");
 			
 			string r2 = @"{{DEFAULTSORT:Joliet Chicago  Railroad}}
 [[Category:Predecessors of the Alton Railroad]]
@@ -869,7 +869,7 @@ blah";
 
 			string t = bug1a + bug1b;
 
-			Assert.AreEqual(bug1a + "\r\n", parser2.Sorter.RemoveCats(ref t, "test"));
+			Assert.AreEqual(bug1a + "\r\n", parser2.Sorter.RemoveCats(ref t, "test"), "commented out cats");
 
 			string bug1c = @"<!-- foo bar-->
 {{info}}
@@ -877,7 +877,7 @@ text
 ";
 			t = bug1c + bug1a + bug1b;
 
-			Assert.AreEqual(bug1a + "\r\n", parser2.Sorter.RemoveCats(ref t, "test"));
+			Assert.AreEqual(bug1a + "\r\n", parser2.Sorter.RemoveCats(ref t, "test"), "commented out plus comments");
 			
 			string bug2 = @"{{The Surreal Life}}
 <!--The 1951 birth date has been upheld in court, please do not add this category.[[Category:1941 births]]-->
@@ -885,7 +885,7 @@ text
 [[Category:Living People]]
 foo";
 			
-			Assert.IsFalse(parser2.Sorter.RemoveCats(ref bug2, "test").Contains(@"[[Category:Living People]]"));
+			Assert.IsFalse(parser2.Sorter.RemoveCats(ref bug2, "test").Contains(@"[[Category:Living People]]"), "commented out and not");
 			
 			string nw = @"[[Category:American women writers]]
 [[Category:Autism activists]]
@@ -894,8 +894,8 @@ foo";
 [[Category:LGBT television personalities]]</nowiki>
 [[Category:Parents of people on the autistic spectrum]]";
 
-			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref nw, "test"));
-			Assert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"));
+			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref nw, "test"), "nowiki cats");
+			Assert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"), "cat after nowiki");
 			
 			string iw1 = @"[[Category:Hampshire|  ]]
 [[Category:Articles including recorded pronunciations (UK English)]]
