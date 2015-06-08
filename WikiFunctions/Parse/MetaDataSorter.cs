@@ -509,7 +509,7 @@ en, sq, ru
 			// Extract any {{uncategorized}} template, but not uncat stub templates
             // remove exact duplicates
 			string uncat = "";
-			if(WikiRegexes.Uncat.IsMatch(articleTextNoComments))
+            if(TemplateExists(Parsers.GetAllTemplates(originalArticleText), WikiRegexes.Uncat) && WikiRegexes.Uncat.IsMatch(articleTextNoComments))
 			{
                 articleText = WikiRegexes.Uncat.Replace(articleText, uncatm =>
                                                         {
