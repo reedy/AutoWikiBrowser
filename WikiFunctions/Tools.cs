@@ -1849,23 +1849,17 @@ Message: {2}
 			if(originalArticleText.Equals(articleText))
 				return true;
 
-			List<string> before = new List<string>();
-			foreach(Match m in WikiRegexes.UnformattedText.Matches(originalArticleText))
-			{
-				before.Add(m.Value);
-			}
-			
-			List<string> after = new List<string>();
-			foreach(Match m in WikiRegexes.UnformattedText.Matches(articleText))
-			{
-				after.Add(m.Value);
-			}
-			
+            List<string> before = (from Match m in WikiRegexes.UnformattedText.Matches(originalArticleText)
+                select m.Value).ToList();
+
+			List<string> after = (from Match m in WikiRegexes.UnformattedText.Matches(articleText) 
+                select m.Value).ToList();
+
 			foreach(string s in before)
 			{
 				after.Remove(s);
 			}
-			
+
 			return (after.Count == 0);
 		}
 
