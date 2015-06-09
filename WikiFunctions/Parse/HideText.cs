@@ -232,6 +232,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex AnyTag = new Regex(@"<([^<>]+)>");
         private static readonly Regex ImageToBar = new Regex(@"^.+?\.[a-zA-Z]{3,4}\s*(?=\||\r\n)", RegexOptions.Multiline);
+        private static readonly Regex SimpleRef = new Regex(@"<ref>[^<>]+</ref>");
         /// <summary>
         /// Hides images, external links, templates, headings
         /// </summary>
@@ -247,6 +248,9 @@ namespace WikiFunctions.Parse
             ReplaceMore(WikiRegexes.NestedTemplates.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.AllTags.Matches(articleText), ref articleText);
+
+            // this replace done for performance: quickly clear out lots of standard refs
+            ReplaceMore(SimpleRef.Matches(articleText), ref articleText);
 
             if (HideExternalLinks)
             {
