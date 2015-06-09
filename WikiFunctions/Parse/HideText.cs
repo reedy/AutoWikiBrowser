@@ -247,12 +247,6 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.AllTags.Matches(articleText), ref articleText);
 
-            // gallery tag does not require Image: namespace link before image in gallery, so hide anything before pipe
-            articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
-                string res = m.Value;
-                ReplaceMore(ImageToBar.Matches(res), ref res);
-                return res;});
-
             if (HideExternalLinks)
             {
                 // performance: only use all-protocol regex if the uncommon protocols are in use
@@ -284,6 +278,12 @@ namespace WikiFunctions.Parse
                 ReplaceMore(WikiRegexes.Category.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.Refs.Matches(articleText), ref articleText);
+
+            // gallery tag does not require Image: namespace link before image in gallery, so hide anything before pipe
+            articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
+                string res = m.Value;
+                ReplaceMore(ImageToBar.Matches(res), ref res);
+                return res;});
 
             // this hides only the target of a link, leaving the pipe exposed
             if(hideWikiLinks)
