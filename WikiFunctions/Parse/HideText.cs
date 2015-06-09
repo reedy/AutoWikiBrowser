@@ -296,7 +296,8 @@ namespace WikiFunctions.Parse
                 ReplaceMore(WikiRegexes.WikiLink.Matches(articleText), ref articleText);
 
             // Image links within templates already hidden as NestedTemplates hides all of templates
-            ReplaceMore(WikiRegexes.ImagesNotTemplates.Matches(articleText), ref articleText);
+            if(AnyTagList.Any(t => t.Contains("gallery")) || articleText.Contains(@"[[")) // check for performance
+                ReplaceMore(WikiRegexes.ImagesNotTemplates.Matches(articleText), ref articleText);
 
             // hide untemplated quotes between some form of quotation marks (most particularly for typo fixing)
             ReplaceMore(WikiRegexes.UntemplatedQuotes.Matches(articleText), ref articleText);
