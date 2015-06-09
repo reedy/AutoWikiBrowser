@@ -315,7 +315,7 @@ namespace WikiFunctions
 		/// <returns></returns>
 		public static string RemoveNamespaceString(string title)
 		{
-			if (Namespace.Determine(title).Equals(Namespace.Article))
+            if (Namespace.IsMainSpace(title))
 				return title;
 
 			int pos = title.IndexOf(':');
