@@ -5909,6 +5909,7 @@ namespace WikiFunctions.Parse
                 // Allow some characters before category start in case of excess opening braces
                 int cutoff = Math.Max(0, cq.Index-2);
                 string cats = articleText.Substring(cutoff);
+                string catsOriginal = cats;
 
                 // fix extra brackets: three or more at end
                 cats = Regex.Replace(cats, @"(" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])\]+", "$1");
@@ -5916,7 +5917,11 @@ namespace WikiFunctions.Parse
                 cats = Regex.Replace(cats, @"\[+(?=" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])", "");
 
                 cats = WikiRegexes.LooseCategory.Replace(cats, LooseCategoryME);
-                
+
+                // Performance: return original text if no changes
+                if(cats.Equals(catsOriginal))
+                    return articleText;
+
                 articleText = articleText.Substring(0, cutoff) + cats;
             }
             
