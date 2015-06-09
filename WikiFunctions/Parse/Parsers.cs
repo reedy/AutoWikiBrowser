@@ -6811,7 +6811,7 @@ namespace WikiFunctions.Parse
                 string lastvalue = "";
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Detect_multiple_DEFAULTSORT
                 // if all the defaultsorts are the same just remove all but one
-                foreach (Match m in WikiRegexes.Defaultsort.Matches(articleText))
+                foreach (Match m in ds)
                 {
                     if (lastvalue.Length == 0)
                     {
