@@ -230,6 +230,7 @@ namespace WikiFunctions.Parse
             return HideMore(articleText, hideOnlyTargetOfWikilink, hideWikiLinks, true);
         }
 
+        private static readonly Regex AnyTag = new Regex(@"<([^<>]+)>");
         private static readonly Regex ImageToBar = new Regex(@"^.+?\.[a-zA-Z]{3,4}\s*(?=\||\r\n)", RegexOptions.Multiline);
         /// <summary>
         /// Hides images, external links, templates, headings
@@ -279,11 +280,16 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Refs.Matches(articleText), ref articleText);
 
+            // performance: get all remaining tags in format <tag...> in article, apply ReplaceMore only if needed
+            List<string> AnyTagList = (from Match m in AnyTag.Matches(articleText)
+                select m.Groups[1].Value.Trim().ToLower()).ToList();
+
             // gallery tag does not require Image: namespace link before image in gallery, so hide anything before pipe
-            articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
-                string res = m.Value;
-                ReplaceMore(ImageToBar.Matches(res), ref res);
-                return res;});
+            if(AnyTagList.Any(t => t.Contains("gallery")))
+                articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
+                    string res = m.Value;
+                    ReplaceMore(ImageToBar.Matches(res), ref res);
+                    return res;});
 
             // this hides only the target of a link, leaving the pipe exposed
             if(hideWikiLinks)
@@ -298,7 +304,8 @@ namespace WikiFunctions.Parse
             if(hideItalics)
                 ReplaceMore(WikiRegexes.Italics.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.Pstyles.Matches(articleText), ref articleText);
+            if(AnyTagList.Any(t => t.Contains("p style")))
+                ReplaceMore(WikiRegexes.Pstyles.Matches(articleText), ref articleText);
 
             return articleText;
         }
