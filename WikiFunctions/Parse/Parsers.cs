@@ -6801,8 +6801,7 @@ namespace WikiFunctions.Parse
             int matches;
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#defaultsort_adding_namespace
-            if (!Namespace.IsMainSpace(articleTitle))
-                articleTitle = Tools.RemoveNamespaceString(articleTitle);
+            articleTitle = Tools.RemoveNamespaceString(articleTitle);
 
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(articleText);
             if (ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
