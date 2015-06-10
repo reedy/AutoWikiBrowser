@@ -179,32 +179,32 @@ Fred has a dog.
 ", e0 = @"{{redirect|foo|bar}}";
 
 			string e = @"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}";
-			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
 
 			e = @"{{For|Fred the dancer|Fred Smith (dancer)}}";
-			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
 			
-			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(e + " " + d));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + " " + d, WikiRegexes.Dablinks));
 
 			e = @"{{redirect2|Fred the dancer|Fred Smith (dancer)}}";
-			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
 
 			e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
-			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
 			
 			e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}
 ";
-			Assert.AreEqual(e + d, MetaDataSorter.MoveDablinks(d + ":" + e), "colons before dablinks removed");
+            Assert.AreEqual(e + d, MetaDataSorter.MoveTemplate(d + ":" + e, WikiRegexes.Dablinks), "colons before dablinks removed");
 			
 			// don't move dablinks in a section
 			const string f = @"Article words
 == heading ==
 {{redirect2|Fred the dancer|Fred Smith (dancer)}}
 words";
-			Assert.AreEqual(f, MetaDataSorter.MoveDablinks(f));
+            Assert.AreEqual(f, MetaDataSorter.MoveTemplate(f, WikiRegexes.Dablinks));
 
 			// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#String_cannot_be_of_zero_length._Parameter_name:_oldValue_.2F_ArgumentException_in_MetaDataSorter.MoveDablinks
-			Assert.AreEqual(@"[[Category:Confederate Navy officers|Captains]]", MetaDataSorter.MoveDablinks(@"[[Category:Confederate Navy officers|Captains]]"));
+            Assert.AreEqual(@"[[Category:Confederate Navy officers|Captains]]", MetaDataSorter.MoveTemplate(@"[[Category:Confederate Navy officers|Captains]]", WikiRegexes.Dablinks));
 
 			const string g = @"Some words";
 			const string h = @"==heading==
@@ -212,17 +212,17 @@ more words
 [[Category:Foo]]";
 			e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
 
-			Assert.AreEqual(e + "\r\n" + g + "\r\n" + h, MetaDataSorter.MoveDablinks(g + "\r\n" + e + "\r\n" + h));
+            Assert.AreEqual(e + "\r\n" + g + "\r\n" + h, MetaDataSorter.MoveTemplate(g + "\r\n" + e + "\r\n" + h, WikiRegexes.Dablinks));
 			
-			Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e + e0));
-			Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveDablinks(e + e0 + "\r\n\r\n" + d));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e + e0, WikiRegexes.Dablinks));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks));
 			
 			// check spacing
-			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + d));
-			Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + e0 + d));
-			Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + e0 + "\r\n" + d));
-			Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + e0 + "\r\n\r\n" + d));
-			Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + e0 + e0 + "\r\n\r\n" + d));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + d, WikiRegexes.Dablinks));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + d, WikiRegexes.Dablinks));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + "\r\n" + d, WikiRegexes.Dablinks));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks));
 		}
 
         [Test]
@@ -256,7 +256,7 @@ Fred has a dog.
 ", e = @"<!-- {{otheruses}} this allows users with [[WP:POPUPS|popups]] to disambiguate links.-->";
 			
 			// don't pull dabs out of comments
-			Assert.AreEqual(d + e, MetaDataSorter.MoveDablinks(d + e));
+            Assert.AreEqual(d + e, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
 			
 			const string f = @"{{for|the book by René Descartes|The World (Descartes)}}
 <!--
@@ -265,7 +265,7 @@ Might eventually be relevant on a disambig page?  But these are a redirect and a
 {{For|the drum & bass dj [[Lemon D]]| Lemon D}}
 -->";
 			
-			Assert.AreEqual(f, MetaDataSorter.MoveDablinks(f));
+            Assert.AreEqual(f, MetaDataSorter.MoveTemplate(f, WikiRegexes.Dablinks));
 		}
 		
 		[Test]
