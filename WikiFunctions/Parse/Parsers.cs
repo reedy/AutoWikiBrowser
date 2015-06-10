@@ -6275,7 +6275,9 @@ namespace WikiFunctions.Parse
         public string BoldTitle(string articleText, string articleTitle, out bool noChange)
         {
             noChange = true;
-            if(NoBoldTitle.IsMatch(articleText))
+            List<string> alltemplates = GetAllTemplates(articleText);
+
+            if(TemplateExists(alltemplates, NoBoldTitle))
                 return articleText;
 
             HideText Hider2 = new HideText(), Hider3 = new HideText(true, true, true);
