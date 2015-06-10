@@ -2992,7 +2992,8 @@ namespace WikiFunctions.Parse
             if(dashed.Any(s => AMPMIncorrectMdash.IsMatch(s)))
                 articleText = AMPMIncorrectMdash.Replace(articleText, @"$1–$3");
 
-            articleText = AgeIncorrectMdash.Replace(articleText, @"$1 $2–$3");
+            if(dashed.Any(s => AgeIncorrectMdash.IsMatch(s)))
+                articleText = AgeIncorrectMdash.Replace(articleText, @"$1 $2–$3");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Match_en_dashes.2Femdashs_from_titles_with_those_in_the_text
             // if title has en or em dashes, apply them to strings matching article title but with hyphens
