@@ -332,9 +332,13 @@ en, sq, ru
                     articleText = zerothSection + restOfArticle;
 			    }
 
+            // deletion/protection templates above maintenance tags, below dablinks per [[WP:LAYOUT]]
+            if(TemplateExists(alltemplates, WikiRegexes.DeletionProtectionTags))
+                articleText = MoveTemplate(articleText, WikiRegexes.DeletionProtectionTags);
+
             // Dablinks above maintance tags per [[WP:LAYOUT]]
             if(TemplateExists(alltemplates, WikiRegexes.Dablinks))
-			    articleText = MoveDablinks(articleText);
+                articleText = MoveTemplate(articleText, WikiRegexes.Dablinks);
 
 			    if (Variables.LangCode.Equals("en"))
 			    {
@@ -622,39 +626,50 @@ en, sq, ru
 		/// <returns>Article text with disambiguation links at top</returns>
 		public static string MoveDablinks(string articleText)
 		{
-			string originalArticletext = articleText;
-			
-			// get the zeroth section (text upto first heading)
+            return MoveTemplate(articleText, WikiRegexes.Dablinks);
+		}
+
+        /// <summary>
+        /// Moves any templates in the zeroth section to the top of the article (en only)
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="templateRegex">Regex matching the templates to  be moved</param>
+        /// <returns>Article text with disambiguation links at top</returns>
+        public static string MoveTemplate(string articleText, Regex templateRegex)
+        {
+            string originalArticletext = articleText;
+
+            // get the zeroth section (text upto first heading)
             string zerothSection = Tools.GetZerothSection(articleText);
 
-			// avoid moving commented out Dablinks
-			if (Variables.LangCode != "en" || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
-				return articleText;
+            // avoid moving commented out templates
+            if (Variables.LangCode != "en" || !templateRegex.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
+                return articleText;
 
-			// get the rest of the article including first heading (may be null if article has no headings)
-			string restOfArticle = articleText.Substring(zerothSection.Length);
+            // get the rest of the article including first heading (may be null if article has no headings)
+            string restOfArticle = articleText.Substring(zerothSection.Length);
 
-			string strDablinks = "";
+            string strTemplates = "";
 
-			foreach (Match m in WikiRegexes.Dablinks.Matches(zerothSection))
-			{
-				strDablinks += m.Value + "\r\n";
-				
-				// remove colons before dablink
-				zerothSection = zerothSection.Replace(":" + m.Value + "\r\n", "");
-				
-				// additionally, remove whitespace after dablink
-				zerothSection = Regex.Replace(zerothSection, Regex.Escape(m.Value) + @" *(?:\r\n)?", "");
-			}
-			
-			articleText = strDablinks + zerothSection + restOfArticle;
-			
-			// avoid moving commented out Dablinks, round 2
-			if(Tools.UnformattedTextNotChanged(originalArticletext, articleText))
-				return articleText;
-			
-			return originalArticletext;
-		}
+            foreach (Match m in templateRegex.Matches(zerothSection))
+            {
+                strTemplates += m.Value + "\r\n";
+
+                // remove colons before template
+                zerothSection = zerothSection.Replace(":" + m.Value + "\r\n", "");
+
+                // additionally, remove whitespace after template
+                zerothSection = Regex.Replace(zerothSection, Regex.Escape(m.Value) + @" *(?:\r\n)?", "");
+            }
+
+            articleText = strTemplates + zerothSection + restOfArticle;
+
+            // avoid moving commented out templates, round 2
+            if(Tools.UnformattedTextNotChanged(originalArticletext, articleText))
+                return articleText;
+
+            return originalArticletext;
+        }
 		
 		private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
 		private static readonly Regex ExternalLinksToEnd = new Regex(@"(==+) *[Ee]xternal +[Ll]inks? *\1.*", RegexOptions.Singleline);
