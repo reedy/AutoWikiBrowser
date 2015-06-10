@@ -6319,7 +6319,7 @@ namespace WikiFunctions.Parse
 
             // ignore date articles (date in American or international format), nihongo title
             if (WikiRegexes.Dates2.IsMatch(articleTitle) || WikiRegexes.Dates.IsMatch(articleTitle)
-                || NihongoTitle.IsMatch(articleText))
+                || TemplateExists(alltemplates, NihongoTitle))
                 return articleTextAtStart;
 
             string escTitle = Regex.Escape(articleTitle), escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
