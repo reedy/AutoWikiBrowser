@@ -2977,7 +2977,13 @@ namespace WikiFunctions.Parse
                                                               return pagespart + m.Groups[2].Value + @"–" + m.Groups[3].Value;
                                                           });
 
-            if(UnitTimeRangeIncorrectMdashQuick.IsMatch(articleText))
+            // performance: faster to pick out end of ranges and substring than simply run regex
+            List<string> dashed = (from Match m in Regex.Matches(articleText, @"[—-]\s*[0-9].{0,12}")
+                select (m.Index > 10 ? articleText.Substring(m.Index-10, m.Length+10) : articleText.Substring(0, m.Length+m.Index))).ToList();
+
+            dashed = Tools.DeduplicateList(dashed);
+
+            if(dashed.Any(s =>  UnitTimeRangeIncorrectMdashQuick.IsMatch(s)))
                 articleText = UnitTimeRangeIncorrectMdash.Replace(articleText, @"$1–$2$3$4");
 
             articleText = DollarAmountIncorrectMdash.Replace(articleText, @"$1–$2");
