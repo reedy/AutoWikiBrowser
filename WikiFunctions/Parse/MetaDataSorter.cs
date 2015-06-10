@@ -619,16 +619,6 @@ en, sq, ru
 			return strDisambig;
 		}
 
-		/// <summary>
-		/// Moves any disambiguation links in the zeroth section to the top of the article (en only)
-		/// </summary>
-		/// <param name="articleText">The wiki text of the article.</param>
-		/// <returns>Article text with disambiguation links at top</returns>
-		public static string MoveDablinks(string articleText)
-		{
-            return MoveTemplate(articleText, WikiRegexes.Dablinks);
-		}
-
         /// <summary>
         /// Moves matching templates in the zeroth section to the top of the article (en only)
         /// </summary>
