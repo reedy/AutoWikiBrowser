@@ -6694,14 +6694,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static string GetCats(string articleText)
         {
-            StringBuilder sb = new StringBuilder();
-
-            foreach(Match m in WikiRegexes.Category.Matches(articleText))
-            {
-                sb.Append(m.Value);
-            }
-
-            return sb.ToString();
+            return string.Join("", GetAllWikiLinks(articleText).Where(l => l.Contains(":") && WikiRegexes.Category.IsMatch(l)).ToArray());
         }
 
         /// <summary>
