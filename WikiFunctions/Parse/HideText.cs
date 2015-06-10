@@ -85,7 +85,12 @@ namespace WikiFunctions.Parse
         {
             HiddenTokens.Clear();
 
-            Replace(WikiRegexes.SourceCode.Matches(articleText), ref articleText);
+            // performance: get all tags in format <tag...> in article, apply Replace only if needed
+            List<string> AnyTagList = (from Match m in AnyTag.Matches(articleText)
+                select m.Groups[1].Value.Trim().ToLower()).ToList();
+
+            if(AnyTagList.Any(t => t.Equals("tt") || t.StartsWith("syntaxhighlight") || t.Equals("code") || t.StartsWith("source")))
+                Replace(WikiRegexes.SourceCode.Matches(articleText), ref articleText);
             Replace(MathCodeTypoTemplates.Matches(articleText), ref articleText);                 
 
             var matches = (from Match m in WikiRegexes.UnformattedText.Matches(articleText) where !LeaveMetaHeadings || !NoWikiIgnoreRegex.IsMatch(m.Value) select m).ToList();
@@ -102,14 +107,16 @@ namespace WikiFunctions.Parse
             if (HideImages)
             {
                 Replace(WikiRegexes.Images.Matches(articleText), ref articleText);
-                Replace(WikiRegexes.ImageMap.Matches(articleText), ref articleText);
+                if(AnyTagList.Any(t => t.Contains("imagemap")))
+                    Replace(WikiRegexes.ImageMap.Matches(articleText), ref articleText);
                 Replace(CiteTitle.Matches(articleText), ref articleText);
 
                 // gallery tag does not require Image: namespace link before image in gallery, so hide anything before pipe
-                articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
-                    string res = m.Value;
-                    Replace(ImageToBar.Matches(res), ref res);
-                    return res;});
+                if(AnyTagList.Any(t => t.Contains("gallery")))
+                    articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
+                        string res = m.Value;
+                        Replace(ImageToBar.Matches(res), ref res);
+                        return res;});
             }
 
             return articleText;
