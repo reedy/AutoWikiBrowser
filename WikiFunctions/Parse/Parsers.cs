@@ -7554,9 +7554,16 @@ namespace WikiFunctions.Parse
         /// <returns>Page text</returns>
         public static string InterwikiConversions(string articleText)
         {
-            articleText = articleText.Replace("[[zh-tw:", "[[zh:");
-            articleText = articleText.Replace("[[nb:", "[[no:");
-            return articleText.Replace("[[dk:", "[[da:");
+            List<string> possibleInterwiki = GetAllWikiLinks(articleText).Where(l => l.Contains(":")).ToList();
+
+            if(possibleInterwiki.Any(l => l.StartsWith(@"[[zh-tw:")))
+                articleText = articleText.Replace("[[zh-tw:", "[[zh:");
+            if(possibleInterwiki.Any(l => l.StartsWith(@"[[nb:")))
+                articleText = articleText.Replace("[[nb:", "[[no:");
+            if(possibleInterwiki.Any(l => l.StartsWith(@"[[dk:")))
+                articleText = articleText.Replace("[[dk:", "[[da:");
+
+            return articleText;
         }
 
         /// <summary>
