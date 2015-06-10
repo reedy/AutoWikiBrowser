@@ -2952,7 +2952,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex UnitTimeRangeIncorrectMdash = new Regex(@"(?<!-)(\b[1-9]?\d+\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d+)(\s+|&nbsp;)((?:years|months|weeks|days|hours|minutes|seconds|[km]g|kb|[ckm]?m|[Gk]?Hz|miles|mi\.|%|feet|foot|ft|met(?:er|re)s)\b|in\))");
         private static readonly Regex DollarAmountIncorrectMdash = new Regex(@"(\$[1-9]?\d{1,3}\s*)(?:-|—|&mdash;|&#8212;)(\s*\$?[1-9]?\d{1,3})");
         private static readonly Regex AMPMIncorrectMdash = new Regex(@"([01]?\d:[0-5]\d\s*([AP]M)\s*)(?:-|—|&mdash;|&#8212;)(\s*[01]?\d:[0-5]\d\s*([AP]M))", RegexOptions.IgnoreCase);
-        private static readonly Regex AMPMIncorrectMdashQuick = new Regex(@"\b[AP]M\s*[\-—&]", RegexOptions.IgnoreCase);
         private static readonly Regex AgeIncorrectMdash = new Regex(@"([Aa]ge[sd])\s([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)");
         private static readonly Regex SentenceClauseIncorrectMdash = new Regex(@"(?!xn--)(\w{2}|⌊⌊⌊⌊M\d+⌋⌋⌋⌋)\s*--\s*(\w)");
         private static readonly Regex SuperscriptMinus = new Regex(@"(<sup>)(?:-|–|—)(?=\d+</sup>)");
@@ -2982,13 +2981,13 @@ namespace WikiFunctions.Parse
 
             dashed = Tools.DeduplicateList(dashed);
 
-            if(dashed.Any(s =>  UnitTimeRangeIncorrectMdash.IsMatch(s)))
+            if(dashed.Any(s => UnitTimeRangeIncorrectMdash.IsMatch(s)))
                 articleText = UnitTimeRangeIncorrectMdash.Replace(articleText, @"$1–$2$3$4");
 
-            if(dashed.Any(s =>  DollarAmountIncorrectMdash.IsMatch(s)))
+            if(dashed.Any(s => DollarAmountIncorrectMdash.IsMatch(s)))
                 articleText = DollarAmountIncorrectMdash.Replace(articleText, @"$1–$2");
 
-            if(AMPMIncorrectMdashQuick.IsMatch(articleText))
+            if(dashed.Any(s => AMPMIncorrectMdash.IsMatch(s)))
                 articleText = AMPMIncorrectMdash.Replace(articleText, @"$1–$3");
 
             articleText = AgeIncorrectMdash.Replace(articleText, @"$1 $2–$3");
