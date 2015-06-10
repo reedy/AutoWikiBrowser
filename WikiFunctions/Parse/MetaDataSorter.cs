@@ -630,7 +630,7 @@ en, sq, ru
 		}
 
         /// <summary>
-        /// Moves any templates in the zeroth section to the top of the article (en only)
+        /// Moves matching templates in the zeroth section to the top of the article (en only)
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="templateRegex">Regex matching the templates to  be moved</param>
