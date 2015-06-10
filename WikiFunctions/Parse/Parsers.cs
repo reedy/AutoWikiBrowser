@@ -2985,7 +2985,8 @@ namespace WikiFunctions.Parse
             if(dashed.Any(s =>  UnitTimeRangeIncorrectMdash.IsMatch(s)))
                 articleText = UnitTimeRangeIncorrectMdash.Replace(articleText, @"$1–$2$3$4");
 
-            articleText = DollarAmountIncorrectMdash.Replace(articleText, @"$1–$2");
+            if(dashed.Any(s =>  DollarAmountIncorrectMdash.IsMatch(s)))
+                articleText = DollarAmountIncorrectMdash.Replace(articleText, @"$1–$2");
 
             if(AMPMIncorrectMdashQuick.IsMatch(articleText))
                 articleText = AMPMIncorrectMdash.Replace(articleText, @"$1–$3");
