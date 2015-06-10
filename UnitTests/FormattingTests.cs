@@ -754,6 +754,7 @@ Bring"));
             Assert.AreEqual("$55–57", parser.Mdashes("$55-57", "test"));
             Assert.AreEqual("$1155–1157", parser.Mdashes("$1155-1157", "test"));
             Assert.AreEqual("$55–57", parser.Mdashes("$55&mdash;57", "test"));
+            Assert.AreEqual("$55–57", parser.Mdashes("$55&#8212;57", "test"));
             Assert.AreEqual("$55–57", parser.Mdashes("$55—57", "test"));
 
             Assert.AreEqual("5:17 AM – 5:19 AM", parser.Mdashes("5:17 AM - 5:19 AM", "test"));
