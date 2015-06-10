@@ -758,10 +758,12 @@ Bring"));
             Assert.AreEqual("$55–57", parser.Mdashes("$55—57", "test"));
 
             Assert.AreEqual("5:17 AM – 5:19 AM", parser.Mdashes("5:17 AM - 5:19 AM", "test"));
+            Assert.AreEqual("5:17 am – 5:19 am", parser.Mdashes("5:17 am - 5:19 am", "test"));
             Assert.AreEqual("05:17 AM – 05:19 AM", parser.Mdashes("05:17 AM - 05:19 AM", "test"));
             Assert.AreEqual("11:17 PM – 11:19 PM", parser.Mdashes("11:17 PM - 11:19 PM", "test"));
             Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm - 11:19 pm", "test"));
             Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm &mdash; 11:19 pm", "test"));
+            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm &#8212; 11:19 pm", "test"));
             Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm — 11:19 pm", "test"));
 
             Assert.AreEqual("Aged 5–9", parser.Mdashes("Aged 5–9", "test"));
