@@ -34,6 +34,8 @@ namespace UnitTests
 ]]", "newline in category name 2");
             Assert.AreEqual("Test now", WikiRegexes.Category.Match("[[Category:Test now]]").Groups[1].Value, "Group 1 is category name");
             Assert.AreEqual("Test now", WikiRegexes.Category.Match("[[Category: Test now ]]").Groups[1].Value, "Group 1 is category name, trimmed");
+            Assert.AreEqual("", WikiRegexes.Category.Match("[[Category: Test now ]]").Groups[2].Value, "Group 2 is optional sort key");
+            Assert.AreEqual("Bar", WikiRegexes.Category.Match("[[Category: Test now|Bar]]").Groups[2].Value, "Group 2 is sort key");
 
             #if DEBUG
             Variables.SetProjectLangCode("sv");
