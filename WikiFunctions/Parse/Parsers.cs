@@ -5941,12 +5941,16 @@ namespace WikiFunctions.Parse
 
             string sortkey = m.Groups[2].Value;
 
-            // diacritic removal in sortkeys on en-wiki/simple-wiki only
-            if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
-                sortkey = Tools.CleanSortKey(sortkey);
+            if(!string.IsNullOrEmpty(sortkey))
+            {
+                // diacritic removal in sortkeys on en-wiki/simple-wiki only
+                if(Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
+                    sortkey = Tools.CleanSortKey(sortkey);
 
-            return CategoryStart + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim().TrimStart(':')) +
-                WordWhitespaceEndofline.Replace(sortkey, "$1") + "]]";
+                sortkey = WordWhitespaceEndofline.Replace(sortkey, "$1");
+            }
+
+            return CategoryStart + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim().TrimStart(':')) + sortkey + "]]";
         }
 
         private static readonly Regex TripleBraceNum = new Regex(@"{{{\d}}}", RegexOptions.Compiled);
