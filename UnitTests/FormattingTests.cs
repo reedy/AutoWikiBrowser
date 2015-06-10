@@ -732,6 +732,8 @@ Bring"));
             Assert.AreEqual("55–57 miles", parser.Mdashes("55-57 miles", "test"));
             Assert.AreEqual("55–57 kg", parser.Mdashes("55-57 kg", "test"));
             Assert.AreEqual("55 – 57 kg", parser.Mdashes("55 - 57 kg", "test"));
+            Assert.AreEqual("55–57 kg", parser.Mdashes(@"55&#8212;57 kg", "test"));
+            Assert.AreEqual("55–57 kg", parser.Mdashes(@"55&mdash;57 kg", "test"));
             Assert.AreEqual("55–57&nbsp;kg", parser.Mdashes("55-57&nbsp;kg", "test"));
             Assert.AreEqual("55–57 Hz", parser.Mdashes("55-57 Hz", "test"));
             Assert.AreEqual("55–57 GHz", parser.Mdashes("55-57 GHz", "test"));
