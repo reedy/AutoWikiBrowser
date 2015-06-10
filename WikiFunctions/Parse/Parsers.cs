@@ -5860,6 +5860,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex ExternalLinksSection = new Regex(@"=\s*(?:external)?\s*links\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
         private static readonly Regex NewlinesBeforeHTTP = new Regex("(\r\n|\n)?(\r\n|\n)(\\[?http)", RegexOptions.Compiled);
+        private static readonly Regex HeadingQuick = new Regex(@"^=+[^=\r\n]+=", RegexOptions.Multiline);
 
         // Covered by: LinkTests.TestBulletExternalLinks()
         /// <summary>
@@ -5869,12 +5870,17 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string BulletExternalLinks(string articleText)
         {
-            int intStart = ExternalLinksSection.Match(articleText).Index;
+            // Performance: get all headings, filter to any external link ones
+            List<Match> h = (from Match m in HeadingQuick.Matches(articleText)
+                where m.Value.ToLower().Contains("external") && ExternalLinksSection.IsMatch(m.Value)
+                                      select m).ToList();
 
-            if(intStart > 0)
-            {
+            if(h.Any())
+            {            
+                int intStart = h.FirstOrDefault().Index;
+
                 string articleTextSubstring = articleText.Substring(intStart);
-                
+
                 if(NewlinesBeforeHTTP.IsMatch(articleTextSubstring))
                 {
                     articleText = articleText.Substring(0, intStart);
