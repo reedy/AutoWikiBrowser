@@ -679,7 +679,7 @@ namespace WikiFunctions
         public static Regex Dates2;
 
         /// <summary>
-        /// Matches categories, group 1 being the category name
+        /// Matches categories, group 1 being the category name, group 2 being any sort key
         /// </summary>
         public static Regex Category;
 
