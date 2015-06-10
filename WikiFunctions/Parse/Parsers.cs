@@ -2965,21 +2965,23 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string Mdashes(string articleText, string articleTitle)
         {
-            // replace hyphen with dash and convert Pp. to pp.
-            articleText = PageRangeIncorrectMdash.Replace(articleText, m=>
-                                                          {
-                                                              string pagespart = m.Groups[1].Value;
-                                                              if (pagespart.Contains(@"Pp"))
-                                                                  pagespart = pagespart.ToLower();
-
-                                                              return pagespart + m.Groups[2].Value + @"–" + m.Groups[3].Value;
-                                                          });
-
-            // performance: faster to pick out end of ranges and substring than simply run regex
-            List<string> dashed = (from Match m in Regex.Matches(articleText, @"(?:—|-|&#8212;|&mdash;)\s*[0-9].{0,12}")
-                select (m.Index > 10 ? articleText.Substring(m.Index-10, m.Length+10) : articleText.Substring(0, m.Length+m.Index))).ToList();
+            const int backlength = 12;
+            // performance: faster to pick out end of ranges and substring than run each regex in turn
+            List<string> dashed = (from Match m in Regex.Matches(articleText, @"(?:—|-|&#8212;|&mdash;)+\s*[0-9].{0,12}")
+                select (m.Index > backlength ? articleText.Substring(m.Index-backlength, m.Length+backlength) : articleText.Substring(0, m.Length+m.Index))).ToList();
 
             dashed = Tools.DeduplicateList(dashed);
+
+            // replace hyphen with dash and convert Pp. to pp.
+            if(dashed.Any(s => PageRangeIncorrectMdash.IsMatch(s)))
+                articleText = PageRangeIncorrectMdash.Replace(articleText, m=>
+                                                              {
+                                                                  string pagespart = m.Groups[1].Value;
+                                                                  if (pagespart.Contains(@"Pp"))
+                                                                      pagespart = pagespart.ToLower();
+
+                                                                  return pagespart + m.Groups[2].Value + @"–" + m.Groups[3].Value;
+                                                              });
 
             if(dashed.Any(s => UnitTimeRangeIncorrectMdash.IsMatch(s)))
                 articleText = UnitTimeRangeIncorrectMdash.Replace(articleText, @"$1–$2$3$4");
