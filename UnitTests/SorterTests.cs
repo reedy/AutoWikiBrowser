@@ -224,6 +224,27 @@ more words
 			Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + e0 + "\r\n\r\n" + d));
 			Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + e0 + e0 + "\r\n\r\n" + d));
 		}
+
+        [Test]
+        public void MoveDeletionProtection()
+        {
+            string deletiontag = @"{{Prod blp}}", dablink = @"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}", 
+            maintenancetemp = @"{{cleanup}}", foo = @"The rest of the article", infobox = @"{{infobox hello}}",
+            mi = @"{{multiple issues|
+{{cleanup}}
+{{orphan}}            
+}}";
+
+            Assert.AreEqual(dablink + "\r\n" + deletiontag + "\r\n" + maintenancetemp + "\r\n" + foo, 
+                parser2.SortMetaData(dablink + "\r\n" + deletiontag + "\r\n" + maintenancetemp + "\r\n" + foo, "Foo"), "no change if already OK");
+            Assert.AreEqual(dablink + "\r\n" + deletiontag + "\r\n" + maintenancetemp + "\r\n" + foo, 
+                parser2.SortMetaData(deletiontag + "\r\n" + dablink + "\r\n" + maintenancetemp + "\r\n" + foo, "Foo"), "dablink above deletion");
+            Assert.AreEqual(dablink + "\r\n" + deletiontag + "\r\n" + maintenancetemp + "\r\n" + foo, 
+                parser2.SortMetaData(dablink + "\r\n" + maintenancetemp + "\r\n" + deletiontag + "\r\n" + foo, "Foo"), "deletion above maintenance");
+
+            Assert.AreEqual(dablink + "\r\n" + deletiontag + "\r\n" + mi + "\r\n" + infobox + "\r\n" + foo, 
+                parser2.SortMetaData(dablink + "\r\n" + mi + "\r\n" + deletiontag + "\r\n" + infobox + "\r\n" + foo, "Foo"), "deletion above multipleissues and mi above infobox");
+        }
 		
 		[Test]
 		public void MoveDablinksCommentsTests()
