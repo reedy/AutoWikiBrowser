@@ -2977,7 +2977,7 @@ namespace WikiFunctions.Parse
                                                           });
 
             // performance: faster to pick out end of ranges and substring than simply run regex
-            List<string> dashed = (from Match m in Regex.Matches(articleText, @"[—-]\s*[0-9].{0,12}")
+            List<string> dashed = (from Match m in Regex.Matches(articleText, @"(?:—|-|&#8212;|&mdash;)\s*[0-9].{0,12}")
                 select (m.Index > 10 ? articleText.Substring(m.Index-10, m.Length+10) : articleText.Substring(0, m.Length+m.Index))).ToList();
 
             dashed = Tools.DeduplicateList(dashed);
