@@ -2391,8 +2391,8 @@ namespace WikiFunctions.Parse
             return refsList;
         }
 
-        private static Regex RenameTemplateParametersTemplates;
         private static List<string> RenameTemplateParametersOldParams;
+        private static List<string> Templates;
 
         /// <summary>
         /// Renames parameters in template calls.
@@ -2406,10 +2406,10 @@ namespace WikiFunctions.Parse
             if (RenamedTemplateParameters.Count == 0)
                 return articleText;
 
-            // build Regex to match templates with parmeters to rename, plus list of old parameter names if not already cached
-            if (RenameTemplateParametersTemplates == null)
+            // build list of templates with parmeters to rename, plus list of old parameter names if not already cached
+            if (Templates == null)
             {
-                List<string> Templates = new List<string>();
+                Templates = new List<string>();
                 RenameTemplateParametersOldParams = new List<string>();
 
                 foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
@@ -2418,11 +2418,19 @@ namespace WikiFunctions.Parse
                     RenameTemplateParametersOldParams.Add(Params.OldParameter);
                 }
 
+                Templates = Tools.DeduplicateList(Templates);
                 RenameTemplateParametersOldParams = Tools.DeduplicateList(RenameTemplateParametersOldParams);
-                RenameTemplateParametersTemplates = Tools.NestedTemplateRegex(Tools.DeduplicateList(Templates));
             }
 
-            return RenameTemplateParametersTemplates.Replace(articleText,
+            // Performance: now filter templates with parameters to rename against templates used on the page
+            // so only templates used on page are looked for
+            List<string> templatesToProcess = GetAllTemplates(articleText);
+            templatesToProcess = Templates.Where(t => templatesToProcess.Contains(Tools.TurnFirstToUpper(t))).ToList();
+
+            if(!templatesToProcess.Any())
+                return articleText;
+
+            return Tools.NestedTemplateRegex(templatesToProcess).Replace(articleText,
                                                              m => (Globals.SystemCore3500Available ?
                                                                    RenameTemplateParametersHashSetME(m, RenamedTemplateParameters)
                                                                    : RenameTemplateParametersME(m, RenamedTemplateParameters)));
@@ -2480,7 +2488,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Loads List of templates, old parameter, new parameter from within {{AWB rename template parameter}}
+        /// Loads List of templates (first letter lower), old parameter, new parameter from within {{AWB rename template parameter}}
         /// </summary>
         /// <param name="text">Source page of {{AWB rename template parameter}} rules</param>
         /// <returns>List of templates (first letter lower), old parameter, new parameter</returns>
