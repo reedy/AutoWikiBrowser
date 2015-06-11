@@ -2707,7 +2707,7 @@ namespace WikiFunctions.Parse
         public static string CiteTemplateDates(string articleText)
         {
             // cite podcast is non-compliant to citation core standards
-            if (!Variables.IsWikipediaEN || CitePodcast.IsMatch(articleText))
+            if (!Variables.IsWikipediaEN || TemplateExists(GetAllTemplates(articleText), CitePodcast))
                 return articleText;
 
             string articleTextlocal = "", originalArticleText = articleText;
