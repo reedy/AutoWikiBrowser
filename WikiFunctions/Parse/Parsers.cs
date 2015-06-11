@@ -6031,7 +6031,8 @@ namespace WikiFunctions.Parse
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Pagination
                 // add non-breaking space after pp. abbreviation for pages.
-                articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");
+                if(Regex.IsMatch(articleText, @"(p\.) *[0-9IVXCL][^S]")) // check for performance
+                    articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");
             }
 
             // Add non-breaking space to 12-hour clock times [[MOS:TIME]].
