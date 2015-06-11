@@ -4249,6 +4249,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex UnspacedCommaPageRange = new Regex(@"((?:[ ,–]|^)\d+),(\d+(?:[ ,–]|$))");
 
         private static readonly List<string> ParametersToDequote = new List<string>(new[] { "title", "trans_title" });
+        private static readonly Regex rpTemplate = Tools.NestedTemplateRegex("rp");
 
         /// <summary>
         /// Applies various formatting fixes to citation templates
@@ -4260,9 +4261,11 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            articleText = WikiRegexes.CiteTemplate.Replace(articleText, FixCitationTemplatesME);
+            if(TemplateExists(GetAllTemplates(articleText), WikiRegexes.CiteTemplate))
+                articleText = WikiRegexes.CiteTemplate.Replace(articleText, FixCitationTemplatesME);
 
-            articleText = WikiRegexes.HarvTemplate.Replace(articleText, m =>
+            if(TemplateExists(GetAllTemplates(articleText), WikiRegexes.HarvTemplate))
+                articleText = WikiRegexes.HarvTemplate.Replace(articleText, m =>
                                                            {
                                                                string newValue = FixPageRanges(m.Value, Tools.GetTemplateParameterValues(m.Value));
                                                                string page = Tools.GetTemplateParameterValue(newValue, "p");
@@ -4276,8 +4279,9 @@ namespace WikiFunctions.Parse
 
                                                                return newValue;
                                                            });
-
-            articleText = Tools.NestedTemplateRegex("rp").Replace(articleText, m =>
+            
+            if(TemplateExists(GetAllTemplates(articleText), rpTemplate))
+                articleText = rpTemplate.Replace(articleText, m =>
                                                                   {
                                                                       string pagerange = Tools.GetTemplateArgument(m.Value, 1);
                                                                       if(pagerange.Length > 0)
