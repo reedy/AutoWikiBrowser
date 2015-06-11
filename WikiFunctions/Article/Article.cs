@@ -1529,6 +1529,7 @@ namespace WikiFunctions
             }
 
             UnHideText(removeText);
+            Variables.Profiler.Profile("UnHideText");
 
             if (!Tools.IsRedirect(ArticleText))
             {
