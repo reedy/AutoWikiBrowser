@@ -4304,13 +4304,13 @@ namespace WikiFunctions.Parse
             {
                 foreach (string s in GetAllTemplateDetail(articleText))
                 {
-                /*  string res = s, original = "";
+                    string res = s, original = "";
                     while(!res.Equals(original))
                     {
                         original = res;
                         res = WikiRegexes.CiteTemplate.Replace(res, FixCitationTemplatesME);
-                    } */
-                    string res = WikiRegexes.CiteTemplate.Replace(s, FixCitationTemplatesME);
+                    }
+
                     if(!res.Equals(s))
                         articleText = articleText.Replace(s, res);
                 }
