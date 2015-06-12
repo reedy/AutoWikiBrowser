@@ -2418,7 +2418,6 @@ namespace WikiFunctions.Parse
         }
 
         private static List<string> RenameTemplateParametersOldParams = new List<string>();
-        private static List<string> Templates;
 
         /// <summary>
         /// Renames parameters in template calls.
@@ -2432,31 +2431,19 @@ namespace WikiFunctions.Parse
             if (RenamedTemplateParameters.Count == 0)
                 return articleText;
 
-            // build list of templates with parmeters to rename, plus list of old parameter names if not already cached
-            if (Templates == null)
-            {
-                Templates = new List<string>();
-
-                foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
-                {
-                    Templates.Add(Params.TemplateName);
-                }
-
-                Templates = Tools.DeduplicateList(Templates);
-            }
-
             // Performance: now filter templates with parameters to rename against templates used on the page
             // so only templates used on page are looked for
-            List<string> templatesToProcess = GetAllTemplates(articleText);
-            templatesToProcess = Templates.Where(t => templatesToProcess.Contains(Tools.TurnFirstToUpper(t))).ToList();
-
-            if(!templatesToProcess.Any())
-                return articleText;
+            List<string> templatesToProcess = GetAllTemplates(articleText).Select(t => Tools.TurnFirstToLower(t)).ToList();
             
             // filter the parameters set down to only those templates used on the page
             RenamedTemplateParameters = RenamedTemplateParameters.Where(t => templatesToProcess.Contains(t.TemplateName)).ToList();
 
             RenameTemplateParametersOldParams = Tools.DeduplicateList(RenamedTemplateParameters.Select(x => x.OldParameter).ToList());
+
+            templatesToProcess = Tools.DeduplicateList(RenamedTemplateParameters.Select(x => x.TemplateName).ToList());
+
+            if(!templatesToProcess.Any())
+                return articleText;
 
             Regex r = Tools.NestedTemplateRegex(templatesToProcess);
 
