@@ -368,7 +368,7 @@ namespace WikiFunctions
         public static List<string> DatedTemplates = new List<string>();
         
         /// <summary>
-        /// Structure of template name, old parameter, new parameter for parameter renaming
+        /// Structure of template name (first letter lower), old parameter, new parameter for parameter renaming
         /// </summary>
         public struct TemplateParameters
         {
