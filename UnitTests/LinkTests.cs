@@ -1809,8 +1809,7 @@ world|format=PDF}} was";
             string c = @"{{cite book|url=a |title=b | date=May 1, 2008|author=Lee}}";
             Assert.AreEqual(c, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b | date=May 01, 2008|author=Lee}}"));
 
-            string d = @"{{cite book|url=a |title=b |year=2008 | date=May 1|author=Lee}}";
-            Assert.AreEqual(d, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |year=2008 | date=May 01|author=Lee}}"));
+            Assert.AreEqual(c, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |year=2008 | date=May 01|author=Lee}}"), "handles field merge and leading zero in date");
         }
 
         [Test]
@@ -4150,7 +4149,7 @@ Other
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|url=[http://site.net]]|title=hello}} was"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|url=[[http://site.net]]|title=hello}} was"));
             Assert.AreEqual(@"now {{cite web|url = http://site.net  |title=hello}} was", Parsers.FixCitationTemplates(@"now {{cite web|url = [http://site.net]  |title=hello}} was"));
-            Assert.AreEqual(@"now {{cite web|title=hello |url=www.site.net}} was", Parsers.FixCitationTemplates(@"now {{cite web|title=hello |url=[www.site.net]}} was"));
+            Assert.AreEqual(@"now {{cite web|title=hello |url=http://www.site.net}} was", Parsers.FixCitationTemplates(@"now {{cite web|title=hello |url=[www.site.net]}} was"), "bracket and protocol fix combined");
             Assert.AreEqual(@"now {{cite journal|title=hello | url=http://site.net }} was", Parsers.FixCitationTemplates(@"now {{cite journal|title=hello | url=[http://site.net]] }} was"));
 
             // no match
