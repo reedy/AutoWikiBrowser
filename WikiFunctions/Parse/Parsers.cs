@@ -2417,7 +2417,7 @@ namespace WikiFunctions.Parse
             return refsList;
         }
 
-        private static List<string> RenameTemplateParametersOldParams;
+        private static List<string> RenameTemplateParametersOldParams = new List<string>();
         private static List<string> Templates;
 
         /// <summary>
@@ -2436,16 +2436,13 @@ namespace WikiFunctions.Parse
             if (Templates == null)
             {
                 Templates = new List<string>();
-                RenameTemplateParametersOldParams = new List<string>();
 
                 foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
                 {
                     Templates.Add(Params.TemplateName);
-                    RenameTemplateParametersOldParams.Add(Params.OldParameter);
                 }
 
                 Templates = Tools.DeduplicateList(Templates);
-                RenameTemplateParametersOldParams = Tools.DeduplicateList(RenameTemplateParametersOldParams);
             }
 
             // Performance: now filter templates with parameters to rename against templates used on the page
