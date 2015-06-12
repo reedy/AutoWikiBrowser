@@ -2456,6 +2456,9 @@ namespace WikiFunctions.Parse
             if(!templatesToProcess.Any())
                 return articleText;
             
+            // filter the parameters set down to only those templates used on the page
+            RenamedTemplateParameters = RenamedTemplateParameters.Where(t => templatesToProcess.Contains(t.TemplateName)).ToList();
+            
             Regex r = Tools.NestedTemplateRegex(templatesToProcess);
 
             // Now process distinct templates used in articles using GetAllTemplateDetail
