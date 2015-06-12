@@ -2255,7 +2255,7 @@ namespace WikiFunctions.Parse
         /// Extracts a list of all templates used in the input text, supporting any level of template nesting. Template name given in first letter upper
         /// </summary>
         /// <param name="articleText"></param>
-        /// <returns></returns>
+        /// <returns>List of all templates in text</returns>
         public static List<string> GetAllTemplates(string articleText)
         {
             if(Globals.SystemCore3500Available)
@@ -2264,6 +2264,7 @@ namespace WikiFunctions.Parse
         }
 
         private static Queue<KeyValuePair<string, List<string>>> GetAllTemplatesNewQueue = new Queue<KeyValuePair<string, List<string>>>();
+        private static Queue<KeyValuePair<string, List<string>>> GetAllTemplatesDetailNewQueue = new Queue<KeyValuePair<string, List<string>>>();
 
         /// <summary>
         /// Extracts a list of all templates used in the input text, supporting any level of template nesting. Template name given in first letter upper. Most performant version using HashSet.
@@ -2281,7 +2282,8 @@ namespace WikiFunctions.Parse
             Extract rough template name then get exact template names later, faster to deduplicate then get exact template names */
             // process all templates, handle nested templates to any level of nesting
             List<string> TemplateNames = new List<string>();
-            HashSet<string> templateContents = new HashSet<string>();
+            List<string> TemplateDetail = new List<string>();
+            HashSet<string> innerTemplateContents = new HashSet<string>();
             string originalarticleText = articleText;
 
             for(;;)
@@ -2291,21 +2293,29 @@ namespace WikiFunctions.Parse
                 if(!nt.Any())
                     break;
 
+                TemplateDetail.AddRange(nt.Select(x => x.Value));
+
                 // add raw template names to list
                 TemplateNames.AddRange(nt.Select(m => m.Groups[1].Value).ToList());
 
                 // set text to content of matched templates to process again for any (further) nested templates
-                templateContents = new HashSet<string>(nt.Select(m => m.Groups[2].Value).ToList());
-                articleText = String.Join(",", templateContents.ToArray());
+                innerTemplateContents = new HashSet<string>(nt.Select(m => m.Groups[2].Value).ToList());
+                articleText = String.Join(",", innerTemplateContents.ToArray());
             }
 
             // now extract exact template names
             List<string> FinalTemplateNames = TemplateNames.Distinct().Select(s => Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}"))).Distinct().ToList();
 
+            TemplateDetail = Tools.DeduplicateList(TemplateDetail);
+
             // cache new results, then dequeue oldest if cache full
             GetAllTemplatesNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText,  FinalTemplateNames));
             if(GetAllTemplatesNewQueue.Count > 10)
                 GetAllTemplatesNewQueue.Dequeue();
+
+            GetAllTemplatesDetailNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText,  TemplateDetail));
+            if(GetAllTemplatesDetailNewQueue.Count > 10)
+                GetAllTemplatesDetailNewQueue.Dequeue();
 
             return FinalTemplateNames;
         }
@@ -2343,6 +2353,22 @@ namespace WikiFunctions.Parse
             }
 
             return Tools.DeduplicateList(TFH2);
+        }
+
+        /// <summary>
+        /// Extracts a list of all template calls in the input text, supporting any level of template nesting.
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns>List of all templates calls in text</returns>
+        public static List<string> GetAllTemplateDetail(string articleText)
+        {
+            GetAllTemplates(articleText);
+
+            List<string> found = GetAllTemplatesDetailNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+            if(found == null)
+                found = new List<string>();
+
+            return found;
         }
 
         private static Queue<KeyValuePair<string, List<Match>>> GetUnnamedRefsQueue = new Queue<KeyValuePair<string, List<Match>>>();
@@ -2718,15 +2744,20 @@ namespace WikiFunctions.Parse
             if (!Variables.IsWikipediaEN || TemplateExists(GetAllTemplates(articleText), CitePodcast))
                 return articleText;
 
-            string articleTextlocal = "", originalArticleText = articleText;
+            string originalArticleText = articleText;
 
             // loop in case a single citation has multiple dates to be fixed
-            while (!articleTextlocal.Equals(articleText))
+            foreach (string s in GetAllTemplateDetail(articleText))
             {
-                articleTextlocal = articleText;
+                string res = s, original = "";
+                while(!res.Equals(original))
+                {
+                    original = res;
+                    res = WikiRegexes.CiteTemplate.Replace(res, CiteTemplateME);
+                }
 
-                // loop in case a single citation has multiple dates to be fixed
-                articleText =  WikiRegexes.CiteTemplate.Replace(articleText,  CiteTemplateME);
+                if(!res.Equals(s))
+                    articleText = articleText.Replace(s, res);
             }
 
             // don't apply fixes when ambiguous dates present, for performance only appply this check if changes made
@@ -4270,7 +4301,20 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             if(TemplateExists(GetAllTemplates(articleText), WikiRegexes.CiteTemplate))
-                articleText = WikiRegexes.CiteTemplate.Replace(articleText, FixCitationTemplatesME);
+            {
+                foreach (string s in GetAllTemplateDetail(articleText))
+                {
+                /*  string res = s, original = "";
+                    while(!res.Equals(original))
+                    {
+                        original = res;
+                        res = WikiRegexes.CiteTemplate.Replace(res, FixCitationTemplatesME);
+                    } */
+                    string res = WikiRegexes.CiteTemplate.Replace(s, FixCitationTemplatesME);
+                    if(!res.Equals(s))
+                        articleText = articleText.Replace(s, res);
+                }
+            }
 
             if(TemplateExists(GetAllTemplates(articleText), WikiRegexes.HarvTemplate))
                 articleText = WikiRegexes.HarvTemplate.Replace(articleText, m =>
