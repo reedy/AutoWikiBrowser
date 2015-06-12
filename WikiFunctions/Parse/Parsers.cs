@@ -2455,11 +2455,22 @@ namespace WikiFunctions.Parse
 
             if(!templatesToProcess.Any())
                 return articleText;
+            
+            Regex r = Tools.NestedTemplateRegex(templatesToProcess);
 
-            return Tools.NestedTemplateRegex(templatesToProcess).Replace(articleText,
-                                                             m => (Globals.SystemCore3500Available ?
-                                                                   RenameTemplateParametersHashSetME(m, RenamedTemplateParameters)
-                                                                   : RenameTemplateParametersME(m, RenamedTemplateParameters)));
+            // Now process distinct templates used in articles using GetAllTemplateDetail
+            foreach(string s in GetAllTemplateDetail(articleText))
+            {
+                string res = r.Replace(s,
+                                         m => (Globals.SystemCore3500Available ?
+                                               RenameTemplateParametersHashSetME(m, RenamedTemplateParameters)
+                                               : RenameTemplateParametersME(m, RenamedTemplateParameters)));
+                                                                   
+                if(!s.Equals(res))
+                    articleText = articleText.Replace(s, res);                
+            }
+
+            return articleText;
         }
 
         /// <summary>
