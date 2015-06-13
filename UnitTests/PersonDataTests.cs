@@ -34,6 +34,7 @@ namespace UnitTests
     public class PersonDataTests : RequiresParser
     {
         public GenfixesTestsBase genFixes  = new GenfixesTestsBase();
+
         [Test]
         public void PersonDataAddition()
         {
@@ -60,6 +61,7 @@ namespace UnitTests
             
             Assert.AreEqual(BrokenPersondata, Parsers.PersonData(BrokenPersondata, "Test"), "no change when existing persondata template with unbalanced main brackets");
         }
+
         [Test]
         public void PersonDataAdditionName()
         {
@@ -81,6 +83,7 @@ namespace UnitTests
             PD = Tools.NestedTemplateRegex("persondata").Match(res).Value;
             Assert.AreEqual(Tools.GetTemplateParameterValue(PD, "NAME"), "Fréd", "Persondata NAME includes diacritics");
         }
+
         [Test]
         public void PersonDataAdditionEnOnly()
         {
@@ -95,6 +98,7 @@ namespace UnitTests
             Assert.IsTrue(Tools.NestedTemplateRegex("persondata").IsMatch(Parsers.PersonData(Fred, "Fred")), "Adds persondata for BLP when missing");
 #endif
         }
+
         [Test]
         public void PersonDataCompletionDOB()
         {
@@ -185,6 +189,7 @@ namespace UnitTests
             string twoDDA = i1.Replace("27 June 1950", @"{{dda|2005|07|20|1950|06|27|df=yes}} {{dda|2009|07|20|1950|06|27|df=yes}}");
             Assert.AreEqual(twoDDA + a2, Parsers.PersonData(twoDDA + a, "John Doe"), "Ignores conflicting {{dda}}");
         }
+
         [Test]
         public void PersonDataCompletionDOBFromCategory()
         {
@@ -198,6 +203,7 @@ namespace UnitTests
             Text = Parsers.PersonData(@"Foo [[Category:Living people]] [[Category:980 BC births|Foo]]", "test");
             Assert.IsTrue(Tools.GetTemplateParameterValue(WikiRegexes.Persondata.Match(Text).Value, "DATE OF BIRTH").Equals("980 BC"));
         }
+
         [Test]
         public void PersonDataCompletionDOD()
         {
@@ -348,6 +354,7 @@ namespace UnitTests
 [[Category:1904 deaths]]";
 			Assert.IsFalse(Tools.NestedTemplateRegex("persondata").Match(Parsers.PersonData(Question, "A")).Value.Contains(@"???"));
         }
+
         [Test]
         public void PersonDataParameterCasing()
         {
@@ -373,6 +380,7 @@ namespace UnitTests
 }}
 [[Category:2005 deaths]]", Parsers.PersonData(LowerCase2, "foo x"), "duplicate fields removed");
         }
+
         [Test]
         public void PersonDataCompletionDODFromCategory()
         {
@@ -381,6 +389,7 @@ namespace UnitTests
             Assert.IsTrue(Tools.GetTemplateParameterValue(WikiRegexes.Persondata.Match(Text).Value, "DATE OF BIRTH").Equals("1930"));
             Assert.IsTrue(Tools.GetTemplateParameterValue(WikiRegexes.Persondata.Match(Text).Value, "DATE OF DEATH").Equals("2005"));
         }
+
         [Test]
         public void PersonDataAll()
         {
@@ -449,6 +458,7 @@ namespace UnitTests
 
             Assert.AreEqual(PD.Replace("PLACE OF BIRTH", "place of birth"), WikiRegexes.Persondata.Match(Parsers.PersonData(IB + PD.Replace("PLACE OF BIRTH", "place of birth") + "May 2, 2010 and May 2, 2010", "test")).Value);
         }
+
         [Test]
         public void PersondataCleanup()
         {
