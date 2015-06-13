@@ -2477,7 +2477,7 @@ namespace WikiFunctions.Parse
             Dictionary<string, string> pv = Tools.GetTemplateParameterValues(m.Value);
             if(RenameTemplateParametersOldParams.Intersect(pv.Keys.ToArray()).Any())
             {
-                string tname = Tools.TurnFirstToLower(m.Groups[2].Value);
+                string tname = Tools.TurnFirstToLower(Tools.GetTemplateName(@"{{" + m.Groups[2].Value + @"}}"));
                 foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters.Where(r => r.TemplateName.Equals(tname)
                 && pv.ContainsKey(r.OldParameter)))
                 {
