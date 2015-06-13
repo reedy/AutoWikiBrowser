@@ -34,6 +34,7 @@ namespace UnitTests
     public class CategoryTests : RequiresParser
     {
         public GenfixesTestsBase genFixes  = new GenfixesTestsBase();
+
         [Test]
         public void TestYearRangesCategories()
         {
@@ -46,6 +47,7 @@ now foo
 now foo
 [[Category:Abc (2004-present)]]");
         }
+
         [Test]
         public void FixPeopleCategoriesBirth()
         {
@@ -91,6 +93,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 }}";
             Assert.AreEqual(b12, Parsers.FixPeopleCategories(b12, "foo"));
         }
+
         [Test]
         public void FixPeopleCategoriesUncat()
         {
@@ -101,6 +104,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(a1 + b2, Parsers.FixPeopleCategories(a1 + b2, "foo"), "no uncat renaming when cats not added");
             Assert.AreEqual(a1.Replace(@" {{Uncat|date=May 2010}}", "") + "{{Cat improve}}" + "\r\n" + b2, Parsers.FixPeopleCategories(a1.Replace(@" {{Uncat|date=May 2010}}", "") + "{{Cat improve}}", "foo"), "no Cat improve change when cat improve already there");
         }
+
         [Test]
         public void FixPeopleCategoriesDeath()
         {
@@ -135,6 +139,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             const string d5 = @"Some words {{death date and age|1960|01|9}}";
             Assert.AreEqual(d5 + @"[[Category:1960 deaths]]", Parsers.FixPeopleCategories(d4 + @"[[Category:Year of death missing]]", "foo"));
         }
+
         [Test]
         public void FixPeopleCategoriesAlreadyCategorized()
         {
@@ -165,6 +170,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(f, Parsers.FixPeopleCategories(f, "foo"));
             Assert.AreEqual(g, Parsers.FixPeopleCategories(g, "foo"));
         }
+
         [Test]
         public void FixPeopleCategoriesYOBUncertain()
         {
@@ -233,6 +239,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 
             Assert.AreEqual(n4b, Parsers.FixPeopleCategories(n4b, "foo"));
         }
+
         [Test]
         public void FixPeopleCategoriesLimits()
         {
@@ -447,6 +454,7 @@ died 2002
 
             Assert.AreEqual(bug3, Parsers.FixPeopleCategories(bug3, "foo"));
         }
+
         [Test]
         public void YearOfBirthMissingCategoryEnOnly()
         {
@@ -467,6 +475,7 @@ died 2002
             Assert.AreEqual(good, Parsers.FixPeopleCategories(bad, "foo"));
 #endif
         }
+
         [Test]
         public void FixPeopleCategoriesFromInfobox()
         {
@@ -588,6 +597,7 @@ died 2002
             const string Refs = @"<ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref>";
             Assert.AreEqual(a1 + Refs + Refs + Refs, Parsers.FixPeopleCategories(a1 + Refs + Refs + Refs, "foo"));
         }
+
         [Test]
         public void FixPeopleCategoriesRefs()
         {
@@ -599,6 +609,7 @@ died 2002
 
             Assert.IsTrue(Parsers.FixPeopleCategories(Over20Refs + @" [[Category:Living people]]", "test").Contains(@"[[Category:1980 births]]"), "can add cat when over 20 refs and living people cat already");
         }
+
         [Test]
         public void FixPeopleCategoriesFutureTest()
         {
@@ -606,6 +617,7 @@ died 2002
             const string a1 = @"'''Fred Smith''' (born 2060) is a bloke. {{Persondata}}";
             Assert.AreEqual(a1, Parsers.FixPeopleCategories(a1, "foo"));
         }
+
         [Test]
         public void YearOfBirthMissingCategory()
         {
@@ -641,6 +653,7 @@ died 2002
             Assert.AreEqual(a + "\r\n", Parsers.FixPeopleCategories(a + "\r\n" + @"[[Category:Year of death missing]]", "test"));
 
         }
+
         [Test]
         public void GetCategorySortTests()
         {
@@ -661,6 +674,7 @@ died 2002
 [[Category:Living people|Sothcott, Jonathan]]
 [[Category:1944 births]]"));
         }
+
         [Test]
         public void CategoryMatch()
         {
@@ -676,6 +690,7 @@ died 2002
             Assert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990"));
             Assert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990_births]]", @"1990 births"));
         }
+
 
         [Test]
         public void LivingPeopleTests()
@@ -740,6 +755,7 @@ died 2002
             const string d2 = @"Fred [[Category:15th-century births]]";
             Assert.AreEqual(d2, Parsers.LivingPeople(d2, "A"));
         }
+
         [Test]
         public void LivingPeopleTestsEnOnly()
         {
@@ -754,6 +770,7 @@ died 2002
             Assert.AreEqual(Before + @"[[Category:Living people|Smith, Fred]]", Parsers.LivingPeople(Before, "A"));
 #endif
         }
+
         [Test]
         public void FixSyntaxCategory()
         {
@@ -767,6 +784,7 @@ died 2002
 
             Assert.AreEqual(correct, Parsers.FixSyntax(correct));
         }
+
 
         [Test]
         public void TestFixCategories()
@@ -802,6 +820,7 @@ died 2002
             Assert.AreEqual("", Parsers.FixCategories(""), "Fallback to English category namespace name");
             Variables.Namespaces.Add(Namespace.Category,"Category:");
         }
+
         [Test]
         public void TestFixCategoriesRu()
         {
@@ -813,6 +832,7 @@ died 2002
             Assert.AreEqual(@"[[Category:World Scout Committee members|Laine, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"));
 #endif
         }
+
         [Test]
         public void TestFixCategoriesBrackets()
         {
