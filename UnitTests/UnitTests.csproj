@@ -67,6 +67,7 @@
     <Compile Include="FootnotesTests.cs" />
     <Compile Include="CategoryTests.cs" />
     <Compile Include="PersonDataTests.cs" />
+    <Compile Include="FixSyntaxTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WikiFunctions\WikiFunctions.csproj">
