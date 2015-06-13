@@ -38,12 +38,11 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="nunit.framework">
+      <HintPath>nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiffTests.cs" />
@@ -66,6 +65,7 @@
     <Compile Include="TaggerTests.cs" />
     <Compile Include="UtilityFunctionTests.cs" />
     <Compile Include="FootnotesTests.cs" />
+    <Compile Include="CategoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WikiFunctions\WikiFunctions.csproj">

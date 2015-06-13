@@ -366,18 +366,7 @@ was", false, false));
             genFixes.AssertNotChanged(@"from (1900–33) there");
         }
 
-        [Test]
-        public void TestYearRangesCategories()
-        {
-            genFixes.AssertNotChanged(@"now foo
-[[Category:Abc (2004-present)]]");
-            
-            genFixes.AssertChange(@"now abc (2004-present) was
-now foo
-[[Category:Abc (2004-present)]]", @"now abc (2004–present) was
-now foo
-[[Category:Abc (2004-present)]]");
-        }
+
 
         [Test]
         public void FixLivingThingsRelatedDates()
