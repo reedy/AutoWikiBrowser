@@ -310,9 +310,6 @@ namespace WikiFunctions.DBScanner
                     Main.StoppedEvent -= Stopped;
                 }
 
-                progressBar.Value = 0;
-                lblPercentageComplete.Text = "100%";
-
                 timerProgessUpdate.Enabled = false;
 
                 UpdateList();
