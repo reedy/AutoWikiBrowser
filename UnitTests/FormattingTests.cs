@@ -1088,6 +1088,9 @@ was"));
             const string correct3 = @"{{Cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}";
             Assert.AreEqual(correct3, Parsers.RenameTemplateParameters(correct3.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call, handles first letter casing of template name");
 
+            const string correct4 = @"{{ cite_web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}";
+            Assert.AreEqual(correct4, Parsers.RenameTemplateParameters(correct4.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call, handles underscore in template name");
+
             string Dupe = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2012 | acccessdate = 11 June 2012 }}";
             Assert.AreEqual(Dupe, Parsers.RenameTemplateParameters(Dupe, RenamedTemplateParameters), "no change when target parameter already has a value");
 
