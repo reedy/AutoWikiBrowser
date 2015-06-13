@@ -2434,7 +2434,7 @@ namespace WikiFunctions.Parse
             // Performance: now filter templates with parameters to rename against templates used on the page
             // so only templates used on page are looked for
             List<string> templatesToProcess = GetAllTemplates(articleText).Select(t => Tools.TurnFirstToLower(t)).ToList();
-            
+
             // filter the parameters set down to only those templates used on the page
             RenamedTemplateParameters = RenamedTemplateParameters.Where(t => templatesToProcess.Contains(t.TemplateName)).ToList();
 
@@ -2477,16 +2477,15 @@ namespace WikiFunctions.Parse
             Dictionary<string, string> pv = Tools.GetTemplateParameterValues(m.Value);
             if(RenameTemplateParametersOldParams.Intersect(pv.Keys.ToArray()).Any())
             {
-                foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
+                string tname = Tools.TurnFirstToLower(m.Groups[2].Value);
+                foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters.Where(r => r.TemplateName.Equals(tname)
+                && pv.ContainsKey(r.OldParameter)))
                 {
-                    if (Params.TemplateName.Equals(Tools.TurnFirstToLower(m.Groups[2].Value)) && pv.ContainsKey(Params.OldParameter))
-                    {
-                        string newp;
-                        pv.TryGetValue(Params.NewParameter, out newp);
+                    string newp;
+                    pv.TryGetValue(Params.NewParameter, out newp);
 
-                        if(string.IsNullOrEmpty(newp))
-                            newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
-                    }
+                    if(string.IsNullOrEmpty(newp))
+                        newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
                 }
             }
 
