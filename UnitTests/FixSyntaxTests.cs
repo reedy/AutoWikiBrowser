@@ -429,6 +429,704 @@ Other
 ]"));
         }
 
+        [Test]
+        public void FixDeadlinkOutsideRef()
+        {
+        	Assert.AreEqual("<ref>foo {{dead link|date=July 2014}}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{dead link|date=July 2014}} boo"), "only {{dead link}} taken inside ref");
+        	Assert.AreEqual("<ref>foo {{Dead link | date=July 2014 }}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{Dead link | date=July 2014 }} boo"), "only {{dead link}} taken inside ref");
+        	Assert.AreEqual("<ref>foo {{Dead link|date=July 2014}}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{Dead link|date=July 2014}} boo"), "only {{dead link}} taken inside ref");        	Assert.AreEqual("<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }} {{dead link|date=July 2014}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }}</ref> {{dead link|date=July 2014}}"), "{{dead link}} taken inside ref");
+        }
 
-	}
+        [Test]
+        public void FixImagesBr()
+        {
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br>]]"));
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br >]]"));
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br/>]]"));
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<BR>]]"));
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br />]]"));
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br />
+]]"));
+
+            const string nochange1 = @"[[File:Foo.png|description<br>here]]";
+            Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));
+        }
+
+        [Test]
+        public void FixSyntaxDEFAULTSORT()
+        {
+            Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT:
+Foo}}"));
+
+            Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT: Foo }}"));
+            Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Foo
+}}"));
+        }
+        
+        [Test]
+        public void FixSyntaxFontTags()
+        {
+            Assert.AreEqual("hello", Parsers.FixSyntax(@"<font>hello</font>"));
+            Assert.AreEqual("hello", Parsers.FixSyntax(@"<font>hello</FONT>"));
+            Assert.AreEqual(@"hello
+world", Parsers.FixSyntax(@"<font>hello
+world</font>"));
+
+            // only changing font tags without properties
+            Assert.AreEqual(@"<font name=ab>hello</font>", Parsers.FixSyntax(@"<font name=ab>hello</font>"));
+        }
+        
+       [Test]
+        public void FixSyntaxHTTPFormat()
+        {
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http//www.site.com</ref>"),"missing colon");
+            Assert.AreEqual("<ref>https://www.site.com</ref>", Parsers.FixSyntax(@"<ref>https//www.site.com</ref>"),"missing colon");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:://www.site.com</ref>"),"double colon");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:www.site.com</ref>"),"missing slashes");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:///www.site.com</ref>"),"triple slashes");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:////www.site.com</ref>"),"four slashes");
+            Assert.AreEqual("at http://www.site.com", Parsers.FixSyntax(@"at http//www.site.com"));
+            Assert.AreEqual("<ref>[http://www.site.com a website]</ref>",
+                            Parsers.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"),"missing a slash");
+            Assert.AreEqual("*[http://www.site.com a website]", Parsers.FixSyntax(@"*[http//www.site.com a website]"));
+            Assert.AreEqual("|url=http://www.site.com", Parsers.FixSyntax(@"|url=http//www.site.com"));
+            Assert.AreEqual("|url = http://www.site.com", Parsers.FixSyntax(@"|url = http:/www.site.com"));
+            Assert.AreEqual("[http://www.site.com]", Parsers.FixSyntax(@"[http/www.site.com]"));
+
+            // these strings should not change
+            string bug1 = @"now http://members.bib-arch.org/nph-proxy.pl/000000A/http/www.basarchive.org/bswbSearch was";
+            Assert.AreEqual(bug1, Parsers.FixSyntax(bug1));
+
+            string bug2 = @"now http://sunsite.utk.edu/math_archives/.http/contests/ was";
+            Assert.AreEqual(bug2, Parsers.FixSyntax(bug2));
+
+            Assert.AreEqual("the HTTP/0.9 was", Parsers.FixSyntax("the HTTP/0.9 was"));
+            Assert.AreEqual("the HTTP/1.0 was", Parsers.FixSyntax("the HTTP/1.0 was"));
+            Assert.AreEqual("the HTTP/1.1 was", Parsers.FixSyntax("the HTTP/1.1 was"));
+            Assert.AreEqual("the HTTP/1.2 was", Parsers.FixSyntax("the HTTP/1.2 was"));
+
+            string a = @"the HTTP/FTP was";
+            Assert.AreEqual(a, Parsers.FixSyntax(a));
+
+            Assert.AreEqual("the HTTP/1.2 protocol", Parsers.FixSyntax("the HTTP/1.2 protocol"));
+            Assert.AreEqual(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>",
+                            Parsers.FixSyntax(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>"));
+        }
+
+        [Test]
+        public void FixSyntaxMagicWords()
+        {
+            Assert.AreEqual(@"{{FULLPAGENAME:Foo}}", Parsers.FixSyntax(@"{{Fullpagename|Foo}}"));
+        }
+
+        [Test]
+        public void FixSyntaxMagicWordsBehaviourSwitches()
+        {
+            Assert.AreEqual(@"__TOC__", Parsers.FixSyntax(@"__ToC__"));
+            Assert.AreEqual(@"__TOC__", Parsers.FixSyntax(@"__toC__"));
+            Assert.AreEqual(@"__TOC__", Parsers.FixSyntax(@"__TOC__"));
+            Assert.AreEqual(@"__NOTOC__", Parsers.FixSyntax(@"__NoToC__"));
+        }
+
+        [Test]
+        public void FixSyntaxPipesInExternalLinks()
+        {
+            Assert.AreEqual("[http://www.site.com ''my cool site'']", Parsers.FixSyntax("[http://www.site.com|''my cool site'']"));
+            Assert.AreEqual("[http://www.site.com/here/there.html ''my cool site'']", Parsers.FixSyntax("[http://www.site.com/here/there.html|''my cool site'']"));
+
+            Assert.AreEqual(@"port [http://www.atoc.org/general/ConnectingCommunitiesReport_S10.pdf ""Connecting Communities - Expanding Access to the Rail Network""] consid",
+                            Parsers.FixSyntax(@"port [[http://www.atoc.org/general/ConnectingCommunitiesReport_S10.pdf |""Connecting Communities - Expanding Access to the Rail Network""]] consid"));
+
+            const string nochange1 = @"[http://www.site.com|''my cool site''", nochange2 = @"{{Infobox Singapore School
+| name = Yuan Ching Secondary School
+| established = 1978
+| city/town = [[Jurong]]
+| enrolment = over 1,300
+| homepage = [http://schools.moe.edu.sg/ycss/
+| border_color = #330066
+| uniform_color = #66CCFF
+}}";
+            Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));
+            Assert.AreEqual(nochange2, Parsers.FixSyntax(nochange2));
+        }
+
+        [Test]
+        public void FixUnbalancedBracketsChineseBrackets()
+        {
+        	#if DEBUG
+        	const string CB = @"now （there) was";
+
+        	Variables.SetProjectLangCode("fr");
+        	Assert.AreEqual(CB, Parsers.CiteTemplateDates(CB));
+
+        	Variables.SetProjectLangCode("en");
+        	Assert.AreEqual(@"now (there) was", Parsers.FixSyntax(CB));
+
+        	const string CB2 = @"now （there） was";
+        	Assert.AreEqual(CB2, Parsers.FixSyntax(CB2), "No change when brackets are balanced");
+        	#endif
+        }
+
+        [Test]
+        public void FixUnbalancedBracketsCiteTemplates()
+        {
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}</ref>"));
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}]</ref>"));
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b))</ref>"));
+            Assert.AreEqual(@"<ref> {{cite web|url=a|title=b}} </ref>", Parsers.FixSyntax(@"<ref> {{cite web|url=a|title=b} </ref>"));
+            Assert.AreEqual(@"<ref name=Fred>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=Fred>{{cite web|url=a|title=b}</ref>"));
+            Assert.AreEqual(@"<ref name=""Fred"">{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=""Fred"">{{cite web|url=a|title=b}</ref>"));
+
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{cite web|url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref> {{cite web|url=a|title=b}} </ref>", Parsers.FixSyntax(@"<ref> {cite web|url=a|title=b}} </ref>"));
+            Assert.AreEqual(@"<ref name=Fred>{{Cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=Fred>{Cite web|url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref name=""Fred"">{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=""Fred"">{cite web|url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref>{{citation|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{citation|url=a|title=b}}</ref>"));
+
+            Assert.AreEqual(@"<ref> {{Citation|title=}}", Parsers.FixSyntax(@"<ref> {Citation|title=}}"));
+            Assert.AreEqual(@"<ref> {{cite web|title=}}", Parsers.FixSyntax(@"<ref> {cite web|title=}}"));
+            Assert.AreEqual(@"* {{Citation|title=}}", Parsers.FixSyntax(@"* {Citation|title=}}"));
+
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}}</ref>"));
+            Assert.AreEqual(@"<ref> {{cite web|url=a|title=b}} </ref>", Parsers.FixSyntax(@"<ref> {{cite web|url=a|title=b}}}} </ref>"));
+            Assert.AreEqual(@"<ref name=Fred>{{Cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=Fred>{{Cite web|url=a|title=b}}}}</ref>"));
+            Assert.AreEqual(@"<ref name=""Fred"">{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=""Fred"">{{cite web|url=a|title=b}}}}</ref>"));
+            Assert.AreEqual(@"<ref>{{citation|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{citation|url=a|title=b}}}}</ref>"));
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b {{rp}}}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b {{rp}}}}</ref>"));
+
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{[cite web|url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref> {{cite web|url=a|title=b}} </ref>", Parsers.FixSyntax(@"<ref> {[cite web|url=a|title=b}} </ref>"));
+            Assert.AreEqual(@"<ref name=Fred>{{Cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=Fred>{[Cite web|url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref name=""Fred"">{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=""Fred"">{[cite web|url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref>{{citation|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{[citation|url=a|title=b}}</ref>"));
+
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b{}</ref>"));
+            Assert.AreEqual(@"<ref> {{cite web|url=a|title=b}} </ref>", Parsers.FixSyntax(@"<ref> {{cite web|url=a|title=b}] </ref>"));
+            Assert.AreEqual(@"<ref name=Fred>{{Cite web|url=a|title=[[b]]}}</ref>", Parsers.FixSyntax(@"<ref name=Fred>{{Cite web|url=a|title=[[b]]}</ref>"));
+            Assert.AreEqual(@"<ref name=""Fred"">{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=""Fred"">{{cite web|url=a|title=b{}</ref>"));
+            Assert.AreEqual(@"<ref>{{citation|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{citation|url=a|title=b}]</ref>"));
+
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>cite web|url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref name=""Smith"">{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=""Smith"">cite web|url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref name=""Smith"">{{cite web|
+url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=""Smith"">cite web|
+url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref>{{cite book|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>cite book|url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref>{{Citation|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>Citation|url=a|title=b}}</ref>"));
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>((cite web|url=a|title=b}}</ref>"));
+
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}</ref>"), "fixes cite ending in three closing braces");
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}
+			</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}
+			</ref>"), "fixes cite ending in three closing braces, newline before ref end");
+
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{{cite web|url=a|title=b}}</ref>"), "fixes cite starting in three opening braces");
+            Assert.AreEqual(@"<ref name=""foo"">{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=""foo"">{{{cite web|url=a|title=b}}</ref>"), "fixes cite starting in three opening braces");
+
+            string CiteDeadLink = @"<ref>{{cite web|url=a|title=b}} {{dead link|date=May 2011}}</ref>";
+            Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
+
+            CiteDeadLink = @"<ref>{{cite web|url=a|title=b {{dead link|date=May 2011}}}}</ref>";
+            Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
+        }
+
+        [Test]
+        public void FixUnbalancedBracketsGeneral()
+        {
+            const string CorrectCat = @"[[Category:Foo]]
+[[Category:Foo2]]";
+
+            Assert.AreEqual(CorrectCat, Parsers.FixSyntax(@"[[Category:Foo
+[[Category:Foo2]]"), "closes unclosed cats");
+            Assert.AreEqual(CorrectCat, Parsers.FixSyntax(CorrectCat));
+
+            Assert.AreEqual(@"[[es:Foo]]
+[[fr:Foo2]]", Parsers.FixSyntax(@"[[es:Foo
+[[fr:Foo2]]"), "closes unclosed interwikis");
+
+            const string CorrectFileLink = @"[[File:foo.jpeg|eflkjfdslkj]]";
+
+            Assert.AreEqual(CorrectFileLink, Parsers.FixSyntax(@"{{File:foo.jpeg|eflkjfdslkj]]"));
+            Assert.AreEqual(CorrectFileLink, Parsers.FixSyntax(CorrectFileLink));
+
+            const string CorrectFileLink2 = @"[[Image:foo.jpeg|eflkjfdslkj]]";
+
+            Assert.AreEqual(CorrectFileLink2, Parsers.FixSyntax(@"{{Image:foo.jpeg|eflkjfdslkj]]"));
+            Assert.AreEqual(CorrectFileLink2, Parsers.FixSyntax(CorrectFileLink2));
+
+            const string CorrectFileLink3 = @"[[file:foo.jpeg|eflkjfdslkj]]";
+
+            Assert.AreEqual(CorrectFileLink3, Parsers.FixSyntax(@"{{file:foo.jpeg|eflkjfdslkj]]"));
+            Assert.AreEqual(CorrectFileLink3, Parsers.FixSyntax(CorrectFileLink3));
+
+            const string NoFix1 = @"==Charact==
+[[Image:X.jpg|thumb
+|alt=
+|xx.]]
+
+Japanese classification systemJapanese classification systemJapanese classification systemJapanese classification systemJapanese classification systemJapanese classification systemJapanese classification system
+
+<gallery>
+Image:X.JPG|Japanese classification systemJapanese classification systemJapanese classification system]]
+</gallery>";
+
+            Assert.AreEqual(NoFix1, Parsers.FixSyntax(NoFix1));
+            
+            Assert.AreEqual(@"[[Foo]]", Parsers.FixSyntax(@"[ [Foo]]"), "fixes link spacing");
+            
+            Assert.AreEqual(@"[[Foo]]", Parsers.FixSyntax(@"[[Foo]]]]"), "fixes excess link bracketss");
+            
+            Assert.AreEqual(@"[[Foo]],", Parsers.FixSyntax(@"[[Foo],]"), "fixes links broken by punctuation");
+            Assert.AreEqual(@"[[Foo]].", Parsers.FixSyntax(@"[[Foo].]"), "fixes links broken by punctuation");
+            Assert.AreEqual(@"[[Foo]]:", Parsers.FixSyntax(@"[[Foo]:]"), "fixes links broken by punctuation");
+            Assert.AreEqual(@"[[Foo]]  bar", Parsers.FixSyntax(@"[[Foo] ] bar"), "fixes links broken by punctuation");
+            Assert.AreEqual(@"[[Foo]]''", Parsers.FixSyntax(@"[[Foo]'']"), "fixes links broken by punctuation");
+
+            Assert.AreEqual(@"[[panka Smith]] (Local national)", Parsers.FixLinkWhitespace(Parsers.FixSyntax(@"[panka  Smith]] (Local national)"), "Test"), "bracket and whitespace fix in one");
+
+            const string Football = @"{{Infobox football biography
+| playername     = D
+| image          = 
+| dateofdeath    = 1940 {aged 57)<ref name=A/>
+| cityofdeath    = [[S]]
+| years3         = 1911–19?? }}";
+
+            Assert.AreEqual(Football.Replace(@"{aged", @"(aged"), Parsers.FixSyntax(Football));
+            Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Foo
+"), "fixes DEFAULTSORT ending");
+            
+            Assert.AreEqual(@"{{foo|par=[[Bar]]|par2=Bar2}}", Parsers.FixSyntax(@"{{foo|par=[[Bar[[|par2=Bar2}}"), "reversed brackets");
+
+            Assert.AreEqual(@"{{foo|par=[[Bar]]|par2=Bar2}}", Parsers.FixSyntax(@"{{foo|par=[{Bar]]|par2=Bar2}}"));
+
+            const string Unfixable1 = @"Ruth singled and Meusel [[bunt (baseball)|ed him over, but Ruth split his pants sliding into second, [[announcer|Radio announcer]] [[Graham McNamee]]";
+            Assert.AreEqual(Unfixable1, Parsers.FixSyntax(Unfixable1));
+
+             Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Foo))"), "fixes Template )) ending");
+             const string Unfixable2 = @"Ruth [[File:One.JPEG|A [http://www.site.com/a]]]
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Now [[Fred was";
+             Assert.AreEqual(Unfixable2, Parsers.FixSyntax(Unfixable2));
+
+             Assert.AreEqual(Unfixable2 + @"
+==Heading==
+Now [[A]], was.", Parsers.FixSyntax(Unfixable2 + @"
+==Heading==
+Now [[A],] was."));
+        }
+
+        [Test]
+        public void FixUnbalancedBracketsMathSetNotation()
+        {
+            const string MathSet1 = @"{[0], [1], [2]}", Foo = @"Foo { ...";
+            Assert.AreEqual(Foo + MathSet1, Parsers.FixSyntax(Foo + MathSet1));
+        }
+
+        [Test]
+        public void FixUnbalancedBracketsPersondataEnd()
+        {
+            const string PD = @"{{Persondata<!--Metadata: see [[Wikipedia:Persondata]].-->
+|NAME=Orbe, Georgy
+|ALTERNATIVE NAMES=
+|SHORT DESCRIPTION=
+|DATE OF BIRTH=1873
+|PLACE OF BIRTH=[[Tbilisi]]
+|DATE OF DEATH=1944
+|PLACE OF DEATH=Paris
+
+{{DEFAULTSORT:Orbe, Georgy}}";
+            
+            Assert.AreEqual(PD.Replace(@"Paris", @"Paris}}"), Parsers.FixSyntax(PD));
+        }
+
+        [Test]
+        public void FixUnbalancedBracketsRef()
+        {
+            Assert.AreEqual(@"now <ref>foo</ref>", Parsers.FixSyntax(@"now <ref>>foo</ref>"));
+            Assert.AreEqual(@"now <ref>[http://foo.com/bar/ text here]</ref>", Parsers.FixSyntax(@"now <ref>[http://foo.com/bar/ text here[</ref>"));
+
+            Assert.AreEqual(@"<ref>[http://www.foo.com bar]</ref>", Parsers.FixSyntax(@"<ref>]http://www.foo.com bar]</ref>"));
+            Assert.AreEqual(@"<ref name=A>[http://www.foo.com bar]</ref>", Parsers.FixSyntax(@"<ref name=A>]http://www.foo.com bar]</ref>"));
+            Assert.AreEqual(@"<ref>[http://www.foo.com bar] this one</ref>", Parsers.FixSyntax(@"<ref>]http://www.foo.com bar] this one</ref>"));
+        }
+
+        [Test]
+        public void TestCellpaddingTypo()
+        {
+            Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" celpadding=2"));
+            Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" cellpading=2"));
+            Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" Celpading=2"));
+
+            // no Matches
+            Assert.AreEqual("now the cellpading of the", Parsers.FixSyntax("now the cellpading of the"));
+            Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" cellpadding=2"));
+        }
+
+        [Test]
+        public void TestFixObsoleteBrAttributes()
+        {
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=both />"));
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<Br clear=both />"));
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=""both"" />"));
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=all />"));
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br clear=""all"" />"));
+            Assert.AreEqual("{{clear|left}}", Parsers.FixSyntax(@"<br clear=left />"));
+            Assert.AreEqual("{{clear|left}}", Parsers.FixSyntax(@"<br clear=""left"" />"));
+            Assert.AreEqual("{{clear|right}}", Parsers.FixSyntax(@"<br clear=right />"));
+            Assert.AreEqual("{{clear|right}}", Parsers.FixSyntax(@"<br clear=""right"" />"));
+        }
+
+        [Test]
+        public void TestFixSyntaxUnbalancedBrackets()
+        {
+            Assert.AreEqual(@"<ref>[http://www.site.com]</ref>", Parsers.FixSyntax(@"<ref>{{http://www.site.com}}</ref>"));
+            Assert.AreEqual(@"<ref>[http://www.site.com cool site]</ref>", Parsers.FixSyntax(@"<ref>{{http://www.site.com cool site}}</ref>"));
+            Assert.AreEqual(@"<ref name=""Fred"">[http://www.site.com]</ref>", Parsers.FixSyntax(@"<ref name=""Fred"">{{http://www.site.com}}</ref>"));
+            Assert.AreEqual(@"<ref> [http://www.site.com] </ref>", Parsers.FixSyntax(@"<ref> {{http://www.site.com}} </ref>"));
+
+            Assert.AreEqual(@"{{hello}}", Parsers.FixSyntax(@"{[hello}}"));
+            Assert.AreEqual(@"{{hello}}", Parsers.FixSyntax(@"[{hello}}"));
+
+            Assert.AreEqual(@"<ref>[http://site.com]</ref>", Parsers.FixSyntax(@"<ref>http://site.com]</ref>"));
+            Assert.AreEqual(@"<ref>[http://site.com]</ref>", Parsers.FixSyntax(@"<ref>[http://site.com</ref>"));
+            Assert.AreEqual(@"<REF>[http://site.com]</ref>", Parsers.FixSyntax(@"<REF>[http://site.com</ref>"));
+            Assert.AreEqual(@"<ref>[http://site.com Smith, 2004]</ref>", Parsers.FixSyntax(@"<ref>Smith, 2004 http://site.com]</ref>"));
+            Assert.AreEqual(@"<ref> [http://site.com] </ref>", Parsers.FixSyntax(@"<ref> http://site.com] </ref>"));
+            Assert.AreEqual(@"<ref name=Fred>[http://site.com cool]</ref>", Parsers.FixSyntax(@"<ref name=Fred>http://site.com cool]</ref>"));
+            Assert.AreEqual(@"<ref name=""Fred"">[http://site.com]</ref>", Parsers.FixSyntax(@"<ref name=""Fred"">http://site.com]</ref>"));
+            Assert.AreEqual(@"<ref>[http://site.com great site-here]</ref>", Parsers.FixSyntax(@"<ref>http://site.com great site-here]</ref>"));
+
+            Assert.AreEqual(@"<ref>Antara News [http://www.antara.co.id/arc/2009/1/9/kri-lebanon/ KRI Lebanon]</ref>", Parsers.FixSyntax(@"<ref>Antara News [http://www.antara.co.id/arc/2009/1/9/kri-lebanon/ KRI Lebanon</ref>"));
+            Assert.AreEqual(@"<ref>Antara News [ftp://www.antara.co.id/arc/2009/1/9/kri-lebanon/ KRI Lebanon]</ref>", Parsers.FixSyntax(@"<ref>Antara News [ftp://www.antara.co.id/arc/2009/1/9/kri-lebanon/ KRI Lebanon</ref>"), "handles FTP protocol");
+            Assert.AreEqual(@"<ref name=Smith>Antara News [http://www.antara.co.id/arc/2009/1/9/kri-lebanon/ KRI Lebanon]</ref>", Parsers.FixSyntax(@"<ref name=Smith>Antara News [http://www.antara.co.id/arc/2009/1/9/kri-lebanon/ KRI Lebanon</ref>"));
+            Assert.AreEqual(@"<ref name=Smith>Antara News [http://www.antara.co.id/arc/2009/1/9/kri-lebanon/ KRI Lebanon]</ref>", Parsers.FixSyntax(@"<ref name=Smith>Antara News [http://www.antara.co.id/arc/2009/1/9/kri-lebanon/ KRI Lebanon]</ref>"));
+
+            // no completion of template braces on non-template ref
+            const string a = @"<ref>Smith and Jones, 2005, p46}}</ref>";
+            Assert.AreEqual(a, Parsers.FixSyntax(a));
+
+            Assert.AreEqual(@"{{DEFAULTSORT:Astaire, Fred}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Astaire, Fred]}}"));
+            Assert.AreEqual(@"{{DEFAULTSORT:Astaire, Fred}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Astaire, Fred]]}}"));
+            Assert.AreEqual(@"{{DEFAULTSORT:Astaire, Fred}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Astaire, Fred]]]}}"));
+            Assert.AreEqual(@"{{DEFAULTSORT:Astaire, Fred}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Astaire, Fred[]}}"));
+
+            // completes curly brackets where it would make all brackets balance
+            Assert.AreEqual(@"Great.{{fact|date=May 2008}} Now", Parsers.FixSyntax(@"Great.{{fact|date=May 2008} Now"));
+            Assert.AreEqual(@"Great.{{fact|date=May 2008}} Now", Parsers.FixSyntax(@"Great.{{fact|date=May 2008]} Now"));
+
+            // don't change what could be wikitable
+            Assert.AreEqual(@"Great.{{foo|} Now", Parsers.FixSyntax(@"Great.{{foo|} Now"));
+
+            // set single curly bracket to normal bracket if that makes all brackets balance
+            Assert.AreEqual(@"Great (not really) now", Parsers.FixSyntax(@"Great (not really} now"));
+            Assert.AreEqual(@"# [[Herbert H. H. Fox]] ([[1934 - 1939]])<br>", Parsers.FixSyntax(@"# [[Herbert H. H. Fox]] ([[1934 - 1939]]}<br>"));
+            // can't fix these
+            Assert.AreEqual(@"Great { but (not really} now", Parsers.FixSyntax(@"Great { but (not really} now"));
+            Assert.AreEqual(@"Great (not really)} now", Parsers.FixSyntax(@"Great (not really)} now"));
+            // don't touch when it could be a table
+            Assert.AreEqual(@"great (in 2001 | blah |} now", Parsers.FixSyntax(@"great (in 2001 | blah |} now"));
+
+            // doesn't complete curly brackets where they don't balance after
+            const string cite1 = @"Great.<ref>{{cite web | url=http://www.site.com | title=abc } year=2009}}</ref>";
+            Assert.AreEqual(cite1, Parsers.FixSyntax(cite1));
+
+            // set double round bracket to single
+            Assert.AreEqual(@"then (but often) for", Parsers.FixSyntax(@"then ((but often) for"));
+
+            // only applies changes if brackets then balance out
+            Assert.AreEqual(@"then ((but often)) for", Parsers.FixSyntax(@"then ((but often)) for"));
+            Assert.AreEqual(@"then ((but often)} for", Parsers.FixSyntax(@"then ((but often)} for"));
+            Assert.AreEqual(@"then ((but often) for(", Parsers.FixSyntax(@"then ((but often) for("));
+
+            // an unbalanced bracket is fixed if there are enough characters until the next one to be confident that the next one is indeed
+            // a separate incident
+            Assert.AreEqual(@"# [[Daniel Sylvester Tuttle|Daniel S. Tuttle]], (1867 - 1887)
+# Ethelbert Talbot, (1887 - 1898),
+# James B. Funsten, (1899 - 1918)
+# Herman Page, (1919 - 1919)
+# Frank H. Touret, (1919 - 1924)
+# Herbert H. H. Fox, (1925 - 1926)
+# [[Middleton S. Barnwell]], (1926 - 1935)
+# Frederick B. Bartlett, (1935 - 1941)
+# Frak A. Rhea, (1942 - 1968)
+# Norman L. Foote, (1957 - 1972)
+# Hanford L. King, Jr., (1972 - 1981)
+# David B. Birney, IV, (1982 - 1989)
+# John S. Thornton. (1990 - 1998
+# Harry B. Bainbridge, III, (1998 - 2008)
+# Brian J. Thom  (2008 - Present)", Parsers.FixSyntax(@"# [[Daniel Sylvester Tuttle|Daniel S. Tuttle]], (1867 - 1887)
+# Ethelbert Talbot, (1887 - 1898),
+# James B. Funsten, (1899 - 1918)
+# Herman Page, (1919 - 1919}
+# Frank H. Touret, (1919 - 1924)
+# Herbert H. H. Fox, (1925 - 1926)
+# [[Middleton S. Barnwell]], (1926 - 1935)
+# Frederick B. Bartlett, (1935 - 1941)
+# Frak A. Rhea, (1942 - 1968)
+# Norman L. Foote, (1957 - 1972)
+# Hanford L. King, Jr., (1972 - 1981)
+# David B. Birney, IV, (1982 - 1989)
+# John S. Thornton. (1990 - 1998
+# Harry B. Bainbridge, III, (1998 - 2008)
+# Brian J. Thom  (2008 - Present)"));
+
+            Assert.AreEqual(@"The '''Zach Feuer Gallery''' is a [[contemporary art]] gallery located in [[Chelsea, Manhattan|Chelsea]], [[New York City|New York]].
+
+==History==
+
+The Zach Feuer Gallery was founded in 2000 as the LFL Gallery, by Nick Lawrence, Russell LaMontagne and Zach Feuer.  It was originally located on a fourth floor space on 26th Street.    In 2002 the gallery moved to a first floor space on 24th Street, briefly sharing space with an art book gallery owned by one of the partners.  In 2004  Zach Feuer purchased the gallery from his partners and changed the gallery name to Zach Feuer Gallery.
+
+Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules de Balincourt]], [[Nathalie Djurberg]], [[Justin Lieberman]], [[Stuart Hawkins]],  [[Johannes Vanderbeek]], [[Sister Corita Kent]], [[Tamy Ben Tor]], [[Anton Henning]], [[Dana Schutz]], and [[Mark Flood]].
+
+==External links==
+* [http://www.zachfeuer.com Zach Feuer Gallery] website
+
+{{coord missing|New York}}
+
+[[Category:Contemporary art galleries]]
+[[Category:2000 establishments]]
+[[Category:Art galleries in Manhattan]]", Parsers.FixSyntax(@"The '''Zach Feuer Gallery''' is a [[contemporary art]] gallery located in [[Chelsea, Manhattan|Chelsea]], [[New York City|New York]].
+
+==History==
+
+The Zach Feuer Gallery was founded in 2000 as the LFL Gallery, by Nick Lawrence, Russell LaMontagne and Zach Feuer.  It was originally located on a fourth floor space on 26th Street.    In 2002 the gallery moved to a first floor space on 24th Street, briefly sharing space with an art book gallery owned by one of the partners.  In 2004  Zach Feuer purchased the gallery from his partners and changed the gallery name to Zach Feuer Gallery.
+
+Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules de Balincourt]], [[Nathalie Djurberg]]], [[Justin Lieberman]], [[Stuart Hawkins]],  [[Johannes Vanderbeek]], [[Sister Corita Kent]], [[Tamy Ben Tor]], [[Anton Henning]], [[Dana Schutz]], and [[Mark Flood]].
+
+==External links==
+* [http://www.zachfeuer.com Zach Feuer Gallery] website
+
+{{coord missing|New York}}
+
+[[Category:Contemporary art galleries]]
+[[Category:2000 establishments]]
+[[Category:Art galleries in Manhattan]]"));
+
+            Assert.AreEqual(@"<ref>[http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=5194 Find A Grave]</ref>", Parsers.FixSyntax(@"<ref>{http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=5194 Find A Grave]</ref>"));
+
+            // convert [[[[link]] to [[link]] if that balances it all out
+            Assert.AreEqual(@"hello [[link]] there", Parsers.FixSyntax(@"hello [[[[link]] there"));
+            Assert.AreEqual(@"hello [[[[link]] there]]", Parsers.FixSyntax(@"hello [[[[link]] there]]"));
+
+            // convert {blah) to (blah) if that balances it all out, not wikitables, templates
+            Assert.AreEqual(@"hello (link) there", Parsers.FixSyntax(@"hello {link) there"));
+            Assert.AreEqual(@"hello {|table|blah) there", Parsers.FixSyntax(@"hello {|table|blah) there"));
+            Assert.AreEqual(@"{{cite web|title=a|url=http://www.site.com|publisher=ABC)|year=2006}", Parsers.FixSyntax(@"{{cite web|title=a|url=http://www.site.com|publisher=ABC)|year=2006}"));
+
+            // convert [blah} to [blah] if that balances it all out
+            Assert.AreEqual(@"*[http://aeiou.visao.pt/Pages/Lusa.aspx?News=200808068620453 Obituary notice] here", Parsers.FixSyntax(@"*[http://aeiou.visao.pt/Pages/Lusa.aspx?News=200808068620453 Obituary notice} here"));
+
+            // don't touch template ends
+            Assert.AreEqual(@"[http://aeiou.visao.pt/Pages/Lusa.aspx?News=200808068620453 Obituary notice}}", Parsers.FixSyntax(@"[http://aeiou.visao.pt/Pages/Lusa.aspx?News=200808068620453 Obituary notice}}"));
+
+            // correct [[blah blah}word]] to [[blah blah|word]]
+            Assert.AreEqual(@"[[blah blah|word]]", Parsers.FixSyntax(@"[[blah blah}word]]"));
+            Assert.AreEqual(@"[[blah|word]]", Parsers.FixSyntax(@"[[blah}word]]"));
+
+            // []foo]] --> [[foo]]
+            Assert.AreEqual(@"now [[link]] was", Parsers.FixSyntax(@"now []link]] was"));
+            Assert.AreEqual(@"now [[link|a]] was", Parsers.FixSyntax(@"now []link|a]] was"));
+
+            // not if unbalanced brackets remain
+            Assert.AreEqual(@"{ here [[blah blah}word]]", Parsers.FixSyntax(@"{ here [[blah blah}word]]"));
+
+            // correct {[link]] or {[[link]] or [[[link]] or [[{link]]
+            Assert.AreEqual(@"now [[link]] was", Parsers.FixSyntax(@"now {[link]] was"));
+            Assert.AreEqual(@"now [[link]] was", Parsers.FixSyntax(@"now {[[link]] was"));
+            Assert.AreEqual(@"now [[link]] was", Parsers.FixSyntax(@"now [[[link]] was"));
+            Assert.AreEqual(@"now [[link]] was", Parsers.FixSyntax(@"now [[{link]] was"));
+
+            // not if unbalanced brackets remain nearby
+            Assert.AreEqual(@"now {[[link]]} was", Parsers.FixSyntax(@"now {[link]]} was"));
+            Assert.AreEqual(@"now [[[link]] was]", Parsers.FixSyntax(@"now [[[link]] was]"));
+
+            // convert [[link]]]] to [[link]] IFF that balances it all out
+            Assert.AreEqual(@"hello [[link]] there", Parsers.FixSyntax(@"hello [[link]]]] there"));
+            Assert.AreEqual(@"[[hello [[link]]]] there", Parsers.FixSyntax(@"[[hello [[link]]]] there"));
+
+            //Unbalanced bracket and double pipe [[foo||bar] inside a table
+            Assert.AreEqual(@"{|
+			|-
+			| [[foo|bar]]
+			|}", Parsers.FixSyntax(@"{|
+			|-
+			| [[foo||bar]
+			|}"));
+
+            // external links missing brackets
+            Assert.AreEqual(@"blah
+* [http://www.site.com a site]
+* [http://www.site2.com another]", Parsers.FixSyntax(@"blah
+* [http://www.site.com a site
+* [http://www.site2.com another]"));
+            Assert.AreEqual(@"blah
+* [http://www.site.com a site]
+* [http://www.site2.com another]", Parsers.FixSyntax(@"blah
+* http://www.site.com a site]
+* [http://www.site2.com another]"));
+
+            Assert.AreEqual(@"now ({{lang-el|foo}}) was", Parsers.FixSyntax(@"now ({lang-el|foo}}) was"));
+
+            //  IndexOutOfRangeException bug
+            Assert.AreEqual(@"] now", Parsers.FixSyntax(@"] now"));
+
+            Assert.AreEqual(@"{{DEFAULTSORT:hello}}
+now", Parsers.FixSyntax(@"{{DEFAULTSORT:hello
+now"));
+
+            Assert.AreEqual(@"|[[Belmont (Durham) railway station|Belmont]] ([[Durham]])
+|[[North Eastern Railway (UK)|NER]]
+|1857", Parsers.FixSyntax(@"|[[Belmont (Durham) railway station|Belmont]] {[[Durham]])
+|[[North Eastern Railway (UK)|NER]]
+|1857"));
+
+            const string Choisir = @"{{Thoroughbred
+| horsename = Choisir
+| image =
+| caption =
+| sire = [[Danehill Dancer]]
+| grandsire = [[Danehill (horse)|Danehill]]
+| dam = [[Great Selection]]
+| damsire =
+| sex =
+| foaled =
+| country = [[Australia|Australian]]}
+| colour =
+| breeder =
+| owner = T
+| trainer = [[Paul Perry]]
+}}
+'''Choisir'''";
+
+            Assert.AreEqual(Choisir, Parsers.FixSyntax(Choisir));
+
+            const string Nochange = @"** >> {[[Sei Young Animation Co., Ltd.|Animação Retrô]]}";
+
+            Assert.AreEqual(Nochange, Parsers.FixSyntax(Nochange));
+            
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b (ABC) }}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b (ABC} }}</ref>"));
+        }
+
+        [Test, Category("Incomplete")]
+        public void TestFixSyntax()
+        {
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#NEsted_square_brackets_again.
+            Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
+                            Parsers.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
+
+            Assert.AreEqual("[[File:foo.jpg|Some [http://some_crap.com]]]",
+                            Parsers.FixSyntax("[[File:foo.jpg|Some [http://some_crap.com]]]"));
+
+            Assert.AreEqual("Image:foo.jpg|{{{some_crap}}}]]", Parsers.FixSyntax("Image:foo.jpg|{{{some_crap}}}]]"));
+
+            Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[somelink]]"));
+            Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[[somelink]"));
+            Assert.AreNotEqual("[[somelink]]", Parsers.FixSyntax("[somelink]"));
+            Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[[somelink|]"));
+
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Erroneously_removing_pipe
+            Assert.AreEqual("[[|foo]]", Parsers.FixSyntax("[[|foo]]"));
+
+            bool noChange;
+            //TODO: move it to parts testing specific functions, when they're covered
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
+            Parsers.CanonicalizeTitle("[[|foo]]"); // shouldn't throw exceptions
+            Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", "bar", out noChange));
+
+            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixSyntax(@"[[foo||bar]]"));
+            Assert.AreEqual("[[somelink#a]]", Parsers.FixLinkWhitespace("[[somelink_#a]]", "Test"));
+        }
+ 
+        [Test]
+        public void TestFixSyntaxExternalLinkSpacing()
+        {
+            Assert.AreEqual(@"their new [http://www.site.com site]", Parsers.FixSyntax(@"their new[http://www.site.com site]"));
+            Assert.AreEqual(@"their new [http://www.site.com site] was", Parsers.FixSyntax(@"their new [http://www.site.com site]was"));
+            Assert.AreEqual(@"their new [http://www.site.com site] was", Parsers.FixSyntax(@"their new[http://www.site.com site]was"));
+
+            Assert.AreEqual(@"their new [http://www.site.com site]", Parsers.FixSyntax(@"their new [http://www.site.com site]"));
+            Assert.AreEqual(@"their new [http://www.site.com site] was", Parsers.FixSyntax(@"their new [http://www.site.com site] was"));
+
+            Assert.AreEqual(@"their new [http://www.site.com site] was [[blog]]ger then", Parsers.FixSyntax(@"their new [http://www.site.com site] was [[blog]]ger then"));
+
+            const string nochange1 = @"their [[play]]ers", nochange2 = @"ts borders.<ref>[http://cyber.law.harvard.edu/filtering/a/ Saudi Arabia]</ref> A Saudi";
+            Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));
+            Assert.AreEqual(nochange2, Parsers.FixSyntax(nochange2));
+
+            // https
+            Assert.AreEqual(@"their new [https://www.site.com site]", Parsers.FixSyntax(@"their new[https://www.site.com site]"));
+            Assert.AreEqual(@"their new [https://www.site.com site] was", Parsers.FixSyntax(@"their new [https://www.site.com site]was"));
+            Assert.AreEqual(@"their new [https://www.site.com site] was", Parsers.FixSyntax(@"their new[https://www.site.com site]was"));
+
+            Assert.AreEqual(@"their new [https://www.site.com site]", Parsers.FixSyntax(@"their new [https://www.site.com site]"));
+            Assert.AreEqual(@"their new [https://www.site.com site] was", Parsers.FixSyntax(@"their new [https://www.site.com site] was"));
+
+            Assert.AreEqual(@"their new [https://www.site.com site] was [[blog]]ger then", Parsers.FixSyntax(@"their new [https://www.site.com site] was [[blog]]ger then"));
+
+            const string nochange3 = @"ts borders.<ref>[https://cyber.law.harvard.edu/filtering/a/ Saudi Arabia]</ref> A Saudi";
+            Assert.AreEqual(nochange3, Parsers.FixSyntax(nochange3));
+
+#if debug
+			// In Chinese Wikipedia  the text inside and outside of the link should be directly connected
+            Variables.SetProjectLangCode("zh");
+            Assert.AreEqual(@"their new[http://www.site.com site]", Parsers.FixSyntax(@"their new[http://www.site.com site]"));
+            Assert.AreEqual(@"their new [http://www.site.com site]was", Parsers.FixSyntax(@"their new [http://www.site.com site]was"));
+            Assert.AreEqual(@"their new[http://www.site.com site]was", Parsers.FixSyntax(@"their new[http://www.site.com site]was"));
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(@"their new [http://www.site.com site]", Parsers.FixSyntax(@"their new[http://www.site.com site]"));
+#endif
+
+        }
+
+        [Test]
+        public void TestFixSyntaxReferencesWithNoHttp()
+        {
+            Assert.AreEqual(@"<ref>http://www.foo.com</ref>", Parsers.FixSyntax(@"<ref>www.foo.com</ref>"),"missing http");
+            Assert.AreEqual(@"<ref>[http://www.foo.com bar]</ref>", Parsers.FixSyntax(@"<ref>[www.foo.com bar]</ref>"),"missing http inside brackets");
+            Assert.AreEqual(@"<ref name=test>http://www.foo.com</ref>", Parsers.FixSyntax(@"<ref name=test>www.foo.com</ref>"), "missing http inside named ref");
+            Assert.AreEqual(@"<ref>http://www.foo.com</ref>", Parsers.FixSyntax(@"<ref>       www.foo.com</ref>"));
+            Assert.AreEqual(@"Visit www.foo.com", Parsers.FixSyntax(@"Visit www.foo.com"), "no changes outside references");
+            Assert.AreEqual(@"<ref>[www-foo.a.com bar]</ref>", Parsers.FixSyntax(@"<ref>[www-foo.a.com bar]</ref>"),"No change for www-");
+        }
+
+        [Test]
+        public void TestFixIncorrectBr()
+        {
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br.>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<BR.>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br\>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<BR\>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<\br>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br./>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /a>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /v>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /r>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /s>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /t>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /z>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /0>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /1>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /2>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /9>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /•>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br/•>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br /br>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br ?>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br?>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br//>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"</br>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"</br >"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"</br />"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"</br/>"));
+
+            // these are already correct
+            Assert.AreEqual("<br/>", Parsers.FixSyntax(@"<br/>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br />"));
+        }
+
+    }
 }
