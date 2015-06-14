@@ -691,5 +691,226 @@ namespace WikiFunctions.Parse
             return !Regex.IsMatch(articleText, RefName + Regex.Escape(derivedReferenceName) + @"(?:""|')?\s*/?\s*>") && derivedReferenceName.Length >= 3
                 && !derivedReferenceName.Equals("http");
         }
+
+        // Covered by: FootnotesTests.TestFixReferenceListTags()
+        private static string ReflistMatchEvaluator(Match m)
+        {
+            // don't change anything if div tags mismatch
+            if(DivStart.Matches(m.Value).Count != DivEnd.Matches(m.Value).Count)
+                return m.Value;
+
+            // {{reflist}} template not used on sv-wiki
+            if(Variables.LangCode == "sv")
+                return "<references/>";
+
+            if(m.Value.Contains("references-2column") || m.Value.Contains("column-count:2"))
+                return "{{Reflist|2}}";
+
+            return "{{Reflist}}";
+        }
+
+        /// <summary>
+        /// Main regex for {{Reflist}} converter
+        /// </summary>
+        private static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?""(?:\s*style\s*=\s*""[^<>""]+?""\s*)?>[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex ReferenceListSmallTags = new Regex(@"(<small>[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</small>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex DivStart = new Regex(@"<div\b.*?>", RegexOptions.Compiled);
+        private static readonly Regex DivEnd = new Regex(@"< ?/ ?div\b.*?>", RegexOptions.Compiled);
+
+        // Covered by: FootnotesTests.TestFixReferenceListTags()
+        /// <summary>
+        /// Replaces various old reference tag formats, with the new {{Reflist}}, or &lt;references/&gt; for sv-wiki
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article</param>
+        /// <returns>The updated article text</returns>
+        public static string FixReferenceListTags(string articleText)
+        {
+            // check for performance
+            if(articleText.IndexOf(@"<references", StringComparison.OrdinalIgnoreCase) < 0)
+                return articleText;
+
+            articleText = ReferenceListSmallTags.Replace(articleText, ReflistMatchEvaluator);
+            return ReferenceListTags.Replace(articleText, ReflistMatchEvaluator);
+        }
+
+        private static readonly Regex EmptyReferences = new Regex(@"(<ref\s+name\s*=\s*[^<>=\r\n]+?)\s*(?:/\s*)?>\s*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        // Covered by: FootnotesTests.TestSimplifyReferenceTags()
+        /// <summary>
+        /// Replaces reference tags in the form &lt;ref name="blah">&lt;/ref> with &lt;ref name="blah" />
+        /// Removes some of the MW errors that occur from the prior
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article</param>
+        /// <returns>The updated article text</returns>
+        public static string SimplifyReferenceTags(string articleText)
+        {
+            return EmptyReferences.Replace(articleText, @"$1 />");
+        }
+
+        private static readonly Regex LinksHeading = new Regex(@"(?sim)(==+\s*)Links(\s*==+\s*(?:^(?:\*|\d\.?)?\s*\[?\s*http://))", RegexOptions.Compiled);
+        private static readonly Regex ReferencesHeadingLevel2 = new Regex(@"(?i)==\s*'*\s*References?\s*'*\s*==", RegexOptions.Compiled);
+        private static readonly Regex ReferencesHeadingLevelLower = new Regex(@"(?i)(==+\s*'*\s*References?\s*'*\s*==+)", RegexOptions.Compiled);
+        private static readonly Regex ExternalLinksHeading = new Regex(@"(?im)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=)", RegexOptions.Compiled);
+        private static readonly Regex ExternalLinksToReferences = new Regex(@"(?sim)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=+.*?)(\r\n==+References==+\r\n{{Reflist}})", RegexOptions.Compiled);
+        private static readonly Regex Category = new Regex(@"(?im)(^\s*\[\[\s*Category\s*:)", RegexOptions.Compiled);
+        private static readonly Regex CategoryToReferences = new Regex(@"(?sim)((?:^\{\{(?!(?:[Tt]racklist|[Ss]\-end)\b)[^{}]+?\}\}\s*)*)(^\s*\[\[\s*Category\s*:.*?)(\r\n==+References==+\r\n{{Reflist}})", RegexOptions.Compiled);
+
+        private static readonly Regex ReferencesMissingSlash = new Regex(@"<\s*[Rr]eferences\s*>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// First checks for a &lt;references&lt; missing '/' to correct, otherwise:
+        /// if the article uses cite references but has no recognised template to display the references, add {{Reflist}} in the appropriate place
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article</param>
+        /// <returns>The updated article text</returns>
+        public static string AddMissingReflist(string articleText)
+        {
+            if (!IsMissingReferencesDisplay(articleText) || !Variables.LangCode.Equals("en"))
+                return articleText;
+
+            if (ReferencesMissingSlash.IsMatch(articleText))
+                return ReferencesMissingSlash.Replace(articleText, @"<references/>");
+
+            // Rename ==Links== to ==External links==
+            articleText = LinksHeading.Replace(articleText, "$1External links$2");
+
+            // add to any existing references section if present
+            if (ReferencesHeadingLevel2.IsMatch(articleText))
+                articleText = ReferencesHeadingLevelLower.Replace(articleText, "$1\r\n{{Reflist}}");
+            else
+            {
+                articleText += "\r\n==References==\r\n{{Reflist}}";
+
+                // now sort metadata in case Category at top of article
+                Parsers p = new Parsers();
+                articleText = p.SortMetaData(articleText, "A", false);
+
+                // try to move just above external links
+                if (ExternalLinksHeading.IsMatch(articleText))
+                    articleText = ExternalLinksToReferences.Replace(articleText, "$2\r\n$1");
+                else if (Category.IsMatch(articleText))
+                    // try to move just above categories
+                    articleText = CategoryToReferences.Replace(articleText, "$3\r\n$1$2");
+                else // not moved, so extra blank line required before heading
+                    articleText = articleText.Replace("\r\n==References==", "\r\n\r\n==References==");
+            }
+
+            return articleText;
+        }
+
+        private static readonly RegexReplacement[] RefSimple = {
+            new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>",  RegexOptions.Singleline), "<ref>"),
+            // <ref name="Fred" /ref> --> <ref name="Fred"/>
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*(?:ref|/)\s*>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1/>"),
+
+            // <ref name="Fred""> --> <ref name="Fred">
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")["">]\s*(/?)>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1$2>"),
+
+            // <ref name = ”Fred”> --> <ref name="Fred">
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:[“‘”’]+(?<val>[^<>=""\/]+?)[“‘”’]*|[“‘”’]*(?<val>[^<>=""\/]+?)[“‘”’]+)(\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""${val}""$2"),
+
+            // <ref name = ''Fred'> --> <ref name="Fred"> (two apostrophes) or <ref name = 'Fred''> --> <ref name="Fred"> (two apostrophes)
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:''+(?<val>[^<>=""\/]+?)'+|'+(?<val>[^<>=""\/]+?)''+)(\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""${val}""$2"),
+
+            // <ref name=foo bar> --> <ref name="foo bar">, match when spaces
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]+?\s+[^<>=""'\/\s]+?)(\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
+
+            // <ref name=foo bar> --> <ref name="foo bar">, match when non-ASCII characters ([\x00-\xff]*)
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]*?[^\x00-\xff]+?[^<>=""'\/]*?)(\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
+
+            // <ref name=foo bar"> --> <ref name="foo bar"> or <ref name="foo bar> --> <ref name="foo bar">
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:['`”]*(?<val>[^<>=""\/]+?)""|""(?<val>[^<>=""\/]+?)['`”]*)(\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""${val}""$2"),
+
+            // <ref name "foo bar"> --> <ref name="foo bar">
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)[\+\-]?(\s*""[^<>=""\/]+?""\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1=$2"),
+
+            // <ref "foo bar"> --> <ref name="foo bar">
+            new RegexReplacement(new Regex(@"(<\s*ref\s+)=?\s*(""[^<>=""\/]+?""\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1name=$2"),
+
+            // ref name typos
+            new RegexReplacement(new Regex(@"(<\s*ref\s+n)(me\s*=)",  RegexOptions.IgnoreCase), "$1a$2"),
+            
+            // <ref name="Fred" Smith> --> <ref name="Fred Smith">
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?)""([^<>=""\/]{2,}?)(?<!\s+)(?=\s*/?>)",  RegexOptions.IgnoreCase), @"$1$2"""),
+            
+            // <ref name-"Fred"> --> <ref name="Fred">
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)-"), "$1="),
+            
+            // <ref NAME= --> <ref name=
+            // <refname= --> <ref name=
+            new RegexReplacement(new Regex(@"<\s*ref(?:\s+NAME|name)(\s*=)"), "<ref name$1"),
+            
+            // empty ref name: <ref name=>
+            new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=\s*>"), "<ref>")
+        };
+
+        // Matches possibly bad ref tags, but not the most common valid formats
+        private static readonly Regex PossiblyBadRefTags = new Regex(@"<\s*[Rr][Ee][Ff][^<>]*>(?<!(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref>|<ref name *= *""[^{}""<>]+""( ?/)?>))");
+        // <ref>...<ref/> or <ref>...</red> --> <ref>...</ref>
+        private static readonly Regex RedRef = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>", RegexOptions.IgnoreCase);
+        private static readonly Regex AllTagsSpace = new Regex(@"<[^<>]+> *");
+
+        // Covered by TestFixReferenceTags
+        /// <summary>
+        /// Various fixes to the formatting of &lt;ref&gt; reference tags including case conversion and trimming excess whitespace
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article</param>
+        /// <returns>The modified article text.</returns>
+        public static string FixReferenceTags(string articleText)
+        {
+            // Performance strategy: get all tags in article, filter down to tags that look like ref tags, ignore valid tags, only apply regexes where relevant tags are found
+            List<string> AllTagsList = Tools.DeduplicateList((from Match m in AllTagsSpace.Matches(articleText)
+                where m.Value.IndexOf("re", StringComparison.OrdinalIgnoreCase) > 0 
+                && !m.Value.Equals("<ref>") && !m.Value.Equals("</ref>") && !m.Value.StartsWith(@"<references") && !m.Value.Contains(" group")
+                                                                          select m.Value).ToList());
+
+            // <REF>, </REF> and <Ref> to lowercase ref
+            if(AllTagsList.Any(s => Regex.IsMatch(s, @"R[Ee][Ff]|r[Ee]F")))
+                articleText = Regex.Replace(articleText, @"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))", "$1ref$2");
+
+            // remove any spaces between consecutive references -- WP:REFPUNC
+            if(AllTagsList.Any(s => s.EndsWith(" ")))
+                articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", "$1");
+
+            // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
+            articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)", "$1 $2");
+
+            // remove spaces between punctuation and references -- WP:REFPUNC
+            if(articleText.Contains(" <ref"))
+                articleText = Regex.Replace(articleText, @"(?<=[,\.:;]) +(<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", "$1");
+
+            // empty <ref>...</ref> tags
+            articleText = Regex.Replace(articleText, @"<ref>\s*</ref>", "");
+
+            // Trailing spaces at the beginning of a reference, within the reference
+            if(AllTagsList.Any(s => s.EndsWith(" ")))
+                articleText = Regex.Replace(articleText, @"(<ref[^<>\{\}\/]*>) +", "$1");
+
+            // whitespace cleaning of </ref>
+            if(AllTagsList.Any(s => Regex.IsMatch(s, @"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>")))
+                articleText = Regex.Replace(articleText, @"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", "</ref>");
+
+            // trim trailing spaces at the end of a reference, within the reference
+            if(articleText.Contains(@" </ref>"))
+                articleText = Regex.Replace(articleText, @" +</ref>", "</ref>");
+
+            if(AllTagsList.Any(s => s.StartsWith("<ref/>") || s.StartsWith("</red>")))
+                articleText = RedRef.Replace(articleText, "$1</ref>");
+
+            // Chinese do not use spaces to separate sentences
+            if (Variables.LangCode.Equals("zh"))
+                articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +", "$1");
+
+            // Performance: apply ref tag fixes only to ref tags that might be invalid
+            if(AllTagsList.Any(s => !Regex.IsMatch(s, @"(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref name *= *""[^{}""<>]+""( ?/)?>)|</ref>")))
+                articleText = PossiblyBadRefTags.Replace(articleText, FixReferenceTagsME);
+
+            return articleText;
+        }
+
+        private static string FixReferenceTagsME(Match m)
+        {
+            return RefSimple.Aggregate(m.Value, (current, rr) => rr.Regex.Replace(current, rr.Replacement));
+        }
 	}
 }

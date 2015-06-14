@@ -349,6 +349,10 @@
     <Compile Include="Parse\PersonData.cs" />
     <Compile Include="Parse\CategoryDefaultSort.cs" />
     <Compile Include="Parse\References.cs" />
+    <Compile Include="Parse\CiteTemplates.cs" />
+    <Compile Include="Parse\FixDates.cs" />
+    <Compile Include="Parse\BoldTitle.cs" />
+    <Compile Include="Parse\WikiLinks.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\ArticleTextBox.resx">
