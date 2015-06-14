@@ -158,6 +158,7 @@ namespace WikiFunctions.Parse
         public static string FixSyntax(string articleText)
         {
             List<string> alltemplates = GetAllTemplates(articleText);
+            MatchCollection ssbMc = SingleSquareBrackets.Matches(articleText);
 
             if (Variables.LangCode.Equals("en"))
             {
@@ -165,7 +166,8 @@ namespace WikiFunctions.Parse
                 articleText = FixSyntaxDefaultSort(articleText);
 
                 // This category should not be directly added
-                articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
+                if((from Match m in ssbMc where m.Value.Equals(@"[[Category:Disambiguation pages]]") select m).Any())
+                    articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
             }
 
             if(TemplateExists(alltemplates, WikiRegexes.MagicWordTemplates))
@@ -272,7 +274,6 @@ namespace WikiFunctions.Parse
 
             articleText = RefExternalLinkUsingBraces.Replace(articleText, @"[$1$2]$3");
 
-            MatchCollection ssbMc = SingleSquareBrackets.Matches(articleText);
             string nobrackets = Tools.ReplaceWithSpaces(articleText, ssbMc);
             bool orphanedSingleBrackets = (nobrackets.Contains("[") || nobrackets.Contains("]"));
 
