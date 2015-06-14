@@ -342,7 +342,7 @@ namespace WikiFunctions.Parse
                 articleText = SupOrdinal.Replace(articleText, @"$1$2");
 
             //CHECKWIKI error 86
-            bool doubleBracketHttp = articleText.IndexOf("[[http", StringComparison.OrdinalIgnoreCase) > -1;
+            bool doubleBracketHttp = articleText.ToLower().Contains("[[http");
             if(doubleBracketHttp)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
