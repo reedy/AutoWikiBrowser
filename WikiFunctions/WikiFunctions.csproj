@@ -344,6 +344,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="WikiRegexes.cs" />
+    <Compile Include="Parse\MultipleIssuesTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\ArticleTextBox.resx">
