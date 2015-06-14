@@ -162,7 +162,8 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode.Equals("en"))
             {
                 // DEFAULTSORT whitespace fix - CHECKWIKI error 88
-                articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
+                articleText = FixSyntaxDefaultSort(articleText);
+
                 // This category should not be directly added
                 articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
             }
@@ -405,6 +406,23 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.MagicWordsBehaviourSwitches.Replace(articleText, m=> @"__" + m.Groups[1].Value.ToUpper() + @"__");
 
             return articleText.Trim();
+        }
+
+        /// <summary>
+        /// Applies fixes to any DEFAULTSORT templates in the input text
+        /// </summary>
+        /// <returns>The updated article text</returns>
+        /// <param name="articleText">Article text.</param>
+        private static string FixSyntaxDefaultSort(string articleText)
+        {
+            // Performance: check DEFAULTSORT from cache, to avoid processing articleText if no changes to make
+            List<string> alltemplates = GetAllTemplateDetail(articleText).Where(t => WikiRegexes.Defaultsort.IsMatch(t)).ToList();
+
+            // must apply DefaultsortME if no existing DEFAULTSORT as it may be a template with unclosed braces
+            if(!alltemplates.Any() || alltemplates.Any(s => !s.Equals(WikiRegexes.Defaultsort.Replace(s, DefaultsortME))))
+                articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
+
+            return articleText;
         }
 
         /// <summary>
