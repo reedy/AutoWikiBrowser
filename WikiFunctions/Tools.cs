@@ -2186,7 +2186,9 @@ Message: {2}
 					sb.Append(rwith, m.Index + m.Length - m.Groups[keepGroup].Index - m.Groups[keepGroup].Length);
 				}
 			}
-			sb.Append(input, sb.Length, input.Length - sb.Length);
+
+			if(input.Length > sb.Length)
+				sb.Append(input, sb.Length, input.Length - sb.Length);
 			return sb.ToString();
 		}
 
