@@ -1113,52 +1113,6 @@ namespace WikiFunctions.Parse
             return found;
         }
 
-        private static Queue<KeyValuePair<string, List<Match>>> GetUnnamedRefsQueue = new Queue<KeyValuePair<string, List<Match>>>();
-
-        /// <summary>
-        /// Extracts a list of all unnamed refs used in the input text
-        /// </summary>
-        /// <param name="articleText"></param>
-        private static List<Match> GetUnnamedRefs(string articleText)
-        {
-            // For peformance, use cached result if available: articletext plus List matches
-            List<Match> refsList = GetUnnamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-            if(refsList != null)
-                return refsList;
-
-            refsList = (from Match m in WikiRegexes.UnnamedReferences.Matches(articleText) select m).ToList();
-
-            // cache new results, then dequeue oldest if cache full
-            GetUnnamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText,  refsList));
-            if(GetUnnamedRefsQueue.Count > 10)
-                GetUnnamedRefsQueue.Dequeue();
-
-            return refsList;
-        }
-
-        private static Queue<KeyValuePair<string, List<Match>>> GetNamedRefsQueue = new Queue<KeyValuePair<string, List<Match>>>();
-
-        /// <summary>
-        /// Extracts a list of all named refs, including condensed used in the input text
-        /// </summary>
-        /// <param name="articleText"></param>
-        private static List<Match> GetNamedRefs(string articleText)
-        {
-            // For peformance, use cached result if available: articletext plus List matches
-            List<Match> refsList = GetNamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-            if(refsList != null)
-                return refsList;
-
-            refsList = (from Match m in WikiRegexes.NamedReferencesIncludingCondensed.Matches(articleText) select m).ToList();
-
-            // cache new results, then dequeue oldest if cache full
-            GetNamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText,  refsList));
-            if(GetNamedRefsQueue.Count > 10)
-                GetNamedRefsQueue.Dequeue();
-
-            return refsList;
-        }
-
         private static List<string> RenameTemplateParametersOldParams = new List<string>();
 
         /// <summary>
