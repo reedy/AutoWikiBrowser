@@ -158,6 +158,7 @@ namespace WikiFunctions.Parse
         public static string FixSyntax(string articleText)
         {
             List<string> alltemplates = GetAllTemplates(articleText);
+            List<string> alltemplatesDetail = GetAllTemplateDetail(articleText);
             MatchCollection ssbMc = SingleSquareBrackets.Matches(articleText);
 
             if (Variables.LangCode.Equals("en"))
@@ -216,7 +217,8 @@ namespace WikiFunctions.Parse
             articleText = SyntaxRegexHeadingWithHorizontalRule.Replace(articleText, "$1");
 
             // remove unnecessary namespace
-            articleText = RemoveTemplateNamespace(articleText);
+            if(alltemplatesDetail.Where(t => Regex.IsMatch(t, Variables.NamespacesCaseInsensitive[Namespace.Template])).Any())
+                articleText = RemoveTemplateNamespace(articleText);
 
             if(SyntaxRegexBrNewline.IsMatch(articleText))
             {
