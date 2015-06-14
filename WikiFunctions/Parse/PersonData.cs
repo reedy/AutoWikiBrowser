@@ -188,7 +188,7 @@ namespace WikiFunctions.Parse
                 POD = WikiRegexes.FileNamespaceLink.Replace(POD, "").Trim();
                 POD = WikiRegexes.NestedTemplates.Replace(WikiRegexes.Br.Replace(POD, " "), "").Trim();
                 POD = WikiRegexes.Small.Replace(WikiRegexes.Refs.Replace(POD, ""), "$1").TrimEnd(',');
-				POD = POD.Replace(@"???", "").Trim();
+                POD = POD.Replace(@"???", "").Trim();
 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD, true);
             }
@@ -375,5 +375,5 @@ namespace WikiFunctions.Parse
 
             return personData;
         }
-	}
+    }
 }

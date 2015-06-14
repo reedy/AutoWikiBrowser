@@ -636,5 +636,5 @@ namespace WikiFunctions.Parse
             return templatesFound.Where(s => r.IsMatch(@"{{" + s + "|}}")).Count();
         }
 
-	}
+    }
 }

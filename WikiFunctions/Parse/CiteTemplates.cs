@@ -516,52 +516,52 @@ namespace WikiFunctions.Parse
 
         private static string FixPageRangesValue(string pageRange)
         {
-        	string original = pageRange;
-        	// fix spaced page ranges e.g. 15 – 20 --> 15–20
-        	if (SpacedPageRange.IsMatch(pageRange))
-        		return SpacedPageRange.Replace(pageRange, "$1$2$3");
+            string original = pageRange;
+            // fix spaced page ranges e.g. 15 – 20 --> 15–20
+            if (SpacedPageRange.IsMatch(pageRange))
+                return SpacedPageRange.Replace(pageRange, "$1$2$3");
 
-        	if (pageRange.Length > 2 && !pageRange.Contains(" to "))
-        	{
-        		bool pagerangesokay = true;
-        		Dictionary<int, int> PageRanges = new Dictionary<int, int>();
+            if (pageRange.Length > 2 && !pageRange.Contains(" to "))
+            {
+                bool pagerangesokay = true;
+                Dictionary<int, int> PageRanges = new Dictionary<int, int>();
 
-        		foreach (Match pagerange in PageRange.Matches(pageRange))
-        		{
-        			string page1 = pagerange.Groups[1].Value;
-        			string page2 = pagerange.Groups[2].Value;
+                foreach (Match pagerange in PageRange.Matches(pageRange))
+                {
+                    string page1 = pagerange.Groups[1].Value;
+                    string page2 = pagerange.Groups[2].Value;
 
-        			// convert 350-2 into 350-352 etc.
-        			if (page1.Length > page2.Length)
-        				page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
+                    // convert 350-2 into 350-352 etc.
+                    if (page1.Length > page2.Length)
+                        page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
 
-        			// check a valid range with difference < 999
-        			pagerangesokay = (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
-        			                  Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999);
+                    // check a valid range with difference < 999
+                    pagerangesokay = (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
+                                      Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999);
 
-        			// check range doesn't overlap with another range found
-        			foreach (KeyValuePair<int, int> kvp in PageRanges)
-        			{
-        				// check if page 1 or page 2 within existing range
-        				if ((Convert.ToInt32(page1) >= kvp.Key && Convert.ToInt32(page1) <= kvp.Value) || (Convert.ToInt32(page2) >= kvp.Key && Convert.ToInt32(page2) <= kvp.Value))
-        				{
-        					pagerangesokay = false;
-        					break;
-        				}
-        			}
+                    // check range doesn't overlap with another range found
+                    foreach (KeyValuePair<int, int> kvp in PageRanges)
+                    {
+                        // check if page 1 or page 2 within existing range
+                        if ((Convert.ToInt32(page1) >= kvp.Key && Convert.ToInt32(page1) <= kvp.Value) || (Convert.ToInt32(page2) >= kvp.Key && Convert.ToInt32(page2) <= kvp.Value))
+                        {
+                            pagerangesokay = false;
+                            break;
+                        }
+                    }
 
-        			if (!pagerangesokay)
-        				break;
+                    if (!pagerangesokay)
+                        break;
 
-        			// add to dictionary of ranges found
-        			PageRanges.Add(Convert.ToInt32(page1), Convert.ToInt32(page2));
-        		}
+                    // add to dictionary of ranges found
+                    PageRanges.Add(Convert.ToInt32(page1), Convert.ToInt32(page2));
+                }
 
-        		if (pagerangesokay)
-        			return PageRange.Replace(pageRange, @"$1–$2");
-        	}
-        	
-        	return original;
+                if (pagerangesokay)
+                    return PageRange.Replace(pageRange, @"$1–$2");
+            }
+            
+            return original;
         }
 
         private static readonly Regex CiteWebOrNews = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb", "cite news", "citenews" });
@@ -887,5 +887,5 @@ namespace WikiFunctions.Parse
 
             return ambigDates;
         }
-	}
+    }
 }

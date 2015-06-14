@@ -199,9 +199,9 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string MultipleIssuesOldSingleTagME(Match m)
         {
-			// Performance: nothing to do if no named parameters
-			if(Tools.GetTemplateParameterValues(m.Value).Count == 0)
-			    return m.Value;
+            // Performance: nothing to do if no named parameters
+            if(Tools.GetTemplateParameterValues(m.Value).Count == 0)
+                return m.Value;
 
             string newValue = Conversions(Tools.RemoveTemplateParameter(m.Value, "section"));
 
@@ -464,5 +464,5 @@ namespace WikiFunctions.Parse
             // clean excess newlines
             return Regex.Replace(m.Value, "(\r\n)+", "\r\n");
         }
-	}
+    }
 }

@@ -237,7 +237,7 @@ namespace WikiFunctions.Parse
                     // if there are 4 arguments do nothing
                     // remove the old {{for}}
                     if  (Tools.GetTemplateArgument(m.Value, 4).Length == 0)
-	                    articleText = articleText.Replace(m.Value, "");
+                        articleText = articleText.Replace(m.Value, "");
                 }
 
                 // if for with blank first argument copied over then now need to put "other uses" as the argment
@@ -377,5 +377,5 @@ namespace WikiFunctions.Parse
 
             return sectionTextOriginal;
         }
-	}
+    }
 }

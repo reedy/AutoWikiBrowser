@@ -970,5 +970,5 @@ namespace WikiFunctions.Parse
             return WikiRegexes.Refs.Matches(arcticleText).Count - WikiRegexes.RefsGrouped.Matches(arcticleText).Count;
         }
 
-	}
+    }
 }

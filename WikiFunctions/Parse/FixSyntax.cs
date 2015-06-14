@@ -580,5 +580,5 @@ namespace WikiFunctions.Parse
 
             return m.Value;
         }
-	}
+    }
 }

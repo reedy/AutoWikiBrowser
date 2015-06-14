@@ -826,5 +826,5 @@ namespace WikiFunctions.Parse
 
             return CategoryStart + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim().TrimStart(':')) + sortkey + "]]";
         }
-	}
+    }
 }

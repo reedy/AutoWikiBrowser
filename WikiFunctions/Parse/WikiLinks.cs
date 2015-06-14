@@ -434,5 +434,5 @@ namespace WikiFunctions.Parse
             articleText = DuplicatePipedLinks.Replace(articleText, "[[$1|$2]]$3$2");
             return DuplicateUnpipedLinks.Replace(articleText, "[[$1]]$2$1");
         }
-	}
+    }
 }

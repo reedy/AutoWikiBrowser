@@ -221,5 +221,5 @@ namespace WikiFunctions.Parse
             // check that the bold added is the first bit in bold in the main body of the article, and in first 5% of HideMore article
             return inFirst5Percent && boldAddedPos <= firstBoldPos;
         }
-	}
+    }
 }

@@ -118,7 +118,7 @@ namespace WikiFunctions.Parse
             // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Standard_level_2_headers
             // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
-           	// only apply if all level 3 headings and lower are before the first of references/external links/see also
+            // only apply if all level 3 headings and lower are before the first of references/external links/see also
             if(Namespace.IsMainSpace(articleTitle))
             {
                 if(!customHeadings.Any(s => WikiRegexes.HeadingLevelTwo.IsMatch(s)))
@@ -193,5 +193,5 @@ namespace WikiFunctions.Parse
 
             return WikiRegexes.EmptyBold.Replace(hAfter, "");
         }
-	}
+    }
 }

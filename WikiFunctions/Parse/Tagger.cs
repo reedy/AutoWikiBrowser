@@ -546,27 +546,27 @@ namespace WikiFunctions.Parse
             return Variables.SectStubRegex.IsMatch(m.Value) ? m.Value : "";
         }
 
-		/// <summary>
-		/// Checks whether Tagger is permitted on article.
-		/// Allowed on mainspace for non-redirect pages without {{wi}} template
-		/// Also allowed for ar-wiki namespace 104
-		/// </summary>
-		/// <returns>True if Tagger is permitted on article</returns>
-		/// <param name='articleText'>Article text</param>
-		/// <param name='articleTitle'>Article title</param>
-		public static bool TaggerPermitted(string articleText, string articleTitle)
-		{
-		    if(articleTitle.Equals("Wikipedia:AutoWikiBrowser/Sandbox"))
-		        return true;
-			// don't tag redirects/outside article namespace/no tagging changes
-			// allow for ar-wiki 104
-			if(Variables.LangCode.Equals("ar") && Namespace.Determine(articleTitle) == 104 && !WikiRegexes.CEHar.IsMatch(articleText))
-				return true;
-			if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirectOrSoftRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText) || articleTitle=="Main Page")
-				return false;
+        /// <summary>
+        /// Checks whether Tagger is permitted on article.
+        /// Allowed on mainspace for non-redirect pages without {{wi}} template
+        /// Also allowed for ar-wiki namespace 104
+        /// </summary>
+        /// <returns>True if Tagger is permitted on article</returns>
+        /// <param name='articleText'>Article text</param>
+        /// <param name='articleTitle'>Article title</param>
+        public static bool TaggerPermitted(string articleText, string articleTitle)
+        {
+            if(articleTitle.Equals("Wikipedia:AutoWikiBrowser/Sandbox"))
+                return true;
+            // don't tag redirects/outside article namespace/no tagging changes
+            // allow for ar-wiki 104
+            if(Variables.LangCode.Equals("ar") && Namespace.Determine(articleTitle) == 104 && !WikiRegexes.CEHar.IsMatch(articleText))
+                return true;
+            if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirectOrSoftRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText) || articleTitle=="Main Page")
+                return false;
 
-			return true;
-		}
+            return true;
+        }
 
         private static readonly Regex TemplateParameter2 = new Regex(@" \{\{\{2\|\}\}\}", RegexOptions.Compiled);
 
@@ -829,63 +829,63 @@ namespace WikiFunctions.Parse
             string tags;
             if (tagsRemoved.Count > 0)
             {
-            	// Reverse order of words for arwiki and arzwiki
+                // Reverse order of words for arwiki and arzwiki
                 if (Variables.LangCode.Equals("ar"))
                 {
-                	if (tagsRemoved.Count == 1)
-                		tags = " وسم ";
-                	else if (tagsRemoved.Count == 2)
-                		tags = " وسمي ";
-                	else 
-                		tags = " وسوم ";
+                    if (tagsRemoved.Count == 1)
+                        tags = " وسم ";
+                    else if (tagsRemoved.Count == 2)
+                        tags = " وسمي ";
+                    else 
+                        tags = " وسوم ";
                     summary = " أزال" + tags + Tools.ListToStringCommaSeparator(tagsRemoved);
                 }
                 else if (Variables.LangCode.Equals("arz"))
                 {
-                	if (tagsRemoved.Count == 1)
-                		tags = " وسم ";
-                	else if (tagsRemoved.Count == 2)
-                		tags = " وسمين ";
-                	else 
-                		tags = " وسوم ";
+                    if (tagsRemoved.Count == 1)
+                        tags = " وسم ";
+                    else if (tagsRemoved.Count == 2)
+                        tags = " وسمين ";
+                    else 
+                        tags = " وسوم ";
                     summary = " شال" + tags + Tools.ListToStringCommaSeparator(tagsRemoved);
                 }
                 else if (Variables.LangCode.Equals("el"))
                 {
-                	 if(tagsRemoved.Count == 1)
-						summary = "αφαιρέθηκε η ετικέτα:" + Tools.ListToStringCommaSeparator(tagsRemoved);
-  					else 
-						summary = "αφαιρέθηκαν οι ετικέτες:" + Tools.ListToStringCommaSeparator(tagsRemoved);
+                     if(tagsRemoved.Count == 1)
+                        summary = "αφαιρέθηκε η ετικέτα:" + Tools.ListToStringCommaSeparator(tagsRemoved);
+                    else 
+                        summary = "αφαιρέθηκαν οι ετικέτες:" + Tools.ListToStringCommaSeparator(tagsRemoved);
                 }
                 else if (Variables.LangCode.Equals("eo"))
-                	summary = "forigis " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etikedo" +
+                    summary = "forigis " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etikedo" +
                     (tagsRemoved.Count == 1 ? "" : "j");
                 else if (Variables.LangCode.Equals("fa"))
                     summary = " برچسب" + Tools.ListToStringCommaSeparator(tagsRemoved) + " حذف شد ";
                 else if (Variables.LangCode.Equals("fr"))
-                	summary = "retrait " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
+                    summary = "retrait " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
                     (tagsRemoved.Count == 1 ? "" : "s");
                 else if (Variables.LangCode.Equals("hy"))
-                	summary = "ջնջվեց " + Tools.ListToStringCommaSeparator(tagsRemoved) + " կաղապար" +
+                    summary = "ջնջվեց " + Tools.ListToStringCommaSeparator(tagsRemoved) + " կաղապար" +
                     (tagsRemoved.Count == 1 ? "" : "ներ");
                 else if (Variables.LangCode.Equals("sv"))
                 {
-                	 if(tagsRemoved.Count == 1)
-  						tags = Tools.ListToStringCommaSeparator(tagsRemoved) + "-mall";
-  					else 
-  						tags = Tools.ListToStringWithSeparatorAndWordSuffix(tagsRemoved, "-", ", ", " och ") + "mallar";
-                	summary = "tog bort " + tags;
+                     if(tagsRemoved.Count == 1)
+                        tags = Tools.ListToStringCommaSeparator(tagsRemoved) + "-mall";
+                    else 
+                        tags = Tools.ListToStringWithSeparatorAndWordSuffix(tagsRemoved, "-", ", ", " och ") + "mallar";
+                    summary = "tog bort " + tags;
                 }
 
                 else if (Variables.LangCode.Equals("tr"))
                 {
-                	 if(tagsRemoved.Count == 1)
-						summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etiketi";
-  					else 
-						summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etiketleri";
+                     if(tagsRemoved.Count == 1)
+                        summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etiketi";
+                    else 
+                        summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etiketleri";
                 }
                 else
-                	summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
+                    summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
             }
 
@@ -893,68 +893,68 @@ namespace WikiFunctions.Parse
             {
                 if (!string.IsNullOrEmpty(summary))
                 {
-	                if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
-	                    summary += "، ";
-                	else
-	                    summary += ", ";
+                    if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
+                        summary += "، ";
+                    else
+                        summary += ", ";
                 }
 
                 // Reverse order of words for arwiki and arzwiki
                 if (Variables.LangCode.Equals("ar"))
                 {
-                	if (tagsAdded.Count == 1)
-                		tags = " وسم ";
-                	else if (tagsAdded.Count == 2)
-                		tags = " وسمي ";
-                	else 
-                		tags = " وسوم ";
+                    if (tagsAdded.Count == 1)
+                        tags = " وسم ";
+                    else if (tagsAdded.Count == 2)
+                        tags = " وسمي ";
+                    else 
+                        tags = " وسوم ";
                     summary += "أضاف " + tags + Tools.ListToStringCommaSeparator(tagsAdded);
                 }
                 else if (Variables.LangCode.Equals("arz"))
                 {
-                	if (tagsAdded.Count == 1)
-                		tags = " وسم ";
-                	else if (tagsAdded.Count == 2)
-                		tags = " وسمين ";
-                	else 
-                		tags = " وسوم ";
+                    if (tagsAdded.Count == 1)
+                        tags = " وسم ";
+                    else if (tagsAdded.Count == 2)
+                        tags = " وسمين ";
+                    else 
+                        tags = " وسوم ";
                     summary += "زود " + tags + Tools.ListToStringCommaSeparator(tagsAdded);
                 }
                 else if (Variables.LangCode.Equals("el"))
                 {
-                	if (tagsAdded.Count == 1)
-	                	summary += "προστέθηκε η ετικέτα: " + Tools.ListToStringCommaSeparator(tagsAdded);
-                	else 
-	                	summary += "προστέθηκαν οι ετικέτες: " + Tools.ListToStringCommaSeparator(tagsAdded);
+                    if (tagsAdded.Count == 1)
+                        summary += "προστέθηκε η ετικέτα: " + Tools.ListToStringCommaSeparator(tagsAdded);
+                    else 
+                        summary += "προστέθηκαν οι ετικέτες: " + Tools.ListToStringCommaSeparator(tagsAdded);
                 }
-                	else if (Variables.LangCode.Equals("eo"))
-                	summary += "aldonis " + Tools.ListToStringCommaSeparator(tagsAdded) + " etikedo" +
+                    else if (Variables.LangCode.Equals("eo"))
+                    summary += "aldonis " + Tools.ListToStringCommaSeparator(tagsAdded) + " etikedo" +
                     (tagsRemoved.Count == 1 ? "" : "j");
                 else if (Variables.LangCode.Equals("fa"))
                     summary += "برچسب " + Tools.ListToStringCommaSeparator(tagsAdded) + " اضافه شد ";
                 else if (Variables.LangCode.Equals("fr"))
-                	summary += "ajout " + Tools.ListToStringCommaSeparator(tagsAdded) + " balise" +
+                    summary += "ajout " + Tools.ListToStringCommaSeparator(tagsAdded) + " balise" +
                     (tagsAdded.Count == 1 ? "" : "s");
                 else if (Variables.LangCode.Equals("hy"))
-                	summary += "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsAdded) + " կաղապար" +
+                    summary += "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsAdded) + " կաղապար" +
                     (tagsAdded.Count == 1 ? "" : "ներ");
                 else if (Variables.LangCode.Equals("sv"))
                 {
-                	if (tagsAdded.Count == 1)
-                		tags = Tools.ListToStringCommaSeparator(tagsAdded) + "-mall";
-                	else 
-                		tags = Tools.ListToStringWithSeparatorAndWordSuffix(tagsAdded, "-", ", ", " och ") + "mallar";
-                	summary += "lade till " + tags;
+                    if (tagsAdded.Count == 1)
+                        tags = Tools.ListToStringCommaSeparator(tagsAdded) + "-mall";
+                    else 
+                        tags = Tools.ListToStringWithSeparatorAndWordSuffix(tagsAdded, "-", ", ", " och ") + "mallar";
+                    summary += "lade till " + tags;
                 }
                 else if (Variables.LangCode.Equals("tk"))
                 {
-                	if (tagsAdded.Count == 1)
-	                	summary += "eklendi " + Tools.ListToStringCommaSeparator(tagsAdded) + " etiketi";
-                	else 
-	                	summary += "eklendi " + Tools.ListToStringCommaSeparator(tagsAdded) + " etiketleri";
+                    if (tagsAdded.Count == 1)
+                        summary += "eklendi " + Tools.ListToStringCommaSeparator(tagsAdded) + " etiketi";
+                    else 
+                        summary += "eklendi " + Tools.ListToStringCommaSeparator(tagsAdded) + " etiketleri";
                 }
                 else
-                	summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
+                    summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
             }
             return summary;
@@ -1173,5 +1173,5 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
-	}
+    }
 }
