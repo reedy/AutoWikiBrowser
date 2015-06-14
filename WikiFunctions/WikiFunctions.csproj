@@ -353,6 +353,11 @@
     <Compile Include="Parse\FixDates.cs" />
     <Compile Include="Parse\BoldTitle.cs" />
     <Compile Include="Parse\WikiLinks.cs" />
+    <Compile Include="Parse\Templates.cs" />
+    <Compile Include="Parse\FixHeadings.cs" />
+    <Compile Include="Parse\FixSyntax.cs" />
+    <Compile Include="Parse\SortMetaData.cs" />
+    <Compile Include="Parse\UnbalancedBrackets.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\ArticleTextBox.resx">

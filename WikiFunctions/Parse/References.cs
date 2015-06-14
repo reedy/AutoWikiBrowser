@@ -959,5 +959,16 @@ namespace WikiFunctions.Parse
 
             return refsList;
         }
+
+        /// <summary>
+        /// Returns the number of &lt;ref&gt; references in the input text, excluding grouped refs
+        /// </summary>
+        /// <param name="arcticleText"></param>
+        /// <returns></returns>
+        private static int TotalRefsNotGrouped(string arcticleText)
+        {
+            return WikiRegexes.Refs.Matches(arcticleText).Count - WikiRegexes.RefsGrouped.Matches(arcticleText).Count;
+        }
+
 	}
 }

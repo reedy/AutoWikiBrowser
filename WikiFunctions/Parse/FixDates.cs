@@ -285,5 +285,47 @@ namespace WikiFunctions.Parse
 
             return textPortion;
         }
+
+
+        private static string FullYearRangeME(Match m)
+        {
+            int year1 = Convert.ToInt32(m.Groups[2].Value), year2 = Convert.ToInt32(m.Groups[3].Value);
+
+            if (year2 > year1 && year2 - year1 <= 300)
+                return m.Groups[1].Value + m.Groups[2].Value + (m.Groups[1].Value.ToLower().Contains("c") ? @" – " : @"–") + m.Groups[3].Value;
+
+            return m.Value;
+        }
+
+        private static string SpacedFullYearRangeME(Match m)
+        {
+            int year1 = Convert.ToInt32(m.Groups[1].Value), year2 = Convert.ToInt32(m.Groups[2].Value);
+
+            if (year2 > year1 && year2 - year1 <= 300)
+                return m.Groups[1].Value + @"–" + m.Groups[2].Value;
+
+            return m.Value;
+        }
+
+        private static string YearRangeShortenedCenturyME(Match m)
+        {
+            int year1 = Convert.ToInt32(m.Groups[2].Value); // 1965
+            int year2 = Convert.ToInt32(m.Groups[2].Value.Substring(0, 2) + m.Groups[3].Value); // 68 -> 19 || 68 -> 1968
+
+            if (year2 > year1 && year2 - year1 <= 99)
+                return m.Groups[1].Value + m.Groups[2].Value + @"–" + m.Groups[3].Value;
+
+            return m.Value;
+        }
+
+        private static string SameMonthAmericanDateRangeME(Match m)
+        {
+            int day1 = Convert.ToInt32(m.Groups[2].Value), day2 = Convert.ToInt32(m.Groups[3].Value);
+
+            if (day2 > day1)
+                return Regex.Replace(m.Value, @" *- *", @"–");
+
+            return m.Value;
+        }
 	}
 }

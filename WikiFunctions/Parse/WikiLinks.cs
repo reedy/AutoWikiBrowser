@@ -401,5 +401,19 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
+
+        private static readonly Regex DuplicatePipedLinks = new Regex(@"\[\[([^\]\|]+)\|([^\]]*)\]\](.*[.\n]*)\[\[\1\|\2\]\]", RegexOptions.Compiled);
+        private static readonly Regex DuplicateUnpipedLinks = new Regex(@"\[\[([^\]]+)\]\](.*[.\n]*)\[\[\1\]\]", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Remove some of the duplicated wikilinks from the article text
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <returns></returns>
+        public static string RemoveDuplicateWikiLinks(string articleText)
+        {
+            articleText = DuplicatePipedLinks.Replace(articleText, "[[$1|$2]]$3$2");
+            return DuplicateUnpipedLinks.Replace(articleText, "[[$1]]$2$1");
+        }
 	}
 }
