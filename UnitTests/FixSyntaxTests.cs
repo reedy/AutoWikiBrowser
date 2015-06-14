@@ -324,6 +324,11 @@ Template:foo}}"));
             Assert.AreEqual("[http://test.com/a.png]", Parsers.FixSyntax("[Image:http://test.com/a.png]"), "Image http 2");
         }
  
+		[Test]
+		public void TestFixSyntaxDisambigCat()
+		{
+			Assert.AreEqual(@"Foo {{Disambiguation}}", Parsers.FixSyntax(@"Foo [[Category:Disambiguation pages]]"),"do nothing if everything is OK");
+		}
 
         [Test]
         public void TestFixSyntaxRemoveEmptyGallery()
