@@ -276,6 +276,7 @@ namespace WikiFunctions.Parse
 
             articleText = RefExternalLinkUsingBraces.Replace(articleText, @"[$1$2]$3");
 
+            string originalArticleText = articleText;
             string nobrackets = Tools.ReplaceWithSpaces(articleText, ssbMc);
             bool orphanedSingleBrackets = (nobrackets.Contains("[") || nobrackets.Contains("]"));
 
@@ -346,14 +347,16 @@ namespace WikiFunctions.Parse
             if(doubleBracketHttp)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
-            // if there are some unbalanced brackets, see whether we can fix them
-            articleText = FixUnbalancedBrackets(articleText);
+            // if there are some unbalanced brackets, see whether we can fix them. Trim after to clean up after SplitToSections
+            articleText = FixUnbalancedBrackets(articleText).Trim();
 
             //fix uneven bracketing on links
             if(doubleBracketHttp)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
-            nobrackets = SingleSquareBrackets.Replace(articleText, "");
+            // only refresh nobrackets if changes
+            if(!originalArticleText.Equals(articleText))
+            	nobrackets = SingleSquareBrackets.Replace(articleText, "");
             if(nobrackets.Contains("[") || nobrackets.Contains("]"))
             {
                 articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
