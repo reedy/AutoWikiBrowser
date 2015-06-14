@@ -345,6 +345,10 @@
     </Compile>
     <Compile Include="WikiRegexes.cs" />
     <Compile Include="Parse\MultipleIssuesTemplate.cs" />
+    <Compile Include="Parse\Tagger.cs" />
+    <Compile Include="Parse\PersonData.cs" />
+    <Compile Include="Parse\CategoryDefaultSort.cs" />
+    <Compile Include="Parse\References.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\ArticleTextBox.resx">
