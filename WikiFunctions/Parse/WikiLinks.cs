@@ -174,6 +174,25 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        /// <summary>
+        /// Reformats self interwikis to be standard links. Only applies to self interwikis before other interwikis (i.e. those in body of article)
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        private static string FixSelfInterwikis(string articleText)
+        {
+            foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(articleText))
+            {
+                // interwiki should not be to own wiki – convert to standard wikilink
+                if (m.Groups[1].Value.Equals(Variables.LangCode))
+                    articleText = articleText.Replace(m.Value, @"[[" + m.Groups[2].Value + @"]]");
+                else
+                    break;
+            }
+
+            return articleText;
+        }
+
         private static readonly Regex SectionLink = new Regex(@"(.+)#(.+)");
 
         /// <summary>

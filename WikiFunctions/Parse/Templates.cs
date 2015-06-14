@@ -616,5 +616,25 @@ namespace WikiFunctions.Parse
             return GetInfoBoxFieldValue(articleText, new List<string>(new[] { field }));
         }
 
+        /// <summary>
+        /// Removes Template: (or equivalent translation) from start of template calls, canonicalizes template names
+        /// </summary>
+        /// <param name="articleText">The wiki article text</param>
+        /// <returns>The updated article text</returns>
+        public static string RemoveTemplateNamespace(string articleText)
+        {
+            Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"([^\|]*?)(\s*(?:\}\}|\|))", RegexOptions.Singleline);
+            
+            return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + m.Groups[3].Value));
+        }
+
+        /// <summary>
+        /// Returns the count of matches for the given regex against the (first name upper) templates in the given list
+        /// </summary>
+        private static int TemplateCount(List<string> templatesFound, Regex r)
+        {
+            return templatesFound.Where(s => r.IsMatch(@"{{" + s + "|}}")).Count();
+        }
+
 	}
 }

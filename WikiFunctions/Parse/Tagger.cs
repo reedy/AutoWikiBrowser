@@ -540,6 +540,12 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        private static string StubChecker(Match m)
+        {
+            // if stub tag is a section stub tag, don't remove from section in article
+            return Variables.SectStubRegex.IsMatch(m.Value) ? m.Value : "";
+        }
+
 		/// <summary>
 		/// Checks whether Tagger is permitted on article.
 		/// Allowed on mainspace for non-redirect pages without {{wi}} template

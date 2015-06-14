@@ -494,18 +494,6 @@ namespace WikiFunctions.Parse
             return articleText.Trim();
         }
 
-        /// <summary>
-        /// Removes Template: (or equivalent translation) from start of template calls, canonicalizes template names
-        /// </summary>
-        /// <param name="articleText">The wiki article text</param>
-        /// <returns>The updated article text</returns>
-        public static string RemoveTemplateNamespace(string articleText)
-        {
-            Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"([^\|]*?)(\s*(?:\}\}|\|))", RegexOptions.Singleline);
-            
-            return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + m.Groups[3].Value));
-        }
-
         private static readonly List<string> DateFields = new List<string>(new[] { "date", "accessdate", "access-date", "archivedate", "airdate" });
 
         /// <summary>
@@ -677,25 +665,6 @@ namespace WikiFunctions.Parse
                 break;
             }
             return title;
-        }
-
-        /// <summary>
-        /// Reformats self interwikis to be standard links. Only applies to self interwikis before other interwikis (i.e. those in body of article)
-        /// </summary>
-        /// <param name="articleText">The article text</param>
-        /// <returns>The updated article text</returns>
-        private static string FixSelfInterwikis(string articleText)
-        {
-            foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(articleText))
-            {
-                // interwiki should not be to own wiki – convert to standard wikilink
-                if (m.Groups[1].Value.Equals(Variables.LangCode))
-                    articleText = articleText.Replace(m.Value, @"[[" + m.Groups[2].Value + @"]]");
-                else
-                    break;
-            }
-
-            return articleText;
         }
 
         // covered by CanonicalizeTitleRawTests
@@ -1513,16 +1482,6 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
-        
-
-
-        /// <summary>
-        /// Returns the count of matches for the given regex against the (first name upper) templates in the given list
-        /// </summary>
-        private static int TemplateCount(List<string> templatesFound, Regex r)
-        {
-            return templatesFound.Where(s => r.IsMatch(@"{{" + s + "|}}")).Count();
-        }
 
         private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", "BLP sources", "expand", "BLP unsourced" });
 
@@ -1570,12 +1529,6 @@ namespace WikiFunctions.Parse
                 return m.Value;
 
             return Tools.RenameTemplate(m.Value, newTemplateName);
-        }
-
-        private static string StubChecker(Match m)
-        {
-            // if stub tag is a section stub tag, don't remove from section in article
-            return Variables.SectStubRegex.IsMatch(m.Value) ? m.Value : "";
         }
 
         private static readonly Regex BotsAllow = new Regex(@"{{\s*(?:[Nn]obots|[Bb]ots)\s*\|\s*allow\s*=(.*?)}}", RegexOptions.Singleline | RegexOptions.Compiled);
