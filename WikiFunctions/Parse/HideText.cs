@@ -36,6 +36,10 @@ namespace WikiFunctions.Parse
 
         #region Hide
         private readonly List<HideObject> HiddenTokens = new List<HideObject>();
+        // cached versions of articletext before Hide, and with Hide applied
+        // so AddBack can return cached version if no changes
+        private string cachedOriginalArticleTextBeforeHide = "";
+        private string cachedArticleTextAfterHide = "";
 
         /// <summary>
         /// Puts back hidden text
@@ -84,6 +88,7 @@ namespace WikiFunctions.Parse
         public string Hide(string articleText)
         {
             HiddenTokens.Clear();
+            cachedOriginalArticleTextBeforeHide = articleText;
 
             // performance: get all tags in format <tag...> in article, apply Replace only if needed
             List<string> AnyTagList = (from Match m in AnyTag.Matches(articleText)
@@ -119,6 +124,7 @@ namespace WikiFunctions.Parse
                         return res;});
             }
 
+            cachedArticleTextAfterHide = articleText;
             return articleText;
         }
 
@@ -142,9 +148,21 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string AddBack(string articleText, List<HideObject> Tokens)
         {
-            // while loop as there can be nested hiding
-            while(HiddenRegex.IsMatch(articleText))
-                articleText = HiddenRegex.Replace(articleText, m => Tokens[int.Parse(m.Groups[1].Value)].Text);
+            // performance: return cached value if no changes made to articleText
+            if(cachedArticleTextAfterHide.Equals(articleText))
+            {
+                articleText = cachedOriginalArticleTextBeforeHide;
+
+                // clear down
+                cachedOriginalArticleTextBeforeHide = "";
+                cachedArticleTextAfterHide = "";
+            }
+            else
+            {
+                // while loop as there can be nested hiding
+                while(HiddenRegex.IsMatch(articleText))
+                    articleText = HiddenRegex.Replace(articleText, m => Tokens[int.Parse(m.Groups[1].Value)].Text);
+            }
 
             Tokens.Clear();
             return articleText;
@@ -181,6 +199,11 @@ namespace WikiFunctions.Parse
 
         #region More thorough hiding
         private readonly List<HideObject> MoreHide = new List<HideObject>(32);
+
+        // cached versions of articletext before HideMore, and with HideMore applied
+        // so AddBackMore can return cached version if no changes
+        private string cachedOriginalArticleTextBeforeHideMore = "";
+        private string cachedArticleTextAfterHideMore = "";
 
         /// <summary>
         /// Replaces hidden images, external links, templates, headings etc.
@@ -250,6 +273,7 @@ namespace WikiFunctions.Parse
         public string HideMore(string articleText, bool hideOnlyTargetOfWikilink, bool hideWikiLinks, bool hideItalics)
         {
             MoreHide.Clear();
+            cachedOriginalArticleTextBeforeHideMore = articleText;
 
             ReplaceMore(WikiRegexes.NestedTemplates.Matches(articleText), ref articleText);
 
@@ -318,6 +342,7 @@ namespace WikiFunctions.Parse
             if(AnyTagList.Any(t => t.Contains("p style")))
                 ReplaceMore(WikiRegexes.Pstyles.Matches(articleText), ref articleText);
 
+            cachedArticleTextAfterHideMore = articleText;
             return articleText;
         }
 
@@ -328,9 +353,21 @@ namespace WikiFunctions.Parse
         /// </summary>
         public string AddBackMore(string articleText)
         {
-            // while loop as there can be nested hiding
-            while (HiddenMoreRegex.IsMatch(articleText))
-                articleText = HiddenMoreRegex.Replace(articleText, m => MoreHide[int.Parse(m.Groups[1].Value)].Text);
+            // performance: return cached value if no changes made to articleText
+            if(cachedArticleTextAfterHideMore.Equals(articleText))
+            {
+                articleText = cachedOriginalArticleTextBeforeHideMore;
+
+                // clear down
+                cachedOriginalArticleTextBeforeHideMore = "";
+                cachedArticleTextAfterHideMore = "";
+            }
+            else
+            {
+                // while loop as there can be nested hiding
+                while(HiddenMoreRegex.IsMatch(articleText))
+                    articleText = HiddenMoreRegex.Replace(articleText, m => MoreHide[int.Parse(m.Groups[1].Value)].Text);
+            }
 
             MoreHide.Clear();
             return articleText;
