@@ -436,7 +436,7 @@ namespace WikiFunctions.Parse
         }
         
         /// <summary>
-        /// Converts new-style multiple issues with one issue to stand alone tag
+        /// Converts new-style multiple issues template with one issue to standalone tag
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
@@ -451,7 +451,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Removes multiple issues with zero tags
+        /// Removes multiple issues template with zero tags
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
