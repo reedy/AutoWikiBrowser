@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -356,8 +356,9 @@ namespace WikiFunctions.Parse
                 bool newstyleMI = WikiRegexes.NestedTemplates.IsMatch(MI.Substring(2));
                 zerothsection = zerothsection.Replace(MI, Regex.Replace(MI, @"\s*}}$", (newstyleMI ? "" : "|") + "\r\n" + m.Value + "\r\n}}"));
             }
-            
-            return zerothsection;
+
+            // clean up again in case of duplicate tags
+            return WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesSingleTagME);
         }
 
         private string MILaterSection(string section, Regex Templates)
@@ -441,7 +442,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string MultipleIssuesSingleTagME(Match m)
         {
-            string newValue = Tools.RemoveTemplateParameter(m.Value, "section");
+            string newValue = Tools.RemoveTemplateParameter(Tools.RemoveExcessTemplatePipes(m.Value), "section");
 
             if (Tools.GetTemplateArgumentCount(newValue) == 1 && WikiRegexes.NestedTemplates.Matches(Tools.GetTemplateArgument(newValue, 1)).Count == 1)
                 return Tools.GetTemplateArgument(newValue, 1);
