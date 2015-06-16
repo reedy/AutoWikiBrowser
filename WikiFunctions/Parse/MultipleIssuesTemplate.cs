@@ -293,7 +293,7 @@ namespace WikiFunctions.Parse
                 articleText = MultipleIssuesOldCleanup(articleText);
 
                 // Remove multiple issues with zero tags, fix excess newlines
-                articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesSingleTag);
+                articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesZeroTag);
             }
 
             if(hasMI || TemplateCount(alltemplates, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates) > 1 || 
@@ -455,7 +455,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private string MultipleIssuesSingleTag(Match m)
+        private string MultipleIssuesZeroTag(Match m)
         {
             string newValue = Tools.RemoveTemplateParameter(Tools.RemoveExcessTemplatePipes(m.Value), "section");
 
