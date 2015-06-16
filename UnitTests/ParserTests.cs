@@ -2420,8 +2420,7 @@ Text
 
         [Test]
         public void MultipleIssuesNewCleanup()
-        {
-            
+        {            
             Assert.AreEqual(@"{{multiple issues|
 {{wikify}}
 {{underlinked}}
@@ -2432,6 +2431,20 @@ Text
 {{underlinked}}
 {{POV}}
 }}"), "Cleans up excess newlines");
+
+            Assert.AreEqual(@"{{multiple issues|
+{{POV}}
+{{wikify}}
+}}", parser.MultipleIssues(@"{{multiple issues|
+{{POV}}
+{{wikify}}
+}}
+{{wikify}}"), "De-duplicates tags");
+
+            Assert.AreEqual(@"{{wikify}}", parser.MultipleIssues(@"{{multiple issues|
+{{wikify}}
+}}
+{{wikify}}"), "De-duplicates tags, removes MI if only one tag remains");
         }
 
         [Test]
