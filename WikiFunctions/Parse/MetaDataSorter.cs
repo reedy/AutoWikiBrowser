@@ -740,17 +740,15 @@ en, sq, ru
 
 			string strMaintTags = "";
 
-			foreach (Match m in WikiRegexes.MaintenanceTemplates.Matches(articleText))
-			{
-				if(!m.Value.Contains("section"))
-				{
-                    // deduplicate
-                    if(!strMaintTags.Contains(m.Value))
-					    strMaintTags = strMaintTags + m.Value + "\r\n";
-
-					articleText = articleText.Replace(m.Value, "");
-				}
-			}
+            articleText = WikiRegexes.MaintenanceTemplates.Replace(articleText, m => {
+                                    if(m.Value.Contains("section"))
+                                        return m.Value;
+                                    
+                                    if(!strMaintTags.Contains(m.Value))
+                                        strMaintTags = strMaintTags + m.Value + "\r\n";
+                                    
+                                    return ""; 
+                                });
 
 			articleText = strMaintTags + articleText;
 			
