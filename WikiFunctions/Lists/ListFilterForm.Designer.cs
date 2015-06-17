@@ -30,11 +30,11 @@
         {
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.txtContains = new System.Windows.Forms.TextBox();
+            this.txtContains = new System.Windows.Forms.RichTextBox();
             this.chkContains = new System.Windows.Forms.CheckBox();
             this.chkIsRegex = new System.Windows.Forms.CheckBox();
             this.chkNotContains = new System.Windows.Forms.CheckBox();
-            this.txtDoesNotContain = new System.Windows.Forms.TextBox();
+            this.txtDoesNotContain = new System.Windows.Forms.RichTextBox();
             this.gbNamespaces = new System.Windows.Forms.GroupBox();
             this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.gbSearch = new System.Windows.Forms.GroupBox();
@@ -90,6 +90,8 @@
             this.txtContains.Name = "txtContains";
             this.txtContains.Size = new System.Drawing.Size(180, 20);
             this.txtContains.TabIndex = 1;
+            this.txtContains.DetectUrls = false;
+            this.txtContains.Multiline = false;
             // 
             // chkContains
             // 
@@ -135,6 +137,8 @@
             this.txtDoesNotContain.Name = "txtDoesNotContain";
             this.txtDoesNotContain.Size = new System.Drawing.Size(180, 20);
             this.txtDoesNotContain.TabIndex = 3;
+            this.txtDoesNotContain.DetectUrls = false;
+            this.txtDoesNotContain.Multiline = false;
             // 
             // gbNamespaces
             // 
@@ -339,11 +343,11 @@
 
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.TextBox txtContains;
+        private System.Windows.Forms.RichTextBox txtContains;
         private System.Windows.Forms.CheckBox chkContains;
         private System.Windows.Forms.CheckBox chkIsRegex;
         private System.Windows.Forms.CheckBox chkNotContains;
-        private System.Windows.Forms.TextBox txtDoesNotContain;
+        private System.Windows.Forms.RichTextBox txtDoesNotContain;
         private System.Windows.Forms.GroupBox gbNamespaces;
         private System.Windows.Forms.GroupBox gbSearch;
         private System.Windows.Forms.GroupBox gbSets;
