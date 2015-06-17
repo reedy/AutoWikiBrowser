@@ -569,6 +569,12 @@ bar"));
             Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("should work!\r\n#REDIRECT [[Foo]]"));
             Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{soft redirect|Foo}}"));
             Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{soft|Foo}}"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{category redirect|Foo}}"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Interwiki redirect|Foo}}"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Userrename|Foo}}"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Commons category redirect|Foo}}"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Deprecated shortcut|Foo}}"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Wikisource redirect|Foo}}"));
 
             Assert.IsFalse(Tools.IsRedirectOrSoftRedirect("{{software|Foo}}"));
         }
