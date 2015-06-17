@@ -2474,6 +2474,7 @@ namespace AutoWikiBrowser
             this.txtFind.TextChanged += new System.EventHandler(this.ResetFind);
             this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
             this.txtFind.MouseHover += new System.EventHandler(this.txtFind_MouseHover);
+            this.txtFind.DetectUrls = false;
             // 
             // chkSkipNoCatChange
             // 
