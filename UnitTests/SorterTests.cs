@@ -779,6 +779,9 @@ blah";
 			// don't' move external links if would create ref after reflist
 			string ExtLinkRef = a + "\r\n" + b + "<ref>foo</ref>\r\n" + c + "\r\n" + e;
 			Assert.AreEqual(ExtLinkRef, MetaDataSorter.MoveExternalLinks(ExtLinkRef));
+
+            // Notes not References
+            Assert.AreEqual(a + "\r\n" + c.Replace("References", "Notes") + "\r\n" + b + "\r\n" + e, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c.Replace("References", "Notes") + "\r\n" + e), "Notes");
 		}
 
 		[Test]
@@ -803,6 +806,8 @@ blah";
 			
 			const string TwoReferencesSection = a + "\r\n" + c + "\r\n" + b + "\r\n" + c + "\r\n" + d;
 			Assert.AreEqual(TwoReferencesSection, MetaDataSorter.MoveSeeAlso(TwoReferencesSection), "no change when two references sections");
+
+            Assert.AreEqual(a + "\r\n" + b + "\r\n\r\n" + c.Replace("References", "Notes") + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + c.Replace("References", "Notes") + "\r\n" + b + "\r\n" + d),"reorder, Notes");
 		}
 		
 		[Test]
