@@ -712,13 +712,13 @@ en, sq, ru
 			string articleTextNoMI = Tools.ReplaceWithSpaces(articleText, WikiRegexes.MultipleIssues.Matches(articleText));
 			
 			// if all templates removed from articletext before last MaintenanceTemplates match are not infoboxes then do not change anything
-            var maintTemplatesFound = (from Match m in WikiRegexes.MaintenanceTemplates.Matches(articleTextNoMI) select m.Index);
+            var maintTemplatesFound = (from Match m in WikiRegexes.MaintenanceTemplates.Matches(articleTextNoMI) select m);
 
 			// return if no MaintenanceTemplates to move
             if (!maintTemplatesFound.Any())
 				return articleText;
 
-            string articleTextToCheck = articleText.Substring(0, maintTemplatesFound.Max());
+            string articleTextToCheck = articleText.Substring(0, maintTemplatesFound.Select(m => m.Index).Max());
 
 			foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleTextToCheck))
 			{
@@ -731,7 +731,8 @@ en, sq, ru
 				articleTextToCheck = articleTextToCheck.Replace(m.Value, "");
 			}
 
-			if(articleTextToCheck.Trim().Length > 0)
+            // work to do if tags to move or duplicate tags
+            if(articleTextToCheck.Trim().Length > 0 || maintTemplatesFound.Count() > Tools.DeduplicateList(maintTemplatesFound.Select(m => m.Value).ToList()).Count())
 				doMove = true;
 
 			if(!doMove)
@@ -743,7 +744,10 @@ en, sq, ru
 			{
 				if(!m.Value.Contains("section"))
 				{
-					strMaintTags = strMaintTags + m.Value + "\r\n";
+                    // deduplicate
+                    if(!strMaintTags.Contains(m.Value))
+					    strMaintTags = strMaintTags + m.Value + "\r\n";
+
 					articleText = articleText.Replace(m.Value, "");
 				}
 			}
