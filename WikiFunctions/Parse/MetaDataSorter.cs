@@ -707,22 +707,18 @@ en, sq, ru
 		{
 			string originalArticleText = articleText;
 			bool doMove = false;
-			int lastIndex = -1;
 			
 			// don't pull tags from new-style {{multiple issues}} template
 			string articleTextNoMI = Tools.ReplaceWithSpaces(articleText, WikiRegexes.MultipleIssues.Matches(articleText));
 			
 			// if all templates removed from articletext before last MaintenanceTemplates match are not infoboxes then do not change anything
-			foreach(Match m in WikiRegexes.MaintenanceTemplates.Matches(articleTextNoMI))
-			{
-				lastIndex = m.Index;
-			}
+            var maintTemplatesFound = (from Match m in WikiRegexes.MaintenanceTemplates.Matches(articleTextNoMI) select m.Index);
 
 			// return if no MaintenanceTemplates to move
-			if (lastIndex < 0)
+            if (!maintTemplatesFound.Any())
 				return articleText;
 
-			string articleTextToCheck = articleText.Substring(0, lastIndex);
+            string articleTextToCheck = articleText.Substring(0, maintTemplatesFound.Max());
 
 			foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleTextToCheck))
 			{
