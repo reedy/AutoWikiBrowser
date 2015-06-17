@@ -697,7 +697,7 @@ en, sq, ru
 		}
 
 		/// <summary>
-		/// Moves maintenance tags to the top of the article text.
+		/// Moves maintenance tags to the top of the article text. Deduplicates identical tags
 		/// Does not move tags when only non-infobox templates are above the last tag
 		/// For en-wiki apply this to zeroth section of article only
 		/// </summary>
