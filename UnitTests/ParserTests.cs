@@ -2012,6 +2012,110 @@ Text
 ==hello=="), "takes tags from anywhere in zeroth section: all after");
             
         }
+
+        [Test]
+        public void MergeMultipleMI()
+        {
+            Assert.AreEqual(@"{{Multiple issues|
+{{unreferenced}}
+{{POV}}
+{{cleanup}}
+{{wikify}}
+}}
+
+
+
+Foo", parser.MultipleIssues(@"{{Multiple issues|
+{{unreferenced}}
+{{POV}}
+}}
+
+{{Multiple issues|
+{{cleanup}}
+{{wikify}}
+}}
+
+Foo"), "merge multiple MI");
+
+            Assert.AreEqual(@"{{Multiple issues|
+{{unreferenced}}
+{{POV}}
+}}
+
+
+
+Foo", parser.MultipleIssues(@"{{Multiple issues|
+{{unreferenced}}
+{{POV}}
+}}
+
+{{Multiple issues|
+}}
+
+Foo"), "merge multiple MI, second empty");
+
+            Assert.AreEqual(@"{{Multiple issues|
+{{unreferenced}}
+{{POV}}
+}}
+
+
+
+Foo", parser.MultipleIssues(@"{{Multiple issues|
+{{unreferenced}}
+}}
+
+{{Multiple issues|
+{{POV}}
+}}
+
+Foo"), "merge multiple MI, one tag");
+
+            Assert.AreEqual(@"{{Multiple issues|
+{{unreferenced}}
+{{POV}}
+}}
+
+
+
+Foo", parser.MultipleIssues(@"{{Multiple issues|
+{{unreferenced}}
+}}
+
+{{Multiple issues|
+{{unreferenced}}
+{{POV}}
+}}
+
+Foo"), "merge multiple MI, dedupe tag");
+
+            Assert.AreEqual(@"{{unreferenced}}
+
+
+
+Foo", parser.MultipleIssues(@"{{Multiple issues|
+{{unreferenced}}
+}}
+
+{{Multiple issues|
+{{unreferenced}}
+}}
+
+Foo"), "merge multiple MI, only dupe tags, convert to standalone tag");
+
+            string NoChange = @"{{multiple issues|
+{{unreferenced}}
+{{POV}}
+}}
+
+{{Multiple issues|section|
+{{cleanup}}
+{{wikify}}
+}}
+
+Foo";
+            Assert.AreEqual(NoChange, parser.MultipleIssues(NoChange), "no change when one MI is a section one");
+        }
         
         [Test]
         public void MultipleIssuesNewZerothExistingMINotChanged()

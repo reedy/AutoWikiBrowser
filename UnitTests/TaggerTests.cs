@@ -1552,15 +1552,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 }}";
             Assert.AreEqual(ManyInSection, parser.MultipleIssues(ManyInSection));
 
-            const string Many  = @"{{multiple issues |
-{{orphan}}
-}}
-{{dead end}}
-{{multiple issues |
-{{refimprove}}
-}}";
-            Assert.AreEqual(Many, parser.MultipleIssues(Many));
-
             const string dupe  = @"{{unreferenced}}
 {{unreferenced}}";
             Assert.AreEqual(dupe, parser.MultipleIssues(dupe));
