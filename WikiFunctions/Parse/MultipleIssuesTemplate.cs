@@ -323,8 +323,16 @@ namespace WikiFunctions.Parse
             // cannot support more than one multiple issues template per section
             MatchCollection MIMC = WikiRegexes.MultipleIssues.Matches(zerothsection);
             bool existingMultipleIssues = MIMC.Count > 0;
+
             if(MIMC.Count > 1)
-                return zerothsection;
+            {
+                zerothsection = MergeMultipleMI(zerothsection);
+
+                MIMC = WikiRegexes.MultipleIssues.Matches(zerothsection);
+                existingMultipleIssues = MIMC.Count > 0;
+                if(MIMC.Count > 1)
+                    return zerothsection;
+            }
 
             string zerothsectionNoMI = Tools.ReplaceWithSpaces(zerothsection, MIMC);
 
@@ -433,6 +441,42 @@ namespace WikiFunctions.Parse
             }
             
             return heading + "\r\n" + newsection + "\r\n" + sectionRest;
+        }
+
+        /// <summary>
+        /// Merge multiple {{multiple issues}} templates in zeroth section into one
+        /// </summary>
+        /// <returns>The M.</returns>
+        /// <param name="articleText">Article text.</param>
+        private string MergeMultipleMI(string articleText)
+        {
+            string originalArticleText = articleText, mi = "";
+
+            articleText = WikiRegexes.MultipleIssues.Replace(articleText, m =>
+            {
+                string tags = Tools.GetTemplateArgument(m.Value, 1);
+
+                // do not process if a MI section template
+                if(tags.Contains("{{") || tags.Equals(""))
+                {
+                    mi +=tags;
+                    return "";
+                }
+
+                return m.Value;
+            });
+
+            // do nothing if found a MI section template
+            if(WikiRegexes.MultipleIssues.IsMatch(articleText))
+                return originalArticleText;
+
+            // extract and de-duplicate tags
+            List<string> miTags = Tools.DeduplicateList((from Match m in WikiRegexes.NestedTemplates.Matches(mi)
+                                                                  select m.Value).ToList());
+
+            mi = string.Join("\r\n", miTags.ToArray());
+
+            return @"{{Multiple issues|" + "\r\n" + mi + "\r\n" + @"}}" + articleText;
         }
         
         /// <summary>
