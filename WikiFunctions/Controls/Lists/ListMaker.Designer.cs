@@ -127,6 +127,7 @@
             this.txtPage.TextChanged += new System.EventHandler(this.txtNewArticle_TextChanged);
             this.txtPage.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
             this.txtPage.Multiline = false;
+            this.txtPage.DetectUrls = false;
             // 
             // lblUserInput
             // 
