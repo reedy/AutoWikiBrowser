@@ -2154,6 +2154,7 @@ namespace AutoWikiBrowser
             this.txtSkipIfNotContains.Text = "";
             this.ToolTip.SetToolTip(this.txtSkipIfNotContains, "Skip pages that do not contain this text");
             this.txtSkipIfNotContains.TextChanged += new System.EventHandler(this.txtSkipIfNotContains_TextChanged);
+            this.txtSkipIfNotContains.DetectUrls = false;
             // 
             // txtSkipIfContains
             // 
@@ -2167,6 +2168,7 @@ namespace AutoWikiBrowser
             this.txtSkipIfContains.Text = "";
             this.ToolTip.SetToolTip(this.txtSkipIfContains, "Skip pages that contain this text");
             this.txtSkipIfContains.TextChanged += new System.EventHandler(this.txtSkipIfContains_TextChanged);
+            this.txtSkipIfContains.DetectUrls = false;
             // 
             // chkSkipIfNotContains
             // 
