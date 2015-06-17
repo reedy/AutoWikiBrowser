@@ -356,7 +356,20 @@ End";
 			Assert.AreEqual(LaterSection, parser2.SortMetaData(LaterSection, "A"), "maintenance tags outside of zeroth section not moved");
 		}
 
-[Test]
+        [Test]
+        public void MoveMaintenanceTagsDupes()
+        {
+            const string d = @"Fred is a doctor.
+Fred has a dog.
+[[Category:Dog owners]]
+{{some template}}";
+            string e = @"{{Underlinked|date=May 2008}}";
+            Assert.AreEqual(e + "\r\n" + d + "\r\n\r\n", MetaDataSorter.MoveMaintenanceTags(d + "\r\n" + e + "\r\n" + e), "move and dedupe");
+
+            Assert.AreEqual(e + "\r\n\r\n" + d, MetaDataSorter.MoveMaintenanceTags(e + "\r\n" + e + "\r\n" + d), "dedupe when move not required");
+        }
+
+        [Test]
         public void MoveMultipleIssues()
         {
             const string correct = @"{{multiple issues|
