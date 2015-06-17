@@ -76,7 +76,8 @@ namespace WikiFunctions
 			return (RedirectTarget(articletext).Length > 0);
 		}
 
-		private static readonly Regex SoftRedirect = NestedTemplateRegex(new[] {"Soft redirect", "SoftRedirect", "Soft Redirect", "Softredirect", "Softredir", "Soft link", "Soft redir", "Soft"});
+        // see Category:Templates_for_soft_redirects
+        private static readonly Regex SoftRedirect = NestedTemplateRegex(new[] {"Soft redirect", "SoftRedirect", "Soft Redirect", "Softredirect", "Softredir", "Soft link", "Soft redir", "Soft", "Category redirect", "Commons category redirect", "Deprecated shortcut", "Interwiki redirect", "Userrename", "Wikisource redirect"});
 
 		/// <summary>
 		/// Tests article to see if it is a redirect OR a soft redirect using {{soft redirect}}
