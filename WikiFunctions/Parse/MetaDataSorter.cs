@@ -743,10 +743,8 @@ en, sq, ru
             articleText = WikiRegexes.MaintenanceTemplates.Replace(articleText, m => {
                                     if(m.Value.Contains("section"))
                                         return m.Value;
-                                    
-                                    if(!mt.Contains(m.Value))
-                                        mt.Add(m.Value);
-                                    
+
+                                    mt.Add(m.Value);                                    
                                     return ""; 
                                 });
 
