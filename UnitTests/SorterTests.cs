@@ -366,7 +366,7 @@ Fred has a dog.
             string e = @"{{Underlinked|date=May 2008}}";
             Assert.AreEqual(e + "\r\n" + d + "\r\n\r\n", MetaDataSorter.MoveMaintenanceTags(d + "\r\n" + e + "\r\n" + e), "move and dedupe");
 
-            Assert.AreEqual(e + "\r\n\r\n" + d, MetaDataSorter.MoveMaintenanceTags(e + "\r\n" + e + "\r\n" + d), "dedupe when move not required");
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(e + "\r\n" + e + "\r\n" + d), "dedupe when move not required");
         }
 
         [Test]
