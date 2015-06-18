@@ -959,7 +959,6 @@ en, sq, ru
 					return articleText;
 			}
 		}
-
 		
         private static readonly Regex ReferencesSection = new Regex(@"(^== *([Rr]eferences|Notes) *==.*?)(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
         private static readonly Regex ReferencesToEnd = new Regex(@"^== *([Rr]eferences|Notes) *==\s*" + WikiRegexes.ReferencesTemplates + @"\s*(?={{DEFAULTSORT\:|\[\[Category\:)", RegexOptions.Multiline);
