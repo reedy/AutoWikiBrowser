@@ -207,7 +207,7 @@ namespace WikiFunctions.Disambiguation
                         break;
 
                     case 2: //{{Disambiguation needed}}
-                        CurrentLink = Match.Value + "{{Disambiguation needed}}";
+                        CurrentLink = Match.Value + "{{Disambiguation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                         break;
 
                     default: //everything else
