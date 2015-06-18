@@ -512,6 +512,7 @@ namespace WikiFunctions.Parse
 
             string newTags = string.Join("\r\n", tagValues.ToArray());
 
+            // only make change if some duplicate templates removed
             if(Regex.Matches(newTags, "{{").Count < Regex.Matches(tags, "{{").Count)
                 newValue = newValue.Replace(tags, newTags);
 
