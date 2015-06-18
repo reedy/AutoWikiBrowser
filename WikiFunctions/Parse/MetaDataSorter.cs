@@ -732,30 +732,34 @@ en, sq, ru
 			}
 
             // work to do if tags to move or duplicate tags
-            if(articleTextToCheck.Trim().Length > 0 || maintTemplatesFound.Count() > Tools.DeduplicateList(maintTemplatesFound.Select(m => m.Value).ToList()).Count())
+            if(articleTextToCheck.Trim().Length > 0 || maintTemplatesFound.Count() > Parsers.DeduplicateMaintenanceTags(maintTemplatesFound.Select(m => m.Value).ToList()).Count())
 				doMove = true;
 
 			if(!doMove)
 				return articleText;
 
-			string strMaintTags = "";
+            List<string> mt = new List<string>();
 
             articleText = WikiRegexes.MaintenanceTemplates.Replace(articleText, m => {
                                     if(m.Value.Contains("section"))
                                         return m.Value;
                                     
-                                    if(!strMaintTags.Contains(m.Value))
-                                        strMaintTags = strMaintTags + m.Value + "\r\n";
+                                    if(!mt.Contains(m.Value))
+                                        mt.Add(m.Value);
                                     
                                     return ""; 
                                 });
 
-			articleText = strMaintTags + articleText;
+            if(mt.Any())
+            {
+                string strMaintTags = string.Join("\r\n", Parsers.DeduplicateMaintenanceTags(mt).ToArray());
+                articleText = strMaintTags + "\r\n" + articleText.TrimStart();
 			
-			if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
-				return originalArticleText;
+                if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
+                    return originalArticleText;
+            }
 
-			return strMaintTags.Length > 0 ? articleText.Replace(strMaintTags + "\r\n", strMaintTags) : articleText;
+            return articleText;
 		}
 
         /// <summary>
