@@ -343,6 +343,7 @@ namespace WikiFunctions.Parse
             if(totalTemplates == 0 && existingMultipleIssues)
             {
                 zerothsection = WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesOldSingleTagME);
+                zerothsection = WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesDeDupe);
                 return WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesSingleTagME);
             }
             
@@ -366,6 +367,7 @@ namespace WikiFunctions.Parse
             }
 
             // clean up again in case of duplicate tags
+            zerothsection = WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesDeDupe);
             return WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesSingleTagME);
         }
 
@@ -471,7 +473,7 @@ namespace WikiFunctions.Parse
                 return originalArticleText;
 
             // extract and de-duplicate tags
-            List<string> miTags = Tools.DeduplicateList((from Match m in WikiRegexes.NestedTemplates.Matches(mi)
+            List<string> miTags = Parsers.DeduplicateMaintenanceTags((from Match m in WikiRegexes.NestedTemplates.Matches(mi)
                                                                   select m.Value).ToList());
 
             mi = string.Join("\r\n", miTags.ToArray());
@@ -492,6 +494,23 @@ namespace WikiFunctions.Parse
                 return Tools.GetTemplateArgument(newValue, 1);
             
             return m.Value;
+        }
+
+        private string MultipleIssuesDeDupe(Match m)
+        {
+            string newValue = m.Value;
+
+            string tags = Tools.GetTemplateArgument(newValue, 1);
+
+            List<string> tagValues = Parsers.DeduplicateMaintenanceTags((from Match n in WikiRegexes.NestedTemplates.Matches(tags)
+                select n.Value).ToList());
+
+            string newTags = string.Join("\r\n", tagValues.ToArray());
+
+            if(Regex.Matches(newTags, "{{").Count < Regex.Matches(tags, "{{").Count)
+                newValue = newValue.Replace(tags, newTags);
+
+            return newValue;
         }
 
         /// <summary>
