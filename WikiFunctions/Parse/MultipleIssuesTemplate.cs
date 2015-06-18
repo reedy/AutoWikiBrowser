@@ -496,6 +496,11 @@ namespace WikiFunctions.Parse
             return m.Value;
         }
 
+        /// <summary>
+        /// Deduplicates tags in multipleissues template calls (not section templates)
+        /// </summary>
+        /// <returns>The revised multipleissues template call </returns>
+        /// <param name="m"></param>
         private string MultipleIssuesDeDupe(Match m)
         {
             string newValue = m.Value;
