@@ -737,6 +737,72 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
+        /// Deduplicates multiple maintenance tags. Uses earliest of date parameters, merges all other parameters.
+        /// Does nothing if parameter values other than date parameter are conflicting
+        /// </summary>
+        /// <returns>The revised maintenance tags.</returns>
+        /// <param name="tags">Maintenance tags list</param>
+        public static List<string> DeduplicateMaintenanceTags(List<string> tags)
+        {
+            List<string> newtags = new List<string>();
+            List<string> originalTags = tags;
+
+            foreach(string t in tags)
+            {
+                string existingTag = newtags.Where(nt => Tools.TurnFirstToLower(Tools.GetTemplateName(nt)) == Tools.TurnFirstToLower(Tools.GetTemplateName(t))).FirstOrDefault();
+
+                if(existingTag != null)
+                {
+                    string existingTagOriginal = existingTag;
+                    Dictionary<string, string> tparams = Tools.GetTemplateParameterValues(t);
+
+                    foreach(KeyValuePair<string, string> kvp in tparams)
+                    {
+                        if(kvp.Value.Length == 0)
+                            continue;
+
+                        string existingParamValue = Tools.GetTemplateParameterValue(existingTag, kvp.Key);
+
+                        if(existingParamValue.Length == 0)
+                            existingTag = Tools.SetTemplateParameterValue(existingTag, kvp.Key, kvp.Value);
+                        else if(existingParamValue.Equals(kvp.Value))
+                                continue;
+                        else
+                        {
+                            // conflicting parameter values
+
+                            // if param not date cannot handle, return
+                            if(kvp.Key != "date")
+                                return originalTags;
+
+                            // if param is date, take earlier date
+                            try
+                            {
+                            DateTime existingDate = Convert.ToDateTime("1 " + existingParamValue);
+                            DateTime tagDate = Convert.ToDateTime("1 " + kvp.Value);
+
+                            if(tagDate < existingDate)
+                                existingTag = Tools.SetTemplateParameterValue(existingTag, kvp.Key, kvp.Value);
+                            }
+                            catch
+                            {
+                                return originalTags;
+                            }
+                        }
+                    }
+
+                    newtags.Remove(existingTagOriginal);
+                    newtags.Add(existingTag);
+
+                }
+                else
+                    newtags.Add(t);
+            }
+
+            return newtags;
+        }
+
+        /// <summary>
         /// Adds bullet points to external links after "external links" header
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
