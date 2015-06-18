@@ -66,7 +66,9 @@ namespace WikiFunctions.Lists.Providers
         /// <returns>List of pages</returns>
         public List<Article> ApiMakeList(string url, int haveSoFar)
         {
-            // TODO: error handling
+            if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
+            
+        	// TODO: error handling
             List<Article> list = new List<Article>();
             string postfix = "";
 
