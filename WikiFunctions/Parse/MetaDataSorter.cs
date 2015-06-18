@@ -740,6 +740,7 @@ en, sq, ru
 
             List<string> mt = new List<string>();
 
+            // extract maintenance tags, not section ones
             articleText = WikiRegexes.MaintenanceTemplates.Replace(articleText, m => {
                                     if(m.Value.Contains("section"))
                                         return m.Value;
@@ -753,6 +754,7 @@ en, sq, ru
                 string strMaintTags = string.Join("\r\n", Parsers.DeduplicateMaintenanceTags(mt).ToArray());
                 articleText = strMaintTags + "\r\n" + articleText.TrimStart();
 			
+                // don't change commented out tags etc.
                 if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
                     return originalArticleText;
             }
