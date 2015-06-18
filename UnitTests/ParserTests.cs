@@ -1923,6 +1923,75 @@ Text
 
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}"));
         }
+
+        [Test]
+        public void DeduplicateMaintenanceTags()
+        {
+            List<string> tags = new List<string>();
+            tags.Add("{{orphan}}");
+            tags.Add("{{orphan}}");
+
+            List<string> tags2 = new List<string>();
+            tags2.Add("{{orphan}}");
+
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "exact dupes");
+
+            tags.Add("{{Orphan}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "casing of template name");
+
+            tags.Clear();
+            tags.Add("{{orphan|date=May 2012}}");
+            tags.Add("{{orphan|date=May 2012}}");
+            tags2.Clear();
+            tags2.Add("{{orphan|date=May 2012}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "exact dupes with param");
+
+            tags.Clear();
+            tags.Add("{{orphan|date=May 2012}}");
+            tags.Add("{{orphan|date=May 2012}}");
+            tags.Add("{{cleanup|date=May 2012}}");
+            tags2.Clear();
+            tags2.Add("{{orphan|date=May 2012}}");
+            tags2.Add("{{cleanup|date=May 2012}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "Non-dupe tag retained");
+
+            tags.Clear();
+            tags.Add("{{orphan|date=May 2012}}");
+            tags.Add("{{Orphan|date=May 2015}}");
+            tags2.Clear();
+            tags2.Add("{{orphan|date=May 2012}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "use earlier date param");
+
+            tags.Clear();
+            tags.Add("{{orphan|date=May 2012}}");
+            tags.Add("{{Orphan|date=May 2015|other=foo}}");
+            tags2.Clear();
+            tags2.Add("{{orphan|date=May 2012 | other=foo}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "Take other params");
+
+            tags.Clear();
+            tags.Add("{{orphan|date=May 2012|other=bar}}");
+            tags.Add("{{Orphan|date=May 2015|other=foo}}");
+            tags2.Clear();
+            tags2.Add("{{orphan|date=May 2012|other=bar}}");
+            tags2.Add("{{Orphan|date=May 2015|other=foo}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "cannot dedupe if conflicting parameters");
+
+            tags.Clear();
+            tags.Add("{{orphan|date=foo}}");
+            tags.Add("{{Orphan|date=foo}}");
+            tags2.Clear();
+            tags2.Add("{{orphan|date=foo}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "Take non-date date param if identical");
+
+            tags.Clear();
+            tags.Add("{{orphan|date=foo}}");
+            tags.Add("{{Orphan|date=foo2}}");
+            tags2.Clear();
+            tags2.Add("{{orphan|date=foo}}");
+            tags2.Add("{{Orphan|date=foo2}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "Cannot process conflicting non-date date params");
+        }
     }
 
     [TestFixture]
@@ -2088,6 +2157,24 @@ Foo", parser.MultipleIssues(@"{{Multiple issues|
 }}
 
 Foo"), "merge multiple MI, dedupe tag");
+
+            Assert.AreEqual(@"{{Multiple issues|
+{{unreferenced|date=June 2012}}
+{{POV}}
+}}
+
+
+
+Foo", parser.MultipleIssues(@"{{Multiple issues|
+{{unreferenced|date=June 2012}}
+}}
+
+{{Multiple issues|
+{{unreferenced|date=May 2015}}
+{{POV}}
+}}
+
+Foo"), "merge multiple MI, dedupe tag, using earlier date");
 
             Assert.AreEqual(@"{{unreferenced}}
 
@@ -2495,7 +2582,7 @@ Text
         
         [Test]
         public void MultipleIssuesNewSectionSingleTag()
-        {          
+        {
             Assert.AreEqual(@"==sec==
 {{wikify section}}", parser.MultipleIssues(@"==sec==
 {{multiple issues|
@@ -2524,7 +2611,7 @@ Text
 
         [Test]
         public void MultipleIssuesNewCleanup()
-        {            
+        {
             Assert.AreEqual(@"{{multiple issues|
 {{wikify}}
 {{underlinked}}
@@ -2544,6 +2631,24 @@ Text
 {{wikify}}
 }}
 {{wikify}}"), "De-duplicates tags");
+
+            Assert.AreEqual(@"{{multiple issues|
+{{POV}}
+{{wikify|date=May 2012}}
+}}", parser.MultipleIssues(@"{{multiple issues|
+{{POV}}
+{{wikify|date=May 2012}}
+}}
+{{wikify|date=May 2015}}"), "De-duplicates tags, takes earlier date");
+
+            Assert.AreEqual(@"{{multiple issues|
+{{POV}}
+{{wikify|date=May 2012}}
+}}", parser.MultipleIssues(@"{{multiple issues|
+{{POV}}
+{{wikify|date=May 2012}}
+{{wikify|date=May 2015}}
+}}"), "De-duplicates tags within MI, takes earlier date");
 
             Assert.AreEqual(@"{{wikify}}", parser.MultipleIssues(@"{{multiple issues|
 {{wikify}}
