@@ -62,6 +62,7 @@ namespace WikiFunctions.Logging
             {
                 logListener.AddAndDateStamp(lvIgnored);
                 ResizeListView(lvIgnored);
+                this.label8.Text = "Skipped: " + lvIgnored.Items.Count;
                 
                 // sort descending (newest first) unless user has clicked columns to create custom sort order
                 if(lvIgnored.Sorting == SortOrder.None)
@@ -74,6 +75,7 @@ namespace WikiFunctions.Logging
             {
                 logListener.AddAndDateStamp(lvSaved);
                 ResizeListView(lvSaved);
+                this.label7.Text = "Successfully saved: " + lvSaved.Items.Count;
                 
                  // sort descending (newest first) unless user has clicked columns to create custom sort order
                 if(lvSaved.Sorting == SortOrder.None)

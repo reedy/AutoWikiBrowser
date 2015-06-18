@@ -132,7 +132,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(49, 13);
             this.label8.TabIndex = 14;
-            this.label8.Text = "Skipped:";
+            this.label8.Text = "Skipped: 0";
             // 
             // label7
             // 
@@ -141,7 +141,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(101, 13);
             this.label7.TabIndex = 13;
-            this.label7.Text = "Successfully saved:";
+            this.label7.Text = "Successfully saved: 0";
             // 
             // saveListDialog
             // 
