@@ -218,6 +218,7 @@ namespace WikiFunctions.Logging
         {
             lvSaved.Items.Clear();
             RefreshButtonEnablement();
+            this.label7.Text = "Successfully saved: 0";
         }
 
         private void btnClearIgnored_Click(object sender, EventArgs e)
@@ -225,6 +226,7 @@ namespace WikiFunctions.Logging
             lvIgnored.Items.Clear();
             FilteredItems.Clear();
             RefreshButtonEnablement();
+            this.label8.Text = "Skipped: 0";
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
