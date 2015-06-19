@@ -507,6 +507,11 @@ namespace WikiFunctions.Controls.Lists
         {
             btnAdd.Enabled = txtPage.Text.Trim().Length > 0;
         }
+        
+        private void lbArticles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnRemove.Enabled = lbArticles.SelectedItems.Count > 0;
+        }
         #endregion
 
         #region Properties
@@ -1079,7 +1084,8 @@ namespace WikiFunctions.Controls.Lists
             if (sortneeded && AutoAlpha)
                 AlphaSortList();
 
-            btnRemove.Enabled = btnFilter.Enabled = lbArticles.Items.Count > 0;
+            btnFilter.Enabled = lbArticles.Items.Count > 0;
+            btnRemove.Enabled = lbArticles.SelectedItems.Count > 0;
         }
 
         /// <summary>

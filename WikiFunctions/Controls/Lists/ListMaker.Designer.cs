@@ -453,6 +453,7 @@
             this.btnRemove.Size = new System.Drawing.Size(98, 25);
             this.btnRemove.TabIndex = 10;
             this.btnRemove.Text = "&Remove";
+            this.btnRemove.Enabled = false;
             this.tooltip.SetToolTip(this.btnRemove, "Remove the selected item");
             this.btnRemove.Click += new System.EventHandler(this.btnRemoveArticle_Click);
             // 
@@ -475,6 +476,7 @@
             this.lbArticles.DoubleClick += new System.EventHandler(this.lbArticles_DoubleClick);
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
+            this.lbArticles.SelectedIndexChanged += new System.EventHandler(this.lbArticles_SelectedIndexChanged);
             // 
             // ListMaker
             // 
