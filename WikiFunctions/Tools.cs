@@ -1573,15 +1573,23 @@ Message: {2}
 		}
 
 		/// <summary>
-		/// Opens the specified articles history in the browser
+		/// Opens the specified article's history in the browser
 		/// </summary>
 		public static void OpenArticleHistoryInBrowser(string title)
 		{
 			OpenURLInBrowser(Variables.GetArticleHistoryURL(title));
 		}
 
+        /// <summary>
+		/// Opens the specified diff in the browser
+		/// </summary>
+		public static void OpenDiffInBrowser(int newId)
+		{
+			OpenURLInBrowser(Variables.URLLong + "index.php?diff=" + newId);
+		}
+
 		/// <summary>
-		/// Opens the specified users talk page in the browser
+		/// Opens the specified user's talk page in the browser
 		/// </summary>
 		public static void OpenUserTalkInBrowser(string username)
 		{
