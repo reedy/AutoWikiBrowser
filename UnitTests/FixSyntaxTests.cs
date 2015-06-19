@@ -347,6 +347,8 @@ Template:foo}}"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<center></center>"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<gallery> <center></center> </gallery>"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<blockquote></blockquote>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<sup></sup>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<sub></sub>"));
         }
 
         [Test]
