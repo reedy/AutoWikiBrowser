@@ -45,6 +45,9 @@ namespace WikiFunctions.Logging
 
         private bool Datestamped, HaveSkipInfo;
 
+        // SaveInfo.NewId, Database ID of page's revision after editing
+        public int NewId;
+
         #region AWB Interface
         public bool Skipped { get; internal set; }
 
@@ -77,6 +80,11 @@ namespace WikiFunctions.Logging
         public void OpenHistoryInBrowser()
         {
             Tools.OpenArticleHistoryInBrowser(ArticleTitle);
+        }
+
+        public void OpenDiffInBrowser()
+        {
+            Tools.OpenDiffInBrowser(NewId);
         }
 
         public void AddAndDateStamp(ListView listView)
