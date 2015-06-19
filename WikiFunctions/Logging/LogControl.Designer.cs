@@ -50,6 +50,7 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openHistoryInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDiffInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.filterShowOnlySelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterExcludeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -165,6 +166,7 @@
             this.toolStripSeparator4,
             this.openInBrowserToolStripMenuItem,
             this.openHistoryInBrowserToolStripMenuItem,
+            this.openDiffInBrowserToolStripMenuItem,
             this.toolStripSeparator1,
             this.filterShowOnlySelectedToolStripMenuItem,
             this.filterExcludeToolStripMenuItem,
@@ -250,6 +252,13 @@
             this.openHistoryInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.openHistoryInBrowserToolStripMenuItem.Text = "Open history in browser";
             this.openHistoryInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openHistoryInBrowserToolStripMenuItem_Click);
+            // 
+            // openDiffInBrowserToolStripMenuItem
+            // 
+            this.openDiffInBrowserToolStripMenuItem.Name = "openDiffInBrowserToolStripMenuItem";
+            this.openDiffInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.openDiffInBrowserToolStripMenuItem.Text = "Open diff in browser";
+            this.openDiffInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openDiffInBrowserToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -424,6 +433,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openHistoryInBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openDiffInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterExcludeToolStripMenuItem;

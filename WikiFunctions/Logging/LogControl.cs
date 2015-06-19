@@ -145,11 +145,14 @@ namespace WikiFunctions.Logging
 
             addSelectedToArticleListToolStripMenuItem.Enabled = cutToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled
                 = removeToolStripMenuItem.Enabled = openInBrowserToolStripMenuItem.Enabled = openHistoryInBrowserToolStripMenuItem.Enabled
-                = filterShowOnlySelectedToolStripMenuItem.Enabled = filterExcludeToolStripMenuItem.Enabled =
+                = filterShowOnlySelectedToolStripMenuItem.Enabled = filterExcludeToolStripMenuItem.Enabled = 
                 MenuItemOwner(sender).SelectedItems.Count > 0;
 
             selectAllToolStripMenuItem.Enabled = selectNoneToolStripMenuItem.Enabled = clearToolStripMenuItem.Enabled =
                 MenuItemOwner(sender).Items.Count > 0;
+            
+            // diff option for saved pages only
+            openDiffInBrowserToolStripMenuItem.Enabled = MenuItemOwner(sender) == lvSaved && MenuItemOwner(sender).SelectedItems.Count > 0;
         }
 
         private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
@@ -275,6 +278,14 @@ namespace WikiFunctions.Logging
             foreach (AWBLogListener item in MenuItemOwner(sender).SelectedItems)
             {
                 item.OpenHistoryInBrowser();
+            }
+        }
+
+        private void openDiffInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (AWBLogListener item in MenuItemOwner(sender).SelectedItems)
+            {
+                item.OpenDiffInBrowser();
             }
         }
 
