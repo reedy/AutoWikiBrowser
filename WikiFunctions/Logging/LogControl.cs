@@ -62,7 +62,6 @@ namespace WikiFunctions.Logging
             {
                 logListener.AddAndDateStamp(lvIgnored);
                 ResizeListView(lvIgnored);
-                this.label8.Text = "Skipped: " + lvIgnored.Items.Count;
                 
                 // sort descending (newest first) unless user has clicked columns to create custom sort order
                 if(lvIgnored.Sorting == SortOrder.None)
@@ -75,7 +74,6 @@ namespace WikiFunctions.Logging
             {
                 logListener.AddAndDateStamp(lvSaved);
                 ResizeListView(lvSaved);
-                this.label7.Text = "Successfully saved: " + lvSaved.Items.Count;
                 
                  // sort descending (newest first) unless user has clicked columns to create custom sort order
                 if(lvSaved.Sorting == SortOrder.None)
@@ -225,7 +223,6 @@ namespace WikiFunctions.Logging
         {
             lvSaved.Items.Clear();
             RefreshButtonEnablement();
-            this.label7.Text = "Successfully saved: 0";
         }
 
         private void btnClearIgnored_Click(object sender, EventArgs e)
@@ -233,7 +230,6 @@ namespace WikiFunctions.Logging
             lvIgnored.Items.Clear();
             FilteredItems.Clear();
             RefreshButtonEnablement();
-            this.label8.Text = "Skipped: 0";
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
