@@ -173,11 +173,15 @@ namespace WikiFunctions.Logging
 
         /// <summary>
         /// Disables the Clear / Save log / Add all to list buttons when no articles in log, enables when 1 or more articles.
+        /// Updates the skipped/saved count labels
         /// </summary>
         private void RefreshButtonEnablement()
         {
             btnClearSaved.Enabled = btnSaveSaved.Enabled = btnAddSuccessToList.Enabled = lvSaved.Items.Count > 0;
             btnClearIgnored.Enabled = btnSaveIgnored.Enabled = btnAddSkippedToList.Enabled = lvIgnored.Items.Count > 0;
+
+            this.label8.Text = "Skipped: " + lvIgnored.Items.Count;
+            this.label7.Text = "Successfully saved: " + lvSaved.Items.Count;
         }
 
         private static void ResizeListView(NoFlickerExtendedListView lstView)
