@@ -143,9 +143,10 @@ namespace WikiFunctions.Parse
         private static readonly Regex DoublePipeInWikiLink = new Regex(@"(?<=\[\[[^\[\[\r\n\|{}]+)\|\|(?=[^\[\[\r\n\|{}]+\]\])", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches empty gallery, center or blockquote tags (zero or more whitespace)
+        /// Matches empty gallery, center, blockquote, sub or sup tags (zero or more whitespace)
         /// </summary>
-        private static readonly Regex EmptyTags = new Regex(@"<\s*(gallery|center|blockquote)\s*>\s*<\s*/\s*\1\s*>", RegexOptions.IgnoreCase);
+        private static readonly Regex EmptyTags = new Regex(@"<\s*(gallery|center|blockquote|su[bp])\s*>\s*<\s*/\s*\1\s*>", RegexOptions.IgnoreCase);
+        private static readonly List<string> EmptyTagsList = new List<string>(new [] {"<gallery>", "<center>", "<blockquote>", "<sub>", "<sup>"});
 
         private static readonly System.Globalization.CultureInfo BritishEnglish = new System.Globalization.CultureInfo("en-GB");
 
@@ -189,8 +190,8 @@ namespace WikiFunctions.Parse
                 articleText = articleText.Replace(@"</strike>", @"</s>");
             }
 
-            // remove empty <gallery>, <center> or <blockquote> tags, allow for nested tags
-            if(SimpleTagsList.Any(s => s.Contains("gallery") || s.Contains("center") || s.Contains("blockquote")))
+            // remove empty <gallery>, <center>, <blockquote>, <sub> or <sup> tags, allow for nested tags
+            if(SimpleTagsList.Any(s => EmptyTagsList.Contains(s)))
             {
                 while(EmptyTags.IsMatch(articleText))
                     articleText = EmptyTags.Replace(articleText, "");
