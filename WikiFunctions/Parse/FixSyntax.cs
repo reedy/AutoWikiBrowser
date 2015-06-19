@@ -145,7 +145,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Matches empty gallery, center or blockquote tags (zero or more whitespace)
         /// </summary>
-        private static readonly Regex EmptyTags = new Regex(@"<\s*([Gg]allery|[Cc]enter|[Bb]lockquote)\s*>\s*<\s*/\s*\1\s*>", RegexOptions.IgnoreCase);
+        private static readonly Regex EmptyTags = new Regex(@"<\s*(gallery|center|blockquote)\s*>\s*<\s*/\s*\1\s*>", RegexOptions.IgnoreCase);
 
         private static readonly System.Globalization.CultureInfo BritishEnglish = new System.Globalization.CultureInfo("en-GB");
 
