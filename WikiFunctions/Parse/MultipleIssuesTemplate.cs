@@ -33,7 +33,11 @@ namespace WikiFunctions.Parse
     /// </summary>
     public partial class Parsers
     {
+        #region config parameters
         private const int MinCleanupTagsToCombine = 2; // article must have at least this many tags to combine to {{multiple issues}}
+        #endregion
+
+        #region old-style multiple issues
         private static readonly Regex ExpertSubject = Tools.NestedTemplateRegex("expert-subject");
 
         /// <summary>
@@ -271,7 +275,9 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
+        #endregion
 
+        #region current style multiple issues
         /// <summary>
         /// Combines maintenance tags into {{multiple issues}} template, for en-wiki only
         /// Operates on a section by section basis through article text
@@ -534,5 +540,6 @@ namespace WikiFunctions.Parse
             // clean excess newlines
             return Regex.Replace(m.Value, "(\r\n)+", "\r\n");
         }
+        #endregion
     }
 }
