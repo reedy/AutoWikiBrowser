@@ -33,7 +33,7 @@ namespace WikiFunctions.Parse
     /// </summary>
     public partial class Parsers
     {
-
+        #region FixCitationTemplates
         private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)");
 
         private static readonly Regex WorkInItalics = new Regex(@"(\|\s*work\s*=\s*)''([^'{}\|]+)''(?=\s*(?:\||}}))");
@@ -488,6 +488,9 @@ namespace WikiFunctions.Parse
             return newValue;
         }
 
+        #endregion
+
+        #region PageRanges
         private static readonly List<string> PageFields = new List<string>(new[] { "page", "pages", "p", "pp" });
         private static readonly Regex PageRange = new Regex(@"\b(\d+)\s*[-—]+\s*(\d+)", RegexOptions.Compiled);
         private static readonly Regex SpacedPageRange = new Regex(@"(\d+) +(–|&ndash;) +(\d)", RegexOptions.Compiled);
@@ -563,7 +566,9 @@ namespace WikiFunctions.Parse
             
             return original;
         }
+        #endregion
 
+        #region CitationPublisherToWork
         private static readonly Regex CiteWebOrNews = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb", "cite news", "citenews" });
         private static readonly Regex PressPublishers = new Regex(@"(Associated Press|United Press International)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly List<string> WorkParameterAndAliases = new List<string>(new[] { "work", "newspaper", "journal", "periodical", "magazine" });
@@ -598,7 +603,9 @@ namespace WikiFunctions.Parse
 
             return citation;
         }
+        #endregion
 
+        #region CiteTemplateDates
         /// <summary>
         /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)
         /// </summary>
@@ -612,76 +619,6 @@ namespace WikiFunctions.Parse
             noChange = newText.Equals(articleText);
 
             return newText;
-        }
-
-        private static readonly Regex CiteArXiv = Tools.NestedTemplateRegex(new[] { "cite arxiv", "cite arXiv" });
-        private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([\w_\d- ']+)\s*=\s*([^\|}]+)");
-        private static readonly Regex citeWebParameters = new Regex(@"^(access-?date|agency|archive-?date|archive-?url|arxiv|ARXIV|asin|ASIN|asin-tld|ASIN-TLD|at|[Aa]uthor\d*|author\d*-first|author-?format|author\d*-last|author-?link\d*|author\d*-?link|authors|author-mask|author-name-separator|author-separator|bibcode|BIBCODE|date|dead-?url|dictionary|display-?authors|display-?editors|doi|DOI|DoiBroken|doi-broken|doi-broken-date|doi_brokendate|doi-inactive-date|doi_inactivedate|edition|[Ee]ditor|editor\d*|editor\d*-first|editor-?format|EditorGiven\d*|editor\d*-given|editor\d*-last|editor\d*-?link|editor-?mask|editor-name-separator|EditorSurname\d*|editor\d*-surname|editor-first\d*|editor-given\d*|editor-last\d*|editor-surname\d*|editorlink\d*|editors|[Ee]mbargo|encyclopa?edia|first\d*|format|given\d*|id|ID|ignoreisbnerror|ignore-isbn-error|institution|isbn|ISBN|isbn13|ISBN13|issn|ISSN|issue|jfm|JFM|journal|jstor|JSTOR|language|last\d*|lastauthoramp|last-author-amp|lay-?date|lay-?source|lay-?summary|lay-?url|lccn|LCCN|location|magazine|mode|mr|MR|newspaper|no-?pp|number|oclc|OCLC|ol|OL|orig-?year|others|osti|pp?|pages?|people|periodical|place|pmc|PMC|pmid|PMID|postscript|publication-?(?:place|date)|publisher|quotation|quote|[Rr]ef|registration|rfc|RFC|script\-title|separator|series|series-?link|ssrn|SSRN|subscription|surname\d*|title|trans[_-]title|type|url|URL|version|via|volume|website|work|year|zbl|ZBL)\b", RegexOptions.Compiled);
-        private static readonly Regex citeArXivParameters = new Regex(@"\b(arxiv|asin|ASIN|author\d*|authorlink\d*|author\d*-link|bibcode|class|coauthors?|date|day|doi|DOI|doi brokendate|doi inactivedate|eprint|first\d*|format|given\d*|id|in|isbn|ISBN|issn|ISSN|jfm|JFM|jstor|JSTOR|language|last\d*|laydate|laysource|laysummary|lccn|LCCN|month|mr|MR|oclc|OCLC|ol|OL|osti|OSTI|pmc|PMC|pmid|PMID|postscript|publication-date|quote|ref|rfc|RFC|separator|seperator|ssrn|SSRN|surname\d*|title|version|year|zbl)\b", RegexOptions.Compiled);
-        private static readonly Regex NoEqualsTwoBars = new Regex(@"\|[^=\|]+\|");
-
-        /// <summary>
-        /// Searches for unknown/invalid parameters within citation templates
-        /// </summary>
-        /// <param name="articleText">the wiki text to search</param>
-        /// <returns>Dictionary of parameter index in wiki text, and parameter length</returns>
-        public static Dictionary<int, int> BadCiteParameters(string articleText)
-        {
-            Dictionary<int, int> found = new Dictionary<int, int>();
-
-            // unknown parameters in cite arXiv
-            foreach (Match m in CiteArXiv.Matches(articleText))
-            {
-                // ignore parameters in templates within cite
-                string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
-
-                foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
-                {
-                    if (!citeArXivParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
-                        found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
-                }
-            }
-
-            foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
-            {
-                // unknown parameters in cite web
-                if(m.Groups[2].Value.EndsWith("web"))
-                {
-                    // ignore parameters in templates within cite
-                    string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
-
-                    foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
-                    {
-                        if (!citeWebParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
-                            found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
-                    }
-                }
-
-                string pipecleaned = Tools.PipeCleanedTemplate(m.Value, false);
-
-                // no equals between two separator pipes
-                if (pipecleaned.Contains("="))
-                {
-                    Match m2 = NoEqualsTwoBars.Match(pipecleaned);
-
-                    if (m2.Success)
-                        found.Add(m.Index + m2.Index, m2.Length);
-                }
-
-                // URL has space in it
-                int urlpos = m.Value.IndexOf("url");
-                if(urlpos > 0)
-                {
-                    string URL = Tools.GetTemplateParameterValue(m.Value, "url");
-                    if (URL.Contains(" ") && WikiRegexes.UnformattedText.Replace(WikiRegexes.NestedTemplates.Replace(URL, ""), "").Trim().Contains(" "))
-                    {
-                        string fromURL = m.Value.Substring(urlpos); // value of url may be in another earlier parameter, report correct position
-                        found.Add(m.Index + urlpos + fromURL.IndexOf(URL), URL.Length);
-                    }
-                }
-            }
-
-            return found;
         }
 
         private const string SiCitStart = @"(?si)(\|\s*";
@@ -886,6 +823,77 @@ namespace WikiFunctions.Parse
             }
 
             return ambigDates;
+        }
+        #endregion
+
+        private static readonly Regex CiteArXiv = Tools.NestedTemplateRegex(new[] { "cite arxiv", "cite arXiv" });
+        private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([\w_\d- ']+)\s*=\s*([^\|}]+)");
+        private static readonly Regex citeWebParameters = new Regex(@"^(access-?date|agency|archive-?date|archive-?url|arxiv|ARXIV|asin|ASIN|asin-tld|ASIN-TLD|at|[Aa]uthor\d*|author\d*-first|author-?format|author\d*-last|author-?link\d*|author\d*-?link|authors|author-mask|author-name-separator|author-separator|bibcode|BIBCODE|date|dead-?url|dictionary|display-?authors|display-?editors|doi|DOI|DoiBroken|doi-broken|doi-broken-date|doi_brokendate|doi-inactive-date|doi_inactivedate|edition|[Ee]ditor|editor\d*|editor\d*-first|editor-?format|EditorGiven\d*|editor\d*-given|editor\d*-last|editor\d*-?link|editor-?mask|editor-name-separator|EditorSurname\d*|editor\d*-surname|editor-first\d*|editor-given\d*|editor-last\d*|editor-surname\d*|editorlink\d*|editors|[Ee]mbargo|encyclopa?edia|first\d*|format|given\d*|id|ID|ignoreisbnerror|ignore-isbn-error|institution|isbn|ISBN|isbn13|ISBN13|issn|ISSN|issue|jfm|JFM|journal|jstor|JSTOR|language|last\d*|lastauthoramp|last-author-amp|lay-?date|lay-?source|lay-?summary|lay-?url|lccn|LCCN|location|magazine|mode|mr|MR|newspaper|no-?pp|number|oclc|OCLC|ol|OL|orig-?year|others|osti|pp?|pages?|people|periodical|place|pmc|PMC|pmid|PMID|postscript|publication-?(?:place|date)|publisher|quotation|quote|[Rr]ef|registration|rfc|RFC|script\-title|separator|series|series-?link|ssrn|SSRN|subscription|surname\d*|title|trans[_-]title|type|url|URL|version|via|volume|website|work|year|zbl|ZBL)\b", RegexOptions.Compiled);
+        private static readonly Regex citeArXivParameters = new Regex(@"\b(arxiv|asin|ASIN|author\d*|authorlink\d*|author\d*-link|bibcode|class|coauthors?|date|day|doi|DOI|doi brokendate|doi inactivedate|eprint|first\d*|format|given\d*|id|in|isbn|ISBN|issn|ISSN|jfm|JFM|jstor|JSTOR|language|last\d*|laydate|laysource|laysummary|lccn|LCCN|month|mr|MR|oclc|OCLC|ol|OL|osti|OSTI|pmc|PMC|pmid|PMID|postscript|publication-date|quote|ref|rfc|RFC|separator|seperator|ssrn|SSRN|surname\d*|title|version|year|zbl)\b", RegexOptions.Compiled);
+        private static readonly Regex NoEqualsTwoBars = new Regex(@"\|[^=\|]+\|");
+
+        /// <summary>
+        /// Searches for unknown/invalid parameters within citation templates
+        /// </summary>
+        /// <param name="articleText">the wiki text to search</param>
+        /// <returns>Dictionary of parameter index in wiki text, and parameter length</returns>
+        public static Dictionary<int, int> BadCiteParameters(string articleText)
+        {
+            Dictionary<int, int> found = new Dictionary<int, int>();
+
+            // unknown parameters in cite arXiv
+            foreach (Match m in CiteArXiv.Matches(articleText))
+            {
+                // ignore parameters in templates within cite
+                string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
+
+                foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
+                {
+                    if (!citeArXivParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
+                        found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
+                }
+            }
+
+            foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
+            {
+                // unknown parameters in cite web
+                if(m.Groups[2].Value.EndsWith("web"))
+                {
+                    // ignore parameters in templates within cite
+                    string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
+
+                    foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
+                    {
+                        if (!citeWebParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
+                            found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
+                    }
+                }
+
+                string pipecleaned = Tools.PipeCleanedTemplate(m.Value, false);
+
+                // no equals between two separator pipes
+                if (pipecleaned.Contains("="))
+                {
+                    Match m2 = NoEqualsTwoBars.Match(pipecleaned);
+
+                    if (m2.Success)
+                        found.Add(m.Index + m2.Index, m2.Length);
+                }
+
+                // URL has space in it
+                int urlpos = m.Value.IndexOf("url");
+                if(urlpos > 0)
+                {
+                    string URL = Tools.GetTemplateParameterValue(m.Value, "url");
+                    if (URL.Contains(" ") && WikiRegexes.UnformattedText.Replace(WikiRegexes.NestedTemplates.Replace(URL, ""), "").Trim().Contains(" "))
+                    {
+                        string fromURL = m.Value.Substring(urlpos); // value of url may be in another earlier parameter, report correct position
+                        found.Add(m.Index + urlpos + fromURL.IndexOf(URL), URL.Length);
+                    }
+                }
+            }
+
+            return found;
         }
     }
 }
