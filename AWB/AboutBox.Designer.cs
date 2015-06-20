@@ -49,8 +49,6 @@ namespace AutoWikiBrowser
             this.txtWarning = new System.Windows.Forms.TextBox();
             this.okButton = new System.Windows.Forms.Button();
             this.linkAWBPage = new System.Windows.Forms.LinkLabel();
-            this.linkBugs = new System.Windows.Forms.LinkLabel();
-            this.linkFeatureRequests = new System.Windows.Forms.LinkLabel();
             this.lblDevs = new System.Windows.Forms.Label();
             this.lblAWBVersion = new System.Windows.Forms.Label();
             this.lblDetails = new System.Windows.Forms.Label();
@@ -114,28 +112,6 @@ namespace AutoWikiBrowser
             this.linkAWBPage.TabStop = true;
             this.linkAWBPage.Text = "AutoWikiBrowser";
             this.linkAWBPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkAWBPage_LinkClicked);
-            // 
-            // linkBugs
-            // 
-            this.linkBugs.AutoSize = true;
-            this.linkBugs.Location = new System.Drawing.Point(3, 13);
-            this.linkBugs.Name = "linkBugs";
-            this.linkBugs.Size = new System.Drawing.Size(56, 13);
-            this.linkBugs.TabIndex = 0;
-            this.linkBugs.TabStop = true;
-            this.linkBugs.Text = "Bug (Wiki)";
-            this.linkBugs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkBugs_LinkClicked);
-            // 
-            // linkFeatureRequests
-            // 
-            this.linkFeatureRequests.AutoSize = true;
-            this.linkFeatureRequests.Location = new System.Drawing.Point(3, 26);
-            this.linkFeatureRequests.Name = "linkFeatureRequests";
-            this.linkFeatureRequests.Size = new System.Drawing.Size(99, 13);
-            this.linkFeatureRequests.TabIndex = 1;
-            this.linkFeatureRequests.TabStop = true;
-            this.linkFeatureRequests.Text = "Feature reqs. (Wiki)";
-            this.linkFeatureRequests.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkFeatureRequests_LinkClicked);
             // 
             // lblDevs
             // 
@@ -282,8 +258,6 @@ namespace AutoWikiBrowser
             // flowLayoutPanel3
             // 
             this.flowLayoutPanel3.Controls.Add(this.linkPhabricator);
-            this.flowLayoutPanel3.Controls.Add(this.linkBugs);
-            this.flowLayoutPanel3.Controls.Add(this.linkFeatureRequests);
             this.flowLayoutPanel3.Controls.Add(this.UsageStatsLabel);
             this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(28, 243);
@@ -409,8 +383,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label lblDetails;
         private System.Windows.Forms.Label lblAWBVersion;
         private System.Windows.Forms.Label lblDevs;
-        private System.Windows.Forms.LinkLabel linkBugs;
-        private System.Windows.Forms.LinkLabel linkFeatureRequests;
         private System.Windows.Forms.Label lblOriginalDevs;
         private System.Windows.Forms.LinkLabel UsageStatsLabel;
         private System.Windows.Forms.Label lblRevision;
