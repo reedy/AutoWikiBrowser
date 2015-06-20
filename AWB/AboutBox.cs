@@ -55,7 +55,7 @@ Windows version: {2}",
             Tools.OpenENArticleInBrowser("Wikipedia:AutoWikiBrowser", false);
         }
 
-       private void UsageStatsLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void UsageStatsLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             UsageStatsLabel.LinkVisited = true;
             UsageStats.OpenUsageStatsURL();
