@@ -55,19 +55,7 @@ Windows version: {2}",
             Tools.OpenENArticleInBrowser("Wikipedia:AutoWikiBrowser", false);
         }
 
-        private void linkBugs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkBugs.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Wikipedia_talk:AutoWikiBrowser/Bugs", false);
-        }
-
-        private void linkFeatureRequests_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkFeatureRequests.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Wikipedia_talk:AutoWikiBrowser/Feature_requests", false);
-        }
-
-        private void UsageStatsLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+       private void UsageStatsLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             UsageStatsLabel.LinkVisited = true;
             UsageStats.OpenUsageStatsURL();
