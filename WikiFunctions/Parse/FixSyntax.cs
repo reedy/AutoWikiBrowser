@@ -161,6 +161,7 @@ namespace WikiFunctions.Parse
             List<string> alltemplates = GetAllTemplates(articleText);
             List<string> alltemplatesDetail = GetAllTemplateDetail(articleText);
             MatchCollection ssbMc = SingleSquareBrackets.Matches(articleText);
+            string originalArticleText = articleText;
 
             if (Variables.LangCode.Equals("en"))
             {
@@ -277,7 +278,11 @@ namespace WikiFunctions.Parse
 
             articleText = RefExternalLinkUsingBraces.Replace(articleText, @"[$1$2]$3");
 
-            string originalArticleText = articleText;
+            // refresh if necessary
+            if(!originalArticleText.Equals(articleText))
+                ssbMc = SingleSquareBrackets.Matches(articleText);
+
+            originalArticleText = articleText;
             string nobrackets = Tools.ReplaceWithSpaces(articleText, ssbMc);
             bool orphanedSingleBrackets = (nobrackets.Contains("[") || nobrackets.Contains("]"));
 
