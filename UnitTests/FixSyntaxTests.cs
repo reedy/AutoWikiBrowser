@@ -331,7 +331,7 @@ Template:foo}}"));
 		}
 
         [Test]
-        public void TestFixSyntaxRemoveEmptyGallery()
+        public void TestFixSyntaxRemoveEmptyTags()
         {
             Assert.AreEqual("", Parsers.FixSyntax(@"<gallery></gallery>"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<gallery>
@@ -349,6 +349,7 @@ Template:foo}}"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<blockquote></blockquote>"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<sup></sup>"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<sub></sub>"));
+            Assert.AreEqual(@"[[hello]] and [[bye]]", Parsers.FixSyntax(@"[[hello]] <sub></sub>and<sub></sub> [[bye]]<sub></sub>"));
         }
 
         [Test]
