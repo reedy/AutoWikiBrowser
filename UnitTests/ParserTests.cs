@@ -1991,6 +1991,20 @@ Text
             tags2.Add("{{orphan|date=foo}}");
             tags2.Add("{{Orphan|date=foo2}}");
             Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "Cannot process conflicting non-date date params");
+
+            tags.Clear();
+            tags.Add("{{notability|date=May 2012}}");
+            tags.Add("{{notability|Biography|date=May 2015}}");
+            tags2.Clear();
+            tags2.Add("{{notability|Biography|date=May 2012}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "Retain template argument, in second tag");
+
+            tags.Clear();
+            tags.Add("{{notability|Biography|date=May 2012}}");
+            tags.Add("{{notability|date=May 2015}}");
+            tags2.Clear();
+            tags2.Add("{{notability|Biography|date=May 2012}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "Retain template argument, in first tag");
         }
     }
 
