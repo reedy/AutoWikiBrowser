@@ -221,6 +221,7 @@ namespace UnitTests
 
             // empty tags
             Assert.AreEqual(@"", Parsers.FixReferenceTags(@"<ref> </ref>"));
+            Assert.AreEqual(@"", Parsers.FixReferenceTags(@"<ref><ref> </ref></ref>"));
 
             // <ref name="Fred" Smith> --> <ref name="Fred Smith">
             Assert.AreEqual(@"<ref name=""Fred Smith"" />", Parsers.FixReferenceTags(@"<ref name=""Fred"" Smith />"));
