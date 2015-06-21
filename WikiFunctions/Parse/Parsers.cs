@@ -747,6 +747,10 @@ namespace WikiFunctions.Parse
             List<string> newtags = new List<string>();
             List<string> originalTags = tags;
 
+            // if any tag has unnamed param as firt argument, sort tags with longest part before first = to be first, so we retain the unnamed param
+            if(tags.Any(t => Regex.IsMatch(t, @"\|[^=\|}}]+\|")))
+                tags = tags.OrderByDescending(s => (s.Contains("=") ? s.Substring(0, s.IndexOf("=")).Length : s.Length)).ToList();
+
             foreach(string t in tags)
             {
                 string existingTag = newtags.Where(nt => Tools.TurnFirstToLower(Tools.GetTemplateName(nt)) == Tools.TurnFirstToLower(Tools.GetTemplateName(t))).FirstOrDefault();
