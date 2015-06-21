@@ -849,6 +849,7 @@ namespace WikiFunctions.Parse
         // <ref>...<ref/> or <ref>...</red> --> <ref>...</ref>
         private static readonly Regex RedRef = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex AllTagsSpace = new Regex(@"<[^<>]+> *");
+        private static readonly Regex EmptyRefTags = new Regex(@"<ref>\s*</ref>");
 
         // Covered by TestFixReferenceTags
         /// <summary>
@@ -880,7 +881,8 @@ namespace WikiFunctions.Parse
                 articleText = Regex.Replace(articleText, @"(?<=[,\.:;]) +(<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", "$1");
 
             // empty <ref>...</ref> tags
-            articleText = Regex.Replace(articleText, @"<ref>\s*</ref>", "");
+            while(EmptyRefTags.IsMatch(articleText))
+                articleText = EmptyRefTags.Replace(articleText, "");
 
             // Trailing spaces at the beginning of a reference, within the reference
             if(AllTagsList.Any(s => s.EndsWith(" ")))
