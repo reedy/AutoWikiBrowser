@@ -171,7 +171,7 @@ namespace WikiFunctions.Logging
 
         /// <summary>
         /// Disables the Clear / Save log / Add all to list buttons when no articles in log, enables when 1 or more articles.
-        /// Updates the skipped/saved count labels
+        /// Updates the skipped/saved count labels, refreshes column sizing
         /// </summary>
         private void RefreshButtonEnablement()
         {
@@ -180,6 +180,9 @@ namespace WikiFunctions.Logging
 
             this.label8.Text = "Skipped: " + lvIgnored.Items.Count;
             this.label7.Text = "Successfully saved: " + lvSaved.Items.Count;
+
+            ResizeListView(lvIgnored);
+            ResizeListView(lvSaved);
         }
 
         private static void ResizeListView(NoFlickerExtendedListView lstView)
