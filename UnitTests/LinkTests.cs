@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -852,6 +852,8 @@ http://example.com }}");
             Assert.AreEqual("[[C# code]]", Parsers.FixLinkWhitespace("[[C# code]]", "Test"));
             Assert.AreEqual("[[F# code]]", Parsers.FixLinkWhitespace("[[F# code]]", "Test"));
             Assert.AreEqual("[[J# code]]", Parsers.FixLinkWhitespace("[[J# code]]", "Test"));
+
+            Assert.AreEqual("<ref> [[abcdef-abcdef-abcdef-abcdef-abcdef-abcdef-abcdef]]</ref>", Parsers.FixLinkWhitespace("<ref>[[ abcdef-abcdef-abcdef-abcdef-abcdef-abcdef-abcdef]]</ref>", "foo"));
         }
 
         [Test]
