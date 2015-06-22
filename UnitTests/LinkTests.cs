@@ -602,6 +602,8 @@ was [[foo|bar]] too"));
             Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[foo{{!}}bar]]", "a", out nochange),"Fixes pipe");
             Assert.AreEqual(@"[[foo|]]", Parsers.FixLinks(@"[[foo{{!}}]]", "a", out nochange),"Fixes pipe");
             Assert.AreEqual("[[Repeat sign|{{!}}: ]]", Parsers.FixLinks(@"[[Repeat sign|{{!}}: ]]", "a", out nochange),"Do nothing in the only exception");
+
+            Assert.AreEqual(@"[[|foo]]", Parsers.FixLinks(@"[[|foo]]", "a", out nochange), "No change if single leading pipe");
         }
 
         [Test]
