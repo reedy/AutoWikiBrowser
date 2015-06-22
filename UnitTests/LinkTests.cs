@@ -820,6 +820,9 @@ http://example.com }}");
             Assert.AreEqual("b   [[a]]  c", Parsers.FixLinkWhitespace("b   [[ a ]]  c", "foo")); // 4 & 5
 
             Assert.AreEqual("[[a]] b", Parsers.FixLinkWhitespace("[[a ]]b", "foo"));
+            Assert.AreEqual(@"Now
+[[a]] b", Parsers.FixLinkWhitespace(@"Now
+[[a ]]b", "foo"), "wikilink on start of line");
             Assert.AreEqual("[[a]]" + "\r\n", Parsers.FixLinkWhitespace("[[a ]]" + "\r\n", "foo"));
 
             Assert.AreEqual("[[foo bar]]", Parsers.FixLinkWhitespace("[[foo  bar]]", "foot"));
@@ -853,7 +856,7 @@ http://example.com }}");
             Assert.AreEqual("[[F# code]]", Parsers.FixLinkWhitespace("[[F# code]]", "Test"));
             Assert.AreEqual("[[J# code]]", Parsers.FixLinkWhitespace("[[J# code]]", "Test"));
 
-            Assert.AreEqual("<ref> [[abcdef-abcdef-abcdef-abcdef-abcdef-abcdef-abcdef]]</ref>", Parsers.FixLinkWhitespace("<ref>[[ abcdef-abcdef-abcdef-abcdef-abcdef-abcdef-abcdef]]</ref>", "foo"));
+            Assert.AreEqual("<ref>[[abcdef-abcdef-abcdef-abcdef-abcdef-abcdef-abcdef]]</ref>", Parsers.FixLinkWhitespace("<ref>[[ abcdef-abcdef-abcdef-abcdef-abcdef-abcdef-abcdef]]</ref>", "foo"));
         }
 
         [Test]
