@@ -314,14 +314,14 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public bool IsDisambiguationPage
-        { get { return (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple")) && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(mArticleText); } }
+        { get { return (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple")) && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(string.Join("", Parsers.GetAllTemplateDetail(mArticleText).ToArray())); } }
 
         /// <summary>
         /// Returns whether the article is a SIA page (en only)
         /// </summary>
         [XmlIgnore]
         public bool IsSIAPage
-        { get { return (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple")) && NameSpaceKey == Namespace.Mainspace && WikiRegexes.SIAs.IsMatch(mArticleText); } }
+        { get { return (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple")) && NameSpaceKey == Namespace.Mainspace && WikiRegexes.SIAs.IsMatch(string.Join("", Parsers.GetAllTemplateDetail(mArticleText).ToArray())); } }
 
         /// <summary>
         /// Returns whether the article is a disambiguation page has references
@@ -698,7 +698,7 @@ namespace WikiFunctions
         {
             List<string> Unknowns = new List<string>();
 
-            if (NameSpaceKey.Equals(Namespace.Mainspace))
+            if (NameSpaceKey.Equals(Namespace.Mainspace) && WikiRegexes.MultipleIssues.IsMatch(string.Join("" ,Parsers.GetAllTemplateDetail(ArticleText).ToArray())))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, MultipleIssuesKnowns);
             return Unknowns;
         }
