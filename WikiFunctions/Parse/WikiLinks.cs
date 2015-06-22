@@ -151,6 +151,11 @@ namespace WikiFunctions.Parse
             if(wikiLinks.Any(link => link.Contains("|") && TrailingPipe.IsMatch(link)))
                 articleText = WikiRegexes.PipedWikiLink.Replace(articleText, m => (m.Groups[2].Value.Trim().EndsWith("|") ? "[[" + m.Groups[1].Value + "|" + m.Groups[2].Value.Trim().TrimEnd('|').Trim() + "]]" : m.Value));
 
+            // fix excess leading pipe in piped link e.g. [[|foo|bar]], avoid malformatted image links
+            foreach(string pl in wikiLinks.Where(link => link.Substring(2, 1).Equals("|") && link.Substring(3).Contains("|")
+                && !link.Substring(3).StartsWith("thumb")))
+                articleText = articleText.Replace(pl, @"[[" + pl.Substring(3).TrimStart());
+
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
