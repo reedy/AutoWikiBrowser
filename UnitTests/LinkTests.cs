@@ -604,6 +604,10 @@ was [[foo|bar]] too"));
             Assert.AreEqual("[[Repeat sign|{{!}}: ]]", Parsers.FixLinks(@"[[Repeat sign|{{!}}: ]]", "a", out nochange),"Do nothing in the only exception");
 
             Assert.AreEqual(@"[[|foo]]", Parsers.FixLinks(@"[[|foo]]", "a", out nochange), "No change if single leading pipe");
+            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[|foo|bar]]", "a", out nochange), "Fixes excess leading pipe");
+            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[|  foo|bar]]", "a", out nochange), "Fixes excess leading pipe & whitespace");
+            Assert.AreEqual(@"[[|thumb|300px]]", Parsers.FixLinks(@"[[|thumb|300px]]", "a", out nochange), "Nochange: thumb");
+            Assert.AreEqual(@"[[|thumbnail|300px]]", Parsers.FixLinks(@"[[|thumbnail|300px]]", "a", out nochange), "Nochange: thumbnail");
         }
 
         [Test]
