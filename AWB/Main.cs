@@ -2724,11 +2724,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             else
             {
                 string articleText = txtEdit.Text;
+                string templates = string.Join("", Parsers.GetAllTemplateDetail(articleText).ToArray());
 
                 int wordCount = Tools.WordCount(articleText);
                 int catCount = WikiRegexes.Category.Matches(articleText).Count;
 
-                if ((alertPreferences.Count == 0 || alertPreferences.Contains(12)) && TheArticle.NameSpaceKey == Namespace.Article  && wordCount > Parsers.StubMaxWordCount && WikiRegexes.Stub.IsMatch(articleText))
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(12)) && TheArticle.NameSpaceKey == Namespace.Article  && wordCount > Parsers.StubMaxWordCount && WikiRegexes.Stub.IsMatch(templates))
                     lbAlerts.Items.Add("Long article with a stub tag.");
 
                 if ((alertPreferences.Count == 0 || alertPreferences.Contains(14)) && catCount == 0 && !Namespace.IsTalk(TheArticle.Name))
@@ -2753,7 +2754,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     lbAlerts.Items.Add("Unformatted references");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Detect_multiple_DEFAULTSORT
-                if ((alertPreferences.Count == 0 || alertPreferences.Contains(13)) && WikiRegexes.Defaultsort.Matches(articleText).Count > 1)
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(13)) && WikiRegexes.Defaultsort.Matches(templates).Count > 1)
                     lbAlerts.Items.Add("Multiple DEFAULTSORTs");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Some_additional_edits
