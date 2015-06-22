@@ -33,8 +33,7 @@ namespace WikiFunctions.Parse
     /// </summary>
     public partial class Parsers
     {
-        private static readonly Regex LinkWhitespace1 = new Regex(@"(\W|^)\[\[ ([^\]]+)\]\]", RegexOptions.Compiled);
-        private static readonly Regex LinkWhitespace2 = new Regex(@"(?<=\w)\[\[ ([^\]]+)\]\]", RegexOptions.Compiled);
+        private static readonly Regex LinkWhitespace1 = new Regex(@"(.|^)\[\[ ([^\]]+)\]\]", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex LinkWhitespace3 = new Regex(@"\[\[([^\]]{1,30}?) {2,10}([^\]]{1,30})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace4 = new Regex(@"\[\[([^\]\|]{1,30}) \]\](\s)", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace5 = new Regex(@"\[\[([^\]]{1,30}) \]\](?=\w)", RegexOptions.Compiled);
@@ -57,11 +56,15 @@ namespace WikiFunctions.Parse
 
             if(allWikiLinks.Any(s => s.StartsWith("[[ ")))
             {
-                //remove undesirable space from beginning of wikilink (space before wikilink) - parse this line first
-                articleText = LinkWhitespace1.Replace(articleText, m => m.Groups[1].Value.Trim() + " [[" + m.Groups[2].Value + "]]");
-
-                //remove undesirable space from beginning of wikilink and move it outside link - parse this line second
-                articleText = LinkWhitespace2.Replace(articleText, " [[$1]]");
+                //remove undesirable space from beginning of wikilink: put space before if word character immediately before wikilink
+                articleText = LinkWhitespace1.Replace(articleText, m => {
+                        string before = m.Groups[1].Value;
+                        
+                        if(Regex.IsMatch(before, @"\w"))
+                            before += " ";
+                        
+                        return before + @"[[" + m.Groups[2].Value + "]]";
+                        });
             }
 
             //remove undesirable double space from middle of wikilink (up to 61 characters in wikilink)
