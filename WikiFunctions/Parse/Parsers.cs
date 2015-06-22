@@ -264,6 +264,12 @@ namespace WikiFunctions.Parse
             return DictionaryOfMatches(articleText, WikiRegexes.DeadLink);
         }
 
+        /// <summary>
+        /// Returns a dictionary of the match index and lenght of all matches of the input regex in the input text
+        /// </summary>
+        /// <returns>The of matches.</returns>
+        /// <param name="articleText">Article text.</param>
+        /// <param name="r">The red component.</param>
         private static Dictionary<int, int> DictionaryOfMatches(string articleText, Regex r)
         {
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments);
