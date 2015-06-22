@@ -1215,7 +1215,7 @@ namespace WikiFunctions.Controls.Lists
         }
         
         /// <summary>
-        /// Desselects any selected items in the list box. Uses send of keyboard shortcuts for performance
+        /// Desselects any selected items in the list box.
         /// </summary>
         private void SelectNone()
         {
@@ -1232,10 +1232,20 @@ namespace WikiFunctions.Controls.Lists
         private void SelectAll()
         {
         	lbArticles.BeginUpdate();
-        	
-        	SendKeys.SendWait("{HOME}");
-        	SendKeys.SendWait("+{END}");
-        	
+
+            // workaround for Wine issue: use of {HOME} then +{END} leads to 100% CPU and locked application
+            // so use slower SetSelected if on Linux
+            if(Globals.UsingLinux)
+            {
+                for(int i = 0; i < lbArticles.Items.Count; i++)
+                    lbArticles.SetSelected(i, true);
+            }
+            else
+            {
+                SendKeys.SendWait("{HOME}");
+                SendKeys.SendWait("+{END}");
+            }
+
         	lbArticles.EndUpdate();
         }
 

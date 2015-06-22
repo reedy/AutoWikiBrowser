@@ -59,6 +59,11 @@ namespace WikiFunctions
 
         private static readonly bool Windows = Environment.OSVersion.VersionString.Contains("Windows");
 
+        public static bool UsingLinux
+        { get { return Linux; } }
+
+        private static readonly bool Linux = System.IO.File.Exists("/usr/bin/uname");
+
         private static readonly bool Mono = Type.GetType("Mono.Runtime") != null;
         /// <summary>
         /// Returns whether we are using the Mono Runtime
