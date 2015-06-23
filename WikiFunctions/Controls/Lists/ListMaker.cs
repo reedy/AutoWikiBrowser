@@ -727,15 +727,15 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
+            if(FilterNonMainAuto)
+                l = l.FindAll(a => a.NameSpaceKey == Namespace.Article);
+
             lbArticles.BeginUpdate();
             lbArticles.Items.AddRange(l.ToArray());
             lbArticles.EndUpdate();
 
             if (FilterDuplicates)
                 RemoveListDuplicates();
-
-            if (FilterNonMainAuto)
-                FilterNonMainArticles();
 
             UpdateNumberOfArticles();
         }
