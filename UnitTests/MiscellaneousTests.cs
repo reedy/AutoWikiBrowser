@@ -2210,6 +2210,26 @@ File:Example.jpg|Caption2
             LMaker.Add(l);
             Assert.AreEqual(4, LMaker.NumberOfArticles);
         }
+
+        [Test]
+        public void GetArticleList()
+        {
+            ListMaker LMaker = new ListMaker();
+            LMaker.Add("A");
+            LMaker.Add("B");
+
+            Assert.AreEqual(2, LMaker.GetArticleList().Count);
+
+            LMaker.Items.SetSelected(0, true);
+            LMaker.Items.SetSelected(1, true);
+
+            Assert.AreEqual(2, LMaker.GetSelectedArticleList().Count);
+
+            LMaker.Items.SetSelected(1, false);
+
+            Assert.AreEqual(1, LMaker.GetSelectedArticleList().Count);
+            Assert.AreEqual(2, LMaker.GetArticleList().Count);
+        }
     }
     
     [TestFixture]
