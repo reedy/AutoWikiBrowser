@@ -1412,7 +1412,7 @@ namespace WikiFunctions.Parse
         /// <returns>Page text</returns>
         public static string InterwikiConversions(string articleText)
         {
-            List<string> possibleInterwiki = GetAllWikiLinks(articleText).Where(l => l.Contains(":")).ToList();
+            List<string> possibleInterwiki = GetAllWikiLinks(articleText).FindAll(l => l.Contains(":"));
 
             if(possibleInterwiki.Any(l => l.StartsWith(@"[[zh-tw:")))
                 articleText = articleText.Replace("[[zh-tw:", "[[zh:");
