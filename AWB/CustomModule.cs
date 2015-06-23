@@ -291,6 +291,9 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
 
         #endregion
 
+        private Point _oldPosition;
+        private Size _oldSize;
+
         private void showOnlyCodeBoxToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             var check = showOnlyCodeBoxToolStripMenuItem.Checked;
@@ -298,22 +301,18 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
             lblEnd.Visible = !check;
             if (check)
             {
+                // remember current
+                _oldPosition = txtCode.Location;
+                _oldSize = txtCode.Size;
                 txtCode.Dock = DockStyle.Fill;
             }
             else
             {
                 int width = txtCode.Width;
                 txtCode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
-                txtCode.Width = width; // Force width
-            }
-        }
-
-        private void CustomModule_Resize(object sender, EventArgs e)
-        {
-            // Hack: Seems the height becomes 0 for some reason.
-            if (txtCode.Height == 0)
-            {
-                txtCode.Height = 160;
+                // reinstate previous position, box doesn't resize itself properly
+                txtCode.Location = _oldPosition;
+                txtCode.Size = _oldSize;
             }
         }
     }
