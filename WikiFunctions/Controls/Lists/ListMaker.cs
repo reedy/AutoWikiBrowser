@@ -701,12 +701,12 @@ namespace WikiFunctions.Controls.Lists
             if (Variables.CapitalizeFirstLetter)
                 s = Tools.TurnFirstToUpper(s);
 
+            if(FilterNonMainAuto && !Namespace.IsMainSpace(s))
+                return;
+
             lbArticles.Items.Add(new Article(s));
 
             UpdateNumberOfArticles();
-
-            if (FilterNonMainAuto)
-                FilterNonMainArticles();
 
             if (FilterDuplicates)
                 RemoveListDuplicates();
