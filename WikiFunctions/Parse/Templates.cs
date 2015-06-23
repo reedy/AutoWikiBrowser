@@ -369,7 +369,7 @@ namespace WikiFunctions.Parse
             List<string> templatesToProcess = GetAllTemplates(articleText).Select(t => Tools.TurnFirstToLower(t)).ToList();
 
             // filter the parameters set down to only those templates used on the page
-            RenamedTemplateParameters = RenamedTemplateParameters.Where(t => templatesToProcess.Contains(t.TemplateName)).ToList();
+            RenamedTemplateParameters = RenamedTemplateParameters.FindAll(t => templatesToProcess.Contains(t.TemplateName));
 
             RenameTemplateParametersOldParams = Tools.DeduplicateList(RenamedTemplateParameters.Select(x => x.OldParameter).ToList());
 

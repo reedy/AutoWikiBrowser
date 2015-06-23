@@ -279,7 +279,7 @@ namespace WikiFunctions.Parse
                 // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>
                 List<Match> unr = (from Match m in GetUnnamedRefs(articleText) select m).ToList();
 
-                unr = unr.Where(m => NamedRefs.ContainsKey(m.Groups[1].Value.Trim())).ToList();
+                unr = unr.FindAll(m => NamedRefs.ContainsKey(m.Groups[1].Value.Trim()));
 
                 foreach(Match m in unr)
                 {
@@ -325,7 +325,7 @@ namespace WikiFunctions.Parse
             allRefs = allRefs.GroupBy(m => m.Groups[1].Value.Trim()).Where(g => g.Count() > 1).SelectMany(m => m).ToList();
 
             // do not apply to refs with ibid/loc cit etc.
-            allRefs = allRefs.Where(m => !WikiRegexes.IbidLocCitation.IsMatch(m.Value)).ToList();
+            allRefs = allRefs.FindAll(m => !WikiRegexes.IbidLocCitation.IsMatch(m.Value));
 
             // now process the duplicate refs, add ref name to first and condense the later ones
             Dictionary<string, string> refNameContent = new Dictionary<string, string>();

@@ -298,7 +298,7 @@ namespace WikiFunctions.Parse
             // fixes for external links: internal square brackets, newlines or pipes - Partially CHECKWIKI error 80
             // Performance: filter down to matches with likely external link (contains //) and has pipe, newline or internal square brackets
             List<Match> ssb = (from Match m in ssbMc select m).ToList();
-            List<Match> ssbExternalLink = ssb.Where(m => m.Value.Contains("//") && (m.Value.Contains("|") || m.Value.Contains("\r\n") || m.Value.Substring(3).Contains("[") || m.Value.Trim(']').Contains("]"))).ToList();
+            List<Match> ssbExternalLink = ssb.FindAll(m => m.Value.Contains("//") && (m.Value.Contains("|") || m.Value.Contains("\r\n") || m.Value.Substring(3).Contains("[") || m.Value.Trim(']').Contains("]")));
 
             foreach(Match m in ssbExternalLink)
             {
@@ -428,7 +428,7 @@ namespace WikiFunctions.Parse
         private static string FixSyntaxDefaultSort(string articleText)
         {
             // Performance: check DEFAULTSORT from cache, to avoid processing articleText if no changes to make
-            List<string> alltemplates = GetAllTemplateDetail(articleText).Where(t => WikiRegexes.Defaultsort.IsMatch(t)).ToList();
+            List<string> alltemplates = GetAllTemplateDetail(articleText).FindAll(t => WikiRegexes.Defaultsort.IsMatch(t));
 
             // must apply DefaultsortME if no existing DEFAULTSORT as it may be a template with unclosed braces
             if(!alltemplates.Any() || alltemplates.Any(s => !s.Equals(WikiRegexes.Defaultsort.Replace(s, DefaultsortME))))

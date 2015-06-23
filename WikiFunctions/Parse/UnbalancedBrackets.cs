@@ -411,13 +411,13 @@ namespace WikiFunctions.Parse
                 select m.Groups[1].Value.Trim().ToLower()).ToList();
 
             // discard self-closing tags in <tag/> format, discard wiki comments
-            AnyTagList = AnyTagList.Where(s => !s.EndsWith("/") && !s.StartsWith("!--")).ToList();
+            AnyTagList = AnyTagList.FindAll(s => !s.EndsWith("/") && !s.StartsWith("!--"));
 
             // remove any text after first space, so we're left with tag name only
             AnyTagList = AnyTagList.Select(s => s.Contains(" ") ? s.Substring(0, s.IndexOf(" ")).Trim() : s).ToList();
 
             // discard <br> and <p> tags as not a tag pair
-            AnyTagList = AnyTagList.Where(s => !s.Equals("br") && !s.Equals("p")).ToList();
+            AnyTagList = AnyTagList.FindAll(s => !s.Equals("br") && !s.Equals("p"));
 
             // Count the tag names in use, determine if unmatched tags by comparing count of opening and closing tags
             bool unmatched = false;

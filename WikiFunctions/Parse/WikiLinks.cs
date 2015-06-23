@@ -285,7 +285,7 @@ namespace WikiFunctions.Parse
         public static string SimplifyLinks(string articleText)
         {
             // Performance: first get a list of unique links to avoid processing duplicate links more than once
-            List<string> pipedLinks = GetAllWikiLinks(articleText).Where(link => link.Contains("|")).ToList();
+            List<string> pipedLinks = GetAllWikiLinks(articleText).FindAll(link => link.Contains("|"));
 
             // Performance: second determine if any links with pipe whitespace to clean
             string Category = Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:";
