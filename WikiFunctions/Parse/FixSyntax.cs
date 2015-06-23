@@ -502,7 +502,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Performs fixes to redirect pages:
         /// * removes newline between #REDIRECT and link (CHECKWIKI error 36)
-        /// * removes equal sing and double dot between #REDIRECT and link (CHECKWIKI error 36)
+        /// * removes equals sign and double dot between #REDIRECT and link (CHECKWIKI error 36)
         /// * Template to Magic word conversion; removes unnecessary brackets around redirect
         /// </summary>
         /// <param name="articleText"></param>
