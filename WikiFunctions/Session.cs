@@ -386,7 +386,7 @@ namespace WikiFunctions
             return username.IsMatch(text);
         }
 
-        private static void HasTypoLink(string text)
+        public static void HasTypoLink(string text)
         {
             Match typoLink = Regex.Match(text, "<!--[Tt]ypos:(.*?)-->");
             if (typoLink.Success && typoLink.Groups[1].Value.Trim().Length > 0)
