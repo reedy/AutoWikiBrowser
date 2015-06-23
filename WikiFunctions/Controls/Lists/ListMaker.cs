@@ -31,6 +31,7 @@ using WikiFunctions.DBScanner;
 using WikiFunctions.Lists;
 using WikiFunctions.Lists.Providers;
 using WikiFunctions.Plugin;
+using System.Linq;
 
 namespace WikiFunctions.Controls.Lists
 {
@@ -701,15 +702,10 @@ namespace WikiFunctions.Controls.Lists
             if (Variables.CapitalizeFirstLetter)
                 s = Tools.TurnFirstToUpper(s);
 
-            if(FilterNonMainAuto && !Namespace.IsMainSpace(s))
-                return;
+            List<Article> l = new  List<Article>();
+            l.Add(new Article(s));
 
-            lbArticles.Items.Add(new Article(s));
-
-            UpdateNumberOfArticles();
-
-            if (FilterDuplicates)
-                RemoveListDuplicates();
+            Add(l);
         }
 
         private delegate void AddDel(List<Article> l);
@@ -718,7 +714,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Add(List<Article> l)
         {
-            if (l == null || l.Count == 0)
+            if (l == null || !l.Any())
                 return;
 
             if (InvokeRequired)
@@ -730,14 +726,33 @@ namespace WikiFunctions.Controls.Lists
             if(FilterNonMainAuto)
                 l = l.FindAll(a => a.NameSpaceKey == Namespace.Article);
 
-            lbArticles.BeginUpdate();
-            lbArticles.Items.AddRange(l.ToArray());
-            lbArticles.EndUpdate();
+            // if deduplicating, only add items not already in the list, rather than adding all and deduplicating entire list again
+            if(FilterDuplicates && Globals.SystemCore3500Available)
+                l = DeDuplicate(l);
 
-            if (FilterDuplicates)
-                RemoveListDuplicates();
+            if(l.Any())
+            {            
+                lbArticles.BeginUpdate();
+                lbArticles.Items.AddRange(l.ToArray());
+                lbArticles.EndUpdate();
 
-            UpdateNumberOfArticles();
+                if(FilterDuplicates && !Globals.SystemCore3500Available)
+                    RemoveListDuplicates();
+
+                UpdateNumberOfArticles();
+            }
+        }
+
+        /// <summary>
+        /// Returns only those distinct articles in the input list that do not already exist in the list box
+        /// </summary>
+        /// <returns>The duplicate.</returns>
+        /// <param name="l">L.</param>
+        private List<Article> DeDuplicate(List<Article> l)
+        {
+            List<Article> articles = lbArticles.Items.Cast<Article>().ToList();
+
+            return l.Except(articles).ToList();
         }
 
         /// <summary>
