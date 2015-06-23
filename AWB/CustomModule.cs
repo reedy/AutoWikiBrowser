@@ -241,6 +241,8 @@ namespace AutoWikiBrowser
         {
             MessageBox.Show(@"A module allows you to process the article text using your own dotnet code.
 
+See https://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Custom_Modules
+
 Use the ""Make module"" button to compile and load the code.
 
 The method ""ProcessArticle"" is called when AWB is applying all its own processes. Do not change the signature of this method.
