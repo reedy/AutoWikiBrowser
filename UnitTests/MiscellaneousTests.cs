@@ -2180,6 +2180,36 @@ File:Example.jpg|Caption2
             LMaker.FilterNonMainArticles();
             Assert.AreEqual(4, LMaker.NumberOfArticles);
         }
+
+        [Test]
+        public void AddList()
+        {
+            ListMaker LMaker = new ListMaker();
+            List<Article> l = new List<Article>();
+
+            l.Add(new Article("A"));
+            l.Add(new Article("B"));
+
+            LMaker.Add("A");
+            LMaker.Add("B");
+
+            LMaker.FilterDuplicates = true;
+
+            LMaker.Add(l);
+            Assert.AreEqual(2, LMaker.NumberOfArticles);
+
+            l.Add(new Article("C"));
+            LMaker.Add(l);
+            Assert.AreEqual(3, LMaker.NumberOfArticles);
+
+            l.Add(new Article("C"));
+            l.Add(new Article("C"));
+            l.Add(new Article("C"));
+            l.Add(new Article("C"));
+            LMaker.Add("D");
+            LMaker.Add(l);
+            Assert.AreEqual(4, LMaker.NumberOfArticles);
+        }
     }
     
     [TestFixture]
