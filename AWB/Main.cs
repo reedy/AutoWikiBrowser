@@ -932,11 +932,14 @@ namespace AutoWikiBrowser
             /* skip pages containing any Unicode character in Private Use Area as RichTextBox seems to break these
              * not exactly wrong as PUA characters won't be found in standard text, but not exactly right to break them either
              * Reference: [[Unicode#Character General Category]] PUA is U+E000 to U+F8FF */
-            if (UnicodePUA.IsMatch(page.Text))
+            Match uPUA = UnicodePUA.Match(page.Text);
+            if (uPUA.Success)
             {
                 if (!_userWarnedAboutUnicodePUA && !preParseModeToolStripMenuItem.Checked && !BotMode)
                 {
-                    MessageBox.Show("This page has character(s) in the Unicode Private Use Area so unfortunately can't be edited with AWB. The page will now be skipped");
+                    // provide text around PUA character so user can find it
+                    string uPUAText = page.Text.Substring(uPUA.Index-Math.Min(25, uPUA.Index), Math.Min(25, uPUA.Index) + Math.Min(25, page.Text.Length-uPUA.Index));
+                        MessageBox.Show("This page has character(s) in the Unicode Private Use Area so unfortunately can't be edited with AWB. The page will now be skipped. Surrounding text of first PUA character is: " + uPUAText);
                     _userWarnedAboutUnicodePUA = true;
                 }
 
