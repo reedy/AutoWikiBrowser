@@ -957,7 +957,7 @@ namespace WikiFunctions
         #region URL Builders
 
         /// <summary>
-        /// returns URL to the given page, depends on project settings
+        /// returns full URL to the given page, depends on project settings
         /// </summary>
         public static string NonPrettifiedURL(string title)
         {
@@ -965,7 +965,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// returns full URL to the history page of the input title, depends on project settings
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
@@ -975,7 +975,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// returns full URL to the edit page of the input title, depends on project settings
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
@@ -985,7 +985,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// returns full URL to the user talk page of the input user, depends on project settings
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
@@ -995,7 +995,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Returns the full URL to the input wiki page using current site settings, specifying &action=raw
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
