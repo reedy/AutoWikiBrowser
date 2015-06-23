@@ -760,9 +760,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public List<Article> GetArticleList()
         {
-            List<Article> list = new List<Article>();
-            list.AddRange(lbArticles);
-            return list;
+            return lbArticles.Items.Cast<Article>().ToList();
         }
 
         /// <summary>
@@ -770,12 +768,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public List<Article> GetSelectedArticleList()
         {
-            List<Article> list = new List<Article>();
-            Article[] articles = new Article[lbArticles.SelectedItems.Count];
-
-            lbArticles.SelectedItems.CopyTo(articles, 0);
-            list.AddRange(articles);
-            return list;
+            return lbArticles.SelectedItems.Cast<Article>().ToList();
         }
 
         private delegate void StartProgBarDelegate();
