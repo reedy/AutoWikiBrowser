@@ -504,6 +504,7 @@ namespace WikiFunctions.Parse
         /// * removes newline between #REDIRECT and link (CHECKWIKI error 36)
         /// * removes equals sign and double dot between #REDIRECT and link (CHECKWIKI error 36)
         /// * Template to Magic word conversion; removes unnecessary brackets around redirect
+        /// * Simple closing bracket fixing to {{R...}} templates
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
@@ -515,6 +516,17 @@ namespace WikiFunctions.Parse
                         RedirectBracketsWithPrefix.Replace(m.Value.Replace("\r\n", " "), " [["), "[["), "]]"));
 
             articleText = Tools.TemplateToMagicWord(articleText);
+
+            // apply some simple bracket fixing to redirect templates
+            if(articleText.Contains("{{") && !articleText.Contains("}}"))
+            {
+                // fix incorect closing bracket
+                articleText = Regex.Replace(articleText.TrimEnd(), @"(\]\]|\]?}|}\])$", "}}");
+
+                // append missing closing }}
+                if(!articleText.Contains("}}"))
+                    articleText += "}}";
+            }
 
             return RemoveTemplateNamespace(articleText);
         }
