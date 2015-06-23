@@ -1000,25 +1000,25 @@ namespace WikiFunctions.Controls.Lists
             List<Article> articles = new List<Article>(lbArticles);
             List<Article> toberemoved = articles.FindAll(a => a.NameSpaceKey != Namespace.Article);
 
-            if(toberemoved.Count == 0)
-                return;
-
-            // performance: AddRange performs at about 100 articles per millisecond, Remove takes about 1 millisecond per article
-            // so if removing < 1% of articles it's faster to Remove each one, otherwise faster to clear and AddRange the remainder back
-            lbArticles.BeginUpdate();
-            if(toberemoved.Count < (int)articles.Count/100)
+            if(toberemoved.Any())
             {
-                foreach(Article a in toberemoved)
-                    lbArticles.Items.Remove(a);
+                // performance: AddRange performs at about 100 articles per millisecond, Remove takes about 1 millisecond per article
+                // so if removing < 1% of articles it's faster to Remove each one, otherwise faster to clear and AddRange the remainder back
+                lbArticles.BeginUpdate();
+                if(toberemoved.Count < (int)articles.Count/100)
+                {
+                    foreach(Article a in toberemoved)
+                        lbArticles.Items.Remove(a);
+                }
+                else
+                {
+                    articles.RemoveAll(a => a.NameSpaceKey != Namespace.Article);
+                    lbArticles.Items.Clear();
+                    lbArticles.Items.AddRange(articles.ToArray());
+                }
+                lbArticles.EndUpdate();
+                UpdateNumberOfArticles(false);
             }
-            else
-            {
-                articles.RemoveAll(a => a.NameSpaceKey != Namespace.Article);
-                lbArticles.Items.Clear();
-                lbArticles.Items.AddRange(articles.ToArray());
-            }
-            lbArticles.EndUpdate();
-            UpdateNumberOfArticles(false);
         }
 
         /// <summary>
