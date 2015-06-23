@@ -119,7 +119,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// URL of RegexTypoFix rules page
+        /// Page of RegexTypoFix rules page e.g. Project:AutoWikiBrowser/Typos
         /// </summary>
         public static string RetfPath;
 
