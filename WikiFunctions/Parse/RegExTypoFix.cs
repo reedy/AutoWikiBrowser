@@ -49,7 +49,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex TypoRegex = new Regex("<(?:Typo)?\\s+(?:word=\"(.*?)\"\\s+)?find=\"(.*?)\"\\s+replace=\"(.*?)\"\\s*/?>", RegexOptions.Compiled);
 
         /// <summary>
-        /// Returns the URL to the typo rules page e.g. https://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos
+        /// Returns the full URL to the typo rules page e.g. https://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos
         /// </summary>
         public static string Url
         {
@@ -57,7 +57,8 @@ namespace WikiFunctions.Parse
             {
                 string typolistUrl = Variables.RetfPath;
 
-                if (!typolistUrl.StartsWith("http:"))
+                // convert RetfPath to full URL if currently a local page name only e.g. Wikipedia:AutoWikiBrowser/Typos
+                if (!typolistUrl.StartsWith("http"))
                     typolistUrl = Variables.GetPlainTextURL(typolistUrl);
 
                 return typolistUrl;
