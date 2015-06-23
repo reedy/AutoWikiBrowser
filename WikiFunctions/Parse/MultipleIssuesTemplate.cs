@@ -242,7 +242,9 @@ namespace WikiFunctions.Parse
                 else if (Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && articleText.Contains(CategoryLivingPeople))
                     articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unref", "BLP unsourced"));
 
-                articleText = MetaDataSorter.MoveMaintenanceTags(articleText);
+                string zerothSection = Tools.GetZerothSection(articleText);
+                string restOfArticle = articleText.Substring(zerothSection.Length);
+                articleText = MetaDataSorter.MoveMaintenanceTags(zerothSection) + restOfArticle;
             }
 
             return articleText;
