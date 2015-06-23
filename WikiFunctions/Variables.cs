@@ -119,7 +119,8 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Page of RegexTypoFix rules page e.g. Project:AutoWikiBrowser/Typos
+        /// Page of RegexTypoFix rules page e.g. Project:AutoWikiBrowser/Typos.
+        /// Can be full URL if specified as such on &lt;!--Typos--&gt; check page comment
         /// </summary>
         public static string RetfPath;
 
@@ -129,10 +130,9 @@ namespace WikiFunctions
         public static IAutoWikiBrowser MainForm { get; set; }
 
         /// <summary>
-        /// 
+        /// Performance profiler
         /// </summary>
         public static Profiler Profiler = new Profiler();
-
 
         #region project and language settings
 
@@ -205,7 +205,7 @@ namespace WikiFunctions
         public static bool NotificationsEnabled { get; set; }
 
         /// <summary>
-        /// 
+        /// Whether the wiki capitalizes first letter of page names (usually yes, e.g. English Wikipedia) or not (e.g. Wiktionary)
         /// </summary>
         public static bool CapitalizeFirstLetter { get; set; }
 
