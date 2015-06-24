@@ -44,7 +44,7 @@
             this.chkNoHeaderError = new System.Windows.Forms.CheckBox();
             this.chkNoUnicode = new System.Windows.Forms.CheckBox();
             this.chkNoTag = new System.Windows.Forms.CheckBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip1 = new WikiFunctions.Controls.AWBToolTip(this.components);
             this.CheckBoxPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -271,6 +271,6 @@
         private System.Windows.Forms.CheckBox chkNoHeaderError;
         private System.Windows.Forms.CheckBox chkNoUnicode;
         private System.Windows.Forms.CheckBox chkNoTag;
-        private System.Windows.Forms.ToolTip toolTip1;
+        private WikiFunctions.Controls.AWBToolTip toolTip1;
     }
 }

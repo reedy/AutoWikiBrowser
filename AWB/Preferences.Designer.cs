@@ -88,7 +88,7 @@ namespace AutoWikiBrowser
             this.tabPrivacy = new System.Windows.Forms.TabPage();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.alertListBox = new System.Windows.Forms.CheckedListBox();
-            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.ToolTip = new WikiFunctions.Controls.AWBToolTip(this.components);
             this.lblSaveAsDefaultFile = new System.Windows.Forms.Label();
             this.AutoSaveEditBoxGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEditBoxAutosave)).BeginInit();
@@ -800,7 +800,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkIgnoreNoBots;
         private System.Windows.Forms.CheckBox chkShowTimer;
         private System.Windows.Forms.Label lblSaveAsDefaultFile;
-        private System.Windows.Forms.ToolTip ToolTip;
+        private WikiFunctions.Controls.AWBToolTip ToolTip;
         private System.Windows.Forms.TabPage tabTools;
         private System.Windows.Forms.ComboBox cmboListComparer;
         private System.Windows.Forms.Label label1;

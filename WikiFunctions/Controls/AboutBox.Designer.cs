@@ -34,7 +34,7 @@
             this.okButton = new System.Windows.Forms.Button();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.lblVersion = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip1 = new WikiFunctions.Controls.AWBToolTip(this.components);
             this.SuspendLayout();
             // 
             // lblMadeBy
@@ -124,7 +124,7 @@
         protected System.Windows.Forms.Button okButton;
         protected System.Windows.Forms.TextBox textBoxDescription;
         protected System.Windows.Forms.Label lblVersion;
-        protected System.Windows.Forms.ToolTip toolTip1;
+        protected WikiFunctions.Controls.AWBToolTip toolTip1;
 
 
     }

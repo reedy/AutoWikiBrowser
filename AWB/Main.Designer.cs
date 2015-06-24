@@ -200,7 +200,7 @@ namespace AutoWikiBrowser
             this.lblEditsPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPagesPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.ToolTip = new WikiFunctions.Controls.AWBToolTip(this.components);
             this.btnIgnore = new System.Windows.Forms.Button();
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -4376,7 +4376,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblStatusText;
-        private System.Windows.Forms.ToolTip ToolTip;
+        private WikiFunctions.Controls.AWBToolTip ToolTip;
         private System.Windows.Forms.ContextMenuStrip mnuTextBox;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;

@@ -43,7 +43,7 @@
             this.SingleLineCheckBox = new System.Windows.Forms.CheckBox();
             this.MultiLineCheckBox = new System.Windows.Forms.CheckBox();
             this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip1 = new WikiFunctions.Controls.AWBToolTip(this.components);
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GroupNumber)).BeginInit();
             this.SuspendLayout();
@@ -224,6 +224,6 @@
         private System.Windows.Forms.CheckBox SingleLineCheckBox;
         private System.Windows.Forms.CheckBox MultiLineCheckBox;
         private System.Windows.Forms.CheckBox CaseSensitiveCheckBox;
-        private System.Windows.Forms.ToolTip toolTip1;
+        private WikiFunctions.Controls.AWBToolTip toolTip1;
     }
 }

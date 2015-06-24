@@ -68,7 +68,7 @@
             this.saveListToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortAlphaMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortReverseAlphaMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.tooltip = new WikiFunctions.Controls.AWBToolTip(this.components);
             this.btnStop = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
@@ -523,7 +523,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
-        private System.Windows.Forms.ToolTip tooltip;
+        private WikiFunctions.Controls.AWBToolTip tooltip;
         public System.Windows.Forms.ContextMenuStrip mnuListBox;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
         private System.Windows.Forms.Button btnFilter;

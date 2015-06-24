@@ -59,7 +59,7 @@ namespace WikiFunctions.DBScanner
             this.chkHeading = new System.Windows.Forms.CheckBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
-            this.tooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.tooltip = new WikiFunctions.Controls.AWBToolTip(this.components);
             this.btnTransfer = new System.Windows.Forms.Button();
             this.btnClearList = new System.Windows.Forms.Button();
             this.chkNoBold = new System.Windows.Forms.CheckBox();

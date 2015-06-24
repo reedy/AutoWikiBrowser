@@ -43,7 +43,7 @@
             this.Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip1 = new WikiFunctions.Controls.AWBToolTip(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.chkSingleline = new System.Windows.Forms.CheckBox();
             this.chkExplicitCapture = new System.Windows.Forms.CheckBox();
@@ -357,7 +357,7 @@
         private System.Windows.Forms.Button FindBtn;
         private System.Windows.Forms.ToolStripStatusLabel Status;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolTip toolTip1;
+        private WikiFunctions.Controls.AWBToolTip toolTip1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox gbRegexOptions;
         private System.Windows.Forms.CheckBox chkSingleline;

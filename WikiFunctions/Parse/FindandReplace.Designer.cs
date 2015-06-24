@@ -91,7 +91,7 @@ namespace WikiFunctions.Parse
         	this.btnDone = new System.Windows.Forms.Button();
         	this.lnkWpRE = new System.Windows.Forms.LinkLabel();
         	this.btnClear = new System.Windows.Forms.Button();
-        	this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+        	this.toolTip1 = new WikiFunctions.Controls.AWBToolTip(this.components);
         	this.chkIgnoreLinks = new System.Windows.Forms.CheckBox();
         	this.chkAddToSummary = new System.Windows.Forms.CheckBox();
         	this.chkIgnoreMore = new System.Windows.Forms.CheckBox();
@@ -631,7 +631,7 @@ namespace WikiFunctions.Parse
         private System.Windows.Forms.Button btnDone;
         private System.Windows.Forms.LinkLabel lnkWpRE;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.ToolTip toolTip1;
+        private WikiFunctions.Controls.AWBToolTip toolTip1;
         private System.Windows.Forms.CheckBox chkIgnoreLinks;
         public System.Windows.Forms.CheckBox chkAddToSummary;
         private System.Windows.Forms.ContextMenuStrip FindAndReplaceContextMenu;

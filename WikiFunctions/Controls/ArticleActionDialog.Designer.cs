@@ -40,7 +40,7 @@
             this.chkAutoProtect = new System.Windows.Forms.CheckBox();
             this.chkCascadingProtection = new System.Windows.Forms.CheckBox();
             this.chkNoRedirect = new System.Windows.Forms.CheckBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip = new WikiFunctions.Controls.AWBToolTip(this.components);
             this.chkWatch = new System.Windows.Forms.CheckBox();
             this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
             this.chkDealWithAssoc = new System.Windows.Forms.CheckBox();
@@ -234,7 +234,7 @@
         private System.Windows.Forms.CheckBox chkCascadingProtection;
         private EditProtectControl MoveDelete;
         private System.Windows.Forms.CheckBox chkNoRedirect;
-        private System.Windows.Forms.ToolTip toolTip;
+        private WikiFunctions.Controls.AWBToolTip toolTip;
         private System.Windows.Forms.CheckBox chkWatch;
         private System.Windows.Forms.CheckBox chkDealWithAssoc;
     }
