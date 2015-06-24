@@ -573,6 +573,12 @@ company's founder<ref name=""Warnock 1980"">{{cite book|last=Warnock|first=C |ti
 ==References==
 {{reflist}}");
         }
+
+        [Test]
+        public void IsbnInUrl()
+        {
+            AssertNotChanged(@"*{{cite thesis |last=A |first=S |title=Categorizing |url=http://urn.fi/URN:ISBN:978-999-61-9999-2 |year=2010 }}");
+        }
     }
 
     [TestFixture]
