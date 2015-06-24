@@ -552,7 +552,10 @@ namespace UnitTests
 {{temp}}"), "no excess newlines on tag change");
 
             text = parser.Tagger(@"{{shipindex}}" + LongText, "Test", false, out noChange, ref summary);
-            Assert.IsFalse(text.Contains(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "SIA pages not tagged as underlinked");       
+            Assert.IsFalse(text.Contains(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "SIA pages not tagged as underlinked");
+
+            text = parser.Tagger(@"{{disambiguation}} [[a]]" + LongText, "Test", false, out noChange, ref summary);
+            Assert.IsFalse(text.Contains(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "disambig pages with 1 link not tagged as underlinked");       
         }
 
         [Test]
