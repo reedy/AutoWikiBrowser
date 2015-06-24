@@ -596,7 +596,9 @@ namespace AutoWikiBrowser
                         break;
 
                     case "badtoken":
-                        HandleLogoff();
+                        // likely session timeout forced by mediawiki, so just reprocess page
+                        Tools.WriteDebug("ApiExceptionCaught/badtoken", ex.Message);
+                        StartDelayedRestartTimer();
                         break;
 
                     case "blocked":
