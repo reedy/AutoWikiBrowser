@@ -446,6 +446,7 @@ namespace WikiFunctions.Parse
                      && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify")
                      && !WikiRegexes.DeadEnd.IsMatch(articleText)
                      && !WikiRegexes.SIAs.IsMatch(articleText)
+                     && !WikiRegexes.Disambigs.IsMatch(articleText)
                      && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(articleText)
                      && !WikiRegexes.MeaningsOfMinorPlanetNames.IsMatch(articleTitle))
             {
