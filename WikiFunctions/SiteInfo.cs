@@ -120,12 +120,41 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Loads siteinfo XML from Global cache on disk if available
+        /// </summary>
+        /// <returns><c>true</c>, if loaded from cache successfully, <c>false</c> otherwise.</returns>
+        private bool LoadFromCache()
+        {
+            siteinfoOutput = (string) ObjectCache.Global.Get<string>("SiteInfo");
+
+            return !string.IsNullOrEmpty(siteinfoOutput);
+        }
+
+        /// <summary>
+        /// Loads siteinfo XML from network via API call
+        /// </summary>
+        /// <returns><c>true</c>, if loaded from network successfully, <c>false</c> otherwise.</returns>
+        private bool LoadFromNetwork()
+        {
+            siteinfoOutput = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics|magicwords&format=xml");
+
+            if(string.IsNullOrEmpty(siteinfoOutput))
+                return false;
+
+            // cache successful result
+            ObjectCache.Global.Set("SiteInfo", siteinfoOutput);
+          
+            return true;
+        }
+
+        /// <summary>
+        /// Loads SiteInfo from local cache or API call, processes data returned
         /// </summary>
         /// <returns></returns>
         public bool LoadSiteInfo()
         {
-            siteinfoOutput = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics|magicwords&format=xml");
+            if(!LoadFromCache())
+                LoadFromNetwork();
 
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(siteinfoOutput);
