@@ -95,6 +95,7 @@ namespace WikiFunctions.Logging
 
         /// <summary>
         /// Returns the ListView object from which the menu item was clicked
+        /// Note: does not work when event triggered by keyboard shortcut as toolstrip not opened by keyboard shortcuts
         /// </summary>
         /// 
         private static ListView MenuItemOwner(object sender)
@@ -108,6 +109,17 @@ namespace WikiFunctions.Logging
             if (sender is ToolStripMenuItem)
                 return (ListView)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
             throw new ArgumentException("Object of unknown type passed to LogControl.MenuItemOwner()", "sender");
+        }
+
+        /// <summary>
+        /// Returns the currently selected list view (saved or ignored)
+        /// Works from context menu clicks or keyboard shortcuts
+        /// </summary>
+        /// <returns>The selected list view.</returns>
+        private ListView CurrentlySelectedListView()
+        {
+            return (ListView)this.ActiveControl;
+            //return (lvIgnored.SelectedItems.Count > 0 ? lvIgnored : lvSaved);
         }
 
         private LogFileType GetFilePrefs()
@@ -237,19 +249,19 @@ namespace WikiFunctions.Logging
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.Copy(MenuItemOwner(sender));
-            RemoveSelected(sender);
+            Tools.Copy(CurrentlySelectedListView());
+            RemoveSelected(CurrentlySelectedListView());
             RefreshButtonEnablement();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.Copy(MenuItemOwner(sender));
+            Tools.Copy(CurrentlySelectedListView());
         }
 
-        private static void RemoveSelected(object sender)
+        private static void RemoveSelected(ListView lv)
         {
-            foreach (ListViewItem a in MenuItemOwner(sender).SelectedItems)
+            foreach (ListViewItem a in lv.SelectedItems)
             {
                 a.Remove();
             }
@@ -257,7 +269,7 @@ namespace WikiFunctions.Logging
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in MenuItemOwner(sender).Items)
+            foreach (ListViewItem item in CurrentlySelectedListView().Items)
             {
                 item.Selected = true;
             }
@@ -265,12 +277,12 @@ namespace WikiFunctions.Logging
 
         private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MenuItemOwner(sender).SelectedItems.Clear();
+            CurrentlySelectedListView().SelectedItems.Clear();
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (AWBLogListener item in MenuItemOwner(sender).SelectedItems)
+            foreach (AWBLogListener item in CurrentlySelectedListView().SelectedItems)
             {
                 item.OpenInBrowser();
             }
@@ -278,7 +290,7 @@ namespace WikiFunctions.Logging
 
         private void openHistoryInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (AWBLogListener item in MenuItemOwner(sender).SelectedItems)
+            foreach (AWBLogListener item in CurrentlySelectedListView().SelectedItems)
             {
                 item.OpenHistoryInBrowser();
             }
@@ -286,7 +298,7 @@ namespace WikiFunctions.Logging
 
         private void openDiffInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (AWBLogListener item in MenuItemOwner(sender).SelectedItems)
+            foreach (AWBLogListener item in CurrentlySelectedListView().SelectedItems)
             {
                 item.OpenDiffInBrowser();
             }
@@ -294,7 +306,7 @@ namespace WikiFunctions.Logging
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RemoveSelected(sender);
+            RemoveSelected(CurrentlySelectedListView());
             RefreshButtonEnablement();
         }
 

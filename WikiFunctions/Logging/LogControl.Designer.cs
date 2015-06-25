@@ -195,6 +195,7 @@
             this.cutToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.cutToolStripMenuItem.Text = "Cut";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             // 
             // copyToolStripMenuItem
             // 
@@ -202,6 +203,7 @@
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.copyToolStripMenuItem.Text = "Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             // 
             // toolStripSeparator5
             // 
@@ -214,6 +216,7 @@
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            this.removeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             // 
             // toolStripSeparator3
             // 
@@ -226,6 +229,7 @@
             this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.selectAllToolStripMenuItem.Text = "Select all";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             // 
             // selectNoneToolStripMenuItem
             // 
@@ -245,6 +249,8 @@
             this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.openInBrowserToolStripMenuItem.Text = "Open in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            this.openInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                | System.Windows.Forms.Keys.P)));
             // 
             // openHistoryInBrowserToolStripMenuItem
             // 
@@ -252,6 +258,8 @@
             this.openHistoryInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.openHistoryInBrowserToolStripMenuItem.Text = "Open history in browser";
             this.openHistoryInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openHistoryInBrowserToolStripMenuItem_Click);
+            this.openHistoryInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                | System.Windows.Forms.Keys.H)));
             // 
             // openDiffInBrowserToolStripMenuItem
             // 
@@ -259,6 +267,8 @@
             this.openDiffInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.openDiffInBrowserToolStripMenuItem.Text = "Open diff in browser";
             this.openDiffInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openDiffInBrowserToolStripMenuItem_Click);
+            this.openDiffInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                | System.Windows.Forms.Keys.D)));
             // 
             // toolStripSeparator1
             // 
