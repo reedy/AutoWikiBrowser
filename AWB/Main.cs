@@ -1478,8 +1478,11 @@ namespace AutoWikiBrowser
             SameArticleNudges = 0;
             if (EditBoxTab.SelectedTab == tpHistory)
                 EditBoxTab.SelectedTab = tpEdit;
-            if (loggingEnabled)
+            if(loggingEnabled)
+            {
+                TheArticle.LogListener.NewId = saveInfo.NewId;
                 logControl.AddLog(false, TheArticle.LogListener);
+            }
             UpdateOverallTypoStats();
 
             if (listMaker.Count == 0 && _autoSaveEditBoxEnabled)
