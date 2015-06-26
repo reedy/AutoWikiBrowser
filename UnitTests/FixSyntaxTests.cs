@@ -847,9 +847,9 @@ Now [[A],] was."));
             // don't touch when it could be a table
             Assert.AreEqual(@"great (in 2001 | blah |} now", Parsers.FixSyntax(@"great (in 2001 | blah |} now"));
 
-            // doesn't complete curly brackets where they don't balance after
+            // Fixes } to |
             const string cite1 = @"Great.<ref>{{cite web | url=http://www.site.com | title=abc } year=2009}}</ref>";
-            Assert.AreEqual(cite1, Parsers.FixSyntax(cite1));
+            Assert.AreEqual(@"Great.<ref>{{cite web | url=http://www.site.com | title=abc | year=2009}}</ref>", Parsers.FixSyntax(cite1));
 
             // set double round bracket to single
             Assert.AreEqual(@"then (but often) for", Parsers.FixSyntax(@"then ((but often) for"));

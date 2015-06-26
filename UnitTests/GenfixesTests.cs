@@ -241,6 +241,20 @@ a");
         }
 
         [Test]
+        public void UnbalancedBracketCite()
+        {
+            AssertChange(@"<ref>{{cite web}lastl=Levine|firstl=Syndey|title=Cannes15|url=http://blogs.i.com/s|website=I.com|accessdate=May 17, 2015}}</ref>
+{{reflist}}",
+                        @"<ref>{{cite web|lastl=Levine|firstl=Syndey|title=Cannes15|url=http://blogs.i.com/s|website=I.com|accessdate=May 17, 2015}}</ref>
+{{reflist}}"); // fixes } that should be |
+
+            AssertChange(@"<ref>{{cite web{lastl=Levine|firstl=Syndey|title=Cannes15|url=http://blogs.i.com/s|website=I.com|accessdate=May 17, 2015}}</ref>
+{{reflist}}",
+                        @"<ref>{{cite web|lastl=Levine|firstl=Syndey|title=Cannes15|url=http://blogs.i.com/s|website=I.com|accessdate=May 17, 2015}}</ref>
+{{reflist}}"); // fixes { that should be |
+        }
+
+        [Test]
         public void UnbalancedBracketsTemplateRedirects()
         {
             WikiRegexes.TemplateRedirects.Clear();
