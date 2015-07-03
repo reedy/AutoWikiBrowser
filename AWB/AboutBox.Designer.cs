@@ -64,12 +64,12 @@ namespace AutoWikiBrowser
             this.BluemooseLink = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.LigulemLink = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.linkPhabricator = new System.Windows.Forms.LinkLabel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.kingboykLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.lblContribs = new System.Windows.Forms.Label();
             this.txtVersions = new System.Windows.Forms.TextBox();
-            this.linkPhabricator = new System.Windows.Forms.LinkLabel();
             this.flwDevs.SuspendLayout();
             this.flwOriginalDevs.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -152,7 +152,7 @@ namespace AutoWikiBrowser
             // UsageStatsLabel
             // 
             this.UsageStatsLabel.AutoSize = true;
-            this.UsageStatsLabel.Location = new System.Drawing.Point(108, 0);
+            this.UsageStatsLabel.Location = new System.Drawing.Point(3, 13);
             this.UsageStatsLabel.Name = "UsageStatsLabel";
             this.UsageStatsLabel.Size = new System.Drawing.Size(81, 13);
             this.UsageStatsLabel.TabIndex = 2;
@@ -265,6 +265,17 @@ namespace AutoWikiBrowser
             this.flowLayoutPanel3.Size = new System.Drawing.Size(200, 44);
             this.flowLayoutPanel3.TabIndex = 8;
             // 
+            // linkPhabricator
+            // 
+            this.linkPhabricator.AutoSize = true;
+            this.linkPhabricator.Location = new System.Drawing.Point(3, 0);
+            this.linkPhabricator.Name = "linkPhabricator";
+            this.linkPhabricator.Size = new System.Drawing.Size(157, 13);
+            this.linkPhabricator.TabIndex = 14;
+            this.linkPhabricator.TabStop = true;
+            this.linkPhabricator.Text = "Phabricator (bugs and requests)";
+            this.linkPhabricator.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkPhabricator_LinkClicked);
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
@@ -316,17 +327,6 @@ namespace AutoWikiBrowser
             this.txtVersions.TabIndex = 13;
             this.txtVersions.TabStop = false;
             this.txtVersions.Text = "Internet Explorer version:\r\n.NET version:\r\nWindows version:";
-            // 
-            // linkPhabricator
-            // 
-            this.linkPhabricator.AutoSize = true;
-            this.linkPhabricator.Location = new System.Drawing.Point(3, 0);
-            this.linkPhabricator.Name = "linkPhabricator";
-            this.linkPhabricator.Size = new System.Drawing.Size(61, 13);
-            this.linkPhabricator.TabIndex = 14;
-            this.linkPhabricator.TabStop = true;
-            this.linkPhabricator.Text = "Phabricator";
-            this.linkPhabricator.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkPhabricator_LinkClicked);
             // 
             // AboutBox
             // 
