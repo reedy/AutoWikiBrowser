@@ -78,7 +78,8 @@ namespace WikiFunctions.Lists.Providers
 
             while (list.Count + haveSoFar < Limit)
             {
-                string text = editor.QueryApi(newUrl + postfix); //Hacky hack hack
+                // API continuation needs updating https://phabricator.wikimedia.org/T104684
+                string text = editor.QueryApi(newUrl + "&rawcontinue=" + postfix); //Hacky hack hack
 
                 XmlTextReader xml = new XmlTextReader(new StringReader(text));
                 xml.MoveToContent();
@@ -205,7 +206,7 @@ namespace WikiFunctions.Lists.Providers
         {
             string title = HttpUtility.UrlEncode(category);
 
-            string url = "?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmlimit=max";
+            string url = "&list=categorymembers&cmtitle=Category:" + title + "&cmlimit=max";
 
             return ApiMakeList(url, 0);
         }
