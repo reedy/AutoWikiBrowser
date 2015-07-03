@@ -358,7 +358,9 @@
     <Compile Include="Parse\FixSyntax.cs" />
     <Compile Include="Parse\SortMetaData.cs" />
     <Compile Include="Parse\UnbalancedBrackets.cs" />
-    <Compile Include="Controls\AWBToolTip.cs" />
+    <Compile Include="Controls\AWBToolTip.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\ArticleTextBox.resx">
