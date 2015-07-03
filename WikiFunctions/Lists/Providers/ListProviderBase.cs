@@ -205,8 +205,7 @@ namespace WikiFunctions.Lists.Providers
         {
             string title = HttpUtility.UrlEncode(category);
 
-            string url = "?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmcategory=" + title 
-                         + "&cmlimit=max";
+            string url = "?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmlimit=max";
 
             return ApiMakeList(url, 0);
         }
