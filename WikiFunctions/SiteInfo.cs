@@ -135,10 +135,9 @@ namespace WikiFunctions
         /// <returns><c>true</c>, if loaded from cache successfully, <c>false</c> otherwise.</returns>
         private bool LoadFromCache()
         {
-            return false;
-            //siteinfoOutput = (string) ObjectCache.Global.Get<string>("SiteInfo");
+            siteinfoOutput = (string) ObjectCache.Global.Get<string>("SiteInfo:" + scriptPath);
 
-            //return !string.IsNullOrEmpty(siteinfoOutput);
+            return !string.IsNullOrEmpty(siteinfoOutput);
         }
 
         /// <summary>
@@ -153,7 +152,7 @@ namespace WikiFunctions
                 return false;
 
             // cache successful result
-            //ObjectCache.Global.Set("SiteInfo", siteinfoOutput);
+            ObjectCache.Global.Set("SiteInfo:" + scriptPath, siteinfoOutput);
           
             return true;
         }
