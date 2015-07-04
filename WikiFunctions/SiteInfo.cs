@@ -35,6 +35,7 @@ namespace WikiFunctions
     {
         private readonly IApiEdit Editor;
 
+        // path in format https://en.wikipedia.org/w/
         private string scriptPath;
         private readonly Dictionary<int, string> namespaces = new Dictionary<int, string>();
         private Dictionary<int, List<string>> namespaceAliases = new Dictionary<int, List<string>>();
@@ -109,11 +110,20 @@ namespace WikiFunctions
             return si;
         }
 
+        /// <summary>
+        /// Gets the API path in format https://en.wikipedia.org/w/api.php or https://en.wikipedia.org/w/api.php5
+        /// </summary>
+        /// <value>The API path.</value>
         private string ApiPath
         {
             get { return scriptPath + "api.php" + ((Editor.PHP5) ? "5" : ""); }
         }
 
+        /// <summary>
+        /// Ensures URL ends with /
+        /// </summary>
+        /// <returns>The updated URL</returns>
+        /// <param name="url">URL.</param>
         public static string NormalizeURL(string url)
         {
             return (!url.EndsWith("/")) ? url + "/" : url;
