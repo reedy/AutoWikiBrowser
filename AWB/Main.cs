@@ -3568,8 +3568,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            // ask user conformation if manual changes in edit box
-            if(TheArticle.ArticleText.Equals(txtEdit.Text) || 
+            // ask user confirmation if manual changes in edit box
+            if(TheArticle == null || TheArticle.ArticleText.Equals(txtEdit.Text) || 
             MessageBox.Show("There are manual changes to the page text in the edit box, are you sure you want to stop?", "Confirm stop", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 Stop();
         }
