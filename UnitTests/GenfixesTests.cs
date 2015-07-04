@@ -252,6 +252,15 @@ a");
 {{reflist}}",
                         @"<ref>{{cite web|lastl=Levine|firstl=Syndey|title=Cannes15|url=http://blogs.i.com/s|website=I.com|accessdate=May 17, 2015}}</ref>
 {{reflist}}"); // fixes { that should be |
+
+            AssertChange(@"Foo<ref>a</ref>
+
+==References==
+((Reflist}}", @"Foo<ref>a</ref>
+
+==References==
+{{Reflist}}"); // ((template}} --> {{template}}
+
         }
 
         [Test]
