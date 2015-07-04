@@ -183,6 +183,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex TemplateIncorrectClosingBraces = new Regex(@"(?<={{[^{}<>]{1,400}[^{}<>\|\]])(?:\]}|}\]?|\)\))(?=[^{}]|$)", RegexOptions.Compiled);
         private static readonly Regex TemplateMissingOpeningBrace = new Regex(@"(?<=[^{}<>\|]){(?=[^{}<>]{1,400}}})", RegexOptions.Compiled);
         private static readonly Regex PersondataPODToDEFAULTSORT = new Regex(@"(\|\s*PLACE OF DEATH\s*=\s*[^{}]+?)(\s*{{DEFAULTSORT)", RegexOptions.IgnoreCase);
+        private static readonly Regex TemplateOpening = new Regex(@"\(\((\s*\w+\s*}})");
 
         private static readonly Regex QuadrupleCurlyBrackets = new Regex(@"(?<=^{{[^{}\r\n]+}})}}(\s)$", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex WikiLinkOpeningClosing = new Regex(@"\[(?:\]| +\[)([^\[\]\r\n]+\]\])", RegexOptions.Compiled);
@@ -332,6 +333,9 @@ namespace WikiFunctions.Parse
                         articleTextTemp = PersondataPODToDEFAULTSORT.Replace(articleTextTemp, @"$1}}$2");
 
                     articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, "$1)");
+
+                    // ((Reflist}} --> {{Reflist}} etc.
+                    articleTextTemp = TemplateOpening.Replace(articleTextTemp, @"{{$1");
 
                     // could be {{cite web{last=foo...}} so try replacing single { or } with |
                     articleTextTemp = CiteTemplateIncorrectBar.Replace(articleTextTemp, @"$1|$2");
