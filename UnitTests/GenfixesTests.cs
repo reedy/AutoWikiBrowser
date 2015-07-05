@@ -261,6 +261,13 @@ a");
 ==References==
 {{Reflist}}"); // ((template}} --> {{template}}
 
+AssertNotChanged(@"'''Peroni''' is<ref>{{cite web|url=http://www.assobirra.it|form.
+
+==Nastro Azzurro==
+W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
+
+==References==
+{{reflist}}");
         }
 
         [Test]
