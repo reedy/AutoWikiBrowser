@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -136,6 +136,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexOpeningBracket = new Regex(@"([^[]|^)\[([^[])", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexFileWithHTTP = new Regex("\\[\\["+Variables.NamespacesCaseInsensitive[Namespace.File]+":[^]]*http", RegexOptions.Compiled);
         private static readonly Regex SimpleTags = new Regex(@"<[^>""\-=]+>");
+        private static readonly Regex CiteTemplateWithSquareBrackets = new Regex(@"(\<ref[^\[]*)\[\[(cite ?(journal|web|book|news)[^\]]*)\]\](\<\/ref\>)", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches double piped links e.g. [[foo||bar]] (CHECKWIKI error 32)
@@ -172,7 +173,7 @@ namespace WikiFunctions.Parse
                 if((from Match m in ssbMc where m.Value.Equals(@"[[Category:Disambiguation pages]]") select m).Any())
                     articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
             }
-
+            	
             if(TemplateExists(alltemplates, WikiRegexes.MagicWordTemplates))
                 articleText = Tools.TemplateToMagicWord(articleText);
 
@@ -253,6 +254,9 @@ namespace WikiFunctions.Parse
 
             if(SimpleTagsList.Any(s => s.Contains("font")))
                 articleText = RemoveNoPropertyFontTags.Replace(articleText, "$1");
+
+			//<ref>[[cite web|url=http://www.foo.com]]</ref>
+            articleText = CiteTemplateWithSquareBrackets.Replace(articleText,"$1{{$2}}$4");
 
             // {{Category:foo]] or {{Category:foo}}
             articleText = CategoryCurlyBrackets.Replace(articleText, @"[[$1]]");
