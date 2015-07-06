@@ -336,7 +336,8 @@ namespace AutoWikiBrowser
                     foreach (string plugin in plugins)
                     {
                         if (plugin.EndsWith("DotNetWikiBot.dll") || plugin.EndsWith("Diff.dll")
-                            || plugin.EndsWith("WikiFunctions.dll"))
+                            || plugin.EndsWith("WikiFunctions.dll") || plugin.EndsWith("Newtonsoft.Json.dll")
+                            || plugin.EndsWith("Microsoft.mshtml.dll"))
                             continue;
 
                         Assembly asm;
