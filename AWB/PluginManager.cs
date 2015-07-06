@@ -323,6 +323,8 @@ namespace AutoWikiBrowser
                 FailedPlugins.Clear();
             }
 
+            private static List<string> NotPlugins = new List<string>(new[] {"DotNetWikiBot", "Diff", "WikiFunctions", "Newtonsoft.Json", "Microsoft.mshtml"});
+
             /// <summary>
             /// Loads all the plugins from the directory where AWB resides
             /// </summary>
@@ -333,13 +335,11 @@ namespace AutoWikiBrowser
             {
                 try
                 {
+                    // ignore known DLL files that aren't plugins such as WikiFunctions.dll
+                    plugins = plugins.Where(p => !NotPlugins.Any(n => p.EndsWith(n + ".dll"))).ToArray();
+
                     foreach (string plugin in plugins)
                     {
-                        if (plugin.EndsWith("DotNetWikiBot.dll") || plugin.EndsWith("Diff.dll")
-                            || plugin.EndsWith("WikiFunctions.dll") || plugin.EndsWith("Newtonsoft.Json.dll")
-                            || plugin.EndsWith("Microsoft.mshtml.dll"))
-                            continue;
-
                         Assembly asm;
                         try
                         {
