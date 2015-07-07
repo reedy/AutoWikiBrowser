@@ -1403,7 +1403,7 @@ namespace WikiFunctions.Controls.Lists
             return new DatabaseScanner(this);
         }
 
-        private static readonly Regex HTMLItalics = new Regex(@"(.*)<i>(.*)</i>(.*)");
+        private static readonly Regex HTMLItalics = new Regex(@"(.*?)<i>(.*?)</i>(.*?(?=<i>|$))");
         private static readonly Regex SpanHide = new Regex(@"< *span +style *= *"" *position *: *absolute *; *top *: *-9999px;? *"" *>.*?< */ *span *>");
         bool formatDisplayTitle = false;
 
