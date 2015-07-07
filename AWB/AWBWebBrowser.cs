@@ -5,11 +5,18 @@ class AWBWebBrowser : WebBrowser
 {
     public override bool PreProcessMessage(ref Message msg) 
     {
-        // look for and intercept a Ctrl+C key up event
-        if (msg.Msg == 0x101 && msg.WParam.ToInt32() == (int)Keys.C 
+        // look for and intercept a Ctrl+C key up event to copy selected text to keyboard
+        if (msg.Msg == 0x101 && msg.WParam.ToInt32() == (int)Keys.C
             && ModifierKeys == Keys.Control)
         {
             CopySelectedText();
+            return true;
+        }
+        // Ctrl+J to find selected text in edit text box
+        else if(msg.Msg == 0x101 && msg.WParam.ToInt32() == (int)Keys.J
+            && ModifierKeys == Keys.Control && TextSelected())
+        {
+            Variables.MainForm.EditBox.Find(SelectedText(), false, false, Variables.MainForm.TheSession.Page.Title);
             return true;
         }
         return base.PreProcessMessage(ref msg);
@@ -69,5 +76,22 @@ class AWBWebBrowser : WebBrowser
         }
         
         return false;
+    }
+
+    private string SelectedText()
+    {
+        IHTMLDocument2 htmlDocument = Document.DomDocument as IHTMLDocument2;
+
+        IHTMLSelectionObject currentSelection= htmlDocument.selection;
+
+        if (currentSelection!=null)
+        {
+            IHTMLTxtRange range= currentSelection.createRange() as IHTMLTxtRange;
+
+            if (range != null && !string.IsNullOrEmpty(range.text))
+                return range.text;
+        }
+
+        return "";
     }
 }
