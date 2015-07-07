@@ -47,6 +47,8 @@ namespace WikiFunctions.Logging
 
         // SaveInfo.NewId, Database ID of page's revision after editing
         public int NewId;
+        // Variables.URLLong of the page
+        public string URLLong;
 
         #region AWB Interface
         public bool Skipped { get; internal set; }
@@ -84,7 +86,7 @@ namespace WikiFunctions.Logging
 
         public void OpenDiffInBrowser()
         {
-            Tools.OpenDiffInBrowser(NewId);
+            Tools.OpenDiffInBrowser(URLLong, NewId);
         }
 
         public void AddAndDateStamp(ListView listView)
