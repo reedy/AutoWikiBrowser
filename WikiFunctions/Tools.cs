@@ -1581,12 +1581,20 @@ Message: {2}
 		}
 
         /// <summary>
-		/// Opens the specified diff in the browser
+		/// Opens the specified diff in the browser in the current project
 		/// </summary>
 		public static void OpenDiffInBrowser(int newId)
 		{
-			OpenURLInBrowser(Variables.URLLong + "index.php?diff=" + newId);
+            OpenDiffInBrowser(Variables.URLLong, newId);
 		}
+
+        /// <summary>
+        /// Opens the specified diff in the browser to the specified project
+        /// </summary>
+        public static void OpenDiffInBrowser(string URLLong, int newId)
+        {
+            OpenURLInBrowser(URLLong + "index.php?diff=" + newId);
+        }
 
 		/// <summary>
 		/// Opens the specified user's talk page in the browser
