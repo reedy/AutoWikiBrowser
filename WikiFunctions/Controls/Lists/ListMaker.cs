@@ -1404,6 +1404,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         private static readonly Regex HTMLItalics = new Regex(@"(.*)<i>(.*)</i>(.*)");
+        private static readonly Regex SpanHide = new Regex(@"< *span +style *= *"" *position *: *absolute *; *top *: *-9999px;? *"" *>.*?< */ *span *>");
         bool formatDisplayTitle = false;
 
         /// <summary>
@@ -1428,7 +1429,7 @@ namespace WikiFunctions.Controls.Lists
             e.DrawBackground();
 
             // format display title of article if option enabled, custom text format (not colour)
-            if(!formatDisplayTitle)
+            if(!formatDisplayTitle || string.IsNullOrEmpty(a.DisplayTitle))
             {
                 e.Graphics.DrawString(a.Name, e.Font, (selected) ? Brushes.White : Brushes.Black, e.Bounds,
                     StringFormat.GenericDefault);
@@ -1439,36 +1440,46 @@ namespace WikiFunctions.Controls.Lists
                 Font italic = new Font(e.Font, FontStyle.Italic);
                 Rectangle r = e.Bounds;
 
+                string displayTitle = a.DisplayTitle;
+
+                // sup and sub not supported by FontStyle so remove
+                displayTitle = WikiRegexes.SupSub.Replace(displayTitle, "$1");
+
+                // span of type "position:absolute; top: -9999px" is used to hide text, so do that
+                displayTitle = SpanHide.Replace(displayTitle, "");
+
                 // if no display title then standard article, standard format
-                if(string.IsNullOrEmpty(a.DisplayTitle))
+                if(string.IsNullOrEmpty(displayTitle))
                 {
                     e.Graphics.DrawString(a.Name, regular, (selected) ? Brushes.White : Brushes.Black, r,
                         StringFormat.GenericDefault);
                 } 
                 else
                 {
-                    string displayTitle = a.DisplayTitle.Replace("&amp;", "&");
+                    displayTitle = displayTitle.Replace("&amp;", "&");
 
                     // if no HTML, could be first letter lower or underscores in title, format using display title in standard font 
                     if(displayTitle.Replace("_", " ").TrimStart(" _".ToCharArray()).Equals(a.Name, StringComparison.OrdinalIgnoreCase))
                     {
-                        e.Graphics.DrawString(a.DisplayTitle, regular, (selected) ? Brushes.White : Brushes.Black, r,
+                        e.Graphics.DrawString(displayTitle, regular, (selected) ? Brushes.White : Brushes.Black, r,
                             StringFormat.GenericDefault);
                     }
                     // italics support
                     else if(HTMLItalics.IsMatch(displayTitle))
                     {
-                        Match m = HTMLItalics.Match(displayTitle);
-                        for(int i = 1; i < 4; i++)
+                        foreach(Match m in HTMLItalics.Matches(displayTitle))
                         {
-                            if(m.Groups[i].Value.Length > 0)
+                            for(int i = 1; i < 4; i++)
                             {
-                                Font f2 = (i == 2 ? italic : regular);
-                                e.Graphics.DrawString(m.Groups[i].Value, f2, (selected) ? Brushes.White : Brushes.Black, r,
-                                    StringFormat.GenericDefault);
-                                int w = (int)e.Graphics.MeasureString(m.Groups[i].Value, f2).Width;
-                                r.X += w;
-                                r.Width -= w;
+                                if(m.Groups[i].Value.Length > 0)
+                                {
+                                    Font f2 = (i == 2 ? italic : regular);
+                                    e.Graphics.DrawString(m.Groups[i].Value, f2, (selected) ? Brushes.White : Brushes.Black, r,
+                                        StringFormat.GenericDefault);
+                                    int w = (int)e.Graphics.MeasureString(m.Groups[i].Value, f2).Width;
+                                    r.X += w;
+                                    r.Width -= w;
+                                }
                             }
                         }
                     }
