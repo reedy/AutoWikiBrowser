@@ -1405,7 +1405,6 @@ namespace WikiFunctions.Controls.Lists
 
         private static readonly Regex HTMLItalics = new Regex(@"(.*?)<i>(.*?)</i>(.*?(?=<i>|$))");
         private static readonly Regex SpanHide = new Regex(@"< *span +style *= *"" *position *: *absolute *; *top *: *-9999px;? *"" *>.*?< */ *span *>");
-        bool formatDisplayTitle = false;
 
         /// <summary>
         /// Overrides default Item Drawing to enable different colour if the article has been pre-processed
@@ -1429,7 +1428,7 @@ namespace WikiFunctions.Controls.Lists
             e.DrawBackground();
 
             // format display title of article if option enabled, custom text format (not colour)
-            if(!formatDisplayTitle || string.IsNullOrEmpty(a.DisplayTitle))
+            if(!formatDisplayTitleToolStripMenuItem.Checked || string.IsNullOrEmpty(a.DisplayTitle))
             {
                 e.Graphics.DrawString(a.Name, e.Font, (selected) ? Brushes.White : Brushes.Black, e.Bounds,
                     StringFormat.GenericDefault);

@@ -60,6 +60,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.moveToTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveToBottomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.formatDisplayTitleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.convertToTalkPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertFromTalkPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -193,6 +194,7 @@
             this.convertToTalkPagesToolStripMenuItem,
             this.convertFromTalkPagesToolStripMenuItem,
             this.toolStripSeparator1,
+            this.formatDisplayTitleToolStripMenuItem,
             this.specialFilterToolStripMenuItem,
             this.saveListToFileToolStripMenuItem,
             this.sortAlphaMenuItem,
@@ -355,6 +357,14 @@
             this.moveToTopToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.moveToTopToolStripMenuItem.Text = "Move to top";
             this.moveToTopToolStripMenuItem.Click += new System.EventHandler(this.moveToTopToolStripMenuItem_Click);
+            // 
+            // formatDisplayTitleToolStripMenuItem
+            // 
+            this.formatDisplayTitleToolStripMenuItem.Name = "formatDisplayTitleToolStripMenuItem";
+            this.formatDisplayTitleToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.formatDisplayTitleToolStripMenuItem.Text = "Format page titles per displaytitle";
+            this.formatDisplayTitleToolStripMenuItem.Enabled = true;
+            this.formatDisplayTitleToolStripMenuItem.CheckOnClick = true;
             // 
             // moveToBottomToolStripMenuItem
             // 
@@ -534,6 +544,7 @@
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem formatDisplayTitleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.ToolStripMenuItem selectedToolStripMenuItem;
