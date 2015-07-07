@@ -1481,6 +1481,7 @@ namespace AutoWikiBrowser
             if(loggingEnabled)
             {
                 TheArticle.LogListener.NewId = saveInfo.NewId;
+                TheArticle.LogListener.URLLong = Variables.URLLong;
                 logControl.AddLog(false, TheArticle.LogListener);
             }
             UpdateOverallTypoStats();
