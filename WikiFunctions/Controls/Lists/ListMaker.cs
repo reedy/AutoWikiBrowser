@@ -1403,8 +1403,12 @@ namespace WikiFunctions.Controls.Lists
             return new DatabaseScanner(this);
         }
 
+        private static readonly Regex HTMLItalics = new Regex(@"(.*)<i>(.*)</i>(.*)");
+        bool formatDisplayTitle = false;
+
         /// <summary>
         /// Overrides default Item Drawing to enable different colour if the article has been pre-processed
+        /// Formats text per displaytitle (italics etc.) if option enabled
         /// </summary>
         private void lbArticles_DrawItem(object sender, DrawItemEventArgs e)
         {
@@ -1415,6 +1419,7 @@ namespace WikiFunctions.Controls.Lists
 
             bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected);
 
+            // bright green background if article pre-processed
             if (!selected)
                 e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index,
                                           e.State,
@@ -1422,8 +1427,59 @@ namespace WikiFunctions.Controls.Lists
 
             e.DrawBackground();
 
-            e.Graphics.DrawString(a.Name, e.Font, (selected) ? Brushes.White : Brushes.Black, e.Bounds,
-                                  StringFormat.GenericDefault);
+            // format display title of article if option enabled, custom text format (not colour)
+            if(!formatDisplayTitle)
+            {
+                e.Graphics.DrawString(a.Name, e.Font, (selected) ? Brushes.White : Brushes.Black, e.Bounds,
+                    StringFormat.GenericDefault);
+            }
+            else
+            {
+                Font regular = e.Font;
+                Font italic = new Font(e.Font, FontStyle.Italic);
+                Rectangle r = e.Bounds;
+
+                // if no display title then standard article, standard format
+                if(string.IsNullOrEmpty(a.DisplayTitle))
+                {
+                    e.Graphics.DrawString(a.Name, regular, (selected) ? Brushes.White : Brushes.Black, r,
+                        StringFormat.GenericDefault);
+                } 
+                else
+                {
+                    string displayTitle = a.DisplayTitle.Replace("&amp;", "&");
+
+                    // if no HTML, could be first letter lower or underscores in title, format using display title in standard font 
+                    if(displayTitle.Replace("_", " ").TrimStart(" _".ToCharArray()).Equals(a.Name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        e.Graphics.DrawString(a.DisplayTitle, regular, (selected) ? Brushes.White : Brushes.Black, r,
+                            StringFormat.GenericDefault);
+                    }
+                    // italics support
+                    else if(HTMLItalics.IsMatch(displayTitle))
+                    {
+                        Match m = HTMLItalics.Match(displayTitle);
+                        for(int i = 1; i < 4; i++)
+                        {
+                            if(m.Groups[i].Value.Length > 0)
+                            {
+                                Font f2 = (i == 2 ? italic : regular);
+                                e.Graphics.DrawString(m.Groups[i].Value, f2, (selected) ? Brushes.White : Brushes.Black, r,
+                                    StringFormat.GenericDefault);
+                                int w = (int)e.Graphics.MeasureString(m.Groups[i].Value, f2).Width;
+                                r.X += w;
+                                r.Width -= w;
+                            }
+                        }
+                    }
+
+                    // TODO bold support, sub/sup support, mulitple italics support, span to hide support
+
+                    else // unsupported other formatting in displaytitle, draw as default
+                    e.Graphics.DrawString(a.Name, regular, (selected) ? Brushes.White : Brushes.Black, r,
+                            StringFormat.GenericDefault);
+                }
+            }
 
             e.DrawFocusRectangle();
         }
