@@ -39,7 +39,7 @@ namespace AutoWikiBrowser
         CheckBox IAutoWikiBrowserForm.AutoTagCheckBox { get { return chkAutoTagger; } }
         CheckBox IAutoWikiBrowserForm.RegexTypoFix { get { return chkRegExTypo; } }
         bool IAutoWikiBrowserForm.PreParseMode { get { return preParseModeToolStripMenuItem.Checked; }}
-        TextBoxBase IAutoWikiBrowserForm.EditBox { get { return txtEdit; } }
+        WikiFunctions.Controls.ArticleTextBox IAutoWikiBrowserForm.EditBox { get { return txtEdit; } }
         Form IAutoWikiBrowserForm.Form { get { return this; } }
         ToolStripMenuItem IAutoWikiBrowserForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
         ToolStripMenuItem IAutoWikiBrowserForm.PluginsToolStripMenuItem { get { return pluginsToolStripMenuItem; } }
