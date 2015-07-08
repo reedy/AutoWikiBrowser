@@ -258,6 +258,9 @@ namespace WikiFunctions.Parse
 			//<ref>[[cite web|url=http://www.foo.com]]</ref>
             articleText = CiteTemplateWithSquareBrackets.Replace(articleText,"$1{{$2}}$4");
 
+            if(SimpleTagsList.Any(s => s.Contains("reflist")))
+                articleText = articleText.Replace("<<reflist>>", "{{reflist}}");
+
             // {{Category:foo]] or {{Category:foo}}
             articleText = CategoryCurlyBrackets.Replace(articleText, @"[[$1]]");
 
