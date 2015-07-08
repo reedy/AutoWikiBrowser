@@ -1063,6 +1063,12 @@ now"));
 
             Assert.AreEqual(@"[[foo|bar]]", Parsers.FixSyntax(@"[[foo||bar]]"));
             Assert.AreEqual("[[somelink#a]]", Parsers.FixLinkWhitespace("[[somelink_#a]]", "Test"));
+
+            Assert.AreEqual(@"Foo<ref>a</ref>
+==References==
+{{reflist}}", Parsers.FixSyntax(@"Foo<ref>a</ref>
+==References==
+<<reflist>>"));
         }
  
         [Test]
