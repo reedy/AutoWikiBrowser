@@ -1867,6 +1867,15 @@ Text
 {{refimprove|Date=May 2010}}
 [[Category:Living people]]"),"when have existing BLP sources then remove refimprove");
 
+            Assert.AreEqual(@"Foo
+{{BLP sources|Date=May 2010}}
+[[Category:Living people]]", Parsers.Conversions(@"Foo
+{{multiple issues|
+{{BLP sources|Date=May 2010}}
+{{refimprove|Date=May 2010}}
+}}
+[[Category:Living people]]"),"when have existing BLP sources then remove refimprove");
+
         }
 
         [Test]
