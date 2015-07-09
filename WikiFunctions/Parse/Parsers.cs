@@ -1532,9 +1532,9 @@ namespace WikiFunctions.Parse
                         {
                             // if also have existing BLP sources then remove refimprove
                             if(Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
-                            articleText = Tools.NestedTemplateRegex("refimprove").Replace(articleText, "");
+                                articleText = Tools.NestedTemplateRegex("refimprove").Replace(articleText, "");
                             else
-                            articleText = Tools.RenameTemplate(articleText, "refimprove", "BLP sources", false);
+                                articleText = Tools.RenameTemplate(articleText, "refimprove", "BLP sources", false);
                         }
                 }
 
