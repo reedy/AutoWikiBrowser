@@ -176,9 +176,6 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
             Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==source:==", "a"));
             Assert.AreEqual(@"== Sources ==", Parsers.FixHeadings(@"== SOURCES ==", "a"));
             Assert.AreEqual(@"==  Sources  ==", Parsers.FixHeadings(@"==  SOURCES  ==", "a"));
-            
-            Assert.AreEqual(@"==External links==", Parsers.FixHeadings(@"==External Links==", "a"));
-            Assert.AreEqual(@"==External links==", Parsers.FixHeadings(@"==external links==", "a"));
 
             Assert.AreEqual(@"==Further reading==
             bar bar
@@ -200,12 +197,27 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
             Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Also see==", "test"),"rename also see to see also section");
             Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Internal links==", "test"),"rename to see also section");
             Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Related articles==", "test"),"rename to see also section");
+            Assert.AreEqual(@"Foo
+
+==See also==
+Bar", Parsers.FixHeadings(@"Foo
+
+==See Also==
+Bar", "test"), "See Also capitalization");
             Assert.AreEqual(@"===Related articles===", Parsers.FixHeadings(@"===Related articles===", "test"),"do nothing if level 3");
             Assert.AreEqual(@"some text
 
 ===Related articles===", Parsers.FixHeadings(@"some text
 
 ===Related articles===", "test"),"do nothing if level 3");
+
+            Assert.AreEqual(@"Foo
+
+==External links==
+Bar", Parsers.FixHeadings(@"Foo
+
+==External Links==
+Bar", "test"), "External Links capitalization");
 
             
             string HeadingEqualTitle = Parsers.FixHeadings(@"A
