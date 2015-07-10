@@ -993,7 +993,7 @@ namespace WikiFunctions
                 Trace.AWBSkipped("No Tag changed");
             else if (!noChange)
             {
-                AWBChangeArticleText("Auto tagger changes applied" + tmpEditSummary, strTemp, false);
+                AWBChangeArticleText("Auto tagger changes applied " + tmpEditSummary, strTemp, false);
                 AppendToSummary(tmpEditSummary);
             }
         }
