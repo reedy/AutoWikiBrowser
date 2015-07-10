@@ -177,6 +177,20 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
             Assert.AreEqual(@"== Sources ==", Parsers.FixHeadings(@"== SOURCES ==", "a"));
             Assert.AreEqual(@"==  Sources  ==", Parsers.FixHeadings(@"==  SOURCES  ==", "a"));
             
+            Assert.AreEqual(@"==External links==", Parsers.FixHeadings(@"==External Links==", "a"));
+            Assert.AreEqual(@"==External links==", Parsers.FixHeadings(@"==external links==", "a"));
+
+            Assert.AreEqual(@"==Further reading==
+            bar bar
+            
+==External links==
+*http://foo.com", Parsers.FixHeadings(@"==Further reading==
+            bar bar
+            
+==External Links==
+*http://foo.com", "a"));
+
+
             Assert.AreEqual(@"some text
 
 ==See also==", Parsers.FixHeadings(@"some text
