@@ -50,6 +50,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline);
         private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks|[Ss]ee +[Aa]lso) *==\s");
+        private static readonly Regex ReferencesExternalLinksSeeAlsoValid = new Regex(@"^== *(References|External links|See also) *==\s");
         private static readonly Regex ReferencesExternalLinksSeeAlsoUnbalancedRight = new Regex(@"(== *(?:[Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *=) *\r\n");
 
         private static readonly Regex RegexHeadingColonAtEnd = new Regex(@"^(=+)(\s*[^=\s].*?)\:(\s*\1\s*)$");
@@ -98,8 +99,8 @@ namespace WikiFunctions.Parse
                     articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, m => m.Groups[2].Value.Contains("==") ? m.Value : "\r\n\r\n" + m.Groups[1].Value);
             }
 
-            // Get all the custom headings, ignoring normal References, External links sections etc.
-            List<string> customHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText) where !ReferencesExternalLinksSeeAlso.IsMatch(m.Value) select m.Value.ToLower()).ToList();
+            // Get all the custom headings, ignoring normal References, External links, See also sections with correct capitalization
+            List<string> customHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText) where !ReferencesExternalLinksSeeAlsoValid.IsMatch(m.Value) select m.Value.ToLower()).ToList();
 
             // Removes level 2 heading if it matches pagetitle
             if(customHeadings.Any(h => h.Contains(articleTitle.ToLower())))
