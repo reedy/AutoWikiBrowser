@@ -99,7 +99,7 @@ namespace WikiFunctions.Parse
             }
 
             // Get all the custom headings, ignoring normal References, External links sections etc.
-            List<string> customHeadings = Tools.DeduplicateList((from Match m in WikiRegexes.Headings.Matches(articleText) where !ReferencesExternalLinksSeeAlso.IsMatch(m.Value) select m.Value.ToLower()).ToList());
+            List<string> customHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText) where !ReferencesExternalLinksSeeAlso.IsMatch(m.Value) select m.Value.ToLower()).ToList();
 
             // Removes level 2 heading if it matches pagetitle
             if(customHeadings.Any(h => h.Contains(articleTitle.ToLower())))
