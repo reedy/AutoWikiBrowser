@@ -247,6 +247,10 @@ namespace UnitTests
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name=>"));
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name =  >"));
 
+            Assert.AreEqual(@"A.<ref>[http://www.site.com a site]</ref>
+Then", Parsers.FixReferenceTags(@"A.<ref>[http://www.site.com a site]</ref
+Then"), "incorrect closing </ref>");
+
 #if DEBUG
             Variables.SetProjectLangCode("zh");
             Assert.AreEqual(@"</ref>some text", Parsers.FixReferenceTags(@"</ref> some text"), "Chinese put no space before/after the reference tags");
