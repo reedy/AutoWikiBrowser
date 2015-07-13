@@ -118,8 +118,16 @@ namespace WikiFunctions.Logging
         /// <returns>The selected list view.</returns>
         private ListView CurrentlySelectedListView()
         {
-            return (ListView)this.ActiveControl;
-            //return (lvIgnored.SelectedItems.Count > 0 ? lvIgnored : lvSaved);
+            // ActiveControl may be null if context menu opened at same time as main form page load finishes
+            if(this.ActiveControl != null)
+                return (ListView)this.ActiveControl;
+
+            // first fallback
+            if(lvIgnored.SelectedItems.Count > 0)
+                return lvIgnored;
+
+            // final fallback
+            return lvSaved;
         }
 
         private LogFileType GetFilePrefs()
