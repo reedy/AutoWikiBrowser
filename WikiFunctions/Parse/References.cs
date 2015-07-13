@@ -865,6 +865,9 @@ namespace WikiFunctions.Parse
                 && !m.Value.Equals("<ref>") && !m.Value.Equals("</ref>") && !m.Value.StartsWith(@"<references") && !m.Value.Contains(" group")
                                                                           select m.Value).ToList());
 
+            // fix incorrect closing </ref>
+            articleText = Regex.Replace(articleText, "</ref\r\n", "</ref>\r\n");
+
             // <REF>, </REF> and <Ref> to lowercase ref
             if(AllTagsList.Any(s => Regex.IsMatch(s, @"R[Ee][Ff]|r[Ee]F")))
                 articleText = Regex.Replace(articleText, @"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))", "$1ref$2");
