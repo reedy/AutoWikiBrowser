@@ -79,7 +79,7 @@ namespace WikiFunctions.Lists.Providers
             while (list.Count + haveSoFar < Limit)
             {
                 // API continuation needs updating https://phabricator.wikimedia.org/T104684
-                string text = editor.QueryApi(newUrl + "&rawcontinue=" + postfix); //Hacky hack hack
+                string text = editor.QueryApi(newUrl + "&rawcontinue=1" + postfix); //Hacky hack hack
 
                 XmlTextReader xml = new XmlTextReader(new StringReader(text));
                 xml.MoveToContent();
