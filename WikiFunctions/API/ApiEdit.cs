@@ -163,6 +163,11 @@ namespace WikiFunctions.API
         /// </summary>
         public CookieContainer Cookies { get; private set; }
 
+        /// <summary>
+        /// Whether we should pass the intoken parameter to the API
+        /// </summary>
+        private static bool UseInToken = true;
+
         #endregion
 
         /// <summary>
@@ -219,6 +224,10 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected static string BuildQuery(Dictionary<string, string> request)
         {
+            if(!UseInToken && request.ContainsKey("intoken")){
+                request.Remove("intoken");
+            }
+
             StringBuilder sb = new StringBuilder();
             foreach (KeyValuePair<string, string> kvp in request)
             {
@@ -293,11 +302,15 @@ namespace WikiFunctions.API
             {
                 if (request.ContainsKey("meta"))
                 {
-                    request["meta"] += "|userinfo|notifications";
+                    request["meta"] += "|userinfo";
                 }
                 else
                 {
-                    request.Add("meta", "userinfo|notifications");
+                    request.Add("meta", "userinfo");
+                }
+                if (Variables.NotificationsEnabled)
+                {
+                    request["meta"] += "|notifications";
                 }
                 request.Add("uiprop", "hasmsg");
                 request.Add("notprop", "count");
@@ -1404,10 +1417,11 @@ namespace WikiFunctions.API
                         {
                             Variables.NotificationsEnabled = false;
                         }
-                        else
+                        else if (childNode.InnerText == "The intoken parameter has been deprecated.")
                         {
-                            warningBuilder.AppendLine(childNode.InnerText);
+                            UseInToken = false;
                         }
+                        warningBuilder.AppendLine(childNode.InnerText);
                     }
                     if (warningBuilder.Length > 0)
                     {
