@@ -479,6 +479,7 @@ namespace WikiFunctions.API
         protected string HttpPost(Dictionary<string, string> get, Dictionary<string, string> post, ActionOptions options)
         {
             string url = BuildUrl(get, options);
+            Tools.WriteDebug("ApiEdit::HttpPost", url);
 
             lastGetUrl = url;
             lastPostParameters = post;
@@ -539,7 +540,7 @@ namespace WikiFunctions.API
         /// <returns>Text received</returns>
         public string HttpGet(string url)
         {
-            Tools.WriteDebug("ApiEdit", url);
+            Tools.WriteDebug("ApiEdit::HttpGet", url);
             return GetResponseString(CreateRequest(url));
         }
 
