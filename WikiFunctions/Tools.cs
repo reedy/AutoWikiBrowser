@@ -1395,7 +1395,7 @@ namespace WikiFunctions
 			if (!WriteDebugEnabled)
 				return;
 			
-			for(int a = 0;a < 100;a++)
+			for(int a = 0; a < 100; a++)
 			{
 				try
 				{
