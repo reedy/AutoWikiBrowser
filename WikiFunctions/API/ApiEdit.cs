@@ -1394,10 +1394,24 @@ namespace WikiFunctions.API
             if (warnings.Count > 0)
             {
                 var xmlNode = warnings.Item(0);
-                if (xmlNode != null &&
-                    xmlNode.InnerXml.Contains("Unrecognized value for parameter 'meta': notifications"))
+                if (xmlNode != null)
                 {
-                    Variables.NotificationsEnabled = false;
+                    StringBuilder warningBuilder = new StringBuilder();
+                    foreach (XmlNode childNode in xmlNode.ChildNodes)
+                    {
+                        if (childNode.InnerText == "Unrecognized value for parameter 'meta': notifications")
+                        {
+                            Variables.NotificationsEnabled = false;
+                        }
+                        else
+                        {
+                            warningBuilder.AppendLine(childNode.InnerText);
+                        }
+                    }
+                    if (warningBuilder.Length > 0)
+                    {
+                        Tools.WriteDebug("ApiEdit::CheckForErrors warnings", warningBuilder.ToString());
+                    }
                 }
             }
 
