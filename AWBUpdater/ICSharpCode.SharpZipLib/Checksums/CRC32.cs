@@ -1,4 +1,4 @@
-﻿// CRC32.cs - Computes CRC32 data checksum of a data stream
+// CRC32.cs - Computes CRC32 data checksum of a data stream
 // Copyright (C) 2001 Mike Krueger
 //
 // This file was translated from java, it was part of the GNU Classpath
@@ -66,7 +66,7 @@ namespace ICSharpCode.SharpZipLib.Checksums
 	/// </summary>
 	public sealed class Crc32 : IChecksum
 	{
-		readonly static uint CrcSeed = 0xFFFFFFFF;
+		const uint CrcSeed = 0xFFFFFFFF;
 		
 		readonly static uint[] CrcTable = new uint[] {
 			0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA, 0x076DC419,

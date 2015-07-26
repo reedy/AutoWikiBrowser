@@ -1,4 +1,4 @@
-﻿// ZipEntryFactory.cs
+// ZipEntryFactory.cs
 //
 // Copyright 2006 John Reilly
 //
@@ -37,7 +37,6 @@
 
 using System;
 using System.IO;
-using System.Text;
 
 using ICSharpCode.SharpZipLib.Core;
 
@@ -321,7 +320,8 @@ namespace ICSharpCode.SharpZipLib.Zip
 		{
 			
 			ZipEntry result = new ZipEntry(nameTransform_.TransformDirectory(directoryName));
-			result.Size=0;
+            result.IsUnicodeText = isUnicodeText_;
+            result.Size = 0;
 			
 			int externalAttributes = 0;
 

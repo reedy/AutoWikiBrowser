@@ -1,4 +1,4 @@
-﻿// IChecksum.cs - Interface to compute a data checksum
+// IChecksum.cs - Interface to compute a data checksum
 // Copyright (C) 2001 Mike Krueger
 //
 // This file was translated from java, it was part of the GNU Classpath

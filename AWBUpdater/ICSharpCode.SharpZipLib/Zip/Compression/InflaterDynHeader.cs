@@ -1,4 +1,4 @@
-﻿// InflaterDynHeader.cs
+// InflaterDynHeader.cs
 // Copyright (C) 2001 Mike Krueger
 //
 // This file was translated from java, it was part of the GNU Classpath
@@ -178,8 +178,8 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 								return true;
 							}
 						}
-							mode = LENS;
-							goto decode_loop;
+						mode = LENS;
+						goto decode_loop;
 					}
 				}
 		}
@@ -204,6 +204,9 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 
 		InflaterHuffmanTree blTree;
 
+        /// <summary>
+        /// The current decode mode
+        /// </summary>
 		int mode;
 		int lnum, dnum, blnum, num;
 		int repSymbol;

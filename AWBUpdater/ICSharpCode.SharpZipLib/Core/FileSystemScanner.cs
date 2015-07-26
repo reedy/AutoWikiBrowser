@@ -1,4 +1,4 @@
-﻿// FileSystemScanner.cs
+// FileSystemScanner.cs
 //
 // Copyright 2005 John Reilly
 //
@@ -35,7 +35,6 @@
 
 
 using System;
-using System.IO;
 
 namespace ICSharpCode.SharpZipLib.Core
 {
@@ -57,7 +56,7 @@ namespace ICSharpCode.SharpZipLib.Core
 		#endregion
 		
 		/// <summary>
-		/// The fie or directory name for this event.
+		/// The file or directory name for this event.
 		/// </summary>
 		public string Name
 		{
@@ -124,14 +123,16 @@ namespace ICSharpCode.SharpZipLib.Core
 		{
 			get
 			{
+			    float result;
 				if (target_ <= 0)
 				{
-					return 0;
+					result = 0;
 				}
 				else
 				{
-					return ((float)processed_ / (float)target_) * 100.0f;
+					result = ((float)processed_ / (float)target_) * 100.0f;
 				}
+			    return result;
 			}
 		}
 		
@@ -194,7 +195,7 @@ namespace ICSharpCode.SharpZipLib.Core
 	/// <summary>
 	/// Arguments passed when scan failures are detected.
 	/// </summary>
-	public class ScanFailureEventArgs
+	public class ScanFailureEventArgs : EventArgs
 	{
 		#region Constructors
 		/// <summary>
@@ -365,15 +366,16 @@ namespace ICSharpCode.SharpZipLib.Core
 		/// </summary>
 		/// <param name="directory">The directory name.</param>
 		/// <param name="e">The exception detected.</param>
-		void OnDirectoryFailure(string directory, Exception e)
+		bool OnDirectoryFailure(string directory, Exception e)
 		{
-			if ( DirectoryFailure == null ) {
-				alive_ = false;
-			} else {
+            DirectoryFailureHandler handler = DirectoryFailure;
+            bool result = (handler != null);
+            if ( result ) {
 				ScanFailureEventArgs args = new ScanFailureEventArgs(directory, e);
-				DirectoryFailure(this, args);
+				handler(this, args);
 				alive_ = args.ContinueRunning;
 			}
+            return result;
 		}
 		
 		/// <summary>
@@ -381,15 +383,18 @@ namespace ICSharpCode.SharpZipLib.Core
 		/// </summary>
 		/// <param name="file">The file name.</param>
 		/// <param name="e">The exception detected.</param>
-		void OnFileFailure(string file, Exception e)
+		bool OnFileFailure(string file, Exception e)
 		{
-			if ( FileFailure == null ) {
-				alive_ = false;
-			} else {
+            FileFailureHandler handler = FileFailure;
+
+            bool result = (handler != null);
+
+			if ( result ){
 				ScanFailureEventArgs args = new ScanFailureEventArgs(file, e);
 				FileFailure(this, args);
 				alive_ = args.ContinueRunning;
 			}
+            return result;
 		}
 
 		/// <summary>
@@ -398,9 +403,11 @@ namespace ICSharpCode.SharpZipLib.Core
 		/// <param name="file">The file name.</param>
 		void OnProcessFile(string file)
 		{
-			if ( ProcessFile != null ) {
+			ProcessFileHandler handler = ProcessFile;
+
+			if ( handler!= null ) {
 				ScanEventArgs args = new ScanEventArgs(file);
-				ProcessFile(this, args);
+				handler(this, args);
 				alive_ = args.ContinueRunning;
 			}
 		}
@@ -411,10 +418,12 @@ namespace ICSharpCode.SharpZipLib.Core
 		/// <param name="file">The file name</param>
 		void OnCompleteFile(string file)
 		{
-			if (CompletedFile != null)
+			CompletedFileHandler handler = CompletedFile;
+
+			if (handler != null)
 			{
 				ScanEventArgs args = new ScanEventArgs(file);
-				CompletedFile(this, args);
+				handler(this, args);
 				alive_ = args.ContinueRunning;
 			}
 		}
@@ -426,9 +435,11 @@ namespace ICSharpCode.SharpZipLib.Core
 		/// <param name="hasMatchingFiles">Flag indicating if the directory has matching files.</param>
 		void OnProcessDirectory(string directory, bool hasMatchingFiles)
 		{
-			if ( ProcessDirectory != null ) {
+			ProcessDirectoryHandler handler = ProcessDirectory;
+
+			if ( handler != null ) {
 				DirectoryEventArgs args = new DirectoryEventArgs(directory, hasMatchingFiles);
-				ProcessDirectory(this, args);
+				handler(this, args);
 				alive_ = args.ContinueRunning;
 			}
 		}
@@ -471,13 +482,17 @@ namespace ICSharpCode.SharpZipLib.Core
 							}
 						}
 						catch (Exception e) {
-							OnFileFailure(fileName, e);
+                            if (!OnFileFailure(fileName, e)) {
+                                throw;
+                            }
 						}
 					}
 				}
 			}
 			catch (Exception e) {
-				OnDirectoryFailure(directory, e);
+                if (!OnDirectoryFailure(directory, e)) {
+                    throw;
+                }
 			}
 
 			if ( alive_ && recurse ) {
@@ -493,7 +508,9 @@ namespace ICSharpCode.SharpZipLib.Core
 					}
 				}
 				catch (Exception e) {
-					OnDirectoryFailure(directory, e);
+                    if (!OnDirectoryFailure(directory, e)) {
+                        throw;
+                    }
 				}
 			}
 		}

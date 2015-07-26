@@ -77,7 +77,10 @@
     <Compile Include="ICSharpCode.SharpZipLib\Core\StreamUtils.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Core\WindowsPathUtils.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Encryption\PkzipClassic.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Encryption\ZipAESStream.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Encryption\ZipAESTransform.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\SharpZipBaseException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -100,6 +103,7 @@
     <Compile Include="ICSharpCode.SharpZipLib\Zip\IEntryFactory.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\WindowsNameTransform.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipConstants.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,4 +1,4 @@
-﻿// ZipConstants.cs
+// ZipConstants.cs
 //
 // Copyright (C) 2001 Mike Krueger
 // Copyright (C) 2004 John Reilly
@@ -36,6 +36,9 @@
 // this exception to your version of the library, but you are not
 // obligated to do so.  If you do not wish to do so, delete this
 // exception statement from your version.
+
+// HISTORY
+//	22-12-2009	DavidPierson	Added AES support
 
 using System;
 using System.Text;
@@ -92,12 +95,12 @@ namespace ICSharpCode.SharpZipLib.Zip
 		Deflate64  = 9,
 		
 		/// <summary>
-		/// Not supported by #Zip currently
+		/// BZip2 compression. Not supported by #Zip.
 		/// </summary>
 		BZip2      = 11,
 		
 		/// <summary>
-		/// WinZip special for AES encryption, Not supported by #Zip
+		/// WinZip special for AES encryption, Now supported by #Zip.
 		/// </summary>
 		WinZipAES  = 99,
 		
@@ -157,7 +160,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// </summary>
 		Twofish = 0x6721,
 		/// <summary>
-		/// RCS has been used for encryption.
+		/// RC4 has been used for encryption.
 		/// </summary>
 		RC4            = 0x6801,
 		/// <summary>
@@ -194,7 +197,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// </summary>
 		Patched = 0x0020,
 		/// <summary>
-		/// Bit 6 if set strong encryption has been used for this entry.
+		/// Bit 6 if set indicates strong encryption has been used for this entry.
 		/// </summary>
 		StrongEncryption = 0x0040,
 		/// <summary>
@@ -255,7 +258,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// This is also the Zip version for the library when comparing against the version required to extract
 		/// for an entry.  See <see cref="ZipEntry.CanDecompress"/>.
 		/// </remarks>
-		public const int VersionMadeBy = 45;
+		public const int VersionMadeBy = 51; // was 45 before AES
 		
 		/// <summary>
 		/// The version made by field for entries in the central header when created by this library
@@ -265,7 +268,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// for an entry.  See <see cref="ZipInputStream.CanDecompressEntry">ZipInputStream.CanDecompressEntry</see>.
 		/// </remarks>
 		[Obsolete("Use VersionMadeBy instead")]
-		public const int VERSION_MADE_BY = 45;
+		public const int VERSION_MADE_BY = 51;
 		
 		/// <summary>
 		/// The minimum version required to support strong encryption
@@ -277,9 +280,14 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// </summary>
 		[Obsolete("Use VersionStrongEncryption instead")]
 		public const int VERSION_STRONG_ENCRYPTION = 50;
-		
+
 		/// <summary>
-		/// The version required for Zip64 extensions
+		/// Version indicating AES encryption
+		/// </summary>
+		public const int VERSION_AES = 51;
+
+		/// <summary>
+		/// The version required for Zip64 extensions (4.5 or higher)
 		/// </summary>
 		public const int VersionZip64 = 45;
 		#endregion
@@ -590,7 +598,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// <summary>
 		/// Convert a string to a byte array
 		/// </summary>
-		/// <param name="flags">The applicable general purpose bits flags</param>
+        /// <param name="flags">The applicable <see cref="GeneralBitFlags">general purpose bits flags</see></param>
 		/// <param name="str">
 		/// String to convert to an array
 		/// </param>

@@ -1,9 +1,6 @@
-// ZipException.cs
+// WindowsPathUtils.cs
 //
-// Copyright (C) 2001 Mike Krueger
-//
-// This file was translated from java, it was part of the GNU Classpath
-// Copyright (C) 1998, 1999, 2000, 2001 Free Software Foundation, Inc.
+// Copyright 2007 John Reilly
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -36,59 +33,62 @@
 // obligated to do so.  If you do not wish to do so, delete this
 // exception statement from your version.
 
-using System;
-
-#if !NETCF_1_0 && !NETCF_2_0
-using System.Runtime.Serialization;
-#endif
-
-namespace ICSharpCode.SharpZipLib.Zip 
+namespace ICSharpCode.SharpZipLib.Core
 {
-	
 	/// <summary>
-	/// Represents exception conditions specific to Zip archive handling
+	/// WindowsPathUtils provides simple utilities for handling windows paths.
 	/// </summary>
-#if !NETCF_1_0 && !NETCF_2_0
-	[Serializable]
-#endif
-	public class ZipException : SharpZipBaseException
+	public abstract class WindowsPathUtils
 	{
-#if !NETCF_1_0 && !NETCF_2_0
 		/// <summary>
-		/// Deserialization constructor 
+		/// Initializes a new instance of the <see cref="WindowsPathUtils"/> class.
 		/// </summary>
-		/// <param name="info"><see cref="SerializationInfo"/> for this constructor</param>
-		/// <param name="context"><see cref="StreamingContext"/> for this constructor</param>
-		protected ZipException(SerializationInfo info, StreamingContext context )
-			: base( info, context )
-		{
-		}
-#endif
-
-		/// <summary>
-		/// Initializes a new instance of the ZipException class.
-		/// </summary>
-		public ZipException()
+		internal WindowsPathUtils()
 		{
 		}
 		
 		/// <summary>
-		/// Initializes a new instance of the ZipException class with a specified error message.
+		/// Remove any path root present in the path
 		/// </summary>
-		/// <param name="message">The error message that explains the reason for the exception.</param>
-		public ZipException(string message)
-			: base(message)
+		/// <param name="path">A <see cref="string"/> containing path information.</param>
+		/// <returns>The path with the root removed if it was present; path otherwise.</returns>
+		/// <remarks>Unlike the <see cref="System.IO.Path"/> class the path isnt otherwise checked for validity.</remarks>
+		public static string DropPathRoot(string path)
 		{
-		}
+			string result = path;
+			
+			if ( (path != null) && (path.Length > 0) ) {
+				if ((path[0] == '\\') || (path[0] == '/')) {
+					// UNC name ?
+					if ((path.Length > 1) && ((path[1] == '\\') || (path[1] == '/'))) {
+						int index = 2;
+						int elements = 2;
 
-		/// <summary>
-		/// Initialise a new instance of ZipException.
-		/// </summary>
-		/// <param name="message">A message describing the error.</param>
-		/// <param name="exception">The exception that is the cause of the current exception.</param>
-		public ZipException(string message, Exception exception)
-			: base(message, exception)
-		{
+						// Scan for two separate elements \\machine\share\restofpath
+						while ((index <= path.Length) &&
+							(((path[index] != '\\') && (path[index] != '/')) || (--elements > 0))) {
+							index++;
+						}
+
+						index++;
+
+						if (index < path.Length) {
+							result = path.Substring(index);
+						}
+						else {
+							result = "";
+						}
+					}
+				}
+				else if ((path.Length > 1) && (path[1] == ':')) {
+					int dropCount = 2;
+					if ((path.Length > 2) && ((path[2] == '\\') || (path[2] == '/'))) {
+						dropCount = 3;
+					}
+					result = result.Remove(0, dropCount);
+				}
+			}
+			return result;
 		}
 	}
 }

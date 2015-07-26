@@ -1,4 +1,4 @@
-﻿// DeflaterEngine.cs
+// DeflaterEngine.cs
 //
 // Copyright (C) 2001 Mike Krueger
 // Copyright (C) 2004 John Reilly
@@ -289,7 +289,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 		/// <summary>
 		/// Total data processed
 		/// </summary>		
-		public int TotalIn {
+		public long TotalIn {
 			get {
 				return totalIn;
 			}
@@ -845,7 +845,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 		/// <summary>
 		/// The total bytes of input read.
 		/// </summary>
-		int totalIn;
+		long totalIn;
 		
 		/// <summary>
 		/// The offset into inputBuf, where input data starts.
