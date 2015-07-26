@@ -620,6 +620,16 @@ Really great";
 ==Overview==
 Here there";
             Assert.AreEqual(HeadingNotAtStart, Parsers.FixHeadings(HeadingNotAtStart, "Foo"), "Heading not removed when not at start of article");
+
+            Assert.AreEqual(@"==External links==
+* Foo", Parsers.FixHeadings(@"==Weblinks==
+* Foo", "foo"));
+            Assert.AreEqual(@"==External links==
+* Foo", Parsers.FixHeadings(@"==Outside links==
+* Foo", "foo"));
+            Assert.AreEqual(@"==External links==
+* Foo", Parsers.FixHeadings(@"==external Links==
+* Foo", "foo"));
         }
 
         [Test]
@@ -632,7 +642,6 @@ Here there";
             Assert.IsTrue(Parsers.FixHeadings(@"==See also=
 *Foo1
 *Foo2", "Bar").Contains(@"==See also=="));
-        		
         }
 
 
