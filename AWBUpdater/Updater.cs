@@ -181,7 +181,7 @@ namespace AwbUpdater
             }
             catch (Exception) // UnauthorizedAccessException and IOEXception
             {
-                AppendLine("Unable to create temporary directory: " + _tempDirectory);
+                UpdateUI("Unable to create temporary directory: " + _tempDirectory, true);
                 throw new AbortException();
             }
             progressUpdate.Value = 10;
@@ -269,10 +269,17 @@ namespace AwbUpdater
         {
             WebClient client = new WebClient { Proxy = _proxy };
 
-            if (!string.IsNullOrEmpty(_awbWebAddress))
-                client.DownloadFile(_awbWebAddress, Path.Combine(_tempDirectory, AWBZipName));
-            else if (!string.IsNullOrEmpty(_updaterWebAddress))
-                client.DownloadFile(_updaterWebAddress, Path.Combine(_tempDirectory, _updaterZipName));
+            try
+            {
+                if (!string.IsNullOrEmpty(_awbWebAddress))
+                    client.DownloadFile(_awbWebAddress, Path.Combine(_tempDirectory, AWBZipName));
+                else if (!string.IsNullOrEmpty(_updaterWebAddress))
+                    client.DownloadFile(_updaterWebAddress, Path.Combine(_tempDirectory, _updaterZipName));
+            }
+            catch (WebException ex)
+            {
+                // TODO:
+            }
 
             client.Dispose();
 
@@ -311,6 +318,13 @@ namespace AwbUpdater
             {
                 new FastZip().ExtractZip(file, _tempDirectory, null);
             }
+            catch (ZipException ze)
+            {
+                UpdateUI(Path.GetFileName(file) + " seems to be corrupt. Deleting the zip.", true);
+                UpdateUI("Please confirm that sourceforge is up.", true);
+                DeleteAbsoluteIfExists(file);
+                throw new AbortException();
+            }
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
@@ -319,7 +333,7 @@ namespace AwbUpdater
         }
 
         /// <summary>
-        /// Looks if AWB or IRCM are open. If they are, tell the user
+        /// Looks if AWB is open. If it is, tell the user
         /// </summary>
         private void CloseAwb()
         {
@@ -329,7 +343,7 @@ namespace AwbUpdater
             {
                 foreach (Process p in Process.GetProcesses())
                 {
-                    awbOpen = (p.ProcessName == "AutoWikiBrowser" || p.ProcessName == "IRCMonitor");
+                    awbOpen = p.ProcessName == "AutoWikiBrowser";
                     if (awbOpen)
                     {
                         MessageBox.Show("Please save your settings (if you wish) and close " + p.ProcessName + " completely before pressing OK.");
@@ -498,7 +512,7 @@ namespace AwbUpdater
                 }
                 catch (Exception ex)
                 {
-                    AppendLine(" FAILED");
+                    AppendLine("... FAILED");
                     UpdateUI("     (" + ex.Message + ")", true);
                 }
             }
