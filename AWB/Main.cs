@@ -5825,6 +5825,30 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 Tools.OpenArticleInBrowser("Special:Notifications");
         }
 
+        private void statusBar_MouseHover(object sender, EventArgs e)
+        {
+            AWBToolTip tt = new AWBToolTip();
+
+            System.Windows.Forms.ToolStripStatusLabel item = (sender as System.Windows.Forms.ToolStripStatusLabel);
+
+            string text = "";
+
+            switch(item.Name)
+            {
+            case "lblUserName":
+                text = "Click to switch user";
+                break;
+            case "lblProject":
+                text = "Click to switch project";
+                break;
+            case "lblUserNotifications":
+                text = "User notifications";
+                break;
+            }
+
+            tt.Show(text, item.Owner);
+        }
+
         private void lblProject_Click(object sender, EventArgs e)
         {
              OpenPreferences(true);
