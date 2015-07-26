@@ -113,7 +113,7 @@ namespace AwbUpdater
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -276,7 +276,7 @@ namespace AwbUpdater
                 else if (!string.IsNullOrEmpty(_updaterWebAddress))
                     client.DownloadFile(_updaterWebAddress, Path.Combine(_tempDirectory, _updaterZipName));
             }
-            catch (WebException ex)
+            catch (WebException)
             {
                 // TODO:
             }
@@ -318,7 +318,7 @@ namespace AwbUpdater
             {
                 new FastZip().ExtractZip(file, _tempDirectory, null);
             }
-            catch (ZipException ze)
+            catch (ZipException)
             {
                 UpdateUI(Path.GetFileName(file) + " seems to be corrupt. Deleting the zip.", true);
                 UpdateUI("Please confirm that sourceforge is up.", true);
@@ -327,7 +327,7 @@ namespace AwbUpdater
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
                 Application.Exit();
             }
         }
