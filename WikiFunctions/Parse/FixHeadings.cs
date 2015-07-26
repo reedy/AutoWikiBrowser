@@ -55,7 +55,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex RegexHeadingColonAtEnd = new Regex(@"^(=+)(\s*[^=\s].*?)\:(\s*\1\s*)$");
         private static readonly Regex RegexHeadingWithBold = new Regex(@"(?<====+.*?)(?:'''|<[Bb]>)(.*?)(?:'''|</[Bb]>)(?=.*?===+)");
-        private static readonly List<string> BadHeadings = new List<string>(new [] {"career", "track listing", " members", "further reading", "related ", " life", "source", " links", "external", "also", "reff", "refer", "refr", "<", "\t", "'''", ":"});
+        private static readonly List<string> BadHeadings = new List<string>(new [] {"career", "track listing", " members", "further reading", "related ", " life", "source", " links", "weblink", "external", "also", "reff", "refer", "refr", "<", "\t", "'''", ":"});
 
         /// <summary>
         /// Fix ==See also== and similar section common errors.
