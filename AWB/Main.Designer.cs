@@ -3011,8 +3011,9 @@ namespace AutoWikiBrowser
             this.btntsShowHide.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btntsShowHide.Name = "btntsShowHide";
             this.btntsShowHide.Size = new System.Drawing.Size(23, 22);
-            this.btntsShowHide.Text = "Show or hide the panel";
+            //this.btntsShowHide.Text = "Show or hide the panel";
             this.btntsShowHide.Click += new System.EventHandler(this.btnShowHide_Click);
+            this.btntsShowHide.MouseHover += new System.EventHandler(this.editToolBar_MouseHover);
             // 
             // btntsShowHideParameters
             // 
@@ -3020,8 +3021,9 @@ namespace AutoWikiBrowser
             this.btntsShowHideParameters.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btntsShowHideParameters.Name = "btntsShowHideParameters";
             this.btntsShowHideParameters.Size = new System.Drawing.Size(23, 22);
-            this.btntsShowHideParameters.Text = "Make the edit box span bottom of window";
+            //this.btntsShowHideParameters.Text = "Make the edit box span bottom of window";
             this.btntsShowHideParameters.Click += new System.EventHandler(this.btntsShowHideParameters_Click);
+            this.btntsShowHideParameters.MouseHover += new System.EventHandler(this.editToolBar_MouseHover);
             // 
             // toolStripSeparator12
             // 
@@ -3035,9 +3037,10 @@ namespace AutoWikiBrowser
             this.btntsStart.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btntsStart.Name = "btntsStart";
             this.btntsStart.Size = new System.Drawing.Size(23, 22);
-            this.btntsStart.Text = "toolStripButton1";
-            this.btntsStart.ToolTipText = "Start processing pages";
+            //this.btntsStart.Text = "toolStripButton1";
+            //this.btntsStart.ToolTipText = "Start processing pages";
             this.btntsStart.Click += new System.EventHandler(this.btntsStart_Click);
+            this.btntsStart.MouseHover += new System.EventHandler(this.editToolBar_MouseHover);
             // 
             // btntsStop
             // 
@@ -3045,9 +3048,10 @@ namespace AutoWikiBrowser
             this.btntsStop.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btntsStop.Name = "btntsStop";
             this.btntsStop.Size = new System.Drawing.Size(23, 22);
-            this.btntsStop.Text = "Stop";
-            this.btntsStop.ToolTipText = "Stops everything ";
+            //this.btntsStop.Text = "Stop";
+            //this.btntsStop.ToolTipText = "Stops everything ";
             this.btntsStop.Click += new System.EventHandler(this.btntsStop_Click);
+            this.btntsStop.MouseHover += new System.EventHandler(this.editToolBar_MouseHover);
             // 
             // toolStripSeparator15
             // 
@@ -3061,8 +3065,10 @@ namespace AutoWikiBrowser
             this.btntsPreview.Name = "btntsPreview";
             this.btntsPreview.Size = new System.Drawing.Size(52, 22);
             this.btntsPreview.Text = "Preview";
-            this.btntsPreview.ToolTipText = "Preview your changes";
+            this.btntsPreview.AutoToolTip = false;
+            //this.btntsPreview.ToolTipText = "Preview your changes";
             this.btntsPreview.Click += new System.EventHandler(this.btntsPreview_Click);
+            this.btntsPreview.MouseHover += new System.EventHandler(this.editToolBar_MouseHover);
             // 
             // btntsChanges
             // 
@@ -3071,8 +3077,10 @@ namespace AutoWikiBrowser
             this.btntsChanges.Name = "btntsChanges";
             this.btntsChanges.Size = new System.Drawing.Size(30, 22);
             this.btntsChanges.Text = "Diff";
-            this.btntsChanges.ToolTipText = "Preview your changes; please use this before saving.";
+            this.btntsChanges.AutoToolTip = false;
+            //this.btntsChanges.ToolTipText = "Preview your changes; please use this before saving.";
             this.btntsChanges.Click += new System.EventHandler(this.btntsChanges_Click);
+            this.btntsChanges.MouseHover += new System.EventHandler(this.editToolBar_MouseHover);
             // 
             // toolStripSeparator18
             // 
@@ -3086,8 +3094,10 @@ namespace AutoWikiBrowser
             this.btntsSave.Name = "btntsSave";
             this.btntsSave.Size = new System.Drawing.Size(35, 22);
             this.btntsSave.Text = "Save";
-            this.btntsSave.ToolTipText = "Save your changes and continue";
+            this.btntsSave.AutoToolTip = false;
+            //this.btntsSave.ToolTipText = "Save your changes and continue";
             this.btntsSave.Click += new System.EventHandler(this.btntsSave_Click);
+            this.btntsSave.MouseHover += new System.EventHandler(this.editToolBar_MouseHover);
             // 
             // btntsIgnore
             // 
@@ -3096,9 +3106,10 @@ namespace AutoWikiBrowser
             this.btntsIgnore.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btntsIgnore.Name = "btntsIgnore";
             this.btntsIgnore.Size = new System.Drawing.Size(23, 22);
-            this.btntsIgnore.Text = "Ignore";
-            this.btntsIgnore.ToolTipText = "Skip this page without saving and continue on the next";
+            //this.btntsIgnore.Text = "Ignore";
+            //this.btntsIgnore.ToolTipText = "Skip this page without saving and continue on the next";
             this.btntsIgnore.Click += new System.EventHandler(this.btntsIgnore_Click);
+            this.btntsIgnore.MouseHover += new System.EventHandler(this.editToolBar_MouseHover);
             // 
             // toolStripSeparator16
             // 
@@ -3112,9 +3123,10 @@ namespace AutoWikiBrowser
             this.btntsDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btntsDelete.Name = "btntsDelete";
             this.btntsDelete.Size = new System.Drawing.Size(23, 22);
-            this.btntsDelete.Text = "Delete";
-            this.btntsDelete.ToolTipText = "Delete this page";
+            //this.btntsDelete.Text = "Delete";
+            //this.btntsDelete.ToolTipText = "Delete this page";
             this.btntsDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.btntsDelete.MouseHover += new System.EventHandler(this.editToolBar_MouseHover);
             // 
             // toolStripSeparator23
             // 
@@ -3127,10 +3139,11 @@ namespace AutoWikiBrowser
             this.btntsFalsePositive.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btntsFalsePositive.Name = "btntsFalsePositive";
             this.btntsFalsePositive.Size = new System.Drawing.Size(23, 22);
-            this.btntsFalsePositive.Text = "toolStripButton1";
-            this.btntsFalsePositive.ToolTipText = "Add to false positives file";
+            //this.btntsFalsePositive.Text = "toolStripButton1";
+            //this.btntsFalsePositive.ToolTipText = "Add to false positives file";
             this.btntsFalsePositive.Visible = false;
             this.btntsFalsePositive.Click += new System.EventHandler(this.FalsePositiveClick);
+            this.btntsFalsePositive.MouseHover += new System.EventHandler(this.editToolBar_MouseHover);
             // 
             // lbltsNumberofItems
             // 

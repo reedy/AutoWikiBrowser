@@ -5848,6 +5848,51 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             tt.Show(text, item.Owner);
         }
+        
+        private void editToolBar_MouseHover(object sender, EventArgs e)
+        {
+            AWBToolTip tt = new AWBToolTip();
+
+            System.Windows.Forms.ToolStripButton item = (sender as System.Windows.Forms.ToolStripButton);
+
+            string text = "";
+
+            switch(item.Name)
+            {
+            case "btntsDelete":
+                text = "Delete this page";
+                break;
+            case "btntsIgnore":
+                text = "Skip this page without saving and continue on the next";
+                break;
+            case "btntsSave":
+                text = "Save your changes and continue";
+                break;
+            case "btntsChanges":
+                text = "Preview your changes; please use this before saving.";
+                break;
+            case "btntsPreview":
+                text = "Preview your changes";
+                break;
+            case "btntsStop":
+                text = "Stops everything";
+                break;
+            case "btntsStart":
+                text = "Start processing pages";
+                break;
+            case "btntsShowHideParameters":
+                text = "Make the edit box span bottom of window";
+                break;
+            case "btntsShowHide":
+                text = "Show or hide the panel";
+                break;
+            case "btntsFalsePositive":
+                text = "Add to false positives file";
+                break;
+            }
+
+            tt.Show(text, item.Owner);
+        }
 
         private void lblProject_Click(object sender, EventArgs e)
         {
