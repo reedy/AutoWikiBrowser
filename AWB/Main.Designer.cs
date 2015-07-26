@@ -1679,7 +1679,7 @@ namespace AutoWikiBrowser
             this.lblUserNotifications.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUserNotifications.Size = new System.Drawing.Size(14, 17);
             this.lblUserNotifications.Text = " ";
-            this.lblUserNotifications.ToolTipText = "User notifications";
+            this.lblUserNotifications.MouseHover += new System.EventHandler(this.statusBar_MouseHover);
             this.lblUserNotifications.Visible = false;
             this.lblUserNotifications.Click += new System.EventHandler(this.lblUserNotifications_Click);
             // 
@@ -1692,6 +1692,7 @@ namespace AutoWikiBrowser
             this.lblUserName.Size = new System.Drawing.Size(37, 17);
             this.lblUserName.Text = "User:";
             this.lblUserName.Click += new System.EventHandler(this.lblUserName_Click);
+            this.lblUserName.MouseHover += new System.EventHandler(this.statusBar_MouseHover);
             // 
             // lblProject
             // 
@@ -1701,7 +1702,7 @@ namespace AutoWikiBrowser
             this.lblProject.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblProject.Size = new System.Drawing.Size(63, 17);
             this.lblProject.Text = "Wikipedia";
-            this.lblProject.ToolTipText = "Click to switch project";
+            this.lblProject.MouseHover += new System.EventHandler(this.statusBar_MouseHover);
             this.lblProject.Click += new System.EventHandler(this.lblProject_Click);
             // 
             // lblNewArticles
