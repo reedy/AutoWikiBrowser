@@ -92,15 +92,15 @@
             // linkLabel1
             // 
             this.linkLabel1.DisabledLinkColor = System.Drawing.SystemColors.ControlText;
-            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(97, 35);
+            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(97, 11);
             this.linkLabel1.Location = new System.Drawing.Point(12, 104);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(364, 47);
             this.linkLabel1.TabIndex = 8;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "AWB is constantly being improved by a group of dedicated developers.  If you woul" +
-                "d, please visit Wikipedia_talk:AutoWikiBrowser/Bugs and add the following text t" +
-                "o the page:";
+    "d, please visit Phabricator to file a new task. You will need to login using you" +
+    "r Wikimedia or Wikitech account.";
             this.linkLabel1.UseCompatibleTextRendering = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 

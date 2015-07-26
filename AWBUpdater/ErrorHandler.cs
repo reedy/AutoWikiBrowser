@@ -29,7 +29,7 @@ namespace AwbUpdater
                 MessageBox.Show(ex.Message, "Network access error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-                // out of memory error
+            // out of memory error
             else if (ex is OutOfMemoryException)
             {
                 MessageBox.Show(ex.Message, "Out of Memory error",
@@ -37,7 +37,7 @@ namespace AwbUpdater
             }
             else // suggest a bug report for other exceptions
             {
-                ErrorHandler handler = new ErrorHandler {txtError = {Text = ex.Message}};
+                ErrorHandler handler = new ErrorHandler { txtError = { Text = ex.Message } };
 
                 StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
 
@@ -126,7 +126,7 @@ namespace AwbUpdater
         }
 
         private static readonly string[] PresetNamespaces =
-            new [] { "System.", "Microsoft.", "Mono." };
+            new[] { "System.", "Microsoft.", "Mono." };
 
         /// <summary>
         /// Returns the name of our function where supposedly error resides;
@@ -191,7 +191,8 @@ namespace AwbUpdater
             linkLabel1.LinkVisited = true;
             try
             {
-                System.Diagnostics.Process.Start("https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&action=edit&section=new");
+                System.Diagnostics.Process.Start(
+                    "https://phabricator.wikimedia.org/maniphest/task/create/?projects=AutoWikiBrowser");
             }
             catch { }
         }
