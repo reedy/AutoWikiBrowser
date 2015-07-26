@@ -143,10 +143,9 @@ namespace WikiFunctions
                 FormatException(ex, stackTrace, ExceptionKind.TopLevel);
                 StackTrace = stackTrace.ToString();
 
-                var exception = ex as ApiException;
-                if (exception != null)
+                if (apiException != null)
                 {
-                    ApiExtra = exception.GetExtraSpecificInformation();
+                    ApiExtra = apiException.GetExtraSpecificInformation();
                 }
 
                 if (AppendToErrorHandler != null)
