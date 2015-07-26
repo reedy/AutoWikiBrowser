@@ -41,7 +41,7 @@ namespace WikiFunctions
 
         private static bool HandleKnownExceptions(Exception ex)
         {
-            Tools.WriteDebug("HandleKnownExceptions", ex.StackTrace.ToString());
+            Tools.WriteDebug("HandleKnownExceptions", ex.StackTrace);
             // invalid regex - only ArgumentException, without subclasses
             if (ex is ArgumentException &&
                 (ex.StackTrace.Contains("System.Text.RegularExpressions") ||
@@ -73,9 +73,9 @@ namespace WikiFunctions
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             // disk writer error / full
-            else if (ex is System.IO.IOException || ex is ConfigurationErrorsException
-                     && (ex.InnerException != null && ex.InnerException.InnerException != null
-                         && ex.InnerException.InnerException is System.IO.IOException))
+            else if (ex is System.IO.IOException ||
+                     ex is ConfigurationErrorsException && ex.InnerException != null &&
+                     ex.InnerException.InnerException is System.IO.IOException)
             {
                 MessageBox.Show(ex.Message, "I/O error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -132,7 +132,8 @@ namespace WikiFunctions
             /// <param name="ex"></param>
             public BugReport(Exception ex)
             {
-                var thread = ex is ApiException ? ((ApiException) ex).ThrowingThread : System.Threading.Thread.CurrentThread;
+                var apiException = ex as ApiException;
+                var thread = apiException != null ? apiException.ThrowingThread : System.Threading.Thread.CurrentThread;
                 if (thread.Name != "Main thread")
                 {
                     Thread = thread.Name;
