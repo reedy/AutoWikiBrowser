@@ -29,6 +29,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
 using WikiFunctions.Parse;
 
 namespace WikiFunctions
@@ -1659,9 +1660,6 @@ Message: {2}
 			return new Uri(url).Host;
 		}
 
-		private static readonly Regex ExpandTemplatesRegex = new Regex(@"<expandtemplates[^\>]*>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-		private static readonly Regex ExpandTemplatesRegex2 = new Regex(@"<wikitext[^\>]*>(.*?)</wikitext>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
 		/// <summary>
 		/// Expands (substitutes) template calls using the API
 		/// </summary>
@@ -1670,43 +1668,34 @@ Message: {2}
 		/// <param name="regexes">Dictionary of templates to substitute</param>
 		/// <param name="includeComment"></param>
 		/// <returns>The updated article text</returns>
-		public static string ExpandTemplate(string articleText, string articleTitle, Dictionary<Regex, string> regexes, bool includeComment)
+		public static string ExpandTemplate(string articleText, string articleTitle, Dictionary<Regex, string> regexes,
+			bool includeComment)
 		{
 			foreach (KeyValuePair<Regex, string> p in regexes)
 			{
 				string originalArticleText = "";
-				
-				while(!originalArticleText.Equals(articleText))
+
+				while (!originalArticleText.Equals(articleText))
 				{
 					originalArticleText = articleText;
 					// avoid matching on previously commented out calls
 					Match m = p.Key.Match(ReplaceWithSpaces(articleText, WikiRegexes.Comments));
-					if(!m.Success)
+					if (!m.Success)
 						continue;
-					
+
 					string call = m.Value, result;
-					
-					if(Globals.UnitTestMode)
+
+					if (Globals.UnitTestMode)
 						result = "Expanded template test return";
 					else
 					{
-						string expandUri = Variables.URLApi + "?action=expandtemplates&prop=wikitext&format=xml&title=" + WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
-						
+						string expandUri = Variables.URLApi + "?action=expandtemplates&prop=wikitext&format=json&title=" +
+							WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
 						try
 						{
-							string respStr = GetHTML(expandUri);
-							Match m1 = ExpandTemplatesRegex.Match(respStr);
-							if (!m1.Success)
-							{
-								continue;
-							}
-
-							Match m2 = ExpandTemplatesRegex2.Match(respStr);
-							if (!m2.Success)
-							{
-								continue;
-							}
-							result = HttpUtility.HtmlDecode(m2.Groups[1].Value);
+							result = HttpUtility.HtmlDecode(
+								JObject.Parse(GetHTML(expandUri))["expandtemplates"]["wikitext"].ToString()
+							);
 						}
 						catch
 						{
@@ -1716,7 +1705,7 @@ Message: {2}
 
 					bool skipArticle;
 					result = new Parsers().Unicodify(result, out skipArticle);
-					
+
 					if (includeComment)
 						result = result + "<!-- " + call + " -->";
 
