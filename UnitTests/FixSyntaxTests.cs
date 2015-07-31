@@ -60,6 +60,7 @@ namespace UnitTests
 
             Assert.AreEqual(@"ISBN 9711005522", Parsers.FixSyntax(@"[[ISBN]] [[Special:BookSources/9711005522|9711005522]]"), "ISBNT substed");
             Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[ISBN]] [[Special:BookSources/9780881925166|9780881925166]]"), "ISBNT substed");
+            Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[International Standard Book Number|ISBN]] [[Special:BookSources/9780881925166|9780881925166]]"), "ISBNT substed");
         }
 
         [Test]
