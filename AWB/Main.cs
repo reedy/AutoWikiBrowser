@@ -4309,12 +4309,20 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 StatusLabelText = "Loading typos";
 
                 // if not logged in will be using default Typos page location so look up any custom page from CheckPage info
+                // if no checkpage then fall back to using default ReftPath
                 if(!TheSession.User.IsLoggedIn && !Variables.IsWikipediaEN && Variables.RetfPath.EndsWith("AutoWikiBrowser/Typos"))
                 {
-                    string url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";
-
-                    string checkPageText = Tools.GetHTML(url);
-
+                    string checkPageText;
+                    try
+                    {
+                        string url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";    
+                        checkPageText = Tools.GetHTML(url);
+                    }
+                    catch
+                    {
+                        checkPageText = "";
+                    }
+                    
                     WikiFunctions.Session.HasTypoLink(checkPageText);
                 }
 
