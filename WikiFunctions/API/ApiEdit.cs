@@ -1413,11 +1413,12 @@ namespace WikiFunctions.API
                     StringBuilder warningBuilder = new StringBuilder();
                     foreach (XmlNode childNode in xmlNode.ChildNodes)
                     {
-                        if (childNode.InnerText == "Unrecognized value for parameter 'meta': notifications")
+                        // use Contains as warnings may be in a single XML block
+                        if (childNode.InnerText.Contains("Unrecognized value for parameter 'meta': notifications"))
                         {
                             Variables.NotificationsEnabled = false;
                         }
-                        else if (childNode.InnerText == "The intoken parameter has been deprecated.")
+                        else if (childNode.InnerText.Contains("The intoken parameter has been deprecated."))
                         {
                             UseInToken = false;
                         }
