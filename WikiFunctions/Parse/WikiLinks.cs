@@ -351,6 +351,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        private static object GetAllWikiLinksQueueLock = new object();
         private static Queue<KeyValuePair<string, List<string>>> GetAllWikiLinksQueue = new Queue<KeyValuePair<string, List<string>>>();
 
         /// <summary>
@@ -360,10 +361,13 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static List<string> GetAllWikiLinks(string articleText)
         {
-            // For peformance, use cached result if available: articletext plus List of wikilinks
-            List<string> found = GetAllWikiLinksQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-            if(found != null)
-                return found;
+            lock(GetAllWikiLinksQueueLock)
+            {
+                // For peformance, use cached result if available: articletext plus List of wikilinks
+                List<string> found = GetAllWikiLinksQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+                if(found != null)
+                    return found;
+            }
 
             string text = articleText;
             List<string> allLinks = new List<string>();
@@ -383,10 +387,13 @@ namespace WikiFunctions.Parse
 
             allLinks = Tools.DeduplicateList(allLinks);
 
-            // cache new results, then dequeue oldest if cache full
-            GetAllWikiLinksQueue.Enqueue(new KeyValuePair<string, List<string>>(articleText,  allLinks));
-            if(GetAllWikiLinksQueue.Count > 10)
-                GetAllWikiLinksQueue.Dequeue();
+            lock(GetAllWikiLinksQueueLock)
+            {
+                // cache new results, then dequeue oldest if cache full
+                GetAllWikiLinksQueue.Enqueue(new KeyValuePair<string, List<string>>(articleText, allLinks));
+                if(GetAllWikiLinksQueue.Count > 10)
+                    GetAllWikiLinksQueue.Dequeue();
+            }
 
             return allLinks;
         }

@@ -242,6 +242,8 @@ namespace WikiFunctions.Parse
             return GetAllTemplatesOld(articleText);
         }
 
+        private static object GetAllTemplatesNewQueueLock = new object();
+        private static object GetAllTemplatesDetailNewQueueLock = new object();
         private static Queue<KeyValuePair<string, List<string>>> GetAllTemplatesNewQueue = new Queue<KeyValuePair<string, List<string>>>();
         private static Queue<KeyValuePair<string, List<string>>> GetAllTemplatesDetailNewQueue = new Queue<KeyValuePair<string, List<string>>>();
 
@@ -252,10 +254,13 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static List<string> GetAllTemplatesNew(string articleText)
         {
-            // For peformance, use cached result if available: articletext plus List of template names
-            List<string> found = GetAllTemplatesNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-            if(found != null)
-                return found;
+            lock(GetAllTemplatesNewQueueLock)
+            {
+                // For peformance, use cached result if available: articletext plus List of template names
+                List<string> found = GetAllTemplatesNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+                if(found != null)
+                    return found;
+            }
                 
             /* performance: process all templates in bulk, extract template contents and reprocess. This is faster than loop applying template match on individual basis. 
             Extract rough template name then get exact template names later, faster to deduplicate then get exact template names */
@@ -287,14 +292,20 @@ namespace WikiFunctions.Parse
 
             TemplateDetail = Tools.DeduplicateList(TemplateDetail);
 
-            // cache new results, then dequeue oldest if cache full
-            GetAllTemplatesNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText,  FinalTemplateNames));
-            if(GetAllTemplatesNewQueue.Count > 10)
-                GetAllTemplatesNewQueue.Dequeue();
+            lock(GetAllTemplatesNewQueueLock)
+            {
+                // cache new results, then dequeue oldest if cache full
+                GetAllTemplatesNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText, FinalTemplateNames));
+                if(GetAllTemplatesNewQueue.Count > 10)
+                    GetAllTemplatesNewQueue.Dequeue();
+            }
 
-            GetAllTemplatesDetailNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText,  TemplateDetail));
-            if(GetAllTemplatesDetailNewQueue.Count > 10)
-                GetAllTemplatesDetailNewQueue.Dequeue();
+            lock(GetAllTemplatesDetailNewQueueLock)
+            {
+                GetAllTemplatesDetailNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText, TemplateDetail));
+                if(GetAllTemplatesDetailNewQueue.Count > 10)
+                    GetAllTemplatesDetailNewQueue.Dequeue();
+            }
 
             return FinalTemplateNames;
         }
@@ -343,9 +354,14 @@ namespace WikiFunctions.Parse
         {
             GetAllTemplates(articleText);
 
-            List<string> found = GetAllTemplatesDetailNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-            if(found == null)
-                found = new List<string>();
+            List<string> found = new List<string>();
+
+            lock(GetAllTemplatesDetailNewQueueLock)
+            {
+                found = GetAllTemplatesDetailNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+                if(found == null)
+                    found = new List<string>();
+            }
 
             return found;
         }

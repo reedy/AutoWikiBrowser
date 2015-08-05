@@ -918,7 +918,7 @@ namespace WikiFunctions.Parse
             return RefSimple.Aggregate(m.Value, (current, rr) => rr.Regex.Replace(current, rr.Replacement));
         }
 
-
+        private static object GetUnnamedRefsQueueLock = new object();
         private static Queue<KeyValuePair<string, List<Match>>> GetUnnamedRefsQueue = new Queue<KeyValuePair<string, List<Match>>>();
 
         /// <summary>
@@ -927,21 +927,29 @@ namespace WikiFunctions.Parse
         /// <param name="articleText"></param>
         private static List<Match> GetUnnamedRefs(string articleText)
         {
-            // For peformance, use cached result if available: articletext plus List matches
-            List<Match> refsList = GetUnnamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-            if(refsList != null)
-                return refsList;
+            List<Match> refsList = new List<Match>();
+            lock(GetUnnamedRefsQueueLock)
+            {
+                // For peformance, use cached result if available: articletext plus List matches
+                refsList = GetUnnamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+                if(refsList != null)
+                    return refsList;
+            }
 
             refsList = (from Match m in WikiRegexes.UnnamedReferences.Matches(articleText) select m).ToList();
 
-            // cache new results, then dequeue oldest if cache full
-            GetUnnamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText,  refsList));
-            if(GetUnnamedRefsQueue.Count > 10)
-                GetUnnamedRefsQueue.Dequeue();
+            lock(GetUnnamedRefsQueueLock)
+            {
+                // cache new results, then dequeue oldest if cache full
+                GetUnnamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText, refsList));
+                if(GetUnnamedRefsQueue.Count > 10)
+                    GetUnnamedRefsQueue.Dequeue();
+            }
 
             return refsList;
         }
 
+        private static object GetNamedRefsQueueLock = new object();
         private static Queue<KeyValuePair<string, List<Match>>> GetNamedRefsQueue = new Queue<KeyValuePair<string, List<Match>>>();
 
         /// <summary>
@@ -950,17 +958,24 @@ namespace WikiFunctions.Parse
         /// <param name="articleText"></param>
         private static List<Match> GetNamedRefs(string articleText)
         {
-            // For peformance, use cached result if available: articletext plus List matches
-            List<Match> refsList = GetNamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-            if(refsList != null)
-                return refsList;
+            List<Match> refsList = new List<Match>();
+            lock(GetNamedRefsQueueLock)
+            {
+                // For peformance, use cached result if available: articletext plus List matches
+                refsList = GetNamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
+                if(refsList != null)
+                    return refsList;
+            }
 
             refsList = (from Match m in WikiRegexes.NamedReferencesIncludingCondensed.Matches(articleText) select m).ToList();
 
-            // cache new results, then dequeue oldest if cache full
-            GetNamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText,  refsList));
-            if(GetNamedRefsQueue.Count > 10)
-                GetNamedRefsQueue.Dequeue();
+            lock(GetNamedRefsQueueLock)
+            {
+                // cache new results, then dequeue oldest if cache full
+                GetNamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText,  refsList));
+                if(GetNamedRefsQueue.Count > 10)
+                    GetNamedRefsQueue.Dequeue();
+            }
 
             return refsList;
         }
