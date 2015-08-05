@@ -856,8 +856,11 @@ Now [[A],] was."));
             Assert.AreEqual(@"great (in 2001 | blah |} now", Parsers.FixSyntax(@"great (in 2001 | blah |} now"));
 
             // Fixes } to |
-            const string cite1 = @"Great.<ref>{{cite web | url=http://www.site.com | title=abc } year=2009}}</ref>";
+            string cite1 = @"Great.<ref>{{cite web | url=http://www.site.com | title=abc } year=2009}}</ref>";
             Assert.AreEqual(@"Great.<ref>{{cite web | url=http://www.site.com | title=abc | year=2009}}</ref>", Parsers.FixSyntax(cite1));
+
+            cite1 = cite1.Replace("cite web", "vcite web");
+            Assert.AreEqual(@"Great.<ref>{{vcite web | url=http://www.site.com | title=abc | year=2009}}</ref>", Parsers.FixSyntax(cite1));
 
             // set double round bracket to single
             Assert.AreEqual(@"then (but often) for", Parsers.FixSyntax(@"then ((but often) for"));
