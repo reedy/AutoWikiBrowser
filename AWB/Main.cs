@@ -1197,6 +1197,9 @@ namespace AutoWikiBrowser
 
                 if (highlightAllFindToolStripMenuItem.Checked)
                     HighlightAllFind();
+                
+                // always clear errors in case highlight errors was previously enabled and now turned off by user
+                Errors.Clear();
 
                 if (scrollToAlertsToolStripMenuItem.Checked)
                 {
@@ -1229,8 +1232,6 @@ namespace AutoWikiBrowser
 
         private void HighlightErrors()
         {
-            Errors.Clear();
-
             foreach (KeyValuePair<int, int> kvp in unbalancedBracket)
             {
                 if (!Errors.ContainsKey(kvp.Key))
@@ -4145,6 +4146,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             if (highlightAllFindToolStripMenuItem.Checked)
                 HighlightAllFind();
+
+            Errors.Clear();
 
             if (scrollToAlertsToolStripMenuItem.Checked)
                 HighlightErrors();
