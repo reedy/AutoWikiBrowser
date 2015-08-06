@@ -200,6 +200,10 @@ namespace WikiFunctions.Parse
                     articleText = EmptyTags.Replace(articleText, "");
             }
 
+            // try to fix invalid opening <ref> tag
+            if(Regex.IsMatch(articleText, @"[^/<]ref>") && UnclosedTags(articleText).Any())
+                articleText = Regex.Replace(articleText, @"([^/<])ref>", "$1<ref>");
+
             // merge italic/bold html tags if there are one after the other
             //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_21#Another_bug_on_italics
             if(SimpleTagsList.Any(s => s.StartsWith("<b") && !s.StartsWith("<br")))
