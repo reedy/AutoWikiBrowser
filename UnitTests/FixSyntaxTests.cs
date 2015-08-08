@@ -420,6 +420,7 @@ Template:foo}}"));
         public void  CiteTemplateWithSquareBracketsTests()
         {
         	Assert.AreEqual(@"<ref name=Test>{{cite web|url=http://foo.com|accessdate=2015-07-07}}</ref>", Parsers.FixSyntax(@"<ref name=Test>[[cite web|url=http://foo.com|accessdate=2015-07-07]]</ref>"));
+        	Assert.AreEqual(@"<ref>{{cite web|url=http://foo.com|accessdate=2015-07-07}}</ref>", Parsers.FixSyntax(@"<ref>[[cite web|url=http://foo.com|accessdate=2015-07-07]]</ref>"));
         	Assert.AreEqual(@"<ref>[[cite web | url = http://collection.whitney.org/object/11823 | accessdate: 25 June 2015 | publisher = [[Whitney Museum of American Art]] | title = Houston, Texas, 1977 from Women are Better than Men]].</ref>", Parsers.FixSyntax(@"<ref>[[cite web | url = http://collection.whitney.org/object/11823 | accessdate: 25 June 2015 | publisher = [[Whitney Museum of American Art]] | title = Houston, Texas, 1977 from Women are Better than Men]].</ref>"));
         }
 
