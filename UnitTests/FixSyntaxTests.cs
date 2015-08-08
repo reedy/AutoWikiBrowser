@@ -1080,7 +1080,7 @@ now"));
         {
             Assert.AreEqual(@"Now.<ref>foo</ref>", Parsers.FixSyntax(@"Now.ref>foo</ref>"), "Simple case invalid opening tag");
 
-            Assert.AreEqual(@"Now. <ref>foo</ref>", Parsers.FixSyntax(@"Now. ref>foo</ref>"), "Simple case invalid opening tag, space");
+            Assert.AreEqual(@"Now.<ref>foo</ref>", Parsers.FixSyntax(@"Now. ref>foo</ref>"), "Simple case invalid opening tag, space");
 
             string nochange = @"Now.<ref name=fooref>foo</ref>";
             Assert.AreEqual(nochange, Parsers.FixSyntax(nochange), "valid, ref in ref name");
