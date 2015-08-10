@@ -510,9 +510,10 @@ namespace WikiFunctions
         public static readonly Regex NonHTTPProtocols = new Regex(@"(?<=ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://", RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// (Slowly) Matches external links to all Wikimedia-supported protocols http, https, ftp, mailto, irc, gopher, telnet, nntp, worldwind, news, svn
+        /// (Slowly) Matches external links to all Wikimedia-supported protocols http, https, ftp, mailto, irc, gopher, telnet, nntp, worldwind, news, svn, protocol-relative HTTP(S)
+        /// Group 1 is the protocol name
         /// </summary>
-        public static readonly Regex ExternalLinks = new Regex(@"(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://(?:[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]+?(?=}})|[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]*)|\[(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\]", RegexOptions.IgnoreCase);
+        public static readonly Regex ExternalLinks = new Regex(@"(?:(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn):)?//(?:[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]+?(?=}})|[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]*)|\[(?:(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn):)?//.*?\]", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches external links only to http, https protocols
