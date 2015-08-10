@@ -891,6 +891,7 @@ foo
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "https://google.co.uk", "https://google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk", "http://www.google.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "//google.co.uk", "//google.co.uk");
             
             // protocol coverage
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");

@@ -430,11 +430,13 @@ quux.JPEG|text
         {
             AssertAllHiddenMore("[http://foo]", true);
             AssertAllHiddenMore("[http://foo bar]", true);
+            AssertAllHiddenMore("[//foo.com bar]", true); // Protocol-relative URL
             AssertAllHiddenMore("[http://foo [bar]", true);
             AssertAllHiddenMore("[[ru:Link]]", true); // possible interwiki
             Assert.IsFalse(Hide(@"[[ru:Link]]", true, true, true).Contains("Link")); // possible interwiki
             
             Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="));
+            Assert.IsTrue(Hide(@"date=April 2010|url=//w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="), "Protocol-relative URL");
             Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"}}"));
         }
         
@@ -443,6 +445,7 @@ quux.JPEG|text
         {
             AssertAllHiddenMore("http://foo.com/asdfasdf/asdf.htm", true);
             AssertAllHiddenMore("https://www.foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("//www.foo.com/asdfasdf/asdf.htm", true); // Protocol-relative URL
             AssertAllHiddenMore("ftp://www.foo.com/asdfasdf/asdf.htm", true);
             AssertAllHiddenMore("mailto://www.foo.com/asdfasdf/asdf.htm", true);
             AssertAllHiddenMore("irc://www.foo.com/asdfasdf/asdf.htm", true);
