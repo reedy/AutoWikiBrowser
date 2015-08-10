@@ -285,10 +285,10 @@ namespace WikiFunctions.Parse
             if (HideExternalLinks)
             {
                 // performance: only use all-protocol regex if the uncommon protocols are in use
-                if(WikiRegexes.NonHTTPProtocols.IsMatch(articleText))
+                //if(WikiRegexes.NonHTTPProtocols.IsMatch(articleText))
                     ReplaceMore(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
-                else
-                    ReplaceMore(WikiRegexes.ExternalLinksHTTPOnly.Matches(articleText), ref articleText);
+                //else
+                  //  ReplaceMore(WikiRegexes.ExternalLinksHTTPOnly.Matches(articleText), ref articleText);
             }
 
             ReplaceMore(WikiRegexes.Headings.Matches(articleText), ref articleText);
