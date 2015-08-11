@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -235,7 +235,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Converts [[foo|'''foo''']] → '''[[foo|foo]]''' for bold or italics
-        /// only simplify where link & target values are the same without bold/italics (first letter case insensitive
+        /// only simplify where link & target values are the same without bold/italics (first letter case insensitive)
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
@@ -289,7 +289,7 @@ namespace WikiFunctions.Parse
 
             // Performance: second determine if any links with pipe whitespace to clean
             string Category = Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:";
-            bool whitepaceTrimNeeded = pipedLinks.Any(s => ((s.Contains("| ") && !s.Contains(Category)) || s.Contains(" |") || (!s.Contains("| ]]") && s.Contains(" ]]"))));
+            bool whitespaceTrimNeeded = pipedLinks.Any(s => ((s.Contains("| ") && !s.Contains(Category)) || s.Contains(" |") || (!s.Contains("| ]]") && s.Contains(" ]]"))));
 
             foreach (string pl in pipedLinks)
             {
@@ -302,7 +302,7 @@ namespace WikiFunctions.Parse
                 string a = m.Groups[1].Value.Trim(), b = m.Groups[2].Value;
 
                 // Must retain space after pipe in Category namespace
-                if(whitepaceTrimNeeded)
+                if(whitespaceTrimNeeded)
                 {
                     b = (Namespace.Determine(a) != Namespace.Category)
                     ? m.Groups[2].Value.Trim()
@@ -339,7 +339,7 @@ namespace WikiFunctions.Parse
                         continue;
                     articleText = articleText.Replace(pl, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
                 }
-                else if(whitepaceTrimNeeded) // whitepsace trimming around the pipe to apply
+                else if(whitespaceTrimNeeded) // whitespace trimming around the pipe to apply
                 {
                     string newlink = "[[" + a + "|" + b + "]]";
 

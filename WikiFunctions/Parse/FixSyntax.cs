@@ -453,7 +453,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Trims whitespace around DEFAULTSORT value, ensures 'whitepace only' DEFAULTSORT left unchanged, removes trailing square brackets
+        /// Trims whitespace around DEFAULTSORT value, ensures 'whitespace only' DEFAULTSORT left unchanged, removes trailing square brackets
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
