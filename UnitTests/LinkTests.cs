@@ -74,8 +74,8 @@ namespace UnitTests
             Assert.AreEqual("#REDIRECT[[Dog]]", Parsers.SimplifyLinks("#REDIRECT[[dog|Dog]]"));
             Assert.AreEqual("[[funcy dog]]s", Parsers.SimplifyLinks("[[funcy dog|funcy dogs]]"));
 
-            //Assert.AreEqual("[[dog]].", Parsers.SimplifyLinks("[[dog|dog.]]"));
-            //Assert.AreEqual("[[dog]],", Parsers.SimplifyLinks("[[dog|dog,]]"));
+            Assert.AreEqual("[[dog]].", Parsers.SimplifyLinks("[[dog|dog.]]"),"point inside wikilink");
+            Assert.AreEqual("[[dog]],", Parsers.SimplifyLinks("[[dog|dog,]]"),"comma inside wikilink");
 
             Assert.AreEqual("[[funcy dog]]", Parsers.SimplifyLinks("[[funcy dog|funcy_dog]]"), "handles underscore in text: text");
             Assert.AreEqual("[[funcy dog]]", Parsers.SimplifyLinks("[[funcy_dog|funcy dog]]"), "handles underscore in text: target");
