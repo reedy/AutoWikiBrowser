@@ -291,12 +291,12 @@ namespace WikiFunctions.Parse
             string Category = Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:";
             bool whitespaceTrimNeeded = pipedLinks.Any(s => ((s.Contains("| ") && !s.Contains(Category)) || s.Contains(" |") || (!s.Contains("| ]]") && s.Contains(" ]]"))));
 
-            foreach (string pl in pipedLinks)
+            foreach (string pipedlink in pipedLinks)
             {
-                Match m = WikiRegexes.PipedWikiLink.Match(pl);
+                Match m = WikiRegexes.PipedWikiLink.Match(pipedlink);
 
                 // don't process if only matched part of link eg link is [[Image:...]] link with nested wikilinks
-                if(pl.Length != m.Length)
+                if(pipedlink.Length != m.Length)
                     continue;
 
                 string a = m.Groups[1].Value.Trim(), b = m.Groups[2].Value;
@@ -314,13 +314,13 @@ namespace WikiFunctions.Parse
 
                 string lb = Tools.TurnFirstToLower(b), la = Tools.TurnFirstToLower(a);
                 
-                if(pl.IndexOfAny("&%_".ToCharArray()) > -1) // check for performance
+                if(pipedlink.IndexOfAny("&%_".ToCharArray()) > -1) // check for performance
                 {
-                    string b2 = CanonicalizeTitle(b), a2 = CanonicalizeTitle(a);
+                    string cb = CanonicalizeTitle(b), ca = CanonicalizeTitle(a);
 
-                    if (b2.Equals(a) || b2.Equals(la) || a2.Equals(b) || a2.Equals(lb)) // target and text the same after cleanup and case conversion e.g. [[A|a]] or [[Foo_bar|Foo bar]] etc.
+                    if (cb.Equals(a) || cb.Equals(la) || ca.Equals(b) || ca.Equals(lb)) // target and text the same after cleanup and case conversion e.g. [[A|a]] or [[Foo_bar|Foo bar]] etc.
                     {
-                        articleText = articleText.Replace(pl, "[[" + b.Replace("_", " ") + "]]");
+                        articleText = articleText.Replace(pipedlink, "[[" + b.Replace("_", " ") + "]]");
                     }
                 }
                 
@@ -337,14 +337,14 @@ namespace WikiFunctions.Parse
                     }
                     if (doBreak)
                         continue;
-                    articleText = articleText.Replace(pl, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
+                    articleText = articleText.Replace(pipedlink, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
                 }
                 else if(whitespaceTrimNeeded) // whitespace trimming around the pipe to apply
                 {
                     string newlink = "[[" + a + "|" + b + "]]";
 
-                    if (newlink != pl)
-                        articleText = articleText.Replace(pl, newlink);
+                    if (newlink != pipedlink)
+                        articleText = articleText.Replace(pipedlink, newlink);
                 }
             }
 
