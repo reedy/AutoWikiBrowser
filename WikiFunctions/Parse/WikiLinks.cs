@@ -323,15 +323,13 @@ namespace WikiFunctions.Parse
                         articleText = articleText.Replace(pipedlink, "[[" + b.Replace("_", " ") + "]]");
                     }
                 }
-                
-                if(lb.Equals(la + @"."))
+
+                foreach(string punct in new List<string>(new [] {".", ","}))
                 {
-                    articleText = articleText.Replace(pipedlink, "[[" + a + "]]"  + ".");
-                }
-                
-                if(lb.Equals(la + @","))
-                {
-                    articleText = articleText.Replace(pipedlink, "[[" + a + "]]"  + ",");
+                    if(lb.Equals(la + punct))
+                    {
+                        articleText = articleText.Replace(pipedlink, "[[" + a + "]]"  + punct);
+                    }
                 }
 
                 if (lb.StartsWith(la, StringComparison.Ordinal)) // target is substring of text e.g. [[Dog|Dogs]] --> [[Dog]]s
