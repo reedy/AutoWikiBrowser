@@ -315,6 +315,7 @@ namespace WikiFunctions.DBScanner
                 UpdateList();
 
                 UpdateDBScannerArticleCount();
+                UpdateProgressBar();
 
                 if (Main != null && Main.Message)
                 {
@@ -825,7 +826,10 @@ namespace WikiFunctions.DBScanner
         /// </summary>
         private void UpdateProgressBar()
         {
-            double matchesByLimit = ((double)Matches / Limit), completion = Main.PercentageComplete, newValue;
+            double matchesByLimit = ((double)Matches / Limit), completion = 0, newValue;
+
+            if(Main != null)
+                completion = Main.PercentageComplete;
 
             /* indicate progress based on either fraction of matches compared to user-requested match limit
              or overall fraction of file scanned, whichever is greater */
