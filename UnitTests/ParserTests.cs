@@ -2014,6 +2014,11 @@ Text
             tags2.Clear();
             tags2.Add("{{notability|Biography|date=May 2012}}");
             Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "Retain template argument, in first tag");
+
+            tags.Clear();
+            tags.Add("{{Expert-subject|Science fiction|date=February 2009}}");
+            tags.Add("{{Expert-subject|Military history/Weaponry task force|date=February 2009}}");
+            Assert.AreEqual(tags, Parsers.DeduplicateMaintenanceTags(tags), "Retain template argument in both");
         }
     }
 
