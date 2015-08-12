@@ -378,7 +378,8 @@ namespace WikiFunctions
                 s.Append(RightLines[i]);
             }
 
-            if (left >= RightLines.Length)
+            // if have deletions at end then right will be >= RightLines.Length so append LeftLines[left]
+            if (left >= RightLines.Length || right >= RightLines.Length)
             {
                 if (s.Length > 0)
                 {
