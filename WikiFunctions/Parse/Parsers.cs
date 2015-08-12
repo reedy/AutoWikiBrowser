@@ -744,6 +744,8 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        private static readonly Regex TemplateArg = new Regex(@"\|([^=\|}}]+)\|");
+
         /// <summary>
         /// Deduplicates multiple maintenance tags. Uses earliest of date parameters, merges all other parameters.
         /// Does nothing if parameter values other than date parameter are conflicting
@@ -756,15 +758,22 @@ namespace WikiFunctions.Parse
             List<string> originalTags = tags;
 
             // if any tag has unnamed param as firt argument, sort tags with longest part before first = to be first, so we retain the unnamed param
-            if(tags.Any(t => Regex.IsMatch(t, @"\|[^=\|}}]+\|")))
+            if(tags.Any(t => TemplateArg.IsMatch(t)))
                 tags = tags.OrderByDescending(s => (s.Contains("=") ? s.Substring(0, s.IndexOf("=")).Length : s.Length)).ToList();
 
             foreach(string t in tags)
             {
                 string existingTag = newtags.Where(nt => Tools.TurnFirstToLower(Tools.GetTemplateName(nt)) == Tools.TurnFirstToLower(Tools.GetTemplateName(t))).FirstOrDefault();
 
-                if(existingTag != null)
+                if(existingTag != null) // so list already contains tag for same template
                 {
+                    // check for tag having conflicting first argument
+                    string eParam = TemplateArg.Match(existingTag).Groups[1].Value.Trim();
+                    string tParam = TemplateArg.Match(t).Groups[1].Value.Trim();
+
+                    if(tParam.Length > 0 && eParam.Length > 0 && eParam != tParam)
+                        return originalTags;
+                    
                     string existingTagOriginal = existingTag;
                     Dictionary<string, string> tparams = Tools.GetTemplateParameterValues(t);
 
