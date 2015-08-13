@@ -328,7 +328,7 @@ namespace WikiFunctions.Parse
                 {
                     if(lb.Equals(la + punct))
                     {
-                        articleText = articleText.Replace(pipedlink, "[[" + a + "]]"  + punct);
+                        articleText = articleText.Replace(pipedlink, "[[" + b.Substring(0, b.Length-1) + "]]"  + punct);
                     }
                 }
 
