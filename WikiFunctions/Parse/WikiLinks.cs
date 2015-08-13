@@ -33,7 +33,7 @@ namespace WikiFunctions.Parse
     /// </summary>
     public partial class Parsers
     {
-        private static readonly Regex LinkWhitespace1 = new Regex(@"(.|^)\[\[ ([^\]]+)\]\]", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex LinkWhitespace1 = new Regex(@"(.|^)\[\[ +([^\]]+)\]\]", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex LinkWhitespace3 = new Regex(@"\[\[([^\]]{1,30}?) {2,10}([^\]]{1,30})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace4 = new Regex(@"\[\[([^\]\|]{1,30}) \]\](\s)", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace5 = new Regex(@"\[\[([^\]]{1,30}) \]\](?=\w)", RegexOptions.Compiled);
@@ -79,10 +79,11 @@ namespace WikiFunctions.Parse
             if(allWikiLinks.Any(s => s.EndsWith(" ]]")))
             {
                 //remove undesirable space from end of wikilink (whitespace after wikilink) - parse this line first
-                articleText = LinkWhitespace4.Replace(articleText, "[[$1]]$2");
+                // TrimEnd to remove multiple spaces
+                articleText = LinkWhitespace4.Replace(articleText, m => "[[" + m.Groups[1].Value.TrimEnd() + "]]" + m.Groups[2].Value);
 
                 //remove undesirable space from end of wikilink and move it outside link - parse this line second
-                articleText = LinkWhitespace5.Replace(articleText, "[[$1]] ");
+                articleText = LinkWhitespace5.Replace(articleText, m => "[[" + m.Groups[1].Value.TrimEnd() + "]] ");
             }
 
             //remove undesirable double space between wikilinked dates
