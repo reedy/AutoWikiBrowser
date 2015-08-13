@@ -624,6 +624,9 @@ was [[foo|bar]] too"));
             Assert.AreEqual(@"'''[[foo|Foo]]'''", Parsers.FixLinks(@"[[foo|'''Foo''']]", "a", out nochange));
             Assert.IsFalse(nochange);
 
+            Assert.AreEqual(@"'''[[foo|Foo]]''' ''[[bar|bar]]''", Parsers.FixLinks(@"[[foo|'''Foo''']] [[bar|''bar'']]", "a", out nochange));
+         //   Assert.AreEqual(@"'''[[foo|Foo]]''' ''[[foor|bar]]''", Parsers.FixLinks(@"[[foo|'''Foo''']] ''[[foor|bar]]''", "a", out nochange));
+
             // No change to single apostrophes
             Assert.AreEqual(@"[[foo|'bar']]", Parsers.FixLinks(@"[[foo|'bar']]", "a", out nochange));
             Assert.IsTrue(nochange);
