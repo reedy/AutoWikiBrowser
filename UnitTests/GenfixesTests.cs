@@ -609,6 +609,32 @@ company's founder<ref name=""Warnock 1980"">{{cite book|last=Warnock|first=C |ti
         {
             AssertNotChanged(@"*{{cite thesis |last=A |first=S |title=Categorizing |url=http://urn.fi/URN:ISBN:978-999-61-9999-2 |year=2010 }}");
         }
+
+        [Test]
+        public void LivingPeople()
+        {
+            ArticleText = @"{{Multiple issues|{{refimprove|date=July 2015}}{{BLP sources|date=July 2015}}}}
+
+{{Infobox football biography
+| name = Am
+| birth_date  = 3 May 1983
+}}
+
+'''Amir'''  is.<ref>http://ca.soccerway.com/players/</ref>
+
+==References==
+<references/>
+
+{{iran-footy-bio-stub}}
+
+{{DEFAULTSORT:Amir}}
+[[Category:A players]]";
+
+            GenFixes();
+
+            Assert.IsFalse(ArticleText.Contains(@"{Multiple issues"));
+            Assert.IsTrue(ArticleText.Contains(@"Category:Living people"));
+        }
     }
 
     [TestFixture]

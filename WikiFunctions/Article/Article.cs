@@ -1094,7 +1094,12 @@ namespace WikiFunctions
         {
             bool noChange, noChange2;
             string strTemp = parsers.FixPeopleCategories(mArticleText, Name, true, out noChange);
+
             strTemp = Parsers.LivingPeople(strTemp, Name, out noChange2);
+
+            // call conversions if FixPeopleCategories made changes as may now require {{multiple issues}} template updates etc.
+            if(!noChange)
+                strTemp = Parsers.Conversions(strTemp);
 
             if (!noChange2)
                 noChange = false;
