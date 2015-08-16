@@ -1091,6 +1091,9 @@ now"));
             Assert.AreEqual(nochange, Parsers.FixSyntax(nochange), "valid, ref in ref name");
             nochange = @"Now./ref>foo</ref>";
             Assert.AreEqual(nochange, Parsers.FixSyntax(nochange), "invalid slash");
+
+            Assert.AreEqual(@"Now.<ref>foo</ref>", Parsers.FixSyntax(@"Now.<ref<foo</ref>"), "Simple case <ref<");
+            Assert.AreEqual(@"Now.<ref>{{foo}}</ref>", Parsers.FixSyntax(@"Now.<ref>{{foo}}/ref>"), "Simple case missing final <");
         }
  
         [Test]

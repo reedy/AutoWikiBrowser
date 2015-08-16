@@ -201,8 +201,13 @@ namespace WikiFunctions.Parse
             }
 
             // try to fix invalid opening <ref> tag
-            if(Regex.IsMatch(articleText, @"[\.,] ?\/?ref") && UnclosedTags(articleText).Any())
-                articleText = Regex.Replace(articleText, @"([\.,]) ?ref(\s*name\s*=[^{}<>]+?\s*)?>", "$1<ref$2>");
+            if(UnclosedTags(articleText).Any())
+            {
+                articleText = articleText.Replace("<ref<", "<ref>").Replace("}}/ref>", "}}</ref>");
+
+                if(Regex.IsMatch(articleText, @"[\.,] ?\/?ref"))
+                    articleText = Regex.Replace(articleText, @"([\.,]) ?ref(\s*name\s*=[^{}<>]+?\s*)?>", "$1<ref$2>");
+            }
 
             // merge italic/bold html tags if there are one after the other
             //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_21#Another_bug_on_italics
