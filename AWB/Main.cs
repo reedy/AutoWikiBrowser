@@ -616,6 +616,10 @@ namespace AutoWikiBrowser
                     case "tpt-target-page":
                         SkipPage("Translation pages cannot currently be edited");
                         break;
+                        
+                    case "titleblacklist-forbidden-edit":
+                        SkipPage("TitleBlacklist prevents this title from being created");
+                        break;
 
                     default:
                         Tools.WriteDebug("ApiExceptionCaught", ex.Message);
