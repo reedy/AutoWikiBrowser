@@ -941,6 +941,7 @@ namespace WikiFunctions
                     SetFaRChange(onlyApplyAfter, FaRChange.NoChange);
 
                 //No changes, so nothing to change in article text (but we're not skipping either)
+                return;
             }
             // Do not skip for "minor change" if advanced find & replace made changes
             else if (!farMadeMajorChanges && !AdvFarMadeChanges && skipIfOnlyMinorChange)
@@ -950,11 +951,11 @@ namespace WikiFunctions
             else
             {
                 SetFaRChange(onlyApplyAfter, FaRChange.MajorChange);
-
-                AWBChangeArticleText("Find and replace applied" + editSummary,
-                                     Tools.ConvertToLocalLineEndings(changedTextByAdvFar), true);
-                AppendToSummary(editSummary);
             }
+
+            AWBChangeArticleText("Find and replace applied" + editSummary,
+                                 Tools.ConvertToLocalLineEndings(changedTextByAdvFar), true);
+            AppendToSummary(editSummary);
         }
 
         /// <summary>
