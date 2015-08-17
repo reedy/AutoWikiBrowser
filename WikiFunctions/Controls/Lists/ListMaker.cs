@@ -507,6 +507,13 @@ namespace WikiFunctions.Controls.Lists
         private void txtNewArticle_TextChanged(object sender, EventArgs e)
         {
             btnAdd.Enabled = txtPage.Text.Trim().Length > 0;
+
+            // reset any custom formatting of text (if copied from syntax highlighted text in edit box etc.), restoring cursor position
+            string a = txtPage.Text; 
+            int i = txtPage.SelectionStart;
+            txtPage.ResetText();
+            txtPage.Text = a;
+            txtPage.Select(i,0);
         }
         
         private void lbArticles_SelectedIndexChanged(object sender, EventArgs e)
