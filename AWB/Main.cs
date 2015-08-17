@@ -2982,10 +2982,28 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             txtEdit.ResetFind();
 
+            if(sender is RichTextBox)
+	      txtRtb_TextChanged(sender, e);
+
             btnFind.Enabled = txtFind.TextLength > 0;
 
             if(!btnFind.Enabled)
                 btnFind.BackColor = SystemColors.ButtonFace;
+        }
+        
+        /// <summary>
+        /// resets any custom formatting of text (if copied from syntax highlighted text in edit box etc.), restoring cursor position
+        /// </summary>
+        /// <param name="sender">Rich text box</param>
+        /// <param name="e">E.</param>
+        private void txtRtb_TextChanged(object sender, EventArgs e)
+        {
+            RichTextBox rtb = (RichTextBox)sender;
+            string a =  rtb.Text; 
+            int i =  rtb.SelectionStart;
+            rtb.ResetText();
+            rtb.Text = a;
+            rtb.Select(i,0);
         }
 
         private void txtEdit_TextChanged(object sender, EventArgs e)
@@ -5764,11 +5782,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void txtSkipIfContains_TextChanged(object sender, EventArgs e)
         {
             InvalidateSkipChecks();
+            txtRtb_TextChanged(sender, e);
         }
 
         private void txtSkipIfNotContains_TextChanged(object sender, EventArgs e)
         {
             InvalidateSkipChecks();
+            txtRtb_TextChanged(sender, e);
         }
 
         private void chkSkipIsRegex_CheckedChanged(object sender, EventArgs e)
