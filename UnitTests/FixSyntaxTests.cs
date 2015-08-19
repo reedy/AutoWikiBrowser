@@ -998,7 +998,19 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
 * http://www.site.com a site]
 * [http://www.site2.com another]"));
 
+            // template missing opening {
             Assert.AreEqual(@"now ({{lang-el|foo}}) was", Parsers.FixSyntax(@"now ({lang-el|foo}}) was"));
+
+            const string table = @"{| class=""wikitable""
+|-
+|Test
+|Drive
+|-
+|1
+|2
+|}}";
+
+            Assert.AreEqual(table, Parsers.FixSyntax(table), "No change to table with excess closing }");
 
             //  IndexOutOfRangeException bug
             Assert.AreEqual(@"] now", Parsers.FixSyntax(@"] now"));

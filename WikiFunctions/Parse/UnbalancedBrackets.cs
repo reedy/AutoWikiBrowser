@@ -181,7 +181,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ExternalLinkMissingOpening = new Regex(@"(?<=^ *\*) *(?=(?:ht|f)tps?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*\]\s$)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex CiteTemplateIncorrectBar = new Regex(@"({{(?:[Cc]it|[Vv]cit)[^{}]+)(?:{|})(\s*[A-Za-z0-9_-]+\s*=)");        
         private static readonly Regex TemplateIncorrectClosingBraces = new Regex(@"(?<={{[^{}<>]{1,400}[^{}<>\|\]])(?:\]}|}\]?|\)\))(?=[^{}]|$)", RegexOptions.Compiled);
-        private static readonly Regex TemplateMissingOpeningBrace = new Regex(@"(?<=[^{}<>\|]){(?=[^{}<>]{1,400}}})", RegexOptions.Compiled);
+        private static readonly Regex TemplateMissingOpeningBrace = new Regex(@"(?<=[^{}<>\|]){(?=\s*\w[^{}<>]{1,400}}})", RegexOptions.Compiled);
         private static readonly Regex PersondataPODToDEFAULTSORT = new Regex(@"(\|\s*PLACE OF DEATH\s*=\s*[^{}]+?)(\s*{{DEFAULTSORT)", RegexOptions.IgnoreCase);
         private static readonly Regex TemplateOpening = new Regex(@"\(\((\s*\w+\s*}})");
 
