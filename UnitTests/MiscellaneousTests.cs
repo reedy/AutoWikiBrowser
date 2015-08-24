@@ -2087,6 +2087,7 @@ File:Example.jpg|Caption2
         public void NormalizeTitle()
         {
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&diff=3&oldid=4"));
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&diff=3&curid=4"));
             Assert.AreEqual("Health effects of chocolate", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Health_effects_of_chocolate&diff=4018&oldid=40182"));
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&action=history"));
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&action=edit"));
