@@ -1137,7 +1137,7 @@ now"));
             const string nochange3 = @"ts borders.<ref>[https://cyber.law.harvard.edu/filtering/a/ Saudi Arabia]</ref> A Saudi";
             Assert.AreEqual(nochange3, Parsers.FixSyntax(nochange3));
 
-#if debug
+#if DEBUG
 			// In Chinese Wikipedia  the text inside and outside of the link should be directly connected
             Variables.SetProjectLangCode("zh");
             Assert.AreEqual(@"their new[http://www.site.com site]", Parsers.FixSyntax(@"their new[http://www.site.com site]"));

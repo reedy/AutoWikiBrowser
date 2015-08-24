@@ -824,7 +824,7 @@ died 2002
         [Test]
         public void TestFixCategoriesRu()
         {
-#if debug
+#if DEBUG
             Variables.SetProjectLangCode("ru");
             Assert.AreEqual(@"[[Category:World Scout Committee members|Lainé, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"), "no diacritic removal for sort key on ru-wiki");
             
