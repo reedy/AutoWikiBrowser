@@ -2457,6 +2457,20 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         }
 
         [Test]
+        public void CleanSortKeyLang()
+        {
+#if DEBUG
+            Variables.SetProjectLangCode("ru");
+            Assert.AreEqual("Hellõ", Tools.CleanSortKey("Hellõ"), "no diacritic removal for defaultsort key on ru-wiki");
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual("Hellõ", Tools.CleanSortKey("Hellõ"), "no diacritic removal for defaultsort key on fr-wiki");
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual("Hello", Tools.FixupDefaultSort("Hellõ"), "do remove diacritics on en-wiki");
+#endif
+        }
+
+        [Test]
         public void HasDiacritics()
         {
             Assert.IsTrue(Tools.HasDiacritics("hellõ"));

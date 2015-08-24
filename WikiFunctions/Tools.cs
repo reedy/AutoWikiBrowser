@@ -1237,15 +1237,15 @@ namespace WikiFunctions
 		}
 
 		/// <summary>
-		/// Cleans sortkeys: removes diacritics, except for ru-wiki
+		/// Cleans sortkeys: removes diacritics, except for ru-wiki, fr-wiki
 		/// Cleans up/removes specific characters per WP:SORTKEY
 		/// </summary>
 		/// <param name="s"></param>
 		/// <returns></returns>
 		public static string CleanSortKey(string s)
 		{
-			// no diacritic removal in sortkeys on ru-wiki
-			if(!Variables.LangCode.Equals("ru"))
+			// no diacritic removal in sortkeys on ru-wiki, fr-wiki
+			if(!Variables.LangCode.Equals("ru") && !Variables.LangCode.Equals("fr"))
 				s = RemoveDiacritics(s);
 
 			s = s.Replace("&ndash;", "–");
