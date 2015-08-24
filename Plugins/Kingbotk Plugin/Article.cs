@@ -102,7 +102,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         {
             if (!string.IsNullOrEmpty(EditSummary))
             {
-                EditSummary = Regex.Replace(EditSummary, ", $", "");
+                EditSummary = Regex.Replace(EditSummary, ", $", string.Empty);
             }
         }
 
@@ -148,7 +148,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         private Regex static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex;
 
-        internal void RestoreTemplateToPlaceholderSpot(string TemplateHeader)
+        internal void RestoreTemplateToPlaceholderSpot(string templateheader)
         {
             lock (static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init)
             {
@@ -185,10 +185,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
             AlteredArticleText =
                 static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex.Replace(
-                    AlteredArticleText, TemplateHeader, 1);
+                    AlteredArticleText, templateheader, 1);
             AlteredArticleText =
                 static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex.Replace(
-                    AlteredArticleText, "");
+                    AlteredArticleText, string.Empty);
         }
 
         internal void EditInBrowser()
