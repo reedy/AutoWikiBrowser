@@ -383,10 +383,12 @@ namespace WikiFunctions
                     d[element] = list;
                 }
             }
+
             foreach (IntList list in d.Values)
             {
                 list.Reverse();
             }
+
             return d;
         }
 
