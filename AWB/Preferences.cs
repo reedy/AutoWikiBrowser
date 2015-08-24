@@ -44,7 +44,7 @@ namespace AutoWikiBrowser
         {
             InitializeComponent();
 
-            foreach (ProjectEnum l in Enum.GetValues(typeof (ProjectEnum)))
+            foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
             {
                 cmboProject.Items.Add(l);
             }

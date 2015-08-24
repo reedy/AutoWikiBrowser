@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+            
             base.Dispose(disposing);
         }
 
@@ -33,7 +34,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.txtPrompt = new System.Windows.Forms.TextBox();
             this.lblTimer = new System.Windows.Forms.Label();
-            this.CountdownTimer = new System.Windows.Forms.Timer(this.components);
+            this.countdownTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // btnOk
@@ -79,9 +80,9 @@
             // 
             // CountdownTimer
             // 
-            this.CountdownTimer.Enabled = true;
-            this.CountdownTimer.Interval = 1000;
-            this.CountdownTimer.Tick += new System.EventHandler(this.CountdownTimer_Tick);
+            this.countdownTimer.Enabled = true;
+            this.countdownTimer.Interval = 1000;
+            this.countdownTimer.Tick += new System.EventHandler(this.CountdownTimer_Tick);
             // 
             // ShutdownNotification
             // 
@@ -114,6 +115,6 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.TextBox txtPrompt;
         private System.Windows.Forms.Label lblTimer;
-        private System.Windows.Forms.Timer CountdownTimer;
+        private System.Windows.Forms.Timer countdownTimer;
     }
 }
