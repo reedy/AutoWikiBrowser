@@ -2524,12 +2524,12 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         [Test]
         public void FixUpDefaultSortTestsRu()
         {
-#if debug
+#if DEBUG
             Variables.SetProjectLangCode("ru");
-            Assert.AreEqual("Hellõ", Tools.FixupDefaultSort("hellõ"), "no diacritic removal for defaultsort key on ru-wiki");
+            Assert.AreEqual("Hellõ", Tools.FixupDefaultSort("Hellõ"), "no diacritic removal for defaultsort key on ru-wiki");
             
             Variables.SetProjectLangCode("en");
-            Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ"));
+            Assert.AreEqual("Hello", Tools.FixupDefaultSort("Hellõ"));
 #endif
         }
 
