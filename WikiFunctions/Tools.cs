@@ -837,6 +837,8 @@ namespace WikiFunctions
 			if (pagesource.Length == 0 || metaname.Length == 0)
 				return "";
 
+            pagesource = pagesource.Replace("data-meta-updatable", "");
+
 			Regex metaContent = new Regex(@"< *meta +(?:xmlns=""http://www\.w3\.org/1999/xhtml"" +)?(?:name|property|itemprop) *= *(?:""|')" + Regex.Escape(metaname) + @"(?:""|')[^<>/]+content *= *(?:""|')([^""<>]+?)(?:""|') */? *>", RegexOptions.IgnoreCase);
 			Regex metaContent2 = new Regex(@"< *meta +(?:xmlns=""http://www\.w3\.org/1999/xhtml"" +)?[^<>/]*content *= *(?:""|')([^""<>]+?)(?:""|') *(?:name|property) *= *(?:""|')" + Regex.Escape(metaname) + @"(?:""|') */? *>", RegexOptions.IgnoreCase);
 
