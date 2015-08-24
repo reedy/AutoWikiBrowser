@@ -326,20 +326,23 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 if (GenericSettings.AutoStub &&
                     Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, pluginName: PluginShortName,
                         dontChangeIfSet: true))
+                {
+                    // If add class=Stub (we don't change if set) add auto
                     AddAndLogNewParamWithAYesValue("auto");
-                // If add class=Stub (we don't change if set) add auto
+                }
             }
         }
 
         protected void ReplaceATemplateWithAYesParameter(Regex r, string paramName, string templateCall,
             bool replace = true)
         {
-            if ((r.Matches(TheArticle.AlteredArticleText).Count > 0))
+            if (r.Matches(TheArticle.AlteredArticleText).Count > 0)
             {
                 if (replace)
                 {
-                    TheArticle.AlteredArticleText = r.Replace(TheArticle.AlteredArticleText, "");
+                    TheArticle.AlteredArticleText = r.Replace(TheArticle.AlteredArticleText, string.Empty);
                 }
+                
                 TheArticle.DoneReplacement(templateCall, paramName + "=yes");
                 Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, false, false);
                 TheArticle.ArticleHasAMinorChange();
@@ -431,6 +434,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         protected void GotNewAlternateNamesString(string alternateNames, bool senderIsGenericTemplateForm = false)
         {
             string regexpMiddle;
+            
             // Less efficient to transfer to a new string but makes code easier to understand
             bool mHasAlternateNames;
 
@@ -453,6 +457,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 LastKnownGoodRedirects = alternateNames;
                 regexpMiddle = Regex.Escape(PreferredTemplateName) + "|" +  alternateNames;
             }
+            
             regexpMiddle = regexpMiddle.Replace(" ", "[ _]");
 
             MainRegex = new Regex(Constants.RegexpLeft + regexpMiddle + Constants.RegexpRight,
