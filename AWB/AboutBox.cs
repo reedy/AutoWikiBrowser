@@ -18,14 +18,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Windows.Forms;
-using System.Reflection;
-using WikiFunctions;
-
 namespace AutoWikiBrowser
 {
-    internal sealed partial class AboutBox : Form
+    using System;
+    using System.Reflection;
+    using System.Windows.Forms;
+    using WikiFunctions;
+
+internal sealed partial class AboutBox : Form
     {
         public AboutBox(string ieVersion)
         {
@@ -40,16 +40,15 @@ namespace AutoWikiBrowser
 Windows version: {2}",
                      ieVersion,
                      Environment.Version,
-                     Environment.OSVersion.Version.Major + "." + Environment.OSVersion.Version.Minor
-                );
+                     Environment.OSVersion.Version.Major + "." + Environment.OSVersion.Version.Minor);
         }
 
-        private void okButton_Click(object sender, EventArgs e)
+        private void OkButton_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void linkAWBPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkAWBPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkAWBPage.LinkVisited = true;
             Tools.OpenENArticleInBrowser("Wikipedia:AutoWikiBrowser", false);

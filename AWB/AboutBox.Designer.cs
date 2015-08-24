@@ -100,7 +100,7 @@ namespace AutoWikiBrowser
             this.okButton.TabIndex = 0;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = false;
-            this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            this.okButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // linkAWBPage
             // 
@@ -111,7 +111,7 @@ namespace AutoWikiBrowser
             this.linkAWBPage.TabIndex = 1;
             this.linkAWBPage.TabStop = true;
             this.linkAWBPage.Text = "AutoWikiBrowser";
-            this.linkAWBPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkAWBPage_LinkClicked);
+            this.linkAWBPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkAWBPage_LinkClicked);
             // 
             // lblDevs
             // 
