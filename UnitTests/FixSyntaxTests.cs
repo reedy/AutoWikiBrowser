@@ -747,6 +747,12 @@ Now [[Fred was";
 Now [[A]], was.", Parsers.FixSyntax(Unfixable2 + @"
 ==Heading==
 Now [[A],] was."));
+
+            const string MI = @"{{Multiple issues|
+{{autobiography|date=April 2015}}
+{{notability|Biographies|date=April 2015}}
+";
+            Assert.AreEqual(MI + "}}", Parsers.FixSyntax(MI));
         }
 
         [Test]

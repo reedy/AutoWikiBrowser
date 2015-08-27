@@ -379,6 +379,9 @@ namespace WikiFunctions.Parse
 
                     // external link excess closing braces
                     articleTextTemp = TripleBracketAtEndOfExternalLink.Replace(articleTextTemp, "$1");
+
+                    // unclosed {{multiple issues
+                    articleTextTemp = Regex.Replace(articleTextTemp, @"({{[Mm]ultiple issues\s*\|\s*(\s*{{[^{}]+}})+)", "$1\r\n}}");
                 }
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, out bracketLength);
