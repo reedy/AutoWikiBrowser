@@ -231,6 +231,9 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{LSJ|foo(bar}}", out bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{)!}}", out bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{!(}}", out bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{Lisp2|foo(bar}}", out bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{C sharp|foo(bar}}", out bracketLength));
+
         }
 
         [Test]
