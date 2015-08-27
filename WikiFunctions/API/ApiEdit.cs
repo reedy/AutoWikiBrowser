@@ -54,7 +54,7 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// Creates a new instance of the ApiEdit class
+        /// Initializes a new instance of the <see cref="ApiEdit" /> class.
         /// </summary>
         /// <param name="url">Path to scripts on server</param>
         public ApiEdit(string url)
@@ -63,7 +63,7 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// Creates a new instance of the ApiEdit class
+        /// Initializes a new instance of the <see cref="ApiEdit" /> class.
         /// </summary>
         /// <param name="url">Path to scripts on server</param>
         /// <param name="usePHP5">Whether a .php5 extension is to be used</param>
@@ -236,12 +236,14 @@ namespace WikiFunctions.API
                 {
                     continue;
                 }
+
                 sb.Append('&');
                 sb.Append(s);
                 if (s.Contains("="))
                 {
                     Tools.WriteDebug(s, "Api key parameter includes =");
                 }
+
                 // Always send a =, so we don't break boolean parameters passed in the POST part of the query
                 sb.Append('=');
 

@@ -39,7 +39,7 @@ namespace WikiFunctions
         private string scriptPath;
         private readonly Dictionary<int, string> namespaces = new Dictionary<int, string>();
         private Dictionary<int, List<string>> namespaceAliases = new Dictionary<int, List<string>>();
-        //private Dictionary<string, string> messageCache = new Dictionary<string, string>();
+        // private Dictionary<string, string> messageCache = new Dictionary<string, string>();
         private readonly Dictionary<string, List<string>> magicWords = new Dictionary<string, List<string>>();
 
         private string siteinfoOutput;
@@ -256,7 +256,7 @@ namespace WikiFunctions
         public string ScriptPath
         {
             get { return scriptPath; }
-            set //Must stay public otherwise Serialiser for ObjectCache isn't happy =(
+            set // Must stay public otherwise Serialiser for ObjectCache isn't happy =(
             {
                 scriptPath = NormalizeURL(value);
             }
@@ -356,7 +356,7 @@ namespace WikiFunctions
 
         public void WriteXml(XmlWriter writer)
         {
-            //writer.WriteStartElement("site");
+            // writer.WriteStartElement("site");
             writer.WriteAttributeString("url", scriptPath);
             writer.WriteAttributeString("php5", Editor.PHP5 ? "1" : "0");
             {
@@ -371,7 +371,7 @@ namespace WikiFunctions
                     }
                 }
             }
-            //writer.WriteEndElement();
+            // writer.WriteEndElement();
         }
         #endregion
     }
