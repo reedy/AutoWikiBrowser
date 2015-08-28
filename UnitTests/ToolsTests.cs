@@ -2465,7 +2465,8 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual("Hellõ", Tools.CleanSortKey("Hellõ"), "no diacritic removal for defaultsort key on ru-wiki");
             Variables.SetProjectLangCode("fr");
             Assert.AreEqual("Hellõ", Tools.CleanSortKey("Hellõ"), "no diacritic removal for defaultsort key on fr-wiki");
-            
+            Variables.SetProjectLangCode("pl");
+            Assert.AreEqual("Hellõ", Tools.CleanSortKey("Hellõ"), "no diacritic removal for defaultsort key on pl-wiki");            
             Variables.SetProjectLangCode("en");
             Assert.AreEqual("Hello", Tools.FixupDefaultSort("Hellõ"), "do remove diacritics on en-wiki");
 #endif
