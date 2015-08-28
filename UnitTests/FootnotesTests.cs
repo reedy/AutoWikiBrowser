@@ -673,6 +673,28 @@ Jones 2005</ref>"));
         }
 
         [Test]
+        public void SameRefDifferentNameMulti()
+        {
+            string before = @"Foo.<ref>{{cite web | url = http://site.com | title = This is a normal title }}</ref>
+Foo2.<ref name=A>{{cite web | url = http://site.com | title = This is a normal title }}</ref>
+Bar3.<ref name=ABCDEF>{{cite web | url = http://site.com | title = This is a normal title }}</ref>
+Bar4.<ref name=ABCDEFGHI>{{cite web | url = http://site.com | title = This is a normal title }}</ref>
+
+==References==
+{{reflist}}";
+
+            string after = @"Foo.<ref name=""ABCDEFGHI""/>
+Foo2.<ref name=""ABCDEFGHI"">{{cite web | url = http://site.com | title = This is a normal title }}</ref>
+Bar3.<ref name=""ABCDEFGHI""/>
+Bar4.<ref name=""ABCDEFGHI""/>
+
+==References==
+{{reflist}}";
+
+            Assert.AreEqual(after, Parsers.SameRefDifferentName(before), "reparse used to rename multiple refs with same name");
+        }
+
+        [Test]
         public void SameRefDifferentNameNameDerivation()
         {
             string correct = @"Foo<ref name=Jones>Jones 2005</ref> and bar<ref name=""Jones"">Jones 2005</ref>";
