@@ -2087,6 +2087,7 @@ foo<!--comm-->|title=abc
             Assert.AreEqual(@"10.1101/gr.7.4.359", Tools.GetMetaContentValue(@"<meta content=""10.1101/gr.7.4.359"" name=""DC.Identifier"" />", "DC.Identifier"));
 
             Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta id=""og_title"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
+            Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta data-ephemeral=""true"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
         }
         
         [Test]
