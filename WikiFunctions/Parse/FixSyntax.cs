@@ -131,7 +131,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexISBN2 = new Regex(@"ISBN-(?!1[03]\b)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN3 = new Regex(@"\[\[ISBN\]\]\s\[\[Special\:BookSources[^\|]*\|([^\]]*)\]\]", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN4 = new Regex(@"\[\[International Standard Book Number\|ISBN\]\]\:?\s\[\[Special\:BookSources[^\|]*\|([^\]]*)\]\]", RegexOptions.Compiled);
-        //private static readonly Regex SyntaxRegexISBN5 = new Regex(@"\sISBN(\d[-\d ][-\d])", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *(\d)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexExternalLinkOnWholeLine = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex SyntaxRegexClosingBracket = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
@@ -361,9 +360,6 @@ namespace WikiFunctions.Parse
             if(ssb.Any(m => m.Value.Equals("[[International Standard Book Number|ISBN]]")))
                 articleText = SyntaxRegexISBN4.Replace(articleText, "ISBN $1");
 
-            // Add space between ISBN and the number.
-           // articleText = SyntaxRegexISBN5.Replace(articleText, @" ISBN $1");
-
             if(articleText.Contains("PMID:"))
                 articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
 
@@ -372,7 +368,7 @@ namespace WikiFunctions.Parse
             if(SimpleTagsList.Any(s => s.Contains("sup")))
                 articleText = SupOrdinal.Replace(articleText, @"$1$2");
 
-            //CHECKWIKI error 86
+            // CHECKWIKI error 86
             bool doubleBracketHttp = articleText.ToLower().Contains("[[http");
             if(doubleBracketHttp)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
@@ -380,7 +376,7 @@ namespace WikiFunctions.Parse
             // if there are some unbalanced brackets, see whether we can fix them. Trim after to clean up after SplitToSections
             articleText = FixUnbalancedBrackets(articleText).Trim();
 
-            //fix uneven bracketing on links
+            // fix uneven bracketing on links
             if(doubleBracketHttp)
                 articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 

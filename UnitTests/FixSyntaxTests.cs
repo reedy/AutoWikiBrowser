@@ -62,9 +62,6 @@ namespace UnitTests
             Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[ISBN]] [[Special:BookSources/9780881925166|9780881925166]]"), "ISBNT substed");
             Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[International Standard Book Number|ISBN]] [[Special:BookSources/9780881925166|9780881925166]]"), "ISBNT substed");
 
- //           Assert.AreEqual(@" ISBN 9780881925166", Parsers.FixSyntax(@" ISBN9780881925166"), "ISBN-13 unspaced");
- //           Assert.AreEqual(@" ISBN 0-881925166", Parsers.FixSyntax(@" ISBN0-881925166"), "ISBN-10 unspaced");
- //           Assert.AreEqual(@"http://www.foo.com/ISBN9780881925166", Parsers.FixSyntax(@"http://www.foo.com/ISBN9780881925166"), "no changes in url");
         }
 
         [Test]
@@ -990,7 +987,7 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
             Assert.AreEqual(@"hello [[link]] there", Parsers.FixSyntax(@"hello [[link]]]] there"));
             Assert.AreEqual(@"[[hello [[link]]]] there", Parsers.FixSyntax(@"[[hello [[link]]]] there"));
 
-            //Unbalanced bracket and double pipe [[foo||bar] inside a table
+            // Unbalanced bracket and double pipe [[foo||bar] inside a table
             Assert.AreEqual(@"{|
 			|-
 			| [[foo|bar]]

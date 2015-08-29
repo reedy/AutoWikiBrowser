@@ -262,7 +262,7 @@ namespace UnitTests
             Globals.UnitTestBoolValue = true;
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            //Stub, no existing stub tag. Needs all tags
+            // Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
             Assert.IsFalse(text.Contains("Underlinked"));
 
@@ -272,7 +272,7 @@ namespace UnitTests
             Assert.IsTrue(text.Contains(UncatStub), "page has already been tagged as uncategorised stub");
 
             text = parser.Tagger(ShortTextWithLongComment, "Test", false, out noChange, ref summary);
-            //Stub, no existing stub tag. Needs all tags
+            // Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
@@ -280,7 +280,7 @@ namespace UnitTests
             Assert.IsTrue(text.Contains(UncatStub));
 
             text = parser.Tagger(ShortTextWithLongComment, "List of Tests", false, out noChange, ref summary);
-            //Stub, no existing stub tag but with "List of..." in its title. Needs all tags but stub
+            // Stub, no existing stub tag but with "List of..." in its title. Needs all tags but stub
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
 			Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
@@ -293,7 +293,7 @@ namespace UnitTests
 			Assert.IsFalse(WikiRegexes.Stub.IsMatch(text), "page is not stub");
  
             text = parser.Tagger(ShortText + Stub + Uncat + Wikify + Orphan + Deadend, "Test", false, out noChange, ref summary);
-            //Tagged article, dupe tags shouldn't be added
+            // Tagged article, dupe tags shouldn't be added
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Stub), text));
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(UncatStub), text));
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Wikify), text));
@@ -301,7 +301,7 @@ namespace UnitTests
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Deadend), text));
 
             text = parser.Tagger(ShortText + Stub, "Test", false, out noChange, ref summary);
-            //Stub, existing stub tag
+            // Stub, existing stub tag
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(text.Contains(UncatStub));
@@ -312,7 +312,7 @@ namespace UnitTests
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Stub), text));
 
             text = parser.Tagger(ShortText + ShortText, "Test", false, out noChange, ref summary);
-            //Not a stub
+            // Not a stub
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
@@ -321,7 +321,7 @@ namespace UnitTests
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
             text = parser.Tagger(ShortText, "Main Page", false, out noChange, ref summary);
-            //Main Page should not be tagged
+            // Main Page should not be tagged
             Assert.IsTrue(ShortText == text, "nothing changed");
 
             // rename {{improve categories}} if uncategorized
@@ -339,7 +339,7 @@ namespace UnitTests
             Globals.UnitTestIntValue = 5;
 
             text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            //Categorised Stub
+            // Categorised Stub
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
@@ -348,7 +348,7 @@ namespace UnitTests
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = parser.Tagger(ShortText + ShortText, "Test", false, out noChange, ref summary);
-            //Categorised Page
+            // Categorised Page
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
 
@@ -359,7 +359,7 @@ namespace UnitTests
             Globals.UnitTestBoolValue = false;
 
             text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            //Non orphan categorised stub
+            // Non orphan categorised stub
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
@@ -369,7 +369,7 @@ namespace UnitTests
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = parser.Tagger(ShortText + ShortText, "Test", false, out noChange, ref summary);
-            //Non orphan categorised page
+            // Non orphan categorised page
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
 
@@ -379,7 +379,7 @@ namespace UnitTests
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = parser.Tagger(ShortText.Replace("consectetur", "[[consectetur]]"), "Test", false, out noChange, ref summary);
-            //Non Deadend stub
+            // Non Deadend stub
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
@@ -389,7 +389,7 @@ namespace UnitTests
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = parser.Tagger(Regex.Replace(ShortText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
-            //very wikified stub
+            // very wikified stub
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
