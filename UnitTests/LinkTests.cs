@@ -666,6 +666,15 @@ was [[foo|bar]] too"));
             const string FrIW = @"Now [[fr:Here]]";
             Assert.AreEqual(FrIW, Parsers.FixLinks(FrIW, "Bar", out nochange));
             Assert.IsTrue(parser.SortInterwikis);
+
+            #if DEBUG
+            Variables.SetProjectSimple("en", ProjectEnum.commons);
+            const string EnInterwiki = @"[[en:Foo]]";
+            Assert.AreEqual(EnInterwiki, Parsers.FixLinks(EnInterwiki, "Test", out nochange), "en interwiki not changed on commons");
+            
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+            Assert.AreEqual("[[Foo]]", Parsers.FixLinks(EnInterwiki, "Test", out nochange), "self-interwiki converted on en-wiki");
+            #endif
         }
 
         [Test]

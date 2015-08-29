@@ -175,8 +175,8 @@ namespace WikiFunctions.Parse
                                             + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
             }
 
-            // fix for self interwiki links
-            if(hasAnySelfInterwikis)
+            // fix for self interwiki links, not for monolingual projects
+            if(hasAnySelfInterwikis && !Variables.IsWikimediaMonolingualProject)
                 articleText = FixSelfInterwikis(articleText);
 
             noChange = articleText.Equals(articleTextAtStart);
