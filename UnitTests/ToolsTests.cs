@@ -2088,6 +2088,7 @@ foo<!--comm-->|title=abc
 
             Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta id=""og_title"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
             Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta data-ephemeral=""true"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
+            Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta ng-attr-content=""{{meta.title}}"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
         }
         
         [Test]
