@@ -11,7 +11,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         /// </summary>
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && components != null) {
+			if (disposing && components != null)
+			{
 				components.Dispose();
 			}
 			base.Dispose(disposing);
@@ -204,16 +205,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 		}
 #endregion
 
-		private System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
         private System.Windows.Forms.Button OK_Button;
         private System.Windows.Forms.Button Cancel_Button;
-		private System.Windows.Forms.PictureBox PictureBox1;
+        private System.Windows.Forms.PictureBox PictureBox1;
         private System.Windows.Forms.CheckedListBox ClassCheckedListBox;
         private System.Windows.Forms.CheckedListBox ImportanceCheckedListBox;
-		private System.Windows.Forms.Label Label1;
-		private System.Windows.Forms.Label Label2;
-		private System.Windows.Forms.ToolTip ToolTip1;
-		private System.Windows.Forms.CheckedListBox SettingsCheckedListBox;
-		private System.Windows.Forms.Label Label3;
+        private System.Windows.Forms.Label Label1;
+        private System.Windows.Forms.Label Label2;
+        private System.Windows.Forms.ToolTip ToolTip1;
+        private System.Windows.Forms.CheckedListBox SettingsCheckedListBox;
+        private System.Windows.Forms.Label Label3;
 	}
 }

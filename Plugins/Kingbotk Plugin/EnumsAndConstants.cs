@@ -68,7 +68,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         internal const string RegexpRight =
             ")\\b\\s*(((\\|\\|*| \\||\\| |\\s*\\|\\s*(?<parm>[^}{|\\s=]*))\\s*)+(=\\s*(?<val>[^}{|\\n\\r]*?)\\s*)?)*\\}\\}\\s*";
 
-        //")\b[^}]*"
+        // ")\b[^}]*"
         internal const string RegexpRightNotStrict = ")\\b";
 
         internal const RegexOptions RegexpOptions =
@@ -77,7 +77,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         // Identifiers:
         internal const string WikiPlugin = "[[WP:Plugin++|Plugin++]]";
         internal const string AWBPluginName = "Kingbotk Plugin";
-        //Placeholders:
+        // Placeholders:
         internal const string TemplaterPlaceholder = "{{xxxTEMPLATExxx}}";
     }
 }
