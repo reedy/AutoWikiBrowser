@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using WikiFunctions;
-using WikiFunctions.Plugin;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using WikiFunctions;
 using WikiFunctions.AWBSettings;
 using WikiFunctions.Parse;
+using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser.Plugins.Delinker
 {
