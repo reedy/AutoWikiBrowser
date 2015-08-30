@@ -1115,7 +1115,7 @@ en, sq, ru
 				if (!PossibleInterwikis.Contains(site))
 					continue;
 				
-				if(unformattedText.Contains(m.Value))
+				if (unformattedText.Contains(m.Value))
 				{
 					Tools.ReplaceOnce(ref unformattedText, m.Value, "");
 					continue;

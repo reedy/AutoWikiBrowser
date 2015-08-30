@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -59,7 +59,7 @@ namespace WikiFunctions.Parse
             
             foreach (Match n in GetNamedRefs(articleText).Where(m => m.Index <= referencestags))
             {
-                if(!NamedRefsIndexes.ContainsKey(n.Groups[2].Value))
+                if (!NamedRefsIndexes.ContainsKey(n.Groups[2].Value))
                     NamedRefsIndexes.Add(n.Groups[2].Value, n.Index);
             }
 
@@ -101,12 +101,12 @@ namespace WikiFunctions.Parse
         private static int RefsTemplateIndex(string articleText)
         {
             Match r1 = WikiRegexes.ReferenceList.Match(articleText);
-            if(r1.Success)
+            if (r1.Success)
                 return r1.Index;
 
             Match r2 = RefsTag.Match(articleText);
 
-            if(r2.Success)
+            if (r2.Success)
                 return r2.Index;
 
             return articleText.Length;
@@ -139,7 +139,7 @@ namespace WikiFunctions.Parse
 
             articleText = RefsBeforePunctuation(articleText);
 
-            if(hasFootnote)
+            if (hasFootnote)
             {
                 while(PunctuationAfterFootnote.IsMatch(articleText))
                 {
@@ -149,13 +149,13 @@ namespace WikiFunctions.Parse
             }
 
             // clean duplicate punctuation before ref, not for !!, could be part of wiki table
-            if(RefsAfterDupePunctuationQuick.IsMatch(articleText))
+            if (RefsAfterDupePunctuationQuick.IsMatch(articleText))
                 articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
-            if(hasFootnote && FootnoteAfterDupePunctuationQuick.IsMatch(articleText))
+            if (hasFootnote && FootnoteAfterDupePunctuationQuick.IsMatch(articleText))
                 articleText = FootnoteAfterDupePunctuation.Replace(articleText, "$1$2${sfn}");
 
             // if there have been changes need to call FixReferenceTags in case punctation moved didn't have witespace after it  
-            if(!articleTextOriginal.Equals(articleText))
+            if (!articleTextOriginal.Equals(articleText))
                 articleText = FixReferenceTags(articleText);
 
             return articleText;
@@ -164,7 +164,7 @@ namespace WikiFunctions.Parse
         private static string RefsBeforePunctuation(string articleText)
         {
             // 'quick' regexes are used for runtime performance saving
-            if(RefsBeforePunctuationQuick.IsMatch(articleText))
+            if (RefsBeforePunctuationQuick.IsMatch(articleText))
             {
                 while(RefsBeforePunctuationR.IsMatch(articleText))
                 {
@@ -187,7 +187,7 @@ namespace WikiFunctions.Parse
         {
             foreach (Match m in outofOrderRegex.Matches(articleText))
             {
-                if(m.Groups[5].Index < referencestagindex)
+                if (m.Groups[5].Index < referencestagindex)
                 {
                     int ref1Index, ref2Index; 
                     NamedRefsIndexes.TryGetValue(m.Groups[2].Value, out ref1Index);
@@ -237,7 +237,7 @@ namespace WikiFunctions.Parse
                     if (!NamedRefs.ContainsKey(namedRefValue))
                     {
                         // check for instances of named references with same ref name having different values: requires manual correction of article
-                        if(NamedRefs.ContainsValue(refName))
+                        if (NamedRefs.ContainsValue(refName))
                             return articleTextOriginal;
                         
                         NamedRefs.Add(namedRefValue, refName);
@@ -281,10 +281,10 @@ namespace WikiFunctions.Parse
 
                 unr = unr.FindAll(m => NamedRefs.ContainsKey(m.Groups[1].Value.Trim()));
 
-                foreach(Match m in unr)
+                foreach (Match m in unr)
                 {
                     string newname;
-                    if(NamedRefs.TryGetValue(m.Groups[1].Value.Trim(), out newname))
+                    if (NamedRefs.TryGetValue(m.Groups[1].Value.Trim(), out newname))
                         articleText = articleText.Replace(m.Value, @"<ref name=""" + newname + @"""/>");
                 }
 
@@ -330,15 +330,15 @@ namespace WikiFunctions.Parse
             // now process the duplicate refs, add ref name to first and condense the later ones
             Dictionary<string, string> refNameContent = new Dictionary<string, string>();
 
-            foreach(Match m in allRefs)
+            foreach (Match m in allRefs)
             {
                 string innerText = m.Groups[1].Value.Trim(), friendlyName;
-                if(!refNameContent.TryGetValue(innerText, out friendlyName))
+                if (!refNameContent.TryGetValue(innerText, out friendlyName))
                 {
                     friendlyName = DeriveReferenceName(articleText, innerText);
 
                     // check reference name was derived
-                    if(friendlyName.Length <= 3)
+                    if (friendlyName.Length <= 3)
                         continue;
 
                     Tools.ReplaceOnce(ref articleText, m.Value, @"<ref name=""" + friendlyName + @""">" + innerText + "</ref>");
@@ -370,7 +370,7 @@ namespace WikiFunctions.Parse
             // loop as could be a set of identical references with mulitple different names in use
             string currentArticleText = "";
 
-            while(!currentArticleText.Equals(articleText))
+            while (!currentArticleText.Equals(articleText))
             {
                 currentArticleText = articleText;
 
@@ -380,7 +380,7 @@ namespace WikiFunctions.Parse
                 // filter list to those where ref content occurs more than once
                 namedRefsList = namedRefsList.GroupBy(a => a.Value).Where(g => g.Count() > 1).SelectMany(a => a).ToList();
     
-                if(!namedRefsList.Any())
+                if (!namedRefsList.Any())
                     return articleText;
     
                 // get list of all ref names used in group refs, cannot change these
@@ -389,7 +389,7 @@ namespace WikiFunctions.Parse
     
                 Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
     
-                foreach(KeyValuePair<string, string> kvp in namedRefsList)
+                foreach (KeyValuePair<string, string> kvp in namedRefsList)
                 {
                     string refname = kvp.Key, refvalue = kvp.Value, existingname;
     
@@ -424,7 +424,7 @@ namespace WikiFunctions.Parse
             }
 
             // performance: only call if changes made
-            if(!articleTextOriginal.Equals(articleText))
+            if (!articleTextOriginal.Equals(articleText))
                 articleText = DuplicateNamedReferences(articleText);
 
             return articleText;
@@ -444,14 +444,14 @@ namespace WikiFunctions.Parse
             string justNamedRefs = string.Join("", GetNamedRefs(articleText).Select(m => m.Value).ToArray());
             List<string> ShortNamed = (from Match m in ShortNameReference.Matches(justNamedRefs) select m.Groups[2].Value).ToList();
 
-            if(ShortNamed.Any())
+            if (ShortNamed.Any())
             {
                 foreach (Match m in LongNamedReferences.Matches(articleText))
                 {
                     string refname = m.Groups[2].Value;
 
                    // don't apply if short ref is a page ref
-                   if(ShortNamed.Contains(refname) && m.Groups[3].Value.Length > 30)
+                   if (ShortNamed.Contains(refname) && m.Groups[3].Value.Length > 30)
                       articleText = Regex.Replace(articleText, @"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?|{{\s*[Cc]ite *\w+\s*}})\s*<\s*/\s*ref>)",
                                                     m2=> PageRef.IsMatch(m2.Groups[3].Value) ? m2.Value : @"<ref name=""" + refname + @"""/>");
                 }
@@ -649,21 +649,21 @@ namespace WikiFunctions.Parse
                 return derivedReferenceName;
 
             // name...year...page. Regex checks to avoid excessive backtracking
-            if(Regex.IsMatch(reference, YearMask) && NameYear.IsMatch(reference))
+            if (Regex.IsMatch(reference, YearMask) && NameYear.IsMatch(reference))
                 derivedReferenceName = ExtractReferenceNameComponents(reference, NameYearPage, 3);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             // name...page
-            if(Regex.IsMatch(reference, PageMask))
+            if (Regex.IsMatch(reference, PageMask))
                 derivedReferenceName = ExtractReferenceNameComponents(reference, NamePage, 2);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             // name...year
-            if(Regex.IsMatch(reference, YearMask))
+            if (Regex.IsMatch(reference, YearMask))
                 derivedReferenceName = ExtractReferenceNameComponents(reference, NameYear, 2);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
@@ -704,14 +704,14 @@ namespace WikiFunctions.Parse
         private static string ReflistMatchEvaluator(Match m)
         {
             // don't change anything if div tags mismatch
-            if(DivStart.Matches(m.Value).Count != DivEnd.Matches(m.Value).Count)
+            if (DivStart.Matches(m.Value).Count != DivEnd.Matches(m.Value).Count)
                 return m.Value;
 
             // {{reflist}} template not used on sv-wiki
-            if(Variables.LangCode == "sv")
+            if (Variables.LangCode == "sv")
                 return "<references/>";
 
-            if(m.Value.Contains("references-2column") || m.Value.Contains("column-count:2"))
+            if (m.Value.Contains("references-2column") || m.Value.Contains("column-count:2"))
                 return "{{Reflist|2}}";
 
             return "{{Reflist}}";
@@ -734,7 +734,7 @@ namespace WikiFunctions.Parse
         public static string FixReferenceListTags(string articleText)
         {
             // check for performance
-            if(articleText.IndexOf(@"<references", StringComparison.OrdinalIgnoreCase) < 0)
+            if (articleText.IndexOf(@"<references", StringComparison.OrdinalIgnoreCase) < 0)
                 return articleText;
 
             articleText = ReferenceListSmallTags.Replace(articleText, ReflistMatchEvaluator);
@@ -877,37 +877,37 @@ namespace WikiFunctions.Parse
             articleText = Regex.Replace(articleText, "</ref\r\n", "</ref>\r\n");
 
             // <REF>, </REF> and <Ref> to lowercase ref
-            if(AllTagsList.Any(s => Regex.IsMatch(s, @"R[Ee][Ff]|r[Ee]F")))
+            if (AllTagsList.Any(s => Regex.IsMatch(s, @"R[Ee][Ff]|r[Ee]F")))
                 articleText = Regex.Replace(articleText, @"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))", "$1ref$2");
 
             // remove any spaces between consecutive references -- WP:REFPUNC
-            if(AllTagsList.Any(s => s.EndsWith(" ")))
+            if (AllTagsList.Any(s => s.EndsWith(" ")))
                 articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", "$1");
 
             // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
             articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)", "$1 $2");
 
             // remove spaces between punctuation and references -- WP:REFPUNC
-            if(articleText.Contains(" <ref"))
+            if (articleText.Contains(" <ref"))
                 articleText = Regex.Replace(articleText, @"(?<=[,\.:;]) +(<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", "$1");
 
             // empty <ref>...</ref> tags
-            while(EmptyRefTags.IsMatch(articleText))
+            while (EmptyRefTags.IsMatch(articleText))
                 articleText = EmptyRefTags.Replace(articleText, "");
 
             // Trailing spaces at the beginning of a reference, within the reference
-            if(AllTagsList.Any(s => s.EndsWith(" ")))
+            if (AllTagsList.Any(s => s.EndsWith(" ")))
                 articleText = Regex.Replace(articleText, @"(<ref[^<>\{\}\/]*>) +", "$1");
 
             // whitespace cleaning of </ref>
-            if(AllTagsList.Any(s => Regex.IsMatch(s, @"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>")))
+            if (AllTagsList.Any(s => Regex.IsMatch(s, @"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>")))
                 articleText = Regex.Replace(articleText, @"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", "</ref>");
 
             // trim trailing spaces at the end of a reference, within the reference
-            if(articleText.Contains(@" </ref>"))
+            if (articleText.Contains(@" </ref>"))
                 articleText = Regex.Replace(articleText, @" +</ref>", "</ref>");
 
-            if(AllTagsList.Any(s => s.StartsWith("<ref/>") || s.StartsWith("</red>")))
+            if (AllTagsList.Any(s => s.StartsWith("<ref/>") || s.StartsWith("</red>")))
                 articleText = RedRef.Replace(articleText, "$1</ref>");
 
             // Chinese do not use spaces to separate sentences
@@ -915,7 +915,7 @@ namespace WikiFunctions.Parse
                 articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +", "$1");
 
             // Performance: apply ref tag fixes only to ref tags that might be invalid
-            if(AllTagsList.Any(s => !Regex.IsMatch(s, @"(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref name *= *""[^{}""<>]+""( ?/)?>)|</ref>")))
+            if (AllTagsList.Any(s => !Regex.IsMatch(s, @"(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref name *= *""[^{}""<>]+""( ?/)?>)|</ref>")))
                 articleText = PossiblyBadRefTags.Replace(articleText, FixReferenceTagsME);
 
             return articleText;
@@ -940,7 +940,7 @@ namespace WikiFunctions.Parse
             {
                 // For peformance, use cached result if available: articletext plus List matches
                 refsList = GetUnnamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-                if(refsList != null)
+                if (refsList != null)
                     return refsList;
             }
 
@@ -950,7 +950,7 @@ namespace WikiFunctions.Parse
             {
                 // cache new results, then dequeue oldest if cache full
                 GetUnnamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText, refsList));
-                if(GetUnnamedRefsQueue.Count > 10)
+                if (GetUnnamedRefsQueue.Count > 10)
                     GetUnnamedRefsQueue.Dequeue();
             }
 
@@ -971,7 +971,7 @@ namespace WikiFunctions.Parse
             {
                 // For peformance, use cached result if available: articletext plus List matches
                 refsList = GetNamedRefsQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-                if(refsList != null)
+                if (refsList != null)
                     return refsList;
             }
 
@@ -981,7 +981,7 @@ namespace WikiFunctions.Parse
             {
                 // cache new results, then dequeue oldest if cache full
                 GetNamedRefsQueue.Enqueue(new KeyValuePair<string, List<Match>>(articleText,  refsList));
-                if(GetNamedRefsQueue.Count > 10)
+                if (GetNamedRefsQueue.Count > 10)
                     GetNamedRefsQueue.Dequeue();
             }
 

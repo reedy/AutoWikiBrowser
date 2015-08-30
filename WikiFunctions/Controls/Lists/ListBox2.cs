@@ -115,7 +115,7 @@ namespace WikiFunctions.Controls.Lists
 
             currentArticles.CopyTo(currentArticlesBefore, 0);
 
-            if(forward)
+            if (forward)
                 Array.Sort(currentArticles, ArticleForwardComparer);
             else
                 Array.Sort(currentArticles, ArticleReverseComparer);
@@ -125,14 +125,14 @@ namespace WikiFunctions.Controls.Lists
             bool same = true;
             for (int i = 0; i < Items.Count; i++)
             {
-                if(!currentArticles[i].Equals(currentArticlesBefore[i]))
+                if (!currentArticles[i].Equals(currentArticlesBefore[i]))
                 {
                     same = false;
                     break;
                 }
             }
 
-            if(!same)
+            if (!same)
             {
                 Items.Clear();
                 Items.AddRange(currentArticles);
@@ -146,18 +146,19 @@ namespace WikiFunctions.Controls.Lists
         {
             int i = SelectedIndex;
             
-            if(i >= 0) // check something selected
+            // check something selected
+            if (i >= 0)
             {
                 BeginUpdate();
 
                 // RemoveAt cost product of list size and selected items, cost at least SelectedItems.Count * SelectedIndex
                 // So cost low for single/few selected articles, use if less than cost of RemoveSelectedNew, which is ~Items.Count
-                if((SelectedItems.Count * Math.Max(SelectedIndex, 1)) < Items.Count)
+                if ((SelectedItems.Count * Math.Max(SelectedIndex, 1)) < Items.Count)
                 {
                     while (SelectedItems.Count > 0)
                         Items.RemoveAt(SelectedIndex);
                 }
-                else if(filterDuplicates && Globals.SystemCore3500Available)
+                else if (filterDuplicates && Globals.SystemCore3500Available)
                     RemoveSelectedNew();
                 else
                     RemoveSelectedOld();

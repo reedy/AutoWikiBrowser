@@ -196,7 +196,7 @@ namespace WikiFunctions.Controls
                 bool newlines = strRegex.Contains("\\n");
                 strRegex = Regex.Escape(strRegex);
 
-                if(newlines)
+                if (newlines)
                     strRegex = strRegex.Replace(@"\\n", "\n");
             }
 
@@ -216,7 +216,7 @@ namespace WikiFunctions.Controls
                 SelectionStart = inputIndex;
                 SelectionLength = inputLength;
             }
-            if(scrollToCaret)
+            if (scrollToCaret)
                 ScrollToCaret();
         }
 

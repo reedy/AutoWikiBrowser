@@ -247,7 +247,7 @@ namespace WikiFunctions.DBScanner
             if (chkCiteTemplateDates.Checked)
                 s.Add(new CiteTemplateDates());
             
-            if(chkReorderReferences.Checked)
+            if (chkReorderReferences.Checked)
                 s.Add(new ReorderReferences());
 
             if (chkPeopleCategories.Checked)
@@ -633,7 +633,7 @@ namespace WikiFunctions.DBScanner
                 Main = null;
             }
             
-            if(showMatchesMessage)
+            if (showMatchesMessage)
             {
                 TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
                 endTime = endTime.Subtract(StartTime);

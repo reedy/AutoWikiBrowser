@@ -18,12 +18,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
+using System.Security.Authentication;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WikiFunctions.API;
-using System.Net;
-using System.Security.Authentication;
 
 namespace WikiFunctions
 {
@@ -417,7 +417,7 @@ namespace WikiFunctions
                 }
 
                 // get localized month names if not en-wiki
-                if(!Variables.IsWikipediaEN)
+                if (!Variables.IsWikipediaEN)
                 {
                     Dictionary<string, string> messages = Site.GetMessages(months);
 
