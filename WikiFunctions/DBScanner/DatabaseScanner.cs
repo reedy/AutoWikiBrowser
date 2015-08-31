@@ -322,6 +322,10 @@ namespace WikiFunctions.DBScanner
                     TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute,
                                 DateTime.Now.Second, DateTime.Now.Millisecond).Subtract(StartTime);
                     lblCount.Text += " in " + endTime.ToString().TrimEnd('0');
+
+                    // advise user if stopped due to reaching article match limit
+                    if (Matches >= Limit)
+                        lblCount.Text += " limit of " + Limit + " reached";
                 }
 
                 Main = null;
