@@ -159,7 +159,7 @@ namespace WikiFunctions
                     : "(?i:defaultsort)";
 
             // sv-wiki: allow comment on same line as DEFAULTSORT
-            if(Variables.LangCode.Equals("sv"))
+            if (Variables.LangCode.Equals("sv"))
                 Defaultsort = new Regex(TemplateStart + s + @"\s*[:\|]\s*(?<key>(?>[^\{\}\r\n]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))|[^\}\r\n]*?)(?<end>\s*}}(?: *<!--[^<>]+-->)?|\r|\n)",
                                         RegexOptions.ExplicitCapture);
             else
@@ -279,7 +279,7 @@ namespace WikiFunctions
                 new Regex(
                     @"(<!-- ?\{\{" + Variables.Stub + @"\b\}\}.*?-->|\{\{" + Variables.Stub + @"\s*(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
 
-            if(Variables.LangCode.Equals("fr"))
+            if (Variables.LangCode.Equals("fr"))
                 ReferenceList = Tools.NestedTemplateRegex(new [] { "références", "references", "reflist" });
             else
                 ReferenceList = Tools.NestedTemplateRegex(new [] { "reflist", "references-small", "references-2column"});

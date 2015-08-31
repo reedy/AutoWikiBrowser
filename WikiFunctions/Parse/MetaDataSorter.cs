@@ -185,7 +185,7 @@ namespace WikiFunctions.Parse
 		/// <returns></returns>
 		private bool LoadInterWikiFromCache()
 		{
-		    if(!Globals.UnitTestMode)
+		    if (!Globals.UnitTestMode)
 		    {
 		        InterwikiLocalAlpha = Load("InterwikiLocalAlpha");
 		        InterwikiLocalFirst = Load("InterwikiLocalFirst");
@@ -292,11 +292,11 @@ en, sq, ru
 		    // See [[Template:Long comment/doc]]
 		    // SPM regex quick check for performance on long pages
 		    string shortPagesMonitor = "";
-		    if(Variables.LangCode.Equals("en") && alltemplates.Contains("Short pages monitor"))
+		    if (Variables.LangCode.Equals("en") && alltemplates.Contains("Short pages monitor"))
 		    {
 		        Match spm = WikiRegexes.ShortPagesMonitor.Match(articleText);
 		        
-		        if(spm.Success)
+		        if (spm.Success)
 		        {
 		            articleText = WikiRegexes.ShortPagesMonitor.Replace(articleText, "").TrimEnd();
 		            shortPagesMonitor = spm.Value.TrimEnd();
@@ -306,52 +306,52 @@ en, sq, ru
 			articleText = CommentedOutEnInterwiki.Replace(articleText, "");
 
 			string personData = "";
-            if(TemplateExists(alltemplates, WikiRegexes.Persondata))
+            if (TemplateExists(alltemplates, WikiRegexes.Persondata))
                 personData = Tools.Newline(RemovePersonData(ref articleText));
 
 			string disambig = "";
-            if(TemplateExists(alltemplates, WikiRegexes.Disambigs))
+            if (TemplateExists(alltemplates, WikiRegexes.Disambigs))
                 disambig = Tools.Newline(RemoveDisambig(ref articleText));
 
 			string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
 
 			string interwikis = Tools.Newline(Interwikis(ref articleText, TemplateExists(alltemplates, WikiRegexes.LinkFGAs))); 
 
-			if(Namespace.IsMainSpace(articleTitle))
+			if (Namespace.IsMainSpace(articleTitle))
 			{
 			    // maintenance templates above infoboxes etc., zeroth section only
-                if(TemplateExists(alltemplates, WikiRegexes.MaintenanceTemplates))
+                if (TemplateExists(alltemplates, WikiRegexes.MaintenanceTemplates))
 			    {
 			        string zerothSection = Tools.GetZerothSection(articleText);
                     string restOfArticle = articleText.Substring(zerothSection.Length);
                     zerothSection = MoveMaintenanceTags(zerothSection);
 
-                    if(TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
+                    if (TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
                         zerothSection = MoveMultipleIssues(zerothSection);
 
                     articleText = zerothSection + restOfArticle;
 			    }
 
             // deletion/protection templates above maintenance tags, below dablinks per [[WP:LAYOUT]]
-            if(TemplateExists(alltemplates, WikiRegexes.DeletionProtectionTags))
+            if (TemplateExists(alltemplates, WikiRegexes.DeletionProtectionTags))
                 articleText = MoveTemplate(articleText, WikiRegexes.DeletionProtectionTags);
 
             // Dablinks above maintance tags per [[WP:LAYOUT]]
-            if(TemplateExists(alltemplates, WikiRegexes.Dablinks))
+            if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
                 articleText = MoveTemplate(articleText, WikiRegexes.Dablinks);
 
 			    if (Variables.LangCode.Equals("en"))
 			    {
-                    if(TemplateExists(alltemplates, WikiRegexes.PortalTemplate))
+                    if (TemplateExists(alltemplates, WikiRegexes.PortalTemplate))
                         articleText = MovePortalTemplates(articleText);
 
-                    if(TemplateExists(alltemplates, WikiRegexes.WikipediaBooks))
+                    if (TemplateExists(alltemplates, WikiRegexes.WikipediaBooks))
                         articleText = MoveTemplateToSeeAlsoSection(articleText, WikiRegexes.WikipediaBooks);
 
-                    if(TemplateExists(alltemplates, WikiRegexes.SisterLinks))
+                    if (TemplateExists(alltemplates, WikiRegexes.SisterLinks))
                         articleText = MoveSisterlinks(articleText);
 
-                    if(alltemplates.Contains("Ibid"))
+                    if (alltemplates.Contains("Ibid"))
                         articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
 
 			        articleText = MoveExternalLinks(articleText);
@@ -365,16 +365,16 @@ en, sq, ru
 			string strStub = "";
 			
 			// Category: can use {{Verylargestub}}/{{popstub}} which is not a stub template, don't do stub sorting
-			if(!Namespace.Determine(articleTitle).Equals(Namespace.Category) && TemplateExists(alltemplates, new Regex(Variables.Stub)))
+			if (!Namespace.Determine(articleTitle).Equals(Namespace.Category) && TemplateExists(alltemplates, new Regex(Variables.Stub)))
 			    strStub = Tools.Newline(RemoveStubs(ref articleText), (Variables.LangCode.Equals("ru") || Variables.LangCode.Equals("sl") || Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz")) ? 1 : 2);
 
 			// filter out excess white space and remove "----" from end of article
-            if(Namespace.IsMainSpace(articleTitle))
+            if (Namespace.IsMainSpace(articleTitle))
                 articleText = articleText.TrimEnd(); // better to trim here than process more slowly in RemoveWhiteSpace where <poem> checks etc. needed
 			articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
 
 			articleText += disambig;
-            if(TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
+            if (TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, m=> Regex.Replace(m.Value, "(\r\n)+", "\r\n"));
 
 			switch (Variables.LangCode)
@@ -400,7 +400,7 @@ en, sq, ru
 			        break;
 			        
 			    case "it":
-			        if(Variables.Project == ProjectEnum.wikiquote)
+			        if (Variables.Project == ProjectEnum.wikiquote)
 			            articleText += personData + strStub + categories;
 			        else
 			            articleText += personData + categories + strStub;
@@ -437,7 +437,7 @@ en, sq, ru
 		{
 		    // don't pull category from redirects to a category e.g. page Hello is #REDIRECT[[Category:Hello]]
 		    string rt = Tools.RedirectTarget(articleText);
-		    if(rt.Length > 0 && WikiRegexes.Category.IsMatch(@"[[" + rt + @"]]"))
+		    if (rt.Length > 0 && WikiRegexes.Category.IsMatch(@"[[" + rt + @"]]"))
 				return "";
 
 			List<string> categoryList = new List<string>();
@@ -459,7 +459,7 @@ en, sq, ru
 			// performance: apply regex on portion of article containing category links rather than whole text
 			Match cq = WikiRegexes.CategoryQuick.Match(articleText);
 
-			if(cq.Success)
+			if (cq.Success)
 			{
 			    int cutoff = Math.Max(0, cq.Index -500);
 			    string cut = articleText.Substring(cutoff);
@@ -468,14 +468,14 @@ en, sq, ru
 	                                                                       categoryList.Add(m.Value.Trim());
 	                                                                   
 	                                                                   // if category not at start of line, leave newline, otherwise text on next line moved up
-	                                                                   if(m.Index > 2 && !cut.Substring(m.Index-2, 2).Trim().Equals(""))
+	                                                                   if (m.Index > 2 && !cut.Substring(m.Index-2, 2).Trim().Equals(""))
 	                                                                       return "\r\n";
 
 	                                                                   return "";
                                                                       });
 
                 // if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
-                if(!Tools.UnformattedTextNotChanged(originalArticleText.Substring(cutoff), cut))
+                if (!Tools.UnformattedTextNotChanged(originalArticleText.Substring(cutoff), cut))
                 {
                     articleText = originalArticleText;
                     return "";
@@ -485,7 +485,7 @@ en, sq, ru
                     categoryList = CatKeyer(categoryList, articleTitle);
 
                 // remove defaultsort now if we can, faster to remove from cut than whole articleText
-                if(mc.Count > 0 && cut.Contains(mc[0].Value))
+                if (mc.Count > 0 && cut.Contains(mc[0].Value))
                 {
                     cut = cut.Replace(mc[0].Value, "");
                     defaultSortRemoved = true;
@@ -493,7 +493,7 @@ en, sq, ru
 
                 articleText = articleText.Substring(0, cutoff) + cut;
 
-                if(CatCommentRegex.IsMatch(cut))
+                if (CatCommentRegex.IsMatch(cut))
                     articleText = CatCommentRegex.Replace(articleText, m =>
                                                           {
                                                               categoryList.Insert(0, m.Value);
@@ -502,17 +502,17 @@ en, sq, ru
 
 			}
 
-			if(Variables.LangCode.Equals("sl") && LifeTime.IsMatch(articleText))
+			if (Variables.LangCode.Equals("sl") && LifeTime.IsMatch(articleText))
 			{
 				defaultSort = LifeTime.Match(articleText).Value;
 			}
-			else if(mc.Count > 0)
+			else if (mc.Count > 0)
 					defaultSort = mc[0].Value;
 
 			if (!string.IsNullOrEmpty(defaultSort))
 			{
                 // if defaultsort wasn't in the cut area before the categories, remove now
-                if(!defaultSortRemoved)
+                if (!defaultSortRemoved)
 			        articleText = articleText.Replace(defaultSort, "");
 
 			    if (defaultSort.ToUpper().Contains("DEFAULTSORT"))
@@ -523,15 +523,15 @@ en, sq, ru
 			// Extract any {{uncategorized}} template, but not uncat stub templates
             // remove exact duplicates
 			string uncat = "";
-            if(TemplateExists(Parsers.GetAllTemplates(originalArticleText), WikiRegexes.Uncat) && WikiRegexes.Uncat.IsMatch(articleTextNoComments))
+            if (TemplateExists(Parsers.GetAllTemplates(originalArticleText), WikiRegexes.Uncat) && WikiRegexes.Uncat.IsMatch(articleTextNoComments))
 			{
                 articleText = WikiRegexes.Uncat.Replace(articleText, uncatm =>
                                                         {
-                                                            if(WikiRegexes.PossiblyCommentedStub.IsMatch(uncatm.Value))
+                                                            if (WikiRegexes.PossiblyCommentedStub.IsMatch(uncatm.Value))
                                                                 return uncatm.Value;
 
                                                             // remove exact duplicates
-                                                            if(!uncat.Contains(uncatm.Value))
+                                                            if (!uncat.Contains(uncatm.Value))
                                                                 uncat += uncatm.Value + "\r\n";
 
                                                             return "";
@@ -582,7 +582,7 @@ en, sq, ru
 			List<string> stubList = new List<string>();
 
             articleText = WikiRegexes.PossiblyCommentedStub.Replace(articleText, m => {
-                if(!Regex.IsMatch(m.Value, Variables.SectStub))
+                if (!Regex.IsMatch(m.Value, Variables.SectStub))
 				{
 					stubList.Add(m.Value);
 					return "";
@@ -655,13 +655,13 @@ en, sq, ru
             articleText = strTemplates + zerothSection + restOfArticle;
 
             // avoid moving commented out templates, round 2
-            if(Tools.UnformattedTextNotChanged(originalArticletext, articleText))
+            if (Tools.UnformattedTextNotChanged(originalArticletext, articleText))
                 return articleText;
 
             return originalArticletext;
         }
-		
-		private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
+
+        private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
 		private static readonly Regex ExternalLinksToEnd = new Regex(@"(==+) *[Ee]xternal +[Ll]inks? *\1.*", RegexOptions.Singleline);
 
 		/// <summary>
@@ -689,8 +689,8 @@ en, sq, ru
 		            articleText = WikiRegexes.ExternalLinksHeader.Replace(articleText, "$0" + "\r\n" + sisterlinkFound);
 		        }
 		    }
-		    
-		    if(Tools.UnformattedTextNotChanged(originalArticletext, articleText))
+
+		    if (Tools.UnformattedTextNotChanged(originalArticletext, articleText))
 		        return articleText;
 
 		    return originalArticletext;
@@ -732,30 +732,30 @@ en, sq, ru
 			}
 
             // work to do if tags to move or duplicate tags
-            if(articleTextToCheck.Trim().Length > 0 || maintTemplatesFound.Count() > Parsers.DeduplicateMaintenanceTags(maintTemplatesFound.Select(m => m.Value).ToList()).Count())
+            if (articleTextToCheck.Trim().Length > 0 || maintTemplatesFound.Count() > Parsers.DeduplicateMaintenanceTags(maintTemplatesFound.Select(m => m.Value).ToList()).Count())
 				doMove = true;
 
-			if(!doMove)
+			if (!doMove)
 				return articleText;
 
             List<string> mt = new List<string>();
 
             // extract maintenance tags, not section ones
             articleText = WikiRegexes.MaintenanceTemplates.Replace(articleText, m => {
-                                    if(m.Value.Contains("section"))
+                                    if (m.Value.Contains("section"))
                                         return m.Value;
 
                                     mt.Add(m.Value);                                    
                                     return ""; 
                                 });
 
-            if(mt.Any())
+            if (mt.Any())
             {
                 string strMaintTags = string.Join("\r\n", Parsers.DeduplicateMaintenanceTags(mt).ToArray());
                 articleText = strMaintTags + "\r\n" + articleText.TrimStart();
-			
+
                 // don't change commented out tags etc.
-                if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
+                if (!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
                     return originalArticleText;
             }
 
@@ -778,17 +778,17 @@ en, sq, ru
             {
                 if (Tools.GetTemplateName(m.Value).ToLower().Contains("infobox"))
                     infoboxIndex = m.Index;
-                else if(WikiRegexes.MultipleIssues.IsMatch(m.Value))
+                else if (WikiRegexes.MultipleIssues.IsMatch(m.Value))
                     multipleIssuesIndex = m.Index;
             }
 
-            if(multipleIssuesIndex > infoboxIndex && infoboxIndex > -1)
+            if (multipleIssuesIndex > infoboxIndex && infoboxIndex > -1)
             {
                 string multipleIssues = WikiRegexes.MultipleIssues.Match(articleText).Value;
 
                 articleText = multipleIssues + "\r\n" + articleText.Replace(multipleIssues, "");
 
-                if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
+                if (!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
                     return originalArticleText;
             }
 
@@ -808,7 +808,7 @@ en, sq, ru
 		{
             MatchCollection mc = TemplateToMove.Matches(articleText);
 			// need to have a 'see also' section to move the template to
-			if(mc.Count < 1)
+			if (mc.Count < 1)
 				return articleText;
 			
 			string originalArticletext = articleText;
@@ -847,7 +847,7 @@ en, sq, ru
 				}
 			}
 
-			if(templateMoved && Tools.UnformattedTextNotChanged(originalArticletext, articleText))
+			if (templateMoved && Tools.UnformattedTextNotChanged(originalArticletext, articleText))
 				return articleText;
 
 			return originalArticletext;
@@ -878,7 +878,7 @@ en, sq, ru
 		public static string MoveTemplateToReferencesSection(string articleText, Regex TemplateRegex, bool onlyfromzerothsection)
 		{
 			// no support for more than one of these templates in the article
-			if(TemplateRegex.Matches(articleText).Count != 1 || (onlyfromzerothsection && TemplateRegex.Matches(WikiRegexes.ZerothSection.Match(articleText).Value).Count != 1))
+			if (TemplateRegex.Matches(articleText).Count != 1 || (onlyfromzerothsection && TemplateRegex.Matches(WikiRegexes.ZerothSection.Match(articleText).Value).Count != 1))
 			    return articleText;
 
 			// return if template is already in one the the 'References', 'Notes' or 'Footnotes' sections
@@ -886,9 +886,9 @@ en, sq, ru
 
 			foreach(string s in sec)
 			{
-			    if(TemplateRegex.IsMatch(s))
+			    if (TemplateRegex.IsMatch(s))
 			    {
-			        if(NotesSectionRegex.IsMatch(s) || ReferencesSectionRegex.IsMatch(s)
+			        if (NotesSectionRegex.IsMatch(s) || ReferencesSectionRegex.IsMatch(s)
 			           || FootnotesSectionRegex.IsMatch(s))
 			            return articleText;
 			    }
@@ -982,7 +982,7 @@ en, sq, ru
 			string externalLinks = elm.Groups[1].Value;
 
 			// validate no <ref> in external links section
-			if(!elm.Success || Regex.IsMatch(externalLinks, WikiRegexes.ReferenceEndGR))
+			if (!elm.Success || Regex.IsMatch(externalLinks, WikiRegexes.ReferenceEndGR))
 			    return articleTextAtStart;
 			
 			string references = ReferencesSection.Match(articleText).Groups[1].Value;
@@ -1060,7 +1060,7 @@ en, sq, ru
 		public string Interwikis(ref string articleText, bool linkFGAsInText)
 		{
 		    string interWikiComment = "";
-            if(articleText.Contains("<!--"))
+            if (articleText.Contains("<!--"))
                 articleText = InterLangRegex.Replace(articleText, m =>
                                                      {
                                                          interWikiComment = m.Value;
@@ -1070,10 +1070,10 @@ en, sq, ru
             string interWikis = "";
 
             // Only search for linkFGAs if necessary
-            if(linkFGAsInText)
+            if (linkFGAsInText)
                 interWikis = ListToString(RemoveLinkFGAs(ref articleText));
 
-			if(interWikiComment.Length > 0)
+			if (interWikiComment.Length > 0)
 				interWikis += interWikiComment + "\r\n";
 
 			interWikis += ListToString(RemoveInterWikis(ref articleText));
@@ -1095,7 +1095,7 @@ en, sq, ru
 
             string allPossibleInterwikis = String.Join(" ", allWikiLinks.ToArray());
 
-            if(!(from Match m in WikiRegexes.PossibleInterwikis.Matches(allPossibleInterwikis) where PossibleInterwikis.Contains(m.Groups[1].Value.Trim().ToLower()) select m.Value).Any())
+            if (!(from Match m in WikiRegexes.PossibleInterwikis.Matches(allPossibleInterwikis) where PossibleInterwikis.Contains(m.Groups[1].Value.Trim().ToLower()) select m.Value).Any())
                 return interWikiList;
 
 			// get all unformatted text in article to avoid taking interwikis from comments etc.
@@ -1114,21 +1114,21 @@ en, sq, ru
 				
 				if (!PossibleInterwikis.Contains(site))
 					continue;
-				
+
 				if (unformattedText.Contains(m.Value))
 				{
 					Tools.ReplaceOnce(ref unformattedText, m.Value, "");
 					continue;
 				}
-				
+
 				goodMatches.Add(m);
-				
+
 				// jbo is only Wikipedia article wiki that's first letter case sensitive
 				string IWTarget = site.Equals("jbo") ? m.Groups[2].Value.Trim() : Tools.TurnFirstToUpper(m.Groups[2].Value.Trim());
 				string IW = "[[" + site + ":" + IWTarget + "]]";
 				
 				// drop interwikis to own wiki, but not on commons where language = en and en interwikis go to wikipedia
-				if(!(m.Groups[1].Value.Equals(Variables.LangCode) && !Variables.IsWikimediaMonolingualProject) && !interWikiListLinksOnly.Contains(IW))
+				if (!(m.Groups[1].Value.Equals(Variables.LangCode) && !Variables.IsWikimediaMonolingualProject) && !interWikiListLinksOnly.Contains(IW))
 				{
 				    interWikiListLinksOnly.Add(IW);
 				    interWikiList.Add(IW + m.Groups[3].Value);
@@ -1180,17 +1180,17 @@ en, sq, ru
 
 			    string s2 =s;
 			    // compare based on first letter upper sortkey for categories
-			    if(s2.Contains("|") && WikiRegexes.Category.IsMatch(s2))
+			    if (s2.Contains("|") && WikiRegexes.Category.IsMatch(s2))
 			        s2 = Regex.Replace(s2, @"(\|\s*)(.+)(\s*\]\]$)", m=> m.Groups[1].Value + Tools.TurnFirstToUpper(m.Groups[2].Value) + m.Groups[3].Value);
 
 			    foreach(string u in uniqueItems)
 			    {
-			        if(u.StartsWith(s2) || u.StartsWith(s2.TrimEnd(']') + @"|") || u.Equals(s) || u.Equals(s2))
+			        if (u.StartsWith(s2) || u.StartsWith(s2.TrimEnd(']') + @"|") || u.Equals(s) || u.Equals(s2))
 			        {
 			            addme = false;
 			            break;
 			        }
-			        if(s2.StartsWith(u)) // e.g. [[Category:A]] already added but [[Category:A]] <!-- comment--> next in list
+			        if (s2.StartsWith(u)) // e.g. [[Category:A]] already added but [[Category:A]] <!-- comment--> next in list
 			        {
 			            uniqueItems.Remove(u);
 			            break;
@@ -1201,7 +1201,7 @@ en, sq, ru
 			        {
 			            string s2upper = s2.Substring(1,3).ToUpper() + s2.Substring(3);
 			            string uupper = u.Substring(1,3).ToUpper() + u.Substring(3);
-			            if(s2upper.Equals(uupper))
+			            if (s2upper.Equals(uupper))
 			            {
 			                addme = false;
 			                break;
@@ -1209,7 +1209,7 @@ en, sq, ru
 			        }
 			    }
 
-			    if(addme)
+			    if (addme)
 			        uniqueItems.Add(s);
 			}
 
