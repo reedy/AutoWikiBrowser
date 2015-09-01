@@ -112,7 +112,7 @@ namespace WikiFunctions
             switch (Variables.LangCode)
             {
                 case "ar":
-                    s = "([Dd]isambig|توضيح|صفحة توضيح)";
+                    s = "([Dd]isambig|توضيح|صفحة توضيح|أسمياء)";
                     break;
                 case "arz":
                     s = "([Dd]isambig|صفحة توضيح|توضيح)";
