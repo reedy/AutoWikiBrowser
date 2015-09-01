@@ -12,8 +12,9 @@ class AWBWebBrowser : WebBrowser
             CopySelectedText();
             return true;
         }
+
         // Ctrl+J to find selected text in edit text box
-        else if(msg.Msg == 0x101 && msg.WParam.ToInt32() == (int)Keys.J
+        else if (msg.Msg == 0x101 && msg.WParam.ToInt32() == (int)Keys.J
             && ModifierKeys == Keys.Control && TextSelected())
         {
             Variables.MainForm.EditBox.Find(SelectedText(), false, false, Variables.MainForm.TheSession.Page.Title);
@@ -40,7 +41,7 @@ class AWBWebBrowser : WebBrowser
     /// <returns></returns>
     public bool TextSelected()
     {
-        if(Globals.MSHTMLAvailable)
+        if (Globals.MSHTMLAvailable)
         {
             try
             {
@@ -53,6 +54,7 @@ class AWBWebBrowser : WebBrowser
                 return false;
             }
         }
+        
         return false;
     }
 
@@ -65,11 +67,11 @@ class AWBWebBrowser : WebBrowser
     {
         IHTMLDocument2 htmlDocument = Document.DomDocument as IHTMLDocument2;
 
-        IHTMLSelectionObject currentSelection= htmlDocument.selection;
+        IHTMLSelectionObject currentSelection = htmlDocument.selection;
 
-        if (currentSelection!=null)
+        if (currentSelection != null)
         {
-            IHTMLTxtRange range= currentSelection.createRange() as IHTMLTxtRange;
+            IHTMLTxtRange range = currentSelection.createRange() as IHTMLTxtRange;
 
             if (range != null && !string.IsNullOrEmpty(range.text))
                 return true;
@@ -82,11 +84,11 @@ class AWBWebBrowser : WebBrowser
     {
         IHTMLDocument2 htmlDocument = Document.DomDocument as IHTMLDocument2;
 
-        IHTMLSelectionObject currentSelection= htmlDocument.selection;
+        IHTMLSelectionObject currentSelection = htmlDocument.selection;
 
-        if (currentSelection!=null)
+        if (currentSelection != null)
         {
-            IHTMLTxtRange range= currentSelection.createRange() as IHTMLTxtRange;
+            IHTMLTxtRange range = currentSelection.createRange() as IHTMLTxtRange;
 
             if (range != null && !string.IsNullOrEmpty(range.text))
                 return range.text;
