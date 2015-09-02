@@ -1319,6 +1319,8 @@ There}}"), "handles parameters with newlines");
             Assert.AreEqual(@"[[1999", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"[[1999"), "annoproduzione"));
             Assert.AreEqual(@"1999]]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"1999]]"), "annoproduzione"));
 
+            // value with braces in
+            Assert.AreEqual("here {and} was", Tools.GetTemplateParameterValue(@"{{cite|param1= here {and} was }}", "param1"));
         }
 
         [Test]
