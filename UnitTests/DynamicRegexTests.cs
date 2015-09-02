@@ -1,6 +1,6 @@
-﻿using WikiFunctions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Text.RegularExpressions;
+using WikiFunctions;
 
 namespace UnitTests
 {
@@ -600,21 +600,26 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{قالب:تقاوى تونس}}"); // Tunisia-stub
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{تقاوى مش متصنفه}}"); // uncategorised stub
 
-			Variables.SetProjectLangCode("sv");
-			WikiRegexes.MakeLangSpecificRegexes();
+            Variables.SetProjectLangCode("sv");
+            WikiRegexes.MakeLangSpecificRegexes();
 
-			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{1920-talsstub}}");
-			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{1910-talsstub-USA}}");
-			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
-			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Robotskapad stub om hjuldjur}}");
-			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Robotskapad djurstub}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{1920-talsstub}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{1910-talsstub-USA}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Robotskapad stub om hjuldjur}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Robotskapad djurstub}}");
 
-			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{uncategorized stub}}");
-			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{wordwithstubin}}");
-			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{substub}}");
-			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{stubbmall}}");
-			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{ Stubbmall }}");
-			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{Stubavsnitt}}");
+            RegexAssert.NoMatch(WikiRegexes.Stub, @"{{uncategorized stub}}");
+            RegexAssert.NoMatch(WikiRegexes.Stub, @"{{wordwithstubin}}");
+            RegexAssert.NoMatch(WikiRegexes.Stub, @"{{substub}}");
+            RegexAssert.NoMatch(WikiRegexes.Stub, @"{{stubbmall}}");
+            RegexAssert.NoMatch(WikiRegexes.Stub, @"{{ Stubbmall }}");
+            RegexAssert.NoMatch(WikiRegexes.Stub, @"{{Stubavsnitt}}");
+
+            Variables.SetProjectLangCode("zh");
+            WikiRegexes.MakeLangSpecificRegexes();
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{保加利亞地理小作品}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Germany-geo-stub}}");
 
             Variables.SetProject("en", ProjectEnum.wikipedia);
             WikiRegexes.MakeLangSpecificRegexes();
@@ -1160,7 +1165,7 @@ ABC");
             RegexAssert.IsMatch(WikiRegexes.Wi, @"{{Wikiquote redirect}}");
         }
 
-	[Test]
+        [Test]
         public void ExtractTitleTests()
         {
             RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"https://en.wikipedia.org/wiki/Foo");
@@ -1373,6 +1378,5 @@ pp
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link GA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
         }
-
     }
 }
