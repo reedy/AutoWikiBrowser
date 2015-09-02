@@ -281,12 +281,12 @@ bar"));
         {
             Assert.AreEqual("", Tools.ConvertToLocalLineEndings(""));
             Assert.AreEqual("foo bar", Tools.ConvertToLocalLineEndings("foo bar"));
-            if(!Globals.UsingMono)
+            if (!Globals.UsingMono)
                 Assert.AreEqual("\r\nfoo\r\nbar\r\n", Tools.ConvertToLocalLineEndings("\nfoo\nbar\n"));
 
             Assert.AreEqual("", Tools.ConvertFromLocalLineEndings(""));
             Assert.AreEqual("foo bar", Tools.ConvertFromLocalLineEndings("foo bar"));
-            if(!Globals.UsingMono)
+            if (!Globals.UsingMono)
                 Assert.AreEqual("\nfoo\nbar\n", Tools.ConvertFromLocalLineEndings("\r\nfoo\r\nbar\r\n"));
         }
 

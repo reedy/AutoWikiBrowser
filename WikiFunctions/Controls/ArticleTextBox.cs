@@ -176,7 +176,7 @@ namespace WikiFunctions.Controls
             RegexObj = new Regex(strRegex, caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
             foreach (Match m in RegexObj.Matches(articleText))
             {
-                if(m.Length > 0)
+                if (m.Length > 0)
                     found.Add(m.Index, m.Length);
             }
 

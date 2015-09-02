@@ -612,7 +612,7 @@ namespace WikiFunctions
             
             string pageText = ArticleText;
 
-            if(Namespace.IsTalk(Name))
+            if (Namespace.IsTalk(Name))
                 pageText = WikiRegexes.ZerothSection.Match(ArticleText).Value;
             
             int bracketIndex = Parsers.UnbalancedBrackets(pageText, out bracketLength);
@@ -1099,7 +1099,7 @@ namespace WikiFunctions
             strTemp = Parsers.LivingPeople(strTemp, Name, out noChange2);
 
             // call conversions if FixPeopleCategories made changes as may now require {{multiple issues}} template updates etc.
-            if(!noChange)
+            if (!noChange)
                 strTemp = Parsers.Conversions(strTemp);
 
             if (!noChange2)
@@ -1465,7 +1465,7 @@ namespace WikiFunctions
                 bool changesByMF = MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
                 Variables.Profiler.Profile("MinorFixes");
 
-                if(changesByMF) // call EmboldenTitles again: zeroth section may have changed now
+                if (changesByMF) // call EmboldenTitles again: zeroth section may have changed now
                 {
                     EmboldenTitles(parsers, false);
                     Variables.Profiler.Profile("EmboldenTitles");
@@ -1567,7 +1567,7 @@ namespace WikiFunctions
         /// </summary>
         public void PerformUniversalGeneralFixes()
         {
-            if(!mArticleText.Trim().Equals(mArticleText))
+            if (!mArticleText.Trim().Equals(mArticleText))
             {
                 _universalGeneralFixesCausedChange = true;
                 mArticleText = mArticleText.Trim();
@@ -1604,7 +1604,7 @@ namespace WikiFunctions
                 _generalFixesCausedChange = (ArticleText != OriginalArticleText);
             }
 
-            if(_universalGeneralFixesCausedChange)
+            if (_universalGeneralFixesCausedChange)
                 _generalFixesCausedChange = true;
 
             if (_generalFixesCausedChange)
