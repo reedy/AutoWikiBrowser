@@ -238,7 +238,10 @@ namespace WikiFunctions.Parse
                     {
                         // check for instances of named references with same ref name having different values: requires manual correction of article
                         if (NamedRefs.ContainsValue(refName))
+                        {
+                            Tools.WriteDebug ("DuplicateNamedReferences", "Ref named " + refName + " has conflicting ref values");
                             return articleTextOriginal;
+                        }
                         
                         NamedRefs.Add(namedRefValue, refName);
                     }
