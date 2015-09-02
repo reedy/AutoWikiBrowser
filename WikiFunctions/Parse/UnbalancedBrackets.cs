@@ -80,25 +80,25 @@ namespace WikiFunctions.Parse
             
             foreach(char c in articleText.ToCharArray())
             {
-                if(c == '[')
+                if (c == '[')
                     square++;
-                else if(c == ']')
+                else if (c == ']')
                     square--;
-                else if(c == '{')
+                else if (c == '{')
                     curly++;
-                else if(c == '}')
+                else if (c == '}')
                     curly--;
-                else if(c == '(')
+                else if (c == '(')
                     round++;
-                else if(c == ')')
+                else if (c == ')')
                     round--;
-                else if(c == '<')
+                else if (c == '<')
                     chevron++;
-                else if(c == '>')
+                else if (c == '>')
                     chevron--;
                 
                 // if more closing that opening then have found unbalanced brackets
-                if(square < 0 || curly < 0 || round < 0 || chevron < 0)
+                if (square < 0 || curly < 0 || round < 0 || chevron < 0)
                 {
                     hasUnbalanced = true;
                     break;
@@ -106,7 +106,7 @@ namespace WikiFunctions.Parse
             }
             
             // if > 0 residual, means more opening brackets than closing
-            if(!hasUnbalanced && square == 0 && curly == 0 && round == 0 && chevron == 0)
+            if (!hasUnbalanced && square == 0 && curly == 0 && round == 0 && chevron == 0)
                 return -1;
 
             // if here have found an unbalanced single bracket so run the compare
@@ -144,7 +144,7 @@ namespace WikiFunctions.Parse
             // Then filter this to see if any unbalanced brackets remain. Return if none remain
             bool hasBrackets = bracketsRegex.Split(articleText).Any(s => (s.IndexOf(openingBrackets, StringComparison.Ordinal) > -1 || s.IndexOf(closingBrackets, StringComparison.Ordinal) > -1));
 
-            if(!hasBrackets)
+            if (!hasBrackets)
                 return -1;
 
             // If here then some unbalanced brackets were found, so use (slower) ReplaceWithSpaces so we can find index of unbalanced bracket in original text
@@ -156,14 +156,14 @@ namespace WikiFunctions.Parse
 
             // now return the unbalanced one that's left
             int open = articleText.IndexOf(openingBrackets, StringComparison.Ordinal), closed = articleText.IndexOf(closingBrackets, StringComparison.Ordinal);
-            if(open > -1 || closed > -1)
+            if (open > -1 || closed > -1)
             {
                 int openCount = Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count;
                 int closedCount = Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count;
 
-                if(openCount == 0 && closedCount >= 1)
+                if (openCount == 0 && closedCount >= 1)
                     return closed;
-                if(openCount >= 1)
+                if (openCount >= 1)
                     return open;
             }
             return -1;
@@ -312,7 +312,7 @@ namespace WikiFunctions.Parse
 
                         default:
                             // Chinese language brackets（ and ）[ASCII 65288 and 65289], change if unbalanced
-                            if(Variables.LangCode.Equals("en") && Regex.Matches(articleTextTemp, "（").Count
+                            if (Variables.LangCode.Equals("en") && Regex.Matches(articleTextTemp, "（").Count
                                != Regex.Matches(articleTextTemp, "）").Count)
                             {
                                 articleTextTemp = articleTextTemp.Replace("）", ")");
@@ -329,7 +329,7 @@ namespace WikiFunctions.Parse
                 if (bracketLength == 2)
                 {
                     // persondata
-                    if(articleTextTemp.Contains("{{Persondata") && !WikiRegexes.Persondata.IsMatch(articleTextTemp))
+                    if (articleTextTemp.Contains("{{Persondata") && !WikiRegexes.Persondata.IsMatch(articleTextTemp))
                         articleTextTemp = PersondataPODToDEFAULTSORT.Replace(articleTextTemp, @"$1}}$2");
 
                     articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, "$1)");
@@ -437,7 +437,7 @@ namespace WikiFunctions.Parse
             {
                 int matchedCount = 0;
                 string othertag = kvp.Key.StartsWith("/") ? kvp.Key.TrimStart('/') : "/" + kvp.Key;
-                if(tagCounts.TryGetValue(othertag, out matchedCount) && matchedCount == kvp.Value)
+                if (tagCounts.TryGetValue(othertag, out matchedCount) && matchedCount == kvp.Value)
                     continue;
 
                 unmatched = true;
@@ -445,7 +445,7 @@ namespace WikiFunctions.Parse
             }
 
             // check for any unmatched tags or unclosed part tag
-            if(!unmatched && !TagToEnd.IsMatch(AnyTag.Replace(articleText, "")))
+            if (!unmatched && !TagToEnd.IsMatch(AnyTag.Replace(articleText, "")))
                 return back;
             
             // if here then have some unmatched tags, so do full clear down and search
@@ -458,7 +458,7 @@ namespace WikiFunctions.Parse
             // some (badly done) List of pages can have hundreds of unclosed small or center tags, causes regex bactracking when using <DEPTH>
             // so workaround solution: if > 10 unclosed tags, only remove tags without other tags embedded in them
             // Workaround constraint: we might incorrectly report some valid tags with < or > in them as unclosed
-            if(AnyTagList.Where(s => !s.StartsWith("/")).Count() > (AnyTagList.Where(s => s.StartsWith("/")).Count() + 10))
+            if (AnyTagList.Where(s => !s.StartsWith("/")).Count() > (AnyTagList.Where(s => s.StartsWith("/")).Count() + 10))
             {
                 while(SimpleTagPair.IsMatch(articleText))
                     articleText = Tools.ReplaceWithSpaces(articleText, SimpleTagPair);

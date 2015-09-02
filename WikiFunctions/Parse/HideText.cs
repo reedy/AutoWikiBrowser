@@ -94,7 +94,7 @@ namespace WikiFunctions.Parse
             List<string> AnyTagList = (from Match m in AnyTag.Matches(articleText)
                 select m.Groups[1].Value.Trim().ToLower()).ToList();
 
-            if(AnyTagList.Any(t => t.Equals("tt") || t.StartsWith("syntaxhighlight") || t.Equals("code") || t.StartsWith("source")))
+            if (AnyTagList.Any(t => t.Equals("tt") || t.StartsWith("syntaxhighlight") || t.Equals("code") || t.StartsWith("source")))
                 Replace(WikiRegexes.SourceCode.Matches(articleText), ref articleText);
             Replace(MathCodeTypoTemplates.Matches(articleText), ref articleText);                 
 
@@ -112,12 +112,12 @@ namespace WikiFunctions.Parse
             if (HideImages)
             {
                 Replace(WikiRegexes.Images.Matches(articleText), ref articleText);
-                if(AnyTagList.Any(t => t.Contains("imagemap")))
+                if (AnyTagList.Any(t => t.Contains("imagemap")))
                     Replace(WikiRegexes.ImageMap.Matches(articleText), ref articleText);
                 Replace(CiteTitle.Matches(articleText), ref articleText);
 
                 // gallery tag does not require Image: namespace link before image in gallery, so hide anything before pipe
-                if(AnyTagList.Any(t => t.Contains("gallery")))
+                if (AnyTagList.Any(t => t.Contains("gallery")))
                     articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
                         string res = m.Value;
                         Replace(ImageToBar.Matches(res), ref res);
@@ -149,7 +149,7 @@ namespace WikiFunctions.Parse
         private string AddBack(string articleText, List<HideObject> Tokens)
         {
             // performance: return cached value if no changes made to articleText
-            if(cachedArticleTextAfterHide.Equals(articleText))
+            if (cachedArticleTextAfterHide.Equals(articleText))
             {
                 articleText = cachedOriginalArticleTextBeforeHide;
 
@@ -287,7 +287,7 @@ namespace WikiFunctions.Parse
                 // performance: only use all-protocol regex if the uncommon protocols are in use
                 ReplaceMore(WikiRegexes.ExternalLinksHTTPOnly.Matches(articleText), ref articleText);
 
-                if(articleText.Contains("//"))
+                if (articleText.Contains("//"))
                     ReplaceMore(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);                    
             }
 
@@ -300,7 +300,7 @@ namespace WikiFunctions.Parse
             // This hides internal wikilinks (with or without pipe) with extra word character(s) e.g. [[link]]age, which need hiding even if hiding for typo fixing
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Improve_HideText.HideMore.28.29
             // place this as first wikilink rule as otherwise WikiLinksOnly will grab link without extra word character(s)
-            if(hideWikiLinks)
+            if (hideWikiLinks)
                 ReplaceMore(WikiRegexes.WikiLinksOnlyPlusWord.Matches(articleText), ref articleText);
 
             // if HideOnlyTargetOfWikilink is not set, pipes of links e.g. [[target|pipe]] will be hidden
@@ -319,27 +319,27 @@ namespace WikiFunctions.Parse
                 select m.Groups[1].Value.Trim().ToLower()).ToList();
 
             // gallery tag does not require Image: namespace link before image in gallery, so hide anything before pipe
-            if(AnyTagList.Any(t => t.Contains("gallery")))
+            if (AnyTagList.Any(t => t.Contains("gallery")))
                 articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
                     string res = m.Value;
                     ReplaceMore(ImageToBar.Matches(res), ref res);
                     return res;});
 
             // this hides only the target of a link, leaving the pipe exposed
-            if(hideWikiLinks)
+            if (hideWikiLinks)
                 ReplaceMore(WikiRegexes.WikiLink.Matches(articleText), ref articleText);
 
             // Image links within templates already hidden as NestedTemplates hides all of templates
-            if(AnyTagList.Any(t => t.Contains("gallery")) || articleText.Contains(@"[[")) // check for performance
+            if (AnyTagList.Any(t => t.Contains("gallery")) || articleText.Contains(@"[[")) // check for performance
                 ReplaceMore(WikiRegexes.ImagesNotTemplates.Matches(articleText), ref articleText);
 
             // hide untemplated quotes between some form of quotation marks (most particularly for typo fixing)
             ReplaceMore(WikiRegexes.UntemplatedQuotes.Matches(articleText), ref articleText);
 
-            if(hideItalics)
+            if (hideItalics)
                 ReplaceMore(WikiRegexes.Italics.Matches(articleText), ref articleText);
 
-            if(AnyTagList.Any(t => t.Contains("p style")))
+            if (AnyTagList.Any(t => t.Contains("p style")))
                 ReplaceMore(WikiRegexes.Pstyles.Matches(articleText), ref articleText);
 
             cachedArticleTextAfterHideMore = articleText;
@@ -354,7 +354,7 @@ namespace WikiFunctions.Parse
         public string AddBackMore(string articleText)
         {
             // performance: return cached value if no changes made to articleText
-            if(cachedArticleTextAfterHideMore.Equals(articleText))
+            if (cachedArticleTextAfterHideMore.Equals(articleText))
             {
                 articleText = cachedOriginalArticleTextBeforeHideMore;
 

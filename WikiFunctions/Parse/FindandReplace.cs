@@ -90,7 +90,7 @@ namespace WikiFunctions.Parse
                 bool newlines = f.Contains("\\n");
                 f = Regex.Escape(f);
                 
-                if(newlines)
+                if (newlines)
                     f = f.Replace(@"\\n", "\n");
             }
 
@@ -309,7 +309,7 @@ namespace WikiFunctions.Parse
                                                {
                                                    if (!string.IsNullOrEmpty(mres))
                                                    {
-                                                       if(Repcount == 0)
+                                                       if (Repcount == 0)
                                                        {
                                                            if (!string.IsNullOrEmpty(ReplacedSummary)) //Add comma before next replaced
                                                                ReplacedSummary += comma;
@@ -320,7 +320,7 @@ namespace WikiFunctions.Parse
                                                    }
                                                    else
                                                    {
-                                                       if(Remcount == 0)
+                                                       if (Remcount == 0)
                                                        {
                                                            if (!string.IsNullOrEmpty(RemovedSummary)) //Add comma before next removed
                                                                RemovedSummary += comma;
@@ -335,10 +335,10 @@ namespace WikiFunctions.Parse
                                            } );
 
             // update summaries with count of changes
-            if(Repcount > 1)
+            if (Repcount > 1)
                 ReplacedSummary += " (" + Repcount + ")";
 
-            if(Remcount > 1)
+            if (Remcount > 1)
                 RemovedSummary += " (" + Remcount + ")";
 
             changeMade = (Repcount + Remcount > 0);

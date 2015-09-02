@@ -243,7 +243,7 @@ namespace WikiFunctions.Parse
                 // if for with blank first argument copied over then now need to put "other uses" as the argment
                 articleText = Tools.NestedTemplateRegex("about").Replace(articleText, m2 => {
                                                                              string res = m2.Value;
-                                                                             if(Tools.GetTemplateArgument(res, 7).Length > 0 && Tools.GetTemplateArgument(res, 6).Length == 0)
+                                                                             if (Tools.GetTemplateArgument(res, 7).Length > 0 && Tools.GetTemplateArgument(res, 6).Length == 0)
                                                                              {
                                                                                  res = res.Insert(Tools.GetTemplateArgumentIndex(res, 6), "other uses");
                                                                              }
@@ -307,12 +307,12 @@ namespace WikiFunctions.Parse
             string[] articleTextInSections = Tools.SplitToSections(articleText);
             StringBuilder newArticleText = new StringBuilder();
 
-            foreach(string s in articleTextInSections)
+            foreach (string s in articleTextInSections)
             {
                 string sectionText = s;
                 foreach (string t in SectionMergedTemplates)
                 {
-                    if(SectionMergedTemplatesR.Matches(sectionText).Count < 2)
+                    if (SectionMergedTemplatesR.Matches(sectionText).Count < 2)
                         break;
 
                     sectionText = MergeTemplates(sectionText, t);
@@ -342,7 +342,7 @@ namespace WikiFunctions.Parse
             string heading = "";
             Match h = WikiRegexes.Headings.Match(sectionText);
 
-            if(h.Success && h.Index == 0)
+            if (h.Success && h.Index == 0)
             {
                 heading = h.Value.TrimEnd();
                 sectionText = sectionText.Substring(h.Length).TrimStart();
@@ -355,11 +355,11 @@ namespace WikiFunctions.Parse
                 Match m = TemplateToMerge.Match(sectionText);
                 
                 // only take templates at very start of section (after heading)
-                if(m.Index > 0)
+                if (m.Index > 0)
                     break;
                 
                 // if first template just append, if subsequent then merge in value
-                if(mergedTemplates.Length == 0)
+                if (mergedTemplates.Length == 0)
                     mergedTemplates = m.Value;
                 else
                 {
@@ -367,12 +367,12 @@ namespace WikiFunctions.Parse
                     merged++;
                 }
                 
-                // reove template from section text
+                // remove template from section text
                 sectionText = sectionText.Substring(m.Length).TrimStart();
             }
 
             // recompose section: only if a merge has happened
-            if(merged > 0)
+            if (merged > 0)
                 return ((heading.Length > 0 ? heading + "\r\n" : "") + mergedTemplates + "\r\n" + sectionText);
 
             return sectionTextOriginal;
