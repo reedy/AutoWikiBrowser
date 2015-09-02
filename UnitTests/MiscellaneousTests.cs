@@ -1,11 +1,11 @@
-﻿using WikiFunctions;
-using WikiFunctions.TalkPages;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using WikiFunctions;
+using WikiFunctions.Controls.Lists;
 using WikiFunctions.Parse;
 using WikiFunctions.ReplaceSpecial;
-using NUnit.Framework;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using WikiFunctions.Controls.Lists;
+using WikiFunctions.TalkPages;
 
 namespace UnitTests
 {
@@ -1220,8 +1220,8 @@ http://www.site.com
             articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(articleText2, articleText,"no changes if everything is in place; contains 2 Wikiprojects");
-
         }
+        
          [Test]
         public void MoveBannersAndWikiProjects()
         {
@@ -2333,7 +2333,7 @@ File:Example.jpg|Caption2
             
             lbArticles.RemoveSelected(true);
 
-            if(Globals.UsingMono) // Mono implementation of SetSelected does not seem to honour second input to multi-select
+            if (Globals.UsingMono) // Mono implementation of SetSelected does not seem to honour second input to multi-select
                 Assert.AreEqual(lbArticles.Items.Count, big-1);
             else
                 Assert.AreEqual(lbArticles.Items.Count, big-sel);
@@ -2353,7 +2353,7 @@ File:Example.jpg|Caption2
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(3, true);
             lbArticles.RemoveSelected(true);
-            if(Globals.UsingMono)
+            if (Globals.UsingMono)
             {
                 lbArticles.SetSelected(1, true);
                 lbArticles.RemoveSelected(true);
@@ -2368,7 +2368,7 @@ File:Example.jpg|Caption2
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(5, true);
             lbArticles.RemoveSelected(true);
-            if(Globals.UsingMono)
+            if (Globals.UsingMono)
             {
                 lbArticles.SetSelected(1, true);
                 lbArticles.RemoveSelected(true);
