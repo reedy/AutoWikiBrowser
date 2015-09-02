@@ -18,9 +18,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 /* Some of this is currently only suitable for enwiki. */
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 
 namespace WikiFunctions.TalkPages
 {
@@ -98,14 +98,14 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplate(articleText, ImageRequested);
 
             // if template moving leaves blank lines in WPBS then clean this up
-            if(wpbsBefore.Length > 0 && !blanklinesinwpbsBefore)
+            if (wpbsBefore.Length > 0 && !blanklinesinwpbsBefore)
                 articleText = WikiRegexes.WikiProjectBannerShellTemplate.Replace(articleText, m => m.Value.Replace("\r\n\r\n", "\r\n"));
  
             articleText = WikiProjectBannerShell(articleText);
 
             articleText = MoveTalkTemplate(articleText, WikiRegexes.WikiProjectBannerShellTemplate);
-            if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articleText))
-            	articleText = MoveTalkTemplates(articleText, WikiProjects);
+            if (!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articleText))
+                articleText = MoveTalkTemplates(articleText, WikiProjects);
             articleText = MoveTalkTemplates(articleText, MilestoneTemplates);
             articleText = MoveTalkTemplates(articleText, TalkHistoryBTemplates);
             articleText = MoveTalkTemplates(articleText, TalkHistoryTemplates);
@@ -144,10 +144,10 @@ namespace WikiFunctions.TalkPages
             // remove redundant Template: in templates in zeroth section
             // clean up excess blank lines after template move
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-            if(zerothSection.Length > 0)
+            if (zerothSection.Length > 0)
             {
 				// have we only added whitespace? then reset articletext
-				if(zerothSection.Length > zerothSectionOriginal.Length && 
+				if (zerothSection.Length > zerothSectionOriginal.Length && 
 				   WikiRegexes.WhiteSpace.Replace(zerothSection, "").Equals(WikiRegexes.WhiteSpace.Replace(zerothSectionOriginal, "")))
 					articleText = articleTextOriginal;
 				else 
@@ -155,7 +155,7 @@ namespace WikiFunctions.TalkPages
 	                string zerothbefore = zerothSection;
 	                // clean excess blank lines at end of zeroth section, leave only one newline
 	                // not when later sections: would remove blank line before heading
-	                if(zerothSection.Length == articleText.Length &&
+	                if (zerothSection.Length == articleText.Length &&
 	                   (zerothSection.Length-zerothSection.Trim().Length) > 2)
 	                    zerothSection = zerothSection.Trim() + "\r\n";
 
@@ -257,7 +257,7 @@ namespace WikiFunctions.TalkPages
                 articleText = m.Value.TrimEnd() + "\r\n" + articleText.TrimStart();
 
                 // ensure any talk header template is now named {{talk header}}
-                if(m.Groups[1].Value.ToLower().Contains("talk"))
+                if (m.Groups[1].Value.ToLower().Contains("talk"))
                     articleText = Tools.RenameTemplate(articleText, m.Groups[1].Value, "Talk header", false);
             }
 
@@ -374,7 +374,7 @@ namespace WikiFunctions.TalkPages
                 (current, redirect) => Tools.RenameTemplate(current, redirect, "WikiProjectBanners", false));
 
 
-    foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
+            foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
             {
                 string newValue = m.Value;
                 newValue = Tools.RemoveExcessTemplatePipes(newValue);
@@ -409,9 +409,9 @@ namespace WikiFunctions.TalkPages
                 }
                 
                 string collapsedParam = Tools.GetTemplateParameterValue(newValue, "collapsed");
-                if(shellTemplate && collapsedParam.Equals("no"))
+                if (shellTemplate && collapsedParam.Equals("no"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "collapsed");
-                else  if(!shellTemplate && collapsedParam.Equals("yes"))
+                else  if (!shellTemplate && collapsedParam.Equals("yes"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "collapsed");
 
                 // If {{blpo}} then add blpo=yes to WPBS and remove {{blpo}}
@@ -444,19 +444,19 @@ namespace WikiFunctions.TalkPages
             }
             
             // Move WikiProjects into WPBS
-            if(WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext).Count == 1)
+            if (WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext).Count == 1)
             {
                 string WPBS = WikiRegexes.WikiProjectBannerShellTemplate.Match(articletext).Value, newParams = "";
                 
-                foreach(Match m in WikiRegexes.NestedTemplates.Matches(articletext))
+                foreach (Match m in WikiRegexes.NestedTemplates.Matches(articletext))
                 {
-                    if(Tools.GetTemplateName(m.Value).StartsWith("WikiProject ") && !WPBS.Contains(m.Value))
+                    if (Tools.GetTemplateName(m.Value).StartsWith("WikiProject ") && !WPBS.Contains(m.Value))
                     {
                         articletext = articletext.Replace(m.Value, "");
                         newParams += Tools.Newline(m.Value);
                     }
                 }
-                if(newParams.Length > 0)
+                if (newParams.Length > 0)
                     articletext = articletext.Replace(WPBS, Tools.SetTemplateParameterValue(WPBS, "1", Tools.GetTemplateParameterValue(WPBS, "1") + newParams)).TrimStart();
             }
             
@@ -511,12 +511,12 @@ namespace WikiFunctions.TalkPages
         /// <returns>The updated talk page text</returns>
         public static string WPBiography(string articletext)
         {
-            if(!Variables.LangCode.Equals("en"))
+            if (!Variables.LangCode.Equals("en"))
                 return articletext;
             
             Match m = WPBiographyR.Match(articletext);            
             
-            if(m.Success)
+            if (m.Success)
             {
                 string newvalue = m.Value;
                 
@@ -543,14 +543,14 @@ namespace WikiFunctions.TalkPages
                     articletext = BLPRegex.Replace(articletext, "");
                 }
                 
-                if(newvalue.Length > 0 && !m.Value.Equals(newvalue))
+                if (newvalue.Length > 0 && !m.Value.Equals(newvalue))
                     articletext = articletext.Replace(m.Value, newvalue);
             }
 
             // refresh
             m = WPBiographyR.Match(articletext);
             
-            if(!m.Success || !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("y"))
+            if (!m.Success || !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("y"))
                 return articletext;
             
             // remove {{blp}} if {{WPBiography|living=yes}}
@@ -560,11 +560,11 @@ namespace WikiFunctions.TalkPages
             articletext = ActivepolRegex.Replace(articletext, "");
             
             // move above any other WikiProject
-            if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
+            if (!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
             {
-                foreach(Match n in WikiRegexes.NestedTemplates.Matches(articletext))
+                foreach (Match n in WikiRegexes.NestedTemplates.Matches(articletext))
                 {
-                    if(n.Index < m.Index && Tools.GetTemplateName(n.Value).StartsWith("WikiProject "))
+                    if (n.Index < m.Index && Tools.GetTemplateName(n.Value).StartsWith("WikiProject "))
                     {
                         articletext = articletext.Replace(m.Value, "");
                         articletext = articletext.Insert(n.Index, m.Value + "\r\n");
@@ -585,12 +585,12 @@ namespace WikiFunctions.TalkPages
         /// <returns>The updated talk page text</returns>
         public static string WPSongs(string articletext)
         {
-            if(!Variables.LangCode.Equals("en"))
+            if (!Variables.LangCode.Equals("en"))
                 return articletext;
             
             Match m = WPSongsR.Match(articletext);
             
-            if(m.Success)
+            if (m.Success)
             {
                 string newvalue = m.Value;
                    
@@ -675,11 +675,11 @@ namespace WikiFunctions.TalkPages
             int wikiProjectTemplates = 0;
             string WPBS1 = "", articletextLocal = articletext;
             
-            if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletextLocal))
+            if (!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletextLocal))
             {
-                foreach(Match m in WikiRegexes.NestedTemplates.Matches(articletextLocal))
+                foreach (Match m in WikiRegexes.NestedTemplates.Matches(articletextLocal))
                 {
-                    if(!WikiProject.IsMatch(Tools.GetTemplateName(m.Value)))
+                    if (!WikiProject.IsMatch(Tools.GetTemplateName(m.Value)))
                         continue;
                     
                     wikiProjectTemplates++;
@@ -687,7 +687,7 @@ namespace WikiFunctions.TalkPages
                     articletextLocal = articletextLocal.Replace(m.Value, "");
                 }
                 
-                if(wikiProjectTemplates > WikiProjectsWPBS)
+                if (wikiProjectTemplates > WikiProjectsWPBS)
                 {
                     // add a WikiProjectBannerShell
                     articletext = @"{{WikiProjectBannerShell|1=" + WPBS1 + Tools.Newline(@"}}")
