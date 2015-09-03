@@ -136,6 +136,14 @@ namespace UnitTests
             AssertChange(@"==External link==
 [http://www.site.com Foo]", @"==External links==
 * [http://www.site.com Foo]");
+
+            AssertChange(@"==External link==
+[http://www.site.com Foo]
+
+[http://www.site2.com Foo2]", @"==External links==
+* [http://www.site.com Foo]
+* [http://www.site2.com Foo2]");
+
         }
 
         [Test]
