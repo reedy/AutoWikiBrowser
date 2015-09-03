@@ -2772,5 +2772,25 @@ Text
             Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.MultipleIssues(@"{{multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008|date = March 2007}}"));
             Assert.AreEqual(@"{{Multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.MultipleIssues(@"{{Multiple issues|wikfy=May 2008|COI=May 2008|date = March 2007|cleanup=May 2008}}"));
         }
+        [Test]
+        public void NewlinesbeforeURL()
+        {
+            Assert.AreEqual(@"* [http://www.foo.com]
+* [http://www.bar.com]
+* [http://www.foobar.com]", Parsers.RemoveWhiteSpace(@"* [http://www.foo.com]
+
+* [http://www.bar.com]
+
+* [http://www.foobar.com]"));
+        	
+            Assert.AreEqual(@"* [http://www.foo.com]
+* [https://www.bar.com]
+* [https://www.foobar.com]", Parsers.RemoveWhiteSpace(@"* [http://www.foo.com]
+
+* [https://www.bar.com]
+
+* [https://www.foobar.com]"));
+        }
+        	
     }
 }
