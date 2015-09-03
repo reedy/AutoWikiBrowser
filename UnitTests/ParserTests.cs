@@ -2792,5 +2792,29 @@ Text
 * [https://www.foobar.com]"));
         }
         	
+        [Test]
+        public void NewlinesinLists()
+        {
+            Assert.AreEqual(@"The following items:
+* ab
+* ac", Parsers.RemoveWhiteSpace(@"The following items:
+* ab
+
+* ac"));
+
+        	Assert.AreEqual(@"The following items:
+
+* ab
+* ac
+* ad", Parsers.RemoveWhiteSpace(@"The following items:
+
+* ab
+
+* ac
+
+* ad"));
+        	
+        }
+
     }
 }

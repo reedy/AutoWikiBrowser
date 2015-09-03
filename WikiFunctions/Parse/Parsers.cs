@@ -190,7 +190,7 @@ namespace WikiFunctions.Parse
         public string FixBrParagraphs(string articleText)
         {
             // check for performance
-            if(SyntaxRemoveBrQuick.IsMatch(articleText))
+            if (SyntaxRemoveBrQuick.IsMatch(articleText))
                 articleText = SyntaxRemoveBr.Replace(articleText, "\r\n\r\n");
 
             articleText = SyntaxRemoveParagraphs.Replace(articleText, "\r\n\r\n");
@@ -233,7 +233,7 @@ namespace WikiFunctions.Parse
         public static string FixLivingThingsRelatedDates(string articleText)
         {
             // Three born/died regexes wrapped like this for performance
-            if(Regex.IsMatch(articleText, @"'''\s*\([BbDd]"))
+            if (Regex.IsMatch(articleText, @"'''\s*\([BbDd]"))
                 articleText = BoldToBracket.Replace(articleText, m=>
                                                     {
                                                         string newvalue = m.Groups[2].Value;
@@ -257,7 +257,7 @@ namespace WikiFunctions.Parse
         /// <returns>Dictionary of dead links found</returns>
         public static Dictionary<int, int> DeadLinks(string articleText)
         {
-            if(!TemplateExists(GetAllTemplates(articleText), WikiRegexes.DeadLink))
+            if (!TemplateExists(GetAllTemplates(articleText), WikiRegexes.DeadLink))
                 return new Dictionary<int, int>();
 
             return DictionaryOfMatches(articleText, WikiRegexes.DeadLink);
@@ -300,7 +300,7 @@ namespace WikiFunctions.Parse
         public static Dictionary<int, int> DoublePipeLinks(string articleText)
         {
             // Performance strategy: get list of all internal wikilinks, filter to those with two | in
-            if((from Match m in WikiRegexes.SimpleWikiLink.Matches(articleText) where m.Value.Count(s => s == '|') > 1 select m.Value).ToList().Any())
+            if ((from Match m in WikiRegexes.SimpleWikiLink.Matches(articleText) where m.Value.Count(s => s == '|') > 1 select m.Value).ToList().Any())
             return DictionaryOfMatches(articleText, WikiRegexes.DoublePipeLink);
 
             return (new Dictionary<int, int>());
@@ -359,7 +359,7 @@ namespace WikiFunctions.Parse
             dashed = Tools.DeduplicateList(dashed);
 
             // replace hyphen with dash and convert Pp. to pp.
-            if(dashed.Any(s => PageRangeIncorrectMdash.IsMatch(s)))
+            if (dashed.Any(s => PageRangeIncorrectMdash.IsMatch(s)))
                 articleText = PageRangeIncorrectMdash.Replace(articleText, m=>
                                                               {
                                                                   string pagespart = m.Groups[1].Value;
@@ -369,16 +369,16 @@ namespace WikiFunctions.Parse
                                                                   return pagespart + m.Groups[2].Value + @"–" + m.Groups[3].Value;
                                                               });
 
-            if(dashed.Any(s => UnitTimeRangeIncorrectMdash.IsMatch(s)))
+            if (dashed.Any(s => UnitTimeRangeIncorrectMdash.IsMatch(s)))
                 articleText = UnitTimeRangeIncorrectMdash.Replace(articleText, @"$1–$2$3$4");
 
-            if(dashed.Any(s => DollarAmountIncorrectMdash.IsMatch(s)))
+            if (dashed.Any(s => DollarAmountIncorrectMdash.IsMatch(s)))
                 articleText = DollarAmountIncorrectMdash.Replace(articleText, @"$1–$2");
 
-            if(dashed.Any(s => AMPMIncorrectMdash.IsMatch(s)))
+            if (dashed.Any(s => AMPMIncorrectMdash.IsMatch(s)))
                 articleText = AMPMIncorrectMdash.Replace(articleText, @"$1–$3");
 
-            if(dashed.Any(s => AgeIncorrectMdash.IsMatch(s)))
+            if (dashed.Any(s => AgeIncorrectMdash.IsMatch(s)))
                 articleText = AgeIncorrectMdash.Replace(articleText, @"$1 $2–$3");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Match_en_dashes.2Femdashs_from_titles_with_those_in_the_text
@@ -406,6 +406,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SpacesThenTwoNewline = new Regex(" +\r\n\r\n", RegexOptions.Compiled);
         private static readonly Regex WikiListWithMultipleSpaces = new Regex(@"^([\*#]+) +", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedDashes = new Regex(" (—|&#15[01];|&mdash;|&#821[12];|&#x201[34];) ", RegexOptions.Compiled);
+        private static readonly Regex NewlinesWithinLists = new Regex(@"(\r\n\*.*)\r\n\r\n+\*", RegexOptions.Compiled);
 
         /// <summary>
         /// Applies/removes some excess whitespace from the article
@@ -427,7 +428,7 @@ namespace WikiFunctions.Parse
         public static string RemoveWhiteSpace(string articleText, bool fixOptionalWhitespace)
         {
             //Remove <br /> if followed by double newline, NOT in blockquotes
-            if(BrTwoNewlines.IsMatch(articleText) && !WikiRegexes.Blockquote.IsMatch(articleText))
+            if (BrTwoNewlines.IsMatch(articleText) && !WikiRegexes.Blockquote.IsMatch(articleText))
             {
                 while(BrTwoNewlines.IsMatch(articleText))
                     articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
@@ -439,16 +440,16 @@ namespace WikiFunctions.Parse
             // remove excessive newlines
             // Don't apply within <poem> tags
             // retain one or two newlines before stub
-            if(articleText.Contains("\r\n\r\n\r\n"))
+            if (articleText.Contains("\r\n\r\n\r\n"))
             {
                 bool OK = true;
                 int p = articleText.IndexOf("poem", StringComparison.OrdinalIgnoreCase);
 
-                if(p > -1)
+                if (p > -1)
                 {
                     foreach(Match m in WikiRegexes.Poem.Matches(articleText.Substring(Math.Max(p-50,0))))
                     {
-                        if(m.Value.Contains("\r\n\r\n"))
+                        if (m.Value.Contains("\r\n\r\n"))
                         {
                             OK = false;
                             break;
@@ -456,7 +457,7 @@ namespace WikiFunctions.Parse
                     }
                 }
 
-                if(OK)
+                if (OK)
                 {
                     if (WikiRegexes.Stub.IsMatch(articleText))
                         articleText = FourOrMoreNewlines.Replace(articleText, "\r\n\r\n");
@@ -466,7 +467,12 @@ namespace WikiFunctions.Parse
             }
 
             articleText = NewlinesBelowExternalLinks.Replace(articleText, "==External links==\r\n*");
+            // For bulleted vertical lists, do not separate items by leaving blank lines between them.
+            // WP:LISTGAP
+           // https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Accessibility#Lists
             articleText = NewlinesBeforeUrl.Replace(articleText, "\r\n$1");
+            while(NewlinesWithinLists.IsMatch(articleText))
+            	articleText = NewlinesWithinLists.Replace(articleText, "$1\r\n*");
 
             articleText = HorizontalRule.Replace(articleText.Trim(), "");
 
@@ -708,7 +714,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixMainArticle(string articleText)
         {
-            if(SeeAlsoMainArticleQuick.IsMatch(articleText))
+            if (SeeAlsoMainArticleQuick.IsMatch(articleText))
             {
                 articleText = SeeAlsoLink.Replace(articleText,
                                                   m => m.Groups[2].Value.Length == 0
@@ -732,13 +738,13 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixEmptyLinksAndTemplates(string articleText)
         {
-            if(GetAllWikiLinks(articleText).Any(link => WikiRegexes.EmptyLink.IsMatch(link)))
+            if (GetAllWikiLinks(articleText).Any(link => WikiRegexes.EmptyLink.IsMatch(link)))
             {
                 while(WikiRegexes.EmptyLink.IsMatch(articleText))
                     articleText = WikiRegexes.EmptyLink.Replace(articleText, "");
             }
 
-            if(TemplateExists(GetAllTemplates(articleText), WikiRegexes.EmptyTemplate))
+            if (TemplateExists(GetAllTemplates(articleText), WikiRegexes.EmptyTemplate))
                 articleText = WikiRegexes.EmptyTemplate.Replace(articleText, "");
 
             return articleText;
@@ -758,20 +764,20 @@ namespace WikiFunctions.Parse
             List<string> originalTags = tags;
 
             // if any tag has unnamed param as firt argument, sort tags with longest part before first = to be first, so we retain the unnamed param
-            if(tags.Any(t => TemplateArg.IsMatch(t)))
+            if (tags.Any(t => TemplateArg.IsMatch(t)))
                 tags = tags.OrderByDescending(s => (s.Contains("=") ? s.Substring(0, s.IndexOf("=")).Length : s.Length)).ToList();
 
             foreach(string t in tags)
             {
                 string existingTag = newtags.Where(nt => Tools.TurnFirstToLower(Tools.GetTemplateName(nt)) == Tools.TurnFirstToLower(Tools.GetTemplateName(t))).FirstOrDefault();
 
-                if(existingTag != null) // so list already contains tag for same template
+                if (existingTag != null) // so list already contains tag for same template
                 {
                     // check for tag having conflicting first argument
                     string eParam = TemplateArg.Match(existingTag).Groups[1].Value.Trim();
                     string tParam = TemplateArg.Match(t).Groups[1].Value.Trim();
 
-                    if(tParam.Length > 0 && eParam.Length > 0 && eParam != tParam)
+                    if (tParam.Length > 0 && eParam.Length > 0 && eParam != tParam)
                         return originalTags;
                     
                     string existingTagOriginal = existingTag;
@@ -779,21 +785,20 @@ namespace WikiFunctions.Parse
 
                     foreach(KeyValuePair<string, string> kvp in tparams)
                     {
-                        if(kvp.Value.Length == 0)
+                        if (kvp.Value.Length == 0)
                             continue;
 
                         string existingParamValue = Tools.GetTemplateParameterValue(existingTag, kvp.Key);
 
-                        if(existingParamValue.Length == 0)
+                        if (existingParamValue.Length == 0)
                             existingTag = Tools.SetTemplateParameterValue(existingTag, kvp.Key, kvp.Value);
-                        else if(existingParamValue.Equals(kvp.Value))
+                        else if (existingParamValue.Equals(kvp.Value))
                                 continue;
                         else
                         {
                             // conflicting parameter values
-
                             // if param not date cannot handle, return
-                            if(kvp.Key != "date")
+                            if (kvp.Key != "date")
                                 return originalTags;
 
                             // if param is date, take earlier date
@@ -802,7 +807,7 @@ namespace WikiFunctions.Parse
                             DateTime existingDate = Convert.ToDateTime("1 " + existingParamValue);
                             DateTime tagDate = Convert.ToDateTime("1 " + kvp.Value);
 
-                            if(tagDate < existingDate)
+                            if (tagDate < existingDate)
                                 existingTag = Tools.SetTemplateParameterValue(existingTag, kvp.Key, kvp.Value);
                             }
                             catch
@@ -857,13 +862,13 @@ namespace WikiFunctions.Parse
                 where m.Value.ToLower().Contains("external") && ExternalLinksSection.IsMatch(m.Value)
                                       select m).ToList();
 
-            if(h.Any())
+            if (h.Any())
             {            
                 int intStart = h.FirstOrDefault().Index;
 
                 string articleTextSubstring = articleText.Substring(intStart);
 
-                if(NewlinesBeforeHTTP.IsMatch(articleTextSubstring))
+                if (NewlinesBeforeHTTP.IsMatch(articleTextSubstring))
                 {
                     articleText = articleText.Substring(0, intStart);
                     articleTextSubstring = BulletExternalHider.HideMore(articleTextSubstring);
@@ -939,18 +944,18 @@ namespace WikiFunctions.Parse
                 // Check on number plus word for performance
                 List<string> NumText = Tools.DeduplicateList((from Match m in Regex.Matches(articleText, @"\b[0-9]+[ \u00a0]*[B-Wc-zµ/°]{1,4}\b") select m.Value).ToList());
 
-                if(NumText.Any(s => WikiRegexes.UnitsWithoutNonBreakingSpaces.IsMatch(s)))
+                if (NumText.Any(s => WikiRegexes.UnitsWithoutNonBreakingSpaces.IsMatch(s)))
                     articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[2].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : m.Groups[1].Value + "&nbsp;" + m.Groups[2].Value);
 
-                if(NumText.Any(s => (s.EndsWith("in") || s.EndsWith("ft") || s.EndsWith("oz"))))
+                if (NumText.Any(s => (s.EndsWith("in") || s.EndsWith("ft") || s.EndsWith("oz"))))
                     articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
 
-                if(articleText.Contains(@"&nbsp;ft")) // check for performance
+                if (articleText.Contains(@"&nbsp;ft")) // check for performance
                     articleText = WikiRegexes.MetresFeetConversionNonBreakingSpaces.Replace(articleText, @"$1&nbsp;m");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Pagination
                 // add non-breaking space after pp. abbreviation for pages.
-                if(Regex.IsMatch(articleText, @"(p\.) *[0-9IVXCL][^S]")) // check for performance
+                if (Regex.IsMatch(articleText, @"(p\.) *[0-9IVXCL][^S]")) // check for performance
                     articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");
             }
 
@@ -958,13 +963,13 @@ namespace WikiFunctions.Parse
             // It works only for dotted lower-case a.m. or p.m.
             if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
             {
-                if(articleText.Contains(".m.")) // check for performance. Set &nbsp; and trim excess leading zero
+                if (articleText.Contains(".m.")) // check for performance. Set &nbsp; and trim excess leading zero
                     articleText = WikiRegexes.ClockTime.Replace(articleText, m => Regex.Replace(m.Groups[1].Value, @"0(\d:)", "$1") + "&nbsp;" + m.Groups[2].Value);
 
                 // Removes space or non-breaking space from percent per [[WP:PERCENT]].
                 // Avoid doing this for more spaces to prevent false positives.
                 // Don't fix space in all wikis. For instance sv:Procent requires a space inbetween
-                if(Regex.IsMatch(articleText, @"%(\p{P}|\)?\s)")) // check for performance
+                if (Regex.IsMatch(articleText, @"%(\p{P}|\)?\s)")) // check for performance
                     articleText = WikiRegexes.Percent.Replace(articleText, " $1%$3");
 
                 // Removes space or non-breaking space from percent per [[WP:CURRENCY]]  if they consist of a nonalphabetic symbol only.
@@ -1323,7 +1328,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text.</returns>
         public static string LivingPeople(string articleText, string articleTitle)
         {
-            if(Variables.LangCode.Equals("sco"))
+            if (Variables.LangCode.Equals("sco"))
                 return articleText;
 
             Match m = WikiRegexes.BirthsCategory.Match(GetCats(articleText));
@@ -1422,11 +1427,11 @@ namespace WikiFunctions.Parse
         {
             List<string> possibleInterwiki = GetAllWikiLinks(articleText).FindAll(l => l.Contains(":"));
 
-            if(possibleInterwiki.Any(l => l.StartsWith(@"[[zh-tw:")))
+            if (possibleInterwiki.Any(l => l.StartsWith(@"[[zh-tw:")))
                 articleText = articleText.Replace("[[zh-tw:", "[[zh:");
-            if(possibleInterwiki.Any(l => l.StartsWith(@"[[nb:")))
+            if (possibleInterwiki.Any(l => l.StartsWith(@"[[nb:")))
                 articleText = articleText.Replace("[[nb:", "[[no:");
-            if(possibleInterwiki.Any(l => l.StartsWith(@"[[dk:")))
+            if (possibleInterwiki.Any(l => l.StartsWith(@"[[dk:")))
                 articleText = articleText.Replace("[[dk:", "[[da:");
 
             return articleText;
@@ -1467,7 +1472,7 @@ namespace WikiFunctions.Parse
 
             bool mifound = TemplateExists(alltemplates, WikiRegexes.MultipleIssues);
 
-            if(mifound || TemplateExists(alltemplates, ConversionsCnCommons))
+            if (mifound || TemplateExists(alltemplates, ConversionsCnCommons))
             {
                 foreach (KeyValuePair<Regex, string> k in RegexConversion)
                 {
@@ -1477,7 +1482,7 @@ namespace WikiFunctions.Parse
 
             bool BASEPAGENAMEInRefs = false;
 
-            if(TemplateExists(alltemplates, WikiRegexes.BASEPAGENAMETemplates))
+            if (TemplateExists(alltemplates, WikiRegexes.BASEPAGENAMETemplates))
             {
                 foreach (Match m in WikiRegexes.Refs.Matches(articleText))
                 {
@@ -1501,10 +1506,10 @@ namespace WikiFunctions.Parse
                 articleText = NoFootnotes.Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes"));
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
-            if(TemplateExists(alltemplates, SectionTemplates))
+            if (TemplateExists(alltemplates, SectionTemplates))
                 articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
 
-            if(mifound)
+            if (mifound)
             {
                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, m =>
                                                              {
@@ -1517,11 +1522,11 @@ namespace WikiFunctions.Parse
             }
 
             // fixes if article has [[Category:Living people]]
-            if(Variables.IsWikipediaEN && CategoryMatch(articleText, "Living people"))
+            if (Variables.IsWikipediaEN && CategoryMatch(articleText, "Living people"))
             {
                 // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
                 MatchCollection unrefm = Tools.NestedTemplateRegex("unreferenced").Matches(articleText);
-                if(unrefm.Count == 1)
+                if (unrefm.Count == 1)
                 {
                     if (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unrefm[0].Value, 1)).StartsWith("date")
                         || Tools.GetTemplateArgumentCount(unrefm[0].Value) == 0)
@@ -1533,14 +1538,14 @@ namespace WikiFunctions.Parse
 
                 // {{refimprove}} --> {{BLP sources}} if article has [[Category:Living people]], and no free-text first argument to {{refimprove}}
                 MatchCollection mc = Tools.NestedTemplateRegex("refimprove").Matches(articleText);
-                if(mc.Count == 1)
+                if (mc.Count == 1)
                 {
                     string refimprove = mc[0].Value;
                     if ((Tools.TurnFirstToLower(Tools.GetTemplateArgument(refimprove, 1)).StartsWith("date")
                          || Tools.GetTemplateArgumentCount(refimprove) == 0))
                     {
                         // if also have existing BLP sources then remove refimprove
-                        if(Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
+                        if (Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
                         {
                             articleText = Tools.NestedTemplateRegex("refimprove").Replace(articleText, "");
                             Parsers p = new Parsers();
@@ -1554,21 +1559,21 @@ namespace WikiFunctions.Parse
                 articleText = Tools.RenameTemplate(articleText, "refimprove section", "BLP sources section", false);
             }
 
-            if(TemplateExists(alltemplates, WikiRegexes.PortalTemplate))
+            if (TemplateExists(alltemplates, WikiRegexes.PortalTemplate))
                 articleText = MergePortals(articleText);
 
-            if(alltemplates.Count(s => SectionMergedTemplatesR.IsMatch(@"{{" + s + "|}}")) > 1)
+            if (alltemplates.Count(s => SectionMergedTemplatesR.IsMatch(@"{{" + s + "|}}")) > 1)
                 articleText = MergeTemplatesBySection(articleText);
 
             // clean up Template:/underscores in infobox names
-            if(TemplateExists(alltemplates, WikiRegexes.InfoBox))
+            if (TemplateExists(alltemplates, WikiRegexes.InfoBox))
                 articleText = WikiRegexes.InfoBox.Replace(articleText, m =>
                                                       {
                                                           string newName = CanonicalizeTitle(m.Groups[1].Value);
                                                           return (newName.Equals(m.Groups[1].Value) ? m.Value : Tools.RenameTemplate(m.Value, newName));
                                                       });
 
-            if(TemplateExists(alltemplates, WikiRegexes.Dablinks))
+            if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
                 articleText = Dablinks(articleText);
 
             return articleText;
@@ -1690,7 +1695,7 @@ namespace WikiFunctions.Parse
 
             foreach(Match m in coinsParam.Matches(text))
             {
-                if(!data.ContainsKey(m.Groups[1].Value))
+                if (!data.ContainsKey(m.Groups[1].Value))
                     data.Add(m.Groups[1].Value, m.Groups[2].Value);
             }
 
@@ -1819,7 +1824,7 @@ namespace WikiFunctions.Parse
             int refstemplateindex = 0, reflength = 0;
             foreach(Match m in WikiRegexes.ReferencesTemplate.Matches(articleText))
             {
-                if(refstemplateindex > 0)
+                if (refstemplateindex > 0)
                     return false; // multiple {{reflist}} etc. in page, not supported for check
 
                 refstemplateindex= m.Index;
