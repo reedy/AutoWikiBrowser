@@ -1031,7 +1031,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches wikilinks with no target e.g. [[|foo]]
         /// </summary>
-        private const string AllowedCharacters = @"([\w\s\-–\+\(\),\'\.&\!\?\$\#]*)";
+        private const string AllowedCharacters = @"([\w\s\-–\+\(\),\'\.&\!\?\$\#""]*)";
         public static readonly Regex TargetLessLink =  new Regex(@"\[\[\|"+AllowedCharacters+@"\]\]");
 
         /// <summary>
