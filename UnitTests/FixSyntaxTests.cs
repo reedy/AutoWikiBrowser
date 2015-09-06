@@ -751,8 +751,13 @@ Now [[A],] was."));
             const string MI = @"{{Multiple issues|
 {{autobiography|date=April 2015}}
 {{notability|Biographies|date=April 2015}}
-";
+", Infobox = @"{{Infobox foo
+|a1=a
+|a2=b
+}}";
             Assert.AreEqual(MI + "}}", Parsers.FixSyntax(MI));
+
+            Assert.AreEqual(MI + "}}" + "\r\n\r\n" + Infobox, Parsers.FixSyntax(MI + "\r\n" + Infobox));
         }
 
         [Test]

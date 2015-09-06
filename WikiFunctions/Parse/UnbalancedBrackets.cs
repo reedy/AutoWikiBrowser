@@ -380,8 +380,8 @@ namespace WikiFunctions.Parse
                     // external link excess closing braces
                     articleTextTemp = TripleBracketAtEndOfExternalLink.Replace(articleTextTemp, "$1");
 
-                    // unclosed {{multiple issues
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"({{[Mm]ultiple issues\s*\|\s*(\s*{{[^{}]+}})+)", "$1\r\n}}");
+                    // unclosed {{multiple issues, don't match into infobox
+                    articleTextTemp = Regex.Replace(articleTextTemp, @"({{[Mm]ultiple issues\s*\|\s*(\s*{{[^{}]+}})+)(?<!.*{{[^{}|]*[Ii]nfobox.*)", "$1\r\n}}", RegexOptions.Singleline);
                 }
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, out bracketLength);
