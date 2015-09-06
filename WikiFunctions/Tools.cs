@@ -1249,8 +1249,8 @@ namespace WikiFunctions
 		/// <returns></returns>
 		public static string CleanSortKey(string s)
 		{
-			// no diacritic removal in sortkeys on ru, fr, pl wikis
-			if(!Variables.LangCode.Equals("ru") && !Variables.LangCode.Equals("fr") && !Variables.LangCode.Equals("pl"))
+			// no diacritic removal in sortkeys on wikis using uca- / Unicode sorting (e.g. fr/pl/ru wiki)
+			if(!Variables.UnicodeCategoryCollation)
 				s = RemoveDiacritics(s);
 
 			s = s.Replace("&ndash;", "–");

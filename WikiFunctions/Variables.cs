@@ -92,6 +92,7 @@ namespace WikiFunctions
             mSummaryTag = "using ";
             Protocol = "http://";
             NotificationsEnabled = true;
+            UnicodeCategoryCollation = false;
         }
 
         /// <summary>
@@ -208,6 +209,11 @@ namespace WikiFunctions
         /// Whether the wiki capitalizes first letter of page names (usually yes, e.g. English Wikipedia) or not (e.g. Wiktionary)
         /// </summary>
         public static bool CapitalizeFirstLetter { get; set; }
+
+        /// <summary>
+        /// Whether the wiki uses Unicode (uca-) sorting for category sort keys, i.e. the wgCategoryCollation value is a uca-type
+        /// </summary>
+        public static bool UnicodeCategoryCollation { get; set; }
 
         /// <summary>
         /// localized names of months

@@ -262,6 +262,10 @@ namespace WikiFunctions
                 Variables.RTL = Site.IsRightToLeft;
                 Variables.CapitalizeFirstLetter = Site.CapitalizeFirstLetter;
 
+                // the wgCategoryCollation list uses wiki rather than wikipedia so convert that
+                string siteName = (Variables.Project.ToString() == "wikipedia" ? "wiki" : Variables.Project.ToString());
+                Variables.UnicodeCategoryCollation = !Variables.IsCustomProject && Site.UcaCategoryCollation.Contains(Site.Language + siteName);
+
                 if (Variables.IsCustomProject || Variables.IsWikia)
                     Variables.LangCode = Site.Language;
 

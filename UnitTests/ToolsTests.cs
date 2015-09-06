@@ -2089,6 +2089,7 @@ foo<!--comm-->|title=abc
             Assert.AreEqual(@"10.1101/gr.7.4.359", Tools.GetMetaContentValue(@"<meta content=""10.1101/gr.7.4.359"" name=""DC.Identifier"" />", "DC.Identifier"));
 
             Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta id=""og_title"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
+            Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta property=""og:title"" content=""Air wasn't x"">", "og:title"));
             Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta data-ephemeral=""true"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
             Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta ng-attr-content=""{{meta.title}}"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
         }
@@ -2467,12 +2468,14 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         public void CleanSortKeyLang()
         {
 #if DEBUG
+            Variables.UnicodeCategoryCollation = true;
             Variables.SetProjectLangCode("ru");
             Assert.AreEqual("Hellõ", Tools.CleanSortKey("Hellõ"), "no diacritic removal for defaultsort key on ru-wiki");
             Variables.SetProjectLangCode("fr");
             Assert.AreEqual("Hellõ", Tools.CleanSortKey("Hellõ"), "no diacritic removal for defaultsort key on fr-wiki");
             Variables.SetProjectLangCode("pl");
-            Assert.AreEqual("Hellõ", Tools.CleanSortKey("Hellõ"), "no diacritic removal for defaultsort key on pl-wiki");            
+            Assert.AreEqual("Hellõ", Tools.CleanSortKey("Hellõ"), "no diacritic removal for defaultsort key on pl-wiki");
+            Variables.UnicodeCategoryCollation = false;
             Variables.SetProjectLangCode("en");
             Assert.AreEqual("Hello", Tools.FixupDefaultSort("Hellõ"), "do remove diacritics on en-wiki");
 #endif
@@ -2534,9 +2537,11 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         {
 #if DEBUG
             Variables.SetProjectLangCode("ru");
+            Variables.UnicodeCategoryCollation = true;
             Assert.AreEqual("Hellõ", Tools.FixupDefaultSort("Hellõ"), "no diacritic removal for defaultsort key on ru-wiki");
             
             Variables.SetProjectLangCode("en");
+            Variables.UnicodeCategoryCollation = false;
             Assert.AreEqual("Hello", Tools.FixupDefaultSort("Hellõ"));
 #endif
         }
