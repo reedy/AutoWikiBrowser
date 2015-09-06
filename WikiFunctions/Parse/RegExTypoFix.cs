@@ -22,9 +22,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Threading;
 using WikiFunctions.Background;
 using WikiFunctions.Controls;
-using System.Threading;
 
 namespace WikiFunctions.Parse
 {
@@ -545,9 +545,9 @@ namespace WikiFunctions.Parse
                 resultSummary.TryGetValue(tg.GroupSize, out groupSummary);
                 resultArticleText.TryGetValue(tg.GroupSize, out groupArticleText);
 
-                if(groupSummary.Length > 0)
+                if (groupSummary.Length > 0)
                 {
-                    if(strSummary.Length > 0)
+                    if (strSummary.Length > 0)
                     {
                         // earlier thread had changes, so need to re-run this one
                         tg.FixTypos(ref articleText, ref strSummary, articleTitle, originalArticleText);
@@ -583,8 +583,8 @@ namespace WikiFunctions.Parse
             
             articleText = removeText.HideMore(articleText, true);
             
-            //remove newlines, whitespace and hide tokens from bottom
-            //to avoid running 2K regexps on them
+            // remove newlines, whitespace and hide tokens from bottom
+            // to avoid running 2K regexps on them
             Match m = RemoveTail.Match(articleText);
             if (m.Success) 
                 articleText = articleText.Remove(m.Index);
@@ -595,7 +595,7 @@ namespace WikiFunctions.Parse
             {
                 grp.FixTypos(ref articleText, ref strSummary, articleTitle, originalArticleText);
 
-                if(strSummary.Length > 0)
+                if (strSummary.Length > 0)
                     return true;
             }
 

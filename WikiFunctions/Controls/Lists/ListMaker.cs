@@ -269,14 +269,14 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public bool Remove(Article item)
         {
-            if(!lbArticles.Items.Contains(item))
+            if (!lbArticles.Items.Contains(item))
                 return false;
 
             // set last used article
             txtPage.Text = item.Name;
 
             // if one article selected and it's the one to be removed, just RemoveSelected
-            if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItem.ToString() == item.Name)
+            if (lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItem.ToString() == item.Name)
             {
                 int currentIndex = lbArticles.SelectedIndex;
                 lbArticles.RemoveSelected(FilterDuplicates);
@@ -303,7 +303,7 @@ namespace WikiFunctions.Controls.Lists
                     lbArticles.SelectedIndex = intPosition;
 
                     // Wine fix: does not scroll listbox if selected article moves out of view
-                    if(lbArticles.TopIndex > lbArticles.Items.Count-1)
+                    if (lbArticles.TopIndex > lbArticles.Items.Count-1)
                         lbArticles.TopIndex = intPosition;
                 }
             }
@@ -648,7 +648,7 @@ namespace WikiFunctions.Controls.Lists
             lbArticles.SetSelected(lbArticles.SelectedIndex, false);
  
             // Wine fix: does not scroll listbox if selected article moves out of view
-            if((lbArticles.TopIndex + 15) < lbArticles.SelectedIndex)
+            if ((lbArticles.TopIndex + 15) < lbArticles.SelectedIndex)
                 lbArticles.TopIndex = lbArticles.SelectedIndex;
 
             return true;
@@ -670,7 +670,7 @@ namespace WikiFunctions.Controls.Lists
 
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
             string url = Variables.URL + "/wiki/";
-            if(Variables.URL.Contains("https:"))
+            if (Variables.URL.Contains("https:"))
                 s = s.Replace("http://", "https://"); // support HTTP and HTTPS links
 
             s = s.Replace(url, "").Trim();
@@ -730,20 +730,20 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            if(FilterNonMainAuto)
+            if (FilterNonMainAuto)
                 l = l.FindAll(a => a.NameSpaceKey == Namespace.Article);
 
             // if deduplicating, only add items not already in the list, rather than adding all and deduplicating entire list again
-            if(FilterDuplicates && Globals.SystemCore3500Available)
+            if (FilterDuplicates && Globals.SystemCore3500Available)
                 l = DeDuplicate(l);
 
-            if(l.Any())
+            if (l.Any())
             {            
                 lbArticles.BeginUpdate();
                 lbArticles.Items.AddRange(l.ToArray());
                 lbArticles.EndUpdate();
 
-                if(FilterDuplicates && !Globals.SystemCore3500Available)
+                if (FilterDuplicates && !Globals.SystemCore3500Available)
                     RemoveListDuplicates();
 
                 UpdateNumberOfArticles();
@@ -1007,12 +1007,12 @@ namespace WikiFunctions.Controls.Lists
             List<Article> articles = new List<Article>(lbArticles);
             List<Article> toberemoved = articles.FindAll(a => a.NameSpaceKey != Namespace.Article);
 
-            if(toberemoved.Any())
+            if (toberemoved.Any())
             {
                 // performance: AddRange performs at about 100 articles per millisecond, Remove takes about 1 millisecond per article
                 // so if removing < 1% of articles it's faster to Remove each one, otherwise faster to clear and AddRange the remainder back
                 lbArticles.BeginUpdate();
-                if(toberemoved.Count < (int)articles.Count/100)
+                if (toberemoved.Count < (int)articles.Count/100)
                 {
                     foreach(Article a in toberemoved)
                         lbArticles.Items.Remove(a);
@@ -1250,7 +1250,7 @@ namespace WikiFunctions.Controls.Lists
 
             // workaround for Wine issue: use of {HOME} then +{END} leads to 100% CPU and locked application
             // so use slower SetSelected if on Linux
-            if(Globals.UsingLinux)
+            if (Globals.UsingLinux)
             {
                 for(int i = 0; i < lbArticles.Items.Count; i++)
                     lbArticles.SetSelected(i, true);
@@ -1296,7 +1296,7 @@ namespace WikiFunctions.Controls.Lists
 		// in the meantime
         private void LoadArticlesInBrowser()
         {
-            if(Variables.MainForm.TheSession.Site != null) // TheSession can be null if AWB encounters network problems on startup
+            if (Variables.MainForm.TheSession.Site != null) // TheSession can be null if AWB encounters network problems on startup
             {
                 List<Article> articles = GetSelectedArticleList();
 
@@ -1435,7 +1435,7 @@ namespace WikiFunctions.Controls.Lists
             e.DrawBackground();
 
             // format display title of article if option enabled, custom text format (not colour)
-            if(!formatDisplayTitleToolStripMenuItem.Checked || string.IsNullOrEmpty(a.DisplayTitle))
+            if (!formatDisplayTitleToolStripMenuItem.Checked || string.IsNullOrEmpty(a.DisplayTitle))
             {
                 e.Graphics.DrawString(a.Name, e.Font, (selected) ? Brushes.White : Brushes.Black, e.Bounds,
                     StringFormat.GenericDefault);
@@ -1455,7 +1455,7 @@ namespace WikiFunctions.Controls.Lists
                 displayTitle = SpanHide.Replace(displayTitle, "");
 
                 // if no display title then standard article, standard format
-                if(string.IsNullOrEmpty(displayTitle))
+                if (string.IsNullOrEmpty(displayTitle))
                 {
                     e.Graphics.DrawString(a.Name, regular, (selected) ? Brushes.White : Brushes.Black, r,
                         StringFormat.GenericDefault);
@@ -1465,19 +1465,19 @@ namespace WikiFunctions.Controls.Lists
                     displayTitle = displayTitle.Replace("&amp;", "&");
 
                     // if no HTML, could be first letter lower or underscores in title, format using display title in standard font 
-                    if(displayTitle.Replace("_", " ").TrimStart(" _".ToCharArray()).Equals(a.Name, StringComparison.OrdinalIgnoreCase))
+                    if (displayTitle.Replace("_", " ").TrimStart(" _".ToCharArray()).Equals(a.Name, StringComparison.OrdinalIgnoreCase))
                     {
                         e.Graphics.DrawString(displayTitle, regular, (selected) ? Brushes.White : Brushes.Black, r,
                             StringFormat.GenericDefault);
                     }
                     // italics support
-                    else if(HTMLItalics.IsMatch(displayTitle))
+                    else if (HTMLItalics.IsMatch(displayTitle))
                     {
                         foreach(Match m in HTMLItalics.Matches(displayTitle))
                         {
                             for(int i = 1; i < 4; i++)
                             {
-                                if(m.Groups[i].Value.Length > 0)
+                                if (m.Groups[i].Value.Length > 0)
                                 {
                                     Font f2 = (i == 2 ? italic : regular);
                                     e.Graphics.DrawString(m.Groups[i].Value, f2, (selected) ? Brushes.White : Brushes.Black, r,

@@ -89,7 +89,7 @@ namespace WikiFunctions.Controls.Lists
         /// <param name="lb3">List Box where the duplicates should go</param>
         public static void CompareLists(IList<Article> list1, List<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
         {
-            if(Globals.SystemCore3500Available)
+            if (Globals.SystemCore3500Available)
                 CompareListsNew(list1, list2, lb1, lb2, lb3);
             else
                 CompareListsOld(list1, list2, lb1, lb2, lb3);
@@ -215,7 +215,7 @@ namespace WikiFunctions.Controls.Lists
         {
 			ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
 
-			if(selectedListBox != null)
+			if (selectedListBox != null)
 				Tools.Copy(selectedListBox);
         }
 
@@ -248,7 +248,7 @@ namespace WikiFunctions.Controls.Lists
         {
 			ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
 
-			if(selectedListBox != null)
+			if (selectedListBox != null)
 				selectedListBox.RemoveSelected(true);
 
 			UpdateCounts();
@@ -265,7 +265,7 @@ namespace WikiFunctions.Controls.Lists
         {
 			ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
 
-			if(selectedListBox != null)
+			if (selectedListBox != null)
             {
         	    selectedListBox.BeginUpdate();
         	
@@ -280,7 +280,7 @@ namespace WikiFunctions.Controls.Lists
         {
             ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
 
-			if(selectedListBox != null)
+			if (selectedListBox != null)
             {
 				transferToListMaker1ToolStripMenuItem.Enabled = transferToListMaker2ToolStripMenuItem.Enabled = openInBrowserToolStripMenuItem.Enabled 
                 = copyToolStripMenuItem.Enabled =  removeSelectedToolStripMenuItem.Enabled =  selectAllToolStripMenuItem.Enabled = selectedListBox.Items.Count > 0;
