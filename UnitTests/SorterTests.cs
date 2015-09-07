@@ -980,7 +980,23 @@ foo";
 <!-- novelists tree -->
 [[Category:20th-century American novelists]]" + "\r\n",
 			                parser2.Sorter.RemoveCats(ref writers, "test"), "Dupe cat removed if second has comment");
-		}
+		
+            string comm = @"<!--[[Category:foo]]-->" + "\r\n";
+            Assert.AreEqual("", parser2.Sorter.RemoveCats(ref comm, "test"), "Don't move commented out cats");
+
+            comm = @"#REDIRECT [[X]]
+<!-- XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX 
+ XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX 
+ XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX 
+ XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX 
+ XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX 
+ XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX XXXXXXXXXX 
+
+[[Category:Foo]]
+[[Category:Foo2]]
+ -->";
+            Assert.AreEqual("", parser2.Sorter.RemoveCats(ref comm, "test"), "Don't move commented out cats, large comment");
+        }
 
 		[Test]
 		public void CategoryDupeRemoval()

@@ -457,7 +457,7 @@ en, sq, ru
 			// whitespace: remove all whitespace after, but leave a blank newline before a heading (rare case where category not in last section)
 			
 			// performance: apply regex on portion of article containing category links rather than whole text
-			Match cq = WikiRegexes.CategoryQuick.Match(articleText);
+            Match cq = WikiRegexes.CategoryQuick.Match(articleTextNoComments);
 
 			if (cq.Success)
 			{
