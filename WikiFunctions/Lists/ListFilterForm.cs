@@ -73,7 +73,7 @@ namespace WikiFunctions.Lists
                 if (_destListBox.Items.Count > 0 && _destListBox.Items[0] is Article)
                     FilterNamespace();
 
-                if(_list.Count != _destListBox.Items.Count)
+                if (_list.Count != _destListBox.Items.Count)
                 {
                     _destListBox.BeginUpdate();
                     _destListBox.Items.Clear();
@@ -102,7 +102,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         public void RemoveDuplicates()
         {
-            if(Globals.SystemCore3500Available)
+            if (Globals.SystemCore3500Available)
                 RemoveDuplicatesNew();
             else
                 RemoveDuplicatesOld();
@@ -129,7 +129,7 @@ namespace WikiFunctions.Lists
         private void ClearAndAdd(Article[] newlist)
         {
             // Avoid performance penalty of AddRange if deduplication didn't remove any articles
-            if(_destListBox.Items.Count != newlist.Length)
+            if (_destListBox.Items.Count != newlist.Length)
             {
                 _destListBox.BeginUpdate();
                 _destListBox.Items.Clear();
@@ -176,7 +176,7 @@ namespace WikiFunctions.Lists
 
         private void FilterList()
         {
-            if(Globals.SystemCore3500Available)
+            if (Globals.SystemCore3500Available)
                 FilterListNew();
             else
                 FilterListOld();

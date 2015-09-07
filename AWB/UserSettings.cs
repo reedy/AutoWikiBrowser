@@ -139,7 +139,7 @@ namespace AutoWikiBrowser
             LoadPrefs(openXML.FileName);
             SettingsFile = openXML.FileName;
 
-            if(removeDuplicatesToolStripMenuItem.Checked)
+            if (removeDuplicatesToolStripMenuItem.Checked)
                 listMaker.RemoveListDuplicates();
         }
 
@@ -479,7 +479,7 @@ namespace AutoWikiBrowser
 
             SettingsFile = path;
             
-            if(removeDuplicatesToolStripMenuItem.Checked)
+            if (removeDuplicatesToolStripMenuItem.Checked)
                 listMaker.RemoveListDuplicates();
         }
 

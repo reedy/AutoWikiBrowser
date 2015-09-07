@@ -149,7 +149,7 @@ namespace WikiFunctions
         {
             siteinfoOutput = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics|magicwords&format=xml");
 
-            if(string.IsNullOrEmpty(siteinfoOutput))
+            if (string.IsNullOrEmpty(siteinfoOutput))
                 return false;
 
             // cache successful result
@@ -167,7 +167,7 @@ namespace WikiFunctions
         /// <returns></returns>
         public bool LoadSiteInfo()
         {
-            if(!LoadFromCache())
+            if (!LoadFromCache())
                 LoadFromNetwork();
 
             XmlDocument xd = new XmlDocument();
@@ -241,7 +241,7 @@ namespace WikiFunctions
             catCollationInfo = (string) ObjectCache.Global.Get<string>("CategoryCollation:");
 
             // web lookup if not in cache
-             if(string.IsNullOrEmpty(catCollationInfo))
+             if (string.IsNullOrEmpty(catCollationInfo))
             {
                 catCollationInfo = Tools.GetHTML(@"https://noc.wikimedia.org/conf/InitialiseSettings.php.txt");
 
@@ -255,7 +255,7 @@ namespace WikiFunctions
                 catCollationInfo = catCollationInfo.Substring(0, catCollationInfo.IndexOf(")"));
 
                 // cache successful result
-                if(!string.IsNullOrEmpty(catCollationInfo))
+                if (!string.IsNullOrEmpty(catCollationInfo))
                     ObjectCache.Global.Set("CategoryCollation:", catCollationInfo);
             }
         }

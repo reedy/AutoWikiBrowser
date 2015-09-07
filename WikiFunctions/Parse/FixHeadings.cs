@@ -95,7 +95,8 @@ namespace WikiFunctions.Parse
             if (Variables.IsWikipediaEN)
             {
                 articleText = Anchor2NewlineHeader.Replace(articleText, m => m.Value.Replace("\r\n\r\n==", "\r\n=="));
-                if(HeadingsIncorrectWhitespaceBefore.IsMatch(articleText)) // check for performance
+                // Check for performance
+                if (HeadingsIncorrectWhitespaceBefore.IsMatch(articleText))
                     articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, m => m.Groups[2].Value.Contains("==") ? m.Value : "\r\n\r\n" + m.Groups[1].Value);
             }
 
@@ -103,15 +104,15 @@ namespace WikiFunctions.Parse
             List<string> customHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText) where !ReferencesExternalLinksSeeAlsoValid.IsMatch(m.Value) select m.Value.ToLower()).ToList();
 
             // Removes level 2 heading if it matches pagetitle
-            if(customHeadings.Any(h => h.Contains(articleTitle.ToLower())))
+            if (customHeadings.Any(h => h.Contains(articleTitle.ToLower())))
                 articleText = Regex.Replace(articleText, @"^(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
 
             // Performance: apply fixes to all headings only if a custom heading matches for the bad headings words
-            if(customHeadings.Any(h => BadHeadings.Any(b => h.Contains(b))))
+            if (customHeadings.Any(h => BadHeadings.Any(b => h.Contains(b))))
                 articleText = WikiRegexes.Headings.Replace(articleText, FixHeadingsME);
 
             // CHECKWIKI error 8. Add missing = in some headers
-            if(customHeadings.Any(h => Regex.Matches(h, "=").Count == 3))
+            if (customHeadings.Any(h => Regex.Matches(h, "=").Count == 3))
                 articleText = ReferencesExternalLinksSeeAlsoUnbalancedRight.Replace(articleText, "$1=\r\n");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
@@ -120,9 +121,9 @@ namespace WikiFunctions.Parse
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Standard_level_2_headers
             // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
             // only apply if all level 3 headings and lower are before the first of references/external links/see also
-            if(Namespace.IsMainSpace(articleTitle))
+            if (Namespace.IsMainSpace(articleTitle))
             {
-                if(!customHeadings.Any(s => WikiRegexes.HeadingLevelTwo.IsMatch(s)))
+                if (!customHeadings.Any(s => WikiRegexes.HeadingLevelTwo.IsMatch(s)))
                 {
                     string articleTextLocal = articleText;
                     articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
@@ -131,17 +132,17 @@ namespace WikiFunctions.Parse
                     while(!originalarticleText.Equals(articleText))
                     {
                         originalarticleText = articleText;
-                        if(!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
+                        if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
                         {
                             // get index of last level 3+ heading
                             int upone = 0;
                             foreach(Match m in RegexHeadingUpOneLevel.Matches(articleText))
                             {
-                                if(m.Index > upone)
+                                if (m.Index > upone)
                                     upone = m.Index;
                             }
 
-                            if(!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
+                            if (!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
                                 articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
                         }
 

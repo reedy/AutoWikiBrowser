@@ -227,7 +227,7 @@ namespace WikiFunctions
 				return FixupDefaultSort(origName);
 			
 			// Person of Place --> Person Of Place, WP:NAMESORT
-			if(PersonOfPlace.IsMatch(origName))
+			if (PersonOfPlace.IsMatch(origName))
 			{
 				origName = PersonOfPlace.Replace(origName,
 					m =>
@@ -239,7 +239,7 @@ namespace WikiFunctions
 
 			int intLast = name.LastIndexOf(" ") + 1;
 			string lastName = name.Substring(intLast).Trim();
-			if(name.Length > 0)
+			if (name.Length > 0)
 				name = name.Remove(intLast).Trim();
 
 			if (IsRomanNumber(lastName) || Regex.IsMatch(lastName, @"^[SJsj]n?r\.$"))
@@ -274,24 +274,24 @@ namespace WikiFunctions
 		{
 			int converted = 0;
 
-			if(Roman.Contains("IX"))
+			if (Roman.Contains("IX"))
 			{
 				converted += 9;
 				Roman = Roman.Replace("IX", "");
 			}
 
-			if(Roman.Contains("IV"))
+			if (Roman.Contains("IV"))
 			{
 				converted += 4;
 				Roman = Roman.Replace("IV", "");
 			}
 
-            if(Roman.Contains("XL"))
+            if (Roman.Contains("XL"))
             {
                 converted += 40;
                 Roman = Roman.Replace("XL", "");
             }
-            if(Roman.Contains("XC"))
+            if (Roman.Contains("XC"))
             {
                 converted += 90;
                 Roman = Roman.Replace("XC", "");
@@ -304,7 +304,7 @@ namespace WikiFunctions
 			converted += Regex.Matches(Roman, "I").Count;
 			
 			string convertedString = converted.ToString();
-			if(converted < 10)
+			if (converted < 10)
 				convertedString = 0 + convertedString;
 
 			return convertedString;
@@ -465,18 +465,18 @@ namespace WikiFunctions
 		{
 			url=url.ToLower().Trim();
 
-			if(!HTTPWWW.IsMatch(url))
+			if (!HTTPWWW.IsMatch(url))
 				return "";
 
 			url=HTTPWWW.Replace(url.ToLower().Trim(), "");
 
-			if(url.Contains("/"))
+			if (url.Contains("/"))
 				url=url.Substring(0, url.IndexOf("/"));
 
-			if(DomainEndings.IsMatch(SubDomain.Replace(url, "")) && !SubDomain.Replace(url, "").StartsWith("com."))
+			if (DomainEndings.IsMatch(SubDomain.Replace(url, "")) && !SubDomain.Replace(url, "").StartsWith("com."))
 				url = SubDomain.Replace(url, "");
 
-			if(DomainEndings.IsMatch(SubDomain.Replace(url, "")) && !SubDomain.Replace(url, "").StartsWith("com."))
+			if (DomainEndings.IsMatch(SubDomain.Replace(url, "")) && !SubDomain.Replace(url, "").StartsWith("com."))
 				url = SubDomain.Replace(url, "");
 
 			return url;
@@ -719,7 +719,7 @@ namespace WikiFunctions
 						i++;
 					while (i < text.Length && char.IsLetterOrDigit(text[i]));
 					
-					if(words == limit)
+					if (words == limit)
 						return words;
 				}
 			}
@@ -749,16 +749,16 @@ namespace WikiFunctions
         {
             int res = FlagIOC.Matches(text).Count;
 
-            if(res >= limit)
+            if (res >= limit)
                 return limit;
 
             // count only mainspace links, not image/category/interwiki/template links
             foreach(Match m in WikiRegexes.WikiLink.Matches(text))
             {
-                if(Namespace.IsMainSpace(m.Groups[1].Value))
+                if (Namespace.IsMainSpace(m.Groups[1].Value))
                     res++;
 
-                if(res >= limit)
+                if (res >= limit)
                     return res;
             }
             return res;
@@ -845,7 +845,7 @@ namespace WikiFunctions
 			Regex metaContent = new Regex(@"< *meta +(?:xmlns=""http://www\.w3\.org/1999/xhtml"" +)?(?:name|property|itemprop) *= *(?:""|')" + Regex.Escape(metaname) + @"(?:""|')[^<>/]+content *= *(?:""|')([^""<>]+?)(?:""|') */? *>", RegexOptions.IgnoreCase);
 			Regex metaContent2 = new Regex(@"< *meta +(?:xmlns=""http://www\.w3\.org/1999/xhtml"" +)?[^<>/]*content *= *(?:""|')([^""<>]+?)(?:""|') *(?:name|property) *= *(?:""|')" + Regex.Escape(metaname) + @"(?:""|') */? *>", RegexOptions.IgnoreCase);
 
-			if(metaContent.IsMatch(pagesource))
+			if (metaContent.IsMatch(pagesource))
 				return metaContent.Match(pagesource).Groups[1].Value.Trim();
 			
 			return metaContent2.Match(pagesource).Groups[1].Value.Trim();
@@ -864,7 +864,7 @@ namespace WikiFunctions
             int lastmatchpos = 0;
             foreach(Match m in WikiRegexes.Headings.Matches(articleText))
             {
-                if(m.Index > 0) // Don't add empty first section if page starts with heading
+                if (m.Index > 0) // Don't add empty first section if page starts with heading
                     sections.Add(articleText.Substring(lastmatchpos, m.Index-lastmatchpos));
                 lastmatchpos = m.Index;
             }
@@ -884,7 +884,7 @@ namespace WikiFunctions
         {
             Match m = HeadingStart.Match(articleText);
 
-            if(m.Success)
+            if (m.Success)
                 return articleText.Substring(0, m.Index);
 
             return articleText;
@@ -902,11 +902,11 @@ namespace WikiFunctions
 		{
 			int heading = 0;
 
-			if(allowHeading)
+			if (allowHeading)
 			{
 				Match m = WikiRegexes.Headings.Match(text);
 				
-				if(m.Index == 0)
+				if (m.Index == 0)
 				{
 					text = WikiRegexes.Headings.Replace(text, "", 1);
 					heading = m.Length;
@@ -915,7 +915,7 @@ namespace WikiFunctions
 
 			MatchCollection mc = Items.Matches(text);
 
-			if(mc.Count == 0)
+			if (mc.Count == 0)
 				return 0;
 
 			string replaced = ReplaceWithSpaces(text, mc).TrimStart();
@@ -1232,7 +1232,7 @@ namespace WikiFunctions
 			
 			s = BadDsChars.Replace(s, "");
 			
-			if(isArticleAboutAPerson)
+			if (isArticleAboutAPerson)
 			{
 				s = s.Replace("'", "");
 				s = Regex.Replace(s, @"(\w) *,(\w)", "$1, $2"); // ensure space after comma between names
@@ -1250,7 +1250,7 @@ namespace WikiFunctions
 		public static string CleanSortKey(string s)
 		{
 			// no diacritic removal in sortkeys on wikis using uca- / Unicode sorting (e.g. fr/pl/ru wiki)
-			if(!Variables.UnicodeCategoryCollation)
+			if (!Variables.UnicodeCategoryCollation)
 				s = RemoveDiacritics(s);
 
 			s = s.Replace("&ndash;", "–");
@@ -1275,7 +1275,7 @@ namespace WikiFunctions
 		/// <returns></returns>
 		public static List<string> DeduplicateList(List<string> input)
 		{
-			if(Globals.SystemCore3500Available)
+			if (Globals.SystemCore3500Available)
 				return DeduplicateListHS(input);
 
 			return DeduplicateListLoop(input);
@@ -1292,7 +1292,7 @@ namespace WikiFunctions
 
 			foreach(string s in input)
 			{
-				if(!output.Contains(s))
+				if (!output.Contains(s))
 					output.Add(s);
 			}
 
@@ -1543,21 +1543,21 @@ Message: {2}
 		public static void OpenURLInBrowser(string url)
 		{
 			// For Wine use attempt to dynamically determine available browser, caching result
-			if(WineBrowserPath == null)
+			if (WineBrowserPath == null)
 			{
-				if(File.Exists("/usr/bin/firefox"))
+				if (File.Exists("/usr/bin/firefox"))
 					WineBrowserPath = "/usr/bin/firefox";
-				else if(File.Exists("/usr/bin/chromium-browser"))
+				else if (File.Exists("/usr/bin/chromium-browser"))
 					WineBrowserPath = "/usr/bin/chromium-browser";
-				else if(File.Exists("/usr/bin/konqueror"))
+				else if (File.Exists("/usr/bin/konqueror"))
 					WineBrowserPath = "/usr/bin/konqueror";
 				else WineBrowserPath = ""; // Windows, or Wine and none of these browsers available
 			}
 			try
 			{
-				if(!Globals.UnitTestMode)
+				if (!Globals.UnitTestMode)
 				{
-					if(WineBrowserPath.Length > 0) // Wine
+					if (WineBrowserPath.Length > 0) // Wine
 						System.Diagnostics.Process.Start(WineBrowserPath, url);
 					else // Windows
 						System.Diagnostics.Process.Start(url);
@@ -1857,13 +1857,13 @@ Message: {2}
 		/// <returns>whether the unformatted text content is the same in the two strings</returns>
 		public static bool UnformattedTextNotChanged(string originalArticleText, string articleText)
 		{
-			if(originalArticleText.Equals(articleText))
+			if (originalArticleText.Equals(articleText))
 				return true;
 
             List<string> after = (from Match m in WikiRegexes.UnformattedText.Matches(articleText) 
                 select m.Value).ToList();
 
-            if(!after.Any())
+            if (!after.Any())
                 return true;
 
             List<string> before = (from Match m in WikiRegexes.UnformattedText.Matches(originalArticleText)
@@ -2188,7 +2188,7 @@ Message: {2}
 			foreach (Match m in matches)
 			{
 				sb.Append(input, sb.Length, m.Index - sb.Length);
-				if(keepGroup < 1 || m.Groups[keepGroup].Value.Length == 0)
+				if (keepGroup < 1 || m.Groups[keepGroup].Value.Length == 0)
 					sb.Append(rwith, m.Length);
 				else
 				{
@@ -2198,7 +2198,7 @@ Message: {2}
 				}
 			}
 
-			if(input.Length > sb.Length)
+			if (input.Length > sb.Length)
 				sb.Append(input, sb.Length, input.Length - sb.Length);
 			return sb.ToString();
 		}
@@ -2322,7 +2322,7 @@ Message: {2}
 			{
 				DateTime dt = DateTime.Parse(date);
 
-				if(dt.CompareTo(DateTime.Now) < 0)
+				if (dt.CompareTo(DateTime.Now) < 0)
 					return true;
 			}
 			catch
@@ -2366,7 +2366,7 @@ Message: {2}
 
 			string separatorBefore = "", separatorAfter = "";
 			
-			if(!unspaced)
+			if (!unspaced)
 			{
 				string templatecopy = templateCall;
 				templatecopy = @"{{" + ReplaceWithSpaces(templatecopy.Substring(2), WikiRegexes.NestedTemplates);
@@ -2383,7 +2383,7 @@ Message: {2}
 					// copy number of spaces used prior to bar
 					int spacesBeforeBar = BeforeSpacedBars.Match(templatecopy).Value.Length-1;
 					
-					if(spacesBeforeBar >= 1)
+					if (spacesBeforeBar >= 1)
 						separatorBefore += BeforeSpacedBars.Match(templatecopy).Value.TrimEnd('|');
 				}
 				else
@@ -2391,7 +2391,7 @@ Message: {2}
 					// are spaces before bar used?
 					int beforeSpacedBars = BeforeSpacedBars.Matches(templatecopy).Count;
 					
-					if(bars > 3 && beforeSpacedBars <= 2)
+					if (bars > 3 && beforeSpacedBars <= 2)
 						separatorBefore = "";
 					else
 						separatorBefore = " ";
@@ -2400,7 +2400,7 @@ Message: {2}
 				// are spaces after bar used?
 				int afterSpacedBars = AfterSpacedBars.Matches(templatecopy).Count;
 				
-				if(bars > 3 && afterSpacedBars <= 2)
+				if (bars > 3 && afterSpacedBars <= 2)
 					separatorAfter = "";
 				else
 					separatorAfter = " ";
@@ -2420,7 +2420,7 @@ Message: {2}
 		{
 			RegexOptions ro = RegexOptions.Singleline;
 			
-			if(caseInsensitiveParameterName)
+			if (caseInsensitiveParameterName)
 				ro |= RegexOptions.IgnoreCase;
 			
             Regex paramRegex = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=([^|]*?)(?=\||}}$)", ro);
@@ -2456,7 +2456,7 @@ Message: {2}
 
 			foreach(Match m in param.Matches(pipecleanedtemplate))
 			{
-				if(!paramsFound.ContainsKey(m.Groups[1].Value))
+				if (!paramsFound.ContainsKey(m.Groups[1].Value))
 					paramsFound.Add(m.Groups[1].Value, templateCall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim());
 			}
 
@@ -2566,9 +2566,9 @@ Message: {2}
 			
 			foreach (Match m in (TemplateArgument.Matches(pipecleanedtemplate)))
 			{
-				if(!populatedparametersonly)
+				if (!populatedparametersonly)
 					i++;
-				else if(m.Groups[1].Value.Contains("=") && !m.Groups[1].Value.EndsWith("="))
+				else if (m.Groups[1].Value.Contains("=") && !m.Groups[1].Value.EndsWith("="))
 					i++;
 			}
 			
@@ -2634,7 +2634,7 @@ Message: {2}
 			// check for nested templates within the main template to avoid changing their parameter names
 			foreach(Match n in WikiRegexes.NestedTemplates.Matches("  " + templateCall.Substring(2)))
 			{
-				if(n.Index > 0 && m.Index >= n.Index && m.Index <= (n.Index+n.Length))
+				if (n.Index > 0 && m.Index >= n.Index && m.Index <= (n.Index+n.Length))
 					return m.Value;
 			}
 			
@@ -2695,7 +2695,7 @@ Message: {2}
 
 			if (m.Success)
 			{
-				if(removeLastMatch)
+				if (removeLastMatch)
 				{
 					foreach(Match y in paramRegex.Matches(pipecleanedtemplate))
 						m = y;
@@ -2742,19 +2742,19 @@ Message: {2}
 					string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
 					paramName = m.Groups[1].Value;
 					
-					if(!Params.ContainsKey(paramName))
+					if (!Params.ContainsKey(paramName))
 						Params.Add(paramName, paramValue);
 					else
 					{
                         // do not remove parameter if ends with digit (e.g. last2 parameter), more likely needs renaming (e.g. last3) than removing 
-                        if(Regex.IsMatch(paramName, @".+[0-9]$"))
+                        if (Regex.IsMatch(paramName, @".+[0-9]$"))
                             continue;
 
 						string earlierParamValue;
 						Params.TryGetValue(paramName, out earlierParamValue);
 						
 						// remove this param if equal value to earlier one, or either value blank, or earlier one contains this one
-						if(paramValue.Equals(earlierParamValue) || paramValue.Length == 0 || earlierParamValue.Length == 0
+						if (paramValue.Equals(earlierParamValue) || paramValue.Length == 0 || earlierParamValue.Length == 0
 						   || earlierParamValue.Contains(paramValue) || paramValue.Contains(earlierParamValue))
 						{
 							bool removeLastmatch = (paramValue.Length == 0 || (!paramValue.Equals(earlierParamValue) && earlierParamValue.Contains(paramValue)));
@@ -2766,11 +2766,11 @@ Message: {2}
 			}
 
             // check for URL breakage due to unescaped pipes in URL
-			if(!templatecall.Equals(originalTemplateCall))
+			if (!templatecall.Equals(originalTemplateCall))
             {
                 string originalURL = CiteUrl.Match(originalTemplateCall).Groups[1].Value.TrimEnd("|".ToCharArray());
 
-                if(originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
+                if (originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
                     return originalTemplateCall;
             }
 
@@ -2796,7 +2796,7 @@ Message: {2}
 				string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
 				paramName = m.Groups[1].Value;
 				
-				if(!Params.ContainsKey(paramName))
+				if (!Params.ContainsKey(paramName))
 					Params.Add(paramName, paramValue);
 				else
 					Dupes.Add(m.Index, m.Length);
@@ -2813,7 +2813,7 @@ Message: {2}
 		/// <returns>The updated template call</returns>
 		public static string RemoveExcessTemplatePipes(string templatecall)
 		{
-            if(SpacedPipes.IsMatch(templatecall))
+            if (SpacedPipes.IsMatch(templatecall))
             {
                 string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
                 string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
@@ -2829,7 +2829,7 @@ Message: {2}
                 }
 
                 // check for URL breakage due to unescaped pipes in URL
-                if(originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
+                if (originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
                     return originalTemplateCall;
             }
 
@@ -2852,7 +2852,7 @@ Message: {2}
 			{
 				string paramName = m.Groups[1].Value;
 				
-				if(!knownParameters.Contains(paramName))
+				if (!knownParameters.Contains(paramName))
 					Unknowns.Add(paramName);
 			}
 			return Unknowns;
@@ -2883,7 +2883,7 @@ Message: {2}
 
 				// retain any newlines at start of parameter value if existing parameter has value
 				string startNewline = StartWhitespace.Match(m.Groups[1].Value).Value;
-				if(startNewline.Length > 0 && m.Groups[1].Value.Trim().Length > 0)
+				if (startNewline.Length > 0 && m.Groups[1].Value.Trim().Length > 0)
 					newvalue = startNewline + newvalue;
 
 				return (templateCall.Substring(0, start) + newvalue + templateCall.Substring(start + valuelength));
@@ -2929,11 +2929,11 @@ Message: {2}
 			string restoftemplate = templateCall.Substring(3);
 			// clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
 			// Contains checks for performance gain
-			if(restoftemplate.Contains(@"{{"))
+			if (restoftemplate.Contains(@"{{"))
 				restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, RepWith);
-			if(restoftemplate.Contains(@"[["))
+			if (restoftemplate.Contains(@"[["))
 				restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, RepWith);
-			if(restoftemplate.Contains(@"<"))
+			if (restoftemplate.Contains(@"<"))
 			{
 				restoftemplate = commentsastilde
 					? ReplaceWith(restoftemplate, WikiRegexes.Comments, '~')
@@ -2959,10 +2959,10 @@ Message: {2}
 		/// <returns>The updated template call</returns>
 		public static string SetTemplateParameterValue(string templateCall, string parameter, string newvalue, bool prependSpace)
 		{
-			if(GetTemplateParameterValue(templateCall, parameter).Equals(newvalue))
+			if (GetTemplateParameterValue(templateCall, parameter).Equals(newvalue))
 				return templateCall;
 			
-			if(prependSpace)
+			if (prependSpace)
 				newvalue = " " + newvalue;
 			
 			// first try to update existing field's value
@@ -3039,7 +3039,7 @@ Message: {2}
 		/// <returns>The updated article text</returns>
 		public static string RenameTemplate(string articletext, string templatename, string newtemplatename, bool keepFirstLetterCase)
 		{
-			if(templatename.Equals(newtemplatename))
+			if (templatename.Equals(newtemplatename))
 				return articletext;
 			
 			return NestedTemplateRegex(templatename).Replace(articletext, m => RenameTemplateME(m, newtemplatename, keepFirstLetterCase));
@@ -3156,7 +3156,7 @@ Message: {2}
 				TemplateNamespace = "[Tt]emplate:";
 
 			// support (deprecated) {{msg:Foo}} syntax
-			if(string.IsNullOrEmpty(Variables.LangCode) || Variables.LangCode.Equals("en"))
+			if (string.IsNullOrEmpty(Variables.LangCode) || Variables.LangCode.Equals("en"))
 				TemplateNamespace = Regex.Replace(TemplateNamespace, @"(.+?):$", @"(?:$1|[Mm]sg):");
 			
 			// allow whitespace before semicolon
@@ -3233,7 +3233,7 @@ Message: {2}
 		
 		private static string TemplateToMagicWordME(Match m)
 		{
-			if(GetTemplateArgumentCount(m.Value) == 0)
+			if (GetTemplateArgumentCount(m.Value) == 0)
 				return m.Value;
 
 			// namespace, numberofarticles, padleft must be lowercase, others must be UPPERCASE
@@ -3258,9 +3258,9 @@ Message: {2}
 			string ret = "";
 			for(int i = 0; i < items.Count; i++)
 			{
-				if(i + 1 == items.Count)
+				if (i + 1 == items.Count)
 					ret += items[i] + suffix + lastseparator;
-				else if(i == items.Count)
+				else if (i == items.Count)
 					ret += items[i] + suffix;
 				else 
 					ret += items[i] + suffix + separator;
@@ -3292,7 +3292,7 @@ Message: {2}
 				string withoutWord = RemoveDiacritics(m.Value);
 
 				// don't replace if multiple matches, cannot be sure which word translates
-				if(Regex.Matches(WithoutDiacritics, @"\b" + Regex.Escape(withoutWord) + @"\b").Count == 1)
+				if (Regex.Matches(WithoutDiacritics, @"\b" + Regex.Escape(withoutWord) + @"\b").Count == 1)
 					WithoutDiacritics = Regex.Replace(WithoutDiacritics, @"\b" + Regex.Escape(withoutWord) + @"\b", m.Value);
 			}
 

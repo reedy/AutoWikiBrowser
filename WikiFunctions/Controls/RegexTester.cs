@@ -287,7 +287,7 @@ namespace WikiFunctions.Controls
         private void RegexTester_FormClosing(object sender, FormClosingEventArgs e)
         {
             AbortProcessing();
-            if(e.CloseReason != CloseReason.UserClosing || !AskToApply) return;
+            if (e.CloseReason != CloseReason.UserClosing || !AskToApply) return;
 
             switch (MessageBox.Show(this, "Do you want to apply your changes?", Text, MessageBoxButtons.YesNoCancel,
                                     MessageBoxIcon.Question))
@@ -337,7 +337,7 @@ namespace WikiFunctions.Controls
                             n.Nodes.Add(ReplaceNewLines("{" + g.Captures[0].Value) + "}");
                     }
                     // For performance limit tree view to first 500 results
-                    if(i > 499)
+                    if (i > 499)
                         break;
                 }
                 switch (sender.Matches.Count)
@@ -349,7 +349,7 @@ namespace WikiFunctions.Controls
                         Status.Text = "1 match found";
                         break;
                     default:
-                        if(sender.Matches.Count > 500)
+                        if (sender.Matches.Count > 500)
                             Status.Text = sender.Matches.Count + " matches found (showing first 500)";
                         else
                             Status.Text = sender.Matches.Count + " matches found";

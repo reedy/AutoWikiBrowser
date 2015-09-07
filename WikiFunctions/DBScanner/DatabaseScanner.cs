@@ -832,7 +832,7 @@ namespace WikiFunctions.DBScanner
         {
             double matchesByLimit = ((double)Matches / Limit), completion = 0, newValue;
 
-            if(Main != null)
+            if (Main != null)
                 completion = Main.PercentageComplete;
 
             /* indicate progress based on either fraction of matches compared to user-requested match limit

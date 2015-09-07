@@ -391,7 +391,7 @@ namespace AutoWikiBrowser
                 bool anyChecked = false;
                 for (int a = 0; a < alertListBox.Items.Count; a++)
                 {
-                    if(alertListBox.GetItemChecked(a))
+                    if (alertListBox.GetItemChecked(a))
                     {
                         anyChecked = true;
                         break;
@@ -494,7 +494,7 @@ namespace AutoWikiBrowser
         protected override void OnActivated(EventArgs e) 
         {
             base.OnActivated(e);
-            if(FocusSiteTab)
+            if (FocusSiteTab)
                 tbPrefs.SelectTab(1);
         }
 

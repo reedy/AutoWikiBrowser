@@ -97,10 +97,10 @@ namespace WikiFunctions
             {
                 s = s.Remove(0, pos);
 
-                if(res)
+                if (res)
                 {
                     // if more double brackets opened before current one closed, summary is invalid
-                    if(s.Substring(2, s.IndexOf("]]") >0 ? s.IndexOf("]]") : 0).Contains("[["))
+                    if (s.Substring(2, s.IndexOf("]]") >0 ? s.IndexOf("]]") : 0).Contains("[["))
                         return false;
                     pos = s.IndexOf("]]");
                 }

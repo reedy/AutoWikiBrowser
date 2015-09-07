@@ -53,7 +53,7 @@ namespace WikiFunctions.Logging
 
             lock(Listeners)
             {
-                if(Listeners.ContainsKey(key))
+                if (Listeners.ContainsKey(key))
                 {
                     Listeners[key].Close();
                     Listeners.Remove(key);

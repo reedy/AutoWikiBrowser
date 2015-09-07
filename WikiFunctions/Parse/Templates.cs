@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -67,7 +67,7 @@ namespace WikiFunctions.Parse
             WikiRegexes.AllTemplateRedirects = Tools.NestedTemplateRegex(AllRedirectsList);
 
             // must use separate functions to set value: if HashSets in same function compiler will pre-load them even if not used
-            if(Globals.SystemCore3500Available)
+            if (Globals.SystemCore3500Available)
                 SetAllTemplateRedirectsHashSet(AllRedirectsList);
             else
                 SetAllTemplateRedirectsList(AllRedirectsList);
@@ -117,10 +117,10 @@ namespace WikiFunctions.Parse
         public static string TemplateRedirects(string articleText, Dictionary<Regex, string> TemplateRedirects)
         {
             string newArticleText;
-            if(WikiRegexes.AllTemplateRedirects == null)
+            if (WikiRegexes.AllTemplateRedirects == null)
                 return articleText;
 
-            if(Globals.SystemCore3500Available)
+            if (Globals.SystemCore3500Available)
                 newArticleText = TemplateRedirectsHashSet(articleText, TemplateRedirects);
             else
                 newArticleText = TemplateRedirectsList(articleText, TemplateRedirects);
@@ -146,7 +146,7 @@ namespace WikiFunctions.Parse
             TemplatesFound.IntersectWith(WikiRegexes.AllTemplateRedirectsHS);
 
             // run replacements only if matches found
-            if(TemplatesFound.Any())
+            if (TemplatesFound.Any())
             {
                 // performance: secondly filter the TemplateRedirects dictionary down to those rules matching templates used in article
                 string all = String.Join(" ", TemplatesFound.Select(s => "{{" + s + "}}").ToArray());
@@ -164,7 +164,7 @@ namespace WikiFunctions.Parse
                                                                                       res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
                                                                                       
                                                                                       // if template name changed and not nested template, done, so break out
-                                                                                      if(!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
+                                                                                      if (!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
                                                                                           break;
                                                                                   }
                                                                                   return res;
@@ -187,11 +187,11 @@ namespace WikiFunctions.Parse
             List<string> TFH2 = new List<string>();
             foreach(string s in TFH)
             {
-                if(WikiRegexes.AllTemplateRedirectsList.Contains(s))
+                if (WikiRegexes.AllTemplateRedirectsList.Contains(s))
                     TFH2.Add(s);
             }
 
-            if(TFH2.Count > 0)
+            if (TFH2.Count > 0)
             {
                 articleText = Tools.NestedTemplateRegex(TFH2).Replace(articleText, m2=>
                                                                       {
@@ -202,7 +202,7 @@ namespace WikiFunctions.Parse
                                                                               res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
                                                                               
                                                                               // if template name changed and not nested template, done, so break out
-                                                                              if(!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
+                                                                              if (!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
                                                                                   break;
                                                                           }
                                                                           return res;
@@ -237,7 +237,7 @@ namespace WikiFunctions.Parse
         /// <returns>List of all templates in text</returns>
         public static List<string> GetAllTemplates(string articleText)
         {
-            if(Globals.SystemCore3500Available)
+            if (Globals.SystemCore3500Available)
                 return GetAllTemplatesNew(articleText);
             return GetAllTemplatesOld(articleText);
         }
@@ -258,7 +258,7 @@ namespace WikiFunctions.Parse
             {
                 // For peformance, use cached result if available: articletext plus List of template names
                 List<string> found = GetAllTemplatesNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-                if(found != null)
+                if (found != null)
                     return found;
             }
                 
@@ -274,7 +274,7 @@ namespace WikiFunctions.Parse
             {
                 List<Match> nt = (from Match m in NestedTemplates.Matches(articleText) select m).ToList();
 
-                if(!nt.Any())
+                if (!nt.Any())
                     break;
 
                 TemplateDetail.AddRange(nt.Select(x => x.Value));
@@ -296,14 +296,14 @@ namespace WikiFunctions.Parse
             {
                 // cache new results, then dequeue oldest if cache full
                 GetAllTemplatesNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText, FinalTemplateNames));
-                if(GetAllTemplatesNewQueue.Count > 10)
+                if (GetAllTemplatesNewQueue.Count > 10)
                     GetAllTemplatesNewQueue.Dequeue();
             }
 
             lock(GetAllTemplatesDetailNewQueueLock)
             {
                 GetAllTemplatesDetailNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText, TemplateDetail));
-                if(GetAllTemplatesDetailNewQueue.Count > 10)
+                if (GetAllTemplatesDetailNewQueue.Count > 10)
                     GetAllTemplatesDetailNewQueue.Dequeue();
             }
 
@@ -359,7 +359,7 @@ namespace WikiFunctions.Parse
             lock(GetAllTemplatesDetailNewQueueLock)
             {
                 found = GetAllTemplatesDetailNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-                if(found == null)
+                if (found == null)
                     found = new List<string>();
             }
 
@@ -391,7 +391,7 @@ namespace WikiFunctions.Parse
 
             templatesToProcess = Tools.DeduplicateList(RenamedTemplateParameters.Select(x => x.TemplateName).ToList());
 
-            if(!templatesToProcess.Any())
+            if (!templatesToProcess.Any())
                 return articleText;
 
             Regex r = Tools.NestedTemplateRegex(templatesToProcess);
@@ -404,7 +404,7 @@ namespace WikiFunctions.Parse
                                                RenameTemplateParametersHashSetME(m, RenamedTemplateParameters)
                                                : RenameTemplateParametersME(m, RenamedTemplateParameters)));
                                                                    
-                if(!s.Equals(res))
+                if (!s.Equals(res))
                     articleText = articleText.Replace(s, res);                
             }
 
@@ -425,7 +425,7 @@ namespace WikiFunctions.Parse
             // rather than simply looping through all parameters in list
             Dictionary<string, string> pv = Tools.GetTemplateParameterValues(m.Value);
             List<string> oldP = RenameTemplateParametersOldParams.Intersect(pv.Keys.ToArray()).ToList();
-            if(oldP.Any())
+            if (oldP.Any())
             {
                 string tname = Tools.TurnFirstToLower(Tools.GetTemplateName(@"{{" + m.Groups[2].Value + @"}}"));
                 foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters.Where(r => oldP.Contains(r.OldParameter) && r.TemplateName.Equals(tname)))
@@ -433,7 +433,7 @@ namespace WikiFunctions.Parse
                     string newp;
                     pv.TryGetValue(Params.NewParameter, out newp);
 
-                    if(string.IsNullOrEmpty(newp))
+                    if (string.IsNullOrEmpty(newp))
                         newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
                 }
             }
