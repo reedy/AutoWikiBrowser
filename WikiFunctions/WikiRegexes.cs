@@ -1200,7 +1200,8 @@ namespace WikiFunctions
                 "PRODWarning", "PRODWarning-notalk", "ProdwarningBLP", "Proposed deletion", "Proposed deletion endorsed", "Proposed deletion notify", "PrSpam", "Tprod", "Transwiki",
             "C-uploaded", "Editnotice explanation", "Hprotected", "M-cropped", "M-protected", "Mcropped", "Mpimgprotected", "Mpprotected", "Mprotect", "Mprotected2", "OFFICE", "Office", "PP-protected", "Padlock", "Permanently protected", "Pp", "Pp-blp", "Pp-create", "Pp-dispute", "Pp-full", "Pp-jupe", "Pp-main-page", "Pp-meta", "Pp-move", "Pp-move-dispute", "Pp-move-indef", "Pp-move-vandalism", "Pp-office", "Pp-office-dmca", "Pp-pc1", "Pp-pc2", "Pp-protect", "Pp-protected", 
                 "Pp-reset", "Pp-salt", "Pp-semi", "Pp-semi-indef", "Pp-semi-prot", "Pp-semi-protect", "Pp-semi-protected", "Pp-semi-protection", "Pp-semiprotected", "Pp-sock", "Pp-template", "Pp-usertalk", "Pp-vandalism", "Protected article title", "Protected image", "Protected sister project logo", "Protected title", "ProtectedMainPageImage", "R fully protected", "R semi-protected", "R template protected", "Semiprotected", "Soft redirect protection", "Sprot", "Sprotect", "Sprotect2", 
-                "Sprotected", "Sprotected2", "Temporarily protected", "Unblock-abuse", "Unblockabuse", "Uploaded from Commons", "Uprotect", "Usertalk-sprotect", "Usertalk-vprotect", "Vutprotected"});
+                "Sprotected", "Sprotected2", "Temporarily protected", "Unblock-abuse", "Unblockabuse", "Uploaded from Commons", "Uprotect", "Usertalk-sprotect", "Usertalk-vprotect", "Vutprotected", 
+                "Prod blp/dated", "Proposed deletion/dated", "Transwiki/dated"});
 
         /// <summary>
         /// Matches the sister links templates such as {{wiktionary}}

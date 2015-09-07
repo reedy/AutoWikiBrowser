@@ -241,6 +241,10 @@ more words
                 parser2.SortMetaData(deletiontag + "\r\n" + dablink + "\r\n" + maintenancetemp + "\r\n" + foo, "Foo"), "dablink above deletion");
             Assert.AreEqual(dablink + "\r\n" + deletiontag + "\r\n" + maintenancetemp + "\r\n" + foo, 
                 parser2.SortMetaData(dablink + "\r\n" + maintenancetemp + "\r\n" + deletiontag + "\r\n" + foo, "Foo"), "deletion above maintenance");
+            
+            deletiontag = @"{{Prod blp/dated}}";
+            Assert.AreEqual(dablink + "\r\n" + deletiontag + "\r\n" + maintenancetemp + "\r\n" + foo, 
+                parser2.SortMetaData(dablink + "\r\n" + maintenancetemp + "\r\n" + deletiontag + "\r\n" + foo, "Foo"), "deletion above maintenance, dated prod");
 
             Assert.AreEqual(dablink + "\r\n" + deletiontag + "\r\n" + mi + "\r\n" + infobox + "\r\n" + foo, 
                 parser2.SortMetaData(dablink + "\r\n" + mi + "\r\n" + deletiontag + "\r\n" + infobox + "\r\n" + foo, "Foo"), "deletion above multipleissues and mi above infobox");
