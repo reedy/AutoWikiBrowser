@@ -47,6 +47,15 @@ namespace UnitTests
 			Assert.AreEqual("{{stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
 			s = "{{foo}}{{Stub}}{{stub}}";
 			Assert.AreEqual("{{Stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
+
+            s = @"<!-- {{stub}} -->";
+            Assert.AreEqual(@"<!-- {{stub}} -->" + "\r\n", MetaDataSorter.RemoveStubs(ref s), "Extract commented out stubs");
+            s = @"#REDIRECT [[X]]
+<!--
+'''X''' is a x in the [[x]] of [[x]] in [[x]]. It lies to the east of [[x]].
+{{stub}}
+-->";
+            Assert.AreEqual("", MetaDataSorter.RemoveStubs(ref s), "Don't pull stubs out of comments");
 		}
 		
 		[Test]

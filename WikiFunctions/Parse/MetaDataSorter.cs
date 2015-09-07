@@ -580,6 +580,7 @@ en, sq, ru
 				return "";
 
 			List<string> stubList = new List<string>();
+            string originalArticleText = articleText;
 
             articleText = WikiRegexes.PossiblyCommentedStub.Replace(articleText, m => {
                 if (!Regex.IsMatch(m.Value, Variables.SectStub))
@@ -590,6 +591,13 @@ en, sq, ru
             
                 return m.Value;
             });
+
+            // Don't pull stubs out of comments
+            if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText + ListToString(stubList)))
+            {
+                articleText = originalArticleText;
+                return "";
+            }
 
 			return (stubList.Count != 0) ? ListToString(stubList) : "";
 		}
