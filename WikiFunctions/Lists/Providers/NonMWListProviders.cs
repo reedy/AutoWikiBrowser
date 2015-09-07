@@ -171,7 +171,7 @@ namespace WikiFunctions.Lists.Providers
                     {
                     	string searchres = m.Groups[1].Value;
                     	
-                    	if(searchres.Contains(@"&amp;"))
+                    	if (searchres.Contains(@"&amp;"))
                     		searchres = searchres.Substring(0, searchres.IndexOf(@"&amp;"));
                     	
                         string title = Tools.GetTitleFromURL(searchres);

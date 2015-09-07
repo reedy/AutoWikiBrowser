@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -74,7 +74,7 @@ namespace WikiFunctions.Parse
         /// <returns>The tagged article.</returns>
         public string Tagger(string articleText, string articleTitle, bool restrictOrphanTagging, ref string summary)
         {
-            if(!TaggerPermitted(articleText, articleTitle))
+            if (!TaggerPermitted(articleText, articleTitle))
                 return articleText;
 
             tagsRemoved.Clear();
@@ -85,7 +85,7 @@ namespace WikiFunctions.Parse
             // Due to old-style Multiple issues template need to add full value of any MI templates back in
             string templates = String.Join(" ", GetAllTemplates(articleText).Select(s => "{{" + s + "}}").ToArray());
             
-            if(WikiRegexes.MultipleIssues.IsMatch(templates))
+            if (WikiRegexes.MultipleIssues.IsMatch(templates))
             {
                 foreach(Match mi in WikiRegexes.MultipleIssues.Matches(articleText))
                     templates += mi.Value;
@@ -93,30 +93,30 @@ namespace WikiFunctions.Parse
 
             string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             string commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
-            if(WikiRegexes.Defaultsort.IsMatch(templates))
+            if (WikiRegexes.Defaultsort.IsMatch(templates))
                 commentsCategoriesStripped = WikiRegexes.Defaultsort.Replace(commentsCategoriesStripped, "");
             Sorter.Interwikis(ref commentsStripped, false);
 
             // remove stub tags from long articles, don't move section stubs
-            if(WikiRegexes.Stub.IsMatch(templates) && WikiRegexes.Stub.IsMatch(commentsStripped))
+            if (WikiRegexes.Stub.IsMatch(templates) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 // bulleted or indented text should weigh less than simple text.
                 // for example, actor stubs may contain large filmographies
                 string crapStripped = BulletedText.Replace(WikiRegexes.NestedTemplates.Replace(commentsCategoriesStripped, " "), "");
                 int words = (Tools.WordCount(commentsCategoriesStripped, 999) + Tools.WordCount(crapStripped, 999)) / 2;
-                if(words > StubMaxWordCount)
+                if (words > StubMaxWordCount)
                 {
                     articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
 
-                    if(Variables.LangCode.Equals("ar"))
+                    if (Variables.LangCode.Equals("ar"))
                     {
                         tagsRemoved.Add("بذرة");
                     }
-                    else if(Variables.LangCode.Equals("arz"))
+                    else if (Variables.LangCode.Equals("arz"))
                     {
                         tagsRemoved.Add("تقاوى");
                     }
-                    else if(Variables.LangCode.Equals("hy"))
+                    else if (Variables.LangCode.Equals("hy"))
                     {
                         tagsRemoved.Add("Անավարտ");
                     }
@@ -128,7 +128,7 @@ namespace WikiFunctions.Parse
             }
 
             // refresh
-            if(tagsRemoved.Count > 0)
+            if (tagsRemoved.Count > 0)
             {
                 commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
                 commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
@@ -150,18 +150,18 @@ namespace WikiFunctions.Parse
             int totalCategories;
             // ignore commented out wikilinks, and any in {{Proposed deletion/dated}}
             string forLinkCount = commentsStripped;
-            if(ProposedDeletionDatedEndorsed.IsMatch(templates))
+            if (ProposedDeletionDatedEndorsed.IsMatch(templates))
                 forLinkCount = ProposedDeletionDatedEndorsed.Replace(forLinkCount, "");
 
             // discount persondata, comments, infoboxes and categories from wikify/underlinked and stub evaluation
             string lengthtext = commentsCategoriesStripped;
-            if(WikiRegexes.Persondata.IsMatch(templates))
+            if (WikiRegexes.Persondata.IsMatch(templates))
                 lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
-            if(WikiRegexes.InfoBox.IsMatch(templates))
+            if (WikiRegexes.InfoBox.IsMatch(templates))
                 lengthtext = WikiRegexes.InfoBox.Replace(lengthtext, "");
-            if(Drugbox.IsMatch(templates))
+            if (Drugbox.IsMatch(templates))
                 lengthtext = Drugbox.Replace(lengthtext, "");
-            if(WikiRegexes.ReferenceList.IsMatch(templates))
+            if (WikiRegexes.ReferenceList.IsMatch(templates))
                 lengthtext = WikiRegexes.ReferenceList.Replace(lengthtext, "");
 
             int length = lengthtext.Length + 1;
@@ -183,7 +183,7 @@ namespace WikiFunctions.Parse
                 totalCategories = RegularCategories(commentsStripped, false).Count;
 
                 // templates may add categories to page that are not [[Category...]] links, so use API call for accurate Category count
-                if(totalCategories == 0)
+                if (totalCategories == 0)
                     totalCategories = RegularCategories(CategoryProv.MakeList(new[] { articleTitle })).Count;
             }
 
@@ -261,7 +261,7 @@ namespace WikiFunctions.Parse
                 string crapStripped = BulletedText.Replace(WikiRegexes.NestedTemplates.Replace(commentsCategoriesStripped, " "), "");
                 int words = (Tools.WordCount(commentsCategoriesStripped, 10) + Tools.WordCount(crapStripped, 10)) / 2;
 
-                if(words > 6)
+                if (words > 6)
                 {
                     if (WikiRegexes.Stub.IsMatch(commentsStripped))
                     {
@@ -276,12 +276,12 @@ namespace WikiFunctions.Parse
                             articleText += Tools.Newline("{{تقاوى مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("[[قالب:تقاوى مش متصنفه|تقاوى مش متصنفه]]");
                         }
-                        else if(Variables.LangCode.Equals("hy")) // same template for uncat and uncat stub
+                        else if (Variables.LangCode.Equals("hy")) // same template for uncat and uncat stub
                         {
                             articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("Կատեգորիա չկա");
                         }
-                        else if(Variables.LangCode.Equals("sv")) // same template for uncat and uncat stub
+                        else if (Variables.LangCode.Equals("sv")) // same template for uncat and uncat stub
                         {
                             articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("[[Mall:Okategoriserad|okategoriserad]]");
@@ -304,17 +304,17 @@ namespace WikiFunctions.Parse
                             articleText += Tools.Newline("{{مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("[[CAT:UNCAT|مش متصنفه]]");
                         }
-                        else if(Variables.LangCode.Equals("el"))
+                        else if (Variables.LangCode.Equals("el"))
                         {
                             articleText += Tools.Newline("{{Ακατηγοριοποίητο|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("[[Πρότυπο:Ακατηγοριοποίητο|ακατηγοριοποίητο]]");
                         }
-                        else if(Variables.LangCode.Equals("hy"))
+                        else if (Variables.LangCode.Equals("hy"))
                         {
                             articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("Կատեգորիա չկա");
                         }
-                        else if(Variables.LangCode.Equals("sv"))
+                        else if (Variables.LangCode.Equals("sv"))
                         {
                             articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("[[Mall:Okategoriserad|okategoriserad]]");
@@ -349,7 +349,7 @@ namespace WikiFunctions.Parse
                     bool uncatstub = false;
                     foreach(Match u in WikiRegexes.Uncat.Matches(articleText))
                     {
-                        if(WikiRegexes.Stub.IsMatch(u.Value))
+                        if (WikiRegexes.Stub.IsMatch(u.Value))
                         {
                             uncatstub = true;
                             break;
@@ -369,7 +369,7 @@ namespace WikiFunctions.Parse
                                                                 }
                                                                 else // already uncat stub so remove plain uncat
                                                                 {
-                                                                    if(!WikiRegexes.Stub.IsMatch(u2.Value))
+                                                                    if (!WikiRegexes.Stub.IsMatch(u2.Value))
                                                                     {
                                                                         if (Variables.LangCode.Equals("ar"))
                                                                             tagsRemoved.Add("غير مصنفة");
@@ -398,7 +398,7 @@ namespace WikiFunctions.Parse
                     apilinks = LinksOnPageProv.MakeList(new[] { articleTitle }).Where(l => (l.NameSpaceKey == Namespace.Mainspace)).Count();
 
                 // for dead end addition, use API call to get wikilink count (filter to mainspace links only), so we do count any links transcluded from templates
-                if(apilinks == 0)
+                if (apilinks == 0)
                 {
                     // add dead-end tag
                     // no blank line between dead end and orphan tags for ar/arz
@@ -407,7 +407,7 @@ namespace WikiFunctions.Parse
                         articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n" + (WikiRegexes.Orphan.IsMatch(articleText) ? "" : "\r\n") + articleText;
                         tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
                         // if dead end then remove underlinked/wikify
-                        if(WikiRegexes.Wikify.IsMatch(articleText))
+                        if (WikiRegexes.Wikify.IsMatch(articleText))
                         {
                             articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
                             tagsRemoved.Add("ويكي");
@@ -418,7 +418,7 @@ namespace WikiFunctions.Parse
                         articleText = "{{نهايه مسدوده|" + WikiRegexes.DateYearMonthParameter + "}}\r\n" + articleText;
                         tagsAdded.Add("[[:قالب:نهايه مسدوده|نهايه مسدوده]]");
                         // if dead end then remove underlinked
-                        if(WikiRegexes.Wikify.IsMatch(articleText))
+                        if (WikiRegexes.Wikify.IsMatch(articleText))
                         {
                             articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
                             tagsRemoved.Add("ويكى");
@@ -432,7 +432,7 @@ namespace WikiFunctions.Parse
                         articleText = "{{Dead end|" + WikiRegexes.DateYearMonthParameter + "}}" + (tagsAdded.Count > 0 ? "\r\n" : "\r\n\r\n") + articleText;
                         tagsAdded.Add("[[CAT:DE|deadend]]");
                         // if dead end then remove underlinked
-                        if(articleText.IndexOf("underlinked", StringComparison.OrdinalIgnoreCase) > -1)
+                        if (articleText.IndexOf("underlinked", StringComparison.OrdinalIgnoreCase) > -1)
                         {
                             articleText = Tools.NestedTemplateRegex("underlinked").Replace(articleText, "").TrimStart();
                             tagsRemoved.Add("underlinked");
@@ -507,7 +507,7 @@ namespace WikiFunctions.Parse
             {
                 articleText = Unreferenced.Replace(articleText, m2 => 
                                                    {
-                                                       if(Tools.NestedTemplateRegex("Refimprove").IsMatch(articleText))
+                                                       if (Tools.NestedTemplateRegex("Refimprove").IsMatch(articleText))
                                                        {
                                                            tagsRemoved.Add("unreferenced");
                                                            return "";
@@ -557,11 +557,11 @@ namespace WikiFunctions.Parse
         /// <param name='articleTitle'>Article title</param>
         public static bool TaggerPermitted(string articleText, string articleTitle)
         {
-            if(articleTitle.Equals("Wikipedia:AutoWikiBrowser/Sandbox"))
+            if (articleTitle.Equals("Wikipedia:AutoWikiBrowser/Sandbox"))
                 return true;
             // don't tag redirects/outside article namespace/no tagging changes
             // allow for ar-wiki 104
-            if(Variables.LangCode.Equals("ar") && Namespace.Determine(articleTitle) == 104 && !WikiRegexes.CEHar.IsMatch(articleText))
+            if (Variables.LangCode.Equals("ar") && Namespace.Determine(articleTitle) == 104 && !WikiRegexes.CEHar.IsMatch(articleText))
                 return true;
             if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirectOrSoftRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText) || articleTitle=="Main Page")
                 return false;
@@ -619,7 +619,7 @@ namespace WikiFunctions.Parse
         public static List<Article> RegularCategories(string articleText, bool hideComments)
         {
             // Don't count commented out categories
-            if(hideComments)
+            if (hideComments)
                 articleText = WikiRegexes.MathPreSourceCodeComments.Replace(articleText, "");
 
             List<Article> Cats = new List<Article>();
@@ -853,7 +853,7 @@ namespace WikiFunctions.Parse
                 }
                 else if (Variables.LangCode.Equals("el"))
                 {
-                     if(tagsRemoved.Count == 1)
+                     if (tagsRemoved.Count == 1)
                         summary = "αφαιρέθηκε η ετικέτα:" + Tools.ListToStringCommaSeparator(tagsRemoved);
                     else 
                         summary = "αφαιρέθηκαν οι ετικέτες:" + Tools.ListToStringCommaSeparator(tagsRemoved);
@@ -871,7 +871,7 @@ namespace WikiFunctions.Parse
                     (tagsRemoved.Count == 1 ? "" : "ներ");
                 else if (Variables.LangCode.Equals("sv"))
                 {
-                     if(tagsRemoved.Count == 1)
+                     if (tagsRemoved.Count == 1)
                         tags = Tools.ListToStringCommaSeparator(tagsRemoved) + "-mall";
                     else 
                         tags = Tools.ListToStringWithSeparatorAndWordSuffix(tagsRemoved, "-", ", ", " och ") + "mallar";
@@ -880,7 +880,7 @@ namespace WikiFunctions.Parse
 
                 else if (Variables.LangCode.Equals("tr"))
                 {
-                     if(tagsRemoved.Count == 1)
+                     if (tagsRemoved.Count == 1)
                         summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etiketi";
                     else 
                         summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etiketleri";
@@ -972,20 +972,20 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string TagUpdater(string articleText)
         {
-            if(WikiRegexes.DatedTemplates.Any())
+            if (WikiRegexes.DatedTemplates.Any())
             {
                 List<string> t = GetAllTemplates(articleText), t2 = new List<string>();
 
                 t2.AddRange(t.Where(s => WikiRegexes.DatedTemplates.Contains(s)));
 
                 // only work to do if article has any of the DatedTemplates in it
-                if(t2.Any())
+                if (t2.Any())
                 {
                     string originalArticleText = articleText;
                     articleText = Tools.NestedTemplateRegex(t2).Replace(articleText, TagUpdaterME);
 
                     // Performance: only worth aplying Hide if we made changes to raw articleText
-                    if(!originalArticleText.Equals(articleText))
+                    if (!originalArticleText.Equals(articleText))
                     {
                         articleText = ht.Hide(originalArticleText);
                         articleText = Tools.NestedTemplateRegex(t2).Replace(articleText, TagUpdaterME);
@@ -1017,7 +1017,7 @@ namespace WikiFunctions.Parse
                 templatecall = Tools.RenameTemplateParameter(templatecall, "dates", "date");
                 
                 // date- or Date- --> date=
-                if(Tools.GetTemplateArgument(templatecall, 1).ToLower().Replace(" ", "").StartsWith("date-"))
+                if (Tools.GetTemplateArgument(templatecall, 1).ToLower().Replace(" ", "").StartsWith("date-"))
                     templatecall = DateDash.Replace(templatecall, m2 => m2.Groups[1].Value.ToLower() + "=");
             }
 
@@ -1028,7 +1028,7 @@ namespace WikiFunctions.Parse
             string dateparam = WikiRegexes.DateYearMonthParameter.Substring(0, WikiRegexes.DateYearMonthParameter.IndexOf("="));
 
             // rename date= if localized
-            if(!dateparam.Equals("date"))
+            if (!dateparam.Equals("date"))
                 templatecall = Tools.RenameTemplateParameter(templatecall, "date", dateparam);
 
             // date tag needed?

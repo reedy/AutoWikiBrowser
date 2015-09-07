@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -78,7 +78,7 @@ namespace WikiFunctions.Parse
                 originalPersonData = WikiRegexes.Persondata.Match(articleText).Value;
                 newPersonData = originalPersonData;
                 // use uppercase parameters if making changes, rename any lowercase ones
-                if(Tools.GetTemplateParameterValues(newPersonData).Any(s => PersonDataLowerCaseParameters.Contains(s.Key)))
+                if (Tools.GetTemplateParameterValues(newPersonData).Any(s => PersonDataLowerCaseParameters.Contains(s.Key)))
                 {
                     newPersonData = Tools.RenameTemplateParameter(newPersonData, "name", "NAME");
                     newPersonData = Tools.RenameTemplateParameter(newPersonData, "alternative names", "ALTERNATIVE NAMES");
@@ -118,7 +118,7 @@ namespace WikiFunctions.Parse
                 newPersonData = SetPersonDataDate(newPersonData, "DATE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields), articleText);
 
                 // as fallback use year from category
-                if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH", true).Length == 0)
+                if (Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH", true).Length == 0)
                 {
                     Match m = WikiRegexes.BirthsCategory.Match(articleText);
 
@@ -276,7 +276,7 @@ namespace WikiFunctions.Parse
             }
 
             // call parser function for futher date fixes
-            if(dateFound.Length > 0)
+            if (dateFound.Length > 0)
             {
                 dateFound = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + dateFound + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
 

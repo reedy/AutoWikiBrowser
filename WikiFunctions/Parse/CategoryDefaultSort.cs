@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -201,7 +201,7 @@ namespace WikiFunctions.Parse
             // for performance only search article from first category
             Match cq = WikiRegexes.CategoryQuick.Match(articleText);
 
-            if(cq.Success)
+            if (cq.Success)
             {
                 Regex anyCategory = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] + @"\s*" + Regex.Escape(categoryName) + @"\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.IgnoreCase);
 
@@ -230,7 +230,7 @@ namespace WikiFunctions.Parse
         public static bool MissingDefaultSort(string articletext, string articletitle)
         {
             bool Skip, DSbefore = WikiRegexes.Defaultsort.IsMatch(articletext);
-            if(!DSbefore)
+            if (!DSbefore)
             {
                 articletext = ChangeToDefaultSort(articletext, articletitle, out Skip);
                 return (!Skip && WikiRegexes.Defaultsort.IsMatch(articletext));
@@ -355,7 +355,7 @@ namespace WikiFunctions.Parse
             }
 
             // Performance: only apply replace and refresh if defaultsort would change
-            if(ds.Count > 0 && Variables.LangCode.Equals("en") && !DefaultsortME(ds[0]).Equals(ds[0].Value))
+            if (ds.Count > 0 && Variables.LangCode.Equals("en") && !DefaultsortME(ds[0]).Equals(ds[0].Value))
             {
                 articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
 
@@ -412,7 +412,7 @@ namespace WikiFunctions.Parse
             noChange = originalArticleText.Equals(articleText);
 
             // Performance: run relatively slow NoIncludeIncludeOnlyProgrammingElement check only if needed
-            if(!noChange && NoIncludeIncludeOnlyProgrammingElement(originalArticleText))
+            if (!noChange && NoIncludeIncludeOnlyProgrammingElement(originalArticleText))
             {
                 noChange = true;
                 return originalArticleText;
@@ -559,7 +559,7 @@ namespace WikiFunctions.Parse
             bimatch = WikiRegexes.BirthsCategory.IsMatch(cats);
 
             // no work to do if already has a birth and a death/living cat
-            if(dolmatch && bimatch)
+            if (dolmatch && bimatch)
                 return YearOfBirthDeathMissingCategory(articleText, cats);
 
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible
@@ -752,7 +752,7 @@ namespace WikiFunctions.Parse
         private static string YearOfBirthDeathMissingCategory(string articleText, string cats)
         {
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
-            if(Cat4YearBirths.IsMatch(cats))
+            if (Cat4YearBirths.IsMatch(cats))
             {
                 if (CategoryMatch(cats, YearOfBirthMissingLivingPeople))
                     articleText = RemoveCategory(YearOfBirthMissingLivingPeople, articleText);
@@ -784,7 +784,7 @@ namespace WikiFunctions.Parse
             // Performance: only need to apply changes to portion of article containing categories
             Match cq = WikiRegexes.CategoryQuick.Match(articleText);
 
-            if(cq.Success)
+            if (cq.Success)
             {
                 // Allow some characters before category start in case of excess opening braces
                 int cutoff = Math.Max(0, cq.Index-2);
@@ -799,7 +799,7 @@ namespace WikiFunctions.Parse
                 cats = WikiRegexes.LooseCategory.Replace(cats, LooseCategoryME);
 
                 // Performance: return original text if no changes
-                if(cats.Equals(catsOriginal))
+                if (cats.Equals(catsOriginal))
                     return articleText;
 
                 articleText = articleText.Substring(0, cutoff) + cats;
@@ -815,10 +815,10 @@ namespace WikiFunctions.Parse
 
             string sortkey = m.Groups[2].Value;
 
-            if(!string.IsNullOrEmpty(sortkey))
+            if (!string.IsNullOrEmpty(sortkey))
             {
                 // diacritic removal in sortkeys on en-wiki/simple-wiki only
-                if(Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
+                if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
                     sortkey = Tools.CleanSortKey(sortkey);
 
                 sortkey = WordWhitespaceEndofline.Replace(sortkey, "$1");

@@ -224,7 +224,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected static string BuildQuery(Dictionary<string, string> request)
         {
-            if(!UseInToken && request.ContainsKey("intoken")){
+            if (!UseInToken && request.ContainsKey("intoken")){
                 request.Remove("intoken");
             }
 
