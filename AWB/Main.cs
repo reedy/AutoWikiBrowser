@@ -227,7 +227,7 @@ namespace AutoWikiBrowser
                 _settingsFileDisplay = Program.Name;
 
                 #if DEBUG
-                if(Variables.RevisionNumber > 0)
+                if (Variables.RevisionNumber > 0)
                     _settingsFileDisplay += " rev " + Variables.RevisionNumber;
                 #endif
 
@@ -779,7 +779,7 @@ namespace AutoWikiBrowser
                     NudgeTimer.StartMe();
 
                 // reset last article text if now processing a different article
-                if(TheArticle != null && !TheArticle.Name.Equals(title))
+                if (TheArticle != null && !TheArticle.Name.Equals(title))
                     LastArticle = "";
 
                 TheArticle = new Article(title, "");
@@ -1138,7 +1138,7 @@ namespace AutoWikiBrowser
                 if (BotMode)
                 {
                     // if user pressed Stop while background thread was running, don't overwrite status or go into bot loop
-                    if(StatusLabelText != "Stopped")
+                    if (StatusLabelText != "Stopped")
                     {
                         StatusLabelText = "Ready to save";
                         StartDelayedAutoSaveTimer();
@@ -1223,7 +1223,7 @@ namespace AutoWikiBrowser
                 btnSave.Select();
 
                 // if user pressed Stop while background thread was running, don't overwrite status here
-                if(StatusLabelText != "Stopped")
+                if (StatusLabelText != "Stopped")
                     StatusLabelText = "Ready to save";
                 StopProgressBar();
             }
@@ -1334,7 +1334,7 @@ namespace AutoWikiBrowser
                 return true;
             }
 
-            if(!TheSession.User.CanCreatePage(TheSession.Page))
+            if (!TheSession.User.CanCreatePage(TheSession.Page))
             {
                 SkipPage("Page is protected from creation");
                 return true;
@@ -1483,7 +1483,7 @@ namespace AutoWikiBrowser
             SameArticleNudges = 0;
             if (EditBoxTab.SelectedTab == tpHistory)
                 EditBoxTab.SelectedTab = tpEdit;
-            if(loggingEnabled)
+            if (loggingEnabled)
             {
                 TheArticle.LogListener.NewId = saveInfo.NewId;
                 TheArticle.LogListener.URLLong = Variables.URLLong;
@@ -1891,7 +1891,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_22#AccessViolationException_in_MainForm.GetDiff
                 // catch this and use Refresh x2 to get around it
                 // but only try once (diffAccessViolationSeen = false) so we don't get stuck in a loop
-                if(ex is AccessViolationException && !diffAccessViolationSeen)
+                if (ex is AccessViolationException && !diffAccessViolationSeen)
                 {
                     diffAccessViolationSeen = true;
                     Tools.WriteDebug("GetDiff", "AccessViolationException seen");
@@ -2052,11 +2052,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     NumberOfNewPages++;
 
                 // if section edit summary, check only this section has been edited
-                if(txtReviewEditSummary.Text.StartsWith(@"/*"))
+                if (txtReviewEditSummary.Text.StartsWith(@"/*"))
                 {
                     string sectionEditText = Summary.ModifiedSection(TheArticle.OriginalArticleText, txtEdit.Text);
 
-                    if(sectionEditText.Length == 0 || !txtReviewEditSummary.Text.Contains(@"/* " + sectionEditText + @" */"))
+                    if (sectionEditText.Length == 0 || !txtReviewEditSummary.Text.Contains(@"/* " + sectionEditText + @" */"))
                         txtReviewEditSummary.Text = txtReviewEditSummary.Text.Substring(txtReviewEditSummary.Text.IndexOf(@"*/")+2);
                 }
 
@@ -2185,7 +2185,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void GoTo(int destLine)
         {
             // If some text is selected in the diff/preview, don't focus edit box else selected text will not be copyable by keyboard shortcuts
-            if(webBrowser.TextSelected())
+            if (webBrowser.TextSelected())
                 return;
 
             try
@@ -2252,7 +2252,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void UpdateUserNotifications()
         {
-            if(!Variables.NotificationsEnabled)
+            if (!Variables.NotificationsEnabled)
             {
                 lblUserNotifications.Visible = false;
                 return;
@@ -2264,7 +2264,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             lblUserNotifications.Text = TheSession.User.Notifications.ToString();
 
-            if(TheSession.User.Notifications > 0)
+            if (TheSession.User.Notifications > 0)
             {
                 lblUserNotifications.BackColor = Color.Tomato;
                 lblUserNotifications.Font = new Font(lblUserNotifications.Font, FontStyle.Bold);
@@ -2398,7 +2398,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             ShuttingDown = true;
 
-            if(TheSession != null) // TheSession can be null if AWB encounters network problems on startup
+            // TheSession can be null if AWB encounters network problems on startup
+            if (TheSession != null)
                 TheSession.Editor.Abort();
 
             SaveRecentSettingsList();
@@ -2772,56 +2773,56 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     lbAlerts.Items.Add("Multiple DEFAULTSORTs");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Some_additional_edits
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(4))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(4))
                 {
                     deadLinks = TheArticle.DeadLinks();
                     if (deadLinks.Count > 0)
                         lbAlerts.Items.Add("Dead links" + " (" + deadLinks.Count + ")");
                 }
 
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(1))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(1))
                 {
                     ambigCiteDates = TheArticle.AmbiguousCiteTemplateDates();
                     if (ambigCiteDates.Count > 0)
                         lbAlerts.Items.Add("Ambiguous citation dates" + " (" + ambigCiteDates.Count + ")");
                 }
 
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(17))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(17))
                 {
                     unbalancedBracket = TheArticle.UnbalancedBrackets();
                     if (unbalancedBracket.Count > 0)
                         lbAlerts.Items.Add("Unbalanced brackets" + " (" + unbalancedBracket.Count + ")");
                 }
 
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(9))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(9))
                 {
                     badCiteParameters = TheArticle.BadCiteParameters();
                     if (badCiteParameters.Count > 0)
                         lbAlerts.Items.Add("Invalid citation parameter(s)" + " (" + badCiteParameters.Count + ")");
                 }
 
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(11))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(11))
                 {
                     targetlessLinks = TheArticle.TargetlessLinks();
                     if (targetlessLinks.Count > 0)
                         lbAlerts.Items.Add("Links with no target" + " (" + targetlessLinks.Count + ")");
                 }
 
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(10))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(10))
                 {
                     doublepipeLinks = TheArticle.DoublepipeLinks();
                     if (doublepipeLinks.Count > 0)
                         lbAlerts.Items.Add("Links with double pipes" + " (" + doublepipeLinks.Count + ")");
                 }
 
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(5))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(5))
                 {
                     dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
                     if (dupeBanerShellParameters.Count > 0)
                         lbAlerts.Items.Add("Duplicate parameter(s) in WPBannerShell" + " (" + dupeBanerShellParameters.Count + ")");
                 }
 
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(21))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(21))
                 {
                     UnknownWikiProjectBannerShellParameters = TheArticle.UnknownWikiProjectBannerShellParameters();
                     if (UnknownWikiProjectBannerShellParameters.Count > 0)
@@ -2833,7 +2834,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     }
                 }
 
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(20))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(20))
                 {
                     UnknownMultipleIssuesParameters = TheArticle.UnknownMultipleIssuesParameters();
                     if (UnknownMultipleIssuesParameters.Count > 0)
@@ -2845,14 +2846,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     }
                 }
 
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(8))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(8))
                 {
                     wikilinkedHeaders = TheArticle.WikiLinkedHeaders();
                     if (wikilinkedHeaders.Count > 0)
                         lbAlerts.Items.Add("Header(s) with wikilinks" + " (" + wikilinkedHeaders.Count + ")");
                 }
 
-                if(alertPreferences.Count == 0 || alertPreferences.Contains(18))
+                if (alertPreferences.Count == 0 || alertPreferences.Contains(18))
                 {
                     unclosedTags = TheArticle.UnclosedTags();
                     if (unclosedTags.Count > 0)
@@ -2863,7 +2864,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 {
                     lbAlerts.Items.Add("See also section out of place");
                     Match m = WikiRegexes.SeeAlso.Match(txtEdit.Text);
-                    if(!otherErrors.ContainsKey(m.Index))
+                    if (!otherErrors.ContainsKey(m.Index))
                         otherErrors.Add(m.Index, m.Length);
                 }
 
@@ -2982,12 +2983,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             txtEdit.ResetFind();
 
-            if(sender is RichTextBox)
-	      txtRtb_TextChanged(sender, e);
+            if (sender is RichTextBox)
+	            txtRtb_TextChanged(sender, e);
 
             btnFind.Enabled = txtFind.TextLength > 0;
 
-            if(!btnFind.Enabled)
+            if (!btnFind.Enabled)
                 btnFind.BackColor = SystemColors.ButtonFace;
         }
         
@@ -3013,7 +3014,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             // when highlight enabled reset back colour for newly inserted text
             /* TODO: does not work fully in that: focus always scrolls to current line unnecessarily
              * text inserted at very end of text box goes before last character
-            if(highlightAllFindToolStripMenuItem.Checked)
+            if (highlightAllFindToolStripMenuItem.Checked)
             {
                 txtEdit.SetEditBoxSelection(txtEdit.SelectionStart-1, 1);
                 txtEdit.SelectionBackColor = Color.White;
@@ -3074,7 +3075,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void Debug()
         {
             Tools.WriteDebugEnabled = true;
-            if(!listMaker.Contains(@"Wikipedia:AutoWikiBrowser/Sandbox") && !listMaker.Contains(@"Project:AutoWikiBrowser/Sandbox"))
+            if (!listMaker.Contains(@"Wikipedia:AutoWikiBrowser/Sandbox") && !listMaker.Contains(@"Project:AutoWikiBrowser/Sandbox"))
                 listMaker.Add("Project:AutoWikiBrowser/Sandbox");
             lblOnlyBots.Visible = false;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
@@ -3399,7 +3400,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             btnFind.Enabled = txtFind.TextLength > 0;
 
             // if there are find matches, colour the Find button yellow
-            if(btnFind.Enabled && txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name).Count > 0)
+            if (btnFind.Enabled && txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name).Count > 0)
                 btnFind.BackColor = Color.Yellow;
             else
                 btnFind.BackColor = SystemColors.ButtonFace;
@@ -3593,7 +3594,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void btnStop_Click(object sender, EventArgs e)
         {
             // ask user confirmation if manual changes in edit box (edit box populated and not same as article text)
-            if(TheArticle == null || TheArticle.ArticleText.Equals(txtEdit.Text) || txtEdit.Text.Length == 0 ||
+            if (TheArticle == null || TheArticle.ArticleText.Equals(txtEdit.Text) || txtEdit.Text.Length == 0 ||
             MessageBox.Show("There are manual changes to the page text in the edit box, are you sure you want to stop?", "Confirm stop", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 Stop();
         }
@@ -3809,7 +3810,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     return;
                 }
                 
-                if(e.KeyCode == Keys.B) 
+                if (e.KeyCode == Keys.B) 
                 {
                     lbAlerts_Click(null, null);
                 }
@@ -4032,7 +4033,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(WikiRegexes.UrlValidator.IsMatch(txtEdit.SelectedText))
+            if (WikiRegexes.UrlValidator.IsMatch(txtEdit.SelectedText))
                 Tools.OpenURLInBrowser(txtEdit.SelectedText);
             else
                 TheSession.Site.OpenPageInBrowser(txtEdit.SelectedText);
@@ -4068,10 +4069,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             NudgeTimer.Stop();
 
             // abort any background thread if running
-            if(RunReparseEditBoxBackground != null)
+            if (RunReparseEditBoxBackground != null)
                 RunReparseEditBoxBackground.Abort();
 
-            if(RunProcessPageBackground != null)
+            if (RunProcessPageBackground != null)
                 RunProcessPageBackground.Abort();
 
             UpdateButtons(null, null);
@@ -4119,7 +4120,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             if (TheArticle == null)
                 return;
 
-            if((RunProcessPageBackground != null && (RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Running 
+            if ((RunProcessPageBackground != null && (RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Running 
             || RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Background)) ||
             (RunReparseEditBoxBackground != null && (RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Running 
             || RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Background)))
@@ -4218,8 +4219,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             {
                 txtEdit.Text = LastArticle;
 
-                if(actionOnLoad == 0)
-                     GetDiff();
+                if (actionOnLoad == 0)
+                    GetDiff();
             }
         }
 
@@ -4287,7 +4288,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         // If user changes default edit summary after article has been processed, refresh editable edit summary; any custom changes to editable edit summary will be lost
         private void cmboEditSummary_TextChanged(object sender, EventArgs e)
         {
-            if(txtReviewEditSummary.Enabled)
+            if (txtReviewEditSummary.Enabled)
                 txtReviewEditSummary.Text = MakeDefaultEditSummary();
         }
 
@@ -4307,6 +4308,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 chkSkipIfNoRegexTypo.Checked = chkSkipIfNoRegexTypo.Enabled = false;
                 return;
             }
+
             chkSkipIfNoRegexTypo.Enabled = true;
 
             if (chkRegExTypo.Checked && BotMode)
@@ -4314,6 +4316,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 MessageBox.Show("RegExTypoFix cannot be used with bot mode on.\r\nBot mode will now be turned off, and Typos loaded.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 BotMode = false;
             }
+
             LoadTypos(false);
         }
 
@@ -4323,7 +4326,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             // from LoadPrefs...SetProject with RETF to say reload is needed when RETF next used, and then again from LoadPrefs with RETF enabled
             // so set RegexTypos to null if reload, even if RETF not enabled at the time
             // This logic is needed to support use of SetProject in other scenarios
-            if(reload)
+            if (reload)
                 RegexTypos = null;
 
             if (chkRegExTypo.Checked && RegexTypos == null)
@@ -4335,7 +4338,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 // if not logged in will be using default Typos page location so look up any custom page from CheckPage info
                 // if no checkpage then fall back to using default ReftPath
-                if(!TheSession.User.IsLoggedIn && !Variables.IsWikipediaEN && Variables.RetfPath.EndsWith("AutoWikiBrowser/Typos"))
+                if (!TheSession.User.IsLoggedIn && !Variables.IsWikipediaEN && Variables.RetfPath.EndsWith("AutoWikiBrowser/Typos"))
                 {
                     string checkPageText;
                     try
@@ -5737,12 +5740,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 RedSelection(a.Key, a.Value);
                 done++;
                 
-                if(done > 100)
+                if (done > 100)
                     break;
             }
 
             // If any text highlighted, don't leave last text selected
-            if(done > 0)
+            if (done > 0)
                 txtEdit.Select(0, 0);
         }
 
@@ -5856,7 +5859,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         
         private void lblUserNotifications_Click(object sender, EventArgs e)
         {
-            if(Variables.NotificationsEnabled && TheSession.User.IsLoggedIn)
+            if (Variables.NotificationsEnabled && TheSession.User.IsLoggedIn)
                 Tools.OpenArticleInBrowser("Special:Notifications");
         }
 

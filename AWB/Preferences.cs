@@ -131,7 +131,7 @@ namespace AutoWikiBrowser
             ProjectEnum prj = Project;
 
             //disable language selection for single language projects
-            cmboLang.Enabled = (prj < ProjectEnum.species);
+            cmboLang.Enabled = prj < ProjectEnum.species;
 
             string temp = (cmboLang.SelectedItem != null) ? cmboLang.SelectedItem.ToString() : "";
 
@@ -179,7 +179,7 @@ namespace AutoWikiBrowser
                 cmboLang.SelectedIndex = cmboLang.Items.IndexOf(temp);
             }
 
-            chkSupressAWB.Enabled = cmboProtocol.Enabled = DomainEnabled = (prj.Equals(ProjectEnum.custom));
+            chkSupressAWB.Enabled = cmboProtocol.Enabled = DomainEnabled = prj.Equals(ProjectEnum.custom);
             if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia))
             {
                 cmboProtocol.Visible = true;
@@ -208,7 +208,7 @@ namespace AutoWikiBrowser
         {
             ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof (ProjectEnum), cmboProject.SelectedItem.ToString());
             if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia))
-                btnOK.Enabled = (!string.IsNullOrEmpty(cmboCustomProject.Text));
+                btnOK.Enabled = !string.IsNullOrEmpty(cmboCustomProject.Text);
             else
                 btnOK.Enabled = true;
         }
