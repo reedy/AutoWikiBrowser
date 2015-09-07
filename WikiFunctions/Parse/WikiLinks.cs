@@ -54,13 +54,13 @@ namespace WikiFunctions.Parse
             // Performance strategy: get list of all wikilinks, deduplicate, only apply regexes to whole article text if matching wikilinks
             List<string> allWikiLinks = GetAllWikiLinks(articleText);
 
-            if(allWikiLinks.Any(s => s.StartsWith("[[ ")))
+            if (allWikiLinks.Any(s => s.StartsWith("[[ ")))
             {
                 //remove undesirable space from beginning of wikilink: put space before if word character immediately before wikilink
                 articleText = LinkWhitespace1.Replace(articleText, m => {
                         string before = m.Groups[1].Value;
                         
-                        if(Regex.IsMatch(before, @"\w"))
+                        if (Regex.IsMatch(before, @"\w"))
                             before += " ";
                         
                         return before + @"[[" + m.Groups[2].Value + "]]";
@@ -68,15 +68,15 @@ namespace WikiFunctions.Parse
             }
 
             //remove undesirable double space from middle of wikilink (up to 61 characters in wikilink)
-            if(allWikiLinks.Any(s => s.Contains("  ")))
+            if (allWikiLinks.Any(s => s.Contains("  ")))
                 while(LinkWhitespace3.IsMatch(articleText))
                     articleText = LinkWhitespace3.Replace(articleText, "[[$1 $2]]");
 
             // Remove underscore before hash
-            if(allWikiLinks.Any(s => s.Contains("_#")))
+            if (allWikiLinks.Any(s => s.Contains("_#")))
                 articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Value.Replace("_#", "#"));
 
-            if(allWikiLinks.Any(s => s.EndsWith(" ]]")))
+            if (allWikiLinks.Any(s => s.EndsWith(" ]]")))
             {
                 //remove undesirable space from end of wikilink (whitespace after wikilink) - parse this line first
                 // TrimEnd to remove multiple spaces
@@ -87,11 +87,11 @@ namespace WikiFunctions.Parse
             }
 
             //remove undesirable double space between wikilinked dates
-            if(allWikiLinks.Any(s => s.Contains("  ")))
+            if (allWikiLinks.Any(s => s.Contains("  ")))
                 articleText = DateLinkWhitespace.Replace(articleText, "$1");
 
             // [[link #section]] or [[link# section]] --> [[link#section]], don't change if hash in part of text of section link
-            if(allWikiLinks.Any(s => (s.Contains("# ") || s.Contains(" #"))))
+            if (allWikiLinks.Any(s => (s.Contains("# ") || s.Contains(" #"))))
                 articleText = SectionLinkWhitespace.Replace(articleText, m => (Hash.Matches(m.Value).Count == 1) ? m.Groups[1].Value.TrimEnd() + "#" + m.Groups[2].Value.TrimStart() : m.Value);
 
             // correct [[page# section]] to [[page#section]]
@@ -123,7 +123,7 @@ namespace WikiFunctions.Parse
             string articleTextAtStart = articleText;
             string escTitle = Regex.Escape(articleTitle);
 
-            if(TemplateExists(GetAllTemplates(articleText), InfoBoxSingleAlbum))
+            if (TemplateExists(GetAllTemplates(articleText), InfoBoxSingleAlbum))
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
@@ -140,16 +140,16 @@ namespace WikiFunctions.Parse
             foreach(string l in wikiLinks.Where(link => link.IndexOfAny("&%_".ToCharArray()) > -1))
             {
                 string res = WikiRegexes.WikiLink.Replace(l, FixLinksWikilinkCanonicalizeME);
-                if(res != l)
+                if (res != l)
                     articleText = articleText.Replace(l, res);
             }
 
             // First check for performance, second to avoid (dodgy) apostrophe after link
-            if(wikiLinks.Any(link => link.Contains("|''")) && !articleText.Contains(@"']]'"))
+            if (wikiLinks.Any(link => link.Contains("|''")) && !articleText.Contains(@"']]'"))
                 articleText = WikiRegexes.PipedWikiLink.Replace(articleText, FixLinksWikilinkBoldItalicsME);
 
             // fix excess trailing pipe, TrailingPipe regex for performance
-            if(wikiLinks.Any(link => link.Contains("|") && TrailingPipe.IsMatch(link)))
+            if (wikiLinks.Any(link => link.Contains("|") && TrailingPipe.IsMatch(link)))
                 articleText = WikiRegexes.PipedWikiLink.Replace(articleText, m => (m.Groups[2].Value.Trim().EndsWith("|") ? "[[" + m.Groups[1].Value + "|" + m.Groups[2].Value.Trim().TrimEnd('|').Trim() + "]]" : m.Value));
 
             // fix excess leading pipe in piped link e.g. [[|foo|bar]], avoid malformatted image links
@@ -176,7 +176,7 @@ namespace WikiFunctions.Parse
             }
 
             // fix for self interwiki links, not for monolingual projects
-            if(hasAnySelfInterwikis && !Variables.IsWikimediaMonolingualProject)
+            if (hasAnySelfInterwikis && !Variables.IsWikimediaMonolingualProject)
                 articleText = FixSelfInterwikis(articleText);
 
             noChange = articleText.Equals(articleTextAtStart);
@@ -216,11 +216,11 @@ namespace WikiFunctions.Parse
             if (theTarget.Length > 0 && !theTarget.Contains("%27%27"))
             {
                 string newTarget;
-                if(theTarget.Contains("#")) // check for performance
+                if (theTarget.Contains("#")) // check for performance
                 {
                     Match sl = SectionLink.Match(theTarget);
 
-                    if(sl.Success) // Canonicalize section links in two parts
+                    if (sl.Success) // Canonicalize section links in two parts
                         newTarget = CanonicalizeTitle(sl.Groups[1].Value) + "#" + CanonicalizeTitle(sl.Groups[2].Value);
                     else
                         newTarget = CanonicalizeTitle(theTarget);
@@ -244,11 +244,11 @@ namespace WikiFunctions.Parse
         {
             string theLinkText = m.Groups[2].Value, y = m.Value;
 
-            if(theLinkText.Length > 0 && Tools.TurnFirstToUpper(m.Groups[1].Value.Trim()).Equals(Tools.TurnFirstToUpper(m.Groups[2].Value.Trim("'".ToCharArray()).Trim())))
+            if (theLinkText.Length > 0 && Tools.TurnFirstToUpper(m.Groups[1].Value.Trim()).Equals(Tools.TurnFirstToUpper(m.Groups[2].Value.Trim("'".ToCharArray()).Trim())))
             {
-                if(WikiRegexes.Bold.Match(theLinkText).Value.Equals(theLinkText))
+                if (WikiRegexes.Bold.Match(theLinkText).Value.Equals(theLinkText))
                     y = "'''" + y.Replace(theLinkText, WikiRegexes.Bold.Replace(theLinkText, "$1")) + "'''";
-                else if(WikiRegexes.Italics.Match(theLinkText).Value.Equals(theLinkText))
+                else if (WikiRegexes.Italics.Match(theLinkText).Value.Equals(theLinkText))
                     y = "''" + y.Replace(theLinkText, WikiRegexes.Italics.Replace(theLinkText, "$1")) + "''";
             }
 
@@ -297,13 +297,13 @@ namespace WikiFunctions.Parse
                 Match m = WikiRegexes.PipedWikiLink.Match(pipedlink);
 
                 // don't process if only matched part of link eg link is [[Image:...]] link with nested wikilinks
-                if(pipedlink.Length != m.Length)
+                if (pipedlink.Length != m.Length)
                     continue;
 
                 string a = m.Groups[1].Value.Trim(), b = m.Groups[2].Value;
 
                 // Must retain space after pipe in Category namespace
-                if(whitespaceTrimNeeded)
+                if (whitespaceTrimNeeded)
                 {
                     b = (Namespace.Determine(a) != Namespace.Category)
                     ? m.Groups[2].Value.Trim()
@@ -315,7 +315,7 @@ namespace WikiFunctions.Parse
 
                 string lb = Tools.TurnFirstToLower(b), la = Tools.TurnFirstToLower(a);
                 
-                if(pipedlink.IndexOfAny("&%_".ToCharArray()) > -1) // check for performance
+                if (pipedlink.IndexOfAny("&%_".ToCharArray()) > -1) // check for performance
                 {
                     string cb = CanonicalizeTitle(b), ca = CanonicalizeTitle(a);
 
@@ -327,7 +327,7 @@ namespace WikiFunctions.Parse
 
                 foreach(string punct in new List<string>(new [] {".", ","}))
                 {
-                    if(lb.Equals(la + punct))
+                    if (lb.Equals(la + punct))
                     {
                         articleText = articleText.Replace(pipedlink, "[[" + b.Substring(0, b.Length-1) + "]]"  + punct);
                     }
@@ -348,7 +348,7 @@ namespace WikiFunctions.Parse
                         continue;
                     articleText = articleText.Replace(pipedlink, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
                 }
-                else if(whitespaceTrimNeeded) // whitespace trimming around the pipe to apply
+                else if (whitespaceTrimNeeded) // whitespace trimming around the pipe to apply
                 {
                     string newlink = "[[" + a + "|" + b + "]]";
 
@@ -374,7 +374,7 @@ namespace WikiFunctions.Parse
             {
                 // For peformance, use cached result if available: articletext plus List of wikilinks
                 List<string> found = GetAllWikiLinksQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-                if(found != null)
+                if (found != null)
                     return found;
             }
 
@@ -385,7 +385,7 @@ namespace WikiFunctions.Parse
             {
                 List<Match> linkMatches = (from Match m in WikiRegexes.SimpleWikiLink.Matches(text) select m).ToList();
 
-                if(!linkMatches.Any())
+                if (!linkMatches.Any())
                     break;
 
                 allLinks.AddRange(linkMatches.Select(m => m.Value).ToList());
@@ -400,7 +400,7 @@ namespace WikiFunctions.Parse
             {
                 // cache new results, then dequeue oldest if cache full
                 GetAllWikiLinksQueue.Enqueue(new KeyValuePair<string, List<string>>(articleText, allLinks));
-                if(GetAllWikiLinksQueue.Count > 10)
+                if (GetAllWikiLinksQueue.Count > 10)
                     GetAllWikiLinksQueue.Dequeue();
             }
 

@@ -204,7 +204,7 @@ namespace WikiFunctions.Parse
         private string MultipleIssuesOldSingleTagME(Match m)
         {
             // Performance: nothing to do if no named parameters
-            if(Tools.GetTemplateParameterValues(m.Value).Count == 0)
+            if (Tools.GetTemplateParameterValues(m.Value).Count == 0)
                 return m.Value;
 
             string newValue = Conversions(Tools.RemoveTemplateParameter(m.Value, "section"));
@@ -296,7 +296,7 @@ namespace WikiFunctions.Parse
             List<string> alltemplates = GetAllTemplates(articleText);
             bool hasMI = TemplateExists(alltemplates, WikiRegexes.MultipleIssues);
 
-            if(hasMI)
+            if (hasMI)
             {
                 articleText = MultipleIssuesOldCleanup(articleText);
 
@@ -304,7 +304,7 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesZeroTag);
             }
 
-            if(hasMI || TemplateCount(alltemplates, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates) > 1 || 
+            if (hasMI || TemplateCount(alltemplates, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates) > 1 || 
                 TemplateCount(alltemplates, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates) > 1)
             {
                 // get sections
@@ -313,7 +313,7 @@ namespace WikiFunctions.Parse
 
                 foreach(string s in sections)
                 {
-                    if(!s.StartsWith("="))
+                    if (!s.StartsWith("="))
                         newarticleText.Append(MIZerothSection(s, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates));
                     else
                         newarticleText.Append(MILaterSection(s, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates).TrimStart());
@@ -332,13 +332,13 @@ namespace WikiFunctions.Parse
             MatchCollection MIMC = WikiRegexes.MultipleIssues.Matches(zerothsection);
             bool existingMultipleIssues = MIMC.Count > 0;
 
-            if(MIMC.Count > 1)
+            if (MIMC.Count > 1)
             {
                 zerothsection = MergeMultipleMI(zerothsection);
 
                 MIMC = WikiRegexes.MultipleIssues.Matches(zerothsection);
                 existingMultipleIssues = MIMC.Count > 0;
-                if(MIMC.Count > 1)
+                if (MIMC.Count > 1)
                     return zerothsection;
             }
 
@@ -348,7 +348,7 @@ namespace WikiFunctions.Parse
             int totalTemplates = Tools.DeduplicateList((from Match m in Templates.Matches(zerothsectionNoMI) select m.Value).ToList()).Count();
 
             // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
-            if(totalTemplates == 0 && existingMultipleIssues)
+            if (totalTemplates == 0 && existingMultipleIssues)
             {
                 zerothsection = WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesOldSingleTagME);
                 zerothsection = WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesDeDupe);
@@ -356,13 +356,13 @@ namespace WikiFunctions.Parse
             }
             
             // if currently no {{Multiple issues}} and less than the min number of maintenance templates, do nothing
-            if(!existingMultipleIssues && (totalTemplates < MinCleanupTagsToCombine))
+            if (!existingMultipleIssues && (totalTemplates < MinCleanupTagsToCombine))
                 return zerothsection;
 
             // if currently has {{Multiple issues}}, add tags to it (new style only), otherwise insert multiple issues with tags.
             // multiple issues with some old style tags would have new style added
             
-            if(!existingMultipleIssues)
+            if (!existingMultipleIssues)
                 zerothsection = @"{{Multiple issues}}" + "\r\n" + zerothsection;
             
             // add each template to MI
@@ -387,21 +387,21 @@ namespace WikiFunctions.Parse
             
             // look for maintenance templates
             // cannot support more than one multiple issues template per section
-            if(MIMC.Count > 1)
+            if (MIMC.Count > 1)
                 return sectionOriginal;
             
-            if(existingMultipleIssues)
+            if (existingMultipleIssues)
                 section = Tools.ReplaceWithSpaces(section, MIMC);
             
             int templatePortion = 0;
 
-            if(WikiRegexes.NestedTemplates.IsMatch(section))
+            if (WikiRegexes.NestedTemplates.IsMatch(section))
                 templatePortion = Tools.HowMuchStartsWith(section, Templates, true);
 
             // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
-            if(templatePortion == 0)
+            if (templatePortion == 0)
             {
-                if(existingMultipleIssues)
+                if (existingMultipleIssues)
                 {
                     sectionOriginal = WikiRegexes.MultipleIssues.Replace(sectionOriginal, MultipleIssuesOldSingleTagME);
                     return WikiRegexes.MultipleIssues.Replace(sectionOriginal, MultipleIssuesSingleTagME);
@@ -417,23 +417,23 @@ namespace WikiFunctions.Parse
             int totalTemplates = Templates.Matches(sectionPortion).Count;
             
             // if currently no {{Multiple issues}} and less than the min number of maintenance templates, do nothing
-            if(!existingMultipleIssues && (totalTemplates < MinCleanupTagsToCombine))
+            if (!existingMultipleIssues && (totalTemplates < MinCleanupTagsToCombine))
                 return sectionOriginal;
 
             // if currently has {{Multiple issues}}, add tags to it (new style only), otherwise insert multiple issues with tags. multiple issues with some old style tags would have new style added
             string newsection;
             
-            if(existingMultipleIssues) // add each template to MI
+            if (existingMultipleIssues) // add each template to MI
             {
                 newsection = WikiRegexes.MultipleIssues.Match(sectionPortionOriginal).Value;
 
-                if(newsection.Length > 0)
+                if (newsection.Length > 0)
                 {
                     bool newstyleMI = WikiRegexes.NestedTemplates.IsMatch(Tools.GetTemplateArgument(Tools.RemoveTemplateParameter(newsection, "section"), 1));
                     
                     foreach(Match m in Templates.Matches(sectionPortion))
                     {
-                        if(!newsection.Contains(m.Value))
+                        if (!newsection.Contains(m.Value))
                             newsection = newsection.Replace(newsection, Regex.Replace(newsection, @"\s*}}$", (newstyleMI ? "" : "|") + "\r\n" + m.Value + "\r\n}}"));
                     }
                 }
@@ -467,7 +467,7 @@ namespace WikiFunctions.Parse
                 string tags = Tools.GetTemplateArgument(m.Value, 1);
 
                 // do not process if a MI section template
-                if(tags.Contains("{{") || tags.Equals(""))
+                if (tags.Contains("{{") || tags.Equals(""))
                 {
                     mi +=tags;
                     return "";
@@ -477,7 +477,7 @@ namespace WikiFunctions.Parse
             });
 
             // do nothing if found a MI section template
-            if(WikiRegexes.MultipleIssues.IsMatch(articleText))
+            if (WikiRegexes.MultipleIssues.IsMatch(articleText))
                 return originalArticleText;
 
             // extract and de-duplicate tags
@@ -521,7 +521,7 @@ namespace WikiFunctions.Parse
             string newTags = string.Join("\r\n", tagValues.ToArray());
 
             // only make change if some duplicate templates removed
-            if(Regex.Matches(newTags, "{{").Count < Regex.Matches(tags, "{{").Count)
+            if (Regex.Matches(newTags, "{{").Count < Regex.Matches(tags, "{{").Count)
                 newValue = newValue.Replace(tags, newTags);
 
             return newValue;

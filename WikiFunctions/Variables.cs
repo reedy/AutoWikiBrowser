@@ -695,7 +695,7 @@ namespace WikiFunctions
 
             RetfPath = Namespaces[Namespace.Project] + "AutoWikiBrowser/Typos";
 
-            if(typoReloadNeeded && MainForm != null)
+            if (typoReloadNeeded && MainForm != null)
                 MainForm.LoadTypos(true);
 
             foreach (string s in Namespaces.Values)

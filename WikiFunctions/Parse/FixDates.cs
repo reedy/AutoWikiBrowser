@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -77,12 +77,12 @@ namespace WikiFunctions.Parse
                     // take up to 25 characters before match, unless match within first 25 characters of article
                     string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
 
-                    if(MonthsAct.IsMatch(before))
+                    if (MonthsAct.IsMatch(before))
                         continue;
 
                     string after = FixDateOrdinalsAndOfLocal(before, monthsInTitle);
                     
-                    if(!after.Equals(before))
+                    if (!after.Equals(before))
                     {
                         reparse = true;
                         articleText = articleText.Replace(before, after);
@@ -168,14 +168,14 @@ namespace WikiFunctions.Parse
 
                 string after = FixDatesAInternal(before);
 
-                if(!after.Equals(before))
+                if (!after.Equals(before))
                 {
                     changes = true;
                     break;
                 }
             }
 
-            if(!changes)
+            if (!changes)
                 return articleText;
 
             articleText = HideTextImages(articleText);
@@ -189,10 +189,10 @@ namespace WikiFunctions.Parse
         {
             bool hasDash = (textPortion.Contains("-") || textPortion.Contains("–")), hasComma = textPortion.Contains(",");
             
-            if(hasComma)
+            if (hasComma)
                 textPortion = IncorrectCommaInternationalDates.Replace(textPortion, @"$1 $2");
 
-            if(hasDash)
+            if (hasDash)
             {
                 textPortion = SameMonthInternationalDateRange.Replace(textPortion, @"$1–$2");
 
@@ -206,7 +206,7 @@ namespace WikiFunctions.Parse
             textPortion = IncorrectCommaAmericanDates.Replace(textPortion, @"$1 $2, $3");
 
             // month range
-            if(hasDash)
+            if (hasDash)
                 textPortion = EnMonthRange.Replace(textPortion, @"$1–$2");
         
             return textPortion;
@@ -239,7 +239,7 @@ namespace WikiFunctions.Parse
                     
                     string after = FixDatesBInternal(before, CircaLink);
 
-                    if(!after.Equals(before))
+                    if (!after.Equals(before))
                     {
                         reparse = true;
                         articleText = articleText.Replace(before, after);
@@ -252,7 +252,7 @@ namespace WikiFunctions.Parse
             }
 
             // replace first occurrence of unlinked floruit with linked version, zeroth section only
-            if(Floruit)
+            if (Floruit)
                 articleText = WikiRegexes.UnlinkedFloruit.Replace(articleText, @"([[floruit|fl.]] $1", 1);
 
             return articleText;
@@ -277,7 +277,7 @@ namespace WikiFunctions.Parse
             textPortion = DateRangeToYear.Replace(textPortion, @"$1 $2 – $3");
 
             // full date range spacing: date–date --> date – date
-            if(YearDash.IsMatch(textPortion))
+            if (YearDash.IsMatch(textPortion))
             {
                 textPortion = InternationalDateFullUnspacedRange.Replace(textPortion, m => m.Value.Replace("-", "–").Replace("–", " – "));
                 textPortion = AmericanDateFullUnspacedRange.Replace(textPortion, m => m.Value.Replace("-", "–").Replace("–", " – "));

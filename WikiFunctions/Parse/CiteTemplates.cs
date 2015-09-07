@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -65,7 +65,7 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            if(TemplateExists(GetAllTemplates(articleText), WikiRegexes.CiteTemplate))
+            if (TemplateExists(GetAllTemplates(articleText), WikiRegexes.CiteTemplate))
             {
                 foreach (string s in GetAllTemplateDetail(articleText))
                 {
@@ -76,12 +76,12 @@ namespace WikiFunctions.Parse
                         res = WikiRegexes.CiteTemplate.Replace(res, FixCitationTemplatesME);
                     }
 
-                    if(!res.Equals(s))
+                    if (!res.Equals(s))
                         articleText = articleText.Replace(s, res);
                 }
             }
 
-            if(TemplateExists(GetAllTemplates(articleText), WikiRegexes.HarvTemplate))
+            if (TemplateExists(GetAllTemplates(articleText), WikiRegexes.HarvTemplate))
                 articleText = WikiRegexes.HarvTemplate.Replace(articleText, m =>
                                                            {
                                                                string newValue = FixPageRanges(m.Value, Tools.GetTemplateParameterValues(m.Value));
@@ -97,11 +97,11 @@ namespace WikiFunctions.Parse
                                                                return newValue;
                                                            });
             
-            if(TemplateExists(GetAllTemplates(articleText), rpTemplate))
+            if (TemplateExists(GetAllTemplates(articleText), rpTemplate))
                 articleText = rpTemplate.Replace(articleText, m =>
                                                                   {
                                                                       string pagerange = Tools.GetTemplateArgument(m.Value, 1);
-                                                                      if(pagerange.Length > 0)
+                                                                      if (pagerange.Length > 0)
                                                                           return m.Value.Replace(pagerange, FixPageRangesValue(pagerange));
 
                                                                       return m.Value;
@@ -155,45 +155,45 @@ namespace WikiFunctions.Parse
                 origdate,
                 archiveurl,
                 contributionurl;
-            if(!paramsFound.TryGetValue("url", out theURL))
+            if (!paramsFound.TryGetValue("url", out theURL))
                 theURL = "";
-            if(!paramsFound.TryGetValue("id", out id))
+            if (!paramsFound.TryGetValue("id", out id))
                 id = "";
-            if(!paramsFound.TryGetValue("format", out format))
+            if (!paramsFound.TryGetValue("format", out format))
                 format = "";
-            if(!paramsFound.TryGetValue("title", out theTitle))
+            if (!paramsFound.TryGetValue("title", out theTitle))
                 theTitle = "";
-            if(!paramsFound.TryGetValue("year", out TheYear))
+            if (!paramsFound.TryGetValue("year", out TheYear))
                 TheYear = "";
-            if(!paramsFound.TryGetValue("date", out TheDate))
+            if (!paramsFound.TryGetValue("date", out TheDate))
                 TheDate = "";
-            if(!paramsFound.TryGetValue("language", out lang))
+            if (!paramsFound.TryGetValue("language", out lang))
                 lang = "";
-            if(!paramsFound.TryGetValue("month", out TheMonth))
+            if (!paramsFound.TryGetValue("month", out TheMonth))
                 TheMonth = "";
-            if(!paramsFound.TryGetValue("work", out TheWork))
+            if (!paramsFound.TryGetValue("work", out TheWork))
                 TheWork = "";
-            if(!paramsFound.TryGetValue("nopp", out nopp))
+            if (!paramsFound.TryGetValue("nopp", out nopp))
                 nopp = "";
-            if(!paramsFound.TryGetValue("issue", out TheIssue))
+            if (!paramsFound.TryGetValue("issue", out TheIssue))
                 TheIssue = "";
-            if(!paramsFound.TryGetValue("accessyear", out accessyear))
+            if (!paramsFound.TryGetValue("accessyear", out accessyear))
                 accessyear = "";
-            if(!paramsFound.TryGetValue("accessdate", out accessdate) && !paramsFound.TryGetValue("access-date", out accessdate))
+            if (!paramsFound.TryGetValue("accessdate", out accessdate) && !paramsFound.TryGetValue("access-date", out accessdate))
                 accessdate = "";
-            if(!paramsFound.TryGetValue("pages", out pages))
+            if (!paramsFound.TryGetValue("pages", out pages))
                 pages = "";
-            if(!paramsFound.TryGetValue("page", out page))
+            if (!paramsFound.TryGetValue("page", out page))
                 page = "";
-            if(!paramsFound.TryGetValue("origyear", out origyear))
+            if (!paramsFound.TryGetValue("origyear", out origyear))
                 origyear = "";
-            if(!paramsFound.TryGetValue("origdate", out origdate))
+            if (!paramsFound.TryGetValue("origdate", out origdate))
                 origdate = "";
-            if(!paramsFound.TryGetValue("archiveurl", out archiveurl))
+            if (!paramsFound.TryGetValue("archiveurl", out archiveurl))
                 archiveurl = "";
-            if(!paramsFound.TryGetValue("contribution-url", out contributionurl))
+            if (!paramsFound.TryGetValue("contribution-url", out contributionurl))
                 contributionurl = "";
-            if(!paramsFound.TryGetValue("isbn", out ISBN) && !paramsFound.TryGetValue("ISBN", out ISBN))
+            if (!paramsFound.TryGetValue("isbn", out ISBN) && !paramsFound.TryGetValue("ISBN", out ISBN))
                 ISBN = "";
 
             string theURLoriginal = theURL;
@@ -201,7 +201,7 @@ namespace WikiFunctions.Parse
             // remove the unneeded 'format=HTML' field
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
             // remove format= field with null value when URL is HTML page
-            if(paramsFound.ContainsKey("format"))
+            if (paramsFound.ContainsKey("format"))
             {
                 if (format.TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM")
                     ||
@@ -210,7 +210,7 @@ namespace WikiFunctions.Parse
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
             }
 
-            if(paramsFound.ContainsKey("origdate") && origdate.Length == 0)
+            if (paramsFound.ContainsKey("origdate") && origdate.Length == 0)
             {
                 newValue = Tools.RemoveTemplateParameter(newValue, "origdate");
             }
@@ -225,7 +225,7 @@ namespace WikiFunctions.Parse
             }
 
             // {{sv icon}} -> sv in language=
-            if(lang.Contains("{{"))
+            if (lang.Contains("{{"))
             {
                 newValue = LangTemplate.Replace(newValue, "$1$3");
                 lang = Tools.GetTemplateParameterValue(newValue, "language");
@@ -243,7 +243,7 @@ namespace WikiFunctions.Parse
             foreach (string dequoteParam in ParametersToDequote)
             {
                 string quotetitle;
-                if(paramsFound.TryGetValue(dequoteParam, out quotetitle))
+                if (paramsFound.TryGetValue(dequoteParam, out quotetitle))
                 {
                     string before = quotetitle;
                     // convert curly quotes to straight quotes per [[MOS:PUNCT]], but » or › may be section delimeter
@@ -254,7 +254,7 @@ namespace WikiFunctions.Parse
                     if (quotetitle.Contains(@"""") && !quotetitle.Trim('"').Contains(@""""))
                         quotetitle = quotetitle.Trim('"');
 
-                    if(!before.Equals(quotetitle))
+                    if (!before.Equals(quotetitle))
                         newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, quotetitle);
                 }
             }
@@ -278,7 +278,7 @@ namespace WikiFunctions.Parse
                 string TheYearCorected = IncorrectCommaInternationalDates.Replace(TheYear, @"$1 $2");
                 TheYearCorected = IncorrectCommaAmericanDates.Replace(TheYearCorected, @"$1 $2, $3");
                 
-                if(!TheYearCorected.Equals(TheYear))
+                if (!TheYearCorected.Equals(TheYear))
                 {
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "year", TheYearCorected);
                     TheYear = TheYearCorected;
@@ -299,7 +299,7 @@ namespace WikiFunctions.Parse
                 Parsers p = new Parsers();
                 TheDate = p.FixDatesAInternal(TheDate);
 
-                if(WikiRegexes.InternationalDates.IsMatch(TheDate) || WikiRegexes.AmericanDates.IsMatch(TheDate)
+                if (WikiRegexes.InternationalDates.IsMatch(TheDate) || WikiRegexes.AmericanDates.IsMatch(TheDate)
                    || WikiRegexes.ISODates.IsMatch(TheDate))
                 {
                     TheYear = "";
@@ -319,13 +319,13 @@ namespace WikiFunctions.Parse
             {
                 if (!WikiRegexes.AmericanDates.IsMatch(TheDate) && WikiRegexes.AmericanDates.IsMatch(TheDate + ", " + TheYear))
                 {
-                    if(!TheDate.Contains(TheYear))
+                    if (!TheDate.Contains(TheYear))
                         newValue = Tools.SetTemplateParameterValue(newValue, "date", TheDate + ", " + TheYear);
                     newValue = Tools.RemoveTemplateParameter(newValue, "year");
                 }
                 else if (!WikiRegexes.InternationalDates.IsMatch(TheDate) && WikiRegexes.InternationalDates.IsMatch(TheDate + " " + TheYear))
                 {
-                    if(!TheDate.Contains(TheYear))
+                    if (!TheDate.Contains(TheYear))
                         newValue = Tools.SetTemplateParameterValue(newValue, "date", TheDate + " " + TheYear);
                     newValue = Tools.RemoveTemplateParameter(newValue, "year");
                 }
@@ -346,7 +346,7 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
 
             // remove leading zero in day of month
-            if(Regex.IsMatch(newValue, @"\b0[1-9]") && DateLeadingZero.IsMatch(newValue))
+            if (Regex.IsMatch(newValue, @"\b0[1-9]") && DateLeadingZero.IsMatch(newValue))
             {
                 newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
                 newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
@@ -354,15 +354,15 @@ namespace WikiFunctions.Parse
                 accessdate = Tools.GetTemplateParameterValue(newValue, "accessdate");
             }
 
-            if(paramsFound.Where(s => s.Key.Contains("access") && !s.Key.Contains("date")).Count() > 0)
+            if (paramsFound.Where(s => s.Key.Contains("access") && !s.Key.Contains("date")).Count() > 0)
             {
-                if(Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
+                if (Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
                 {
                     // remove any empty accessdaymonth, accessmonthday, accessmonth and accessyear
                     newValue = AccessDayMonthDay.Replace(newValue, "");
 
                     // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
-                    if(accessyear.Length == 4)
+                    if (accessyear.Length == 4)
                         newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
                 }
 
@@ -394,7 +394,7 @@ namespace WikiFunctions.Parse
             }
 
             // remove ordinals from dates
-            if(Ordinal.IsMatch(TheDate) || Ordinal.IsMatch(accessdate))
+            if (Ordinal.IsMatch(TheDate) || Ordinal.IsMatch(accessdate))
             {
                 if (OrdinalsInDatesInt.IsMatch(TheDate))
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesInt.Replace(TheDate, "$1$2$3 $4"));
@@ -403,7 +403,7 @@ namespace WikiFunctions.Parse
 
                 if (OrdinalsInDatesInt.IsMatch(accessdate))
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesInt.Replace(accessdate, "$1$2$3 $4"));
-                else if(OrdinalsInDatesAm.IsMatch(accessdate))
+                else if (OrdinalsInDatesAm.IsMatch(accessdate))
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(accessdate, "$1 $2$3"));
             }
             // catch after any other fixes
@@ -413,16 +413,16 @@ namespace WikiFunctions.Parse
             if (theURL.StartsWith("www", StringComparison.OrdinalIgnoreCase))
                 theURL = "http://" + theURL;
 
-            if(archiveurl.StartsWith("www", StringComparison.OrdinalIgnoreCase))
+            if (archiveurl.StartsWith("www", StringComparison.OrdinalIgnoreCase))
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "archiveurl", "http://" + archiveurl);
-            if(contributionurl.StartsWith("www", StringComparison.OrdinalIgnoreCase))
+            if (contributionurl.StartsWith("www", StringComparison.OrdinalIgnoreCase))
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "contribution-url", "http://" + contributionurl);
 
             // (part) wikilinked/external linked URL in cite template, don't change when named external link format
-            if(!theURL.Contains(" "))
+            if (!theURL.Contains(" "))
                 theURL = theURL.Trim('[').Trim(']');
 
-            if(!theURLoriginal.Equals(theURL))
+            if (!theURLoriginal.Equals(theURL))
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "url", theURL);
 
             // {{dead link}} should be placed outside citation, not in format field per [[Template:Dead link]]
@@ -452,11 +452,11 @@ namespace WikiFunctions.Parse
                 newValue = Tools.SetTemplateParameterValue(newValue, "asin", IdASIN.Match(id).Groups[1].Value.Trim());
             }
 
-            if(ISBN.Length > 0)
+            if (ISBN.Length > 0)
             {
                 string ISBNbefore = ISBN;
                 // remove ISBN at start, but not if multiple ISBN
-                if(ISBN.IndexOf("isbn", StringComparison.OrdinalIgnoreCase) > -1
+                if (ISBN.IndexOf("isbn", StringComparison.OrdinalIgnoreCase) > -1
                    && ISBN.Substring(4).IndexOf("isbn", StringComparison.OrdinalIgnoreCase) == -1)
                     ISBN = Regex.Replace(ISBN, @"^(?i)ISBN\s*", "");
 
@@ -469,9 +469,9 @@ namespace WikiFunctions.Parse
                 ISBN = ISBN.Replace('\x2010', '-');
                 ISBN = ISBN.Replace('\x2012', '-');
 
-                if(!ISBN.Equals(ISBNbefore))
+                if (!ISBN.Equals(ISBNbefore))
                 {
-                    if(paramsFound.ContainsKey("ISBN"))
+                    if (paramsFound.ContainsKey("ISBN"))
                         newValue = Tools.UpdateTemplateParameterValue(newValue, "ISBN", ISBN);
                     else
                         newValue = Tools.UpdateTemplateParameterValue(newValue, "isbn", ISBN);
@@ -506,10 +506,10 @@ namespace WikiFunctions.Parse
             foreach (string pageField in PageFields)
             {
                 string pageRange;
-                if(Params.TryGetValue(pageField, out pageRange) && pageRange.Length > 0)
+                if (Params.TryGetValue(pageField, out pageRange) && pageRange.Length > 0)
                 {
                     string res = FixPageRangesValue(pageRange);
-                    if(!res.Equals(pageRange))
+                    if (!res.Equals(pageRange))
                         templateCall = Tools.UpdateTemplateParameterValue(templateCall, pageField, res);
                 }
             }
@@ -706,12 +706,12 @@ namespace WikiFunctions.Parse
                     res = WikiRegexes.CiteTemplate.Replace(res, CiteTemplateME);
                 }
 
-                if(!res.Equals(s))
+                if (!res.Equals(s))
                     articleText = articleText.Replace(s, res);
             }
 
             // don't apply fixes when ambiguous dates present, for performance only appply this check if changes made
-            if(!originalArticleText.Equals(articleText) && AmbiguousCiteTemplateDates(originalArticleText))
+            if (!originalArticleText.Equals(articleText) && AmbiguousCiteTemplateDates(originalArticleText))
                 return originalArticleText;
 
             return articleText;
@@ -729,22 +729,22 @@ namespace WikiFunctions.Parse
             Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);            
 
             string accessdate, date, date2, archivedate, airdate, journal;
-            if(!paramsFound.TryGetValue("accessdate", out accessdate) && !paramsFound.TryGetValue("access-date", out accessdate))
+            if (!paramsFound.TryGetValue("accessdate", out accessdate) && !paramsFound.TryGetValue("access-date", out accessdate))
                 accessdate = "";
-            if(!paramsFound.TryGetValue("date", out date))
+            if (!paramsFound.TryGetValue("date", out date))
                 date = "";
-            if(!paramsFound.TryGetValue("date2", out date2))
+            if (!paramsFound.TryGetValue("date2", out date2))
                 date2 = "";
-            if(!paramsFound.TryGetValue("archivedate", out archivedate))
+            if (!paramsFound.TryGetValue("archivedate", out archivedate))
                 archivedate = "";
-            if(!paramsFound.TryGetValue("airdate", out airdate))
+            if (!paramsFound.TryGetValue("airdate", out airdate))
                 airdate = "";
-            if(!paramsFound.TryGetValue("journal", out journal))
+            if (!paramsFound.TryGetValue("journal", out journal))
                 journal = "";
 
             List<string> dates = new List<string> {accessdate, archivedate, date, date2, airdate};
 
-            if(CiteTemplateMEParameterToProcess(dates))
+            if (CiteTemplateMEParameterToProcess(dates))
             {
                 // accessdate=, archivedate=
                 newValue = CiteTemplateIncorrectISOAccessdates.Aggregate(newValue, (current, rr) => rr.Regex.Replace(current, rr.Replacement));
@@ -755,7 +755,7 @@ namespace WikiFunctions.Parse
                 newValue = CiteTemplateDateYYYYDDMMFormat.Replace(newValue, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
 
                 // date = YYYY-Month-DD fix, not for cite journal PubMed date format
-                if(journal.Length == 0)
+                if (journal.Length == 0)
                     newValue = CiteTemplateAbbreviatedMonthISO.Replace(newValue, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
             }
             // all citation dates: Remove time from date fields
@@ -765,7 +765,7 @@ namespace WikiFunctions.Parse
 
                                                                    Match whm = WhitespaceEnd.Match(comm);
 
-                                                                   if(whm.Success)
+                                                                   if (whm.Success)
                                                                    {
                                                                        comm = comm.TrimEnd();
                                                                        whitespace = whm.Groups[1].Value;
@@ -781,7 +781,7 @@ namespace WikiFunctions.Parse
         {
             foreach(string s in parameters)
             {
-                if(s.Length > 4 && !WikiRegexes.ISODates.IsMatch(s)
+                if (s.Length > 4 && !WikiRegexes.ISODates.IsMatch(s)
                    && !Regex.IsMatch(s, @"^(\d{1,2} *)?" + WikiRegexes.MonthsNoGroup))
                     return true;
             }
@@ -809,7 +809,9 @@ namespace WikiFunctions.Parse
         public static Dictionary<int, int> AmbigCiteTemplateDates(string articleText)
         {
             Dictionary<int, int> ambigDates = new Dictionary<int, int>();
-            if(PossibleAmbiguousCiteDateQuick.IsMatch(articleText)) // check for performance
+            
+            // check for performance
+            if (PossibleAmbiguousCiteDateQuick.IsMatch(articleText))
             {
                 foreach(Match m in WikiRegexes.CiteTemplate.Matches(articleText))
                 {
@@ -857,7 +859,7 @@ namespace WikiFunctions.Parse
             foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {
                 // unknown parameters in cite web
-                if(m.Groups[2].Value.EndsWith("web"))
+                if (m.Groups[2].Value.EndsWith("web"))
                 {
                     // ignore parameters in templates within cite
                     string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
@@ -882,7 +884,7 @@ namespace WikiFunctions.Parse
 
                 // URL has space in it
                 int urlpos = m.Value.IndexOf("url");
-                if(urlpos > 0)
+                if (urlpos > 0)
                 {
                     string URL = Tools.GetTemplateParameterValue(m.Value, "url");
                     if (URL.Contains(" ") && WikiRegexes.UnformattedText.Replace(WikiRegexes.NestedTemplates.Replace(URL, ""), "").Trim().Contains(" "))

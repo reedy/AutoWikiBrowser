@@ -76,7 +76,7 @@ namespace WikiFunctions.Parse
             noChange = true;
             List<string> alltemplates = GetAllTemplates(articleText);
 
-            if(TemplateExists(alltemplates, NoBoldTitle))
+            if (TemplateExists(alltemplates, NoBoldTitle))
                 return articleText;
 
             HideText Hider2 = new HideText(), Hider3 = new HideText(true, true, true);
@@ -84,7 +84,7 @@ namespace WikiFunctions.Parse
             // 1) clean up bolded self links first, provided no noinclude use in article
             string afterSelfLinks = BoldedSelfLinks(articleTitle, articleText);
             
-            if(!afterSelfLinks.Equals(articleText) && !WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
+            if (!afterSelfLinks.Equals(articleText) && !WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
                 articleText = afterSelfLinks;
 
             // 2) Clean up self wikilinks
@@ -95,7 +95,7 @@ namespace WikiFunctions.Parse
             // first check for any self links and no bold title, if found just convert first link to bold and return
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
-            if(!SelfLinks(zerothSection, articleTitle).Equals(zerothSection) && !WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
+            if (!SelfLinks(zerothSection, articleTitle).Equals(zerothSection) && !WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
             {
                 // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
                 zerothSectionHidden = Hider2.HideMore(zerothSection, false, false, false);
@@ -111,7 +111,7 @@ namespace WikiFunctions.Parse
             }
 
             // Performance check: if article title not in zeroth section have nothing further to do
-            if(zerothSection.IndexOf(BracketedAtEndOfLine.Replace(articleTitle, ""), StringComparison.OrdinalIgnoreCase) < 0)
+            if (zerothSection.IndexOf(BracketedAtEndOfLine.Replace(articleTitle, ""), StringComparison.OrdinalIgnoreCase) < 0)
                 return articleTextAtStart;
 
             // 3) '''Emboldens''' the first occurrence of the article title
@@ -127,7 +127,7 @@ namespace WikiFunctions.Parse
 
             // if title in bold already exists in article, or paragraph starts with something in bold, don't change anything
             // ignore any bold in infoboxes
-            if(BoldTitleAlready4.IsMatch(Tools.ReplaceWithSpaces(zerothSection, WikiRegexes.InfoBox.Matches(zerothSection))) || DfnTag.IsMatch(zerothSection))
+            if (BoldTitleAlready4.IsMatch(Tools.ReplaceWithSpaces(zerothSection, WikiRegexes.InfoBox.Matches(zerothSection))) || DfnTag.IsMatch(zerothSection))
                 return articleTextAtStart;
             
             string articleTextNoInfobox = Tools.ReplaceWithSpaces(articleText, WikiRegexes.InfoBox.Matches(articleText));

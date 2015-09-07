@@ -64,7 +64,7 @@ namespace WikiFunctions.Logging
                 ResizeListView(lvIgnored);
                 
                 // sort descending (newest first) unless user has clicked columns to create custom sort order
-                if(lvIgnored.Sorting == SortOrder.None)
+                if (lvIgnored.Sorting == SortOrder.None)
                 {
                     lvIgnored.ListViewItemSorter = new ListViewItemComparer();
                     lvIgnored.Sort();
@@ -76,7 +76,7 @@ namespace WikiFunctions.Logging
                 ResizeListView(lvSaved);
                 
                  // sort descending (newest first) unless user has clicked columns to create custom sort order
-                if(lvSaved.Sorting == SortOrder.None)
+                if (lvSaved.Sorting == SortOrder.None)
                 {
                     lvSaved.ListViewItemSorter = new ListViewItemComparer();
                     lvSaved.Sort();
@@ -119,11 +119,11 @@ namespace WikiFunctions.Logging
         private ListView CurrentlySelectedListView()
         {
             // ActiveControl may be null if context menu opened at same time as main form page load finishes
-            if(this.ActiveControl != null)
+            if (this.ActiveControl != null)
                 return (ListView)this.ActiveControl;
 
             // first fallback
-            if(lvIgnored.SelectedItems.Count > 0)
+            if (lvIgnored.SelectedItems.Count > 0)
                 return lvIgnored;
 
             // final fallback
