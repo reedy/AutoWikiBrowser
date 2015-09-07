@@ -20,9 +20,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Linq;
 using WikiFunctions.TalkPages;
 
 namespace WikiFunctions.Parse
@@ -228,16 +228,14 @@ en, sq, ru
 
 			InterwikiLocalAlpha = new List<string>();
 
-			foreach (string s in interwikiLocalAlphaRaw.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-			        )
+			foreach (string s in interwikiLocalAlphaRaw.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				InterwikiLocalAlpha.Add(s.Trim().ToLower());
 			}
 
 			InterwikiLocalFirst = new List<string>();
 
-			foreach (string s in interwikiLocalFirstRaw.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-			        )
+			foreach (string s in interwikiLocalFirstRaw.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				InterwikiLocalFirst.Add(s.Trim().ToLower());
 			}
@@ -593,7 +591,7 @@ en, sq, ru
             });
 
             // Don't pull stubs out of comments
-            if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText + ListToString(stubList)))
+            if (!Tools.UnformattedTextNotChanged(originalArticleText, articleText + ListToString(stubList)))
             {
                 articleText = originalArticleText;
                 return "";
