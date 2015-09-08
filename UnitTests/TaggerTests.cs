@@ -220,6 +220,14 @@ namespace UnitTests
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref removed when refimprove");
             Assert.AreEqual(1, Tools.NestedTemplateRegex("refimprove").Matches(text).Count);
 
+            text = parser.Tagger(ShortText + @"{{BLP unsourced|date=May 2010}} {{BLP sources|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
+            Assert.AreEqual(0, Tools.NestedTemplateRegex("BLP unsourced").Matches(text).Count);
+            Assert.AreEqual(1, Tools.NestedTemplateRegex("BLP sources").Matches(text).Count);
+
+            text = parser.Tagger(ShortText + @"{{BLP unsourced|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
+            Assert.AreEqual(0, Tools.NestedTemplateRegex("BLP unsourced").Matches(text).Count);
+            Assert.AreEqual(1, Tools.NestedTemplateRegex("BLP sources").Matches(text).Count);
+
             text = parser.Tagger(ShortText + @"{{multiple issues|
 {{unreferenced|date=May 2010}}
 {{refimprove|date=May 2010}}

@@ -516,7 +516,24 @@ namespace WikiFunctions.Parse
                                                        tagsrenamed++;
                                                        return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "refimprove"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
                                                    });
+            }
 
+            // rename BLP unsourced --> BLP sources if has existing refs, update date
+            // if have both BLP unsourced and BLP sources, and have some refs then just remove unreferenced
+            if (WikiRegexes.BLPSources.IsMatch(templates)
+                && (TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(commentsCategoriesStripped).Count) > 0)
+            {
+                articleText = BLPUnsourced.Replace(articleText, m2 => 
+                                                   {
+                                                       if (Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
+                                                       {
+                                                           tagsRemoved.Add("BLP unsourced");
+                                                           return "";
+                                                       }
+
+                                                       tagsrenamed++;
+                                                       return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "BLP sources"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+                                                   });
             }
 
             if (tagsAdded.Count > 0 || tagsRemoved.Count > 0 || tagsrenamed > 0)
