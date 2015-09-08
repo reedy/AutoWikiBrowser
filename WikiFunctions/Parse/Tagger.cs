@@ -500,10 +500,11 @@ namespace WikiFunctions.Parse
                 }
             }
 
+            bool PageHasReferences = TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(commentsCategoriesStripped).Count > 0;
+            
             // rename unreferenced --> refimprove if has existing refs, update date
             // if have both unreferenced and refimprove, and have some refs then just remove unreferenced
-            if (WikiRegexes.Unreferenced.IsMatch(templates)
-                && (TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(commentsCategoriesStripped).Count) > 0)
+            if (WikiRegexes.Unreferenced.IsMatch(templates) && PageHasReferences)
             {
                 articleText = Unreferenced.Replace(articleText, m2 => 
                                                    {
@@ -520,8 +521,7 @@ namespace WikiFunctions.Parse
 
             // rename BLP unsourced --> BLP sources if has existing refs, update date
             // if have both BLP unsourced and BLP sources, and have some refs then just remove unreferenced
-            if (WikiRegexes.BLPSources.IsMatch(templates)
-                && (TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(commentsCategoriesStripped).Count) > 0)
+            if (WikiRegexes.BLPSources.IsMatch(templates) && PageHasReferences)
             {
                 articleText = BLPUnsourced.Replace(articleText, m2 => 
                                                    {
