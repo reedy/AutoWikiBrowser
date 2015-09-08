@@ -48,9 +48,8 @@ namespace WikiFunctions
 
         static ObjectCache()
         {
-            Global = new ObjectCache(Path.Combine(AwbDirs.UserData, "ObjectCache.xml"));//AppData);
+            Global = new ObjectCache(Path.Combine(AwbDirs.UserData, "ObjectCache.xml"));
             Global.AddType(typeof(SiteInfo), DefaultLifespan);
-            //UserCache = new ObjectCache(AwbDirs.UserData);
         }
 
         ~ObjectCache()
