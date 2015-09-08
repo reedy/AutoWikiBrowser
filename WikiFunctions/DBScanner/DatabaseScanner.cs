@@ -585,7 +585,7 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateDBScannerArticleCount()
         {
-            lblCount.Text = lbArticles.Items.Count + " results";
+            lblCount.Text = lbArticles.Items.Count + " matches";
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
