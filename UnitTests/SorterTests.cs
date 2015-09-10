@@ -1231,6 +1231,9 @@ b = @"A
 			
 			string g = c + "\r\n" + c;
 			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref g, "test"), "does not modify page with multiple defaultsorts");
+
+            d = a + "\r\n" + b + "\r\n" + c + " <!--foo -->";
+            Assert.AreEqual(c  + " <!--foo -->\r\n" + b + "\r\n", parser2.Sorter.RemoveCats(ref d, "test"), "Retain comment on same line as defaultsort");
 		}
 
 		[Test]

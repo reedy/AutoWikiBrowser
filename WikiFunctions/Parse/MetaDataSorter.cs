@@ -482,6 +482,10 @@ en, sq, ru
                 if (AddCatKey)
                     categoryList = CatKeyer(categoryList, articleTitle);
 
+                // now refresh defaultsort to pick up any comment on same line after it
+                if(mc.Count > 0)
+                    mc = Regex.Matches(articleText, WikiRegexes.Defaultsort.ToString() + @"(?: *<!--[^<>]*-->)?");
+
                 // remove defaultsort now if we can, faster to remove from cut than whole articleText
                 if (mc.Count > 0 && cut.Contains(mc[0].Value))
                 {
