@@ -1226,8 +1226,8 @@ b = @"A
 			string d = a + "\r\n" + b + "\r\n" + c;
 			string f = a + "\r\n" + b + "\r\n" + e;
 
-			Assert.AreEqual(c + "\r\n" + b + "\r\n", parser2.Sorter.RemoveCats(ref d, "test"));
-			Assert.AreEqual(b + "\r\n", parser2.Sorter.RemoveCats(ref f, "test"));
+            Assert.AreEqual(c + "\r\n" + b + "\r\n", parser2.Sorter.RemoveCats(ref d, "test"), "standard case, return defaultsort then category");
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.RemoveCats(ref f, "test"), "Don't return commented out defaultsort");
 			
 			string g = c + "\r\n" + c;
 			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref g, "test"), "does not modify page with multiple defaultsorts");
