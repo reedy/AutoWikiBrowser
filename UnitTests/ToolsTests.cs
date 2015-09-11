@@ -2332,6 +2332,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual("Foo 11 of London", Tools.MakeHumanCatKey("Foo XI of London", ""));
 
             Assert.AreEqual("Clinoch of Alt Clut", Tools.MakeHumanCatKey("Clinoch of Alt Clut", ""), "Person of place with two-word place name");
+            Assert.AreEqual("Byzantine Master of the Crucifix of Pisa", Tools.MakeHumanCatKey("Byzantine Master of the Crucifix of Pisa", ""));
         }
 
         [Test]

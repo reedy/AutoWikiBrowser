@@ -191,7 +191,7 @@ namespace WikiFunctions
 			return regex.Matches(input).Count;
 		}
 
-		private static readonly Regex PersonOfPlace = new Regex(@"^(?<person>\w+)(?<ordinal> [IXV]+)? of (?<place>(\w+ *)+)$", RegexOptions.Compiled);
+		private static readonly Regex PersonOfPlace = new Regex(@"^(?<person>\w+( +\w+)*?)(?<ordinal> [IXV]+)? of (?<place>(\w+ *)+)(?<![IVX]+)$", RegexOptions.Compiled);
 		
 		// Covered by HumanCatKeyTests
 		/// <summary>
