@@ -550,7 +550,7 @@ en, sq, ru
 		/// <returns></returns>
 		public static string RemovePersonData(ref string articleText)
 		{
-		    string strPersonData = "";
+		    string strPersonData = "", originalArticleText = articleText;
 
 		    articleText = WikiRegexes.Persondata.Replace(articleText, m=>
 		                                                 {
@@ -566,7 +566,13 @@ en, sq, ru
 				strPersonData = WikiRegexes.PersonDataCommentEN + strPersonData;
 			}
 
-			return strPersonData;
+            if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
+		    {
+                articleText = originalArticleText;
+                strPersonData = "";
+            }
+
+            return strPersonData;
 		}
 
 		/// <summary>

@@ -176,6 +176,9 @@ namespace UnitTests
 			f = MetaDataSorter.RemovePersonData(ref e);
 
 			Assert.AreEqual(d1 + "\r\n" + d1.Replace("[[December 2]]", ""), f, "duplicate persondata: order not changed");
+
+            string commented = @"<!--{{Persondata}}-->";
+            Assert.AreEqual("", MetaDataSorter.RemovePersonData(ref commented), "commented out persondata not extracted");
 		}
 
 		[Test]
