@@ -211,7 +211,7 @@ namespace AutoWikiBrowser
             this.btnFalsePositive = new System.Windows.Forms.Button();
             this.nudBotSpeed = new System.Windows.Forms.NumericUpDown();
             this.txtNewCategory = new System.Windows.Forms.TextBox();
-            this.txtAppendMessage = new System.Windows.Forms.TextBox();
+            this.txtAppendMessage = new System.Windows.Forms.RichTextBox();
             this.chkAppend = new System.Windows.Forms.CheckBox();
             this.rdoAppend = new System.Windows.Forms.RadioButton();
             this.rdoPrepend = new System.Windows.Forms.RadioButton();
@@ -1895,9 +1895,10 @@ namespace AutoWikiBrowser
             this.txtAppendMessage.Location = new System.Drawing.Point(6, 38);
             this.txtAppendMessage.Multiline = true;
             this.txtAppendMessage.Name = "txtAppendMessage";
-            this.txtAppendMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtAppendMessage.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Both;
             this.txtAppendMessage.Size = new System.Drawing.Size(251, 67);
             this.txtAppendMessage.TabIndex = 3;
+            this.txtAppendMessage.DetectUrls = false;
             this.ToolTip.SetToolTip(this.txtAppendMessage, "Message, including title in wiki format");
             // 
             // chkAppend
@@ -4526,7 +4527,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.RadioButton rdoAppend;
         private System.Windows.Forms.CheckBox chkAppend;
         private System.Windows.Forms.CheckBox chkAppendMetaDataSort;
-        private System.Windows.Forms.TextBox txtAppendMessage;
+        private System.Windows.Forms.RichTextBox txtAppendMessage;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox chkSkipNoCatChange;
         private System.Windows.Forms.CheckBox chkRemoveSortKey;
