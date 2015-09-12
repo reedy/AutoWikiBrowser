@@ -607,6 +607,16 @@ en, sq, ru
                 return "";
             }
 
+            // en-wp only: remove {{stub}} if a more specific stub exists (not counting {{uncategorized stub}} template)
+            if(Variables.IsWikipediaEN)
+            {
+                List<string> cp = new List<string>(stubList);
+                cp.RemoveAll(s => Tools.GetTemplateName(s).ToLower().StartsWith("uncategori"));
+
+                if(Parsers.GetAllTemplateDetail(ListToString(cp)).Count > 1)
+                    stubList.RemoveAll(s => Tools.GetTemplateName(s).TrimStart('-').ToLower().Equals("stub"));
+            }
+
 			return (stubList.Count != 0) ? ListToString(stubList) : "";
 		}
 

@@ -26,13 +26,13 @@ namespace UnitTests
 			Assert.AreEqual("==foo==\r\nbar<ref name=\"123\"/>{{boz}}", s);
 
 			// should remove stubs, but not section stubs
-			s = "{{foo}}{{stub}}{{foo-stub}}bar{{sect-stub}}{{not a|stub}}";
-			Assert.AreEqual("{{stub}}\r\n{{foo-stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
+			s = "{{foo}}{{some-stub}}{{foo-stub}}bar{{sect-stub}}{{not a|stub}}";
+			Assert.AreEqual("{{some-stub}}\r\n{{foo-stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
 			Assert.AreEqual("{{foo}}bar{{sect-stub}}{{not a|stub}}", s);
 			
 			// handle stubs with extra parameters e.g. date=
-			s = "{{foo}}{{stub}}{{foo-stub|date=May 2012}}bar{{sect-stub}}{{not a|stub}}";
-			Assert.AreEqual("{{stub}}\r\n{{foo-stub|date=May 2012}}\r\n", MetaDataSorter.RemoveStubs(ref s));
+			s = "{{foo}}{{my-stub}}{{foo-stub|date=May 2012}}bar{{sect-stub}}{{not a|stub}}";
+			Assert.AreEqual("{{my-stub}}\r\n{{foo-stub|date=May 2012}}\r\n", MetaDataSorter.RemoveStubs(ref s));
 
 			//shouldn't fail
 			s = "";
@@ -44,9 +44,9 @@ namespace UnitTests
 
 			// remove duplicate stubs
 			s = "{{foo}}{{stub}}{{stub}}";
-			Assert.AreEqual("{{stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
+			Assert.AreEqual("{{stub}}\r\n", MetaDataSorter.RemoveStubs(ref s), "deduplication, same case");
 			s = "{{foo}}{{Stub}}{{stub}}";
-			Assert.AreEqual("{{Stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
+			Assert.AreEqual("{{Stub}}\r\n", MetaDataSorter.RemoveStubs(ref s), "deduplication, different case");
 
             s = @"<!-- {{stub}} -->";
             Assert.AreEqual(@"<!-- {{stub}} -->" + "\r\n", MetaDataSorter.RemoveStubs(ref s), "Extract commented out stubs");
@@ -78,6 +78,18 @@ namespace UnitTests
 			articleTextBack = parser2.SortMetaData(articletext, "test");
 			
 			Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
+
+            // remove {{stub}} if more detailed stub
+            string s = "{{foo}}{{stub}}{{foo-stub}}";
+            Assert.AreEqual("{{foo-stub}}\r\n", MetaDataSorter.RemoveStubs(ref s), "removes {{stub}} if more detailed stub");
+            s = "{{foo}}{{ Stub }}{{foo-stub}}";
+            Assert.AreEqual("{{foo-stub}}\r\n", MetaDataSorter.RemoveStubs(ref s), "removes {{stub}} if more detailed stub");
+            s = "{{foo}}{{-stub}}{{foo-stub}}";
+            Assert.AreEqual("{{foo-stub}}\r\n", MetaDataSorter.RemoveStubs(ref s), "removes {{-stub}} if more detailed stub");
+            s = "{{foo}}{{-stub}}";
+            Assert.AreEqual("{{-stub}}\r\n", MetaDataSorter.RemoveStubs(ref s), "retain {{-stub}} if only stub tag");
+            s = "{{foo}}{{uncategorized stub}}{{stub}}";
+            Assert.AreEqual("{{uncategorized stub}}\r\n{{stub}}\r\n", MetaDataSorter.RemoveStubs(ref s), "retain {{stub}} if other tag is {{uncategorized stub}}");
 		}
 		
 		[Test]
