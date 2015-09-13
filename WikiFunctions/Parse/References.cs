@@ -215,6 +215,7 @@ namespace WikiFunctions.Parse
         // Covered by: DuplicateNamedReferencesTests()
         /// <summary>
         /// Where an unnamed reference is a duplicate of another named reference, set the unnamed one to use the named ref
+        /// Condenses second or further occurrence of repeated named reference
         /// Checks for instances of named references with same ref name having different values, does not modify article text in this case
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
