@@ -346,6 +346,13 @@ namespace WikiFunctions.Parse
             // now process the duplicate refs, add ref name to first and condense the later ones
             Dictionary<string, string> refNameContent = new Dictionary<string, string>();
 
+            if(!allRefs.Any())
+                return articleText;
+
+            // Get list of all unnamed refs declared in template calls, don't want to condense any of these
+            List<string> templates = GetAllTemplateDetail(articleText).Where(t => t.Contains("<ref>")).ToList();
+            List<string> refValuesInTemplates = GetUnnamedRefs(string.Join(" ", templates.ToArray())).Select(r => r.Groups[1].Value).ToList();
+
             foreach (Match m in allRefs)
             {
                 string innerText = m.Groups[1].Value.Trim(), friendlyName;
@@ -362,7 +369,11 @@ namespace WikiFunctions.Parse
                 } 
                 else
                 {
-                    articleText = articleText.Replace(m.Value, @"<ref name=""" + friendlyName + @"""/>");
+                    // Don't condense ref declared in template
+                    if(refValuesInTemplates.Contains(innerText))
+                        articleText = articleText.Replace(m.Value, @"<ref name=""" + friendlyName + @""">" + innerText + "</ref>");
+                    else
+                        articleText = articleText.Replace(m.Value, @"<ref name=""" + friendlyName + @"""/>");
                 }
             }
          

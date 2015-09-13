@@ -553,6 +553,8 @@ End of.";
 
             const string F = @"<ref>""book""</ref> foo <ref> ""book"" </ref> <ref name=book>A</ref><ref name=""ReferenceA"">""bookA""</ref><ref name=""ReferenceB"">""bookB""</ref><ref name=""ReferenceC"">""bookC""</ref>";
             Assert.AreEqual(F, Parsers.DuplicateUnnamedReferences(F));
+
+            Assert.AreEqual(@"{{infobox foo|bar=1<ref name=""bookrags.com"">""bookrags.com""</ref>}} foo <ref name=""bookrags.com"">""bookrags.com""</ref>" + namedref, Parsers.DuplicateUnnamedReferences(@"{{infobox foo|bar=1<ref>""bookrags.com""</ref>}} foo <ref> ""bookrags.com"" </ref>" + namedref), "Ref named, but not condensed if declared in template");
         }
 
         [Test]
