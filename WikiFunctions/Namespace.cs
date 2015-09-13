@@ -159,8 +159,7 @@ namespace WikiFunctions
         /// <param name="key">Namespace key</param>
         public static bool IsImportant(int key)
         {
-            return (key == Article || key == File
-                    || key == Template || key == Category);
+            return key == Article || key == File || key == Template || key == Category;
         }
 
         // Covered by NamespaceTests.IsTalk()

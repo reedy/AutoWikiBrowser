@@ -486,7 +486,7 @@ en, sq, ru
                     categoryList = CatKeyer(categoryList, articleTitle);
 
                 // now refresh defaultsort to pick up any comment on same line after it
-                if(mc.Count > 0)
+                if (mc.Count > 0)
                     mc = Regex.Matches(articleText, WikiRegexes.Defaultsort.ToString() + @"(?: *<!--[^<>]*-->)?");
 
                 // remove defaultsort now if we can, faster to remove from cut than whole articleText
@@ -569,7 +569,7 @@ en, sq, ru
 				strPersonData = WikiRegexes.PersonDataCommentEN + strPersonData;
 			}
 
-            if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
+            if (!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
 		    {
                 articleText = originalArticleText;
                 strPersonData = "";
@@ -611,7 +611,7 @@ en, sq, ru
             }
 
             // en-wp only: remove {{stub}} if a more specific stub exists (not counting {{uncategorized stub}} template)
-            if(Variables.IsWikipediaEN)
+            if (Variables.IsWikipediaEN)
             {
                 List<string> cp = new List<string>(stubList);
                 cp.RemoveAll(s => Tools.GetTemplateName(s).ToLower().StartsWith("uncategori"));

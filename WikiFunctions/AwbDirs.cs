@@ -36,7 +36,8 @@ namespace WikiFunctions
         {
             get
             {
-                if (mAppData != null) return mAppData;
+                if (mAppData != null)
+                	return mAppData;
 
                 mAppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
                     "AutoWikiBrowser");
