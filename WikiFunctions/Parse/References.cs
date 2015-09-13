@@ -324,6 +324,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Derives and sets a reference name per [[WP:REFNAME]] for duplicate &lt;ref&gt;s
+        /// Then condenses repeated uses of the named reference
         /// </summary>
         /// <param name="articleText">the text of the article</param>
         /// <returns>the modified article text</returns>
