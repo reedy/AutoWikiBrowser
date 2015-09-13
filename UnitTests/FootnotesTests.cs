@@ -457,6 +457,14 @@ End of.";
 ==References==
 {{reflist}}";
             Assert.IsTrue(Parsers.DuplicateNamedReferences(infobox + "\r\n" + rest).Contains(rest), "Ref that was declared in template not condensed");
+
+            Assert.AreEqual(@"{{infobox foo | badparam=A<ref name=Fred /> | otherparam = yes}}
+Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=""Fred""/>
+==References==
+{{reflist}}", Parsers.DuplicateNamedReferences(@"{{infobox foo | badparam=A<ref name=Fred /> | otherparam = yes}}
+Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=Fred>The Honourable Fred Smith, 2002</ref>
+==References==
+{{reflist}}"), "Ref that was used in short form in template can be condensed elsewhere");
         }
 
         [Test]

@@ -232,7 +232,7 @@ namespace WikiFunctions.Parse
                 int reflistIndex = RefsTemplateIndex(articleText);
 
                 // Get list of all refs declared in template calls, don't want to condense any of these
-                List<string> templates = GetAllTemplateDetail(articleText).Where(t => t.Contains("<ref name")).ToList();
+                List<string> templates = GetAllTemplateDetail(articleText).Where(t => WikiRegexes.NamedReferences.IsMatch(t)).ToList();
                 List<string> refNamesIntemplates = GetNamedRefs(string.Join(" ", templates.ToArray())).Select(r => r.Groups[2].Value).ToList();
 
                 foreach (Match m in GetNamedRefs(articleText).Where(m => m.Groups[3].Value.Length > 0))
