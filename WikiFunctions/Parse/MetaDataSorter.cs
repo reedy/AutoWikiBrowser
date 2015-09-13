@@ -446,7 +446,10 @@ en, sq, ru
             // ignore commented out DEFAULTSORT – https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Moving_DEFAULTSORT_in_HTML_comments
 			MatchCollection mc = WikiRegexes.Defaultsort.Matches(articleTextNoComments);
 			if (mc.Count > 1)
+            {
+                Tools.WriteDebug("RemoveCats", "Page " + articleTitle + " has multiple DEFAULTSORTs");
 				return "";
+            }
 
             string defaultSort = "";
             bool defaultSortRemoved = false;
