@@ -215,7 +215,7 @@ namespace WikiFunctions.Parse
         // Covered by: DuplicateNamedReferencesTests()
         /// <summary>
         /// Where an unnamed reference is a duplicate of another named reference, set the unnamed one to use the named ref
-        /// Condenses second or further occurrence of repeated named reference
+        /// Condenses repeated named reference, provided ref not declared within a template call
         /// Checks for instances of named references with same ref name having different values, does not modify article text in this case
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
@@ -230,6 +230,10 @@ namespace WikiFunctions.Parse
                 bool reparse = false;
                 NamedRefs.Clear();
                 int reflistIndex = RefsTemplateIndex(articleText);
+
+                // Get list of all refs declared in template calls, don't want to condense any of these
+                List<string> templates = GetAllTemplateDetail(articleText).Where(t => t.Contains("<ref name")).ToList();
+                List<string> refNamesIntemplates = GetNamedRefs(string.Join(" ", templates.ToArray())).Select(r => r.Groups[2].Value).ToList();
 
                 foreach (Match m in GetNamedRefs(articleText).Where(m => m.Groups[3].Value.Length > 0))
                 {
@@ -257,6 +261,13 @@ namespace WikiFunctions.Parse
                             // don't condense refs in {{reflist...}}
                             if (reflistIndex > 0 && m.Index > reflistIndex)
                                 continue;
+
+                            // Don't condense if declared in template
+                            if (refNamesIntemplates.Contains(refName))
+                            {
+                                Tools.WriteDebug("DuplicateNamedReferences", "Not condensing ref with name " + refName + " as ref declared in template");
+                                continue;
+                            }
 
                             if (m.Index > articleText.Length)
                             {

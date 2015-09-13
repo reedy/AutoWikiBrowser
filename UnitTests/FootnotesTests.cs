@@ -451,6 +451,12 @@ End of.";
             Assert.AreEqual(b, Parsers.DuplicateNamedReferences(b));
             Assert.AreEqual(c, Parsers.DuplicateNamedReferences(c));
             Assert.AreEqual(c2, Parsers.DuplicateNamedReferences(c2));
+
+            // Don't condense ref that was declared in template, template may not use the parameter (hence ref would be unused)
+            const string infobox = @"{{infobox foo | badparam=A<ref name=Fred>The Honourable Fred Smith, 2002</ref> | otherparam = yes}}", rest = @"Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref>
+==References==
+{{reflist}}";
+            Assert.IsTrue(Parsers.DuplicateNamedReferences(infobox + "\r\n" + rest).Contains(rest), "Ref that was declared in template not condensed");
         }
 
         [Test]
