@@ -426,9 +426,9 @@ End of.";
         }
 
         [Test]
-        public void DuplicateNamedReferencesTests()
+        public void DuplicateNamedReferencesCondense()
         {
-            // duplicate references fix (both named)
+            // duplicate references condense (both named)
             // Matches
             Assert.AreEqual(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred"">The Honourable Fred Smith, 2002</ref> was"));
             Assert.AreEqual(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""> The Honourable Fred Smith, 2002  </ref> was"), "excess whitespace");
@@ -451,7 +451,11 @@ End of.";
             Assert.AreEqual(b, Parsers.DuplicateNamedReferences(b));
             Assert.AreEqual(c, Parsers.DuplicateNamedReferences(c));
             Assert.AreEqual(c2, Parsers.DuplicateNamedReferences(c2));
+        }
 
+        [Test]
+        public void DuplicateNamedReferencesTests()
+        {
             // duplicate references fix (first named)
             // Matches
             Assert.AreEqual(@"now<ref name=""Bert"">The Honourable Bert Smith, 2002</ref>but later than<ref name=""Bert""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=""Bert"">The Honourable Bert Smith, 2002</ref>but later than<ref> The Honourable Bert Smith, 2002  </ref> was"), "first named excess whitespace");
