@@ -330,6 +330,14 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        /// <summary>
+        /// Merges multiple MI templates in zeroth section, if possible
+        /// Converts multiple issues with one issue -> single issue tag
+        /// Puts other maintenance tags inside existing MI, or adds MI if two or more tags
+        /// </summary>
+        /// <returns>The zeroth section.</returns>
+        /// <param name="zerothsection">Zerothsection.</param>
+        /// <param name="Templates">Templates.</param>
         private string MIZerothSection(string zerothsection, Regex Templates)
         {
             // look for maintenance templates
