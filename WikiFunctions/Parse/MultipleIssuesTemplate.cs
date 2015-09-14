@@ -64,8 +64,10 @@ namespace WikiFunctions.Parse
                     articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesZeroTag);
             }
 
+            int sectionTags = TemplateCount(alltemplates, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates);
+
             if (hasMI || TemplateCount(alltemplates, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates) > 1 || 
-                TemplateCount(alltemplates, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates) > 1)
+                sectionTags > 1)
             {
                 // get sections
                 string[] sections = Tools.SplitToSections(articleText);
@@ -75,8 +77,10 @@ namespace WikiFunctions.Parse
                 {
                     if (!s.StartsWith("="))
                         newarticleText.Append(MIZerothSection(s, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates));
-                    else
+                    else if(sectionTags > 0)
                         newarticleText.Append(MILaterSection(s, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates).TrimStart());
+                    else
+                        newarticleText.Append(s);
                 }
 
                 return newarticleText.ToString().TrimEnd();
