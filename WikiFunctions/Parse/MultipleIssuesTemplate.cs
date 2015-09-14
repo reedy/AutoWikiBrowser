@@ -37,248 +37,6 @@ namespace WikiFunctions.Parse
         private const int MinCleanupTagsToCombine = 2; // article must have at least this many tags to combine to {{multiple issues}}
         #endregion
 
-        #region old-style multiple issues
-        private static readonly Regex ExpertSubject = Tools.NestedTemplateRegex("expert-subject");
-
-        /// <summary>
-        /// Combines multiple cleanup tags into {{multiple issues}} template, ensures parameters have correct case, removes date parameter where not needed
-        /// only for English-language wikis
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns>The modified article text.</returns>
-        public string MultipleIssuesOld(string articleText)
-        {
-            if (!Variables.LangCode.Equals("en"))
-                return articleText;
-
-            // convert title case parameters within {{Multiple issues}} to lower case
-            foreach (Match m in WikiRegexes.MultipleIssuesInTitleCase.Matches(articleText))
-            {
-                string firstPart = m.Groups[1].Value;
-                string parameterFirstChar = m.Groups[2].Value.ToLower();
-                string lastPart = m.Groups[3].Value;
-
-                articleText = articleText.Replace(m.Value, firstPart + parameterFirstChar + lastPart);
-            }
-
-            // remove any date field within  {{Multiple issues}} if no 'expert=subject' field using it
-            string MICall = WikiRegexes.MultipleIssues.Match(articleText).Value;
-            if (MICall.Length > 10 && (Tools.GetTemplateParameterValue(MICall, "expert").Length == 0 ||
-                                       MonthYear.IsMatch(Tools.GetTemplateParameterValue(MICall, "expert"))))
-                articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
-
-            // get the zeroth section (text upto first heading)
-            string zerothSection = Tools.GetZerothSection(articleText);
-
-            // get the rest of the article including first heading (may be null if entire article falls in zeroth section)
-            string restOfArticle = articleText.Substring(zerothSection.Length);
-            string ESDate = "";
-
-            if (ExpertSubject.IsMatch(zerothSection))
-            {
-                ESDate = Tools.GetTemplateParameterValue(ExpertSubject.Match(zerothSection).Value, "date");
-                zerothSection = Tools.RemoveTemplateParameter(zerothSection, "expert-subject", "date");
-            }
-
-            int tagsToAdd = WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count;
-
-            // if currently no {{Multiple issues}} and less than the min number of cleanup templates, do nothing
-            if (!WikiRegexes.MultipleIssues.IsMatch(zerothSection) && WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count < MinCleanupTagsToCombine)
-            {
-                // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
-                articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesOldSingleTagME);
-
-                return MultipleIssuesBLPUnreferenced(articleText);
-            }
-
-            // only add tags to multiple issues if new tags + existing >= MinCleanupTagsToCombine
-            MICall = Tools.RenameTemplateParameter(WikiRegexes.MultipleIssues.Match(zerothSection).Value, "OR", "original research");
-
-            if ((WikiRegexes.MultipleIssuesTemplateNameRegex.Matches(MICall).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
-            {
-                // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
-                articleText = WikiRegexes.MultipleIssues.Replace(articleText, (MultipleIssuesOldSingleTagME));
-
-                return MultipleIssuesBLPUnreferenced(articleText);
-            }
-
-            string newTags = "";
-
-            foreach (Match m in WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection))
-            {
-                // all fields except COI, OR, POV and ones with BLP should be lower case
-                string singleTag = m.Groups[1].Value;
-                string tagValue = m.Groups[2].Value;
-                if (!WikiRegexes.CoiOrPovBlp.IsMatch(singleTag))
-                    singleTag = singleTag.ToLower();
-
-                string singleTagLower = singleTag.ToLower();
-
-                // tag renaming
-                if (singleTagLower.Equals("cleanup-rewrite"))
-                    singleTag = "rewrite";
-                else if (singleTagLower.Equals("cleanup-laundry"))
-                    singleTag = "laundrylists";
-                else if (singleTagLower.Equals("cleanup-jargon"))
-                    singleTag = "jargon";
-                else if (singleTagLower.Equals("primary sources"))
-                    singleTag = "primarysources";
-                else if (singleTagLower.Equals("news release"))
-                    singleTag = "newsrelease";
-                else if (singleTagLower.Equals("game guide"))
-                    singleTag = "gameguide";
-                else if (singleTagLower.Equals("travel guide"))
-                    singleTag = "travelguide";
-                else if (singleTagLower.Equals("very long"))
-                    singleTag = "verylong";
-                else if (singleTagLower.Equals("cleanup-reorganise"))
-                    singleTag = "restructure";
-                else if (singleTagLower.Equals("cleanup-reorganize"))
-                    singleTag = "restructure";
-                else if (singleTagLower.Equals("cleanup-spam"))
-                    singleTag = "spam";
-                else if (singleTagLower.Equals("criticism section"))
-                    singleTag = "criticisms";
-                else if (singleTagLower.Equals("pov-check"))
-                    singleTag = "pov-check";
-                else if (singleTagLower.Equals("expert-subject"))
-                    singleTag = "expert";
-
-                // copy edit|for=grammar --> grammar
-                if (singleTag.Replace(" ", "").Equals("copyedit") && Tools.GetTemplateParameterValue(m.Value, "for").Equals("grammar"))
-                {
-                    singleTag = "grammar";
-                    tagValue = Regex.Replace(tagValue, @"for\s*=\s*grammar\s*\|?", "");
-                }
-
-                // expert must have a parameter
-                if (singleTag == "expert" && tagValue.Trim().Length == 0)
-                    continue;
-
-                // for tags with a parameter, that parameter must be the date
-                if ((tagValue.Contains("=") && Regex.IsMatch(tagValue, @"(?i)date")) || tagValue.Length == 0 || singleTag == "expert")
-                {
-                    tagValue = Regex.Replace(tagValue, @"^[Dd]ate\s*=\s*", "= ");
-
-                    // every tag except expert needs a date
-                    if (!singleTag.Equals("expert") && tagValue.Length == 0)
-                        tagValue = @"= {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
-                    else if (!tagValue.Contains(@"="))
-                        tagValue = @"= " + tagValue;
-
-                    // don't add duplicate tags
-                    if (MICall.Length == 0 || Tools.GetTemplateParameterValue(MICall, singleTag).Length == 0)
-                        newTags += @"|" + singleTag + @" " + tagValue;
-                }
-                else
-                    continue;
-
-                newTags = newTags.Trim();
-
-                // remove the single template
-                zerothSection = zerothSection.Replace(m.Value, "");
-            }
-
-            if (ESDate.Length > 0)
-                newTags += ("|date = " + ESDate);
-
-            // if article currently has {{Multiple issues}}, add tags to it
-            string ai = WikiRegexes.MultipleIssues.Match(zerothSection).Value;
-            if (ai.Length > 0)
-                zerothSection = zerothSection.Replace(ai, ai.Substring(0, ai.Length - 2) + newTags + @"}}");
-
-            else // add {{Multiple issues}} to top of article, metaDataSorter will arrange correctly later
-                zerothSection = @"{{Multiple issues" + newTags + "}}\r\n" + zerothSection;
-
-            articleText = zerothSection + restOfArticle;
-
-            // Conversions() will add any missing dates and correct ...|wikify date=May 2008|...
-            return MultipleIssuesBLPUnreferenced(articleText);
-        }
-
-        /// <summary>
-        /// Converts old-style multiple issues with one issue to stand alone tag
-        /// </summary>
-        /// <param name="m"></param>
-        /// <returns></returns>
-        private string MultipleIssuesOldSingleTagME(Match m)
-        {
-            // Performance: nothing to do if no named parameters
-            if (Tools.GetTemplateParameterValues(m.Value).Count == 0)
-                return m.Value;
-
-            string newValue = Conversions(Tools.RemoveTemplateParameter(m.Value, "section"));
-
-            if (Tools.GetTemplateArgumentCount(newValue) == 1 && !WikiRegexes.NestedTemplates.IsMatch(Tools.GetTemplateArgument(newValue, 1)))
-            {
-                string single = Tools.GetTemplateArgument(newValue, 1);
-
-                if (single.Contains(@"="))
-                    newValue = @"{{" + single.Substring(0, single.IndexOf("=")).Trim() + @"|date=" + single.Substring(single.IndexOf("=") + 1).Trim() + @"}}";
-            }
-            else return m.Value;
-
-            return newValue;
-        }
-
-        private static readonly Regex MultipleIssuesDate = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of.*)", RegexOptions.Compiled);
-
-        /// <summary>
-        /// In the {{Multiple issues}} template renames unref to BLPunref for living person bio articles
-        /// </summary>
-        /// <param name="articleText">The page text</param>
-        /// <returns>The updated page text</returns>
-        private string MultipleIssuesBLPUnreferenced(string articleText)
-        {
-            articleText = MultipleIssuesDate.Replace(articleText, "");
-
-            if (WikiRegexes.MultipleIssues.IsMatch(articleText))
-            {
-                string aiat = WikiRegexes.MultipleIssues.Match(articleText).Value;
-
-                // unref to BLPunref for living person bio articles
-                if (Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && articleText.Contains(CategoryLivingPeople))
-                    articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unreferenced", "BLP unsourced"));
-                else if (Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && articleText.Contains(CategoryLivingPeople))
-                    articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unref", "BLP unsourced"));
-
-                string zerothSection = Tools.GetZerothSection(articleText);
-                string restOfArticle = articleText.Substring(zerothSection.Length);
-                articleText = MetaDataSorter.MoveMaintenanceTags(zerothSection) + restOfArticle;
-            }
-
-            return articleText;
-        }
-
-        /// <summary>
-        /// Performs cleanup on old-style multiple issues templates:
-        /// convert title case parameters within {{Multiple issues}} to lower case
-        /// remove any date field within  {{Multiple issues}} if no 'expert=subject' field using it
-        /// </summary>
-        /// <param name="articleText"></param>
-        /// <returns></returns>
-        private static string MultipleIssuesOldCleanup(string articleText)
-        {
-            // old-format cleanup: convert title case parameters within {{Multiple issues}} to lower case
-            foreach (Match m in WikiRegexes.MultipleIssuesInTitleCase.Matches(articleText))
-            {
-                string firstPart = m.Groups[1].Value;
-                string parameterFirstChar = m.Groups[2].Value.ToLower();
-                string lastPart = m.Groups[3].Value;
-
-                articleText = articleText.Replace(m.Value, firstPart + parameterFirstChar + lastPart);
-            }
-
-            // old-format cleanup: remove any date field within  {{Multiple issues}} if no 'expert=subject' field using it
-            string MICall = WikiRegexes.MultipleIssues.Match(articleText).Value;
-            if (MICall.Length > 10 && (Tools.GetTemplateParameterValue(MICall, "expert").Length == 0 ||
-                                       MonthYear.IsMatch(Tools.GetTemplateParameterValue(MICall, "expert"))))
-                articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
-
-            return articleText;
-        }
-        #endregion
-
         #region current style multiple issues
         /// <summary>
         /// Combines maintenance tags into {{multiple issues}} template, for en-wiki only
@@ -300,9 +58,6 @@ namespace WikiFunctions.Parse
             {
                 // use cached list of template calls for performance checks
                 List<string> alltemplatesD = GetAllTemplateDetail(articleText).Where(t => t.Contains(" issues")).ToList();
-
-                if(alltemplatesD.Any(t => t != MultipleIssuesOldCleanup(t)))
-                    articleText = MultipleIssuesOldCleanup(articleText);
 
                 // Remove multiple issues with zero tags, fix excess newlines
                 if(alltemplatesD.Any(t => t != WikiRegexes.MultipleIssues.Replace(t, MultipleIssuesZeroTag)))
@@ -363,7 +118,6 @@ namespace WikiFunctions.Parse
             // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
             if (totalTemplates == 0 && existingMultipleIssues)
             {
-                zerothsection = WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesOldSingleTagME);
                 zerothsection = WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesDeDupe);
                 return WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesSingleTagME);
             }
@@ -423,10 +177,7 @@ namespace WikiFunctions.Parse
             if (templatePortion == 0)
             {
                 if (existingMultipleIssues)
-                {
-                    sectionOriginal = WikiRegexes.MultipleIssues.Replace(sectionOriginal, MultipleIssuesOldSingleTagME);
                     return WikiRegexes.MultipleIssues.Replace(sectionOriginal, MultipleIssuesSingleTagME);
-                }
                 return sectionOriginal;
             }
 

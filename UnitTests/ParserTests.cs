@@ -2353,7 +2353,6 @@ Text
         [Test]
         public void MultipleIssuesNewZerothSingleTag()
         {
-            Assert.AreEqual(@"{{wikify|date=May 2012}}", parser.MultipleIssues(@"{{multiple issues|wikify=May 2012}}"), "converts old style 1-tag MI to single template");
             Assert.AreEqual(@"{{wikify}}", parser.MultipleIssues(@"{{multiple issues|
 {{wikify}}
 }}"), "converts new style 1-tag MI to single template");
@@ -2364,39 +2363,8 @@ Text
 {{wikify|reason=links}}
 }}"), "converts new style 1-tag MI to single template, tag with extra parameter");
         }
-        
+
         [Test]
-        public void MultipleIssuesOldZerothSingleTag()
-        {
-            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"{{multipleissues|cleanup=January 2008}} Article text here"));
-            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"{{multiple issues|cleanup=January 2008}} Article text here"));
-            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"{{multiple issues|cleanup=January 2008
-}} Article text here"));
-            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"{{multipleissues|
-            cleanup=January 2008}} Article text here"));
-            Assert.AreEqual(@"{{OR|date=January 2008}} Article text here", parser.MultipleIssues(@"{{multipleissues|OR=January 2008}} Article text here"));
-
-            // no changes
-            string a = @"{{multiple issues|trivia=January 2008|cleanup=January 2008}} Article text here";
-            Assert.AreEqual(a, parser.MultipleIssues(a));
-
-            a = @"{{ARTICLEISSUES|cleanup=January 2008}} Article text here";
-            Assert.AreEqual(a, parser.MultipleIssues(a));
-
-            a = @"{{multiple issues|cleanup=May 2007|trivia=January 2008}} Article text here";
-            Assert.AreEqual(a, parser.MultipleIssues(a));
-
-            a = @"{{multiple issues|section=y|refimprove=February 2007|OR=December 2009}}  Article text here";
-            Assert.AreEqual(a, parser.MultipleIssues(a));
-
-            a = @"{{multiple issues|section=yes|
-{{essay|section|date = October 2011}}
-{{unbalanced|section|date = October 2011}}
-}}";
-            Assert.AreEqual(a, parser.MultipleIssues(a));
-        }
-        
-          [Test]
         public void MultipleIssuesNewSectionTagLines()
         {
             Assert.AreEqual(@"", parser.MultipleIssues(@""));
@@ -2631,10 +2599,6 @@ Text
 {{multiple issues|
 {{wikify section|reason=links}}
 }}"), "converts new style 1-tag MI to single template, tag with extra parameter");
-            
-            Assert.AreEqual(@"==sec==
-{{wikify|date=May 2012}}", parser.MultipleIssues(@"==sec==
-{{multiple issues|wikify=May 2012}}"), "converts old style 1-tag MI to single template");
         }
 
         [Test]
@@ -2684,94 +2648,6 @@ Text
 {{wikify}}"), "De-duplicates tags, removes MI if only one tag remains");
         }
 
-        [Test]
-        public void MultipleIssuesOldSectionSingleTag()
-        {
-            Assert.AreEqual(@"==sec==
-{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"==sec==
-{{multipleissues|cleanup=January 2008}} Article text here"));
-            Assert.AreEqual(@"==sec==
-{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"==sec==
-{{multiple issues|cleanup=January 2008}} Article text here"));
-            Assert.AreEqual(@"==sec==
-{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"==sec==
-{{multiple issues|cleanup=January 2008
-}} Article text here"));
-            Assert.AreEqual(@"==sec==
-{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"==sec==
-{{multipleissues|
-            cleanup=January 2008}} Article text here"));
-            Assert.AreEqual(@"==sec==
-{{cleanup|date=January 2009}} Article text here", parser.MultipleIssues(@"==sec==
-{{multipleissues|cleanup=January 2009}} Article text here"));
-            Assert.AreEqual(@"==sec==
-{{trivia|date=January 2008}} Article text here", parser.MultipleIssues(@"==sec==
-{{multipleissues|trivia = January 2008}} Article text here"));
-            Assert.AreEqual(@"==sec==
-{{trivia|date=May 2010}} Article text here", parser.MultipleIssues(@"==sec==
-{{multipleissues|trivia = May 2010}} Article text here"));
-            Assert.AreEqual(@"==sec==
-{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"==sec==
-{{multipleissues|cleanup=January 2008|}} Article text here"));
-            Assert.AreEqual(@"==sec==
-{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"==sec==
-{{multiple issues|cleanup=January 2008|}} Article text here"));
-            Assert.AreEqual(@"==sec==
-{{OR|date=January 2008}} Article text here", parser.MultipleIssues(@"==sec==
-{{multipleissues|OR=January 2008}} Article text here"));
-
-            // no changes
-            string a = @"==sec==
-{{multiple issues|trivia=January 2008|cleanup=January 2008}} Article text here";
-            Assert.AreEqual(a, parser.MultipleIssues(a));
-
-            a = @"==sec==
-{{ARTICLEISSUES|cleanup=January 2008}} Article text here";
-            Assert.AreEqual(a, parser.MultipleIssues(a));
-
-            a = @"==sec==
-{{multiple issues|cleanup=May 2007|trivia=January 2008}} Article text here";
-            Assert.AreEqual(a, parser.MultipleIssues(a));
-
-            a = @"==sec==
-{{multiple issues|section=y|refimprove=February 2007|OR=December 2009}}  Article text here";
-            Assert.AreEqual(a, parser.MultipleIssues(a));
-
-            a = @"==sec==
-{{multiple issues|section=yes|
-{{essay|section|date = October 2011}}
-{{unbalanced|section|date = October 2011}}
-}}";
-            Assert.AreEqual(a, parser.MultipleIssues(a));
-        }
-        
-        [Test]
-        public void MultipleIssuesOldTitleCase()
-        {
-            // title case parameters converted to lowercase
-            Assert.AreEqual(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.MultipleIssues(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
-            Assert.AreEqual(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.MultipleIssues(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
-            Assert.AreEqual(@"{{Multiple issues|POV=May 2008|cleanup=May 2008| expand = June 2007}}", parser.MultipleIssues(@"{{Multiple issues|POV=May 2008|cleanup=May 2008| Expand = June 2007}}"));
-            Assert.AreEqual(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|unreferencedBLP=June 2007}}", parser.MultipleIssues(@"{{Multiple issues|POV=May 2008|cleanup=May 2008|UnreferencedBLP=June 2007}}"));
-        }
-        
-        [Test]
-        public void MultipleIssuesOldDateField()
-        {
-            // don't remove date field where expert field is using it
-            const string ESD = @"{{Multiple issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}";
-            Assert.AreEqual(ESD, parser.MultipleIssues(ESD));
-
-            // can remove date field when expert=Month YYYY
-            Assert.AreEqual(@"{{multiple issues|cleanup=March 2008|expert=May 2008|refimprove=May 2008}}", parser.MultipleIssues(@"{{multiple issues|Cleanup=March 2008|expert=May 2008|refimprove=May 2008|date=February 2009}}"));
-
-            // date field removed where no expert field to use it
-            Assert.AreEqual(@"{{multiple issues|cleanup=March 2008|COI=March 2008|refimprove=May 2008}}", parser.MultipleIssues(@"{{multiple issues|Cleanup=March 2008|COI=March 2008|refimprove=May 2008|date=February 2009}}"));
-            
-            // removal of unneeded date field
-            Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.MultipleIssues(@"{{multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008|date = March 2007}}"));
-            Assert.AreEqual(@"{{Multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.MultipleIssues(@"{{Multiple issues|wikfy=May 2008|COI=May 2008|date = March 2007|cleanup=May 2008}}"));
-        }
         [Test]
         public void NewlinesbeforeURL()
         {
