@@ -589,7 +589,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Returns whether the given regex matches any of the (first name upper) templates in the given list
         /// </summary>
-        private static bool TemplateExists(List<string> templatesFound, Regex r)
+        public static bool TemplateExists(List<string> templatesFound, Regex r)
         {
             return templatesFound.Any(s => r.IsMatch(@"{{" + s + "|}}"));
         }

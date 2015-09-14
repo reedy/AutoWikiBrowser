@@ -368,7 +368,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
-        private static List<string> GetAllWikiLinks(string articleText)
+        public static List<string> GetAllWikiLinks(string articleText)
         {
             lock(GetAllWikiLinksQueueLock)
             {
