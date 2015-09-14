@@ -1006,6 +1006,7 @@ John", "*"));
             Assert.AreEqual(0, Tools.LinkCount(@"[[Template:Dn]]"), "Templates not counted");
             Assert.AreEqual(1, Tools.LinkCount(@"now [[en:foo]] was great"), "Interwikis are counted");
             Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]"));
+            Assert.AreEqual(2, Tools.LinkCount(@"[[foo]] and [[foo]]"), "counts repeated links");
             Assert.AreEqual(1, Tools.LinkCount(@"[[Image:foo.png]] and [[foo]]"));
             Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"), "counts piped links");
             Assert.AreEqual(1, Tools.LinkCount(@"{{flagIOC}}"));
