@@ -370,7 +370,7 @@ namespace WikiFunctions.Parse
                 accessdate = Tools.GetTemplateParameterValue(newValue, "accessdate");
             }
 
-            if (paramsFound.Where(s => s.Key.Contains("access") && !s.Key.Contains("date")).Count() > 0)
+            if (paramsFound.Any(s => s.Key.Contains("access") && !s.Key.Contains("date")))
             {
                 if (Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
                 {
