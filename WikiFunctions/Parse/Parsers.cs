@@ -1784,7 +1784,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public static bool HasMorefootnotesAndManyReferences(string articleText)
         {
-            return (WikiRegexes.MoreNoFootnotes.IsMatch(WikiRegexes.Comments.Replace(string.Join("", GetAllTemplateDetail(articleText).ToArray()), "")) && WikiRegexes.Refs.Matches(articleText).Count > 4);
+            return (TemplateExists(GetAllTemplates(articleText), WikiRegexes.MoreNoFootnotes) && WikiRegexes.MoreNoFootnotes.IsMatch(WikiRegexes.Comments.Replace(string.Join("", GetAllTemplateDetail(articleText).ToArray()), "")) && WikiRegexes.Refs.Matches(articleText).Count > 4);
         }
 
         private static readonly Regex GRTemplateDecimal = new Regex(@"{{GR\|\d}}", RegexOptions.Compiled);
