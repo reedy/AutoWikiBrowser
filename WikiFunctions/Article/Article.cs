@@ -31,6 +31,7 @@ using System.Windows.Forms;
 using WikiFunctions.API;
 using System.Collections.Generic;
 using WikiFunctions.TalkPages;
+using System.Linq;
 
 namespace WikiFunctions
 {
@@ -314,7 +315,9 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public bool IsDisambiguationPage
-        { get { return (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple")) && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(string.Join("", Parsers.GetAllTemplateDetail(mArticleText).ToArray())); } }
+        { get { return (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple")) && NameSpaceKey == Namespace.Mainspace 
+                && Parsers.GetAllTemplates(mArticleText).Any(s => WikiRegexes.Disambigs.IsMatch(@"{{" + s + "|}}")) 
+                && WikiRegexes.Disambigs.IsMatch(string.Join("", Parsers.GetAllTemplateDetail(mArticleText).ToArray())); } }
 
         /// <summary>
         /// Returns whether the article is a SIA page (en only)
