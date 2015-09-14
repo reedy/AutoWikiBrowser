@@ -2995,7 +2995,7 @@ Message: {2}
 		public static string GetTemplateName(string templateCall)
 		{
 			string name = WikiRegexes.TemplateNameRegex.Match(templateCall).Groups[1].Value;
-			return Regex.Replace(name, @"[\s_]+", " ");
+			return Regex.Replace(name, @"[\s_]+", " ").Trim();
 		}
 
 		public static Regex TemplateNameRegex()
