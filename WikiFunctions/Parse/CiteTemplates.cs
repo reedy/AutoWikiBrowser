@@ -65,9 +65,16 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            if (TemplateExists(GetAllTemplates(articleText), WikiRegexes.CiteTemplate))
+            List<string> allTemplates = GetAllTemplates(articleText);
+            List<string> allTemplatesDetail = GetAllTemplateDetail(articleText);
+
+            // get name of all cite template calls used in article
+            List<string> citeTemplatesUsed = allTemplates.Where(t => WikiRegexes.CiteTemplate.IsMatch(@"{{" + t + @"|}}")).ToList();
+
+            if (citeTemplatesUsed.Any())
             {
-                foreach (string s in GetAllTemplateDetail(articleText))
+                // Performance: filter all template calls down to cite templates on name, avoiding running template regex on each one
+                foreach (string s in allTemplatesDetail.Where(t => citeTemplatesUsed.Any(c => t.IndexOf(c, StringComparison.OrdinalIgnoreCase) > -1)))
                 {
                     string res = s, original = "";
                     while(!res.Equals(original))
@@ -81,7 +88,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (TemplateExists(GetAllTemplates(articleText), WikiRegexes.HarvTemplate))
+            if (TemplateExists(allTemplates, WikiRegexes.HarvTemplate))
                 articleText = WikiRegexes.HarvTemplate.Replace(articleText, m =>
                                                            {
                                                                string newValue = FixPageRanges(m.Value, Tools.GetTemplateParameterValues(m.Value));
@@ -96,16 +103,25 @@ namespace WikiFunctions.Parse
 
                                                                return newValue;
                                                            });
-            
-            if (TemplateExists(GetAllTemplates(articleText), rpTemplate))
-                articleText = rpTemplate.Replace(articleText, m =>
-                                                                  {
-                                                                      string pagerange = Tools.GetTemplateArgument(m.Value, 1);
-                                                                      if (pagerange.Length > 0)
-                                                                          return m.Value.Replace(pagerange, FixPageRangesValue(pagerange));
 
-                                                                      return m.Value;
-                                                                  });
+            // Performance: use TemplateDetail cache to avoid regex search on whole article text for the templates
+            if (TemplateExists(allTemplates, rpTemplate))
+            {
+                foreach (string s in allTemplatesDetail.Where(t => rpTemplate.IsMatch(t)))
+                {
+                    string res = rpTemplate.Replace(s, m =>
+                        {
+                            string pagerange = Tools.GetTemplateArgument(m.Value, 1);
+                            if (pagerange.Length > 0)
+                                return m.Value.Replace(pagerange, FixPageRangesValue(pagerange));
+
+                            return m.Value;
+                        });
+
+                    if (!res.Equals(s))
+                        articleText = articleText.Replace(s, res);
+                }
+            }
 
             return articleText;
         }
