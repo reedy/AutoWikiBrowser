@@ -392,6 +392,14 @@ namespace WikiFunctions.Parse
             return WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesSingleTagME);
         }
 
+        /// <summary>
+        /// Works on non-zeroth section of article
+        /// Converts multiple issues with one issue -> single issue tag
+        /// Puts other section maintenance tags inside existing MI, or adds MI if two or more section maintenance tags
+        /// </summary>
+        /// <returns>The  section.</returns>
+        /// <param name="section">section.</param>
+        /// <param name="Templates">Templates.</param>
         private string MILaterSection(string section, Regex Templates)
         {
             string sectionOriginal = section;
