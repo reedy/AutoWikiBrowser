@@ -296,16 +296,17 @@ namespace WikiFunctions.Parse
             List<string> alltemplates = GetAllTemplates(articleText);
             bool hasMI = TemplateExists(alltemplates, WikiRegexes.MultipleIssues);
 
-            List<string> alltemplatesD = GetAllTemplateDetail(articleText);
-
             if (hasMI)
             {
-                // check for performance
-                if(alltemplatesD.Any(t => t.Contains(" issues") && t != MultipleIssuesOldCleanup(t)))
+                // use cached list of template calls for performance checks
+                List<string> alltemplatesD = GetAllTemplateDetail(articleText).Where(t => t.Contains(" issues")).ToList();
+
+                if(alltemplatesD.Any(t => t != MultipleIssuesOldCleanup(t)))
                     articleText = MultipleIssuesOldCleanup(articleText);
 
                 // Remove multiple issues with zero tags, fix excess newlines
-                articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesZeroTag);
+                if(alltemplatesD.Any(t => t != WikiRegexes.MultipleIssues.Replace(t, MultipleIssuesZeroTag)))
+                    articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesZeroTag);
             }
 
             if (hasMI || TemplateCount(alltemplates, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates) > 1 || 
@@ -532,7 +533,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Removes multiple issues template with zero tags
+        /// Removes multiple issues with zero tags, fix excess newlines
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
