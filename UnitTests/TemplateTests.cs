@@ -29,5 +29,24 @@ namespace UnitTests
             Assert.AreEqual(t, Parsers.GetAllTemplates(@"{{Foo|bar=1 {{Other
 | a= {{Template:Other2_|}} }} }}"), "Ignore Template: prefix");
         }
+
+        [Test]
+        public void GetAllTemplateDetail()
+        {
+            List<string> t = new List<string>();
+
+            Assert.AreEqual(t, Parsers.GetAllTemplateDetail(""));
+            t.Add("{{foo}}");
+            Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{foo}}"), "Extracts simple template call");
+            Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{foo}} {{foo}}"), "Deduplicates");
+            t.Add("{{foo2}}");
+            Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{foo}} {{foo2}}"), "Extracts each distinct template call");
+            t.Clear();
+            t.Add("{{foo|param={{foo2}} {{foo3=|bar3={{foo4}}}}}}");
+            t.Add("{{foo2}}");
+            t.Add("{{foo3=|bar3={{foo4}}}}");
+            t.Add("{{foo4}}");
+            Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{foo|param={{foo2}} {{foo3=|bar3={{foo4}}}}}}"), "Extracts nested template calls");
+        }
     }
 }
