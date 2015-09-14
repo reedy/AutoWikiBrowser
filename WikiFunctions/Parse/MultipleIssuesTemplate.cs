@@ -296,9 +296,13 @@ namespace WikiFunctions.Parse
             List<string> alltemplates = GetAllTemplates(articleText);
             bool hasMI = TemplateExists(alltemplates, WikiRegexes.MultipleIssues);
 
+            List<string> alltemplatesD = GetAllTemplateDetail(articleText);
+
             if (hasMI)
             {
-                articleText = MultipleIssuesOldCleanup(articleText);
+                // check for performance
+                if(alltemplatesD.Any(t => t.Contains(" issues") && t != MultipleIssuesOldCleanup(t)))
+                    articleText = MultipleIssuesOldCleanup(articleText);
 
                 // Remove multiple issues with zero tags, fix excess newlines
                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesZeroTag);
