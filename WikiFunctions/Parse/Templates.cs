@@ -346,7 +346,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Extracts a list of all template calls in the input text, supporting any level of template nesting.
+        /// Extracts a distinct list of all template calls in the input text, supporting any level of template nesting.
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns>List of all templates calls in text</returns>
