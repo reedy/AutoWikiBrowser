@@ -364,7 +364,7 @@ namespace WikiFunctions.Parse
         private static Queue<KeyValuePair<string, List<string>>> GetAllWikiLinksQueue = new Queue<KeyValuePair<string, List<string>>>();
 
         /// <summary>
-        /// Extracts a list of all distinct wikilinks used in the input text
+        /// Extracts a list of all distinct wikilinks (all including cats, images etc.) used in the input text
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
