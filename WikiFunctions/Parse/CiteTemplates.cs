@@ -859,16 +859,19 @@ namespace WikiFunctions.Parse
         {
             Dictionary<int, int> found = new Dictionary<int, int>();
 
-            // unknown parameters in cite arXiv
-            foreach (Match m in CiteArXiv.Matches(articleText))
+            // unknown parameters in cite arXiv, TemplateExists check for performance
+            if(TemplateExists(GetAllTemplates(articleText), CiteArXiv))
             {
-                // ignore parameters in templates within cite
-                string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
-
-                foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
+                foreach(Match m in CiteArXiv.Matches(articleText))
                 {
-                    if (!citeArXivParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
-                        found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
+                    // ignore parameters in templates within cite
+                    string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
+
+                    foreach(Match m2 in CitationPopulatedParameter.Matches(cite))
+                    {
+                        if(!citeArXivParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
+                            found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
+                    }
                 }
             }
 
