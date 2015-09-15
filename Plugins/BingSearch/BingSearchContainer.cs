@@ -12,7 +12,8 @@
 //            the terms and conditions of the license agreement located at
 //            http://go.microsoft.com/fwlink/?LinkID=202740
 //            If you do not agree to these terms you may not use this content.
-namespace Bing {
+namespace Bing
+{
     using System;
     using System.Data.Services.Client;
 
