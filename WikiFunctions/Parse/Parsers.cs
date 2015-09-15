@@ -1805,7 +1805,11 @@ namespace WikiFunctions.Parse
         /// <returns>Dictionary of links to user or user talk namespace</returns>
         public static Dictionary<int, int> UserSignature(string articleText)
         {
-            return DictionaryOfMatches(articleText, WikiRegexes.UserSignature);
+            // check for performance
+            if(GetAllWikiLinks(articleText).Any(l => WikiRegexes.UserSignature.IsMatch(l)))
+                return DictionaryOfMatches(articleText, WikiRegexes.UserSignature);
+
+            return new Dictionary<int, int>();
         }
 
         /// <summary>
