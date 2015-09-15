@@ -771,6 +771,7 @@ foo {{persondata}}
 
             // this is correct syntax
             Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}}"));
+            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah.(Jones 2000)"));
             // ignores commented out refs
             Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <!--<ref>b</ref>-->"));
 
