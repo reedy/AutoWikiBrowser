@@ -130,8 +130,9 @@ namespace WikiFunctions.Parse
             List<string> wikiLinks = Tools.DeduplicateList(GetAllWikiLinks(articleText));
             
             // Replace {{!}} with a standard pipe
-            foreach(string e in wikiLinks.Where(l => l.Contains(@"{{!}}") && !l.Contains("|")))
-                articleText = articleText.Replace(e, e.Replace(@"{{!}}", "|"));
+            if(TemplateExists(GetAllTemplates(articleText), Tools.NestedTemplateRegex("!")))
+                foreach(string e in wikiLinks.Where(l => l.Contains(@"{{!}}") && !l.Contains("|")))
+                    articleText = articleText.Replace(e, e.Replace(@"{{!}}", "|"));
 
             // See if any self interwikis that need fixing later
             bool hasAnySelfInterwikis = wikiLinks.Any(l => l.Contains(Variables.LangCode + ":"));
