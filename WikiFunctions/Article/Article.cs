@@ -701,7 +701,7 @@ namespace WikiFunctions
         {
             List<string> Unknowns = new List<string>();
 
-            if (NameSpaceKey.Equals(Namespace.Mainspace) && WikiRegexes.MultipleIssues.IsMatch(string.Join("" ,Parsers.GetAllTemplateDetail(ArticleText).ToArray())))
+            if (NameSpaceKey.Equals(Namespace.Mainspace) && WikiRegexes.MultipleIssues.IsMatch(string.Join("",Parsers.GetAllTemplateDetail(ArticleText).ToArray())))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, MultipleIssuesKnowns);
             return Unknowns;
         }

@@ -321,7 +321,7 @@ namespace WikiFunctions.Parse
         {
             FixTypos(ref articleText, ref summary, articleTitle, originalArticleText);
 
-            lock(obj)
+            lock (obj)
             {
                 RegExTypoFix.resultSummary.Add(GroupSize, summary);
                 RegExTypoFix.resultArticleText.Add(GroupSize, articleText);
@@ -508,8 +508,8 @@ namespace WikiFunctions.Parse
 
             articleText = removeText.HideMore(articleText, true);
 
-            //remove newlines, whitespace and hide tokens from bottom
-            //to avoid running 2K regexps on them
+            // remove newlines, whitespace and hide tokens from bottom
+            // to avoid running 2K regexps on them
             Match m = RemoveTail.Match(articleText);
             string tail = m.Value;
             if (!string.IsNullOrEmpty(tail)) 

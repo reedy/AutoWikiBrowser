@@ -35,7 +35,7 @@ namespace WikiFunctions.Logging
         /// <param name="listener"></param>
 		public virtual void AddListener(string key, IMyTraceListener listener)
 		{
-		    lock(Listeners)
+		    lock (Listeners)
 		    {
 		        if (!Listeners.ContainsKey(key))
 		            Listeners.Add(key, listener);
@@ -51,7 +51,7 @@ namespace WikiFunctions.Logging
             if (Listeners == null)
                 return;
 
-            lock(Listeners)
+            lock (Listeners)
             {
                 if (Listeners.ContainsKey(key))
                 {

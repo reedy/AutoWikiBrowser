@@ -160,7 +160,7 @@ namespace WikiFunctions.API
             var groups = user["groups"];
             if (groups != null)
             {
-                foreach(XmlNode g in groups.GetElementsByTagName("g"))
+                foreach (XmlNode g in groups.GetElementsByTagName("g"))
                 {
                     Groups.Add(g.InnerText);
                 }

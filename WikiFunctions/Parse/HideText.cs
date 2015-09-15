@@ -160,7 +160,7 @@ namespace WikiFunctions.Parse
             else
             {
                 // while loop as there can be nested hiding
-                while(HiddenRegex.IsMatch(articleText))
+                while (HiddenRegex.IsMatch(articleText))
                     articleText = HiddenRegex.Replace(articleText, m => Tokens[int.Parse(m.Groups[1].Value)].Text);
             }
 
@@ -365,7 +365,7 @@ namespace WikiFunctions.Parse
             else
             {
                 // while loop as there can be nested hiding
-                while(HiddenMoreRegex.IsMatch(articleText))
+                while (HiddenMoreRegex.IsMatch(articleText))
                     articleText = HiddenMoreRegex.Replace(articleText, m => MoreHide[int.Parse(m.Groups[1].Value)].Text);
             }
 
