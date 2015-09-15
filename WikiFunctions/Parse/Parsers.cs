@@ -1746,14 +1746,15 @@ namespace WikiFunctions.Parse
             return WikiRegexes.InUse.IsMatch(WikiRegexes.UnformattedText.Replace(articleText, ""));
         }
 
-        private static readonly Regex SicTag = new Regex(@"({{\s*(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))");
+        private static readonly Regex SicTypo = Tools.NestedTemplateRegex(new[] {"Sic", "Typo"});
+        private static readonly Regex SicTag = new Regex(@"[\(\[{]\s*[Ss]ic!?\s*[\)\]}]");
 
         /// <summary>
         /// Check if the article contains a sic template or bracketed wording, indicating the presence of a deliberate typo
         /// </summary>
         public static bool HasSicTag(string articleText)
         {
-            return SicTag.IsMatch(articleText);
+            return TemplateExists(GetAllTemplates(articleText), SicTypo) || SicTag.IsMatch(articleText);
         }
 
         /// <summary>
