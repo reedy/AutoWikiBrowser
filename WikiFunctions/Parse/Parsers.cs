@@ -264,7 +264,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Returns a dictionary of the match index and lenght of all matches of the input regex in the input text
+        /// Returns a dictionary of the match index and length of all matches of the input regex in the input text
         /// </summary>
         /// <returns>The of matches.</returns>
         /// <param name="articleText">Article text.</param>
@@ -300,8 +300,8 @@ namespace WikiFunctions.Parse
         public static Dictionary<int, int> DoublePipeLinks(string articleText)
         {
             // Performance strategy: get list of all internal wikilinks, filter to those with two | in
-            if ((from Match m in WikiRegexes.SimpleWikiLink.Matches(articleText) where m.Value.Count(s => s == '|') > 1 select m.Value).ToList().Any())
-            return DictionaryOfMatches(articleText, WikiRegexes.DoublePipeLink);
+            if (Parsers.GetAllWikiLinks(articleText).Any(l => l.Count(s => s == '|') > 1))
+                return DictionaryOfMatches(articleText, WikiRegexes.DoublePipeLink);
 
             return (new Dictionary<int, int>());
         }
