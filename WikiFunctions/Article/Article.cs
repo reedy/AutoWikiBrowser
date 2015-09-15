@@ -718,7 +718,7 @@ namespace WikiFunctions
 
             if (NameSpaceKey.Equals(Namespace.Mainspace))
             {
-                foreach(Match m in LinksInHeadings.Matches(ArticleText))
+                foreach (Match m in LinksInHeadings.Matches(ArticleText))
                     linkedHeaders.Add(m.Index, m.Length);
             }
 

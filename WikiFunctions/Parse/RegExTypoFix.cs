@@ -232,7 +232,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Applies a given typo fix to the article, provided the typo does not also match the article title
-        /// Updates edit summary based on the first match (value & replacement) of the typo and the total number of replacements
+        /// Updates edit summary based on the first match (value and replacement) of the typo and the total number of replacements
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="summary"></param>
@@ -526,7 +526,7 @@ namespace WikiFunctions.Parse
 
             Thread[] array = new Thread[Groups.Count];
             int i = 0;
-            foreach(TypoGroup tg in Groups)
+            foreach (TypoGroup tg in Groups)
             {
                 array[i] = new Thread( delegate (object unused) { tg.FixTypos2(articleText, strSummary, articleTitle, originalArticleText); });
                 array[i].Start(i);
@@ -540,7 +540,7 @@ namespace WikiFunctions.Parse
             }
 
             string groupSummary, groupArticleText;
-            foreach(TypoGroup tg in Groups)
+            foreach (TypoGroup tg in Groups)
             {
                 resultSummary.TryGetValue(tg.GroupSize, out groupSummary);
                 resultArticleText.TryGetValue(tg.GroupSize, out groupArticleText);

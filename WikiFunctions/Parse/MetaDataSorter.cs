@@ -749,7 +749,7 @@ en, sq, ru
 
             string articleTextToCheck = articleText.Substring(0, maintTemplatesFound.Select(m => m.Index).Max());
 
-			foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleTextToCheck))
+			foreach (Match m in WikiRegexes.NestedTemplates.Matches(articleTextToCheck))
 			{
 				if (Tools.GetTemplateName(m.Value).ToLower().Contains("infobox"))
 				{
@@ -803,7 +803,7 @@ en, sq, ru
             string originalArticleText = articleText;
             int multipleIssuesIndex=-1, infoboxIndex=-1;
 
-            foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
+            foreach (Match m in WikiRegexes.NestedTemplates.Matches(articleText))
             {
                 if (Tools.GetTemplateName(m.Value).ToLower().Contains("infobox"))
                     infoboxIndex = m.Index;
@@ -913,7 +913,7 @@ en, sq, ru
 			// return if template is already in one the the 'References', 'Notes' or 'Footnotes' sections
 			string[] sec = Tools.SplitToSections(articleText);
 
-			foreach(string s in sec)
+			foreach (string s in sec)
 			{
 			    if (TemplateRegex.IsMatch(s))
 			    {
@@ -1129,7 +1129,7 @@ en, sq, ru
 
 			// get all unformatted text in article to avoid taking interwikis from comments etc.
 		    StringBuilder ut = new StringBuilder();
-			foreach(Match u in WikiRegexes.UnformattedText.Matches(articleText))
+			foreach (Match u in WikiRegexes.UnformattedText.Matches(articleText))
 				ut.Append(u.Value);
 
 			string unformattedText = ut.ToString();
@@ -1212,7 +1212,7 @@ en, sq, ru
 			    if (s2.Contains("|") && WikiRegexes.Category.IsMatch(s2))
 			        s2 = Regex.Replace(s2, @"(\|\s*)(.+)(\s*\]\]$)", m=> m.Groups[1].Value + Tools.TurnFirstToUpper(m.Groups[2].Value) + m.Groups[3].Value);
 
-			    foreach(string u in uniqueItems)
+			    foreach (string u in uniqueItems)
 			    {
 			        if (u.StartsWith(s2) || u.StartsWith(s2.TrimEnd(']') + @"|") || u.Equals(s) || u.Equals(s2))
 			        {
