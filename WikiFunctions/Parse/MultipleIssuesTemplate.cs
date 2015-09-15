@@ -57,7 +57,7 @@ namespace WikiFunctions.Parse
             if (hasMI)
             {
                 // use cached list of template calls for performance checks
-                List<string> alltemplatesD = GetAllTemplateDetail(articleText).Where(t => t.Contains(" issues")).ToList();
+                List<string> alltemplatesD = GetAllTemplateDetail(articleText).FindAll(t => t.Contains(" issues"));
 
                 // Remove multiple issues with zero tags, fix excess newlines
                 if(alltemplatesD.Any(t => t != WikiRegexes.MultipleIssues.Replace(t, MultipleIssuesZeroTag)))

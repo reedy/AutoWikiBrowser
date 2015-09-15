@@ -69,7 +69,7 @@ namespace WikiFunctions.Parse
             List<string> allTemplatesDetail = GetAllTemplateDetail(articleText);
 
             // get name of all cite template calls used in article
-            List<string> citeTemplatesUsed = allTemplates.Where(t => WikiRegexes.CiteTemplate.IsMatch(@"{{" + t + @"|}}")).ToList();
+            List<string> citeTemplatesUsed = allTemplates.FindAll(t => WikiRegexes.CiteTemplate.IsMatch(@"{{" + t + @"|}}"));
 
             if (citeTemplatesUsed.Any())
             {

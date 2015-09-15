@@ -232,7 +232,7 @@ namespace WikiFunctions.Parse
                 int reflistIndex = RefsTemplateIndex(articleText);
 
                 // Get list of all refs declared in template calls, don't want to condense any of these
-                List<string> templates = GetAllTemplateDetail(articleText).Where(t => WikiRegexes.NamedReferences.IsMatch(t)).ToList();
+                List<string> templates = GetAllTemplateDetail(articleText).FindAll(t => WikiRegexes.NamedReferences.IsMatch(t));
                 List<string> refNamesIntemplates = GetNamedRefs(string.Join(" ", templates.ToArray())).Select(r => r.Groups[2].Value).ToList();
 
                 foreach (Match m in GetNamedRefs(articleText).Where(m => m.Groups[3].Value.Length > 0))
@@ -350,7 +350,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // Get list of all unnamed refs declared in template calls, don't want to condense any of these
-            List<string> templates = GetAllTemplateDetail(articleText).Where(t => t.Contains("<ref>")).ToList();
+            List<string> templates = GetAllTemplateDetail(articleText).FindAll(t => t.Contains("<ref>"));
             List<string> refValuesInTemplates = GetUnnamedRefs(string.Join(" ", templates.ToArray())).Select(r => r.Groups[1].Value).ToList();
 
             foreach (Match m in allRefs)
