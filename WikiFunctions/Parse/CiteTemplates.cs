@@ -827,7 +827,7 @@ namespace WikiFunctions.Parse
             Dictionary<int, int> ambigDates = new Dictionary<int, int>();
             
             // check for performance
-            if (PossibleAmbiguousCiteDateQuick.IsMatch(articleText))
+            if (PossibleAmbiguousCiteDateQuick.IsMatch(string.Join("", GetAllTemplateDetail(articleText).Where(t => t.Contains("date")).ToArray())))
             {
                 foreach(Match m in WikiRegexes.CiteTemplate.Matches(articleText))
                 {
