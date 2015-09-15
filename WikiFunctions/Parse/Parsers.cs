@@ -313,6 +313,11 @@ namespace WikiFunctions.Parse
         /// <returns>Whether 'see also' is after any of the sections</returns>
         public static bool HasSeeAlsoAfterNotesReferencesOrExternalLinks(string articleText)
         {
+            // Performance: filter articleText down to just the headings
+            List<string> allHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText) select m.Value).ToList();
+
+            articleText = "\r\n" + string.Join("\r\n", allHeadings.ToArray());
+
             int seeAlso = WikiRegexes.SeeAlso.Match(articleText).Index;
             if (seeAlso <= 0)
                 return false;
