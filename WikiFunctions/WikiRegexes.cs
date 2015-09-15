@@ -804,11 +804,7 @@ namespace WikiFunctions
         public static readonly Regex ImperialUnitsInBracketsWithoutNonBreakingSpaces = new Regex(@"(\(\d+(?:\.\d+)?(?:\s*(?:-|–|&mdash;)[\s\u00a0]*\d+(?:\.\d+)?)?)[\s\u00a0]*((?:in|ft|oz)\))");
 
         #region en only
-        /// <summary>
-        /// Matches sic either in template or as bracketed text, also related {{typo}} template
-        /// </summary>
-        public static readonly Regex SicTag = new Regex(@"({{\s*(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))");
-        
+
         /// <summary>
         /// Matches {{Not a typo}} template and redirects
         /// </summary>

@@ -1089,22 +1089,6 @@ fast„ "));
         }
 
         [Test]
-        public void SicTagTests()
-        {
-            Assert.IsTrue(WikiRegexes.SicTag.IsMatch("now helo [sic] there"));
-            Assert.IsTrue(WikiRegexes.SicTag.IsMatch("now helo[sic] there"));
-            Assert.IsTrue(WikiRegexes.SicTag.IsMatch("now helo (sic) there"));
-            Assert.IsTrue(WikiRegexes.SicTag.IsMatch("now helo {sic} there"));
-            Assert.IsTrue(WikiRegexes.SicTag.IsMatch("now helo [Sic] there"));
-            Assert.IsTrue(WikiRegexes.SicTag.IsMatch("now {{sic|helo}} there"));
-            Assert.IsTrue(WikiRegexes.SicTag.IsMatch("now {{sic|hel|o}} there"));
-            Assert.IsTrue(WikiRegexes.SicTag.IsMatch("now {{typo|helo}} there"));
-
-            Assert.IsFalse(WikiRegexes.SicTag.IsMatch("now sickened by"));
-            Assert.IsFalse(WikiRegexes.SicTag.IsMatch("now helo sic there"));
-        }
-
-        [Test]
         public void RFromModification()
         {
             Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from modification}}"));
