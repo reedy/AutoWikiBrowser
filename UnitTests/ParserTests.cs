@@ -2693,4 +2693,24 @@ Text
         }
 
     }
+
+    [TestFixture]
+    public class OtherParserTests
+    {
+        [Test]
+        public void HasSicTag()
+        {
+            Assert.IsTrue(Parsers.HasSicTag("now helo [sic] there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo[sic] there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo (sic) there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo {sic} there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo [Sic] there"));
+            Assert.IsTrue(Parsers.HasSicTag("now {{sic|helo}} there"));
+            Assert.IsTrue(Parsers.HasSicTag("now {{sic|hel|o}} there"));
+            Assert.IsTrue(Parsers.HasSicTag("now {{typo|helo}} there"));
+
+            Assert.IsFalse(Parsers.HasSicTag("now sickened by"));
+            Assert.IsFalse(Parsers.HasSicTag("now helo sic there"));
+        }
+    }
 }
