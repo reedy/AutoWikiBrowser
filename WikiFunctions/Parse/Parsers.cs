@@ -1835,18 +1835,30 @@ namespace WikiFunctions.Parse
                 return false;
 
             int refstemplateindex = 0, reflength = 0;
-            foreach(Match m in WikiRegexes.ReferencesTemplate.Matches(articleText))
+            int maxlen = Math.Min(articleText.Length, 1000);
+            string articleTextoriginal = articleText;
+
+            // Performance: as {{reflist}} normally at end of page, proces page in batches of last 1000 characters
+            // Should be that last 1000 or 2000 will contain {{reflist}} and no <ref> so we can avoid processing rest of article
+            for(int i = maxlen; i <= articleTextoriginal.Length; i += maxlen)
             {
-                if (refstemplateindex > 0)
-                    return false; // multiple {{reflist}} etc. in page, not supported for check
+                articleText = articleTextoriginal.Substring(articleTextoriginal.Length - i, i);
+                foreach(Match m in WikiRegexes.ReferencesTemplate.Matches(articleText))
+                {
+                    if(refstemplateindex > 0)
+                        return false; // multiple {{reflist}} etc. in page, not supported for check
 
-                refstemplateindex= m.Index;
-                reflength = m.Length;
+                    refstemplateindex = m.Index;
+                    reflength = m.Length;
+                }
+                articleText = articleText.Substring(refstemplateindex + reflength);
+                articleText = WikiRegexes.Comments.Replace(articleText, "");
+
+                if(refstemplateindex > 0)
+                    return Regex.IsMatch(articleText, WikiRegexes.ReferenceEndGR);
             }
-            articleText = articleText.Substring(refstemplateindex+reflength);
-            articleText = WikiRegexes.Comments.Replace(articleText, "");
 
-            return Regex.IsMatch(articleText, WikiRegexes.ReferenceEndGR);
+            return false;
         }
 
         /// <summary>
