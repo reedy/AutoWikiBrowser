@@ -45,6 +45,7 @@ using WikiFunctions.Controls.Lists;
 using AutoWikiBrowser.Plugins;
 using System.Web;
 using System.Net;
+using System.Linq;
 
 using ThreadState = System.Threading.ThreadState;
 
@@ -2863,8 +2864,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 if ((alertPreferences.Count == 0 || alertPreferences.Contains(15)) && TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
                 {
                     lbAlerts.Items.Add("See also section out of place");
-                    Match m = WikiRegexes.SeeAlso.Match(txtEdit.Text);
-                    if (!otherErrors.ContainsKey(m.Index))
+
+                    // Performance: faster to fetch all headings and filter than apply WikiRegexes.SeeAlso directly
+                    Match m = (from Match h in WikiRegexes.Headings.Matches(articleText)
+                                              where WikiRegexes.SeeAlso.IsMatch(h.Value)
+                                              select h).FirstOrDefault();
+
+                    if (m != null && !otherErrors.ContainsKey(m.Index))
                         otherErrors.Add(m.Index, m.Length);
                 }
 
