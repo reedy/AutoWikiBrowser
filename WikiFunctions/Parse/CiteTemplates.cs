@@ -804,8 +804,8 @@ namespace WikiFunctions.Parse
             return false;
         }
 
-        private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<=\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
-        private static readonly Regex PossibleAmbiguousCiteDateQuick = new Regex(@"(\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
+        private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<=\|\s*(?:access|archive|air)?\-?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
+        private static readonly Regex PossibleAmbiguousCiteDateQuick = new Regex(@"(\|\s*(?:access|archive|air)?\-?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
 
         /// <summary>
         /// Returns whether the input article text contains ambiguous cite template dates in XX-XX-YYYY or XX-XX-YY format
