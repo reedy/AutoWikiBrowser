@@ -218,7 +218,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static string GetCats(string articleText)
         {
-            return string.Join("", GetAllWikiLinks(articleText).Where(l => l.Contains(":") && WikiRegexes.Category.IsMatch(l)).ToArray());
+            return string.Join("", Tools.DeduplicateList(GetAllWikiLinks(articleText)).Where(l => l.Contains(":") && WikiRegexes.Category.IsMatch(l)).ToArray());
         }
 
         /// <summary>

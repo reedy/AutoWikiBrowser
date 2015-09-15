@@ -52,7 +52,7 @@ namespace WikiFunctions.Parse
         public static string FixLinkWhitespace(string articleText, string articleTitle)
         {
             // Performance strategy: get list of all wikilinks, deduplicate, only apply regexes to whole article text if matching wikilinks
-            List<string> allWikiLinks = GetAllWikiLinks(articleText);
+            List<string> allWikiLinks = Tools.DeduplicateList(GetAllWikiLinks(articleText));
 
             if (allWikiLinks.Any(s => s.StartsWith("[[ ")))
             {
@@ -127,7 +127,7 @@ namespace WikiFunctions.Parse
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
-            List<string> wikiLinks = GetAllWikiLinks(articleText);
+            List<string> wikiLinks = Tools.DeduplicateList(GetAllWikiLinks(articleText));
             
             // Replace {{!}} with a standard pipe
             foreach(string e in wikiLinks.Where(l => l.Contains(@"{{!}}") && !l.Contains("|")))
@@ -286,7 +286,7 @@ namespace WikiFunctions.Parse
         public static string SimplifyLinks(string articleText)
         {
             // Performance: first get a list of unique links to avoid processing duplicate links more than once
-            List<string> pipedLinks = GetAllWikiLinks(articleText).FindAll(link => link.Contains("|"));
+            List<string> pipedLinks = Tools.DeduplicateList(GetAllWikiLinks(articleText)).FindAll(link => link.Contains("|"));
 
             // Performance: second determine if any links with pipe whitespace to clean
             string Category = Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:";
@@ -364,7 +364,7 @@ namespace WikiFunctions.Parse
         private static Queue<KeyValuePair<string, List<string>>> GetAllWikiLinksQueue = new Queue<KeyValuePair<string, List<string>>>();
 
         /// <summary>
-        /// Extracts a list of all distinct wikilinks (all including cats, images etc.) used in the input text
+        /// Extracts a list of all wikilinks (all including cats, images etc.) used in the input text
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
@@ -393,8 +393,6 @@ namespace WikiFunctions.Parse
                 // set text to content of matched links to process again for any (further) nested links
                 text = String.Join(",",  linkMatches.Select(m => m.Groups[1].Value).ToArray());
             }
-
-            allLinks = Tools.DeduplicateList(allLinks);
 
             lock(GetAllWikiLinksQueueLock)
             {

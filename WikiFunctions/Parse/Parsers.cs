@@ -738,7 +738,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixEmptyLinksAndTemplates(string articleText)
         {
-            if (GetAllWikiLinks(articleText).Any(link => WikiRegexes.EmptyLink.IsMatch(link)))
+            if (Tools.DeduplicateList(GetAllWikiLinks(articleText)).Any(link => WikiRegexes.EmptyLink.IsMatch(link)))
             {
                 while(WikiRegexes.EmptyLink.IsMatch(articleText))
                     articleText = WikiRegexes.EmptyLink.Replace(articleText, "");
@@ -1426,7 +1426,7 @@ namespace WikiFunctions.Parse
         /// <returns>Page text</returns>
         public static string InterwikiConversions(string articleText)
         {
-            List<string> possibleInterwiki = GetAllWikiLinks(articleText).FindAll(l => l.Contains(":"));
+            List<string> possibleInterwiki = Tools.DeduplicateList(GetAllWikiLinks(articleText)).FindAll(l => l.Contains(":"));
 
             if (possibleInterwiki.Any(l => l.StartsWith(@"[[zh-tw:")))
                 articleText = articleText.Replace("[[zh-tw:", "[[zh:");
