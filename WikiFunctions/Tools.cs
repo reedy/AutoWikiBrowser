@@ -734,8 +734,8 @@ namespace WikiFunctions
 		public static int InterwikiCount(string text)
 		{
             // Performance: faster to get all wikilinks and filter on interwiki matches than simply run the regex on the whole article text
-            List<string> allWikiLinks = Parsers.GetAllWikiLinks(text).Where(l => l.Contains(":")).ToList();
-            return allWikiLinks.Where(s => SiteMatrix.Languages.Contains(WikiRegexes.PossibleInterwikis.Match(s + "]]").Groups[1].Value.ToLower())).Count();
+            List<string> allWikiLinks = Parsers.GetAllWikiLinks(text).FindAll(l => l.Contains(":"));
+            return allWikiLinks.Count(s => SiteMatrix.Languages.Contains(WikiRegexes.PossibleInterwikis.Match(s + "]]").Groups[1].Value.ToLower()));
 		}
 		
 		private static readonly Regex FlagIOC = NestedTemplateRegex("flagIOC");
