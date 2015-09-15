@@ -749,20 +749,27 @@ namespace WikiFunctions
             int res = 0;
 
             if(Parsers.TemplateExists(Parsers.GetAllTemplates(text), FlagIOC))
+            {
                 res = FlagIOC.Matches(text).Count;
+
+                if(res >= limit)
+                    return limit;
+            }
+
+            List<string> allWikiLinks = Parsers.GetAllWikiLinks(text);
+
+            // extract link target by substring to pipe if present, and trim square brackets
+            allWikiLinks = allWikiLinks.Select(l => (l.Contains("|") ? l.Substring(0, l.IndexOf("|")) : l).Trim("[]".ToCharArray())).ToList();
+
+            // Performance: group & count the links by target so we only derive namespace once per repeated links
+            Dictionary<string, int> LinksGrouped = allWikiLinks.GroupBy(x => x).ToDictionary(x => x.Key, y => y.Count());
+
+            // count only mainspace links, not image/category/interwiki/template links
+            res+= LinksGrouped.Where(l => Namespace.IsMainSpace(l.Key)).Sum(x => x.Value);
 
             if (res >= limit)
                 return limit;
 
-            // count only mainspace links, not image/category/interwiki/template links
-            foreach(Match m in WikiRegexes.WikiLink.Matches(text))
-            {
-                if (Namespace.IsMainSpace(m.Groups[1].Value))
-                    res++;
-
-                if (res >= limit)
-                    return res;
-            }
             return res;
         }
 
