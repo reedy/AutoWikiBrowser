@@ -1032,6 +1032,9 @@ John", "*"));
             Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[foo]]"), "convert first letter case for compare");
             Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[ Foo |bar]] [[ Foo ]]"), "Ignore excess whitespace");
             Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[Bar]] [[Bar2]]"), "Match on whole link name");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[|x]] [[|x]]"), "Ignore targetless links");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[1 May]] [[1 May]]"), "Ignore dates (int format)");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[May 1]] [[May 1]]"), "Ignore dates (Am format)");
 
             dupeWikiLinks.Clear();
             dupeWikiLinks.Add("Foo (3)");
