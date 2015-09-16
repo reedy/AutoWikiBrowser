@@ -1,7 +1,7 @@
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
-	partial class TimerStats : System.Windows.Forms.UserControl
-	{
+    partial class TimerStats : System.Windows.Forms.UserControl
+    {
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
@@ -83,9 +83,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         #endregion
 
         private System.Windows.Forms.Timer Timer1;
-		private System.Windows.Forms.Label TimerLabel;
-		private System.Windows.Forms.Label SpeedLabel;
-		private System.Windows.Forms.Label EditsLabel;
-		private System.Windows.Forms.ToolTip ToolTip1;
-	}
+        private System.Windows.Forms.Label TimerLabel;
+        private System.Windows.Forms.Label SpeedLabel;
+        private System.Windows.Forms.Label EditsLabel;
+        private System.Windows.Forms.ToolTip ToolTip1;
+    }
 }

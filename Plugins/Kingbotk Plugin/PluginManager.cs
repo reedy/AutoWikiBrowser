@@ -93,7 +93,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             // Initialise our settings object:
             _pluginSettings = new PluginSettingsControl();
 
-
             // Set up our UI objects:
 
             AWBForm.BotModeCheckbox.EnabledChanged += AWBBotModeCheckboxEnabledChangedHandler;
@@ -823,8 +822,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 ReadGenericTemplatesFromXML(count, reader);
                 // Must set up generic templates
             }
-            //before reading in per-template properties, so that the new template receives a ReadXML() of its own
 
+            // before reading in per-template properties, so that the new template receives a ReadXML() of its own
             foreach (KeyValuePair<string, PluginBase> plugin in Plugins)
             {
                 plugin.Value.ReadXML(reader);

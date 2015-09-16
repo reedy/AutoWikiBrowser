@@ -351,7 +351,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         /// <summary>
-        /// Checks if params which have two names (V8, v8) exist under both names
+        /// Checks if parameters which have two names (V8, v8) exist under both names
         /// </summary>
         /// <returns>True if BAD TAG</returns>
         protected bool CheckForDoublyNamedParameters(string name1, string name2)
@@ -518,7 +518,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
         }
 	
-
         protected static string ConvertRedirectsToString(List<WikiFunctions.Article> redirects)
         {
 	        string res = "";

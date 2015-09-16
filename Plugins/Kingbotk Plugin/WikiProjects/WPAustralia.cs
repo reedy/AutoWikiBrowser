@@ -20,7 +20,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
         internal WPAustralia() : base("WPAUSTRALIA|WP Australia|WPAUS|WPAustralia")
         {
             // Specify alternate names only
-
             _ourSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, _params);
         }
 

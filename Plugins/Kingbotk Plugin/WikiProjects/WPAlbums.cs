@@ -24,7 +24,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
         internal WPAlbums() : base("Album|Albums|WP Albums|WPAlbums")
         {
             // Specify alternate names only
-
             TemplateParameters[] @params = new TemplateParameters[-1 + 1];
 
             _ourSettingsControl = new GenericWithWorkgroups("WikiProject Albums", Prefix, true, @params);

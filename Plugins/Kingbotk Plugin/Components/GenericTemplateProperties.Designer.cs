@@ -10,9 +10,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         protected override void Dispose(bool disposing)
         {
 			if (disposing && components != null)
-			{
-				components.Dispose();
+            {
+                components.Dispose();
             }
+			
             base.Dispose(disposing);
         }
 
@@ -221,5 +222,5 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         internal System.Windows.Forms.TextBox SkipRegexTextBox;
         internal System.Windows.Forms.Label ImportanceLabel;
         internal System.Windows.Forms.Label AutoStubLabel;
-	}
+    }
 }

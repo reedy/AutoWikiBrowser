@@ -13,7 +13,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         {
             if (disposing && components != null)
             {
-				components.Dispose();
+                components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -204,5 +204,5 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         private System.Windows.Forms.Label Label1;
         private System.Windows.Forms.Label Label2;
         private System.Windows.Forms.Button LicencingButton;
-	}
+    }
 }

@@ -167,6 +167,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                     static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init.State = 1;
                 }
             }
+
             lock (static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init)
             {
                 try
@@ -212,6 +213,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 flag.State = 2;
                 return true;
             }
+
             if (flag.State == 2)
             {
                 throw new Microsoft.VisualBasic.CompilerServices.IncompleteInitialization();
