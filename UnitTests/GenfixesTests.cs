@@ -179,6 +179,8 @@ namespace UnitTests
 
             AssertChange("[[foo|bar]] a<br><br>b", "[[foo|bar]] a\r\n\r\nb");
             AssertChange("foo! a<br><br>b", "foo! a\r\n\r\nb");
+            
+            AssertChange("{{Orphan|date=September 2015}}<br>", "{{Orphan|date=September 2015}}");
 
             AssertChange(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}<br><br>  a", @"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}
 

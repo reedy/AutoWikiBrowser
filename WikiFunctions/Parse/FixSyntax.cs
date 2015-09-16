@@ -176,6 +176,10 @@ namespace WikiFunctions.Parse
                 // This category should not be directly added
                 if ((from Match m in ssbMc where m.Value.Equals(@"[[Category:Disambiguation pages]]") select m).Any())
                     articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
+                
+                // Remove br tags after maintance templates
+            	articleText = MaintanceTemplateWithBr.Replace(articleText,"$1");
+
             }
             	
             if (TemplateExists(alltemplates, WikiRegexes.MagicWordTemplates))

@@ -193,9 +193,6 @@ namespace WikiFunctions.Parse
             if (SyntaxRemoveBrQuick.IsMatch(articleText))
                 articleText = SyntaxRemoveBr.Replace(articleText, "\r\n\r\n");
             
-            // Remove br tags after maintance templates
-            articleText = MaintanceTemplateWithBr.Replace(articleText,"$1");
-
             articleText = SyntaxRemoveParagraphs.Replace(articleText, "\r\n\r\n");
             return SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
         }

@@ -71,6 +71,15 @@ namespace UnitTests
         }
 
         [Test]
+        public void BrAfterMaintanceTemplate()
+        {
+            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br>"),"br after a maintance template");
+            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br/>"),"br after a maintance template");
+            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br />"),"br after a maintance template");
+
+        }
+
+        [Test]
         public void SyntaxRegexListRowBrTagStart()
         {
             Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br>\r\n*abc"));
@@ -90,15 +99,6 @@ param=<br>
 <br>
 <br>
 '''No"));
-        }
-
-        [Test]
-        public void BrAfterMaintanceTemplate()
-        {
-            Assert.AreEqual("{{Orphan|date=September 2015}}", parser.FixBrParagraphs("{{Orphan|date=September 2015}}<br>"),"br after a maintance template");
-            Assert.AreEqual("{{Orphan|date=September 2015}}", parser.FixBrParagraphs("{{Orphan|date=September 2015}}<br/>"),"br after a maintance template");
-            Assert.AreEqual("{{Orphan|date=September 2015}}", parser.FixBrParagraphs("{{Orphan|date=September 2015}}<br />"),"br after a maintance template");
-
         }
 
         [Test]
