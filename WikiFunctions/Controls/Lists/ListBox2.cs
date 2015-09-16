@@ -33,7 +33,7 @@ namespace WikiFunctions.Controls.Lists
     /// <typeparam name="T">Type of items in the list</typeparam>
     public class ListBox2<T> : ListBox, IEnumerable<T>
     {
-        private readonly static SaveFileDialog SaveListDialog;
+        private static readonly SaveFileDialog SaveListDialog;
 
         static ListBox2()
         {

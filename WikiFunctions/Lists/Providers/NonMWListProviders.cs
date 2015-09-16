@@ -216,9 +216,9 @@ namespace WikiFunctions.Lists.Providers
     /// </summary>
     public class TextFileListProviderUFT8 : IListProvider
     {
-        private readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
-        private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?([^\|[\]]+)(?:\]\]|\|)", RegexOptions.Compiled);
-        private readonly static OpenFileDialog OpenListDialog = new OpenFileDialog();
+        private static readonly Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
+        private static readonly Regex LoadWikiLink = new Regex(@"\[\[:?([^\|[\]]+)(?:\]\]|\|)", RegexOptions.Compiled);
+        private static readonly OpenFileDialog OpenListDialog = new OpenFileDialog();
 
         protected Encoding TargetEncoding;
 

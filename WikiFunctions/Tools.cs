@@ -109,7 +109,7 @@ namespace WikiFunctions
 			return (p != ProjectEnum.custom && p != ProjectEnum.wikia);
 		}
 
-		private readonly static char[] InvalidChars = { '[', ']', '{', '}', '|', '<', '>', '#' };
+		private static readonly char[] InvalidChars = { '[', ']', '{', '}', '|', '<', '>', '#' };
 
 		// Covered by ToolsTests.IsValidTitle()
 		/// <summary>

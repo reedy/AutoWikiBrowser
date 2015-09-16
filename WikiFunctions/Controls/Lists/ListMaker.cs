@@ -41,7 +41,7 @@ namespace WikiFunctions.Controls.Lists
 
     public partial class ListMaker : UserControl, IList<Article>
     {
-        private readonly static BindingList<IListProvider> DefaultProviders = new BindingList<IListProvider>();
+        private static readonly BindingList<IListProvider> DefaultProviders = new BindingList<IListProvider>();
         private readonly ListFilterForm _specialFilter;
 
         private readonly BindingList<IListProvider> _listProviders = new BindingList<IListProvider>();
