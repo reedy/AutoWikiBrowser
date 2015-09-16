@@ -22,11 +22,11 @@ Copyright © 2000-2002 Philip A. Craig
 
  */
 
-using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace UnitTests
 {
@@ -124,32 +124,32 @@ namespace UnitTests
             Parsers.ChangeToDefaultSort("{{defaultsort| Tést}}{{DEFAULTSORT: Tést}}", "Foo", out noChange);
             Assert.IsTrue(noChange);
 
-            //Remove explicitally defined sort keys from categories when the page has defaultsort
+            // Remove explicitally defined sort keys from categories when the page has defaultsort
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]]",
                             Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Test]]", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
-            //Case difference of above
+            // Case difference of above
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]]",
                             Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]]", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
-            //No change due to different key
+            // No change due to different key
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]",
                             Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]", "Foo", out noChange));
             Assert.IsTrue(noChange);
 
-            //Multiple to be removed
+            // Multiple to be removed
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]",
                             Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Test]][[Category:Bar|test]]", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
-            //Multiple with 1 no key
+            // Multiple with 1 no key
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]",
                             Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo]][[Category:Bar|test]]", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
-            //Multiple with 1 different key
+            // Multiple with 1 different key
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo|Bar]][[Category:Bar]]",
                             Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Bar]][[Category:Bar|test]]", "Foo", out noChange));
             Assert.IsFalse(noChange);

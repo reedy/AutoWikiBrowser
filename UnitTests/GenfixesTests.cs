@@ -22,7 +22,7 @@ Copyright © 2000-2002 Philip A. Craig
  */
 
 // This file is only for tests that require more than one transformation functions at the same time, so
-//don't add tests for separate functions here
+// Don't add tests for separate functions here
 
 using NUnit.Framework;
 using WikiFunctions;
@@ -317,7 +317,7 @@ W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
         public void Wikia()
         {
             #if DEBUG
-			Variables.SetProjectSimple("en", ProjectEnum.wikia);
+            Variables.SetProjectSimple("en", ProjectEnum.wikia);
 
 			AssertNotChanged(@"{{BLP sources|date=May 2010}}
 '''Bob Jones''' (born 1987 in Smith).<ref>a</ref>
@@ -327,7 +327,7 @@ W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
 
 {{DEFAULTSORT:Jones, Bob}}
 [[Category:Living people]]
-[[Category:1987 births]]","no persondata added");
+[[Category:1987 births]]", "no persondata added");
 
 			            AssertNotChanged(@"{{Unreferenced|date=December 2009}}
 {{Dead end|date=November 2006}}
@@ -338,13 +338,13 @@ W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
 [[Category:Blues rock groups]]
 
 
-{{Norway-band-stub}}","no multiple issues added");
-			
-	    Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+{{Norway-band-stub}}", "no multiple issues added");
+
+        Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
 	    #endif
         }
 
-        	[Test]
+        [Test]
         public void CiteMissingClosingCurlyBracePairTable()
         {
             const string MissingClosingCurlyBracePair = @"'''Foo''' is great.
@@ -431,11 +431,11 @@ y";
         [Test]
         public void EmboldenBorn()
         {
-        	ArticleText = @"John Smith (1985-) was great.";
-        	
-        	GenFixes("John Smith");
-        	
-        	Assert.AreEqual(@"'''John Smith''' (born 1985) was great.", ArticleText);
+            ArticleText = @"John Smith (1985-) was great.";
+
+            GenFixes("John Smith");
+
+            Assert.AreEqual(@"'''John Smith''' (born 1985) was great.", ArticleText);
         }
         
         [Test]

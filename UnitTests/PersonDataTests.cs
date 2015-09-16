@@ -508,5 +508,5 @@ namespace UnitTests
 
           Assert.AreEqual(PD, Parsers.PersonData(PD3, "Test"), "Small tag removal");
         }
-	}
+    }
 }

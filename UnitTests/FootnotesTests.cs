@@ -22,11 +22,11 @@ Copyright © 2000-2002 Philip A. Craig
 
  */
 
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
-using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -546,7 +546,7 @@ Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=Fred>The 
             const string Ibid = @"now <ref>ibid</ref> was<ref>ibid</ref> there";
             Assert.AreEqual(Ibid + namedref, Parsers.DuplicateUnnamedReferences(Ibid + namedref));
 
-			const string Pageneeded =@"now <ref>Class 50s in Operation. D Clough {{page needed|date=September 2014}}</ref>  was <ref>Class 50s in Operation. D Clough {{page needed|date=September 2014}}</ref> there";
+			const string Pageneeded = @"now <ref>Class 50s in Operation. D Clough {{page needed|date=September 2014}}</ref>  was <ref>Class 50s in Operation. D Clough {{page needed|date=September 2014}}</ref> there";
 			Assert.AreEqual(Pageneeded + namedref, Parsers.DuplicateUnnamedReferences(Pageneeded + namedref));
 
 			// nothing to do here
@@ -983,7 +983,7 @@ The next";
 The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines after ref punctuation");
             
 
-            string RandomTable =@"{|
+            string RandomTable = @"{|
 !title
 !<ref>bar</ref>
 |}";

@@ -1,8 +1,8 @@
 ﻿using System;
-using NUnit.Framework;
-using WikiFunctions;
 using System.IO;
 using System.Threading;
+using NUnit.Framework;
+using WikiFunctions;
 
 namespace UnitTests
 {

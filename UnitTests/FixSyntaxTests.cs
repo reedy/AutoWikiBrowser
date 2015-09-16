@@ -22,11 +22,11 @@ Copyright © 2000-2002 Philip A. Craig
 
  */
 
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
-using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -51,9 +51,9 @@ namespace UnitTests
             Assert.AreEqual(@"ISBN-10 12345781549", Parsers.FixSyntax(@"ISBN-10 12345781549"), "do nothing");
             Assert.AreEqual(@"ISBN-13 12345781549", Parsers.FixSyntax(@"ISBN-13 12345781549"), "do nothing");
 
-            //{{ISBN-10}} and {{ISBN-13}} have been deleted
-            //Assert.AreEqual(@"{{ISBN-10|1245781549}}", Parsers.FixSyntax(@"{{ISBN-10|1245781549}}"), "no change if already correct – ISBN-10 template");
-            //Assert.AreEqual(@"{{ISBN-13|9781245781549}}", Parsers.FixSyntax(@"{{ISBN-13|9781245781549}}"), "no change if already correct – ISBN-13 template");
+            // {{ISBN-10}} and {{ISBN-13}} have been deleted
+            // Assert.AreEqual(@"{{ISBN-10|1245781549}}", Parsers.FixSyntax(@"{{ISBN-10|1245781549}}"), "no change if already correct – ISBN-10 template");
+            // Assert.AreEqual(@"{{ISBN-13|9781245781549}}", Parsers.FixSyntax(@"{{ISBN-13|9781245781549}}"), "no change if already correct – ISBN-13 template");
 
             Assert.AreEqual(@"[http://www.hup.harvard.edu/catalog.php?isbn=9780674372993 example]", Parsers.FixSyntax(@"[http://www.hup.harvard.edu/catalog.php?isbn=9780674372993 example]"), "no change inside url");
             Assert.AreEqual(@"foo<ref name=""isbn0-19-517234-5"" />", Parsers.FixSyntax(@"foo<ref name=""isbn0-19-517234-5"" />"), "no change inside ref");
@@ -402,7 +402,7 @@ Template:foo}}"));
         [Test]
         public void ExtraBracketInExternalLink()
         {
-            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bug_in_regex_to_correct_double_bracketed_external_links
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bug_in_regex_to_correct_double_bracketed_external_links
             const string valid = "now [http://www.site.com a [[a]] site] was";
             Assert.AreEqual(valid, Parsers.FixSyntax(valid));  // valid syntax
             Assert.AreEqual("now [http://www.site.com a b site] was", Parsers.FixSyntax("now [http://www.site.com a b site]] was"));
@@ -421,11 +421,11 @@ Template:foo}}"));
         }
 
         [Test]
-        public void  CiteTemplateWithSquareBracketsTests()
+        public void CiteTemplateWithSquareBracketsTests()
         {
-        	Assert.AreEqual(@"<ref name=Test>{{cite web|url=http://foo.com|accessdate=2015-07-07}}</ref>", Parsers.FixSyntax(@"<ref name=Test>[[cite web|url=http://foo.com|accessdate=2015-07-07]]</ref>"));
-        	Assert.AreEqual(@"<ref>{{cite web|url=http://foo.com|accessdate=2015-07-07}}</ref>", Parsers.FixSyntax(@"<ref>[[cite web|url=http://foo.com|accessdate=2015-07-07]]</ref>"));
-        	Assert.AreEqual(@"<ref>[[cite web | url = http://collection.whitney.org/object/11823 | accessdate: 25 June 2015 | publisher = [[Whitney Museum of American Art]] | title = Houston, Texas, 1977 from Women are Better than Men]].</ref>", Parsers.FixSyntax(@"<ref>[[cite web | url = http://collection.whitney.org/object/11823 | accessdate: 25 June 2015 | publisher = [[Whitney Museum of American Art]] | title = Houston, Texas, 1977 from Women are Better than Men]].</ref>"));
+            Assert.AreEqual(@"<ref name=Test>{{cite web|url=http://foo.com|accessdate=2015-07-07}}</ref>", Parsers.FixSyntax(@"<ref name=Test>[[cite web|url=http://foo.com|accessdate=2015-07-07]]</ref>"));
+            Assert.AreEqual(@"<ref>{{cite web|url=http://foo.com|accessdate=2015-07-07}}</ref>", Parsers.FixSyntax(@"<ref>[[cite web|url=http://foo.com|accessdate=2015-07-07]]</ref>"));
+            Assert.AreEqual(@"<ref>[[cite web | url = http://collection.whitney.org/object/11823 | accessdate: 25 June 2015 | publisher = [[Whitney Museum of American Art]] | title = Houston, Texas, 1977 from Women are Better than Men]].</ref>", Parsers.FixSyntax(@"<ref>[[cite web | url = http://collection.whitney.org/object/11823 | accessdate: 25 June 2015 | publisher = [[Whitney Museum of American Art]] | title = Houston, Texas, 1977 from Women are Better than Men]].</ref>"));
         }
 
         [Test]
@@ -465,7 +465,8 @@ Other
         {
             Assert.AreEqual("<ref>foo {{dead link|date=July 2014}}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{dead link|date=July 2014}} boo"), "only {{dead link}} taken inside ref");
             Assert.AreEqual("<ref>foo {{Dead link | date=July 2014 }}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{Dead link | date=July 2014 }} boo"), "only {{dead link}} taken inside ref");
-            Assert.AreEqual("<ref>foo {{Dead link|date=July 2014}}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{Dead link|date=July 2014}} boo"), "only {{dead link}} taken inside ref");        	Assert.AreEqual("<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }} {{dead link|date=July 2014}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }}</ref> {{dead link|date=July 2014}}"), "{{dead link}} taken inside ref");
+            Assert.AreEqual("<ref>foo {{Dead link|date=July 2014}}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{Dead link|date=July 2014}} boo"), "only {{dead link}} taken inside ref");
+            Assert.AreEqual("<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }} {{dead link|date=July 2014}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }}</ref> {{dead link|date=July 2014}}"), "{{dead link}} taken inside ref");
         }
 
         [Test]
@@ -584,18 +585,18 @@ world</font>"));
         [Test]
         public void FixUnbalancedBracketsChineseBrackets()
         {
-        	#if DEBUG
-        	const string CB = @"now （there) was";
+            #if DEBUG
+            const string CB = @"now （there) was";
 
-        	Variables.SetProjectLangCode("fr");
-        	Assert.AreEqual(CB, Parsers.CiteTemplateDates(CB));
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(CB, Parsers.CiteTemplateDates(CB));
 
-        	Variables.SetProjectLangCode("en");
-        	Assert.AreEqual(@"now (there) was", Parsers.FixSyntax(CB));
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(@"now (there) was", Parsers.FixSyntax(CB));
 
-        	const string CB2 = @"now （there） was";
-        	Assert.AreEqual(CB2, Parsers.FixSyntax(CB2), "No change when brackets are balanced");
-        	#endif
+            const string CB2 = @"now （there） was";
+            Assert.AreEqual(CB2, Parsers.FixSyntax(CB2), "No change when brackets are balanced");
+            #endif
         }
 
         [Test]
@@ -1029,7 +1030,7 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
 
             Assert.AreEqual(table, Parsers.FixSyntax(table), "No change to table with excess closing }");
 
-            //  IndexOutOfRangeException bug
+            // IndexOutOfRangeException bug
             Assert.AreEqual(@"] now", Parsers.FixSyntax(@"] now"));
 
             Assert.AreEqual(@"{{DEFAULTSORT:hello}}
@@ -1090,7 +1091,7 @@ now"));
             Assert.AreEqual("[[|foo]]", Parsers.FixSyntax("[[|foo]]"));
 
             bool noChange;
-            //TODO: move it to parts testing specific functions, when they're covered
+            // TODO: move it to parts testing specific functions, when they're covered
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
             Parsers.CanonicalizeTitle("[[|foo]]"); // shouldn't throw exceptions
             Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", "bar", out noChange));
@@ -1114,7 +1115,7 @@ now"));
 
             Assert.AreEqual(@"Now.<ref name=boo>foo</ref>", Parsers.FixSyntax(@"Now. ref name=boo>foo</ref>"), "Simple case invalid opening named tag, space");
             Assert.AreEqual(@"Now.<ref name=boo>foo</ref>", Parsers.FixSyntax(@"Now.ref name=boo>foo</ref>"), "Simple case invalid opening named tag");
-			Assert.AreEqual(@"Now.<ref name=""boo"">foo</ref>", Parsers.FixSyntax(@"Now. ref name=""boo"">foo</ref>"), "Simple case invalid opening tag, space");
+            Assert.AreEqual(@"Now.<ref name=""boo"">foo</ref>", Parsers.FixSyntax(@"Now. ref name=""boo"">foo</ref>"), "Simple case invalid opening tag, space");
 
             string nochange = @"Now.<ref name=fooref>foo</ref>";
             Assert.AreEqual(nochange, Parsers.FixSyntax(nochange), "valid, ref in ref name");
@@ -1155,7 +1156,7 @@ now"));
             Assert.AreEqual(nochange3, Parsers.FixSyntax(nochange3));
 
 #if DEBUG
-			// In Chinese Wikipedia  the text inside and outside of the link should be directly connected
+            // In Chinese Wikipedia  the text inside and outside of the link should be directly connected
             Variables.SetProjectLangCode("zh");
             Assert.AreEqual(@"their new[http://www.site.com site]", Parsers.FixSyntax(@"their new[http://www.site.com site]"));
             Assert.AreEqual(@"their new [http://www.site.com site]was", Parsers.FixSyntax(@"their new [http://www.site.com site]was"));
@@ -1164,7 +1165,6 @@ now"));
             Variables.SetProjectLangCode("en");
             Assert.AreEqual(@"their new [http://www.site.com site]", Parsers.FixSyntax(@"their new[http://www.site.com site]"));
 #endif
-
         }
 
         [Test]

@@ -22,11 +22,11 @@ Copyright © 2000-2002 Philip A. Craig
 
  */
 
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
-using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -229,7 +229,7 @@ Bar", "test"), "External Links capitalization");
             
             string HeadingEqualTitle = Parsers.FixHeadings(@"A
 ==Foo==
-B","Foo");
+B", "Foo");
             Assert.IsFalse(HeadingEqualTitle.Contains("Foo"), "Heading same as title");
 
             Assert.AreEqual(@"'''The'''.
@@ -439,12 +439,12 @@ text", "Talk:foo"));
         [Test]
         public void TestFixHeadingsEmpytyBoldRemoval()
         {
-        	Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==''''''Foo==", "test"), "empty tag in the beginning");
-        	Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo''''''==", "test"), "empty tag at the end");
-        	Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo''' ''' bar==", "test"), "empty tag in the middle");
-        	Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== Foo''' ''' bar ==", "test"), "empty tag in the middle and spaces around");
-        	Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo'''   ''' bar==", "test"), "more spaces");
-        	Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== '''Foo''' ''' bar''' ==", "test"));
+            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==''''''Foo==", "test"), "empty tag in the beginning");
+            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo''''''==", "test"), "empty tag at the end");
+            Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo''' ''' bar==", "test"), "empty tag in the middle");
+            Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== Foo''' ''' bar ==", "test"), "empty tag in the middle and spaces around");
+            Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo'''   ''' bar==", "test"), "more spaces");
+            Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== '''Foo''' ''' bar''' ==", "test"));
         }
 
         [Test]
@@ -604,15 +604,15 @@ Bar", "Test"), "inserts blank line if one missing");
 '''Foo''' great.", "Foo").Contains(@"==General information=="), "Excess heading at start General information");
 
             Assert.AreEqual(Parsers.FixHeadings(@"==Introduction==
-'''Foo''' great.", "Foo"),@"
-'''Foo''' great.","Removes unnecessary general headers from start of article");
+'''Foo''' great.", "Foo"), @"
+'''Foo''' great.", "Removes unnecessary general headers from start of article");
 
             Assert.AreEqual(@"Great article
 
 Really great", Parsers.FixHeadings(@"Great article
 
 ==Foo==
-Really great", "Foo"),"Removes heading if it matches pagetitle");
+Really great", "Foo"), "Removes heading if it matches pagetitle");
 
             const string L3 = @"Great article
 
@@ -653,14 +653,14 @@ Here there";
 
 
         		[Test, Category("Incomplete")]
-        //TODO: cover everything
+        // TODO: cover everything
         public void TestFixWhitespace()
         {
             Assert.AreEqual("", Parsers.RemoveWhiteSpace("     "));
             Assert.AreEqual("a\r\n\r\n b", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n b"));
-            //Assert.AreEqual(" a", Parsers.RemoveWhiteSpace(" a")); // fails, but it doesn't seem harmful, at least for
+            // Assert.AreEqual(" a", Parsers.RemoveWhiteSpace(" a")); // fails, but it doesn't seem harmful, at least for
             // WMF projects with their design guidelines
-            //Assert.AreEqual(" a", Parsers.RemoveWhiteSpace("\r\n a \r\n")); // same as above
+            // Assert.AreEqual(" a", Parsers.RemoveWhiteSpace("\r\n a \r\n")); // same as above
             Assert.AreEqual("a", Parsers.RemoveWhiteSpace("\r\na \r\n")); // the above errors have effect only on the first line
             Assert.AreEqual("", Parsers.RemoveWhiteSpace("\r\n"));
             Assert.AreEqual("", Parsers.RemoveWhiteSpace("\r\n\r\n"));
@@ -692,7 +692,7 @@ Here there";
 *Rookie"));
 
             // eh? should we fix such tables too?
-            //Assert.AreEqual("{|\r\n! foo\r\n!\r\nbar\r\n|}", Parsers.RemoveWhiteSpace("{|\r\n! foo\r\n\r\n!\r\n\r\nbar\r\n|}"));
+            // Assert.AreEqual("{|\r\n! foo\r\n!\r\nbar\r\n|}", Parsers.RemoveWhiteSpace("{|\r\n! foo\r\n\r\n!\r\n\r\nbar\r\n|}"));
 
             const string TrackList = @"{{Track listing
 | collapsed       =
@@ -964,7 +964,7 @@ was"));
 |}</small>";
             Assert.AreEqual(unclosedTag2, Parsers.FixSyntax(unclosedTag2), "No change to small tags across table end, implies multiple incorrect small tags");
 
-            const string NoSmall =  @"<ref>foo</ref> <small>A</small>";
+            const string NoSmall = @"<ref>foo</ref> <small>A</small>";
             Assert.AreEqual(NoSmall, Parsers.FixSyntax(NoSmall), "No change when no small that should be removed");
         }
 

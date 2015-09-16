@@ -163,25 +163,25 @@ namespace UnitTests
             Matches("", regex, input, expected);
         }
 
-        //FIXME:
+        // FIXME:
         public static void Matches(string message, Regex regex, string input, params string[] expected)
         {
             if (expected.Length == 0)
                 throw new ArgumentException("Expected is empty", "expected");
 
-            //MatchCollection mc = regex.Matches(input);
+            // MatchCollection mc = regex.Matches(input);
 
-            //int firstDifference = -1;
-            //for (int i = 0; i < Math.Min(mc.Count, expected.Length) && firstDifference < 0; i++)
-            //{
+            // int firstDifference = -1;
+            // for (int i = 0; i < Math.Min(mc.Count, expected.Length) && firstDifference < 0; i++)
+            // {
             //    if (mc[i].Value != expected[i]) firstDifference = i;
-            //}
+            // }
 
-            //if (firstDifference >= 0 || mc.Count != expected.Length)
-            //{
+            // if (firstDifference >= 0 || mc.Count != expected.Length)
+            // {
             //    string errorMessage = "";
             //    if (message.Length >= 0) errorMessage = message + "";
-            //}
+            // }
             CollectionAssert.AreEqual(expected, MatchesToStrings(regex.Matches(input)), message);
         }
         #endregion

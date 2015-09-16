@@ -22,11 +22,11 @@ Copyright © 2000-2002 Philip A. Craig
 
  */
 
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
-using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -170,8 +170,8 @@ File:9th of May_street, Bacău.jpg| Street
         public void DeterminePredominantDateLocale()
         {
             string none = @"hello", American1 = @"On July 17, 2009 a", International1 = @"on 17 July 2009 a";
-            string ISO = @"now {{use ymd dates}} here", American2 = @"now {{use mdy dates}} here", International2 = @"{{use dmy dates}}"
-                , ISOmajority = @"on July 11, 2004 and 2009-11-12 and 2009-11-12 a";
+            string ISO = @"now {{use ymd dates}} here", American2 = @"now {{use mdy dates}} here", International2 = @"{{use dmy dates}}",
+                ISOmajority = @"on July 11, 2004 and 2009-11-12 and 2009-11-12 a";
 
             Assert.AreEqual(Parsers.DateLocale.Undetermined, Parsers.DeterminePredominantDateLocale(none));
             Assert.AreEqual(Parsers.DateLocale.Undetermined, Parsers.DeterminePredominantDateLocale(none, true));
@@ -238,12 +238,12 @@ File:9th of May_street, Bacău.jpg| Street
             const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
             Assert.AreEqual(doubleApos, Parsers.FixImages(doubleApos));
 
-            //TODO: decide if such improvements really belong here
-            //Assert.AreEqual("[[Media:foo]]",
-            //    Parsers.FixImages("[[ media : foo]]"));
+            // TODO: decide if such improvements really belong here
+            // Assert.AreEqual("[[Media:foo]]",
+            // Parsers.FixImages("[[ media : foo]]"));
 
-            //Assert.AreEqual("[[:Media:foo]]",
-            //    Parsers.FixImages("[[ : media : foo]]"));
+            // Assert.AreEqual("[[:Media:foo]]",
+            // Parsers.FixImages("[[ : media : foo]]"));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#URL_underscore_regression
             Assert.AreEqual("[[File:foo|thumb]] # [http://a_b c] [[link]]",
@@ -1151,8 +1151,7 @@ words";
 
             Assert.AreEqual(about1, Parsers.Dablinks(for1 + forBefore));
 
-
-            const string singleAbout = @"{{about|foo}}";
+           const string singleAbout = @"{{about|foo}}";
 
             Assert.AreEqual(singleAbout + forBefore, Parsers.Dablinks(singleAbout + forBefore), "no merge if {{about}} has <2 arguments");
 
@@ -1166,19 +1165,19 @@ words";
 
             const string For3 = @"{{for|c|d|e}}";
 
-            Assert.AreEqual(@"{{about||a|b|c|d|and|e}}", Parsers.Dablinks(for1 + For3),"merge for with 1 and 3 arguments");
-            Assert.AreEqual(@"{{about||a|b|c|d|and|e}}", Parsers.Dablinks(For3 + for1),"merge for with 1 and 3 arguments");
+            Assert.AreEqual(@"{{about||a|b|c|d|and|e}}", Parsers.Dablinks(for1 + For3), "merge for with 1 and 3 arguments");
+            Assert.AreEqual(@"{{about||a|b|c|d|and|e}}", Parsers.Dablinks(For3 + for1), "merge for with 1 and 3 arguments");
 
-            Assert.AreEqual(@"{{about||a|b|c|d}}{{for|e|f|g|h}}", Parsers.Dablinks(@"{{for|a|b}}{{for|c|d}}{{for|e|f|g|h}}"),"do not merge for with 4 arguments");
-            Assert.AreEqual(@"{{for|a|b|c|d}}{{for|e|f|g|h}}", Parsers.Dablinks(@"{{for|a|b|c|d}}{{for|e|f|g|h}}"),"do not merge for with 4 arguments"); 
+            Assert.AreEqual(@"{{about||a|b|c|d}}{{for|e|f|g|h}}", Parsers.Dablinks(@"{{for|a|b}}{{for|c|d}}{{for|e|f|g|h}}"), "do not merge for with 4 arguments");
+            Assert.AreEqual(@"{{for|a|b|c|d}}{{for|e|f|g|h}}", Parsers.Dablinks(@"{{for|a|b|c|d}}{{for|e|f|g|h}}"), "do not merge for with 4 arguments"); 
             
             const string ForTwoCats = @"{{for|the city in California|Category:Lancaster, California}}{{for|the city in Pennsylvania|Category:Lancaster, Pennsylvania}}";
 
             Assert.AreEqual(@"{{about||the city in California|:Category:Lancaster, California|the city in Pennsylvania|:Category:Lancaster, Pennsylvania}}", Parsers.Dablinks(ForTwoCats));
-            Assert.AreEqual(@"{{about||a|b|c|d|other uses|e}}", Parsers.Dablinks(@"{{about||a|b|c|d}}{{for||e}}"),"for with first argument empty");
-            Assert.AreEqual(@"{{about|foo|a|b|c|d|other uses|e}}", Parsers.Dablinks(@"{{about|foo|a|b|c|d}}{{for||e}}"),"for with first argument empty");
+            Assert.AreEqual(@"{{about||a|b|c|d|other uses|e}}", Parsers.Dablinks(@"{{about||a|b|c|d}}{{for||e}}"), "for with first argument empty");
+            Assert.AreEqual(@"{{about|foo|a|b|c|d|other uses|e}}", Parsers.Dablinks(@"{{about|foo|a|b|c|d}}{{for||e}}"), "for with first argument empty");
 
-            Assert.AreEqual(@"{{about|1|2|3|4|5|6|7|8|9}}{{for|a|b}}", Parsers.Dablinks(@"{{about|1|2|3|4|5|6|7|8|9}}{{for|a|b}}"),"don't do anything if about has 9 arguments");
+            Assert.AreEqual(@"{{about|1|2|3|4|5|6|7|8|9}}{{for|a|b}}", Parsers.Dablinks(@"{{about|1|2|3|4|5|6|7|8|9}}{{for|a|b}}"), "don't do anything if about has 9 arguments");
         }
 
         [Test]
@@ -1857,7 +1856,7 @@ Text
 {{BLP sources|date=May 2010}}
 [[Category:Living people]]", Parsers.Conversions(@"Foo
 {{refimprove|date=May 2010}}
-[[Category:Living people]]"),"do conversion");
+[[Category:Living people]]"), "do conversion");
 
             Assert.AreEqual(@"Foo
 {{BLP sources|Date=May 2010}}
@@ -1865,7 +1864,7 @@ Text
 [[Category:Living people]]", Parsers.Conversions(@"Foo
 {{BLP sources|Date=May 2010}}
 {{refimprove|Date=May 2010}}
-[[Category:Living people]]"),"when have existing BLP sources then remove refimprove");
+[[Category:Living people]]"), "when have existing BLP sources then remove refimprove");
 
             Assert.AreEqual(@"Foo
 {{BLP sources|Date=May 2010}}
@@ -1874,7 +1873,7 @@ Text
 {{BLP sources|Date=May 2010}}
 {{refimprove|Date=May 2010}}
 }}
-[[Category:Living people]]"),"when have existing BLP sources then remove refimprove");
+[[Category:Living people]]"), "when have existing BLP sources then remove refimprove");
 
         }
 

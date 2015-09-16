@@ -22,11 +22,11 @@ Copyright © 2000-2002 Philip A. Craig
 
  */
 
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
-using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -96,15 +96,15 @@ namespace UnitTests
         [Test]
         public void TestFixClockTime()
         {
-        	Assert.AreEqual(@"2:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"2:35a.m."));
-        	Assert.AreEqual(@"9:59&nbsp;a.m.", parser.FixNonBreakingSpaces(@"9:59a.m."));
+            Assert.AreEqual(@"2:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"2:35a.m."));
+            Assert.AreEqual(@"9:59&nbsp;a.m.", parser.FixNonBreakingSpaces(@"9:59a.m."));
             Assert.AreEqual(@"12:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"12:35a.m."));
             Assert.AreEqual(@"12:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"12:35 a.m."));
             Assert.AreEqual(@"12:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"12:35p.m."));
             Assert.AreEqual(@"12:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"12:35 p.m."));
             Assert.AreEqual(@"2:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"02:35a.m."), "starts with zero");
-        	Assert.AreEqual(@"9:59&nbsp;a.m.", parser.FixNonBreakingSpaces(@"09:59a.m."));
-        	Assert.AreEqual(@"2:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"2:35p.m."));
+            Assert.AreEqual(@"9:59&nbsp;a.m.", parser.FixNonBreakingSpaces(@"09:59a.m."));
+            Assert.AreEqual(@"2:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"2:35p.m."));
             Assert.AreEqual(@"12:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"12:35p.m."));
             Assert.AreEqual(@"2:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"02:35p.m."), "starts with zero");
             Assert.AreEqual(@"2:75a.m.", parser.FixNonBreakingSpaces(@"2:75a.m."), "invalid minutes number");
@@ -127,8 +127,8 @@ namespace UnitTests
             Assert.AreEqual(@"a 50&nbsp;kHz rod", parser.FixNonBreakingSpaces(@"a 50kHz rod"));
 
             Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50 cm road"));
-			Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50cm road"));
-			Assert.AreEqual(@"a 50.247&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50.247cm road"));
+            Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50cm road"));
+            Assert.AreEqual(@"a 50.247&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50.247cm road"));
             Assert.AreEqual(@"a 50.247&nbsp;nm laser", parser.FixNonBreakingSpaces(@"a 50.247nm laser"));
             Assert.AreEqual(@"a 50.247&nbsp;mm pen", parser.FixNonBreakingSpaces(@"a 50.247 mm pen"));
             Assert.AreEqual(@"a 50.247&nbsp;nm laser", parser.FixNonBreakingSpaces(@"a 50.247  nm laser"));
@@ -145,25 +145,24 @@ namespace UnitTests
             Assert.AreEqual(@"at 55&nbsp;°F today", parser.FixNonBreakingSpaces(@"at 55°F today"));
             Assert.AreEqual(@"at 55&nbsp;°F today", parser.FixNonBreakingSpaces(@"at 55  °F today"));
             Assert.AreEqual(@"at 55&nbsp;°F today", parser.FixNonBreakingSpaces(@"at 55 °F today"), "invisible nbsp (Unicode U+00A0) before unit");
+            Assert.AreEqual(@"a 50.2&nbsp;m (170&nbsp;ft) road", parser.FixNonBreakingSpaces(@"a 50.2 m (170 ft) road"), "invisible nbsp (Unicode U+00A0) before m and ft");
 
-			Assert.AreEqual(@"a 50.2&nbsp;m (170&nbsp;ft) road", parser.FixNonBreakingSpaces(@"a 50.2 m (170 ft) road"), "invisible nbsp (Unicode U+00A0) before m and ft");
-
-			// no changes for these
+            // no changes for these
             genFixes.AssertNotChanged(@"nearly 5m people");
-			genFixes.AssertNotChanged(@"nearly 5 in 10 people");
-			genFixes.AssertNotChanged(@"a 3CD set");
-			genFixes.AssertNotChanged(@"its 3 feet are");
-			genFixes.AssertNotChanged(@"http://site.com/View/3356 A show");
-			genFixes.AssertNotChanged(@"a 50&nbsp;km road");
-			genFixes.AssertNotChanged(@"over $200K in cash");
-			genFixes.AssertNotChanged(@"now {{a 50kg dog}} was");
-			genFixes.AssertNotChanged(@"now a [[50kg dog]] was");
-			genFixes.AssertNotChanged(@"now “a 50kg dog” was");
-			genFixes.AssertNotChanged(@"now <!--a 50kg dog--> was");
-			genFixes.AssertNotChanged(@"now <nowiki>a 50kg dog</nowiki> was");
-			genFixes.AssertNotChanged(@"*[http://site.com/blah_20cm_long Site here]");
-			genFixes.AssertNotChanged(@"a 50 gram rod");
-			genFixes.AssertNotChanged(@"a long (50 foot) toad");
+            genFixes.AssertNotChanged(@"nearly 5 in 10 people");
+            genFixes.AssertNotChanged(@"a 3CD set");
+            genFixes.AssertNotChanged(@"its 3 feet are");
+            genFixes.AssertNotChanged(@"http://site.com/View/3356 A show");
+            genFixes.AssertNotChanged(@"a 50&nbsp;km road");
+            genFixes.AssertNotChanged(@"over $200K in cash");
+            genFixes.AssertNotChanged(@"now {{a 50kg dog}} was");
+            genFixes.AssertNotChanged(@"now a [[50kg dog]] was");
+            genFixes.AssertNotChanged(@"now “a 50kg dog” was");
+            genFixes.AssertNotChanged(@"now <!--a 50kg dog--> was");
+            genFixes.AssertNotChanged(@"now <nowiki>a 50kg dog</nowiki> was");
+            genFixes.AssertNotChanged(@"*[http://site.com/blah_20cm_long Site here]");
+            genFixes.AssertNotChanged(@"a 50 gram rod");
+            genFixes.AssertNotChanged(@"a long (50 foot) toad");
 
             // firearms articles don't use spaces for ammo sizes
             Assert.AreEqual(@"the 50mm gun", parser.FixNonBreakingSpaces(@"the 50mm gun"));
@@ -207,5 +206,5 @@ namespace UnitTests
 
             Assert.AreEqual(@"Smith 200 pp. ISBN 12345678X", parser.FixNonBreakingSpaces(@"Smith 200 pp. ISBN 12345678X"), "No change for number of pages in book");
         }
-	}
+    }
 }

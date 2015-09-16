@@ -22,11 +22,11 @@ Copyright © 2000-2002 Philip A. Craig
 
  */
 
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
-using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -74,10 +74,10 @@ namespace UnitTests
             Assert.AreEqual("#REDIRECT[[Dog]]", Parsers.SimplifyLinks("#REDIRECT[[dog|Dog]]"));
             Assert.AreEqual("[[funcy dog]]s", Parsers.SimplifyLinks("[[funcy dog|funcy dogs]]"));
 
-            Assert.AreEqual("[[dog]].", Parsers.SimplifyLinks("[[dog|dog.]]"),"point inside wikilink");
-            Assert.AreEqual("[[dog]].", Parsers.SimplifyLinks("[[Dog|dog.]]"),"point inside wikilink");
-            Assert.AreEqual("[[dog]],", Parsers.SimplifyLinks("[[Dog|dog,]]"),"comma inside wikilink");
-            Assert.AreEqual("[[dog]],", Parsers.SimplifyLinks("[[dog|dog,]]"),"comma inside wikilink");
+            Assert.AreEqual("[[dog]].", Parsers.SimplifyLinks("[[dog|dog.]]"), "point inside wikilink");
+            Assert.AreEqual("[[dog]].", Parsers.SimplifyLinks("[[Dog|dog.]]"), "point inside wikilink");
+            Assert.AreEqual("[[dog]],", Parsers.SimplifyLinks("[[Dog|dog,]]"), "comma inside wikilink");
+            Assert.AreEqual("[[dog]],", Parsers.SimplifyLinks("[[dog|dog,]]"), "comma inside wikilink");
 
             Assert.AreEqual("[[funcy dog]]", Parsers.SimplifyLinks("[[funcy dog|funcy_dog]]"), "handles underscore in text: text");
             Assert.AreEqual("[[funcy dog]]", Parsers.SimplifyLinks("[[funcy_dog|funcy dog]]"), "handles underscore in text: target");
@@ -90,7 +90,7 @@ namespace UnitTests
             // ...and sensitivity of others
             Assert.AreEqual("[[dog|dOgs]]", Parsers.SimplifyLinks("[[dog|dOgs]]"));
 
-            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Inappropriate_link_compression
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Inappropriate_link_compression
             Assert.AreEqual("[[foo|foo3]]", Parsers.SimplifyLinks("[[foo|foo3]]"));
 
             // don't touch suffixes with caps to avoid funky results like
@@ -585,7 +585,7 @@ was [[foo|bar]] too"));
             const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
             Assert.AreEqual(doubleApos, Parsers.FixLinks(doubleApos, "a", out nochange));
 
-            Variables.AddUnderscoredTitles(new List<string>(new [] {"Size t", "Mod perl", "Mod mono" } ));
+            Variables.AddUnderscoredTitles(new List<string>(new[] {"Size t", "Mod perl", "Mod mono" } ));
 
             Assert.AreEqual(@"[[size_t]]", Parsers.FixLinks(@"[[size_t]]", "a", out nochange));
             Assert.IsTrue(nochange);
@@ -608,9 +608,9 @@ was [[foo|bar]] too"));
             Assert.AreEqual(@"[[Foo bar]]", Parsers.FixLinks(@"[[Foo_bar]]", "a", out nochange), "Fixes underscore");
             Assert.AreEqual(@"[[Foo bar#ab c]]", Parsers.FixLinks(@"[[Foo_bar#ab_c]]", "a", out nochange), "Fixes underscore");
 
-            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[foo{{!}}bar]]", "a", out nochange),"Fixes pipe");
-            Assert.AreEqual(@"[[foo|]]", Parsers.FixLinks(@"[[foo{{!}}]]", "a", out nochange),"Fixes pipe");
-            Assert.AreEqual("[[Repeat sign|{{!}}: ]]", Parsers.FixLinks(@"[[Repeat sign|{{!}}: ]]", "a", out nochange),"Do nothing in the only exception");
+            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[foo{{!}}bar]]", "a", out nochange), "Fixes pipe");
+            Assert.AreEqual(@"[[foo|]]", Parsers.FixLinks(@"[[foo{{!}}]]", "a", out nochange), "Fixes pipe");
+            Assert.AreEqual("[[Repeat sign|{{!}}: ]]", Parsers.FixLinks(@"[[Repeat sign|{{!}}: ]]", "a", out nochange), "Do nothing in the only exception");
 
             Assert.AreEqual(@"[[|foo]]", Parsers.FixLinks(@"[[|foo]]", "a", out nochange), "No change if single leading pipe");
             Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[|foo|bar]]", "a", out nochange), "Fixes excess leading pipe");
@@ -733,18 +733,18 @@ x
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <center> <center>a</center> not ended");
             Assert.AreEqual(uct.Count, 1, "center double");
-            Assert.IsTrue(uct.ContainsKey(15),"center key");
-            Assert.IsTrue(uct.ContainsValue(8),"center value");
+            Assert.IsTrue(uct.ContainsKey(15), "center key");
+            Assert.IsTrue(uct.ContainsValue(8), "center value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <sup> <sup>a</sup> not ended");
             Assert.AreEqual(uct.Count, 1);
-            Assert.IsTrue(uct.ContainsKey(15),"sup key");
-            Assert.IsTrue(uct.ContainsValue(5),"sup value");
+            Assert.IsTrue(uct.ContainsKey(15), "sup key");
+            Assert.IsTrue(uct.ContainsValue(5), "sup value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <sub> <sub>a</sub> not ended");
             Assert.AreEqual(uct.Count, 1, "sub");
-            Assert.IsTrue(uct.ContainsKey(15),"sub key");
-            Assert.IsTrue(uct.ContainsValue(5),"sub value");
+            Assert.IsTrue(uct.ContainsKey(15), "sub key");
+            Assert.IsTrue(uct.ContainsValue(5), "sub value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name=<ref name=Foo/> not ended");
             Assert.AreEqual(uct.Count, 1, "ref");
@@ -870,8 +870,8 @@ http://example.com }}");
             Assert.AreEqual(@"[[Category:Slam poetry| ]] ", Parsers.FixLinkWhitespace(@"[[Category:Slam poetry| ]] ", "foo")); // leading space NOT removed from cat sortkey
 
             // shouldn't fix - not enough information
-            //Assert.AreEqual("[[ a ]]", Parsers.FixLinkWhitespace("[[ a ]]", "foo"));
-            //disabled for the time being to avoid unnecesary clutter
+            // Assert.AreEqual("[[ a ]]", Parsers.FixLinkWhitespace("[[ a ]]", "foo"));
+            // disabled for the time being to avoid unnecesary clutter
 
             Assert.AreEqual("[[foo#bar]]", Parsers.FixLinkWhitespace("[[foo #bar]]", "foot"));
             Assert.AreEqual("[[foo#bar]]", Parsers.FixLinkWhitespace("[[foo # bar]]", "foot"));

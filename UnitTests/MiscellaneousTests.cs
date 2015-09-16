@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Controls.Lists;
 using WikiFunctions.Parse;
@@ -410,7 +410,7 @@ File:9th of May, ățuux.JPEG|text2
 </gallery>"), @"<gallery>
 " + Hidden + @"|text1
 " + Hidden + @"|text2
-</gallery>"),"special characters in image name handled OK");
+</gallery>"), "special characters in image name handled OK");
             Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 File:foo1.jpg|[[foobar]] barbar
 File:foo2.jpg|Winter Festival
@@ -525,7 +525,7 @@ quux.JPEG|text
         {
             Article a = new Article("A");
             Article b = new Article("A");
-            b=null;
+            b = null;
             Assert.IsFalse(a.Equals(null));
             b = new Article("A");
             Assert.AreEqual("A", a.ToString());
@@ -705,11 +705,11 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
             Assert.AreEqual("Category:Foo", new Article("Category:Category:Foo").NamespacelessName);
 
             // TODO: uncomment when Namespace.Determine() will support non-normalised names
-            //Assert.AreEqual("Foo", new Article("Category : Foo").NamespacelessName);
+            // Assert.AreEqual("Foo", new Article("Category : Foo").NamespacelessName);
 
             // this behaviour has changed in recent MW versions
-            //Assert.AreEqual("", new Article("Category:").NamespacelessName);
-            //Assert.AreEqual("", new Article("Category: ").NamespacelessName);
+            // Assert.AreEqual("", new Article("Category:").NamespacelessName);
+            // Assert.AreEqual("", new Article("Category: ").NamespacelessName);
         }
         
         [Test]
@@ -760,12 +760,12 @@ There [was.");
             
             Article a = new Article("A", @"Now foo
 bar");
-            Assert.IsTrue(notContainsComparer.Matches(a),"does not contain comparer");
-            Assert.IsTrue(containsComparer.Matches(a),"it contains comparer");
+            Assert.IsTrue(notContainsComparer.Matches(a), "does not contain comparer");
+            Assert.IsTrue(containsComparer.Matches(a), "it contains comparer");
             
             a = new Article("A", @"Now foo-bar");
-            Assert.IsFalse(notContainsComparer.Matches(a),"not contains is false");
-            Assert.IsFalse(containsComparer.Matches(a),"contains is false");
+            Assert.IsFalse(notContainsComparer.Matches(a), "not contains is false");
+            Assert.IsFalse(containsComparer.Matches(a), "contains is false");
         }
 
         [Test]
@@ -1100,29 +1100,29 @@ http://www.site.com
         {
             string a = @"{{Skip to talk}}", b = @"{{Talk header}}", c = @"{{GA nominee}}", d = @"{{Controversial}}", e = @"{{Not a forum}}", f = @"{{British English}}", g = @"{{FailedGA}}";
             string correct = a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + g + "\r\n";
-            string articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ d + "\r\n"+ e + "\r\n" + f + g;
+            string articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdefg with newlines");
+            Assert.AreEqual(correct, articleText, "bacdefg with newlines");
 
             articleText = a + b + c + d + e + f + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"abcdefg");
+            Assert.AreEqual(correct, articleText, "abcdefg");
 
             articleText = b + a + c + d + e + f + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdefg without newlines");
+            Assert.AreEqual(correct, articleText, "bacdefg without newlines");
 
             articleText = a + c + b + d + e + f + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"acbdefg");
+            Assert.AreEqual(correct, articleText, "acbdefg");
 
             articleText = a + b + c + e + d + f + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"abcedfg");
+            Assert.AreEqual(correct, articleText, "abcedfg");
 
             articleText = a + e + c + b + d + f + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"aecbdfg");
+            Assert.AreEqual(correct, articleText, "aecbdfg");
 
             articleText = a + e + c + b + d + g + f;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
@@ -1130,62 +1130,62 @@ http://www.site.com
 
             articleText = a + c + d + e + f + b + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"acdefbg");
+            Assert.AreEqual(correct, articleText, "acdefbg");
 
             articleText = f + a + c + b + d + e + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"facbdeg");
+            Assert.AreEqual(correct, articleText, "facbdeg");
 
             articleText = f + e + d + c + b + a + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"fedcbag");
+            Assert.AreEqual(correct, articleText, "fedcbag");
 
-            string h=@"{{WikiProjectBannerShell|1={{WikiProject Greece|class=}}}}", i=@"{{Image requested}}", j=@"{{Connected contributor|John Doe}}";
+            string h = @"{{WikiProjectBannerShell|1={{WikiProject Greece|class=}}}}", i = @"{{Image requested}}", j = @"{{Connected contributor|John Doe}}";
 
-			correct = correct + h + "\r\n";
-			articleText = correct;
+            correct = correct + h + "\r\n";
+            articleText = correct;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"abcdefgh");
+            Assert.AreEqual(correct, articleText, "abcdefgh");
 
-			correct = correct + i + "\r\n";
+            correct = correct + i + "\r\n";
 
-			articleText = correct;
+            articleText = correct;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"abcdefghi");
+            Assert.AreEqual(correct, articleText, "abcdefghi");
 
             articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + i;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdefhgi");
+            Assert.AreEqual(correct, articleText, "bacdefhgi");
 
-			correct = correct + j + "\r\n";
+            correct = correct + j + "\r\n";
 
-			articleText = correct;
+            articleText = correct;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"abcdefghij");
+            Assert.AreEqual(correct, articleText, "abcdefghij");
 
             articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + j + "\r\n" + i;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdefhgji");
+            Assert.AreEqual(correct, articleText, "bacdefhgji");
 
             articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + j + "\r\n" + i + "\r\n" + "\r\n" + "\r\n";
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdefhgji with newlines at the end");
+            Assert.AreEqual(correct, articleText, "bacdefhgji with newlines at the end");
 
             articleText = b + "\r\n" + "\r\n" + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + j + "\r\n" + "\r\n" + "\r\n" + i + "\r\n" + "\r\n" + "\r\n";
 
-            string k=@"{{To do}}", m=@"{{Find sources notice}}", n=@"{{Split from|foo}}";
+            string k = @"{{To do}}", m = @"{{Find sources notice}}", n = @"{{Split from|foo}}";
 
-			correct = correct + k + "\r\n";
-			articleText = correct;
+            correct = correct + k + "\r\n";
+            articleText = correct;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"abcdefghijk");
+            Assert.AreEqual(correct, articleText, "abcdefghijk");
 
             articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + k + "\r\n" + g + "\r\n" + j + "\r\n" + i + "\r\n" + h;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdefkgjih");
+            Assert.AreEqual(correct, articleText, "bacdefkgjih");
 
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdefhgji with newlines at the end and in the middle");
+            Assert.AreEqual(correct, articleText, "bacdefhgji with newlines at the end and in the middle");
 
             articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + k + "\r\n" + g + "\r\n" + j + "\r\n" + i + "\r\n" + h;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
@@ -1203,7 +1203,7 @@ http://www.site.com
             articleText = @"{{some other template}}" + "\r\n" + @"==Untitled==" + "\r\n" + @"some text";
             string articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with template");
+            Assert.AreEqual(articleText2, articleText, "no changes if nothing is detected; starts with template");
 
             articleText = @"{{GA|21:12, 11 May 2013 (UTC)|topic=Geography|page=1|oldid=554646767}}
 {{DYK talk|17 April|2013|entry=... that Canada's '''[[Glacier National Park (Canada)|Glacier National Park]]''' ''(pictured)'' contains [[moonmilk]]?}}
@@ -1215,7 +1215,7 @@ http://www.site.com
 {{some random template}}";
             articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"no changes if everything is in place; contains WPBS");
+            Assert.AreEqual(articleText2, articleText, "no changes if everything is in place; contains WPBS");
 
             articleText = @"{{GA|21:12, 11 May 2013 (UTC)|topic=Geography|page=1|oldid=554646767}}
 {{DYK talk|17 April|2013|entry=... that Canada's '''[[Glacier National Park (Canada)|Glacier National Park]]''' ''(pictured)'' contains [[moonmilk]]?}}
@@ -1230,28 +1230,28 @@ http://www.site.com
          [Test]
         public void MoveBannersAndWikiProjects()
         {
-            string a = @"{{Skip to talk}}", b = @"{{Talk header}}", c = @"{{GA nominee}}", d = @"{{Controversial}}", e = @"{{Not a forum}}", f = @"{{British English}}", g = @"{{FailedGA}}", h=@"{{WikiProject Greece|class=}}", i=@"{{Image requested}}", j=@"{{Connected contributor|John Doe}}";
+            string a = @"{{Skip to talk}}", b = @"{{Talk header}}", c = @"{{GA nominee}}", d = @"{{Controversial}}", e = @"{{Not a forum}}", f = @"{{British English}}", g = @"{{FailedGA}}", h = @"{{WikiProject Greece|class=}}", i = @"{{Image requested}}", j = @"{{Connected contributor|John Doe}}";
             string correct = a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + g + "\r\n" + h + "\r\n" + i + "\r\n";
             string articleText = correct;
 
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"abcdefghi");
+            Assert.AreEqual(correct, articleText, "abcdefghi");
 
             articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + i;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdefhgi");
+            Assert.AreEqual(correct, articleText, "bacdefhgi");
 
             articleText = h + "\r\n" + c + "\r\n" + a + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + b + "\r\n" + g + "\r\n" + i;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"hcadefbgi");
+            Assert.AreEqual(correct, articleText, "hcadefbgi");
 
             articleText = d + "\r\n" + c + "\r\n" + a + "\r\n" + h + "\r\n" + f + "\r\n" + e + "\r\n" + b + "\r\n" + i + "\r\n" + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"dcahfebig");
+            Assert.AreEqual(correct, articleText, "dcahfebig");
 
             correct = correct + j + "\r\n";
 
-			articleText = correct;
+            articleText = correct;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "abcdefghij");
 
@@ -1265,10 +1265,10 @@ http://www.site.com
 
             articleText = b + "\r\n" + "\r\n" + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + j + "\r\n" + "\r\n" + "\r\n" + i + "\r\n" + "\r\n" + "\r\n";
 
-            string k=@"{{To do}}";
+            string k = @"{{To do}}";
 
-			correct = correct + k + "\r\n";
-			articleText = correct;
+            correct = correct + k + "\r\n";
+            articleText = correct;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "abcdefghijk");
 
@@ -1278,7 +1278,6 @@ http://www.site.com
 
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "bacdefhgji with newlines at the end and in the middle");
-
         }
 
         [Test]
@@ -1337,7 +1336,7 @@ The";
 {{Image requested|in=Virginia}}
 ";
           	TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"image requested is moved away from WPBS; at some point we could fix the whitespace inside WPBS");
+            Assert.AreEqual(articleText2, articleText, "image requested is moved away from WPBS; at some point we could fix the whitespace inside WPBS");
 
             articleText = @"{{Talk header|search=yes}}
 
@@ -1345,7 +1344,7 @@ The";
 Some text";
             articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with talk header");
+            Assert.AreEqual(articleText2, articleText, "no changes if nothing is detected; starts with talk header");
 
             articleText = @"{{Not a forum}}
 
@@ -1353,7 +1352,7 @@ Some text";
 Some text";
             articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with not a forum");
+            Assert.AreEqual(articleText2, articleText, "no changes if nothing is detected; starts with not a forum");
 
             articleText = @"{{Random template}}
 
@@ -1361,7 +1360,7 @@ Some text";
 Some text";
             articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with a random template");
+            Assert.AreEqual(articleText2, articleText, "no changes if nothing is detected; starts with a random template");
 
             articleText = @"{{Random template}}
 {{Yet another random template}}
@@ -1370,7 +1369,7 @@ Some text";
 Some text";
             articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with two random templates");
+            Assert.AreEqual(articleText2, articleText, "no changes if nothing is detected; starts with two random templates");
 
             articleText = @"{{Skip to talk}}
 {{Talk header}}
@@ -1380,7 +1379,7 @@ Some text";
 Some text";
             articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with two skt, th and a random template");
+            Assert.AreEqual(articleText2, articleText, "no changes if nothing is detected; starts with two skt, th and a random template");
 
             articleText = @"{{Skip to talk}}
 {{Not a forum}}
@@ -1390,7 +1389,7 @@ Some text";
 Some text";
             articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with skt, naf and a random template");
+            Assert.AreEqual(articleText2, articleText, "no changes if nothing is detected; starts with skt, naf and a random template");
 
             articleText = @"{{Not a forum}}
 {{Skip to talk}}
@@ -1399,7 +1398,7 @@ Some text";
 ==Random header==
 Some text";
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"moves skip to talk on the top 1");
+            Assert.AreEqual(articleText2, articleText, "moves skip to talk on the top 1");
 
 
             articleText = @"{{Talk header}}
@@ -1415,7 +1414,7 @@ Some text";
 ==Random header==
 Some text";
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"moves skip to talk on the top 2");
+            Assert.AreEqual(articleText2, articleText, "moves skip to talk on the top 2");
 
             articleText = @"{{Talk header}}
 {{WikiProjectBannerShell|1=
@@ -1440,32 +1439,32 @@ hello talk";
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(talkheader.Replace("{{talk", @"{{Talk") + "\r\n" + talkrest + "\r\n", articleText,"move talk header");
+            Assert.AreEqual(talkheader.Replace("{{talk", @"{{Talk") + "\r\n" + talkrest + "\r\n", articleText, "move talk header");
             
             // handles {{talk header}} on same line as other template
             string WPBS = @"{{WikiProjectBannerShell|blp=yes|1=
 {{OH-Project|class=B|importance=Low|nested=yes}}
 {{WPBiography|living=yes|class=B|priority=Low|filmbio-work-group=yes|nested=yes|listas=Parker, Sarah Jessica}}
 {{WikiProject Cincinnati|class=B|importance=mid|nested=yes}}
-}}", rest = "\r\n\r\n" +  @"==Song Jessie by Joshua Kadison==
+}}", rest = "\r\n\r\n" + @"==Song Jessie by Joshua Kadison==
 In the article it says that above mentioned";
             articleText = WPBS + @"{{Talkheader}}" + rest;
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(@"{{Talk header}}" + "\r\n" + WPBS + rest, articleText,"talk header on same line as other template");
+            Assert.AreEqual(@"{{Talk header}}" + "\r\n" + WPBS + rest, articleText, "talk header on same line as other template");
             
             // no change if already at top
             articleText = talkheader + "\r\n" + talkrest;
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(talkheader + "\r\n" + talkrest, articleText,"talk header already on top");
+            Assert.AreEqual(talkheader + "\r\n" + talkrest, articleText, "talk header already on top");
             
             // no change if no talk header
             articleText = talkrest;
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(talkrest, articleText,"no talk header");
+            Assert.AreEqual(talkrest, articleText, "no talk header");
 
             talkheader = @"{{Talk header}}";
             talkrest = @"==hello==
@@ -1474,7 +1473,7 @@ hello talk";
 
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
 
-            Assert.AreEqual(talkheader + "\r\n" + "{{GA nominee}}\r\n" + talkrest + "\r\n", articleText,"GA nominee involved");
+            Assert.AreEqual(talkheader + "\r\n" + "{{GA nominee}}\r\n" + talkrest + "\r\n", articleText, "GA nominee involved");
         }
         
         [Test]
@@ -1486,7 +1485,7 @@ hello talk";
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(@"{{Talk header|noarchive=no}}" + "\r\n" + talkrest+ "\r\n", articleText, "renamed to upper case with space");
+            Assert.AreEqual(@"{{Talk header|noarchive=no}}" + "\r\n" + talkrest + "\r\n", articleText, "renamed to upper case with space");
         }
         
         [Test]
@@ -1527,15 +1526,15 @@ bar", df = @"{{DEFAULTSORT:Bert}}";
         [Test]
         public void SkipToTalk()
         {
-            string articleText = @"{{Skiptotoc}}", STT = @"{{Skip to talk}}";
+            string articleText = @"{{Skiptotoc}}", stt = @"{{Skip to talk}}";
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(STT + "\r\n", articleText);
+            Assert.AreEqual(stt + "\r\n", articleText);
             
             articleText = @"{{skiptotoctalk}}";
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(STT + "\r\n", articleText);
+            Assert.AreEqual(stt + "\r\n", articleText);
         }
         
         [Test]
@@ -1596,7 +1595,7 @@ Hello world comment.");
             TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, @"==Untitled==
-Hello world comment.","don't add blank line when header is on the top");
+Hello world comment.", "don't add blank line when header is on the top");
 
             articleTextIn = @"{{Football}}" +"\r\n" + comment;
 
@@ -1605,7 +1604,7 @@ Hello world comment.","don't add blank line when header is on the top");
             Assert.AreEqual(articleTextIn, @"{{Football}}
 
 ==Untitled==
-Hello world comment.","add header between template and text");
+Hello world comment.", "add header between template and text");
 
         }
         
@@ -1630,7 +1629,7 @@ Hello world comment.","add header between template and text");
 ==Question==
 :Hello world comment3.";
             
-            
+
             TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
@@ -1740,7 +1739,7 @@ File:Example.jpg|Caption2
         [Test]
         public void WikiProjectBannerShellRedirects()
         {
-            string red1 = @"{{WPBS}}", red2=@"{{Wikiprojectbannershell}}", red3=@"{{wpb}}", red4 = @"{{WPB}}",
+            string red1 = @"{{WPBS}}", red2 = @"{{Wikiprojectbannershell}}", red3 = @"{{wpb}}", red4 = @"{{WPB}}",
 
             WikiProjectBannerShell = @"{{WikiProjectBannerShell}}",
             WikiProjectBanners = @"{{WikiProjectBanners}}";
@@ -1855,8 +1854,8 @@ File:Example.jpg|Caption2
         {
             const string a = @"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}";
             
-            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blp}}"),"removes redundant banner");
-            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"),"empty parameter in WPBS");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blp}}"), "removes redundant banner");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"), "empty parameter in WPBS");
             Assert.AreEqual("{{Blp}}", TalkPageFixes.WikiProjectBannerShell("{{Blp}}"));
         }
         
@@ -1865,10 +1864,10 @@ File:Example.jpg|Caption2
         {
             const string a = @"{{WikiProjectBannerShell|blpo=yes|1={{WPBiography|foo=bar}}}}";
             
-            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blpo}}"),"removes redundant banner");
-            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{BLPO}}"),"removes redundant banner");
-            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{BLP others}}"),"removes redundant banner");
-            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("blpo=yes", "blpo=") + "{{Blpo}}"),"empty parameter in WPBS");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blpo}}"), "removes redundant banner");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{BLPO}}"), "removes redundant banner");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{BLP others}}"), "removes redundant banner");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("blpo=yes", "blpo=") + "{{Blpo}}"), "empty parameter in WPBS");
             Assert.AreEqual("{{Blpo}}", TalkPageFixes.WikiProjectBannerShell("{{Blpo}}"));
         }
         
@@ -1877,8 +1876,8 @@ File:Example.jpg|Caption2
         {
             const string a = @"{{WikiProjectBannerShell|activepol=yes|1={{WPBiography|foo=bar|activepol=yes}}}}";
             
-            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Activepol}}"),"removes redundant banner");
-            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("activepol=yes|", "activepol=|") + "{{activepol}}"),"empty parameter in WPBS");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Activepol}}"), "removes redundant banner");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("activepol=yes|", "activepol=|") + "{{activepol}}"), "empty parameter in WPBS");
             Assert.AreEqual("{{activepol}}", TalkPageFixes.WikiProjectBannerShell("{{activepol}}"));
         }
         
@@ -1977,12 +1976,12 @@ File:Example.jpg|Caption2
             string a = @"{{WPBiography}}";
             
             Assert.AreEqual(a.Replace(@"}}", " | living=yes}}"), TalkPageFixes.WPBiography(a + @"{{blp}}"), "Add blp to WPBiography");
-            Assert.AreEqual(a.Replace(@"}}", " |living=yes}}"), TalkPageFixes.WPBiography(a.Replace(@"}}"," |living=}}") + @"{{blp}}"), "Add value to empty parameter");
-            Assert.AreEqual(a.Replace(@"}}", "|living=no}}" + @"{{blp}}"), TalkPageFixes.WPBiography(a.Replace(@"}}","|living=no}}") + @"{{blp}}"), "No change if blp=yes and living=no");
+            Assert.AreEqual(a.Replace(@"}}", " |living=yes}}"), TalkPageFixes.WPBiography(a.Replace(@"}}", " |living=}}") + @"{{blp}}"), "Add value to empty parameter");
+            Assert.AreEqual(a.Replace(@"}}", "|living=no}}" + @"{{blp}}"), TalkPageFixes.WPBiography(a.Replace(@"}}", "|living=no}}") + @"{{blp}}"), "No change if blp=yes and living=no");
             Assert.AreEqual(a.Replace(@"}}", " | living=yes | activepol=yes | politician-work-group=yes}}"), TalkPageFixes.WPBiography(a + @"{{activepol}}"), "Add activepol to WPBiography");
             Assert.AreEqual(a.Replace(@"}}", " | living=yes | activepol=yes | politician-work-group=yes}}"), TalkPageFixes.WPBiography(a + @"{{active politician}}"), "Add activepol via redirect to WPBiography");
-            Assert.AreEqual(a.Replace(@"}}", " |activepol= yes| living=yes | politician-work-group=yes}}"), TalkPageFixes.WPBiography(a.Replace(@"}}"," |activepol=}}") + @"{{activepol}}"), "Add value to empty parameter");
-            Assert.AreEqual(a.Replace(@"}}", " |activepol=yes | living=yes | politician-work-group=yes}}"), TalkPageFixes.WPBiography(a.Replace(@"}}"," |activepol=no}}") + @"{{activepol}}"), "Change value to activepol no nonsense parameter");
+            Assert.AreEqual(a.Replace(@"}}", " |activepol= yes| living=yes | politician-work-group=yes}}"), TalkPageFixes.WPBiography(a.Replace(@"}}", " |activepol=}}") + @"{{activepol}}"), "Add value to empty parameter");
+            Assert.AreEqual(a.Replace(@"}}", " |activepol=yes | living=yes | politician-work-group=yes}}"), TalkPageFixes.WPBiography(a.Replace(@"}}", " |activepol=no}}") + @"{{activepol}}"), "Change value to activepol no nonsense parameter");
             Assert.AreEqual(a.Replace(@"}}", " | living=yes | activepol=yes | politician-work-group=yes}}"), TalkPageFixes.WPBiography(a + @"{{blp}}{{activepol}}"), "Add activepol and blp to WPBiography");
         }
 
@@ -1992,9 +1991,9 @@ File:Example.jpg|Caption2
             string a = @"{{WPSongs}}";
 
             Assert.AreEqual(a.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a + @"{{sir}}"), "Add sir to WPSongs");
-            Assert.AreEqual(a.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}"," | needs-infobox=}}" + @"{{sir}}")), "Add sir to WPSongs with empty parameter");
-            Assert.AreEqual(a.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}"," | needs-infobox=}}" + @"{{Single infobox request}}")), "Add Single infobox request to WPSongs with empty parameter");
-            Assert.AreEqual(a.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}"," | needs-infobox=yes}}") + @"{{sir}}"), "Remove sir when WPSongs with needs-infobox=yes exists");
+            Assert.AreEqual(a.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}", " | needs-infobox=}}" + @"{{sir}}")), "Add sir to WPSongs with empty parameter");
+            Assert.AreEqual(a.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}", " | needs-infobox=}}" + @"{{Single infobox request}}")), "Add Single infobox request to WPSongs with empty parameter");
+            Assert.AreEqual(a.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}", " | needs-infobox=yes}}") + @"{{sir}}"), "Remove sir when WPSongs with needs-infobox=yes exists");
             Assert.AreEqual(a, TalkPageFixes.WPSongs(a), "Do nothing");
             Assert.AreEqual(a, TalkPageFixes.WPSongs(a.Replace(@"}}", "|importance=yes}}")), "Remove importance");
             Assert.AreEqual(a, TalkPageFixes.WPSongs(a.Replace(@"}}", "|needs-infobox=no}}")), "Remove needs-infobox=no");
@@ -2002,10 +2001,10 @@ File:Example.jpg|Caption2
 
             string b = @"{{WikiProject Songs}}";
 
-            Assert.AreEqual(b.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b + @"{{sir}}"), "Add sir to WPSongs");
-            Assert.AreEqual(b.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b.Replace(@"}}", " | needs-infobox=}}" + @"{{sir}}")), "Add sir to WPSongs with empty parameter");
-            Assert.AreEqual(b.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b.Replace(@"}}", " | needs-infobox=}}" + @"{{Single infobox request}}")), "Add Single infobox request to WPSongs with empty parameter");
-            Assert.AreEqual(b.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b.Replace(@"}}", " | needs-infobox=yes}}") + @"{{sir}}"), "Remove sir when WPSongs with needs-infobox=yes exists");
+            Assert.AreEqual(b.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b + @"{{sir}}"), "Add sir to WPSongs");
+            Assert.AreEqual(b.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b.Replace(@"}}", " | needs-infobox=}}" + @"{{sir}}")), "Add sir to WPSongs with empty parameter");
+            Assert.AreEqual(b.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b.Replace(@"}}", " | needs-infobox=}}" + @"{{Single infobox request}}")), "Add Single infobox request to WPSongs with empty parameter");
+            Assert.AreEqual(b.Replace(@"}}", " | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b.Replace(@"}}", " | needs-infobox=yes}}") + @"{{sir}}"), "Remove sir when WPSongs with needs-infobox=yes exists");
             Assert.AreEqual(b, TalkPageFixes.WPSongs(b), "Do nothing");
         }
 
@@ -2043,7 +2042,7 @@ File:Example.jpg|Caption2
             Assert.IsTrue(InTemplateRule.TemplateUsedInText("bert", @"Bert}} was great"));
             Assert.IsTrue(InTemplateRule.TemplateUsedInText("bert", @"bert}} was great"));
             
-            //spacing
+            // spacing
             Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert }} was great"));
             Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @" Bert}} was great"));
             Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert|fo=yes}} was great"));
@@ -2054,7 +2053,7 @@ File:Example.jpg|Caption2
             Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"
     Bert|fo=yes}} was great"));
             
-            //comments
+            // comments
             Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert|fo=yes}} was <!--great-->"));
             Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"<!--thing--> Bert }} was great"));
             Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert<!--thing-->}} was great"));
@@ -2104,7 +2103,7 @@ File:Example.jpg|Caption2
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"   Foo"), "cleans spacing from Firefox Category paste");
 
             Assert.AreEqual(@"Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&pe=1&#Date_on"));
-            Assert.AreEqual(@"Foo", LMaker.NormalizeTitle(@"Foo‎"),"title has left-to-right mark at the end");
+            Assert.AreEqual(@"Foo", LMaker.NormalizeTitle(@"Foo‎"), "title has left-to-right mark at the end");
 
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&offset=20130214190000&action=history"), "cleans spacing from Firefox Category paste");
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/?title=Foo"));
@@ -2145,7 +2144,7 @@ File:Example.jpg|Caption2
             const int big = 10000;
             ListMaker LMakerLarge = new ListMaker();
             LMakerLarge.Clear();
-            for (int i=1; i<big; i++)
+            for (int i = 1; i < big; i++)
                 LMakerLarge.Add(new Article(i.ToString()));
             
             LMakerLarge.Add(new Article("1"));
@@ -2164,7 +2163,7 @@ File:Example.jpg|Caption2
             const int big = 500;
             ListMaker LMakerLarge = new ListMaker();
             LMakerLarge.Clear();
-            for (int i=1; i<big; i++)
+            for (int i = 1; i < big; i++)
                 LMakerLarge.Add(i.ToString());
 
             LMakerLarge.Add("Talk:Me");
@@ -2285,7 +2284,7 @@ File:Example.jpg|Caption2
             const int big = 10000;
             ListMaker LMakerC10K = new ListMaker();
 
-            for (int i=0; i<big; i++)
+            for (int i = 0; i < big; i++)
                 LMakerC10K.Add(new Article(i.ToString()));
 
             LMakerC10K.Add(new Article("A"));
@@ -2296,7 +2295,7 @@ File:Example.jpg|Caption2
             System.Windows.Forms.ListBox lb3 = new System.Windows.Forms.ListBox();
             
             List<Article> articlesC = new List<Article>();
-            for (int i=0; i<big; i++)
+            for (int i = 0; i < big; i++)
                 articlesC.Add(new Article(i.ToString()));
             
             articlesC.Add(new Article("C"));
@@ -2326,13 +2325,13 @@ File:Example.jpg|Caption2
         {
             WikiFunctions.Controls.Lists.ListBoxArticle lbArticles = new WikiFunctions.Controls.Lists.ListBoxArticle();
             
-            const int big = 70000, sel=5000;
+            const int big = 70000, sel = 5000;
 
             // sequential block deletion performance
-            for (int i=0; i<big; i++)
+            for (int i = 0; i < big; i++)
                 lbArticles.Items.Add(new Article(i.ToString()));
             
-            for (int j=sel; j>0; j--)
+            for (int j = sel; j > 0; j--)
                 lbArticles.SetSelected(big-j, true);
             
             lbArticles.RemoveSelected(true);
@@ -2344,7 +2343,7 @@ File:Example.jpg|Caption2
 
             // single selected item deletion performance
             lbArticles.Items.Clear();
-            for (int i=0; i<big*3; i++)
+            for (int i = 0; i < big*3; i++)
                 lbArticles.Items.Add(new Article(i.ToString()));
             lbArticles.SetSelected((int)big/2, true);
             lbArticles.RemoveSelected(true);
@@ -2352,7 +2351,7 @@ File:Example.jpg|Caption2
 
             // non-sequential deletion
             lbArticles.Items.Clear();
-            for (int i=0; i<10; i++)
+            for (int i = 0; i < 10; i++)
                 lbArticles.Items.Add(new Article(i.ToString()));
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(3, true);
@@ -2367,7 +2366,7 @@ File:Example.jpg|Caption2
             Assert.IsTrue(lbArticles.Items.Contains(new Article("2")));
 
             lbArticles.Items.Clear();
-            for (int i=0; i<10; i++)
+            for (int i = 0; i < 10; i++)
                 lbArticles.Items.Add(new Article(i.ToString()));
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(5, true);
@@ -2377,6 +2376,7 @@ File:Example.jpg|Caption2
                 lbArticles.SetSelected(1, true);
                 lbArticles.RemoveSelected(true);
             }
+
             Assert.IsFalse(lbArticles.Items.Contains(new Article("1")));
             Assert.IsFalse(lbArticles.Items.Contains(new Article("5")));
             Assert.IsTrue(lbArticles.Items.Contains(new Article("2")));
@@ -2543,11 +2543,11 @@ File:Example.jpg|Caption2
         public void SubstTemplatesNoExpand()
         {
             WikiFunctions.SubstTemplates st = new WikiFunctions.SubstTemplates();
-            st.ExpandRecursively =false;
+            st.ExpandRecursively = false;
             
             Assert.AreEqual("Now {{foo}}", st.SubstituteTemplates("Now {{foo}}", "test"));
 
-            st.TemplateList = new [] {"foo", "bar"};
+            st.TemplateList = new[] {"foo", "bar"};
             
             Assert.AreEqual(2, st.NoOfRegexes);
             

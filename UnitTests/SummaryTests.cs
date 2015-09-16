@@ -28,7 +28,7 @@ namespace UnitTests
             Assert.IsTrue(Summary.IsCorrect("[[test]]"));
             Assert.IsTrue(Summary.IsCorrect("[[test]] [[foo]]"));
 
-            //broken wikilinks, should be found to be invalid
+            // broken wikilinks, should be found to be invalid
             Assert.IsFalse(Summary.IsCorrect("[["));
             Assert.IsFalse(Summary.IsCorrect("[[["));
             Assert.IsFalse(Summary.IsCorrect("[[test]"));
