@@ -787,25 +787,26 @@ namespace WikiFunctions
         /// </summary>
         public static List<string> DuplicateWikiLinks(string text)
         {
-            List<string> allWikiLinks = new List<string>();
-            List<string> dupeWikiLinks = new List<string>();
+            // If any links in commented out text etc. need to ignore these
+            if((from Match m in WikiRegexes.UnformattedText.Matches(text)
+                         select m.Value).Any(t => WikiRegexes.WikiLinksOnly.IsMatch(t)))
+                text = Tools.ReplaceWithSpaces(text, WikiRegexes.UnformattedText.Matches(text));
 
-            // ignore links in commented out text etc.
-            text = Tools.ReplaceWithSpaces(text, WikiRegexes.UnformattedText.Matches(text));
+            List<string> allWikiLinks = Parsers.GetAllWikiLinks(text);
 
-            // make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
-            allWikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(text) select Tools.TurnFirstToUpper(m.Groups[1].Value.Trim())).ToList();
+            // Make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
+            allWikiLinks = allWikiLinks.Select(l => Tools.TurnFirstToUpper((l.Contains("|") ? l.Substring(0, l.IndexOf("|")) : l).Trim("[] ".ToCharArray()))).ToList();
 
             // Take all links found and generate dictionary of link name and count for those with more than one link
             Dictionary<string, int> dupeLinks = allWikiLinks.GroupBy(x => x).Where(g => g.Count() > 1).ToDictionary(x => x.Key, y => y.Count());
 
             // create list of "Name (count)" from Dictionary
             // don't count wikilinked dates or targetless links as duplicate links
-            dupeWikiLinks = dupeLinks.Where(x => x.Key.Length > 0 && !WikiRegexes.Dates.IsMatch(x.Key) && !WikiRegexes.Dates2.IsMatch(x.Key)).Select(x => x.Key + @" (" + x.Value + @")").ToList();
+            List<string> dupeWikiLinks = dupeLinks.Where(x => x.Key.Length > 0 && !WikiRegexes.Dates.IsMatch(x.Key) && !WikiRegexes.Dates2.IsMatch(x.Key)).Select(x => x.Key + @" (" + x.Value + @")").ToList();
 
             // ensure list is sorted
             dupeWikiLinks.Sort();
-            
+
             return dupeWikiLinks;
         }
 
