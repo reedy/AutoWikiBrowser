@@ -892,9 +892,9 @@ now stubborn}}");
             Variables.SetProjectLangCode("el");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{σε χρήση}}"),"σε χρήση");
+            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{σε χρήση}}"), "σε χρήση");
             Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{inuse}}"));
-            Assert.IsFalse(WikiRegexes.InUse.IsMatch(@"{{goceinuse}}"),"goceinuse is en-only");            
+            Assert.IsFalse(WikiRegexes.InUse.IsMatch(@"{{goceinuse}}"), "goceinuse is en-only");            
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif

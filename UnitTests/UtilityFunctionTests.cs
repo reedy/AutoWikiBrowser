@@ -48,8 +48,8 @@ namespace UnitTests
 
             // don't change sorting for single categories
             Assert.AreEqual("[[Category:Test1|Foooo]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange),"don't change sorting for single categories");
-            Assert.IsTrue(noChange,"don't change sorting for single categories");
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange), "don't change sorting for single categories");
+            Assert.IsTrue(noChange, "don't change sorting for single categories");
 
             // should work
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}",
@@ -833,9 +833,9 @@ foo {{persondata}}
             Variables.SetProjectLangCode("el");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(Parsers.IsInUse("{{Σε χρήση}} Hello world"),"σε χρήση");
-            Assert.IsTrue(Parsers.IsInUse("{{inuse}} Hello world"),"inuse");
-            Assert.IsFalse(Parsers.IsInUse("{{goceinuse}} Hello world"),"goceinuse is en-only");
+            Assert.IsTrue(Parsers.IsInUse("{{Σε χρήση}} Hello world"), "σε χρήση");
+            Assert.IsTrue(Parsers.IsInUse("{{inuse}} Hello world"), "inuse");
+            Assert.IsFalse(Parsers.IsInUse("{{goceinuse}} Hello world"), "goceinuse is en-only");
 
 #endif
         }
@@ -930,7 +930,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ممثل}}"),"actor stub");
+            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ممثل}}"), "actor stub");
             Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ألمانيا}}"), "germany stub");
             
             Variables.SetProjectLangCode("en");

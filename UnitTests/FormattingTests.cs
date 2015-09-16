@@ -73,10 +73,9 @@ namespace UnitTests
         [Test]
         public void BrAfterMaintanceTemplate()
         {
-            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br>"),"br after a maintance template");
-            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br/>"),"br after a maintance template");
-            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br />"),"br after a maintance template");
-
+            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br>"), "br after a maintance template");
+            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br/>"), "br after a maintance template");
+            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br />"), "br after a maintance template");
         }
 
         [Test]
@@ -196,16 +195,15 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
 ==External Links==
 *http://foo.com", "a"));
 
-
             Assert.AreEqual(@"some text
 
 ==See also==", Parsers.FixHeadings(@"some text
 
-==Also see==", "test"),"rename also see to see also section");
+==Also see==", "test"), "rename also see to see also section");
 
-            Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Also see==", "test"),"rename also see to see also section");
-            Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Internal links==", "test"),"rename to see also section");
-            Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Related articles==", "test"),"rename to see also section");
+            Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Also see==", "test"), "rename also see to see also section");
+            Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Internal links==", "test"), "rename to see also section");
+            Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Related articles==", "test"), "rename to see also section");
             Assert.AreEqual(@"Foo
 
 ==See also==
@@ -213,12 +211,12 @@ Bar", Parsers.FixHeadings(@"Foo
 
 ==See Also==
 Bar", "test"), "See Also capitalization");
-            Assert.AreEqual(@"===Related articles===", Parsers.FixHeadings(@"===Related articles===", "test"),"do nothing if level 3");
+            Assert.AreEqual(@"===Related articles===", Parsers.FixHeadings(@"===Related articles===", "test"), "do nothing if level 3");
             Assert.AreEqual(@"some text
 
 ===Related articles===", Parsers.FixHeadings(@"some text
 
-===Related articles===", "test"),"do nothing if level 3");
+===Related articles===", "test"), "do nothing if level 3");
 
             Assert.AreEqual(@"Foo
 
@@ -251,19 +249,19 @@ Five", "a"));
             // remove colon from end of heading text
             Assert.AreEqual(@"== hello world ==
 ", Parsers.FixHeadings(@"== hello world: ==
-", "a"),"removes colon");
+", "a"), "removes colon");
             Assert.AreEqual(@"== hello world  ==
 ", Parsers.FixHeadings(@"== hello world : ==
-", "a"),"removes colon with space");
+", "a"), "removes colon with space");
             Assert.AreEqual(@"== hello world ==
 ", Parsers.FixHeadings(@"=== hello world: ===
-", "a"),"removes colon - header level 3");
+", "a"), "removes colon - header level 3");
             Assert.AreEqual(@"== hello world ==
 
 == hello world2 ==
 ", Parsers.FixHeadings(@"== hello world: ==
 == hello world2: ==
-", "a"),"removes colons from multiple places");
+", "a"), "removes colons from multiple places");
 
             Assert.AreEqual(@"== hello world ==
 
@@ -433,7 +431,7 @@ text", "Talk:foo"));
             Assert.AreEqual(@"== '''Caernarvon''' 1536-1832 ==", Parsers.FixHeadings(@"== '''Caernarvon''' 1536-1832 ==", "a"));
             Assert.AreEqual(@"= '''Caernarvon''' 1536-1832 =", Parsers.FixHeadings(@"= '''Caernarvon''' 1536-1832 =", "a"));
 
-            Assert.AreEqual("==See also==", Parsers.FixHeadings("=='''See Also'''==", "test"),"remove bold and fix casing at once");
+            Assert.AreEqual("==See also==", Parsers.FixHeadings("=='''See Also'''==", "test"), "remove bold and fix casing at once");
 
             Assert.AreEqual(@"==Header with bold==", Parsers.FixHeadings(@"=='''Header with bold'''==<br/>", "test"));
         }
@@ -441,10 +439,10 @@ text", "Talk:foo"));
         [Test]
         public void TestFixHeadingsEmpytyBoldRemoval()
         {
-        	Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==''''''Foo==", "test"),"empty tag in the beginning");
-        	Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo''''''==", "test"),"empty tag at the end");
-        	Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo''' ''' bar==", "test"),"empty tag in the middle");
-        	Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== Foo''' ''' bar ==", "test"),"empty tag in the middle and spaces around");
+        	Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==''''''Foo==", "test"), "empty tag in the beginning");
+        	Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo''''''==", "test"), "empty tag at the end");
+        	Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo''' ''' bar==", "test"), "empty tag in the middle");
+        	Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== Foo''' ''' bar ==", "test"), "empty tag in the middle and spaces around");
         	Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo'''   ''' bar==", "test"), "more spaces");
         	Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== '''Foo''' ''' bar''' ==", "test"));
         }
@@ -622,9 +620,9 @@ Really great", "Foo"),"Removes heading if it matches pagetitle");
 
 ===Foo===
 Really great";
-            Assert.AreEqual(L3, Parsers.FixHeadings(L3, "Foo"),"Does not remove level 3 heading that matches pagetitle");
+            Assert.AreEqual(L3, Parsers.FixHeadings(L3, "Foo"), "Does not remove level 3 heading that matches pagetitle");
 
-        	const string HeadingNotAtStart = @"Foo is great.
+            const string HeadingNotAtStart = @"Foo is great.
 
 ==Overview==
 Here there";
@@ -933,10 +931,10 @@ was"));
         [Test]
         public void FixOrdinalTests()
         {
-            Assert.AreEqual("1st day at school", Parsers.FixSyntax(@"1<sup>st</sup> day at school"),"1st");
-            Assert.AreEqual("2nd day at school", Parsers.FixSyntax(@"2<sup>nd</sup> day at school"),"2nd");
-            Assert.AreEqual("3rd day at school", Parsers.FixSyntax(@"3<sup>rd</sup> day at school"),"3rd");
-            Assert.AreEqual("4th day at school", Parsers.FixSyntax(@"4<sup>th</sup> day at school"),"4th");
+            Assert.AreEqual("1st day at school", Parsers.FixSyntax(@"1<sup>st</sup> day at school"), "1st");
+            Assert.AreEqual("2nd day at school", Parsers.FixSyntax(@"2<sup>nd</sup> day at school"), "2nd");
+            Assert.AreEqual("3rd day at school", Parsers.FixSyntax(@"3<sup>rd</sup> day at school"), "3rd");
+            Assert.AreEqual("4th day at school", Parsers.FixSyntax(@"4<sup>th</sup> day at school"), "4th");
         }
 
 

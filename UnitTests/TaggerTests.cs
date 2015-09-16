@@ -110,11 +110,11 @@ namespace UnitTests
 | c=20th century
 | cn1=21st century
 }} eleven twelve", "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text),"Tag for orphan");
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"Don't tag for underlinked");
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"Don't tag for deadend");
-            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"Tag for stub");
-            Assert.IsTrue(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text),"Tag for uncat stub");
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "Tag for orphan");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text), "Don't tag for underlinked");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text), "Don't tag for deadend");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text), "Tag for stub");
+            Assert.IsTrue(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text), "Tag for uncat stub");
 
             // Pages with MinorPlanetListFooter will have wikilinks. They should not be tagged as deadend.
             text = parser.Tagger(@"A {{MinorPlanetListFooter|A}} B", "Test", false, out noChange, ref summary);
@@ -444,11 +444,11 @@ namespace UnitTests
             // Do not add underlinked if page is small with a single wikilink
             Globals.UnitTestIntValue = 0;
             text = parser.Tagger(ShortTextWithSingleLink, "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text),"uncat");
-            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"Stub");
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"underlinked");
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text),"orphan");
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text), "uncat");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text), "Stub");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text), "underlinked");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text), "deadend");
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "orphan");
             Assert.IsFalse(text.Contains(UncatStub));
 
             // when no cats from existing page by API call but genfixes adds people categories, don't tag uncat
@@ -629,63 +629,63 @@ namespace UnitTests
             WikiRegexes.MakeLangSpecificRegexes();
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            //Stub, no existing stub tag. Needs all tags
-            //FIXME: In fact the first group of tests should be false for wikify and true for deadend since the text
+            // Stub, no existing stub tag. Needs all tags
+            // FIXME: In fact the first group of tests should be false for wikify and true for deadend since the text
             // has no wikilinks
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text),"orphan");
-            Assert.IsTrue(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
-            //Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"wikify");
-            //Assert.IsFalse(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
-            //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsTrue(Tools.NestedTemplateRegex("بذرة غير مصنفة").IsMatch(text),"Uncategorized stub");
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "orphan");
+            Assert.IsTrue(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"), "orphan");
+            // Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"wikify");
+            // Assert.IsFalse(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            // Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("بذرة غير مصنفة").IsMatch(text), "Uncategorized stub");
             Assert.IsFalse(text.Contains("Uncategorized"), "no en-wiki uncat tags");
-            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text), " stub");
 
-            text = parser.Tagger(ShortText+ @"{{disambig}}", "Test", false, out noChange, ref summary);
-            //Don't add stub/orphan to disambig pages. Still add wikify
-            Assert.IsFalse(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
-            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
-            //Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            text = parser.Tagger(ShortText + @"{{disambig}}", "Test", false, out noChange, ref summary);
+            // Don't add stub/orphan to disambig pages. Still add wikify
+            Assert.IsFalse(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"), "orphan");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text), "stub");
+            // Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
 
-            text = parser.Tagger(ShortText+ @"{{توضيح}}", "Test", false, out noChange, ref summary);
-            //Don't add stub/orphan to disambig pages. Still add wikify
-            Assert.IsFalse(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
-            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"wikify");
-            Assert.IsFalse(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
-            //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
+            text = parser.Tagger(ShortText + @"{{توضيح}}", "Test", false, out noChange, ref summary);
+            // Don't add stub/orphan to disambig pages. Still add wikify
+            Assert.IsFalse(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"), "orphan");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text), "stub");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text), "wikify");
+            Assert.IsFalse(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"), "wikify");
+            // Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
             
             text = parser.Tagger(ShortText.Replace("consectetur", "[[consectetur]]"), "Test", false, out noChange, ref summary);
-            //Non Deadend stub
+            // Non Deadend stub
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"wikify");
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text),"orphan");
-            Assert.IsFalse(text.Contains(UncatStub),"english uncatstub");
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text),"uncat");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text), "wikify");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text), "deadend");
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "orphan");
+            Assert.IsFalse(text.Contains(UncatStub), "english uncatstub");
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text), "uncat");
 
             text = parser.Tagger(Regex.Replace(ShortText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             //very wikified stub
-            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"wikify");
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text),"orphan");
-            Assert.IsFalse(text.Contains(UncatStub),"english uncatstub");
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text),"uncat");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text), "stub");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text), "wikify");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text), "deadend");
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "orphan");
+            Assert.IsFalse(text.Contains(UncatStub), "english uncatstub");
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text), "uncat");
 
             // dead end plus orphan but one wikilink: dead end --> orphan
             text = parser.Tagger(@"{{نهاية مسدودة|تاريخ=نوفمبر 2013}}
 {{يتيمة|تاريخ=نوفمبر 2013}}
 
-[[link]]" + LongText,"Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text),"orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text),"wikify");
+[[link]]" + LongText, "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text), "deadend");
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "orphan");
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "wikify");
             Assert.IsFalse(text.Contains("}}" + "\r\n\r\n" + "{{")); // no blank line between wikify & orphan
 
             Globals.UnitTestBoolValue = true;
-            text = parser.Tagger(ShortText+ShortText+ShortText+ShortText, "Test", false, out noChange, ref summary);
+            text = parser.Tagger(ShortText + ShortText + ShortText + ShortText, "Test", false, out noChange, ref summary);
             Assert.IsFalse(text.Contains("Uncategorized"), "no en-wiki uncat tags");
 
             Variables.SetProjectLangCode("en");
@@ -704,24 +704,24 @@ namespace UnitTests
             WikiRegexes.MakeLangSpecificRegexes();
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            //Stub, no existing stub tag. Needs all tags
-            Assert.IsTrue(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
-            //Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
-            //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsTrue(Tools.NestedTemplateRegex("تقاوى مش متصنفه").IsMatch(text),"Uncategorized stub");
-            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub tag added");
+            // Stub, no existing stub tag. Needs all tags
+            Assert.IsTrue(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"), "orphan");
+            // Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            // Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("تقاوى مش متصنفه").IsMatch(text), "Uncategorized stub");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text), "stub tag added");
 
             text = parser.Tagger(ShortText+ @"{{disambig}}", "Test", false, out noChange, ref summary);
-            //Don't add stub/orphan to disambig pages. Still add wikify
-            Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan not added");
-            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub tag not added");
-            Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify not added");
+            // Don't add stub/orphan to disambig pages. Still add wikify
+            Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"), "orphan not added");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text), "stub tag not added");
+            Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"), "wikify not added");
 
             text = parser.Tagger(ShortText+ @"{{توضيح}}", "Test", false, out noChange, ref summary);
-            //Don't add stub/orphan to disambig pages. Still add wikify
-            Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan not added");
-            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub not added");
-            Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify not added");
+            // Don't add stub/orphan to disambig pages. Still add wikify
+            Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"), "orphan not added");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text), "stub not added");
+            Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"), "wikify not added");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -753,7 +753,7 @@ namespace UnitTests
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
 
             text = parser.Tagger(@"{{multiple issues|foo={{subst:CURRENTMONTH}} |orphan={{subst:FOOBAR}} }}" + ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text),"tags with subst");
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "tags with subst");
 
             Globals.UnitTestBoolValue = false;
 
@@ -855,31 +855,37 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void Remove()
         {
             string text = parser.Tagger(ShortText + Stub, "Test", false, out noChange, ref summary);
-            //Stub, tag not removed
+
+            // Stub, tag not removed
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             text = parser.Tagger(LongText + Stub, "Test", false, out noChange, ref summary);
-            //stub tag removed
+
+            // stub tag removed
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
             text = parser.Tagger("{{wikify}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             string text1 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             string text2 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]" + Stub), "Test", false, out noChange, ref summary);
-            //wikify tag removed
+
+            // wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
-            Assert.AreEqual(text,text1,"check whether wikify tag is removed properly");
-            Assert.AreEqual(text1,text2,"check whether stub tag is removed properly");
+            Assert.AreEqual(text, text1, "check whether wikify tag is removed properly");
+            Assert.AreEqual(text1, text2, "check whether stub tag is removed properly");
 
             text = parser.Tagger("{{wikify|reason=something}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
-            //wikify tag with reason NOT removed
+
+            // wikify tag with reason NOT removed
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
 
             text = parser.Tagger("{{multiple issues|COI=May 2010 | POV = May 2010 |wikify=June 2010}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
-            //wikify tag removed
+
+            // wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
 
             text = parser.Tagger("A ==x== {{multiple issues|COI=May 2010 | POV = May 2010 |wikify=June 2010|section=y}} ==B==" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
-            //wikify tag removed
+
+            // wikify tag removed
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
 
             Globals.UnitTestIntValue = 4;
@@ -923,10 +929,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             string text = parser.Tagger("{{orphan}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             
-            //Test if orphan tag is removed properly. Use wikilink and List of to prevent tagging for wikify, deadend and stub
+            // Test if orphan tag is removed properly. Use wikilink and List of to prevent tagging for wikify, deadend and stub
             text = parser.Tagger("{{orphan}}[[foo]]", "List of Tests", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text,"[[foo]]");
+            Assert.AreEqual(text, "[[foo]]");
 
             // Don't remove when few parameter set
             text = parser.Tagger("{{orphan|few=a}}", "Test", false, out noChange, ref summary);
@@ -938,7 +944,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 }}[[foo]]", "List of Tests", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(text));
-            Assert.AreEqual(text,"[[foo]]");
+            Assert.AreEqual(text, "[[foo]]");
 
             Globals.UnitTestBoolValue = true;
 
@@ -960,14 +966,14 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             text = parser.Tagger("{{يتيمة}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
 
-            //Test if orphan tag is removed properly. Use wikilink and disambig to prevent tagging for wikify, deadend and stub
+            // Test if orphan tag is removed properly. Use wikilink and disambig to prevent tagging for wikify, deadend and stub
             text = parser.Tagger("{{orphan}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text,"{{orphan}}[[foo]]{{disambig}}");
+            Assert.AreEqual(text, "{{orphan}}[[foo]]{{disambig}}");
             
             text = parser.Tagger("{{يتيمة}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text,"[[foo]]{{disambig}}");
+            Assert.AreEqual(text, "[[foo]]{{disambig}}");
 
 
             Globals.UnitTestBoolValue = true;
@@ -975,7 +981,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             WikiRegexes.MakeLangSpecificRegexes();
 #endif
         }
-
 
         [Test]
         public void RemoveOrphanArz()
@@ -994,12 +999,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             //Test if orphan tag is removed properly. Use wikilink and disambig to prevent tagging for wikify, deadend and stub
             text = parser.Tagger("{{orphan}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text,"{{orphan}}[[foo]]{{disambig}}");
+            Assert.AreEqual(text, "{{orphan}}[[foo]]{{disambig}}");
             
             text = parser.Tagger("{{يتيمه}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text,"[[foo]]{{disambig}}");
-
+            Assert.AreEqual(text, "[[foo]]{{disambig}}");
 
             Globals.UnitTestBoolValue = true;
             Variables.SetProjectLangCode("en");
@@ -1024,12 +1028,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             //Test if orphan tag is removed properly. Use wikilink and disambig to prevent tagging for wikify, deadend and stub
             text = parser.Tagger("{{orphan}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text,"{{orphan}}[[foo]]{{disambig}}");
+            Assert.AreEqual(text, "{{orphan}}[[foo]]{{disambig}}");
             
             text = parser.Tagger("{{Föräldralös}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text,"[[foo]]{{disambig}}");
-
+            Assert.AreEqual(text, "[[foo]]{{disambig}}");
 
             Globals.UnitTestBoolValue = true;
             Variables.SetProjectLangCode("en");
@@ -1048,20 +1051,20 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Globals.UnitTestBoolValue = true;
 
             text = parser.Tagger(ShortText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
-            //Stub, tag not removed
+            // Stub, tag not removed
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             text = parser.Tagger(LongText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
-            //stub tag removed
+            // stub tag removed
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             
             text = parser.Tagger("{{ويكي}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             string text1 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             string text2 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]") + @"{{بذرة}}", "Test", false, out noChange, ref summary);
-            //wikify tag removed
+            // wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
-            //Assert.AreEqual(text,text1,"check whether wikify tag is removed properly");
-            Assert.AreEqual(text1,text2,"check whether stub tag is removed properly");
+            // Assert.AreEqual(text,text1,"check whether wikify tag is removed properly");
+            Assert.AreEqual(text1, text2, "check whether stub tag is removed properly");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -1079,20 +1082,20 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Globals.UnitTestBoolValue = true;
 
             text = parser.Tagger(ShortText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
-            //Stub, tag not removed
+            // Stub, tag not removed
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             text = parser.Tagger(LongText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
-            //stub tag removed
+            // stub tag removed
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             
             text = parser.Tagger("{{ويكى}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             string text1 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             string text2 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]") + @"{{بذرة}}", "Test", false, out noChange, ref summary);
-            //wikify tag removed
+            // wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
-            //Assert.AreEqual(text,text1,"check whether wikify tag is removed properly");
-            Assert.AreEqual(text1,text2,"check whether stub tag is removed properly");
+            // Assert.AreEqual(text,text1,"check whether wikify tag is removed properly");
+            Assert.AreEqual(text1, text2, "check whether stub tag is removed properly");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -1171,7 +1174,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             WikiRegexes.DatedTemplates.Clear();
             WikiRegexes.DatedTemplates.Add("Fact");
 
-            //Test of updating some of the non dated tags
+            // Test of updating some of the non dated tags
             string text = parser.Tagger("{{fact}}", "Test", false, out noChange, ref summary);
 
             Assert.IsTrue(text.Contains("{{fact|date={{subst:CURRENTMONTHNAME}}"));

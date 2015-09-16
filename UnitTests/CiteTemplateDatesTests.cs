@@ -284,5 +284,5 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
             Assert.IsTrue(ambigDates.ContainsKey(52));
             Assert.IsTrue(ambigDates.ContainsValue(8));
         }
-	}
+    }
 }

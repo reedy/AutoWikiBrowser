@@ -578,9 +578,9 @@ Foo.(here) is a bar While remaining upright may be the primary goal of beginning
             
             GenFixes("John Smith");
             
-            Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"),"birth category");
-            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"),"living people");
-            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Smith, John}}"),"human name defaultsort");
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"), "birth category");
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"), "living people");
+            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Smith, John}}"), "human name defaultsort");
         }
 
         [Test]
@@ -591,16 +591,16 @@ Foo.(here) is a bar While remaining upright may be the primary goal of beginning
             
             GenFixes("Cecilia Uddén");
             
-            Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"),"birth category");
-            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"),"living people");
-            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Udden, Cecilia}}"),"human name defaultsort without special characters");
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"), "birth category");
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"), "living people");
+            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Udden, Cecilia}}"), "human name defaultsort without special characters");
 
             ArticleText = @"{{infobox person}}
 '''İbrahim Smith''' (born 12 April 1991) is great.";
 
             GenFixes("İbrahim Smith");
 
-            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Ibrahim Smith}}"),"human name defaultsort (diacritics removed)");
+            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Ibrahim Smith}}"), "human name defaultsort (diacritics removed)");
         }
 
         [Test]

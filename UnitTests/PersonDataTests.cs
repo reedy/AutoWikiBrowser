@@ -1,4 +1,4 @@
-/*
+﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -108,8 +108,8 @@ namespace UnitTests
             |DATE OF DEATH=}}", a2 = @"{{persondata
             |NAME= Doe, John
             |DATE OF BIRTH= 27 June 1950
-            |DATE OF DEATH=}}", i1 = @"{{infobox foo| dateofbirth = 27 June 1950}}", i2 = @"{{infobox foo| dateofbirth = {{birth date|1950|06|27}}}}"
-                , i2b = @"{{infobox foo| dateofbirth = {{birth date|df=y|1950|06|27}}}}",
+            |DATE OF DEATH=}}", i1 = @"{{infobox foo| dateofbirth = 27 June 1950}}", i2 = @"{{infobox foo| dateofbirth = {{birth date|1950|06|27}}}}",
+            i2b = @"{{infobox foo| dateofbirth = {{birth date|df=y|1950|06|27}}}}",
             a3 = @"{{persondata
             |NAME= Doe, John
             |DATE OF BIRTH=
@@ -143,26 +143,26 @@ namespace UnitTests
             string i6 = i1.Replace("27 June 1950", @"{{dda|2005|07|00|1950|06|00|df=yes}}");
             Assert.AreEqual(i6 + a3, Parsers.PersonData(i6 + a3, "John Doe"), "ignores incomplete/zerod dates from {{dda}}");
 
-            string UnformatedDOB = @"'''Fred''' (born 27 June 1950) was great [[Category:1950 births]]";
-            Assert.AreEqual(UnformatedDOB + a2, Parsers.PersonData(UnformatedDOB + a, "John Doe"), "sets full birth date when matches category");
+            string unformatedDOB = @"'''Fred''' (born 27 June 1950) was great [[Category:1950 births]]";
+            Assert.AreEqual(unformatedDOB + a2, Parsers.PersonData(unformatedDOB + a, "John Doe"), "sets full birth date when matches category");
 
-            UnformatedDOB = @"'''Fred''' (born June 27, 1950) was great [[Category:1950 births]] {{use dmy dates}}";
-            Assert.AreEqual(UnformatedDOB + a2, Parsers.PersonData(UnformatedDOB + a, "John Doe"), "sets full birth date when matches category, American date");
+            unformatedDOB = @"'''Fred''' (born June 27, 1950) was great [[Category:1950 births]] {{use dmy dates}}";
+            Assert.AreEqual(unformatedDOB + a2, Parsers.PersonData(unformatedDOB + a, "John Doe"), "sets full birth date when matches category, American date");
 
-            UnformatedDOB = UnformatedDOB.Replace(@"[[Category:1950 births]]", "");
-            Assert.AreEqual(UnformatedDOB + a3, Parsers.PersonData(UnformatedDOB + a3, "John Doe"), "not set when no birth category");
+            unformatedDOB = unformatedDOB.Replace(@"[[Category:1950 births]]", "");
+            Assert.AreEqual(unformatedDOB + a3, Parsers.PersonData(unformatedDOB + a3, "John Doe"), "not set when no birth category");
 
-            UnformatedDOB = @"'''Fred''' (born 27 June 1949) was great [[Category:1950 births]]";
-            Assert.AreEqual(UnformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(UnformatedDOB + a, "John Doe"), "not set when full birth date doesn't match category");
+            unformatedDOB = @"'''Fred''' (born 27 June 1949) was great [[Category:1950 births]]";
+            Assert.AreEqual(unformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(unformatedDOB + a, "John Doe"), "not set when full birth date doesn't match category");
 
-            UnformatedDOB = @"'''Fred''' (born circa 27 June 1950) was great [[Category:1950 births]]";
-            Assert.AreEqual(UnformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(UnformatedDOB + a, "John Doe"), "only year set when circa date");
+            unformatedDOB = @"'''Fred''' (born circa 27 June 1950) was great [[Category:1950 births]]";
+            Assert.AreEqual(unformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(unformatedDOB + a, "John Doe"), "only year set when circa date");
 
-            UnformatedDOB = @"'''Fred''' (reigned 27 June 1950 – 11 May 1990) was great";
-            Assert.AreEqual(UnformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(UnformatedDOB + a, "John Doe"), "No dates set when reigned");
+            unformatedDOB = @"'''Fred''' (reigned 27 June 1950 – 11 May 1990) was great";
+            Assert.AreEqual(unformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(unformatedDOB + a, "John Doe"), "No dates set when reigned");
 
-            UnformatedDOB = @"'''Fred''' (baptized 27 June 1950 – 11 May 1990) was great";
-            Assert.AreEqual(UnformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(UnformatedDOB + a, "John Doe"), "No dates set when baptized");
+            unformatedDOB = @"'''Fred''' (baptized 27 June 1950 – 11 May 1990) was great";
+            Assert.AreEqual(unformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(unformatedDOB + a, "John Doe"), "No dates set when baptized");
 
             const string Clark = @"
 {{use mdy dates}}

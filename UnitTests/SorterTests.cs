@@ -171,67 +171,66 @@ namespace UnitTests
 |DATE OF DEATH=
 |PLACE OF DEATH=
 }}";
-			const string d2 = @"{{Winners of the National Medal of Science|behav-social}}
+            const string d2 = @"{{Winners of the National Medal of Science|behav-social}}
 ";
-			const string d3 = @"
+            const string d3 = @"
 [[Category:Members of the National Academy of Sciences]]";
 
-			string e = d2 + d1 + d3;
+            string e = d2 + d1 + d3;
+            string f = MetaDataSorter.RemovePersonData(ref e);
 
-			string f = MetaDataSorter.RemovePersonData(ref e);
+            Assert.AreEqual(d1, f);
+            Assert.AreEqual(e, d2 + d3);
 
-			Assert.AreEqual(d1, f);
-			Assert.AreEqual(e, d2 + d3);
-			
-			e = d2 + d1 + d1.Replace("[[December 2]]", "") + d3;
+            e = d2 + d1 + d1.Replace("[[December 2]]", "") + d3;
 
-			f = MetaDataSorter.RemovePersonData(ref e);
+            f = MetaDataSorter.RemovePersonData(ref e);
 
-			Assert.AreEqual(d1 + "\r\n" + d1.Replace("[[December 2]]", ""), f, "duplicate persondata: order not changed");
+            Assert.AreEqual(d1 + "\r\n" + d1.Replace("[[December 2]]", ""), f, "duplicate persondata: order not changed");
 
             string commented = @"<!--{{Persondata}}-->";
             Assert.AreEqual("", MetaDataSorter.RemovePersonData(ref commented), "commented out persondata not extracted");
-		}
+        }
 
-		[Test]
-		public void MoveDablinksTests()
-		{
-			const string d = @"Fred is a doctor.
+        [Test]
+        public void MoveDablinksTests()
+        {
+            const string d = @"Fred is a doctor.
 Fred has a dog.
 [[Category:Dog owners]]
 {{some template}}
 ", e0 = @"{{redirect|foo|bar}}";
 
-			string e = @"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}";
+            string e = @"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
 
-			e = @"{{For|Fred the dancer|Fred Smith (dancer)}}";
+            e = @"{{For|Fred the dancer|Fred Smith (dancer)}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
-			
+
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + " " + d, WikiRegexes.Dablinks));
 
-			e = @"{{redirect2|Fred the dancer|Fred Smith (dancer)}}";
+            e = @"{{redirect2|Fred the dancer|Fred Smith (dancer)}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
 
-			e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
+            e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
-			
-			e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}
+
+            e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}
 ";
             Assert.AreEqual(e + d, MetaDataSorter.MoveTemplate(d + ":" + e, WikiRegexes.Dablinks), "colons before dablinks removed");
-			
-			// don't move dablinks in a section
-			const string f = @"Article words
+
+            // don't move dablinks in a section
+            const string f = @"Article words
 == heading ==
 {{redirect2|Fred the dancer|Fred Smith (dancer)}}
 words";
             Assert.AreEqual(f, MetaDataSorter.MoveTemplate(f, WikiRegexes.Dablinks));
 
-			// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#String_cannot_be_of_zero_length._Parameter_name:_oldValue_.2F_ArgumentException_in_MetaDataSorter.MoveDablinks
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#String_cannot_be_of_zero_length._Parameter_name:_oldValue_.2F_ArgumentException_in_MetaDataSorter.MoveDablinks
             Assert.AreEqual(@"[[Category:Confederate Navy officers|Captains]]", MetaDataSorter.MoveTemplate(@"[[Category:Confederate Navy officers|Captains]]", WikiRegexes.Dablinks));
 
-			const string g = @"Some words";
-			const string h = @"==heading==
+            const string g = @"Some words";
+            const string h = @"==heading==
 more words
 [[Category:Foo]]";
 			e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
@@ -247,7 +246,7 @@ more words
             Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + "\r\n" + d, WikiRegexes.Dablinks));
             Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks));
             Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks));
-		}
+        }
 
         [Test]
         public void MoveDeletionProtection()
@@ -1691,10 +1690,10 @@ Text";
 [[de:Foo]]
 
 {{Short pages monitor}}<!-- This long comment -->";
-		    Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "{{Short pages monitor}} kept at end of article text: interwiki before");
-		    B = B.Replace("\r\n{{Short page", "{{Short page");
-		    Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "Number of newlines before spm preserved");
-		    Assert.AreEqual(B, parser2.SortMetaData(B.Replace("-->", "-->\r\n"), "Test"), "Page trim still done when spm present");		    
-		}
-	}
+            Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "{{Short pages monitor}} kept at end of article text: interwiki before");
+            B = B.Replace("\r\n{{Short page", "{{Short page");
+            Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "Number of newlines before spm preserved");
+            Assert.AreEqual(B, parser2.SortMetaData(B.Replace("-->", "-->\r\n"), "Test"), "Page trim still done when spm present");		    
+        }
+    }
 }

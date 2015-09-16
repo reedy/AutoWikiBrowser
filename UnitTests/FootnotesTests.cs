@@ -98,18 +98,17 @@ namespace UnitTests
 #endif
         }
         
-
         [Test]
         public void TestFixReferenceTags()
         {
             // whitespace cleaning
-            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now < ref>[http://www.site.com a site]</ref> was"),"leading");
-            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now < ref   >[http://www.site.com a site]</ref> was"),"both sides");
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now < ref>[http://www.site.com a site]</ref> was"), "leading");
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now < ref   >[http://www.site.com a site]</ref> was"), "both sides");
             Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref >[http://www.site.com a site]</ref> was"), "trailing");
-            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now < ref>[http://www.site.com a site]< /ref> was"),"leading in borth opening and closing tag");
-            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</ ref> was"),"in closing tag");
-            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</ref > was"),"in closing tag");
-            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <    ref  >[http://www.site.com a site]< / ref > was"),"everywhere");
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now < ref>[http://www.site.com a site]< /ref> was"), "leading in borth opening and closing tag");
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</ ref> was"), "in closing tag");
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</ref > was"), "in closing tag");
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <    ref  >[http://www.site.com a site]< / ref > was"), "everywhere");
 
             // <ref name=foo bar> --> <ref name="foo bar">
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar>and"));
@@ -237,11 +236,11 @@ namespace UnitTests
             Assert.AreEqual(@"< ref name=""Fred"" />", Parsers.FixReferenceTags(@"< ref name-""Fred"" />"));
 
             // <ref NAME= --> <ref name=
-            Assert.AreEqual(@"<ref name=""Fred"" />", Parsers.FixReferenceTags(@"< ref NAME=""Fred"" />"),"ref NAME");
-            Assert.AreEqual(@"<ref name =""Fred"" />", Parsers.FixReferenceTags(@"<ref NAME =""Fred"" />"),"ref NAME");
+            Assert.AreEqual(@"<ref name=""Fred"" />", Parsers.FixReferenceTags(@"< ref NAME=""Fred"" />"), "ref NAME");
+            Assert.AreEqual(@"<ref name =""Fred"" />", Parsers.FixReferenceTags(@"<ref NAME =""Fred"" />"), "ref NAME");
 
             // <refname= --> <ref name=
-            Assert.AreEqual(@"<ref name=""Fred"" />", Parsers.FixReferenceTags(@"<refname=""Fred"" />"),"refname");
+            Assert.AreEqual(@"<ref name=""Fred"" />", Parsers.FixReferenceTags(@"<refname=""Fred"" />"), "refname");
 
             // <ref name=> --> <ref>
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name=>"));
@@ -926,10 +925,10 @@ Bar4.<ref name=""ABCDEFGHI""/>
             const string SingleRef = @"now <ref>foo</ref>", Cat = @"
 [[Category:Here]]";
             Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
-{{Reflist}}" + "\r\n" + Cat, Parsers.AddMissingReflist(SingleRef + Cat),"add references sections above categories");
+{{Reflist}}" + "\r\n" + Cat, Parsers.AddMissingReflist(SingleRef + Cat), "add references sections above categories");
 
             Variables.SetProjectLangCode("fr");
-            Assert.AreEqual(SingleRef + Cat, Parsers.AddMissingReflist(SingleRef + Cat),"do nothing in non-en sites");
+            Assert.AreEqual(SingleRef + Cat, Parsers.AddMissingReflist(SingleRef + Cat), "do nothing in non-en sites");
 
             Variables.SetProjectLangCode("en");
             Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
@@ -984,13 +983,13 @@ The next";
 The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines after ref punctuation");
             
 
-			string RandomTable =@"{|
+            string RandomTable =@"{|
 !title
 !<ref>bar</ref>
 |}";
-			Assert.AreEqual(RandomTable, Parsers.RefsAfterPunctuation(RandomTable),"does not affect wikitables");
+            Assert.AreEqual(RandomTable, Parsers.RefsAfterPunctuation(RandomTable), "does not affect wikitables");
 
-			string Multiple = @"works<ref>{{cite book |last=McDonald }}</ref>,<ref>{{cite book |last=Gingrich }}</ref>,<ref>{{cite book |location=Norwalk, CT }}</ref>,<ref name=HerdFly/>";
+            string Multiple = @"works<ref>{{cite book |last=McDonald }}</ref>,<ref>{{cite book |last=Gingrich }}</ref>,<ref>{{cite book |location=Norwalk, CT }}</ref>,<ref name=HerdFly/>";
             
             Assert.AreEqual(@"works,<ref>{{cite book |last=McDonald }}</ref><ref>{{cite book |last=Gingrich }}</ref><ref>{{cite book |location=Norwalk, CT }}</ref><ref name=HerdFly/>", Parsers.RefsAfterPunctuation(Multiple));
 
@@ -1013,10 +1012,10 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             Assert.AreEqual(@"thing.{{sfn|Jones|2000}}<ref>foo</ref>{{rp|18}}", Parsers.RefsAfterPunctuation(@"thing{{sfn|Jones|2000}}<ref>foo</ref>{{rp|18}}."), "Handles {{sfn}} and {{rp}}");
             Assert.AreEqual(@"thing.<ref>foo</ref>{{rp|18}}{{sfn|Jones|2000}}", Parsers.RefsAfterPunctuation(@"thing<ref>foo</ref>{{rp|18}}{{sfn|Jones|2000}}."), "Handles {{sfn}} and {{rp}}");
 
-            //Assert.AreEqual(@"thing.{{by whom|date=February 2014}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing.{{by whom|date=February 2014}}.<ref>foo</ref>"), "Handles inline templates");
-            //Assert.AreEqual(@"thing.{{by whom|date=February 2014}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing.{{by whom|date=February 2014}}<ref>foo</ref>."), "Handles inline templates");
-            //Assert.AreEqual(@"thing.{{by whom|date=February 2014}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing{{by whom|date=February 2014}}<ref>foo</ref>."), "Handles inline templates");
-            //Assert.AreEqual(@"thing.{{by whom|date=February 2014}}{{whom|date=February 2014}}", Parsers.RefsAfterPunctuation(@"thing{{by whom|date=February 2014}}{{whom|date=February 2014}}."), "Handles inline templates");
+            // Assert.AreEqual(@"thing.{{by whom|date=February 2014}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing.{{by whom|date=February 2014}}.<ref>foo</ref>"), "Handles inline templates");
+            // Assert.AreEqual(@"thing.{{by whom|date=February 2014}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing.{{by whom|date=February 2014}}<ref>foo</ref>."), "Handles inline templates");
+            // Assert.AreEqual(@"thing.{{by whom|date=February 2014}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing{{by whom|date=February 2014}}<ref>foo</ref>."), "Handles inline templates");
+            // Assert.AreEqual(@"thing.{{by whom|date=February 2014}}{{whom|date=February 2014}}", Parsers.RefsAfterPunctuation(@"thing{{by whom|date=February 2014}}{{whom|date=February 2014}}."), "Handles inline templates");
             const string Excl = @"Foo!!<ref>bar</ref>";
             Assert.AreEqual(Excl, Parsers.RefsAfterPunctuation(Excl), "No change to !! before ref, can be within table");
         }

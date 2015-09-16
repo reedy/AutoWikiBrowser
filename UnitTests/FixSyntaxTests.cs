@@ -104,7 +104,7 @@ B"));
         public void FixSyntaxRedirects()
         {
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT
-[[Foo]]"),"newline");
+[[Foo]]"), "newline");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[Foo]]]"), "extra opening/closing bracket");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[Foo]]]"), "one extra closing bracket");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[Foo]]"), "one extra opening bracket");
@@ -112,16 +112,15 @@ B"));
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[Foo]]]]"), "two extra closing brackets");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[[Foo]]"), "two extra opening/closing brackets");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT
-[[[Foo]]]"),"extra brackets and newline");
+[[[Foo]]]"), "extra brackets and newline");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT:[[Foo]]"), "double dot unspaced");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT: [[Foo]]"), "double dot with space");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT=[[Foo]]"), "equal sign unspaced");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT= [[Foo]]"), "equal sihn with space");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT=
-[[[Foo]]]"),"extra brackets, equal sign and newline");
+[[[Foo]]]"), "extra brackets, equal sign and newline");
 
             Assert.AreEqual(@"#REDIRECT[[Foo]] {{R from move}}", Parsers.FixSyntaxRedirects(@"#REDIRECT[[Foo]] {{Template:R from move}}"), "template prefix");
-
         }
 
         [Test]
@@ -209,6 +208,7 @@ here]"), "newline removed3");
         public void UnbalancedBracketsNone()
         {
             int bracketLength = 0;
+
             // brackets all okay
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}}", out bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}}", out bracketLength));
@@ -230,13 +230,13 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{!(}}", out bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{Lisp2|foo(bar}}", out bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{C sharp|foo(bar}}", out bracketLength));
-
         }
 
         [Test]
         public void UnbalancedTags()
         {
             int bracketLength = 0;
+
             // unbalanced tags
             Assert.AreEqual(15, Parsers.UnbalancedBrackets(@"now <b>hello /b>", out bracketLength));
             Assert.AreEqual(1, bracketLength);
@@ -463,9 +463,9 @@ Other
         [Test]
         public void FixDeadlinkOutsideRef()
         {
-        	Assert.AreEqual("<ref>foo {{dead link|date=July 2014}}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{dead link|date=July 2014}} boo"), "only {{dead link}} taken inside ref");
-        	Assert.AreEqual("<ref>foo {{Dead link | date=July 2014 }}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{Dead link | date=July 2014 }} boo"), "only {{dead link}} taken inside ref");
-        	Assert.AreEqual("<ref>foo {{Dead link|date=July 2014}}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{Dead link|date=July 2014}} boo"), "only {{dead link}} taken inside ref");        	Assert.AreEqual("<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }} {{dead link|date=July 2014}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }}</ref> {{dead link|date=July 2014}}"), "{{dead link}} taken inside ref");
+            Assert.AreEqual("<ref>foo {{dead link|date=July 2014}}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{dead link|date=July 2014}} boo"), "only {{dead link}} taken inside ref");
+            Assert.AreEqual("<ref>foo {{Dead link | date=July 2014 }}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{Dead link | date=July 2014 }} boo"), "only {{dead link}} taken inside ref");
+            Assert.AreEqual("<ref>foo {{Dead link|date=July 2014}}</ref> boo", Parsers.FixSyntax(@"<ref>foo</ref> {{Dead link|date=July 2014}} boo"), "only {{dead link}} taken inside ref");        	Assert.AreEqual("<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }} {{dead link|date=July 2014}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }}</ref> {{dead link|date=July 2014}}"), "{{dead link}} taken inside ref");
         }
 
         [Test]
@@ -510,15 +510,15 @@ world</font>"));
        [Test]
         public void FixSyntaxHTTPFormat()
         {
-            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http//www.site.com</ref>"),"missing colon");
-            Assert.AreEqual("<ref>https://www.site.com</ref>", Parsers.FixSyntax(@"<ref>https//www.site.com</ref>"),"missing colon");
-            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:://www.site.com</ref>"),"double colon");
-            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:www.site.com</ref>"),"missing slashes");
-            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:///www.site.com</ref>"),"triple slashes");
-            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:////www.site.com</ref>"),"four slashes");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http//www.site.com</ref>"), "missing colon");
+            Assert.AreEqual("<ref>https://www.site.com</ref>", Parsers.FixSyntax(@"<ref>https//www.site.com</ref>"), "missing colon");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:://www.site.com</ref>"), "double colon");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:www.site.com</ref>"), "missing slashes");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:///www.site.com</ref>"), "triple slashes");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:////www.site.com</ref>"), "four slashes");
             Assert.AreEqual("at http://www.site.com", Parsers.FixSyntax(@"at http//www.site.com"));
             Assert.AreEqual("<ref>[http://www.site.com a website]</ref>",
-                            Parsers.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"),"missing a slash");
+                            Parsers.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"), "missing a slash");
             Assert.AreEqual("*[http://www.site.com a website]", Parsers.FixSyntax(@"*[http//www.site.com a website]"));
             Assert.AreEqual("|url=http://www.site.com", Parsers.FixSyntax(@"|url=http//www.site.com"));
             Assert.AreEqual("|url = http://www.site.com", Parsers.FixSyntax(@"|url = http:/www.site.com"));
@@ -865,9 +865,11 @@ Now [[A],] was."));
             // set single curly bracket to normal bracket if that makes all brackets balance
             Assert.AreEqual(@"Great (not really) now", Parsers.FixSyntax(@"Great (not really} now"));
             Assert.AreEqual(@"# [[Herbert H. H. Fox]] ([[1934 - 1939]])<br>", Parsers.FixSyntax(@"# [[Herbert H. H. Fox]] ([[1934 - 1939]]}<br>"));
+
             // can't fix these
             Assert.AreEqual(@"Great { but (not really} now", Parsers.FixSyntax(@"Great { but (not really} now"));
             Assert.AreEqual(@"Great (not really)} now", Parsers.FixSyntax(@"Great (not really)} now"));
+
             // don't touch when it could be a table
             Assert.AreEqual(@"great (in 2001 | blah |} now", Parsers.FixSyntax(@"great (in 2001 | blah |} now"));
 
@@ -1168,12 +1170,12 @@ now"));
         [Test]
         public void TestFixSyntaxReferencesWithNoHttp()
         {
-            Assert.AreEqual(@"<ref>http://www.foo.com</ref>", Parsers.FixSyntax(@"<ref>www.foo.com</ref>"),"missing http");
-            Assert.AreEqual(@"<ref>[http://www.foo.com bar]</ref>", Parsers.FixSyntax(@"<ref>[www.foo.com bar]</ref>"),"missing http inside brackets");
+            Assert.AreEqual(@"<ref>http://www.foo.com</ref>", Parsers.FixSyntax(@"<ref>www.foo.com</ref>"), "missing http");
+            Assert.AreEqual(@"<ref>[http://www.foo.com bar]</ref>", Parsers.FixSyntax(@"<ref>[www.foo.com bar]</ref>"), "missing http inside brackets");
             Assert.AreEqual(@"<ref name=test>http://www.foo.com</ref>", Parsers.FixSyntax(@"<ref name=test>www.foo.com</ref>"), "missing http inside named ref");
             Assert.AreEqual(@"<ref>http://www.foo.com</ref>", Parsers.FixSyntax(@"<ref>       www.foo.com</ref>"));
             Assert.AreEqual(@"Visit www.foo.com", Parsers.FixSyntax(@"Visit www.foo.com"), "no changes outside references");
-            Assert.AreEqual(@"<ref>[www-foo.a.com bar]</ref>", Parsers.FixSyntax(@"<ref>[www-foo.a.com bar]</ref>"),"No change for www-");
+            Assert.AreEqual(@"<ref>[www-foo.a.com bar]</ref>", Parsers.FixSyntax(@"<ref>[www-foo.a.com bar]</ref>"), "No change for www-");
         }
 
         [Test]
