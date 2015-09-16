@@ -53,6 +53,11 @@ namespace UnitTests
             RegexAssert.IsMatch(AllHidden, HideMore(text, hideExternalLinks, false, true));
         }
 
+        private void AssertAllHiddenMore(string text, bool hideExternalLinks, string message)
+        {
+            RegexAssert.IsMatch(AllHidden, HideMore(text, hideExternalLinks, false, true), message);
+        }
+
         private string Hide(string text)
         {
             return Hide(text, true, false, true);
@@ -428,12 +433,12 @@ quux.JPEG|text
         [Test]
         public void HideExternalLinks()
         {
-            AssertAllHiddenMore("[http://foo]", true);
-            AssertAllHiddenMore("[http://foo bar]", true);
-            AssertAllHiddenMore("[//foo.com bar]", true); // Protocol-relative URL
-            AssertAllHiddenMore("[http://foo [bar]", true);
-            AssertAllHiddenMore("[[ru:Link]]", true); // possible interwiki
-            Assert.IsFalse(Hide(@"[[ru:Link]]", true, true, true).Contains("Link")); // possible interwiki
+            AssertAllHiddenMore("[http://foo]", true, "External link no text");
+            AssertAllHiddenMore("[http://foo bar]", true, "External link with text");
+            AssertAllHiddenMore("[//foo.com bar]", true, "External link Protocol-relative URL"); 
+            AssertAllHiddenMore("[http://foo [bar]", true, "External link unbalanced bracket");
+            AssertAllHiddenMore("[[ru:Link]]", true, "Possible interwiki");
+            Assert.IsFalse(Hide(@"[[ru:Link]]", true, true, true).Contains("Link"), "Possible interwiki");
             
             Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="));
             Assert.IsTrue(Hide(@"date=April 2010|url=//w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="), "Protocol-relative URL");
