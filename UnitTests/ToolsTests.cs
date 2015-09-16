@@ -1019,6 +1019,27 @@ John", "*"));
         }
 
         [Test]
+        public void DuplicateWikiLinks()
+        {
+            List<string> dupeWikiLinks = new List<string>();
+
+            dupeWikiLinks.Add("Foo (2)");
+
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]]"), "Simple case two plain links same case");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[Bar]]"), "Don't count single link");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo|bar2]] [[Foo|bar]]"), "Simple case two piped links same case");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[foo]]"), "convert first letter case for compare");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[ Foo |bar]] [[ Foo ]]"), "Ignore excess whitespace");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[Bar]] [[Bar2]]"), "Match on whole link name");
+
+            dupeWikiLinks.Clear();
+            dupeWikiLinks.Add("Foo (3)");
+
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[Foo|bar]]"), "Includes count after link name");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[Foo|bar]] <!-- [[Foo]] -->"), "Ingore commented out link");
+        }
+
+        [Test]
         public void ConvertDate()
         {
             string iso = @"2009-06-11", iso2 = @"1890-07-04";

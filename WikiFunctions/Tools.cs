@@ -794,7 +794,7 @@ namespace WikiFunctions
             text = Tools.ReplaceWithSpaces(text, WikiRegexes.UnformattedText.Matches(text));
 
             // make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
-            allWikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(text) select Tools.TurnFirstToUpper(m.Groups[1].Value)).ToList();
+            allWikiLinks = (from Match m in WikiRegexes.WikiLink.Matches(text) select Tools.TurnFirstToUpper(m.Groups[1].Value.Trim())).ToList();
 
             // Take all links found and generate dictionary of link name and count for those with more than one link
             Dictionary<string, int> dupeLinks = allWikiLinks.GroupBy(x => x).Where(g => g.Count() > 1).ToDictionary(x => x.Key, y => y.Count());
