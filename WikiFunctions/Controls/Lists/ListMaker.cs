@@ -1475,7 +1475,7 @@ namespace WikiFunctions.Controls.Lists
                     {
                         foreach(Match m in HTMLItalics.Matches(displayTitle))
                         {
-                            for(int i = 1; i < 4; i++)
+                            for (int i = 1; i < 4; i++)
                             {
                                 if (m.Groups[i].Value.Length > 0)
                                 {

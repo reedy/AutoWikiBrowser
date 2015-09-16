@@ -105,22 +105,22 @@ B"));
         {
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT
 [[Foo]]"),"newline");
-            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[Foo]]]"),"extra opening/closing bracket");
-            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[Foo]]]"),"one extra closing bracket");
-            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[Foo]]"),"one extra opening bracket");
-            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[[Foo]]"),"two extra opening brackets");
-            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[Foo]]]]"),"two extra closing brackets");
-            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[[Foo]]"),"two extra opening/closing brackets");
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[Foo]]]"), "extra opening/closing bracket");
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[Foo]]]"), "one extra closing bracket");
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[Foo]]"), "one extra opening bracket");
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[[Foo]]"), "two extra opening brackets");
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[Foo]]]]"), "two extra closing brackets");
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT [[[[Foo]]"), "two extra opening/closing brackets");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT
 [[[Foo]]]"),"extra brackets and newline");
-            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT:[[Foo]]"),"double dot unspaced");
-            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT: [[Foo]]"),"double dot with space");
-            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT=[[Foo]]"),"equal sign unspaced");
-            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT= [[Foo]]"),"equal sihn with space");
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT:[[Foo]]"), "double dot unspaced");
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT: [[Foo]]"), "double dot with space");
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT=[[Foo]]"), "equal sign unspaced");
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT= [[Foo]]"), "equal sihn with space");
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT=
 [[[Foo]]]"),"extra brackets, equal sign and newline");
 
-            Assert.AreEqual(@"#REDIRECT[[Foo]] {{R from move}}", Parsers.FixSyntaxRedirects(@"#REDIRECT[[Foo]] {{Template:R from move}}"),"template prefix");
+            Assert.AreEqual(@"#REDIRECT[[Foo]] {{R from move}}", Parsers.FixSyntaxRedirects(@"#REDIRECT[[Foo]] {{Template:R from move}}"), "template prefix");
 
         }
 
@@ -322,28 +322,28 @@ Template:foo}}"));
         [Test]
         public void FixSyntaxExternalLinks()
         {
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"),"do nothing if everything is OK");
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"),"double http");
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http:// http://test.com]"),"double http");
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http:http://test.com]"),"double http with first lacking slashes");
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"),"more than two");
-            Assert.AreEqual("[https://test.com]", Parsers.FixSyntax("[https://https://test.com]"),"double https");
-            Assert.AreEqual("[ftp://test.com]", Parsers.FixSyntax("[ftp://ftp://test.com]"),"double ftp");
-            Assert.AreEqual("[ftp://test.com]", Parsers.FixSyntax("[ftp://ftp://ftp://test.com]"),"triple ftp");
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"), "do nothing if everything is OK");
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"), "double http");
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http:// http://test.com]"), "double http");
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http:http://test.com]"), "double http with first lacking slashes");
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"), "more than two");
+            Assert.AreEqual("[https://test.com]", Parsers.FixSyntax("[https://https://test.com]"), "double https");
+            Assert.AreEqual("[ftp://test.com]", Parsers.FixSyntax("[ftp://ftp://test.com]"), "double ftp");
+            Assert.AreEqual("[ftp://test.com]", Parsers.FixSyntax("[ftp://ftp://ftp://test.com]"), "triple ftp");
 
-            Assert.AreEqual("{{url|http://test.com}}", Parsers.FixSyntax("{{url|http://http://test.com}}"),"double http inside url template");
-            Assert.AreEqual("{{official website|http://test.com}}", Parsers.FixSyntax("{{official website|http://http://test.com}}"),"double http inside official website template");
-            Assert.AreEqual("{{foo|http://http://test.com}}", Parsers.FixSyntax("{{foo|http://http://test.com}}"),"no change in a random template");
+            Assert.AreEqual("{{url|http://test.com}}", Parsers.FixSyntax("{{url|http://http://test.com}}"), "double http inside url template");
+            Assert.AreEqual("{{official website|http://test.com}}", Parsers.FixSyntax("{{official website|http://http://test.com}}"), "double http inside official website template");
+            Assert.AreEqual("{{foo|http://http://test.com}}", Parsers.FixSyntax("{{foo|http://http://test.com}}"), "no change in a random template");
 
             Assert.AreEqual("[http://test.com/a.png]", Parsers.FixSyntax("[[Image:http://test.com/a.png]]"), "Image http 1");
             Assert.AreEqual("[http://test.com/a.png]", Parsers.FixSyntax("[Image:http://test.com/a.png]"), "Image http 2");
         }
  
-		[Test]
-		public void TestFixSyntaxDisambigCat()
-		{
-			Assert.AreEqual(@"Foo {{Disambiguation}}", Parsers.FixSyntax(@"Foo [[Category:Disambiguation pages]]"),"do nothing if everything is OK");
-		}
+        [Test]
+        public void TestFixSyntaxDisambigCat()
+        {
+            Assert.AreEqual(@"Foo {{Disambiguation}}", Parsers.FixSyntax(@"Foo [[Category:Disambiguation pages]]"), "do nothing if everything is OK");
+        }
 
         [Test]
         public void TestFixSyntaxRemoveEmptyTags()

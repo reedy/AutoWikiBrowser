@@ -296,36 +296,36 @@ Fred has a dog.
 [[Category:Dog owners]]
 {{some template}}
 ", e = @"<!-- {{otheruses}} this allows users with [[WP:POPUPS|popups]] to disambiguate links.-->";
-			
-			// don't pull dabs out of comments
+
+            // don't pull dabs out of comments
             Assert.AreEqual(d + e, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
-			
-			const string f = @"{{for|the book by René Descartes|The World (Descartes)}}
+
+            const string f = @"{{for|the book by René Descartes|The World (Descartes)}}
 <!--
 Might eventually be relevant on a disambig page?  But these are a redirect and a not direct reference, so they're pretty irrelevant for now.
 {{For|the song by the [[Thievery Corporation]]|Le Monde (song)}}
 {{For|the drum & bass dj [[Lemon D]]| Lemon D}}
 -->";
-			
+
             Assert.AreEqual(f, MetaDataSorter.MoveTemplate(f, WikiRegexes.Dablinks));
 		}
-		
-		[Test]
-		public void RemoveDisambig()
-		{
-			const string dab = @"{{dab}}", foo = @"foo";
-			
-			string a = dab + "\r\n" + foo;
-			
-			Assert.AreEqual(dab, MetaDataSorter.RemoveDisambig(ref a));
+
+        [Test]
+        public void RemoveDisambig()
+        {
+            const string dab = @"{{dab}}", foo = @"foo";
+
+            string a = dab + "\r\n" + foo;
+
+            Assert.AreEqual(dab, MetaDataSorter.RemoveDisambig(ref a));
 			Assert.AreEqual(a, "\r\n" + foo);
-			
-			// no dabs to take out – no change
-			a = foo;
-			Assert.AreEqual("", MetaDataSorter.RemoveDisambig(ref a));
-			Assert.AreEqual(a, foo);
-			
-			// don't pull out of comments
+
+            // no dabs to take out – no change
+            a = foo;
+            Assert.AreEqual("", MetaDataSorter.RemoveDisambig(ref a));
+            Assert.AreEqual(a, foo);
+
+            // don't pull out of comments
 			a = @"<!--" + dab + @"-->" + "\r\n" + foo;
 			Assert.AreEqual("", MetaDataSorter.RemoveDisambig(ref a));
 			Assert.AreEqual(a,  @"<!--" + dab + @"-->" + "\r\n" + foo);
@@ -1128,19 +1128,19 @@ foo";
 			const string cats = @"[[Category:Hampshire|  ]]
 [[Category:Articles including recorded pronunciations (UK English)]]
 [[Category:Non-metropolitan counties]]", comm = @"<!-- cat -->";
-			
-			string a = cats + "\r\n" + comm;
-			
-			Assert.AreEqual(comm + "\r\n" + cats + "\r\n", parser2.Sorter.RemoveCats(ref a, "test"));
 
-			string b = @"Text
+            string a = cats + "\r\n" + comm;
+
+            Assert.AreEqual(comm + "\r\n" + cats + "\r\n", parser2.Sorter.RemoveCats(ref a, "test"));
+
+            string b = @"Text
 [[Category:One]]
 
 ==References==
 {{reflist}}
 [[Category:Two]]";
-			Assert.AreEqual("[[Category:One]]\r\n[[Category:Two]]\r\n", parser2.Sorter.RemoveCats(ref b, "test"));
-			Assert.AreEqual("Text\r\n\r\n==References==\r\n{{reflist}}\r\n", b, "Blank newline before heading retained");
+            Assert.AreEqual("[[Category:One]]\r\n[[Category:Two]]\r\n", parser2.Sorter.RemoveCats(ref b, "test"));
+            Assert.AreEqual("Text\r\n\r\n==References==\r\n{{reflist}}\r\n", b, "Blank newline before heading retained");
 
 b = @"A
 ==Text==
@@ -1153,30 +1153,30 @@ b = @"A
 			Assert.AreEqual("[[Category:One]]\r\n[[Category:Two]]\r\n", parser2.Sorter.RemoveCats(ref b, "test"));
 			Assert.AreEqual("A\r\n==Text==\r\n{{foo}}\r\n{| class=table |}\r\n\r\n==References==\r\n{{reflist}}\r\n", b, "Newline retained when category not on own line");
 		}
-		
-		[Test]
-		public void CategoryRedirects()
-		{
-			const string redirect=@"#REDIRECT [[Category:Foo]]";
-			string a = redirect;
-			
-			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref a, "test"));
-			Assert.AreEqual(a, redirect, "cats not pulled from redirect target");
-		}
-		
-		[Test]
-		public void RemoveCatsKey()
-		{
-		    string cats = @"[[Category:1980 births]]
+
+        [Test]
+        public void CategoryRedirects()
+        {
+            const string redirect=@"#REDIRECT [[Category:Foo]]";
+            string a = redirect;
+
+            Assert.AreEqual("", parser2.Sorter.RemoveCats(ref a, "test"));
+            Assert.AreEqual(a, redirect, "cats not pulled from redirect target");
+        }
+
+        [Test]
+        public void RemoveCatsKey()
+        {
+            string cats = @"[[Category:1980 births]]
 [[Category:Local people]]", cats2 = @"[[Category:1980 births|Jones, Andrew]]
 [[Category:Local people|Jones, Andrew]]";
-			
-		    parser2.Sorter.AddCatKey = true;
+
+            parser2.Sorter.AddCatKey = true;
 			Assert.AreEqual(cats2 + "\r\n", parser2.Sorter.RemoveCats(ref cats, "Andrew Jones"));
 			parser2.Sorter.AddCatKey = false;
 
-			// Extract {{Uncategorized}}
-			string at = @"Text.
+            // Extract {{Uncategorized}}
+            string at = @"Text.
 
 {{Uncategorized}}
 == References ==
@@ -1299,12 +1299,12 @@ The following links are here to prevent the interwiki bot from adding them to th
 [[sv:CN]]
 -->";
 
-			Assert.AreEqual("", parser2.Sorter.Interwikis(ref c), "interwikis not taken out of wiki comments");
-			
-			string c2 = c + @"[[sv:CN]]";
-			Assert.AreEqual(@"[[sv:CN]]" + "\r\n", parser2.Sorter.Interwikis(ref c2), "interwiki returned even if the same one exists commented out elsewhere");
+            Assert.AreEqual("", parser2.Sorter.Interwikis(ref c), "interwikis not taken out of wiki comments");
 
-			c = @"{{Canadianmetros}}
+            string c2 = c + @"[[sv:CN]]";
+            Assert.AreEqual(@"[[sv:CN]]" + "\r\n", parser2.Sorter.Interwikis(ref c2), "interwiki returned even if the same one exists commented out elsewhere");
+
+            c = @"{{Canadianmetros}}
 
 <!--
 The following links are here to prevent the interwiki bot from adding them to the list above.  The links below point to disambiguation pages and not to a translated article about Canadian National Railway.
@@ -1312,17 +1312,17 @@ The following links are here to prevent the interwiki bot from adding them to th
 [[sv:CN]]
 -->
 second comment <!-- [[it:CN]] -->";
-			Assert.AreEqual("", parser2.Sorter.Interwikis(ref c), "interwikis not taken out of wiki comments");
-			
-			// deduplication
-			string d = @"[[de:Canadian National Railway]]
+            Assert.AreEqual("", parser2.Sorter.Interwikis(ref c), "interwikis not taken out of wiki comments");
+
+            // deduplication
+            string d = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
 [[es:Canadian National]]
 [[fr:Canadien National]]";
 
-			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref d));
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref d));
 
-			string e1 = @"{{DEFAULTSORT:Boleyn, Anne}}
+            string e1 = @"{{DEFAULTSORT:Boleyn, Anne}}
 
 ", e2 = @"{{Link FA|bs}}
 {{Link FA|no}}
@@ -1331,30 +1331,30 @@ second comment <!-- [[it:CN]] -->";
 [[bs:Anne Boleyn]]
 [[br:Anne Boleyn]]";
 
-			string f = e2;
-			string g = e1 + e2;
+            string f = e2;
+            string g = e1 + e2;
 
-			Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g));
-			
-			string h = @"[[de:Canadian National Railway]]
+            Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g));
+
+            string h = @"[[de:Canadian National Railway]]
 [[en:Canadian National]]
 [[fr:Canadien National]]";
 
 			Assert.AreEqual(@"[[de:Canadian National Railway]]
 [[fr:Canadien National]]" + "\r\n", parser2.Sorter.Interwikis(ref h), "interwikis to own wiki are removed");
 
-			a = @"[[de:Canadian National Railway]]
+            a = @"[[de:Canadian National Railway]]
 [[es::Canadian National]]
 [[fr:Canadien National]]";
-			b = a.Replace("::", ":");
+            b = a.Replace("::", ":");
 
 			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "double colon in interwiki removed");
-			
-			a = @"[[de:Canadian National Railway]]
+
+            a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
 [[es:canadian National]]
 [[fr:Canadien National]]";
-			b = @"[[de:Canadian National Railway]]
+            b = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
 [[fr:Canadien National]]";
 
@@ -1364,34 +1364,34 @@ second comment <!-- [[it:CN]] -->";
 [[es:Canadian National]]
 [[es:Canadian National]]<!-- comm-->
 [[fr:Canadien National]]";
-			b = @"[[de:Canadian National Railway]]
+            b = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
 [[fr:Canadien National]]";
 
-			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "duplicate interwiki removed, inline comment second");
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "duplicate interwiki removed, inline comment second");
 
-			a = @"[[de:Canadian National Railway]]
+            a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]<!-- comm-->
 [[es:Canadian National]]
 [[fr:Canadien National]]";
-			b = @"[[de:Canadian National Railway]]
+            b = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]<!-- comm-->
 [[fr:Canadien National]]";
 
-			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "duplicate interwiki removed, inline comment first");
-			
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "duplicate interwiki removed, inline comment first");
+
 			a = @"[[de:Canadian National Railway]]
 [[jbo:canadian National]]
 [[fr:Canadien National]]";
 
-			Assert.AreEqual(a + "\r\n", parser2.Sorter.Interwikis(ref a), "first letter casing retained for jbo-wiki links");
-		}
-		
+            Assert.AreEqual(a + "\r\n", parser2.Sorter.Interwikis(ref a), "first letter casing retained for jbo-wiki links");
+        }
+
 		[Test]
-		public void InterWikiTestsMultiple()
-		{
-			parser2.SortInterwikis = false;
-			parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
+        public void InterWikiTestsMultiple()
+        {
+            parser2.SortInterwikis = false;
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
 
 			string a = @"[[de:Canadian National Railway]]
 [[fr:Canadian National (foo)]]
@@ -1426,31 +1426,31 @@ second comment <!-- [[it:CN]] -->";
 		    parser2.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
 		    a = @"[[ru:Bar]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a),"alphabetical order");
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "alphabetical order");
 		    
 		    parser2.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
 		    a = @"[[ru:Bar]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a),"local language");
-		    
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "local language");
+
 		    parser2.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
 		    a = @"[[ru:Bar]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a),"alphabetical order with en firsth");
-		    
-		    #if DEBUG
-		    Variables.SetProjectLangCode("de");
-		    parser2.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
-		    a = @"[[ar:Bar]]
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "alphabetical order with en firsth");
+
+            #if DEBUG
+            Variables.SetProjectLangCode("de");
+            parser2.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
+            a = @"[[ar:Bar]]
 [[en:Hello]]
 [[sq:Foo]]";
-		    b = @"[[en:Hello]]
+            b = @"[[en:Hello]]
 [[ar:Bar]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
-		    
-		    parser2.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
-		    a = @"[[ar:Bar]]
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+
+            parser2.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
+            a = @"[[ar:Bar]]
 [[en:Hello]]
 [[sq:Foo]]";
 		    b = @"[[ar:Bar]]
@@ -1606,10 +1606,10 @@ Text";
 
 [[en:Test]]";
 		    Assert.AreEqual(afterDe, parser2.SortMetaData(beforeDe, "a"), "De sort order");
-		    
+
 		    Variables.SetProjectLangCode("it");
 		    WikiRegexes.MakeLangSpecificRegexes();
-		    
+
 		    string beforeIt = @"Andy
 {{botanist-stub}}
 {{Persondata}}

@@ -1,8 +1,31 @@
-﻿// This file is only for tests that require more than one transformation functions at the same time, so
+﻿/*
+AWB unit tests
+Copyright (C) 2008 Max Semenik
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+Portions Copyright © 2002-2007 Charlie Poole or
+Copyright © 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov or
+Copyright © 2000-2002 Philip A. Craig
+
+ */
+
+// This file is only for tests that require more than one transformation functions at the same time, so
 //don't add tests for separate functions here
 
-using WikiFunctions;
 using NUnit.Framework;
+using WikiFunctions;
 using WikiFunctions.Parse;
 
 namespace UnitTests

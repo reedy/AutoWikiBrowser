@@ -2418,9 +2418,9 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         [Test]
         public void MakeHumanCatKeyArabicNames()
         {
-            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"Ahmed Mohammed Mukit", ""),"no change");
-            Assert.AreEqual(@"AHMED Mohammed MUKIT", Tools.MakeHumanCatKey(@"AHMED Mohammed MUKIT", ""),"no change");
-            Assert.AreEqual(@"ahmed Mohammed mukit", Tools.MakeHumanCatKey(@"ahmed Mohammed mukit", ""),"no change");
+            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"Ahmed Mohammed Mukit", ""), "no change");
+            Assert.AreEqual(@"AHMED Mohammed MUKIT", Tools.MakeHumanCatKey(@"AHMED Mohammed MUKIT", ""), "no change");
+            Assert.AreEqual(@"ahmed Mohammed mukit", Tools.MakeHumanCatKey(@"ahmed Mohammed mukit", ""), "no change");
 
             Assert.AreEqual(@"Smith, John", Tools.MakeHumanCatKey(@"John Smith", ""));
         }

@@ -2133,7 +2133,7 @@ File:Example.jpg|Caption2
             LMakerRLD.RemoveListDuplicates();
             
             Assert.AreEqual(LMakerRLD.Count, 3, "Duplicate removed");
-            foreach(Article a in LMakerRLD)
+            foreach (Article a in LMakerRLD)
             {
                 Assert.AreEqual(a, "A", "Duplicates removed from end of list");
                 break;
@@ -2147,7 +2147,7 @@ File:Example.jpg|Caption2
             const int big = 10000;
             ListMaker LMakerLarge = new ListMaker();
             LMakerLarge.Clear();
-            for(int i=1; i<big; i++)
+            for (int i=1; i<big; i++)
                 LMakerLarge.Add(new Article(i.ToString()));
             
             LMakerLarge.Add(new Article("1"));
@@ -2166,7 +2166,7 @@ File:Example.jpg|Caption2
             const int big = 500;
             ListMaker LMakerLarge = new ListMaker();
             LMakerLarge.Clear();
-            for(int i=1; i<big; i++)
+            for (int i=1; i<big; i++)
                 LMakerLarge.Add(i.ToString());
 
             LMakerLarge.Add("Talk:Me");
@@ -2287,7 +2287,7 @@ File:Example.jpg|Caption2
             const int big = 10000;
             ListMaker LMakerC10K = new ListMaker();
 
-            for(int i=0; i<big; i++)
+            for (int i=0; i<big; i++)
                 LMakerC10K.Add(new Article(i.ToString()));
 
             LMakerC10K.Add(new Article("A"));
@@ -2298,7 +2298,7 @@ File:Example.jpg|Caption2
             System.Windows.Forms.ListBox lb3 = new System.Windows.Forms.ListBox();
             
             List<Article> articlesC = new List<Article>();
-            for(int i=0; i<big; i++)
+            for (int i=0; i<big; i++)
                 articlesC.Add(new Article(i.ToString()));
             
             articlesC.Add(new Article("C"));
@@ -2331,10 +2331,10 @@ File:Example.jpg|Caption2
             const int big = 70000, sel=5000;
 
             // sequential block deletion performance
-            for(int i=0; i<big; i++)
+            for (int i=0; i<big; i++)
                 lbArticles.Items.Add(new Article(i.ToString()));
             
-            for(int j=sel; j>0; j--)
+            for (int j=sel; j>0; j--)
                 lbArticles.SetSelected(big-j, true);
             
             lbArticles.RemoveSelected(true);
@@ -2346,7 +2346,7 @@ File:Example.jpg|Caption2
 
             // single selected item deletion performance
             lbArticles.Items.Clear();
-            for(int i=0; i<big*3; i++)
+            for (int i=0; i<big*3; i++)
                 lbArticles.Items.Add(new Article(i.ToString()));
             lbArticles.SetSelected((int)big/2, true);
             lbArticles.RemoveSelected(true);
@@ -2354,7 +2354,7 @@ File:Example.jpg|Caption2
 
             // non-sequential deletion
             lbArticles.Items.Clear();
-            for(int i=0; i<10; i++)
+            for (int i=0; i<10; i++)
                 lbArticles.Items.Add(new Article(i.ToString()));
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(3, true);
@@ -2369,7 +2369,7 @@ File:Example.jpg|Caption2
             Assert.IsTrue(lbArticles.Items.Contains(new Article("2")));
 
             lbArticles.Items.Clear();
-            for(int i=0; i<10; i++)
+            for (int i=0; i<10; i++)
                 lbArticles.Items.Add(new Article(i.ToString()));
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(5, true);

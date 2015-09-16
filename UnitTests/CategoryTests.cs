@@ -1,4 +1,4 @@
-/*
+﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -818,7 +818,7 @@ died 2002
 
             Variables.Namespaces.Remove(Namespace.Category);
             Assert.AreEqual("", Parsers.FixCategories(""), "Fallback to English category namespace name");
-            Variables.Namespaces.Add(Namespace.Category,"Category:");
+            Variables.Namespaces.Add(Namespace.Category, "Category:");
         }
 
         [Test]

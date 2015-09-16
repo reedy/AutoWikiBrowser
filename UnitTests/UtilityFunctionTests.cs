@@ -41,7 +41,6 @@ namespace UnitTests
 #endif
         }
 
-
         [Test]
         public void ChangeToDefaultSort()
         {
