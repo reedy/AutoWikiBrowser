@@ -263,7 +263,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         internal static int EditAndIgnoredPages
         {
-            get { return (SavedPages.Count + SkippedPages.Count); }
+            get { return SavedPages.Count + SkippedPages.Count; }
         }
     }
 }

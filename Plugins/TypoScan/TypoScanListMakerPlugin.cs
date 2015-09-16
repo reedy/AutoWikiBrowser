@@ -19,12 +19,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-
-using System.Xml;
 using System.IO;
-
-using WikiFunctions.Plugin;
+using System.Xml;
 using System.Windows.Forms;
+using WikiFunctions.Plugin;
+
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {

@@ -26,11 +26,11 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
 // AutoWikiBrowser plugin support:
-//using WikiFunctions;
+// using WikiFunctions;
 using WikiFunctions;
 using WikiFunctions.AWBSettings;
-//using WikiFunctions.Parse;
-//using WikiFunctions.Plugin;
+// using WikiFunctions.Parse;
+// using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser.Plugins.TheTemplator
 {

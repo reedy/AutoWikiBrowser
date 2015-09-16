@@ -1,68 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace AutoWikiBrowser.Plugins.TheTemplator
 {
-	public partial class TemplatorConfig : Form
-	{
-		public TemplatorConfig()
-		{
-			InitializeComponent();
-			SetButtonStates();
-		}
+    public partial class TemplatorConfig : Form
+    {
+        public TemplatorConfig()
+        {
+            InitializeComponent();
+            SetButtonStates();
+        }
         public TemplatorConfig(string name,
                                Dictionary<string, string> parameters,
                                Dictionary<string, string> replacements,
                                bool skip,
                                bool removeExcessPipes)
-			: this()
-		{
-			// local vars
-			TemplateName = templateName.Text = name;
-			Parameters = parameters;
-			Replacements = replacements;
-			SkipIfNone = skipIfNone.Checked = skip;
+            : this()
+        {
+            // local variables
+            TemplateName = templateName.Text = name;
+            Parameters = parameters;
+            Replacements = replacements;
+            SkipIfNone = skipIfNone.Checked = skip;
             RemoveExcessPipes = removeExcessPipes;
 
-			// Populate the listviews
+            // Populate the listviews
             foreach (KeyValuePair<string, string> kvp in parameters)
                 templateParameters.Items.Add(new ListViewItem(new [] { kvp.Key, kvp.Value }));
             foreach (KeyValuePair<string, string> kvp in replacements)
                 replacementParameters.Items.Add(new ListViewItem(new [] { kvp.Key, kvp.Value }));
         }
-
-		private void SetButtonStates()
-		{
+        private void SetButtonStates()
+        {
             editParam.Enabled = templateParameters.SelectedItems.Count == 1;
             delParam.Enabled = templateParameters.SelectedItems.Count > 0;
             editReplacement.Enabled = replacementParameters.SelectedItems.Count == 1;
             delReplacement.Enabled = replacementParameters.SelectedItems.Count > 0;
         }
+        private void OnNewParam(object sender, EventArgs e)
+        {
+            TemplatorParameterDetails dlg = new TemplatorParameterDetails();
+            if (dlg.ShowDialog() == DialogResult.OK)
+                templateParameters.Items.Add(new ListViewItem(new [] { dlg.ParamName, dlg.ParamRegex }));
+        }
+        private void OnEditParam(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(templateParameters.SelectedItems.Count == 1);
+            ListViewItem item = templateParameters.SelectedItems[0];
+            TemplatorParameterDetails dlg = new TemplatorParameterDetails(item.SubItems[0].Text, item.SubItems[1].Text);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                item.SubItems[0].Text = dlg.ParamName;
+                item.SubItems[1].Text = dlg.ParamRegex;
+            }
+        }
 
-		private void OnNewParam(object sender, EventArgs e)
-		{
-			TemplatorParameterDetails dlg = new TemplatorParameterDetails();
-			if (dlg.ShowDialog() == DialogResult.OK)
-				templateParameters.Items.Add(new ListViewItem(new [] { dlg.ParamName, dlg.ParamRegex }));
-		}
-		private void OnEditParam(object sender, EventArgs e)
-		{
-			System.Diagnostics.Debug.Assert(templateParameters.SelectedItems.Count == 1);
-			ListViewItem item = templateParameters.SelectedItems[0];
-			TemplatorParameterDetails dlg = new TemplatorParameterDetails(item.SubItems[0].Text, item.SubItems[1].Text);
-			if (dlg.ShowDialog() == DialogResult.OK)
-			{
-				item.SubItems[0].Text = dlg.ParamName;
-				item.SubItems[1].Text = dlg.ParamRegex;
-			}
-		}
-		private void OnDelParam(object sender, EventArgs e)
-		{
-			foreach (ListViewItem item in templateParameters.SelectedItems)
-				templateParameters.Items.Remove(item);
-		}
+        private void OnDelParam(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in templateParameters.SelectedItems)
+                templateParameters.Items.Remove(item);
+        }
+
         private void OnNewReplacementParam(object sender, EventArgs e)
         {
             TemplatorParameterDetails dlg = new TemplatorParameterDetails();
@@ -86,10 +86,10 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 replacementParameters.Items.Remove(item);
         }
 
-		private void OnSelectedIndexChangedTemplateParameters(object sender, EventArgs e)
-		{
-			SetButtonStates();
-		}
+        private void OnSelectedIndexChangedTemplateParameters(object sender, EventArgs e)
+        {
+            SetButtonStates();
+        }
 
         private void OnDoubleClickTemplateParameters(object sender, EventArgs e)
         {
@@ -102,15 +102,15 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 OnEditReplacementParam(sender, e);
         }
 
-		public string TemplateName { get; private set; }
+        public string TemplateName { get; private set; }
         public Dictionary<string, string> Parameters { get; private set; }
         public Dictionary<string, string> Replacements { get; private set; }
-		public string Replacement { get; private set; }
+        public string Replacement { get; private set; }
         public bool SkipIfNone { get; private set; }
         public bool RemoveExcessPipes { get; private set; }
 
-		private void OK_Click(object sender, EventArgs e)
-		{
+        private void OK_Click(object sender, EventArgs e)
+        {
             if (templateName.Text == "")
             {
                 MessageBox.Show(string.Format("Template name must be specified"), PluginName);
@@ -129,7 +129,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             SaveParameters(replacementParameters, Replacements);
             SkipIfNone = skipIfNone.Checked;
             RemoveExcessPipes = removeExcessPipes.Checked;
-		}
+        }
 
         private bool SaveParameters(ListView parameterListView, IDictionary<string, string> parameterList)
         {
@@ -164,13 +164,13 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             return true;
         }
 
-		static internal string PluginName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        static internal string PluginName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
-		private void regexHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			regexHelp.LinkVisited = true;
-			WikiFunctions.Tools.OpenURLInBrowser("http://msdn.microsoft.com/en-us/library/hs600312.aspx");
-		}
+        private void regexHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            regexHelp.LinkVisited = true;
+            WikiFunctions.Tools.OpenURLInBrowser("http://msdn.microsoft.com/en-us/library/hs600312.aspx");
+        }
 
         bool InTemplateParameters_ColumnWidthChanging;
         private void templateParameters_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
