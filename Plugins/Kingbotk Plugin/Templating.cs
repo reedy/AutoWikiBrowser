@@ -29,7 +29,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             new Dictionary<string, TemplateParametersObject>();
 
         /// <summary>
-        /// Store a parameter from the exploded on-page template into the Parameters collectiom
+        /// Store a parameter from the exploded on-page template into the Parameters collection
         /// </summary>
         internal void AddTemplateParmFromExistingTemplate(string parameterName, string parameterValue)
         {

@@ -1,19 +1,20 @@
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
-	partial class GenericTemplatePropertiesForm : System.Windows.Forms.Form
-	{
+    partial class GenericTemplatePropertiesForm : System.Windows.Forms.Form
+    {
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && components != null) {
+        protected override void Dispose(bool disposing)
+        {
+			if (disposing && components != null)
+			{
 				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+            }
+            base.Dispose(disposing);
+        }
 
         #region Windows Form Designer generated code
 
@@ -206,19 +207,19 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         #endregion
 
         internal System.Windows.Forms.Button OK_Button;
-		internal System.Windows.Forms.Label NameLabel;
-		internal System.Windows.Forms.Label Label1;
-		internal System.Windows.Forms.TextBox MainRegexTextBox;
-		internal System.Windows.Forms.Label AmIReadyLabel;
-		internal System.Windows.Forms.Label HasAltNamesLabel;
-		internal System.Windows.Forms.Label Label2;
-		internal System.Windows.Forms.TextBox PreferredTemplateNameRegexTextBox;
-		internal System.Windows.Forms.Label Label3;
-		internal System.Windows.Forms.ToolTip ToolTip1;
-		internal System.Windows.Forms.TextBox SecondChanceRegexTextBox;
-		internal System.Windows.Forms.Label SkipLabel;
-		internal System.Windows.Forms.TextBox SkipRegexTextBox;
-		internal System.Windows.Forms.Label ImportanceLabel;
-		internal System.Windows.Forms.Label AutoStubLabel;
+        internal System.Windows.Forms.Label NameLabel;
+        internal System.Windows.Forms.Label Label1;
+        internal System.Windows.Forms.TextBox MainRegexTextBox;
+        internal System.Windows.Forms.Label AmIReadyLabel;
+        internal System.Windows.Forms.Label HasAltNamesLabel;
+        internal System.Windows.Forms.Label Label2;
+        internal System.Windows.Forms.TextBox PreferredTemplateNameRegexTextBox;
+        internal System.Windows.Forms.Label Label3;
+        internal System.Windows.Forms.ToolTip ToolTip1;
+        internal System.Windows.Forms.TextBox SecondChanceRegexTextBox;
+        internal System.Windows.Forms.Label SkipLabel;
+        internal System.Windows.Forms.TextBox SkipRegexTextBox;
+        internal System.Windows.Forms.Label ImportanceLabel;
+        internal System.Windows.Forms.Label AutoStubLabel;
 	}
 }

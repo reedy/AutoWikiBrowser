@@ -2,21 +2,21 @@
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
-	partial class AboutBox : System.Windows.Forms.Form
-	{
+    partial class AboutBox : System.Windows.Forms.Form
+    {
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && components != null)
-			{
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && components != null)
+            {
 				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+            }
+            base.Dispose(disposing);
+        }
 
         #region Windows Form Designer generated code
 
@@ -197,12 +197,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         private System.Windows.Forms.LinkLabel linkKingboy;
         private System.Windows.Forms.LinkLabel linkReedy;
         private System.Windows.Forms.Button OKButton;
-		private System.Windows.Forms.Label LabelProductName;
-		private System.Windows.Forms.Label LabelVersion;
-		private System.Windows.Forms.Label LabelCopyright;
-		private System.Windows.Forms.Label TextBoxDescription;
-		private System.Windows.Forms.Label Label1;
-		private System.Windows.Forms.Label Label2;
+        private System.Windows.Forms.Label LabelProductName;
+        private System.Windows.Forms.Label LabelVersion;
+        private System.Windows.Forms.Label LabelCopyright;
+        private System.Windows.Forms.Label TextBoxDescription;
+        private System.Windows.Forms.Label Label1;
+        private System.Windows.Forms.Label Label2;
         private System.Windows.Forms.Button LicencingButton;
 	}
 }
