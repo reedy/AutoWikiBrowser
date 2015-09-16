@@ -288,7 +288,7 @@ namespace WikiFunctions
             return true;
         }
 
-        //[XmlAttribute(AttributeName = "url")]
+        // [XmlAttribute(AttributeName = "url")]
         public string ScriptPath
         {
             get { return scriptPath; }

@@ -93,6 +93,15 @@ param=<br>
         }
 
         [Test]
+        public void BrAfterMaintanceTemplate()
+        {
+            Assert.AreEqual("{{Orphan|date=September 2015}}", parser.FixBrParagraphs("{{Orphan|date=September 2015}}<br>"),"br after a maintance template");
+            Assert.AreEqual("{{Orphan|date=September 2015}}", parser.FixBrParagraphs("{{Orphan|date=September 2015}}<br/>"),"br after a maintance template");
+            Assert.AreEqual("{{Orphan|date=September 2015}}", parser.FixBrParagraphs("{{Orphan|date=September 2015}}<br />"),"br after a maintance template");
+
+        }
+
+        [Test]
         public void TestFixHeadings()
         {
             // breaks if article title is empty

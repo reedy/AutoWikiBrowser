@@ -396,7 +396,7 @@ namespace WikiFunctions
             [XmlAttribute("version")]
             public readonly string Version = Globals.WikiFunctionsVersion.ToString();
 
-            //[XmlText]
+            // [XmlText]
             [XmlArray("Types")]
             public readonly List<Type> Types = new List<Type>();
         }

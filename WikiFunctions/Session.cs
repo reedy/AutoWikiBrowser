@@ -250,11 +250,11 @@ namespace WikiFunctions
 
                 Site = new SiteInfo(Editor.SynchronousEditor);
 
-                //load version check page if no status set
+                // load version check page if no status set
                 if (Updater.Result == Updater.AWBEnabledStatus.None)
                     Updater.CheckForUpdates();
 
-                //load check page
+                // load check page
                 string url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";
 
                 string checkPageText = Editor.SynchronousEditor.HttpGet(url);
@@ -273,7 +273,7 @@ namespace WikiFunctions
                 Updater.AWBEnabledStatus versionStatus = Updater.Result;
                 VersionCheckPage = Updater.GlobalVersionPage;
 
-                //see if this version is enabled
+                // see if this version is enabled
                 if (versionStatus == Updater.AWBEnabledStatus.Disabled)
                     return WikiStatusResult.OldVersion;
 
@@ -298,7 +298,7 @@ namespace WikiFunctions
                         return WikiStatusResult.NotRegistered;
                 }
 
-                //see if there is a message
+                // see if there is a message
                 Match messages = Message.Match(checkPageText);
                 if (messages.Success && messages.Groups[1].Value.Trim().Length > 0)
                 {
@@ -306,7 +306,7 @@ namespace WikiFunctions
                                     MessageBoxIcon.Information);
                 }
 
-                //see if there is a version-specific message
+                // see if there is a version-specific message
                 messages = VersionMessage.Match(checkPageText);
                 if (messages.Success && messages.Groups[1].Value.Trim().Length > 0 &&
                     messages.Groups[1].Value == AWBVersion)
@@ -338,7 +338,7 @@ namespace WikiFunctions
                     return WikiStatusResult.Registered;
                 }
 
-                //see if we are allowed to use this software
+                // see if we are allowed to use this software
                 checkPageText = Tools.StringBetween(checkPageText, "<!--enabledusersbegins-->",
                                                     "<!--enabledusersends-->");
 
@@ -492,7 +492,7 @@ namespace WikiFunctions
             }
             catch (Exception ex)
             {
-                //TODO:Better error handling
+                // TODO:Better error handling
 
                 string message = "";
 

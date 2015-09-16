@@ -37,7 +37,7 @@ using System.Text.RegularExpressions;
 
 namespace WikiFunctions.AWBSettings
 {
-    //mother class
+    // mother class
     [Serializable, XmlRoot("AutoWikiBrowserPreferences")]
     public class UserPrefs
     {
@@ -121,7 +121,7 @@ namespace WikiFunctions.AWBSettings
                 settings = f.ReadToEnd();
             }
 
-            //test to see if it is an old AWB file
+            // test to see if it is an old AWB file
             if (settings.Contains("<projectlang proj="))
                 throw new Exception("This file uses old settings format unsupported by this version of AWB.");
 
@@ -196,7 +196,7 @@ namespace WikiFunctions.AWBSettings
         }
     }
 
-    //find and replace prefs
+    // find and replace prefs
     [Serializable]
     public class FaRPrefs
     {
@@ -254,7 +254,7 @@ namespace WikiFunctions.AWBSettings
         public List<Article> ArticleList = new List<Article>();
     }
 
-    //the basic settings
+    // the basic settings
     [Serializable]
     public class EditPrefs
     {
@@ -286,7 +286,7 @@ namespace WikiFunctions.AWBSettings
         public bool RegexTypoFix = false;
     }
 
-    //skip options
+    // skip options
     [Serializable]
     public class SkipPrefs
     {
@@ -361,7 +361,7 @@ namespace WikiFunctions.AWBSettings
         public int OnLoadAction = 0;
         public bool DiffInBotMode = false;
         public bool Minor = true;
-        public int AddToWatchlist = 2; //No change
+        public int AddToWatchlist = 2; // No change
         public bool TimerEnabled = false;
         public bool SortListAlphabetically = false;
         public bool AddIgnoredToLog = false;

@@ -183,15 +183,18 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Remove 2 or more &lt;br /&gt;'s
+        /// Remove &lt;br /&gt;'s where not needed
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
         public string FixBrParagraphs(string articleText)
         {
-            // check for performance
+            // Check for performance
             if (SyntaxRemoveBrQuick.IsMatch(articleText))
                 articleText = SyntaxRemoveBr.Replace(articleText, "\r\n\r\n");
+            
+            // Remove br tags after maintance templates
+            articleText = MaintanceTemplateWithBr.Replace(articleText,"$1");
 
             articleText = SyntaxRemoveParagraphs.Replace(articleText, "\r\n\r\n");
             return SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
