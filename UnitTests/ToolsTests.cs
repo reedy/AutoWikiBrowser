@@ -1026,6 +1026,7 @@ John", "*"));
             dupeWikiLinks.Add("Foo (2)");
 
             Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]]"), "Simple case two plain links same case");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[foo]] [[foo]]"), "Simple case two plain links same lower case");
             Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[Bar]]"), "Don't count single link");
             Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo|bar2]] [[Foo|bar]]"), "Simple case two piped links same case");
             Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[foo]]"), "convert first letter case for compare");
@@ -1037,6 +1038,10 @@ John", "*"));
 
             Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[Foo|bar]]"), "Includes count after link name");
             Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Foo]] [[Foo|bar]] <!-- [[Foo]] -->"), "Ingore commented out link");
+
+            dupeWikiLinks.Add("Get (3)");
+
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Get]] [[Foo]] [[Get]] [[Foo|bar]] [[Get]]"), "List returned is sorted");
         }
 
         [Test]
