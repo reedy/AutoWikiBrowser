@@ -1080,17 +1080,12 @@ namespace WikiFunctions
         /// <summary>
         /// The cleanup templates that can be moved into the {{multiple issues}} template
         /// </summary>
-        public const string MultipleIssuesTemplatesString = @"([Aa]bbreviations|[Aa]dvert|[Aa]utobiography|[Bb]iased|[Bb]lpdispute|BLPrefimprove|BLP IMDB refimprove|BLP ?sources|BLPunref(?:erenced)?|BLP ?unsourced|[Cc]itations missing|[Cc]itation ?style|[Cc]ite ?check|[Cc]leanup|[Cc]leanup-laundry|[Cc]leanup-link rot|[Cc]leanup-reorgani[sz]e|[Cc]leanup-spam|COI|[Cc]oi|[Cc]olloquial|[Cc]onfusing|[Cc]ontext|[Cc]ontradict|[Cc]opy ?edit|[Cc]riticisms|[Cc]riticism section|[Cc]rystal|[Dd]ead ?end|[Dd]isputed|[Dd]o-attempt|[Ee]ssay(?:\-like)?|[Ee]xample ?farm|[Ee]xpand|[Ee]xpert|[Ee]xpert-subject|[Ee]xternal links|[Ff]ancruft|[Ff]anpov|[Ff]ansite|[Ff]iction|[Gg]ame ?guide|[Gg]lobalize|[Gg]rammar|[Hh]istinfo|[Hh]oax|[Hh]owto|[Ii]nappropriate person|[Ii]n-universe|[Ii]ncomplete|[Ii]ntro(?: length|\-too(?:long|short))|[Ii]ntromissing|[Ii]ntrorewrite|[Cc]leanup-jargon|[Ll]aundry(?:lists)?|[Ll]ead (?:missing|rewrite|too long|too short)|[Ll]ike ?resume|(?:[Vv]ery ?l|[Ll])ong|[Mm]ore footnotes|[Nn]ews ?release|[Nn]o footnotes|[Nn]otab(?:le|ility)|[Oo]ne ?source|[Oo]riginal[ -][Rr]esearch|[Oo]rphan|[Oo]ut of date|[Oo]verly detailed|[Oo]ver-quotation|[Pp]eacock|[Pp]lot|N?POV|n?pov|[Pp]ov\-check|POV-check|[Pp]rimary ?sources|[Pp]rose(?:line)?|[Qq]uotefarm|[Rr]ecent(?:ism)?|[Rr]efimprove(?:BLP)?|[Rr]estructure|[Rr]eview|(?:[Cc]leanup\-r|[Rr])ewrite|[Ss]ections|[Ss]elf-published|[Ss]pam|[Ss]tory|[Ss]ynthesis|[Tt]echnical|[Ii]nappropriate tone|[Tt]one|[Tt]oo(?:short|long)|[Tt]ravel ?guide|[Tt]rivia|[Uu]nbalanced|[Uu]nderlinked|[Uu]nencyclopedic|[Uu]nref(?:erenced(?:BLP)?|BLP)?|[Uu]nreliable sources|[Uu]pdate|[Ww]easel|[Ww]ikify)";
+        public const string MaintanceTemplatesString = @"([Aa]bbreviations|[Aa]dvert|[Aa]utobiography|[Bb]iased|[Bb]lpdispute|BLPrefimprove|BLP IMDB refimprove|BLP ?sources|BLPunref(?:erenced)?|BLP ?unsourced|[Cc]itations missing|[Cc]itation ?style|[Cc]ite ?check|[Cc]leanup|[Cc]leanup-laundry|[Cc]leanup-link rot|[Cc]leanup-reorgani[sz]e|[Cc]leanup-spam|COI|[Cc]oi|[Cc]olloquial|[Cc]onfusing|[Cc]ontext|[Cc]ontradict|[Cc]opy ?edit|[Cc]riticisms|[Cc]riticism section|[Cc]rystal|[Dd]ead ?end|[Dd]isputed|[Dd]o-attempt|[Ee]ssay(?:\-like)?|[Ee]xample ?farm|[Ee]xpand|[Ee]xpert|[Ee]xpert-subject|[Ee]xternal links|[Ff]ancruft|[Ff]anpov|[Ff]ansite|[Ff]iction|[Gg]ame ?guide|[Gg]lobalize|[Gg]rammar|[Hh]istinfo|[Hh]oax|[Hh]owto|[Ii]nappropriate person|[Ii]n-universe|[Ii]ncomplete|[Ii]ntro(?: length|\-too(?:long|short))|[Ii]ntromissing|[Ii]ntrorewrite|[Cc]leanup-jargon|[Ll]aundry(?:lists)?|[Ll]ead (?:missing|rewrite|too long|too short)|[Ll]ike ?resume|(?:[Vv]ery ?l|[Ll])ong|[Mm]ore footnotes|[Nn]ews ?release|[Nn]o footnotes|[Nn]otab(?:le|ility)|[Oo]ne ?source|[Oo]riginal[ -][Rr]esearch|[Oo]rphan|[Oo]ut of date|[Oo]verly detailed|[Oo]ver-quotation|[Pp]eacock|[Pp]lot|N?POV|n?pov|[Pp]ov\-check|POV-check|[Pp]rimary ?sources|[Pp]rose(?:line)?|[Qq]uotefarm|[Rr]ecent(?:ism)?|[Rr]efimprove(?:BLP)?|[Rr]estructure|[Rr]eview|(?:[Cc]leanup\-r|[Rr])ewrite|[Ss]ections|[Ss]elf-published|[Ss]pam|[Ss]tory|[Ss]ynthesis|[Tt]echnical|[Ii]nappropriate tone|[Tt]one|[Tt]oo(?:short|long)|[Tt]ravel ?guide|[Tt]rivia|[Uu]nbalanced|[Uu]nderlinked|[Uu]nencyclopedic|[Uu]nref(?:erenced(?:BLP)?|BLP)?|[Uu]nreliable sources|[Uu]pdate|[Ww]easel|[Ww]ikify|COI|POV)";
 
         /// <summary>
         /// Matches the cleanup templates that can be moved into the {{multiple issues}} template
         /// </summary>
-        public static readonly Regex MultipleIssuesTemplateNameRegex = new Regex(MultipleIssuesTemplatesString);
-
-        /// <summary>
-        /// Matches COI|OR|POV|BLP
-        /// </summary>
-        public static readonly Regex CoiOrPovBlp = new Regex("(COI|OR|POV|BLP)");
+        public static readonly Regex MultipleIssuesTemplateNameRegex = new Regex(MaintanceTemplatesString);
 
         /// <summary>
         /// Localized version of date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}
@@ -1100,7 +1095,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the cleanup templates that can be moved into the {{multiple issues}} template, notably does not match templates with multiple parameters
         /// </summary>
-        public static readonly Regex MultipleIssuesTemplates = new Regex(@"{{" + MultipleIssuesTemplatesString + @"\s*(?:(?:\|\s*for\s*=\s*grammar\s*)?\|\s*([^{}\|]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}\|]*?)?))?\s*}}");
+        public static readonly Regex MultipleIssuesTemplates = new Regex(@"{{" + MaintanceTemplatesString + @"\s*(?:(?:\|\s*for\s*=\s*grammar\s*)?\|\s*([^{}\|]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}\|]*?)?))?\s*}}");
 
         /// <summary>
         /// Matches the cleanup templates that can be moved into the {{multiple issues}} article-level template
