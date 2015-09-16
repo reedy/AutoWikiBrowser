@@ -437,12 +437,12 @@ quux.JPEG|text
             AssertAllHiddenMore("[http://foo bar]", true, "External link with text");
             AssertAllHiddenMore("[//foo.com bar]", true, "External link Protocol-relative URL"); 
             AssertAllHiddenMore("[http://foo [bar]", true, "External link unbalanced bracket");
-            AssertAllHiddenMore("[[ru:Link]]", true, "Possible interwiki");
-            Assert.IsFalse(Hide(@"[[ru:Link]]", true, true, true).Contains("Link"), "Possible interwiki");
+            AssertAllHiddenMore("[[ru:Link]]", true, "Possible interwiki, hidemore");
+            Assert.IsFalse(Hide(@"[[ru:Link]]", true, true, true).Contains("Link"), "Possible interwiki, hide");
             
-            Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="));
+            Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="), "cite template URL");
             Assert.IsTrue(Hide(@"date=April 2010|url=//w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="), "Protocol-relative URL");
-            Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"}}"));
+            Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"}}"), "Cite template URL, }} retention");
         }
         
         [Test]
