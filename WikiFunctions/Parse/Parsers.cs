@@ -1470,9 +1470,7 @@ namespace WikiFunctions.Parse
             // Performance: get all the templates so template changing functions below only called when template(s) present in article
             List<string> alltemplates = GetAllTemplates(articleText);
 
-            bool mifound = TemplateExists(alltemplates, WikiRegexes.MultipleIssues);
-
-            if (mifound || TemplateExists(alltemplates, ConversionsCnCommons))
+            if (TemplateExists(alltemplates, ConversionsCnCommons))
             {
                 foreach (KeyValuePair<Regex, string> k in RegexConversion)
                 {
