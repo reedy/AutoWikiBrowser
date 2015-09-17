@@ -308,11 +308,11 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<source>{{abc}}</source>"));
             Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<tt>{{abc}}</tt>"));
-        	
 
             Assert.IsFalse(WikiRegexes.SourceCode.IsMatch(@"<math>{{abc}}</math>"));
             Assert.IsFalse(WikiRegexes.SourceCode.IsMatch(@"<pre>{{abc}}</pre>"));
         }
+        
         [Test]
         public void MathPreSourceCodeTests()
         {
@@ -494,10 +494,9 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.UnPipedWikiLink, "[[foo|bar]]", false);
             Assert.AreEqual("foo", WikiRegexes.UnPipedWikiLink.Match("[[foo]]").Groups[1].Value);
             Assert.AreEqual("foo bar", WikiRegexes.UnPipedWikiLink.Match("[[foo bar]]").Groups[1].Value);
-
         }
 
-        	[Test]
+        [Test]
         public void Blockquote()
         {
             // one line
@@ -732,10 +731,9 @@ Start date and age
             RegexAssert.IsMatch(WikiRegexes.ExternalLinksHeader, "== External link ==");
             RegexAssert.IsMatch(WikiRegexes.SeeAlso, "==See also==");
             RegexAssert.IsMatch(WikiRegexes.SeeAlso, "== See also ==");
-        	
         }
 
-        	[Test]
+        [Test]
         public void Refs()
         {
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo</ref>", "<ref>foo</ref>");
@@ -1085,7 +1083,7 @@ fast„ "));
         public void CurlyDoubleQuotes()
         {
             Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@" “ very fast ”"));
-			Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@"very fast „"));
+            Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@"very fast „"));
         }
 
         [Test]
@@ -1308,7 +1306,6 @@ cit"));
             Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikibooks}}"));
             Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikimedia}}"));
             Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikiversity}}"));
-        	
         }
 
         [Test]
@@ -1593,10 +1590,10 @@ words2"));
         [Test]
         public void NonDeadEndPageTemplatesTests()
         {
-        	Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade|31}}"));
-        	Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade BC|31}}"));
-        	Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{SCOTUSRow | case name = Arizona v. Inter Tribal Council of Ariz., Inc. | docket = 12-71 | decision date = June 17 | decision year = 2013}}"));
-        	Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Portal:Current events/Month Inclusion|2009 February}}"));
+            Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade|31}}"));
+            Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade BC|31}}"));
+            Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{SCOTUSRow | case name = Arizona v. Inter Tribal Council of Ariz., Inc. | docket = 12-71 | decision date = June 17 | decision year = 2013}}"));
+            Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Portal:Current events/Month Inclusion|2009 February}}"));
         }
 
         [Test]
@@ -1710,11 +1707,11 @@ words2"));
 
             Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* https://www.site.com
 "));
-        	Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* ftp://www.site.com
+            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* ftp://www.site.com
 "));
 
 
-        	Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"* [http://www.site.com text]
+            Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"* [http://www.site.com text]
 "));
             Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"<ref>http://www.site.com</ref>
 "));

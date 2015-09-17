@@ -539,7 +539,7 @@ quux.JPEG|text
         [Test]
         public void AutoTag()
         {
-			#if DEBUG
+            #if DEBUG
             const string LongText =
             @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dictum ultrices augue. Fusce sem diam, vestibulum sit amet, vehicula id, congue a, nisl. Phasellus pulvinar posuere purus. Donec elementum justo mattis nulla. Sed a purus dictum lacus pharetra adipiscing. Nam non dui non ante viverra iaculis. Fusce euismod lacus id nulla vulputate gravida. Suspendisse lectus pede, tempus sed, tristique id, pharetra eget, urna. Integer mattis libero vel quam accumsan suscipit. Vivamus molestie dapibus est. Quisque quis metus eget nisl accumsan aliquet. Donec tempus pellentesque tellus. Aliquam lacinia gravida justo. Aliquam erat volutpat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris ultricies suscipit urna. Ut mollis tempor leo. Pellentesque fringilla mattis enim. Proin sapien enim, congue non, aliquet et, sollicitudin nec, mauris. Sed porta.
 
@@ -721,7 +721,7 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
             UnB = a.UnbalancedBrackets();
             Assert.AreEqual(1, UnB.Count, "One unbalanced bracket in mainspace article");
             
-            //   UnB.Clear();
+            // UnB.Clear();
             a = new Article("TestArticle", @"This is the text here.
 == Section ==
 There [was.");
@@ -1084,7 +1084,7 @@ http://www.site.com
             Assert.AreEqual("<source>quux</source>", p2.AddBackText(s2));
 
             // in the future, we may use parser objects for processing several wikis at once
-            //Assert.AreNotEqual(p1.StubMaxWordCount, p2.StubMaxWordCount);
+            // Assert.AreNotEqual(p1.StubMaxWordCount, p2.StubMaxWordCount);
 
         }
     }
@@ -1317,7 +1317,7 @@ The";
 
 == older entries ==
 The";
-          	TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(articleText2, articleText, "unknown templates get below known ones");
 
             articleText = @"{{Talk header}}
@@ -1335,7 +1335,7 @@ The";
 }}
 {{Image requested|in=Virginia}}
 ";
-          	TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(articleText2, articleText, "image requested is moved away from WPBS; at some point we could fix the whitespace inside WPBS");
 
             articleText = @"{{Talk header|search=yes}}
