@@ -1513,14 +1513,6 @@ namespace WikiFunctions.Parse
             if (TemplateExists(alltemplates, SectionTemplates))
                 articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
 
-            if (mifound)
-            {
-                articleText = WikiRegexes.MultipleIssues.Replace(articleText, m =>
-                                                             {
-                                                                 return Tools.RemoveExcessTemplatePipes(m.Value);
-                                                             });
-            }
-
             // fixes if article has [[Category:Living people]]
             if (Variables.IsWikipediaEN && CategoryMatch(articleText, "Living people"))
             {

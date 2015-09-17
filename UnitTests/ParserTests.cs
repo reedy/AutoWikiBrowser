@@ -1645,8 +1645,6 @@ Text
         public void RemoveExcessTemplatePipes()
         {
             // extra pipe
-            Assert.AreEqual(@"{{Multiple issues|{{sections|date=May 2008}}{{POV|date=March 2008}}{{COI|date=May 2009}}}}", Parsers.Conversions(@"{{Multiple issues|{{sections|date=May 2008}}{{POV|date=March 2008}}{{COI|date=May 2009}}|}}"));
-            Assert.AreEqual(@"{{Multiple issues|{{sections|date=May 2008}}{{POV|date=March 2008}}{{COI|date=May 2009}}}}", Parsers.Conversions(@"{{Multiple issues||{{sections|date=May 2008}}{{POV|date=March 2008}}{{COI|date=May 2009}}}}"));
             Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.FixCitationTemplates(@"{{cite web | url=http://www.site.com || title=hello}}"));
             Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.FixCitationTemplates(@"{{cite web || url=http://www.site.com || title=hello}}"));
             Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.FixCitationTemplates(@"{{cite web | url=http://www.site.com | | title=hello}}"));
