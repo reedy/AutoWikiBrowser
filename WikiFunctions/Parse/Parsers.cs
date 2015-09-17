@@ -765,6 +765,10 @@ namespace WikiFunctions.Parse
         /// <param name="tags">Maintenance tags list</param>
         public static List<string> DeduplicateMaintenanceTags(List<string> tags)
         {
+            // Performance: only have work to do if have some duplicate tags
+            if(Tools.DeduplicateList(tags.Select(t => Tools.TurnFirstToLower(Tools.GetTemplateName(t))).ToList()).Count == tags.Count())
+                return tags;
+
             List<string> newtags = new List<string>();
             List<string> originalTags = tags;
 
