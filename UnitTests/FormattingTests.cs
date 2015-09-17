@@ -76,6 +76,8 @@ namespace UnitTests
             Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br>"), "br after a maintance template");
             Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br/>"), "br after a maintance template");
             Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br />"), "br after a maintance template");
+            Assert.AreEqual("{{Orphan|date=September 2015}}{{Infobox person|name=John<br>Smith}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}{{Infobox person|name=John<br>Smith}}"), "do not affect any other br tags");
+            Assert.AreEqual("{{long ton|37|10}}<br>", Parsers.FixSyntax("{{long ton|37|10}}<br>"), "avoid replacements in after inline templates");
         }
 
         [Test]

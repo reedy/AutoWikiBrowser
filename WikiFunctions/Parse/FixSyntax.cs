@@ -74,7 +74,7 @@ namespace WikiFunctions.Parse
         // Match execss <br> tags only if current line does not start from ! or | (indicator of table cells)
         private static readonly Regex SyntaxRemoveBr = new Regex(@"(?:(?:<br[\s/]*> *){2,}|\r\n<br[\s/]*>\r\n<br[\s/]*>\r\n)(?<!^[!\|].*)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
         
-        private static readonly Regex MaintanceTemplateWithBr = new Regex(@"({{"+WikiRegexes.MaintanceTemplatesString+@"[^\}]*}}(\r\n)?)\<br[\s/]*\>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private static readonly Regex MaintanceTemplateWithBr = new Regex(@"({{"+WikiRegexes.MaintanceTemplatesString+@"\s*\|[^\}]*}}(\r\n)?)\<br[\s/]*\>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
         private static readonly Regex SyntaxRemoveBrQuick = new Regex(@"<br[\s/]*>\s*<br[\s/]*>", RegexOptions.IgnoreCase);
 
