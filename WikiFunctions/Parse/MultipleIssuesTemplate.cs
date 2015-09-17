@@ -76,7 +76,15 @@ namespace WikiFunctions.Parse
                 foreach(string s in sections)
                 {
                     if (!s.StartsWith("="))
-                        newarticleText.Append(MIZerothSection(s, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates));
+                    {
+                        string newZero = MIZerothSection(s, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates);
+
+                        // if no changes in zeroth section and no section tags, then nothing left to do
+                        if(newZero.Equals(s) && sectionTags == 0)
+                            return articleText;
+
+                        newarticleText.Append(newZero);
+                    }
                     else if(sectionTags > 0)
                         newarticleText.Append(MILaterSection(s, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates).TrimStart());
                     else
