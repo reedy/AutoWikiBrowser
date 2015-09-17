@@ -89,7 +89,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase);
         private static readonly Regex CellpaddingTypoQuick = new Regex(@"\bcel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase);
 
-        //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
         private static readonly Regex RemoveNoPropertyFontTags = new Regex(@"<font>([^<>]+)</font>", RegexOptions.IgnoreCase);
 
         // for fixing unbalanced brackets
@@ -233,7 +233,7 @@ namespace WikiFunctions.Parse
             if (SimpleTagsList.Any(s => s.StartsWith("<hr")) || articleText.Contains("-----"))
                 articleText = SyntaxRegexHorizontalRule.Replace(articleText, "----");
 
-            //remove appearance of double line break
+            // remove appearance of double line break
             articleText = SyntaxRegexHeadingWithHorizontalRule.Replace(articleText, "$1");
 
             // remove unnecessary namespace
@@ -349,7 +349,7 @@ namespace WikiFunctions.Parse
             // adds missing http:// to bare url references lacking it - CHECKWIKI error 62
             articleText = RefURLMissingHttp.Replace(articleText, @"$1http://www.");
 
-            //repair bad Image/external links, ssb check for performance
+            // repair bad Image/external links, ssb check for performance
             if (ssb.Any(m => m.Value.Contains(":") && m.Value.ToLower().Contains(":http")))
                 articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
 
