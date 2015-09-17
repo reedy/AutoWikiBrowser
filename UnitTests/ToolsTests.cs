@@ -1016,6 +1016,8 @@ John", "*"));
             Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]] and [[foo2]]", 1), "count capped at limit");
             Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]] and [[foo2]]", 2), "count capped at limit");
             Assert.AreEqual(2, Tools.LinkCount(@"{{flagIOC}} {{flagIOC}} {{flagIOC}}", 2), "count capped at limit, flagIOC");
+
+            Assert.AreEqual(1, Tools.LinkCount(@"[[Foo|ʿUrwa]]"), "Handling of Unicode modifier letters");
         }
 
         [Test]

@@ -801,7 +801,7 @@ namespace WikiFunctions
                 allWikiLinks.Remove(l);
 
             // Make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
-            allWikiLinks = allWikiLinks.Select(l => Tools.TurnFirstToUpper((l.Contains("|") ? l.Substring(0, l.IndexOf("|")) : l).Trim("[] ".ToCharArray()))).ToList();
+            allWikiLinks = allWikiLinks.Select(l => Tools.TurnFirstToUpper((l.Contains('|') ? l.Substring(0, l.IndexOf('|')) : l).Trim("[] ".ToCharArray()))).ToList();
 
             // Take all links found and generate dictionary of link name and count for those with more than one link
             Dictionary<string, int> dupeLinks = allWikiLinks.GroupBy(x => x).Where(g => g.Count() > 1).ToDictionary(x => x.Key, y => y.Count());
