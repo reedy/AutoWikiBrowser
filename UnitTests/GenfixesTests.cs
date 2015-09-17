@@ -319,7 +319,7 @@ W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
             #if DEBUG
             Variables.SetProjectSimple("en", ProjectEnum.wikia);
 
-			AssertNotChanged(@"{{BLP sources|date=May 2010}}
+            AssertNotChanged(@"{{BLP sources|date=May 2010}}
 '''Bob Jones''' (born 1987 in Smith).<ref>a</ref>
 
 ==References==
@@ -329,7 +329,7 @@ W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
 [[Category:Living people]]
 [[Category:1987 births]]", "no persondata added");
 
-			            AssertNotChanged(@"{{Unreferenced|date=December 2009}}
+            AssertNotChanged(@"{{Unreferenced|date=December 2009}}
 {{Dead end|date=November 2006}}
 {{Notability|1=Music|date=September 2010}}
 {{Advert|date=December 2007}}
@@ -341,7 +341,7 @@ W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
 {{Norway-band-stub}}", "no multiple issues added");
 
         Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
-	    #endif
+        #endif
         }
 
         [Test]

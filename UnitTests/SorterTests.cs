@@ -306,7 +306,7 @@ Might eventually be relevant on a disambig page?  But these are a redirect and a
 -->";
 
             Assert.AreEqual(f, MetaDataSorter.MoveTemplate(f, WikiRegexes.Dablinks));
-		}
+        }
 
         [Test]
         public void RemoveDisambig()
@@ -316,7 +316,7 @@ Might eventually be relevant on a disambig page?  But these are a redirect and a
             string a = dab + "\r\n" + foo;
 
             Assert.AreEqual(dab, MetaDataSorter.RemoveDisambig(ref a));
-			Assert.AreEqual(a, "\r\n" + foo);
+            Assert.AreEqual(a, "\r\n" + foo);
 
             // no dabs to take out – no change
             a = foo;
@@ -324,72 +324,72 @@ Might eventually be relevant on a disambig page?  But these are a redirect and a
             Assert.AreEqual(a, foo);
 
             // don't pull out of comments
-			a = @"<!--" + dab + @"-->" + "\r\n" + foo;
-			Assert.AreEqual("", MetaDataSorter.RemoveDisambig(ref a));
-			Assert.AreEqual(a,  @"<!--" + dab + @"-->" + "\r\n" + foo);
+            a = @"<!--" + dab + @"-->" + "\r\n" + foo;
+            Assert.AreEqual("", MetaDataSorter.RemoveDisambig(ref a));
+            Assert.AreEqual(a,  @"<!--" + dab + @"-->" + "\r\n" + foo);
 
-			a = dab + "<!--comm-->\r\n" + foo;
-			Assert.AreEqual(dab + "<!--comm-->", MetaDataSorter.RemoveDisambig(ref a), "Handles disambig template with comment after");
-			Assert.AreEqual(a, "\r\n" + foo);
-		}
+            a = dab + "<!--comm-->\r\n" + foo;
+            Assert.AreEqual(dab + "<!--comm-->", MetaDataSorter.RemoveDisambig(ref a), "Handles disambig template with comment after");
+            Assert.AreEqual(a, "\r\n" + foo);
+        }
 
-		[Test]
-		public void MoveMaintenanceTagsTests()
-		{
-			const string d = @"Fred is a doctor.
+        [Test]
+        public void MoveMaintenanceTagsTests()
+        {
+            const string d = @"Fred is a doctor.
 Fred has a dog.
 [[Category:Dog owners]]
 {{some template}}
 ";
 
-			string e = @"{{Underlinked|date=May 2008}}";
-			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
+            string e = @"{{Underlinked|date=May 2008}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
 
-			e = @"{{underlinked|date=May 2008}}";
-			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
-			
-			e = @"{{cleanup|date=May 2008}}";
-			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e), "template moved when not a section one");
-			
-			e = @"{{cleanup|section|date=May 2008}}";
-			Assert.AreEqual(d + e, MetaDataSorter.MoveMaintenanceTags(d + e), "section templates not moved");
-			
+            e = @"{{underlinked|date=May 2008}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
+
+            e = @"{{cleanup|date=May 2008}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e), "template moved when not a section one");
+
+            e = @"{{cleanup|section|date=May 2008}}";
+            Assert.AreEqual(d + e, MetaDataSorter.MoveMaintenanceTags(d + e), "section templates not moved");
+
 			// don't move above other maintenance templates
-			string f = @"{{cleanup|date=June 2009}}
+            string f = @"{{cleanup|date=June 2009}}
 " + e + d;
-			Assert.AreEqual(f, MetaDataSorter.MoveMaintenanceTags(f));
-			
+            Assert.AreEqual(f, MetaDataSorter.MoveMaintenanceTags(f));
+
 			string g = @"{{BLP unsourced|date=August 2009|bot=yes}}
 {{Underlinked|date=February 2008}}
 '''Charles M. McKim'''";
-			
-			Assert.AreEqual(g, MetaDataSorter.MoveMaintenanceTags(g));
-			
-			// do move above infoboxes
-			string h1 = @"{{Infobox foo| sdajklfsdjk | dDJfsdjkl }}", h2 = @"{{Underlinked|date=February 2008}}", h3 = @"'''Charles M. McKim'''";
-			
-			Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h2 + "\r\n" + h1 + "\r\n" + h3));
-			Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h1 + "\r\n" + h2 + "\r\n" + h3));
-			
-			// do move above infoboxes
-			h2 = @"{{Notability|Web|date=February 2008}}";
-			
-			Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h2 + "\r\n" + h1 + "\r\n" + h3));
-			Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h1 + "\r\n" + h2 + "\r\n" + h3));
 
-			string i1 = @"{{cleanup|date=June 2009}}";
-			e = @"{{underlinked|date=May 2008}}";
-			// move when tags not all at top
-			Assert.AreEqual(e + "\r\n" + i1 + "\r\nfoo\r\n", MetaDataSorter.MoveMaintenanceTags(e + "\r\nfoo\r\n" + i1));
-			
-			const string CommentedOut = @"<!---sufficient-?---{{Cleanup|date=January 2010}}--{{Wikify|date=January 2010}}---?--->";
-			Assert.AreEqual(CommentedOut, MetaDataSorter.MoveMaintenanceTags(CommentedOut), "no change to commented out tags");
-			
-			const string NewMultipleIssues = @"{{multiple issues|{{Cleanup|date=January 2010}}}}";
-			Assert.AreEqual(NewMultipleIssues, MetaDataSorter.MoveMaintenanceTags(NewMultipleIssues), "don't pull tags from new-style {{multiple issues}}");
-			
-			// zeroth section only
-			const string LaterSection = @"hello
+			Assert.AreEqual(g, MetaDataSorter.MoveMaintenanceTags(g));
+
+			// do move above infoboxes
+            string h1 = @"{{Infobox foo| sdajklfsdjk | dDJfsdjkl }}", h2 = @"{{Underlinked|date=February 2008}}", h3 = @"'''Charles M. McKim'''";
+
+            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h2 + "\r\n" + h1 + "\r\n" + h3));
+            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h1 + "\r\n" + h2 + "\r\n" + h3));
+
+			// do move above infoboxes
+            h2 = @"{{Notability|Web|date=February 2008}}";
+
+			Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h2 + "\r\n" + h1 + "\r\n" + h3));
+            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h1 + "\r\n" + h2 + "\r\n" + h3));
+
+            string i1 = @"{{cleanup|date=June 2009}}";
+            e = @"{{underlinked|date=May 2008}}";
+            // move when tags not all at top
+            Assert.AreEqual(e + "\r\n" + i1 + "\r\nfoo\r\n", MetaDataSorter.MoveMaintenanceTags(e + "\r\nfoo\r\n" + i1));
+
+            const string CommentedOut = @"<!---sufficient-?---{{Cleanup|date=January 2010}}--{{Wikify|date=January 2010}}---?--->";
+            Assert.AreEqual(CommentedOut, MetaDataSorter.MoveMaintenanceTags(CommentedOut), "no change to commented out tags");
+
+            const string NewMultipleIssues = @"{{multiple issues|{{Cleanup|date=January 2010}}}}";
+            Assert.AreEqual(NewMultipleIssues, MetaDataSorter.MoveMaintenanceTags(NewMultipleIssues), "don't pull tags from new-style {{multiple issues}}");
+
+            // zeroth section only
+            const string LaterSection = @"hello
 ==Sec==
 {{cleanup|date=May 2012}}
 End";
@@ -1017,95 +1017,95 @@ foo";
             Assert.AreEqual("", parser2.Sorter.RemoveCats(ref comm, "test"), "Don't move commented out cats, large comment");
         }
 
-		[Test]
-		public void CategoryDupeRemoval()
-		{
-		    string cats = @"[[Category:One]]
+        [Test]
+        public void CategoryDupeRemoval()
+        {
+            string cats = @"[[Category:One]]
 [[Category:Two]]
 [[Category:One]]";
-			
-			Assert.AreEqual( @"[[Category:One]]
+
+            Assert.AreEqual(@"[[Category:One]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, no sortkey");
-		    
-		    cats = @"[[Category:One]]
+
+            cats = @"[[Category:One]]
 [[Category:Two]]
 [[Category:One]]
 [[Category:One]]";
-			
-			Assert.AreEqual( @"[[Category:One]]
+
+            Assert.AreEqual(@"[[Category:One]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate categories removed, no sortkey");
-		    
-		    cats = @"[[Category:One|A]]
+
+            cats = @"[[Category:One|A]]
 [[Category:Two]]
 [[Category:One|A]]";
-			
-			Assert.AreEqual( @"[[Category:One|A]]
+
+            Assert.AreEqual(@"[[Category:One|A]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, same sortkey");
-		    
-		    cats = @"[[Category:One]] <!--comm-->
+
+            cats = @"[[Category:One]] <!--comm-->
 [[Category:Two]]
 [[Category:One]]";
-			
-			Assert.AreEqual(@"[[Category:One]] <!--comm-->
+
+            Assert.AreEqual(@"[[Category:One]] <!--comm-->
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, first with comment");
-		    
-		    cats = @"[[Category:One|A]]
+
+            cats = @"[[Category:One|A]]
 [[Category:Two]]
 [[Category:One|B]]";
-			
-			Assert.AreEqual(@"[[Category:One|A]]
+
+            Assert.AreEqual(@"[[Category:One|A]]
 [[Category:Two]]
 [[Category:One|B]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category NOT removed, conflicting sortkey");
-		    
-		    cats = @"[[Category:One]] <!--comm-->
+
+            cats = @"[[Category:One]] <!--comm-->
 [[Category:Two]]
 [[Category:One]] <!--comm2-->";
-			
-			Assert.AreEqual(@"[[Category:One]] <!--comm-->
+
+            Assert.AreEqual(@"[[Category:One]] <!--comm-->
 [[Category:Two]]
 [[Category:One]] <!--comm2-->
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category NOT removed, conflicting comments");
 		    cats = @"[[Category:One|A]]
 [[Category:Two]]
 [[Category:One]]";
-		    Assert.AreEqual( @"[[Category:One|A]]
+		    Assert.AreEqual(@"[[Category:One|A]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, one without sortkey");
 
 		    cats = @"[[Category:One|A]]
 [[Category:Two]]
 [[Category:One]]";
-		    
-		    Assert.AreEqual( @"[[Category:One|A]]
+
+            Assert.AreEqual(@"[[Category:One|A]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "A"), "Duplicate category removed, one without sortkey");
 
-		    cats = @"[[Category:One|A]]
+            cats = @"[[Category:One|A]]
 [[Category:Two]]
 [[Category:One|a]]";
-			
-		    Assert.AreEqual(@"[[Category:One|A]]
+
+            Assert.AreEqual(@"[[Category:One|A]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, same sortkey ignoring first letter case");		    
 
-		    cats = @"[[Category:One|foo]]
+            cats = @"[[Category:One|foo]]
 [[Category:Two]]
 [[Category:One|foo]]";
 
-		    Assert.AreEqual(@"[[Category:One|foo]]
+            Assert.AreEqual(@"[[Category:One|foo]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, lowercase sortkey");
 
-		    cats = @"[[Category:One|Foo]]
+            cats = @"[[Category:One|Foo]]
 [[Category:Two]]
 [[Category:One|Foo]]";
 
-		    Assert.AreEqual(@"[[Category:One|Foo]]
+            Assert.AreEqual(@"[[Category:One|Foo]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, uppercase sortkey");
 
@@ -1118,12 +1118,12 @@ foo";
             Assert.AreEqual(@"{{uncat|date=August 2014}}
 [[Category:One]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate uncat tags removed");
-		}
+        }
 
-		[Test]
-		public void CategoryCommentTests()
-		{
-			const string cats = @"[[Category:Hampshire|  ]]
+        [Test]
+        public void CategoryCommentTests()
+        {
+            const string cats = @"[[Category:Hampshire|  ]]
 [[Category:Articles including recorded pronunciations (UK English)]]
 [[Category:Non-metropolitan counties]]", comm = @"<!-- cat -->";
 
@@ -1198,51 +1198,50 @@ b = @"A
 {{Uncategorized stub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 == References ==
 {{reflist}}";
-			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "uncat stub not moved");
-			at = @"{{multiple issues|
+            Assert.AreEqual("", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "uncat stub not moved");
+            at = @"{{multiple issues|
 {{a}}
 {{Uncategorized}}
 {{b}}
 }}
 == References ==
 {{reflist}}";
-			Assert.IsTrue(parser2.SortMetaData(at, "Andrew Jones").Contains(@"{{multiple issues|
+            Assert.IsTrue(parser2.SortMetaData(at, "Andrew Jones").Contains(@"{{multiple issues|
 {{a}}
 {{b}}
 }}"), "no blank line left in MI");
-		}
-		
-		[Test]
-		public void RemoveCatsSlWikiLifetime()
-		{
-			#if DEBUG
-			Variables.SetProjectLangCode("sl");
-			
-			string c = @"[[Category:Hampshire]]", l = @"{{Lifetime|1899|LIVING|Surname, Name}}", waffle = @"waffle here
+        }
+
+        [Test]
+        public void RemoveCatsSlWikiLifetime()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("sl");
+
+            string c = @"[[Category:Hampshire]]", l = @"{{Lifetime|1899|LIVING|Surname, Name}}", waffle = @"waffle here
 ";
-			string articleText = waffle + c + "\r\n" + l;
-			
-			// http://sl.wikipedia.org/wiki/Predloga:Lifetime
-			Assert.AreEqual(l + "\r\n" + c + "\r\n", parser2.Sorter.RemoveCats(ref articleText, "test"), "lifetime treated like DEFAULTSORT on sl-wiki");
-			
-			Variables.SetProjectLangCode("en");
-			articleText = waffle + c + "\r\n" + l;
-			Assert.AreEqual(c + "\r\n", parser2.Sorter.RemoveCats(ref articleText, "test"), "lifetime is just another template on en-wiki");
-			#endif
-		}
+            string articleText = waffle + c + "\r\n" + l;
 
-		[Test]
-		public void DefaultSortAndCommentTests()
-		{
-			string a = @"Foo", b = @"[[Category:Predecessors of the Alton Railroad]]",
-			c = @"{{DEFAULTSORT:Joliet Chicago  Railroad}}", e = @"<!--{{DEFAULTSORT:Joliet Chicago  Railroad}}-->";
-			string d = a + "\r\n" + b + "\r\n" + c;
-			string f = a + "\r\n" + b + "\r\n" + e;
+            // http://sl.wikipedia.org/wiki/Predloga:Lifetime
+            Assert.AreEqual(l + "\r\n" + c + "\r\n", parser2.Sorter.RemoveCats(ref articleText, "test"), "lifetime treated like DEFAULTSORT on sl-wiki");
 
+            Variables.SetProjectLangCode("en");
+            articleText = waffle + c + "\r\n" + l;
+            Assert.AreEqual(c + "\r\n", parser2.Sorter.RemoveCats(ref articleText, "test"), "lifetime is just another template on en-wiki");
+            #endif
+        }
+
+        [Test]
+        public void DefaultSortAndCommentTests()
+        {
+            string a = @"Foo", b = @"[[Category:Predecessors of the Alton Railroad]]",
+            c = @"{{DEFAULTSORT:Joliet Chicago  Railroad}}", e = @"<!--{{DEFAULTSORT:Joliet Chicago  Railroad}}-->",
+            d = a + "\r\n" + b + "\r\n" + c,
+            f = a + "\r\n" + b + "\r\n" + e,
+            g = c + "\r\n" + c;
+            
             Assert.AreEqual(c + "\r\n" + b + "\r\n", parser2.Sorter.RemoveCats(ref d, "test"), "standard case, return defaultsort then category");
             Assert.AreEqual(b + "\r\n", parser2.Sorter.RemoveCats(ref f, "test"), "Don't return commented out defaultsort");
-
-            string g = c + "\r\n" + c;
             Assert.AreEqual("", parser2.Sorter.RemoveCats(ref g, "test"), "does not modify page with multiple defaultsorts");
 
             d = a + "\r\n" + b + "\r\n" + c + " <!--foo -->";
@@ -1261,11 +1260,11 @@ b = @"A
 [[fr:Canadien National]]";
             string b = a;
 
-			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "no changes");
-			
-			// comment handling
-			string comm = @"<!-- other languages -->";
-			a = @"[[de:Canadian National Railway]]
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "no changes");
+
+            // comment handling
+            string comm = @"<!-- other languages -->";
+            a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
 [[fr:Canadien National]]" + comm;
             Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
@@ -1274,7 +1273,7 @@ b = @"A
             a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
 [[fr:Canadien National]]" + comm;
-			Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
+            Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
 
             comm = @"<!--Other wikis-->";
             a = @"[[de:Canadian National Railway]]
@@ -1286,17 +1285,16 @@ b = @"A
             a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
 [[fr:Canadien National]]" + comm;
-			Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
+            Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
 
-			// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Interwiki_links_moved_out_of_comment
-			string c = @"{{Canadianmetros}}
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Interwiki_links_moved_out_of_comment
+            string c = @"{{Canadianmetros}}
 
 <!--
 The following links are here to prevent the interwiki bot from adding them to the list above.  The links below point to disambiguation pages and not to a translated article about Canadian National Railway.
 [[it:CN]]
 [[sv:CN]]
 -->";
-
             Assert.AreEqual("", parser2.Sorter.Interwikis(ref c), "interwikis not taken out of wiki comments");
 
             string c2 = c + @"[[sv:CN]]";
@@ -1346,7 +1344,7 @@ second comment <!-- [[it:CN]] -->";
 [[fr:Canadien National]]";
             b = a.Replace("::", ":");
 
-			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "double colon in interwiki removed");
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "double colon in interwiki removed");
 
             a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
@@ -1398,7 +1396,7 @@ second comment <!-- [[it:CN]] -->";
 
             Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
 
-			a = @"[[fr:Sénatus-consultes sous Napoléon III]]
+            a = @"[[fr:Sénatus-consultes sous Napoléon III]]
 [[fr:Sénatus-consulte]]";
             b = a;
 
@@ -1411,7 +1409,7 @@ second comment <!-- [[it:CN]] -->";
             parser2.SortInterwikis = true;
             parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "ar", "de", "en", "ru", "sq" };
 
-		    string a = @"[[sq:Foo]]
+            string a = @"[[sq:Foo]]
 [[ru:Bar]]";
             string b = @"[[ru:Bar]]
 [[sq:Foo]]";
@@ -1419,14 +1417,14 @@ second comment <!-- [[it:CN]] -->";
 
             a = @"[[ru:Bar]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "no change Diff everything is sorted");		    
-		    
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "no change Diff everything is sorted");		    
+
 		    parser2.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
-		    a = @"[[ru:Bar]]
+            a = @"[[ru:Bar]]
 [[sq:Foo]]";
             Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "alphabetical order");
 
-		    parser2.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
+            parser2.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
             a = @"[[ru:Bar]]
 [[sq:Foo]]";
             Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "local language");
@@ -1451,67 +1449,66 @@ second comment <!-- [[it:CN]] -->";
             a = @"[[ar:Bar]]
 [[en:Hello]]
 [[sq:Foo]]";
-		    b = @"[[ar:Bar]]
+            b = @"[[ar:Bar]]
 [[en:Hello]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
-		    
-		    Variables.SetProjectLangCode("en");
-		    #endif
-		    
-		    parser2.SortInterwikis = false;
-		}
-		
-		[Test]
-		public void InterWikiTestsInlineComments()
-		{
-			parser2.SortInterwikis = false;
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
 
-			parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
+            Variables.SetProjectLangCode("en");
+            #endif
 
-			string a = @"[[de:Canadian National Railway]]
+            parser2.SortInterwikis = false;
+        }
+
+        [Test]
+        public void InterWikiTestsInlineComments()
+        {
+            parser2.SortInterwikis = false;
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
+
+            string a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]] <!--comm-->
 [[fr:Canadien National]] <!--comm2 -->";
-			string b = a;
+            string b = a;
 
-			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "inline comment kept with interwiki");
-		}
-		
-		[Test]
-		public void SelfInterwikisEn()
-		{
-			Assert.AreEqual("", parser2.SortMetaData(@"<!-- [[en:Foo]]-->", "Test"), "Commented out en interwikis removed");
-			
-			#if DEBUG
-			Variables.SetProjectSimple("en", ProjectEnum.commons);
-			const string EnInterwiki = @"[[en:Foo]]";
-			Assert.AreEqual(EnInterwiki, parser2.SortMetaData(EnInterwiki, "Test"), "en interwiki not removed on commons");
-			
-			Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
-			Assert.AreEqual("", parser2.SortMetaData(EnInterwiki, "Test"), "en interwiki removed on en-wiki");
-			#endif
-		}
-		
-		[Test]
-		public void SorterNamespaceTests()
-		{
-			const string cat = @"[[Category:Foo]]";
-			
-			Assert.AreEqual(cat, parser2.SortMetaData(cat, "Category:Bar"), "Full trim on category namespace");
-			Assert.AreEqual(cat, parser2.SortMetaData(cat, "Template:Bar"), "no sorting on template namespace");
-			Assert.AreEqual("\r\n\r\n" + cat, parser2.SortMetaData(cat, "Bar"), "sorting applied on mainspace");
-			
-			const string CatPopStub = @"Text
+        Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "inline comment kept with interwiki");
+        }
+
+        [Test]
+        public void SelfInterwikisEn()
+        {
+            Assert.AreEqual("", parser2.SortMetaData(@"<!-- [[en:Foo]]-->", "Test"), "Commented out en interwikis removed");
+
+            #if DEBUG
+            Variables.SetProjectSimple("en", ProjectEnum.commons);
+            const string EnInterwiki = @"[[en:Foo]]";
+            Assert.AreEqual(EnInterwiki, parser2.SortMetaData(EnInterwiki, "Test"), "en interwiki not removed on commons");
+
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+            Assert.AreEqual("", parser2.SortMetaData(EnInterwiki, "Test"), "en interwiki removed on en-wiki");
+            #endif
+        }
+
+        [Test]
+        public void SorterNamespaceTests()
+        {
+            const string cat = @"[[Category:Foo]]";
+
+            Assert.AreEqual(cat, parser2.SortMetaData(cat, "Category:Bar"), "Full trim on category namespace");
+            Assert.AreEqual(cat, parser2.SortMetaData(cat, "Template:Bar"), "no sorting on template namespace");
+            Assert.AreEqual("\r\n\r\n" + cat, parser2.SortMetaData(cat, "Bar"), "sorting applied on mainspace");
+
+            const string CatPopStub = @"Text
 {{popstub}}
 Text";
-			Assert.AreEqual(CatPopStub, parser2.SortMetaData(CatPopStub, "Category:Foo"), "no stub sorting on Category namespace");
-		}
+            Assert.AreEqual(CatPopStub, parser2.SortMetaData(CatPopStub, "Category:Foo"), "no stub sorting on Category namespace");
+        }
 
-		[Test]
-		// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
-		public void NoIncludeIncludeOnlyTests()
-		{
-			const string a = @"<noinclude>", b = @"[[ar:قالب:بذرة موسيقي]]
+        [Test]
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
+        public void NoIncludeIncludeOnlyTests()
+        {
+            const string a = @"<noinclude>", b = @"[[ar:قالب:بذرة موسيقي]]
 [[bg:Шаблон:Музика-мъниче]]
 [[ca:Plantilla:Esborrany de música]]
 [[cs:Šablona:Hudební pahýl]]
@@ -1670,7 +1667,7 @@ Text";
         }
 
         [Test]
-		public void ShortPagesMonitor()
+        public void ShortPagesMonitor()
         {
             const string A = @"'''Seyyed Ahmadi''' ({{lang-fa|سيداحمدي‎}}) may refer to:
 * [[Seyyed Ahmadi, Fars]]
@@ -1692,7 +1689,7 @@ Text";
             Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "{{Short pages monitor}} kept at end of article text: interwiki before");
             B = B.Replace("\r\n{{Short page", "{{Short page");
             Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "Number of newlines before spm preserved");
-            Assert.AreEqual(B, parser2.SortMetaData(B.Replace("-->", "-->\r\n"), "Test"), "Page trim still done when spm present");		    
+            Assert.AreEqual(B, parser2.SortMetaData(B.Replace("-->", "-->\r\n"), "Test"), "Page trim still done when spm present");
         }
     }
 }

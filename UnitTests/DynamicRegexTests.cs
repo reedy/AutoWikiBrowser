@@ -1270,7 +1270,7 @@ pp
 
             #if DEBUG
             Variables.SetProjectLangCode("en");
-            System.Collections.Generic.List<string> ds = new System.Collections.Generic.List<string>(new[] { "DEFAULTSORT", "dsort"});
+            System.Collections.Generic.List<string> ds = new System.Collections.Generic.List<string>(new[] { "DEFAULTSORT", "dsort" });
             Variables.MagicWords.Add("defaultsort", ds);
             WikiRegexes.MakeLangSpecificRegexes();
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{DEFAULTSORT:foo}}");

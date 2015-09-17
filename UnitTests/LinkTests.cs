@@ -585,7 +585,7 @@ was [[foo|bar]] too"));
             const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
             Assert.AreEqual(doubleApos, Parsers.FixLinks(doubleApos, "a", out nochange));
 
-            Variables.AddUnderscoredTitles(new List<string>(new[] {"Size t", "Mod perl", "Mod mono" } ));
+            Variables.AddUnderscoredTitles(new List<string>(new[] {"Size t", "Mod perl", "Mod mono" }));
 
             Assert.AreEqual(@"[[size_t]]", Parsers.FixLinks(@"[[size_t]]", "a", out nochange));
             Assert.IsTrue(nochange);

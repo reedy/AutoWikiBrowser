@@ -335,7 +335,7 @@ namespace UnitTests
 [[Category:1904 deaths]]";
             Assert.IsTrue(Parsers.PersonData(Clark, "A").Contains(@"| DATE OF DEATH     = July 4, 1904"));
 
-			const string Question = @"
+            const string Question = @"
 {{use mdy dates}}
 {{Infobox college coach
 | name          = Lyal W. Clark
@@ -352,7 +352,7 @@ namespace UnitTests
 | PLACE OF DEATH    =
 }}
 [[Category:1904 deaths]]";
-			Assert.IsFalse(Tools.NestedTemplateRegex("persondata").Match(Parsers.PersonData(Question, "A")).Value.Contains(@"???"));
+            Assert.IsFalse(Tools.NestedTemplateRegex("persondata").Match(Parsers.PersonData(Question, "A")).Value.Contains(@"???"));
         }
 
         [Test]

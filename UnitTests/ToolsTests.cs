@@ -681,7 +681,7 @@ In Portugal, this period is also known as the &quot;Portuguese [[Interregnum]]&q
         [Test]
         public void ApplyKeyWords()
         {
-            //Test majority of Key Words except %%key%%
+            // Test majority of Key Words except %%key%%
             Assert.AreEqual(@"AutoWikiBrowser/Sandbox
 AutoWikiBrowser/Sandbox
 

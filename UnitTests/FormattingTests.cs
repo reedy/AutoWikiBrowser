@@ -654,7 +654,7 @@ Here there";
         }
 
 
-        		[Test, Category("Incomplete")]
+        [Test, Category("Incomplete")]
         // TODO: cover everything
         public void TestFixWhitespace()
         {
@@ -871,19 +871,19 @@ Bring"));
         [Test]
         public void TestBulletListWhitespace()
         {
-        	Assert.AreEqual(@"* item
+            Assert.AreEqual(@"* item
 * item2
 * item3", Parsers.RemoveAllWhiteSpace(@"*    item
 *            item2
 * item3"));
 
-        	Assert.AreEqual(@"# item
+            Assert.AreEqual(@"# item
 # item2
 # item3", Parsers.RemoveAllWhiteSpace(@"#    item
 #            item2
 # item3"));
-        	
-        	Assert.AreEqual(@"# item
+
+            Assert.AreEqual(@"# item
 # item2
 #item3", Parsers.RemoveAllWhiteSpace(@"#    item
 #            item2

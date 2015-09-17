@@ -546,10 +546,10 @@ Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=Fred>The 
             const string Ibid = @"now <ref>ibid</ref> was<ref>ibid</ref> there";
             Assert.AreEqual(Ibid + namedref, Parsers.DuplicateUnnamedReferences(Ibid + namedref));
 
-			const string Pageneeded = @"now <ref>Class 50s in Operation. D Clough {{page needed|date=September 2014}}</ref>  was <ref>Class 50s in Operation. D Clough {{page needed|date=September 2014}}</ref> there";
-			Assert.AreEqual(Pageneeded + namedref, Parsers.DuplicateUnnamedReferences(Pageneeded + namedref));
+            const string Pageneeded = @"now <ref>Class 50s in Operation. D Clough {{page needed|date=September 2014}}</ref>  was <ref>Class 50s in Operation. D Clough {{page needed|date=September 2014}}</ref> there";
+            Assert.AreEqual(Pageneeded + namedref, Parsers.DuplicateUnnamedReferences(Pageneeded + namedref));
 
-			// nothing to do here
+            // nothing to do here
             const string SingleRef = @"now <ref>first</ref> was";
             Assert.AreEqual(SingleRef + namedref, Parsers.DuplicateUnnamedReferences(SingleRef + namedref));
 

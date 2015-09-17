@@ -360,7 +360,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatches(WikiRegexes.WikiLinksOnly, "[[de:Test]]", 0);
             TestMatches(WikiRegexes.WikiLinksOnly, "[[Image:Test,]]", 0);
 
-            //Assert.AreEqual("Test", WikiRegexes.WikiLinksOnly.Matches("[[Test]]")[0].Groups[1].Value);
+            // Assert.AreEqual("Test", WikiRegexes.WikiLinksOnly.Matches("[[Test]]")[0].Groups[1].Value);
         }
 
         [Test]
@@ -917,7 +917,7 @@ foo
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk] lol", "[http://www.google.co.uk]");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk google] lol", "[http://www.google.co.uk google]");
 
-            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk google}}", "http://www.google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk}}", "http://www.google.co.uk");
 
@@ -988,7 +988,7 @@ foo
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "lol [http://www.google.co.uk] lol", "[http://www.google.co.uk]");
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "lol [http://www.google.co.uk google] lol", "[http://www.google.co.uk google]");
 
-            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://www.google.co.uk google}}", "http://www.google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://www.google.co.uk}}", "http://www.google.co.uk");
 
@@ -1294,7 +1294,7 @@ cit"));
 
             Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{For fake template|Fred the dancer|Fred(dancer)}}"));
             Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{REDIRECT2|Fred the dancer|Fred Smith (dancer)}}"));
-            Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse2|something}}")); //non-existent
+            Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse2|something}}")); // non-existent
         }
 
         [Test]
@@ -1542,7 +1542,7 @@ words2"));
         [Test]
         public void MultipleIssuesTemplatesTests()
         {
-            //dated
+            // dated
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{abbreviations|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
@@ -1571,7 +1571,7 @@ words2"));
 
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{copy edit|for=grammar|date =  April 2009}}"));
 
-            //undated
+            // undated
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{abbreviations}}"));
 
             // in-line template
@@ -1643,7 +1643,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:110 BC births]]"));
             Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:1st-century births]]"));
 
-            //no matches
+            // no matches
             Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:strange births]]"));
             Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"1960 births"));
             Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@""));

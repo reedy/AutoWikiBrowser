@@ -381,7 +381,7 @@ there]]", false, "", out noChange));
         bool noChangeBack;
 
         [Test]
-        //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
         public void DontEmboldenImagesAndTemplates()
         {
             Assert.IsFalse(parser.BoldTitle("[[Image:Foo.jpg]]", "Foo", out noChangeBack).Contains("'''Foo'''"));
@@ -2305,7 +2305,7 @@ Text
 
 ==hello=="), "adds 1 tag to existing MI with 1 tag, MI new style");
 
-        	Assert.AreEqual(@"{{multiple issues|
+        Assert.AreEqual(@"{{multiple issues|
 {{wikify|date=May 2012}}
 {{peacock}}
 {{POV}}
@@ -2633,7 +2633,7 @@ Text
 * [http://www.bar.com]
 
 * [http://www.foobar.com]"));
-        	
+
             Assert.AreEqual(@"* [http://www.foo.com]
 * [https://www.bar.com]
 * [https://www.foobar.com]", Parsers.RemoveWhiteSpace(@"* [http://www.foo.com]
@@ -2642,7 +2642,7 @@ Text
 
 * [https://www.foobar.com]"));
         }
-        	
+
         [Test]
         public void NewlinesinLists()
         {
@@ -2653,7 +2653,7 @@ Text
 
 * ac"));
 
-        	Assert.AreEqual(@"The following items:
+            Assert.AreEqual(@"The following items:
 
 * ab
 * ac
@@ -2666,7 +2666,6 @@ Text
 * ad"));
         	
         }
-
     }
 
     [TestFixture]
