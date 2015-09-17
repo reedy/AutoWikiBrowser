@@ -1902,18 +1902,10 @@ Text
         [Test]
         public void TestRemoveEmptyMultipleIssues()
         {
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Articleissues}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{article issues}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{articleissues }}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues|article=y}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues|article = y}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues|section = y}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues|section= y}}"));
-            Assert.AreEqual(@"", Parsers.Conversions(@"{{Multiple issues | section= y}}"));
-
-            // no match, 'section' and 'sections' are different parameters for the template
-            Assert.AreEqual(@"{{Multiple issues|sections=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Multiple issues|sections=May 2008|POV=March 2008}}"));
+            Assert.AreEqual(@"", parser.MultipleIssues(@"{{Multiple issues}}"));
+            Assert.AreEqual(@"", parser.MultipleIssues(@"{{Multiple issues|section = y}}"));
+            Assert.AreEqual(@"", parser.MultipleIssues(@"{{Multiple issues|section= y}}"));
+            Assert.AreEqual(@"", parser.MultipleIssues(@"{{Multiple issues | section= y}}"));
         }
 
         [Test]
