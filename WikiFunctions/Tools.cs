@@ -759,7 +759,7 @@ namespace WikiFunctions
             List<string> allWikiLinks = Parsers.GetAllWikiLinks(text);
 
             // extract link target by substring to pipe if present, and trim square brackets
-            allWikiLinks = allWikiLinks.Select(l => (l.Contains("|") ? l.Substring(0, l.IndexOf("|")) : l).Trim("[]".ToCharArray())).ToList();
+            allWikiLinks = allWikiLinks.Select(l => (l.Contains('|') ? l.Substring(0, l.IndexOf('|')) : l).Trim("[]".ToCharArray())).ToList();
 
             // Performance: group & count the links by target so we only derive namespace once per repeated links
             Dictionary<string, int> LinksGrouped = allWikiLinks.GroupBy(x => x).ToDictionary(x => x.Key, y => y.Count());

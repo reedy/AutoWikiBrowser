@@ -1047,6 +1047,10 @@ John", "*"));
             dupeWikiLinks.Add("Get (3)");
 
             Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo]] [[Get]] [[Foo]] [[Get]] [[Foo|bar]] [[Get]]"), "List returned is sorted");
+
+            dupeWikiLinks.Clear();
+            dupeWikiLinks.Add("Foo (2)");
+            Assert.AreEqual(dupeWikiLinks, Tools.DuplicateWikiLinks(@"[[Foo|ʿUrwa]] [[Foo|ʿUrwa]]"), "Handling of Unicode modifier letters");
         }
 
         [Test]
