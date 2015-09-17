@@ -83,7 +83,7 @@ namespace WikiFunctions
 
         /// <summary>
         /// Returns whether System.Core, Version=3.5.0.0 is loaded
-        /// So whether HashSets can be used (should be available in all .NET 2 but seems to rely on a cetain service pack level)
+        /// So whether HashSets can be used (should be available in all .NET 2 but seems to rely on a certain service pack level)
         /// </summary>
         public static bool SystemCore3500Available
         {
