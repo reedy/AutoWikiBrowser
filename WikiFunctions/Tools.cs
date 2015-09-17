@@ -787,12 +787,18 @@ namespace WikiFunctions
         /// </summary>
         public static List<string> DuplicateWikiLinks(string text)
         {
-            // If any links in commented out text etc. need to ignore these
-            if((from Match m in WikiRegexes.UnformattedText.Matches(text)
-                         select m.Value).Any(t => WikiRegexes.WikiLinksOnly.IsMatch(t)))
-                text = Tools.ReplaceWithSpaces(text, WikiRegexes.UnformattedText.Matches(text));
-
             List<string> allWikiLinks = Parsers.GetAllWikiLinks(text);
+
+            // If any links in commented out text etc. need to ignore these
+            // For performance, extract all unformatted text, then extract links from these and remove from list of all links
+            List<string> allUnformattedText = (from Match m in WikiRegexes.UnformattedText.Matches(text)
+                                        select m.Value).ToList();
+
+            List<string> linksInUnformattedText = (from Match m in WikiRegexes.WikiLinksOnly.Matches(string.Join(" ", allUnformattedText.ToArray()))
+                select m.Value).ToList();
+
+            foreach(string l in linksInUnformattedText)
+                allWikiLinks.Remove(l);
 
             // Make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
             allWikiLinks = allWikiLinks.Select(l => Tools.TurnFirstToUpper((l.Contains("|") ? l.Substring(0, l.IndexOf("|")) : l).Trim("[] ".ToCharArray()))).ToList();
