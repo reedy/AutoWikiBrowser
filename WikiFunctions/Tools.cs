@@ -794,7 +794,7 @@ namespace WikiFunctions
             List<string> allUnformattedText = (from Match m in WikiRegexes.UnformattedText.Matches(text)
                                         select m.Value).ToList();
 
-            List<string> linksInUnformattedText = (from Match m in WikiRegexes.WikiLinksOnly.Matches(string.Join(" ", allUnformattedText.ToArray()))
+            List<string> linksInUnformattedText = (from Match m in WikiRegexes.SimpleWikiLink.Matches(string.Join(" ", allUnformattedText.ToArray()))
                 select m.Value).ToList();
 
             foreach(string l in linksInUnformattedText)
