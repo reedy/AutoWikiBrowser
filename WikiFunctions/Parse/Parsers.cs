@@ -863,7 +863,7 @@ namespace WikiFunctions.Parse
                                       select m).ToList();
 
             if (h.Any())
-            {            
+            {
                 int intStart = h.FirstOrDefault().Index;
 
                 string articleTextSubstring = articleText.Substring(intStart);
