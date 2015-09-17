@@ -128,7 +128,7 @@ namespace WikiFunctions.Plugin
         /// </summary>
         /// <remarks>Read only.</remarks>
         int NameSpaceKey { get; }
-        //IMyTraceListener AWBLogItem { get; }
+        // IMyTraceListener AWBLogItem { get; }
 
         /// <summary>
         /// Set to True if AWB should skip this article

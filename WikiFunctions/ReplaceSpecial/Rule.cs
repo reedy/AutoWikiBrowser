@@ -200,7 +200,7 @@ namespace WikiFunctions.ReplaceSpecial
                 if (!r.regex_)
                     replace = Regex.Escape(replace);
 
-                //stop \r\n being interpreted literally
+                // stop \r\n being interpreted literally
                 with = with.Replace(@"\r", "\r").Replace(@"\n", "\n");
 
                 text = Regex.Replace(text, replace, with, r.regexOptions_);
