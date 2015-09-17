@@ -1463,7 +1463,6 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
-        private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of date)", RegexOptions.Compiled);
         private static readonly Regex NoFootnotes = Tools.NestedTemplateRegex("no footnotes");
         private static readonly Regex ConversionsCnCommons = Tools.NestedTemplateRegex( new [] {"citation needed", "commons", "commons cat", "commons category" });
         private const string CategoryLivingPeople = @"[[Category:Living people";
@@ -1525,10 +1524,6 @@ namespace WikiFunctions.Parse
                                                              {
                                                                  return Tools.RemoveExcessTemplatePipes(m.Value);
                                                              });
-
-                // clean any 'date' word within {{Multiple issues}} (but not 'update' or 'out of date' fields), place after the date adding rule above (loop due to lookbehind in regex)
-                while (MultipleIssuesDateRemoval.IsMatch(articleText))
-                    articleText = MultipleIssuesDateRemoval.Replace(articleText, "");
             }
 
             // fixes if article has [[Category:Living people]]
