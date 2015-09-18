@@ -1086,11 +1086,6 @@ namespace WikiFunctions
         /// Localized version of date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}
         /// </summary>
         public static string DateYearMonthParameter;
-        
-        /// <summary>
-        /// Matches the cleanup templates that can be moved into the {{multiple issues}} template, notably does not match templates with multiple parameters
-        /// </summary>
-        public static readonly Regex MultipleIssuesTemplates = new Regex(@"{{" + MaintanceTemplatesString + @"\s*(?:(?:\|\s*for\s*=\s*grammar\s*)?\|\s*([^{}\|]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}\|]*?)?))?\s*}}");
 
         /// <summary>
         /// Matches the cleanup templates that can be moved into the {{multiple issues}} article-level template

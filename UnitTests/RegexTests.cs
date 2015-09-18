@@ -1537,57 +1537,6 @@ words2"));
         }
 
         [Test]
-        public void MultipleIssuesTemplatesTests()
-        {
-            // dated
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{abbreviations|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{more footnotes|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{review|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{rewrite|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Cleanup-rewrite|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{sections|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{self-published|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{spam|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{story|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{synthesis|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{tone|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{tooshort|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{travel guide|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{travelguide|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{trivia|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unbalanced|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unencyclopedic|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreferenced|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreliable sources|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{update|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{weasel|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{wikify|date =  April 2009}}"));
-
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{copy edit|for=grammar|date =  April 2009}}"));
-
-            // undated
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{abbreviations}}"));
-
-            // in-line template
-            Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{OR}}"));
-
-            // undated, first letter capital
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Abbreviations}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{BLPunsourced}}"));
-
-            Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{WIKIFY}}"));
-            Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{roughtranslation|date =  April 2009}}"));
-
-            // no support for handling templates with multiple parameters
-            Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{notability|Biographies|date=December 2008}}"));
-        }
-
-        [Test]
         public void NonDeadEndPageTemplatesTests()
         {
             Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade|31}}"));
