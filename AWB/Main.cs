@@ -866,7 +866,7 @@ namespace AutoWikiBrowser
 
             Text = _settingsFileDisplay + " – " + page.Title;
 
-            bool articleIsRedirect = PageInfo.WasRedirected(page);
+            bool pageIsRedirect = PageInfo.WasRedirected(page);
 
             // check for redirects when 'follow redirects' is off
             if (chkSkipIfRedirect.Checked && Tools.IsRedirect(page.Text))
@@ -875,17 +875,17 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            //check for redirect
-            if (followRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
+            // check for redirect
+            if (followRedirectsToolStripMenuItem.Checked && pageIsRedirect && !PageReload)
             {
                 if ((page.TitleChangedStatus & PageTitleStatus.RedirectLoop) == PageTitleStatus.RedirectLoop)
                 {
-                    //ignore recursive redirects
+                    // ignore recursive redirects
                     SkipRedirect("Recursive redirect");
                     return;
                 }
 
-                //No double redirects, API should've resolved it
+                // No double redirects, API should've resolved it
 
                 if (filterOutNonMainSpaceToolStripMenuItem.Checked
                     && (Namespace.Determine(page.Title) != Namespace.Article))
@@ -921,7 +921,7 @@ namespace AutoWikiBrowser
             if (SkipChecks(!chkSkipAfterProcessing.Checked)) // pre-processing of article
                 return;
 
-            //check not in use
+            // check not in use
             if (TheArticle.IsInUse)
             {
                 if (chkSkipIfInuse.Checked)
