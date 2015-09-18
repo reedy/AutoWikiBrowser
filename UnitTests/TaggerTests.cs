@@ -1405,7 +1405,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void MultipleIssuesLimits()
         {
-            const string bug2 = @"{{article issues|article=y
+            const string bug2 = @"{{multiple issues|article=y
 |update=November 2008
 |out of date=July 2009
 |cleanup=July 2009
