@@ -328,9 +328,6 @@ namespace WikiFunctions.Parse
             // count categories
             int matches;
 
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#defaultsort_adding_namespace
-            articleTitle = Tools.RemoveNamespaceString(articleTitle);
-
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(articleText);
             if (ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
             {
@@ -367,6 +364,9 @@ namespace WikiFunctions.Parse
 
             if (!restrictDefaultsortChanges)
             {
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#defaultsort_adding_namespace
+                articleTitle = Tools.RemoveNamespaceString(articleTitle);
+
                 // AWB's generation of its own sortkey may be incorrect for people, provide option not to insert in this situation
                 if (ds.Count == 0)
                 {
