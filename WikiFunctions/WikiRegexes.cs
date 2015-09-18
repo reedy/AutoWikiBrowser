@@ -198,7 +198,7 @@ namespace WikiFunctions
                     Orphan = Tools.NestedTemplateRegex(@"يتيمه");
                     uncattemplate = UncatTemplatesARZ;
                     DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
-					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|نهايه مسدوده)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
+					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|نهايه مسدوده)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
                     Wikify =Tools.NestedTemplateRegex(@"ويكى");
                     break;
                 case "ca":
@@ -1347,11 +1347,6 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex SeeAlso = new Regex(@"(==+)\s*see +also\s*\1", RegexOptions.IgnoreCase);
         
-        /// <summary>
-        /// Matches parameters within the {{multiple issues}} template using title case (invalid casing)
-        /// </summary>
-        public static readonly Regex MultipleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+[ a-zA-Z]*\s*=)");
-
         /// <summary>
         /// Matches a number between 1000 and 2999
         /// </summary>
