@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -321,12 +321,12 @@ namespace WikiFunctions.Parse
 
             // fixes for external links: internal square brackets, newlines or pipes - Partially CHECKWIKI error 80
             // Performance: filter down to matches with likely external link (contains //) and has pipe, newline or internal square brackets
-            List<Match> ssb = (from Match m in ssbMc select m).ToList();
-            List<Match> ssbExternalLink = ssb.FindAll(m => m.Value.Contains("//") && (m.Value.Contains("|") || m.Value.Contains("\r\n") || m.Value.Substring(3).Contains("[") || m.Value.Trim(']').Contains("]")));
+            List<string> ssb = Tools.DeduplicateList((from Match m in ssbMc select m.Value).ToList());
+            List<string> ssbExternalLink = ssb.FindAll(m => m.Contains("//") && (m.Contains("|") || m.Contains("\r\n") || m.Substring(3).Contains("[") || m.Trim(']').Contains("]")));
 
-            foreach(Match m in ssbExternalLink)
+            foreach(string s in ssbExternalLink)
             {
-               string newvalue = m.Value;
+               string newvalue = s;
 
                 if (newvalue.Contains("\r\n") && !newvalue.Substring(1).Contains("[") && ExternalLinksStart.IsMatch(newvalue))
                    newvalue = newvalue.Replace("\r\n", " ");
@@ -335,8 +335,8 @@ namespace WikiFunctions.Parse
 
                 newvalue = PipedExternalLink.Replace(newvalue, "$1 $2");
 
-                if (!m.Value.Equals(newvalue))
-                    articleText = articleText.Replace(m.Value, newvalue);
+                if (!s.Equals(newvalue))
+                    articleText = articleText.Replace(s, newvalue);
             }
 
             // needs to be applied after SquareBracketsInExternalLinks
@@ -350,21 +350,21 @@ namespace WikiFunctions.Parse
             articleText = RefURLMissingHttp.Replace(articleText, @"$1http://www.");
 
             // repair bad Image/external links, ssb check for performance
-            if (ssb.Any(m => m.Value.Contains(":") && m.Value.ToLower().Contains(":http")))
+            if (ssb.Any(m => m.Contains(":") && m.ToLower().Contains(":http")))
                 articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
 
             //  CHECKWIKI error 69
             bool isbnDash = articleText.Contains("ISBN-");
-            if (isbnDash || articleText.Contains("ISBN:") || articleText.Contains("ISBN\t") || ssb.Any(m => m.Value.Equals("[[ISBN]]")))
+            if (isbnDash || articleText.Contains("ISBN:") || articleText.Contains("ISBN\t") || ssb.Contains("[[ISBN]]"))
                 articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
 
             if (isbnDash)
                 articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
             
-            if (ssb.Any(m => m.Value.Equals("[[ISBN]]")))
+            if (ssb.Contains("[[ISBN]]"))
                 articleText = SyntaxRegexISBN3.Replace(articleText, "ISBN $1");
 
-            if (ssb.Any(m => m.Value.Equals("[[International Standard Book Number|ISBN]]")))
+            if (ssb.Contains("[[International Standard Book Number|ISBN]]"))
                 articleText = SyntaxRegexISBN4.Replace(articleText, "ISBN $1");
 
             if (articleText.Contains("PMID:"))
@@ -389,7 +389,8 @@ namespace WikiFunctions.Parse
 
             // only refresh nobrackets if changes
             if (!originalArticleText.Equals(articleText))
-            	nobrackets = SingleSquareBrackets.Replace(articleText, "");
+                nobrackets = SingleSquareBrackets.Replace(articleText, "");
+
             if (nobrackets.Contains("[") || nobrackets.Contains("]"))
             {
                 articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
@@ -399,7 +400,7 @@ namespace WikiFunctions.Parse
             }
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
-            if (ssb.Any(s => s.Value.Contains("||")))
+            if (ssb.Any(s => s.Contains("||")))
                 articleText = DoublePipeInWikiLink.Replace(articleText, "|");
 
             // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
@@ -434,7 +435,7 @@ namespace WikiFunctions.Parse
             }
 
             // CHECKWIKI error 65: Image description ends with break – https://tools.wmflabs.org/checkwiki/cgi-bin/checkwiki.cgi?project=enwiki&view=only&id=65
-            if (ssb.Any(s => s.Value.Contains("<")))
+            if (ssb.Any(s => s.Contains("<")))
                 articleText = WikiRegexes.FileNamespaceLink.Replace(articleText, m=> WikilinkEndsBr.Replace(m.Value, @"]]"));
 
             // workaround for https://phabricator.wikimedia.org/T4700 -- {{subst:}} doesn't work within ref tags
