@@ -779,10 +779,10 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
             Assert.AreEqual(WikiRegexes.Wikify.Replace(@"{{multiple issues|a=b|c=d|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "$1"), @"{{multiple issues|a=b|c=d}}");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|a=b|c=d| wikify = May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Multiple issues|a=b|c=d| wikify = May 2008|a=b|c=d}}"));
 
-            // don't remove the whole of an {{article issues}} template if removing wikify tag
-            Assert.IsTrue(WikiRegexes.Wikify.Replace(@"{{Article issues|a=b|c=d| wikify = May 2008|a=b|c=d}}", "$1").Contains(@"{{Article issues|a=b|c=d|"));
+            // don't remove the whole of an {{Multiple issues}} template if removing wikify tag
+            Assert.IsTrue(WikiRegexes.Wikify.Replace(@"{{Multiple issues|a=b|c=d| wikify = May 2008|a=b|c=d}}", "$1").Contains(@"{{Multiple issues|a=b|c=d|"));
 
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikifyworldblah}}"));
             
@@ -832,11 +832,9 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Nuevointernallinks}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep|date=May 2008|Foobar}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Article issues|deadend=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{articleissues|deadend=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Article issues|dead end=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|deadend=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{ Article issues|dead end=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{ Multiple issues|dead end=May 2008|a=b|c=d}}"));
 
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|}}"));
 
