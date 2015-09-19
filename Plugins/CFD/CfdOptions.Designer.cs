@@ -261,6 +261,6 @@
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btnClearBacklog;
-        public System.Windows.Forms.CheckBox chkAddToSummary;
+        private System.Windows.Forms.CheckBox chkAddToSummary;
     }
 }
