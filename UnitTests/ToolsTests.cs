@@ -1021,6 +1021,33 @@ John", "*"));
         }
 
         [Test]
+        public void DatesCount()
+        {
+            Dictionary<Parsers.DateLocale, int> results = new Dictionary<Parsers.DateLocale, int>();
+
+            results.Add(Parsers.DateLocale.ISO, 1);
+            results.Add(Parsers.DateLocale.International, 1);
+            results.Add(Parsers.DateLocale.American, 0);
+
+            Assert.AreEqual(results, Tools.DatesCount("2015-01-01 and 11 January 2010"), "zero dates of a type reported");
+
+            results.Clear();
+            results.Add(Parsers.DateLocale.ISO, 1);
+            results.Add(Parsers.DateLocale.International, 1);
+            results.Add(Parsers.DateLocale.American, 1);
+
+            Assert.AreEqual(results, Tools.DatesCount("2015-01-01 and 11 January 2010 and March 5, 2011"), "each date type reported");
+            Assert.AreEqual(results, Tools.DatesCount("2015-01-01 and| 11 January 2010 and| March 5, 2011"), "each date type reported when split");
+        
+            results.Clear();
+            results.Add(Parsers.DateLocale.ISO, 2);
+            results.Add(Parsers.DateLocale.International, 1);
+            results.Add(Parsers.DateLocale.American, 1);
+
+            Assert.AreEqual(results, Tools.DatesCount("2015-01-01 and 2015-01-01 and 11 January and March 5"), "Duplicate dates counted, short format matched");
+        }
+
+        [Test]
         public void DuplicateWikiLinks()
         {
             List<string> dupeWikiLinks = new List<string>();

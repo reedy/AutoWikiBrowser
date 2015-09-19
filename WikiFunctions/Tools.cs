@@ -783,6 +783,31 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Counts the number of dates of International/American/ISO format in the text
+        /// </summary>
+        /// <returns>The count per date type</returns>
+        /// <param name="text">Text</param>
+        public static Dictionary<Parsers.DateLocale, int> DatesCount(string text)
+        {
+            // Performance: split article to list and filter down to items containing numbers, faster than running each regex on whole text
+            List<string> possibleDates = text.Split("|=\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            possibleDates = possibleDates.FindAll(d => d.IndexOfAny("123456789".ToCharArray()) > -1);
+
+            int iso = possibleDates.Select(d => WikiRegexes.ISODatesQuick.Matches(d).Count).Sum();
+            int international = possibleDates.Select(d => WikiRegexes.DayMonth.Matches(d).Count).Sum();
+            int american = possibleDates.Select(d => WikiRegexes.MonthDay.Matches(d).Count).Sum();
+
+            Dictionary<Parsers.DateLocale, int> results = new Dictionary<Parsers.DateLocale, int>();
+
+            results.Add(Parsers.DateLocale.ISO, iso);
+            results.Add(Parsers.DateLocale.International, international);
+            results.Add(Parsers.DateLocale.American, american);
+
+            return results;
+        }
+
+        /// <summary>
         /// Returns a sorted list of duplicate wikilinks in the input text (links converted to first letter upper) in format: name (count)
         /// </summary>
         public static List<string> DuplicateWikiLinks(string text)
