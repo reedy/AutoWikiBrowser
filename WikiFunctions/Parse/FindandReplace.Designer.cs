@@ -633,7 +633,7 @@ namespace WikiFunctions.Parse
         private System.Windows.Forms.Button btnClear;
         private WikiFunctions.Controls.AWBToolTip toolTip1;
         private System.Windows.Forms.CheckBox chkIgnoreLinks;
-        public System.Windows.Forms.CheckBox chkAddToSummary;
+        private System.Windows.Forms.CheckBox chkAddToSummary;
         private System.Windows.Forms.ContextMenuStrip FindAndReplaceContextMenu;
         private System.Windows.Forms.ToolStripMenuItem deleteRowToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
