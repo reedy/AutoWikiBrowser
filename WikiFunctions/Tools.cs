@@ -790,7 +790,7 @@ namespace WikiFunctions
         public static Dictionary<Parsers.DateLocale, int> DatesCount(string text)
         {
             // Performance: split article to list and filter down to items containing numbers, faster than running each regex on whole text
-            List<string> possibleDates = text.Split("|=\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> possibleDates = text.Split("|=\r\n()".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
 
             possibleDates = possibleDates.FindAll(d => d.Length > 4 && d.IndexOfAny("123456789".ToCharArray()) > -1);
 
