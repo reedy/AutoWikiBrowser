@@ -38,7 +38,7 @@ namespace AutoWikiBrowser
             cmboLang.Items.Clear();
             cmboLang.Items.AddRange(CustomModuleCompiler.GetList());
             cmboLang.SelectedIndex = 0;
-            txtCode.Text = CodeExample;
+            txtCode.Text = _codeExample;
         }
 
         /// <summary>
@@ -104,17 +104,17 @@ namespace AutoWikiBrowser
 
         private const string BuiltPrefix = "Custom Module Built At: ";
 
-        private IModule M;
+        private IModule _m;
 
         /// <summary>
         /// 
         /// </summary>
         public IModule Module
         {
-            get { return M; }
+            get { return _m; }
             private set
             {
-                M = value;
+                _m = value;
 
                 if (value == null)
                 {
@@ -131,7 +131,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private string CodeStart = "", CodeEnd = "", CodeExample = @"";
+        private string _codeStart = "", _codeEnd = "", _codeExample = @"";
 
         /// <summary>
         /// 
@@ -228,13 +228,13 @@ namespace AutoWikiBrowser
         private void cmboLang_SelectedIndexChanged(object sender, EventArgs e)
         {
             var c = Compiler;
-            CodeStart = c.CodeStart;
-            CodeExample = c.CodeExample;
-            CodeEnd = c.CodeEnd;
+            _codeStart = c.CodeStart;
+            _codeExample = c.CodeExample;
+            _codeEnd = c.CodeEnd;
 
-            lblStart.Text = CodeStart;
-            txtCode.Text = CodeExample;
-            lblEnd.Text = CodeEnd;
+            lblStart.Text = _codeStart;
+            txtCode.Text = _codeExample;
+            lblEnd.Text = _codeEnd;
         }
 
         private void guideToolStripMenuItem_Click(object sender, EventArgs e)
@@ -310,7 +310,6 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
             }
             else
             {
-                int width = txtCode.Width;
                 txtCode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
                 // reinstate previous position, box doesn't resize itself properly
                 txtCode.Location = _oldPosition;
