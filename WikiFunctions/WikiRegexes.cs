@@ -1363,9 +1363,9 @@ namespace WikiFunctions
         public static readonly Regex Currency = new Regex(@"(€|£|\$)(\s|\s?\&nbsp;)(\d+\.?\d*(\p{P}|\)?\s))");
 
         /// <summary>
-        /// Matches 12-hour clock time without a space
+        /// Matches 12-hour clock time without a non-breaking space
         /// </summary>
-        public static readonly Regex ClockTime = new Regex(@"(\b[01]?\d\:[0-5]\d) ?([ap]\.m\.)");
+        public static readonly Regex ClockTime = new Regex(@"(\b[01]?\d(?::[0-5]\d)?:[0-5]\d) ?([ap]\.m\.)");
 
         /// <summary>
         /// List of known infobox fields holding date of birth

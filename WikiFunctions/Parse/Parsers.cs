@@ -964,7 +964,7 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
             {
                 if (articleText.Contains(".m.")) // check for performance. Set &nbsp; and trim excess leading zero
-                    articleText = WikiRegexes.ClockTime.Replace(articleText, m => Regex.Replace(m.Groups[1].Value, @"0(\d:)", "$1") + "&nbsp;" + m.Groups[2].Value);
+                    articleText = WikiRegexes.ClockTime.Replace(articleText, m => Regex.Replace(m.Groups[1].Value, @"^0(\d:)", "$1") + "&nbsp;" + m.Groups[2].Value);
 
                 // Removes space or non-breaking space from percent per [[WP:PERCENT]].
                 // Avoid doing this for more spaces to prevent false positives.

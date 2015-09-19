@@ -110,6 +110,8 @@ namespace UnitTests
             Assert.AreEqual(@"2:75a.m.", parser.FixNonBreakingSpaces(@"2:75a.m."), "invalid minutes number");
             Assert.AreEqual(@"36:15a.m.", parser.FixNonBreakingSpaces(@"36:15a.m."), "invalid hours number");
             Assert.AreEqual(@"16:15c.m.", parser.FixNonBreakingSpaces(@"16:15c.m."), "invalid suffix");
+
+            Assert.AreEqual(@"(8:00:57&nbsp;p.m. EST)", parser.FixNonBreakingSpaces(@"(8:00:57 p.m. EST)"));
         }
 
         [Test]
