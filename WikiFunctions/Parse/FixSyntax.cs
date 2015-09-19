@@ -237,7 +237,7 @@ namespace WikiFunctions.Parse
             articleText = SyntaxRegexHeadingWithHorizontalRule.Replace(articleText, "$1");
 
             // remove unnecessary namespace
-            if (alltemplatesDetail.Where(t => Regex.IsMatch(t, Variables.NamespacesCaseInsensitive[Namespace.Template])).Any())
+            if (alltemplatesDetail.Any(t => Regex.IsMatch(t, Variables.NamespacesCaseInsensitive[Namespace.Template])))
                 articleText = RemoveTemplateNamespace(articleText);
 
             if (SyntaxRegexBrNewline.IsMatch(articleText))
@@ -250,7 +250,7 @@ namespace WikiFunctions.Parse
             }
 
             // CHECKWIKI error 93
-            bool badHttpLinks = Tools.DeduplicateList((from Match m in HttpLinks.Matches(articleText.ToLower()) select m.Value).ToList()).Where(s => !Regex.IsMatch(s, @"^https?://[htps]*$")).Any();
+            bool badHttpLinks = Tools.DeduplicateList((from Match m in HttpLinks.Matches(articleText.ToLower()) select m.Value).ToList()).Any(s => !Regex.IsMatch(s, @"^https?://[htps]*$"));
 
             if (badHttpLinks)
                 articleText = MultipleHttpInLink.Replace(articleText, "$1");
