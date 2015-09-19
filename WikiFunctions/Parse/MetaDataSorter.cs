@@ -419,7 +419,7 @@ en, sq, ru
         /// </summary>
         private static bool TemplateExists(List<string> templatesFound, Regex r)
         {
-            return templatesFound.Where(s => r.IsMatch(@"{{" + s + "}}")).Any();
+            return templatesFound.Any(s => r.IsMatch(@"{{" + s + "}}"));
         }
 		
 		private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");
