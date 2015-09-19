@@ -3050,32 +3050,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             if (e.KeyChar == '\r' && toolStripTextBox2.Text.Length > 0)
             {
                 e.Handled = true;
-                GoToLine();
+				txtEdit.GoToLine(int.Parse(toolStripTextBox2.Text));
                 mnuTextBox.Hide();
             }
-        }
-
-        private void GoToLine()
-        {
-            int i = 1;
-            int intLine = int.Parse(toolStripTextBox2.Text);
-            int intStart = 0;
-            int intEnd = 0;
-
-            foreach (Match m in Regex.Matches(txtEdit.Text, "^.*?$", RegexOptions.Multiline))
-            {
-                if (i == intLine)
-                {
-                    intStart = m.Index;
-                    intEnd = intStart + m.Length;
-                    break;
-                }
-                i++;
-            }
-
-            txtEdit.Select(intStart, intEnd - intStart);
-            txtEdit.ScrollToCaret();
-            txtEdit.Focus();
         }
 
         [Conditional("DEBUG")]
