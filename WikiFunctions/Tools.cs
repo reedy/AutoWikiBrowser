@@ -792,7 +792,7 @@ namespace WikiFunctions
             // Performance: split article to list and filter down to items containing numbers, faster than running each regex on whole text
             List<string> possibleDates = text.Split("|=\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
 
-            possibleDates = possibleDates.FindAll(d => d.IndexOfAny("123456789".ToCharArray()) > -1);
+            possibleDates = possibleDates.FindAll(d => d.Length > 4 && d.IndexOfAny("123456789".ToCharArray()) > -1);
 
             int iso = possibleDates.Select(d => WikiRegexes.ISODatesQuick.Matches(d).Count).Sum();
             int international = possibleDates.Select(d => WikiRegexes.DayMonth.Matches(d).Count).Sum();
