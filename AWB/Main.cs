@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -121,6 +122,26 @@ namespace AutoWikiBrowser
         #region Constructor and MainForm load/resize
         public MainForm()
         {
+            // Handle corrupt user.config files
+            // https://phabricator.wikimedia.org/T92352
+            // Example code from http://www.codeproject.com/Articles/30216/Handling-Corrupt-user-config-Settings
+            try
+            {
+                Properties.Settings.Default.Reload();
+            }
+            catch (ConfigurationErrorsException ex)
+            {
+                string filename = ((ConfigurationErrorsException)ex.InnerException).Filename;
+
+                Tools.WriteDebug(string.Format("Deleting corrupt file {0}", filename), ex.Message);
+
+                // Delete corrupt user.config
+                File.Delete(filename);
+
+                // Force loading defaults
+                Properties.Settings.Default.Reload();
+            }
+
             DiffScriptingAdapter = new JsAdapter(this);
 
             Updater.UpdateUpdaterFile();
