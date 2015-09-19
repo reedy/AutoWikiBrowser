@@ -1057,19 +1057,15 @@ en, sq, ru
 		/// <returns>The List of {{Link [FG]A}}'s from the article</returns>
 		private static List<string> RemoveLinkFGAs(ref string articleText)
 		{
-			List<string> linkFGAList = new List<string>();
+			MatchCollection matches =
+				WikiRegexes.LinkFGAs.Matches(Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText.Matches(articleText)));
 
-			MatchCollection matches = WikiRegexes.LinkFGAs.Matches(Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText.Matches(articleText)));
-
-			foreach (Match m in matches)
-			{
-				linkFGAList.Add(m.Value);
-			}
+			List<string> linkFGAList = (from Match m in matches select m.Value).ToList();
 			articleText = Tools.RemoveMatches(articleText, matches);
 			return linkFGAList;
 		}
-        
-        /// <summary>
+
+		/// <summary>
 		/// Extracts all of the interwiki featured article and interwiki links from the article text
 		/// Ignores interwikis in comments/nowiki tags
 		/// </summary>
