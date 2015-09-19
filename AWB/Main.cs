@@ -122,25 +122,7 @@ namespace AutoWikiBrowser
         #region Constructor and MainForm load/resize
         public MainForm()
         {
-            // Handle corrupt user.config files
-            // https://phabricator.wikimedia.org/T92352
-            // Example code from http://www.codeproject.com/Articles/30216/Handling-Corrupt-user-config-Settings
-            try
-            {
-                Properties.Settings.Default.Reload();
-            }
-            catch (ConfigurationErrorsException ex)
-            {
-                string filename = ((ConfigurationErrorsException)ex.InnerException).Filename;
-
-                Tools.WriteDebug(string.Format("Deleting corrupt file {0}", filename), ex.Message);
-
-                // Delete corrupt user.config
-                File.Delete(filename);
-
-                // Force loading defaults
-                Properties.Settings.Default.Reload();
-            }
+            CheckSettings();
 
             DiffScriptingAdapter = new JsAdapter(this);
 
@@ -211,6 +193,51 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 ErrorHandler.HandleException(ex);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// From https://stackoverflow.com/questions/2269489/c-sharp-user-settings-broken
+        /// </remarks>
+        public static void CheckSettings()
+        {
+            try
+            {
+                ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
+            }
+            catch (ConfigurationErrorsException ex)
+            {
+                string filename = string.Empty;
+                if (!string.IsNullOrEmpty(ex.Filename))
+                {
+                    filename = ex.Filename;
+                }
+                else
+                {
+                    var innerEx = ex.InnerException as ConfigurationErrorsException;
+                    if (innerEx != null && !string.IsNullOrEmpty(innerEx.Filename))
+                    {
+                        filename = innerEx.Filename;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(filename))
+                {
+                    if (File.Exists(filename))
+                    {
+                        var fileInfo = new FileInfo(filename);
+                        var watcher
+                             = new FileSystemWatcher(fileInfo.Directory.FullName, fileInfo.Name);
+                        File.Delete(filename);
+                        if (File.Exists(filename))
+                        {
+                            watcher.WaitForChanged(WatcherChangeTypes.Deleted);
+                        }
+                    }
+                }
             }
         }
 
