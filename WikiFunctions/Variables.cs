@@ -1002,7 +1002,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Returns the full URL to the input wiki page using current site settings, specifying &action=raw
+        /// Returns the full URL to the input wiki page using current site settings, specifying &amp;action=raw
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>

@@ -108,7 +108,7 @@ namespace WikiFunctions.Parse
                 articleText = Regex.Replace(articleText, @"^(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
 
             // Performance: apply fixes to all headings only if a custom heading matches for the bad headings words
-            if (customHeadings.Any(h => BadHeadings.Any(b => h.Contains(b))))
+            if (customHeadings.Any(h => BadHeadings.Any(h.Contains)))
                 articleText = WikiRegexes.Headings.Replace(articleText, FixHeadingsME);
 
             // CHECKWIKI error 8. Add missing = in some headers

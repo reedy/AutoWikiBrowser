@@ -1081,6 +1081,7 @@ en, sq, ru
 		/// Ignores interwikis in comments/nowiki tags
 		/// </summary>
 		/// <param name="articleText">Article text with interwiki and interwiki featured article links removed</param>
+		/// <param name="linkFGAsInText"></param>
 		/// <returns>string of interwiki featured article and interwiki links</returns>
 		public string Interwikis(ref string articleText, bool linkFGAsInText)
 		{

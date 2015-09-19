@@ -113,14 +113,14 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         {
             if (templateName.Text == "")
             {
-                MessageBox.Show(string.Format("Template name must be specified"), PluginName);
+                MessageBox.Show("Template name must be specified", PluginName);
                 DialogResult = DialogResult.None;
                 templateName.Focus();
                 return;
             }
             if (templateParameters.Items.Count == 0)
             {
-                MessageBox.Show(string.Format("At least one template parameter must be specified"), PluginName);
+                MessageBox.Show("At least one template parameter must be specified", PluginName);
                 DialogResult = DialogResult.None;
                 return;
             }

@@ -534,16 +534,17 @@ namespace WikiFunctions.Parse
             }
 
             // Join all the threads: wait for all to complete
-            for (int j = 0; j < array.Length; j++)
+            foreach (Thread t in array)
             {
-                array[j].Join();
+	            t.Join();
             }
 
-            string groupSummary, groupArticleText;
-            foreach (TypoGroup tg in Groups)
+	        foreach (TypoGroup tg in Groups)
             {
-                resultSummary.TryGetValue(tg.GroupSize, out groupSummary);
-                resultArticleText.TryGetValue(tg.GroupSize, out groupArticleText);
+	            string groupSummary;
+	            resultSummary.TryGetValue(tg.GroupSize, out groupSummary);
+	            string groupArticleText;
+	            resultArticleText.TryGetValue(tg.GroupSize, out groupArticleText);
 
                 if (groupSummary.Length > 0)
                 {

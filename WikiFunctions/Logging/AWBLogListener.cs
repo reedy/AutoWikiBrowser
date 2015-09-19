@@ -125,7 +125,7 @@ namespace WikiFunctions.Logging
                     return "#[[:" + ArticleTitle + "]]";
 
                 default:
-                    throw new ArgumentOutOfRangeException("LogFileType");
+                    throw new ArgumentOutOfRangeException("logFileType");
             }
         }
 

@@ -3354,9 +3354,9 @@ Message: {2}
 			StringBuilder res = new StringBuilder();
 
 			// Format each byte as a hexadecimal string.
-			for (int i = 0; i < data.Length; i++)
+			foreach (byte t in data)
 			{
-				res.Append(data[i].ToString("x2"));
+				res.Append(t.ToString("x2"));
 			}
 
 			return res.ToString();

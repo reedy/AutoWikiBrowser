@@ -358,9 +358,8 @@ namespace WikiFunctions.Parse
 
             lock(GetAllTemplatesDetailNewQueueLock)
             {
-                found = GetAllTemplatesDetailNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
-                if (found == null)
-                    found = new List<string>();
+                found = GetAllTemplatesDetailNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value ??
+                        new List<string>();
             }
 
             return found;
@@ -382,7 +381,7 @@ namespace WikiFunctions.Parse
 
             // Performance: now filter templates with parameters to rename against templates used on the page
             // so only templates used on page are looked for
-            List<string> templatesToProcess = GetAllTemplates(articleText).Select(t => Tools.TurnFirstToLower(t)).ToList();
+            List<string> templatesToProcess = GetAllTemplates(articleText).Select(Tools.TurnFirstToLower).ToList();
 
             // filter the parameters set down to only those templates used on the page
             RenamedTemplateParameters = RenamedTemplateParameters.FindAll(t => templatesToProcess.Contains(t.TemplateName));
