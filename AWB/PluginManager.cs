@@ -352,7 +352,7 @@ namespace AutoWikiBrowser
                             continue;
                         }
 #else
-						catch (Exception)
+                        catch (Exception)
                         {
                             continue;
                         }

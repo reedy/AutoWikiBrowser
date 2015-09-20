@@ -487,7 +487,7 @@ namespace AutoWikiBrowser
 
         private void cmboOnLoad_SelectedIndexChanged(object sender, EventArgs e)
         {
-        	chkDiffInBotMode.Enabled = (cmboOnLoad.SelectedIndex.Equals(0));
+            chkDiffInBotMode.Enabled = (cmboOnLoad.SelectedIndex.Equals(0));
         }
 
         public bool FocusSiteTab = false;

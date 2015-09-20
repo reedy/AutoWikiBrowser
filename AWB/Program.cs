@@ -34,7 +34,7 @@ namespace AutoWikiBrowser
         static void Main(string[] args)
         {
             try
-            {		
+            {        
                 System.Threading.Thread.CurrentThread.Name = "Main thread";
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);

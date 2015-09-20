@@ -212,7 +212,7 @@ namespace AutoWikiBrowser
             // Greetings and AWB version:
 
             // Site/project name:
-            // TODO: Here or in PHP: tl.wikipedia.org  	CUS: Translate to site name/lang code any Wikimedia site set up as custom
+            // TODO: Here or in PHP: tl.wikipedia.org      CUS: Translate to site name/lang code any Wikimedia site set up as custom
             if (Variables.IsCustomProject || Variables.IsWikia)
                 postvars.Add("Wiki", Variables.Host);
             else

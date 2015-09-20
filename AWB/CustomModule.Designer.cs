@@ -28,43 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-			this.components = new System.ComponentModel.Container();
-			this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.menuitemMakeFromTextBoxUndo = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
-			this.menuitemMakeFromTextBoxCut = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuitemMakeFromTextBoxCopy = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.goToLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-			this.btnClose = new System.Windows.Forms.Button();
-			this.btnMake = new System.Windows.Forms.Button();
-			this.cmboLang = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.lblStatus = new System.Windows.Forms.Label();
-			this.chkModuleEnabled = new System.Windows.Forms.CheckBox();
-			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-			this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.showOnlyCodeBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.chkFixedwidth = new System.Windows.Forms.CheckBox();
-			this.lblBuilt = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.lblStart = new System.Windows.Forms.Label();
-			this.txtCode = new System.Windows.Forms.TextBox();
-			this.lblEnd = new System.Windows.Forms.Label();
-			this.mnuTextBox.SuspendLayout();
-			this.menuStrip1.SuspendLayout();
-			this.panel1.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// mnuTextBox
-			// 
-			this.mnuTextBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.components = new System.ComponentModel.Container();
+            this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuitemMakeFromTextBoxUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuitemMakeFromTextBoxCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemMakeFromTextBoxCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.goToLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnMake = new System.Windows.Forms.Button();
+            this.cmboLang = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
+            this.chkModuleEnabled = new System.Windows.Forms.CheckBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showOnlyCodeBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkFixedwidth = new System.Windows.Forms.CheckBox();
+            this.lblBuilt = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lblStart = new System.Windows.Forms.Label();
+            this.txtCode = new System.Windows.Forms.TextBox();
+            this.lblEnd = new System.Windows.Forms.Label();
+            this.mnuTextBox.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // mnuTextBox
+            // 
+            this.mnuTextBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuitemMakeFromTextBoxUndo,
             this.toolStripSeparator27,
             this.menuitemMakeFromTextBoxCut,
@@ -74,295 +74,295 @@
             this.selectAllToolStripMenuItem,
             this.toolStripSeparator2,
             this.goToLineToolStripMenuItem});
-			this.mnuTextBox.Name = "mnuMakeFromTextBox";
-			this.mnuTextBox.Size = new System.Drawing.Size(165, 176);
-			// 
-			// menuitemMakeFromTextBoxUndo
-			// 
-			this.menuitemMakeFromTextBoxUndo.Name = "menuitemMakeFromTextBoxUndo";
-			this.menuitemMakeFromTextBoxUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-			this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(164, 22);
-			this.menuitemMakeFromTextBoxUndo.Text = "&Undo";
-			this.menuitemMakeFromTextBoxUndo.Click += new System.EventHandler(this.menuitemMakeFromTextBoxUndo_Click);
-			// 
-			// toolStripSeparator27
-			// 
-			this.toolStripSeparator27.Name = "toolStripSeparator27";
-			this.toolStripSeparator27.Size = new System.Drawing.Size(161, 6);
-			// 
-			// menuitemMakeFromTextBoxCut
-			// 
-			this.menuitemMakeFromTextBoxCut.Name = "menuitemMakeFromTextBoxCut";
-			this.menuitemMakeFromTextBoxCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-			this.menuitemMakeFromTextBoxCut.Size = new System.Drawing.Size(164, 22);
-			this.menuitemMakeFromTextBoxCut.Text = "Cu&t";
-			this.menuitemMakeFromTextBoxCut.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCut_Click);
-			// 
-			// menuitemMakeFromTextBoxCopy
-			// 
-			this.menuitemMakeFromTextBoxCopy.Name = "menuitemMakeFromTextBoxCopy";
-			this.menuitemMakeFromTextBoxCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-			this.menuitemMakeFromTextBoxCopy.Size = new System.Drawing.Size(164, 22);
-			this.menuitemMakeFromTextBoxCopy.Text = "&Copy";
-			this.menuitemMakeFromTextBoxCopy.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCopy_Click);
-			// 
-			// menuitemMakeFromTextBoxPaste
-			// 
-			this.menuitemMakeFromTextBoxPaste.Name = "menuitemMakeFromTextBoxPaste";
-			this.menuitemMakeFromTextBoxPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-			this.menuitemMakeFromTextBoxPaste.Size = new System.Drawing.Size(164, 22);
-			this.menuitemMakeFromTextBoxPaste.Text = "&Paste";
-			this.menuitemMakeFromTextBoxPaste.Click += new System.EventHandler(this.menuitemMakeFromTextBoxPaste_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
-			// 
-			// selectAllToolStripMenuItem
-			// 
-			this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-			this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-			this.selectAllToolStripMenuItem.Text = "&Select All";
-			this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(161, 6);
-			// 
-			// goToLineToolStripMenuItem
-			// 
-			this.goToLineToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuTextBox.Name = "mnuMakeFromTextBox";
+            this.mnuTextBox.Size = new System.Drawing.Size(165, 176);
+            // 
+            // menuitemMakeFromTextBoxUndo
+            // 
+            this.menuitemMakeFromTextBoxUndo.Name = "menuitemMakeFromTextBoxUndo";
+            this.menuitemMakeFromTextBoxUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxUndo.Text = "&Undo";
+            this.menuitemMakeFromTextBoxUndo.Click += new System.EventHandler(this.menuitemMakeFromTextBoxUndo_Click);
+            // 
+            // toolStripSeparator27
+            // 
+            this.toolStripSeparator27.Name = "toolStripSeparator27";
+            this.toolStripSeparator27.Size = new System.Drawing.Size(161, 6);
+            // 
+            // menuitemMakeFromTextBoxCut
+            // 
+            this.menuitemMakeFromTextBoxCut.Name = "menuitemMakeFromTextBoxCut";
+            this.menuitemMakeFromTextBoxCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.menuitemMakeFromTextBoxCut.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxCut.Text = "Cu&t";
+            this.menuitemMakeFromTextBoxCut.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCut_Click);
+            // 
+            // menuitemMakeFromTextBoxCopy
+            // 
+            this.menuitemMakeFromTextBoxCopy.Name = "menuitemMakeFromTextBoxCopy";
+            this.menuitemMakeFromTextBoxCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.menuitemMakeFromTextBoxCopy.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxCopy.Text = "&Copy";
+            this.menuitemMakeFromTextBoxCopy.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCopy_Click);
+            // 
+            // menuitemMakeFromTextBoxPaste
+            // 
+            this.menuitemMakeFromTextBoxPaste.Name = "menuitemMakeFromTextBoxPaste";
+            this.menuitemMakeFromTextBoxPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.menuitemMakeFromTextBoxPaste.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxPaste.Text = "&Paste";
+            this.menuitemMakeFromTextBoxPaste.Click += new System.EventHandler(this.menuitemMakeFromTextBoxPaste_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
+            // 
+            // selectAllToolStripMenuItem
+            // 
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.selectAllToolStripMenuItem.Text = "&Select All";
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(161, 6);
+            // 
+            // goToLineToolStripMenuItem
+            // 
+            this.goToLineToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox1});
-			this.goToLineToolStripMenuItem.Name = "goToLineToolStripMenuItem";
-			this.goToLineToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-			this.goToLineToolStripMenuItem.Text = "&Go to Line";
-			// 
-			// toolStripTextBox1
-			// 
-			this.toolStripTextBox1.MaxLength = 6;
-			this.toolStripTextBox1.Name = "toolStripTextBox1";
-			this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
-			this.toolStripTextBox1.Text = "Enter line number";
-			this.toolStripTextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox1_KeyPress);
-			this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
-			// 
-			// btnClose
-			// 
-			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnClose.Location = new System.Drawing.Point(577, 30);
-			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(75, 23);
-			this.btnClose.TabIndex = 8;
-			this.btnClose.Text = "&Close";
-			this.btnClose.UseVisualStyleBackColor = true;
-			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-			// 
-			// btnMake
-			// 
-			this.btnMake.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnMake.Enabled = false;
-			this.btnMake.Location = new System.Drawing.Point(484, 30);
-			this.btnMake.Name = "btnMake";
-			this.btnMake.Size = new System.Drawing.Size(87, 23);
-			this.btnMake.TabIndex = 7;
-			this.btnMake.Text = "&Make module";
-			this.btnMake.UseVisualStyleBackColor = true;
-			this.btnMake.Click += new System.EventHandler(this.btnMake_Click);
-			// 
-			// cmboLang
-			// 
-			this.cmboLang.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cmboLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmboLang.FormattingEnabled = true;
-			this.cmboLang.Items.AddRange(new object[] {
+            this.goToLineToolStripMenuItem.Name = "goToLineToolStripMenuItem";
+            this.goToLineToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.goToLineToolStripMenuItem.Text = "&Go to Line";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.MaxLength = 6;
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBox1.Text = "Enter line number";
+            this.toolStripTextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox1_KeyPress);
+            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Location = new System.Drawing.Point(577, 30);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 8;
+            this.btnClose.Text = "&Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnMake
+            // 
+            this.btnMake.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMake.Enabled = false;
+            this.btnMake.Location = new System.Drawing.Point(484, 30);
+            this.btnMake.Name = "btnMake";
+            this.btnMake.Size = new System.Drawing.Size(87, 23);
+            this.btnMake.TabIndex = 7;
+            this.btnMake.Text = "&Make module";
+            this.btnMake.UseVisualStyleBackColor = true;
+            this.btnMake.Click += new System.EventHandler(this.btnMake_Click);
+            // 
+            // cmboLang
+            // 
+            this.cmboLang.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmboLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboLang.FormattingEnabled = true;
+            this.cmboLang.Items.AddRange(new object[] {
             "C# 2.0",
             "VB .NET 2.0"});
-			this.cmboLang.Location = new System.Drawing.Point(341, 32);
-			this.cmboLang.Name = "cmboLang";
-			this.cmboLang.Size = new System.Drawing.Size(137, 21);
-			this.cmboLang.TabIndex = 5;
-			this.cmboLang.SelectedIndexChanged += new System.EventHandler(this.cmboLang_SelectedIndexChanged);
-			// 
-			// label1
-			// 
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(280, 35);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(55, 13);
-			this.label1.TabIndex = 4;
-			this.label1.Text = "&Language";
-			// 
-			// lblStatus
-			// 
-			this.lblStatus.AutoSize = true;
-			this.lblStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			this.lblStatus.Location = new System.Drawing.Point(83, 35);
-			this.lblStatus.Name = "lblStatus";
-			this.lblStatus.Size = new System.Drawing.Size(93, 13);
-			this.lblStatus.TabIndex = 2;
-			this.lblStatus.Text = "No module loaded";
-			// 
-			// chkModuleEnabled
-			// 
-			this.chkModuleEnabled.AutoSize = true;
-			this.chkModuleEnabled.Location = new System.Drawing.Point(12, 34);
-			this.chkModuleEnabled.Name = "chkModuleEnabled";
-			this.chkModuleEnabled.Size = new System.Drawing.Size(65, 17);
-			this.chkModuleEnabled.TabIndex = 1;
-			this.chkModuleEnabled.Text = "&Enabled";
-			this.chkModuleEnabled.UseVisualStyleBackColor = true;
-			this.chkModuleEnabled.CheckedChanged += new System.EventHandler(this.chkModuleEnabled_CheckedChanged);
-			// 
-			// menuStrip1
-			// 
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmboLang.Location = new System.Drawing.Point(341, 32);
+            this.cmboLang.Name = "cmboLang";
+            this.cmboLang.Size = new System.Drawing.Size(137, 21);
+            this.cmboLang.TabIndex = 5;
+            this.cmboLang.SelectedIndexChanged += new System.EventHandler(this.cmboLang_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(280, 35);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(55, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "&Language";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.lblStatus.Location = new System.Drawing.Point(83, 35);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(93, 13);
+            this.lblStatus.TabIndex = 2;
+            this.lblStatus.Text = "No module loaded";
+            // 
+            // chkModuleEnabled
+            // 
+            this.chkModuleEnabled.AutoSize = true;
+            this.chkModuleEnabled.Location = new System.Drawing.Point(12, 34);
+            this.chkModuleEnabled.Name = "chkModuleEnabled";
+            this.chkModuleEnabled.Size = new System.Drawing.Size(65, 17);
+            this.chkModuleEnabled.TabIndex = 1;
+            this.chkModuleEnabled.Text = "&Enabled";
+            this.chkModuleEnabled.UseVisualStyleBackColor = true;
+            this.chkModuleEnabled.CheckedChanged += new System.EventHandler(this.chkModuleEnabled_CheckedChanged);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewToolStripMenuItem,
             this.helpToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(664, 24);
-			this.menuStrip1.TabIndex = 0;
-			this.menuStrip1.Text = "menuStrip1";
-			// 
-			// viewToolStripMenuItem
-			// 
-			this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(664, 24);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showOnlyCodeBoxToolStripMenuItem});
-			this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-			this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.viewToolStripMenuItem.Text = "View";
-			// 
-			// showOnlyCodeBoxToolStripMenuItem
-			// 
-			this.showOnlyCodeBoxToolStripMenuItem.CheckOnClick = true;
-			this.showOnlyCodeBoxToolStripMenuItem.Name = "showOnlyCodeBoxToolStripMenuItem";
-			this.showOnlyCodeBoxToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
-			this.showOnlyCodeBoxToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-			this.showOnlyCodeBoxToolStripMenuItem.Text = "Show only code box";
-			this.showOnlyCodeBoxToolStripMenuItem.CheckedChanged += new System.EventHandler(this.showOnlyCodeBoxToolStripMenuItem_CheckedChanged);
-			// 
-			// helpToolStripMenuItem
-			// 
-			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // showOnlyCodeBoxToolStripMenuItem
+            // 
+            this.showOnlyCodeBoxToolStripMenuItem.CheckOnClick = true;
+            this.showOnlyCodeBoxToolStripMenuItem.Name = "showOnlyCodeBoxToolStripMenuItem";
+            this.showOnlyCodeBoxToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
+            this.showOnlyCodeBoxToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.showOnlyCodeBoxToolStripMenuItem.Text = "Show only code box";
+            this.showOnlyCodeBoxToolStripMenuItem.CheckedChanged += new System.EventHandler(this.showOnlyCodeBoxToolStripMenuItem_CheckedChanged);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guideToolStripMenuItem});
-			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.helpToolStripMenuItem.Text = "&Help";
-			// 
-			// guideToolStripMenuItem
-			// 
-			this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-			this.guideToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-			this.guideToolStripMenuItem.Text = "&Guide";
-			this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
-			// 
-			// chkFixedwidth
-			// 
-			this.chkFixedwidth.AutoSize = true;
-			this.chkFixedwidth.Checked = true;
-			this.chkFixedwidth.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkFixedwidth.Location = new System.Drawing.Point(12, 56);
-			this.chkFixedwidth.Name = "chkFixedwidth";
-			this.chkFixedwidth.Size = new System.Drawing.Size(100, 17);
-			this.chkFixedwidth.TabIndex = 3;
-			this.chkFixedwidth.Text = "&Fixed width font";
-			this.chkFixedwidth.UseVisualStyleBackColor = true;
-			this.chkFixedwidth.CheckedChanged += new System.EventHandler(this.chkFixedwidth_CheckedChanged);
-			// 
-			// lblBuilt
-			// 
-			this.lblBuilt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblBuilt.AutoSize = true;
-			this.lblBuilt.Location = new System.Drawing.Point(280, 57);
-			this.lblBuilt.Name = "lblBuilt";
-			this.lblBuilt.Size = new System.Drawing.Size(139, 13);
-			this.lblBuilt.TabIndex = 6;
-			this.lblBuilt.Text = "Custom Module Built At: n/a";
-			// 
-			// panel1
-			// 
-			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // guideToolStripMenuItem
+            // 
+            this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.guideToolStripMenuItem.Text = "&Guide";
+            this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
+            // 
+            // chkFixedwidth
+            // 
+            this.chkFixedwidth.AutoSize = true;
+            this.chkFixedwidth.Checked = true;
+            this.chkFixedwidth.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFixedwidth.Location = new System.Drawing.Point(12, 56);
+            this.chkFixedwidth.Name = "chkFixedwidth";
+            this.chkFixedwidth.Size = new System.Drawing.Size(100, 17);
+            this.chkFixedwidth.TabIndex = 3;
+            this.chkFixedwidth.Text = "&Fixed width font";
+            this.chkFixedwidth.UseVisualStyleBackColor = true;
+            this.chkFixedwidth.CheckedChanged += new System.EventHandler(this.chkFixedwidth_CheckedChanged);
+            // 
+            // lblBuilt
+            // 
+            this.lblBuilt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblBuilt.AutoSize = true;
+            this.lblBuilt.Location = new System.Drawing.Point(280, 57);
+            this.lblBuilt.Name = "lblBuilt";
+            this.lblBuilt.Size = new System.Drawing.Size(139, 13);
+            this.lblBuilt.TabIndex = 6;
+            this.lblBuilt.Text = "Custom Module Built At: n/a";
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.panel1.Controls.Add(this.lblStart);
-			this.panel1.Controls.Add(this.txtCode);
-			this.panel1.Controls.Add(this.lblEnd);
-			this.panel1.Location = new System.Drawing.Point(12, 79);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(640, 452);
-			this.panel1.TabIndex = 12;
-			// 
-			// lblStart
-			// 
-			this.lblStart.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lblStart.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblStart.Location = new System.Drawing.Point(0, 0);
-			this.lblStart.Name = "lblStart";
-			this.lblStart.Size = new System.Drawing.Size(640, 253);
-			this.lblStart.TabIndex = 9;
-			this.lblStart.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-			// 
-			// txtCode
-			// 
-			this.txtCode.AcceptsTab = true;
-			this.txtCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Controls.Add(this.lblStart);
+            this.panel1.Controls.Add(this.txtCode);
+            this.panel1.Controls.Add(this.lblEnd);
+            this.panel1.Location = new System.Drawing.Point(12, 79);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(640, 452);
+            this.panel1.TabIndex = 12;
+            // 
+            // lblStart
+            // 
+            this.lblStart.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblStart.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStart.Location = new System.Drawing.Point(0, 0);
+            this.lblStart.Name = "lblStart";
+            this.lblStart.Size = new System.Drawing.Size(640, 253);
+            this.lblStart.TabIndex = 9;
+            this.lblStart.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // txtCode
+            // 
+            this.txtCode.AcceptsTab = true;
+            this.txtCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtCode.ContextMenuStrip = this.mnuTextBox;
-			this.txtCode.Font = new System.Drawing.Font("Courier New", 9F);
-			this.txtCode.Location = new System.Drawing.Point(0, 256);
-			this.txtCode.MaxLength = 0;
-			this.txtCode.Multiline = true;
-			this.txtCode.Name = "txtCode";
-			this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtCode.Size = new System.Drawing.Size(637, 160);
-			this.txtCode.TabIndex = 10;
-			this.txtCode.TabStop = false;
-			this.txtCode.WordWrap = false;
-			// 
-			// lblEnd
-			// 
-			this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtCode.ContextMenuStrip = this.mnuTextBox;
+            this.txtCode.Font = new System.Drawing.Font("Courier New", 9F);
+            this.txtCode.Location = new System.Drawing.Point(0, 256);
+            this.txtCode.MaxLength = 0;
+            this.txtCode.Multiline = true;
+            this.txtCode.Name = "txtCode";
+            this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtCode.Size = new System.Drawing.Size(637, 160);
+            this.txtCode.TabIndex = 10;
+            this.txtCode.TabStop = false;
+            this.txtCode.WordWrap = false;
+            // 
+            // lblEnd
+            // 
+            this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblEnd.Font = new System.Drawing.Font("Courier New", 9F);
-			this.lblEnd.Location = new System.Drawing.Point(0, 419);
-			this.lblEnd.Name = "lblEnd";
-			this.lblEnd.Size = new System.Drawing.Size(637, 39);
-			this.lblEnd.TabIndex = 11;
-			// 
-			// CustomModule
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(664, 543);
-			this.Controls.Add(this.panel1);
-			this.Controls.Add(this.lblBuilt);
-			this.Controls.Add(this.chkFixedwidth);
-			this.Controls.Add(this.chkModuleEnabled);
-			this.Controls.Add(this.lblStatus);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.cmboLang);
-			this.Controls.Add(this.btnMake);
-			this.Controls.Add(this.btnClose);
-			this.Controls.Add(this.menuStrip1);
-			this.MainMenuStrip = this.menuStrip1;
-			this.MinimumSize = new System.Drawing.Size(680, 581);
-			this.Name = "CustomModule";
-			this.ShowIcon = false;
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-			this.Text = "Module";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomModule_FormClosing);
-			this.mnuTextBox.ResumeLayout(false);
-			this.menuStrip1.ResumeLayout(false);
-			this.menuStrip1.PerformLayout();
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.lblEnd.Font = new System.Drawing.Font("Courier New", 9F);
+            this.lblEnd.Location = new System.Drawing.Point(0, 419);
+            this.lblEnd.Name = "lblEnd";
+            this.lblEnd.Size = new System.Drawing.Size(637, 39);
+            this.lblEnd.TabIndex = 11;
+            // 
+            // CustomModule
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(664, 543);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.lblBuilt);
+            this.Controls.Add(this.chkFixedwidth);
+            this.Controls.Add(this.chkModuleEnabled);
+            this.Controls.Add(this.lblStatus);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cmboLang);
+            this.Controls.Add(this.btnMake);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(680, 581);
+            this.Name = "CustomModule";
+            this.ShowIcon = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            this.Text = "Module";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomModule_FormClosing);
+            this.mnuTextBox.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -393,8 +393,8 @@
         private System.Windows.Forms.Label lblEnd;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showOnlyCodeBoxToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		private System.Windows.Forms.ToolStripMenuItem goToLineToolStripMenuItem;
-		private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem goToLineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
     }
 }

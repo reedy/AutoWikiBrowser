@@ -2472,16 +2472,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             {
                 switch (Variables.LangCode)
                 {
-	            	case "ar":
-	            	case "arz":
-	            	case "fa":
-		            	summary += (string.IsNullOrEmpty(summary) ? "" : "، ") + TheArticle.EditSummary;
-		            	break;
-	            	default:
-		            	summary += (string.IsNullOrEmpty(summary) ? "" : ", ") + TheArticle.EditSummary;
-		            	break;
-            	}
-			}
+                    case "ar":
+                    case "arz":
+                    case "fa":
+                        summary += (string.IsNullOrEmpty(summary) ? "" : "، ") + TheArticle.EditSummary;
+                        break;
+                    default:
+                        summary += (string.IsNullOrEmpty(summary) ? "" : ", ") + TheArticle.EditSummary;
+                        break;
+                }
+            }
 
 
             // check to see if we have only edited one level-2 section
@@ -3038,7 +3038,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             txtEdit.ResetFind();
 
             if (sender is RichTextBox)
-	            txtRtb_TextChanged(sender, e);
+                txtRtb_TextChanged(sender, e);
 
             btnFind.Enabled = txtFind.TextLength > 0;
 
@@ -3097,7 +3097,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             if (e.KeyChar == '\r' && toolStripTextBox2.Text.Length > 0)
             {
                 e.Handled = true;
-				txtEdit.GoToLine(int.Parse(toolStripTextBox2.Text));
+                txtEdit.GoToLine(int.Parse(toolStripTextBox2.Text));
                 mnuTextBox.Hide();
             }
         }
@@ -3383,9 +3383,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles;
 
-			this.specialFilterToolStripMenuItem1.Enabled = this.saveListToTextFileToolStripMenuItem.Enabled  
-				= this.clearCurrentListToolStripMenuItem.Enabled = this.convertFromTalkPagesToolStripMenuItem.Enabled
-				= this.convertToTalkPagesToolStripMenuItem.Enabled = (listMaker.NumberOfArticles > 0);
+            this.specialFilterToolStripMenuItem1.Enabled = this.saveListToTextFileToolStripMenuItem.Enabled  
+                = this.clearCurrentListToolStripMenuItem.Enabled = this.convertFromTalkPagesToolStripMenuItem.Enabled
+                = this.convertToTalkPagesToolStripMenuItem.Enabled = (listMaker.NumberOfArticles > 0);
         }
 
         private void SetStartButton(bool enabled)
@@ -4157,7 +4157,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             || RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Background)))
             {
                 StatusLabelText = "Background process running";
-            	return;
+                return;
             }
 
             StatusLabelText = "Processing page";

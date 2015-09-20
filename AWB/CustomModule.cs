@@ -317,22 +317,22 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
             }
         }
 
-		private void toolStripTextBox1_Click(object sender, EventArgs e)
-		{
-			toolStripTextBox1.Text = "";
-		}
+        private void toolStripTextBox1_Click(object sender, EventArgs e)
+        {
+            toolStripTextBox1.Text = "";
+        }
 
-		private void toolStripTextBox1_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8)
-				e.Handled = true;
+        private void toolStripTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8)
+                e.Handled = true;
 
-			if (e.KeyChar == '\r' && toolStripTextBox1.Text.Length > 0)
-			{
-				e.Handled = true;
-				txtCode.GoToLine(int.Parse(toolStripTextBox1.Text));
-				mnuTextBox.Hide();
-			}
-		}
+            if (e.KeyChar == '\r' && toolStripTextBox1.Text.Length > 0)
+            {
+                e.Handled = true;
+                txtCode.GoToLine(int.Parse(toolStripTextBox1.Text));
+                mnuTextBox.Hide();
+            }
+        }
     }
 }
