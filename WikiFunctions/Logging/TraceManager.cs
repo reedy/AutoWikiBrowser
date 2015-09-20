@@ -20,12 +20,12 @@ using System.Collections.Generic;
 
 namespace WikiFunctions.Logging
 {
-	/// <summary>
-	/// An inheritable implementation of a Logging manager, built around a generic collection of IMyTraceListener objects and String keys
-	/// </summary>
+    /// <summary>
+    /// An inheritable implementation of a Logging manager, built around a generic collection of IMyTraceListener objects and String keys
+    /// </summary>
     public abstract class TraceManager : IMyTraceListener
-	{
-		// Listeners:
+    {
+        // Listeners:
         protected readonly Dictionary<string, IMyTraceListener> Listeners = new Dictionary<string, IMyTraceListener>();
 
         /// <summary>
@@ -33,14 +33,14 @@ namespace WikiFunctions.Logging
         /// </summary>
         /// <param name="key"></param>
         /// <param name="listener"></param>
-		public virtual void AddListener(string key, IMyTraceListener listener)
-		{
-		    lock (Listeners)
-		    {
-		        if (!Listeners.ContainsKey(key))
-		            Listeners.Add(key, listener);
-		    }
-		}
+        public virtual void AddListener(string key, IMyTraceListener listener)
+        {
+            lock (Listeners)
+            {
+                if (!Listeners.ContainsKey(key))
+                    Listeners.Add(key, listener);
+            }
+        }
 
         /// <summary>
         /// Override this if you want to programatically remove an event handler
@@ -61,74 +61,74 @@ namespace WikiFunctions.Logging
             }
         }
 
-	    protected bool TryGetValue(string key, out IMyTraceListener listener)
-		{
-			return Listeners.TryGetValue(key, out listener);
-		}
+        protected bool TryGetValue(string key, out IMyTraceListener listener)
+        {
+            return Listeners.TryGetValue(key, out listener);
+        }
 
         public bool ContainsKey(string key)
         {
             return Listeners.ContainsKey(key);
         }
 
-		public bool ContainsValue(IMyTraceListener listener)
-		{
-			return Listeners.ContainsValue(listener);
-		}
+        public bool ContainsValue(IMyTraceListener listener)
+        {
+            return Listeners.ContainsValue(listener);
+        }
 
-		// IMyTraceListener:
-		public virtual void Close()
-		{
-			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-			{
-				t.Value.Close();
-			}
-		}
+        // IMyTraceListener:
+        public virtual void Close()
+        {
+            foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+            {
+                t.Value.Close();
+            }
+        }
 
-		public virtual void Flush()
-		{
-			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-			{
-				t.Value.Flush();
-			}
-		}
+        public virtual void Flush()
+        {
+            foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+            {
+                t.Value.Flush();
+            }
+        }
 
         public virtual void ProcessingArticle(string fullArticleTitle, int ns)
-		{
-			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-			{
-				t.Value.ProcessingArticle(fullArticleTitle, ns);
-			}
-		}
+        {
+            foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+            {
+                t.Value.ProcessingArticle(fullArticleTitle, ns);
+            }
+        }
 
-		public virtual void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp)
-		{
-			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-			{
-				t.Value.WriteBulletedLine(line, bold, verboseOnly, dateStamp);
-			}
-		}
+        public virtual void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp)
+        {
+            foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+            {
+                t.Value.WriteBulletedLine(line, bold, verboseOnly, dateStamp);
+            }
+        }
 
-		public virtual void WriteBulletedLine(string line, bool bold, bool verboseOnly)
-		{
-			WriteBulletedLine(line, bold, verboseOnly, false);
-		}
+        public virtual void WriteBulletedLine(string line, bool bold, bool verboseOnly)
+        {
+            WriteBulletedLine(line, bold, verboseOnly, false);
+        }
 
-		public virtual void SkippedArticle(string skippedBy, string reason)
-		{
-			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-			{
-				t.Value.SkippedArticle(skippedBy, reason);
-			}
-		}
+        public virtual void SkippedArticle(string skippedBy, string reason)
+        {
+            foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+            {
+                t.Value.SkippedArticle(skippedBy, reason);
+            }
+        }
 
         public virtual void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns)
-		{
-			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-			{
-				t.Value.SkippedArticleBadTag(skippedBy, fullArticleTitle, ns);
-			}
-		}
+        {
+            foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+            {
+                t.Value.SkippedArticleBadTag(skippedBy, fullArticleTitle, ns);
+            }
+        }
 
         public virtual void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, int ns)
         {

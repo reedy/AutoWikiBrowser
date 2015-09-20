@@ -468,7 +468,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
             PreferredTemplateNameRegex = mHasAlternateNames
                 ? new Regex(
-            		PreferredTemplateNameRegexCreator.Replace(Regex.Escape(PreferredTemplateName),
+                    PreferredTemplateNameRegexCreator.Replace(Regex.Escape(PreferredTemplateName),
                         PreferredTemplateNameWikiMatchEvaluator),
                     RegexOptions.Compiled)
                 : null;
@@ -517,10 +517,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 PluginManager.DefaultStatusText();
             }
         }
-	
+    
         protected static string ConvertRedirectsToString(List<WikiFunctions.Article> redirects)
         {
-	        string res = "";
+            string res = "";
             foreach (WikiFunctions.Article redirect in redirects)
             {
                 if (redirect.NameSpaceKey == Namespace.Template)
@@ -528,7 +528,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                    res += redirect.Name.Remove(0, 9) + "|";
                 }
             }
-	        return res.Trim(new[] {'|'});
+            return res.Trim(new[] {'|'});
         }
 
         // XML:

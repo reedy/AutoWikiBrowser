@@ -20,31 +20,31 @@ namespace WikiFunctions
             return ((IList) possibles).Contains(@this);
         }
 
-		/// <summary>
-		/// Moves the caret to a specific line of a textbox
-		/// </summary>
-		/// <param name="t"></param>
-		/// <param name="lineNumber"></param>
-	    public static void GoToLine(this TextBoxBase t, int lineNumber)
-	    {
-			int i = 1;
-			int intStart = 0;
-			int intEnd = 0;
+        /// <summary>
+        /// Moves the caret to a specific line of a textbox
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="lineNumber"></param>
+        public static void GoToLine(this TextBoxBase t, int lineNumber)
+        {
+            int i = 1;
+            int intStart = 0;
+            int intEnd = 0;
 
-			foreach (Match m in Regex.Matches(t.Text, "^.*?$", RegexOptions.Multiline))
-			{
-				if (i == lineNumber)
-				{
-					intStart = m.Index;
-					intEnd = intStart + m.Length;
-					break;
-				}
-				i++;
-			}
+            foreach (Match m in Regex.Matches(t.Text, "^.*?$", RegexOptions.Multiline))
+            {
+                if (i == lineNumber)
+                {
+                    intStart = m.Index;
+                    intEnd = intStart + m.Length;
+                    break;
+                }
+                i++;
+            }
 
-			t.Select(intStart, intEnd - intStart);
-			t.ScrollToCaret();
-			t.Focus();
-	    }
+            t.Select(intStart, intEnd - intStart);
+            t.ScrollToCaret();
+            t.Focus();
+        }
     }
 }

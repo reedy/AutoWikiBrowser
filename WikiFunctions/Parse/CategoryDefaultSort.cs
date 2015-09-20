@@ -744,13 +744,13 @@ namespace WikiFunctions.Parse
         private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births\s*(?:\||\]\])");
         private static readonly Regex Cat4YearDeaths = new Regex(@"\[\[Category:\d{4} deaths\s*(?:\||\]\])");
 
-	    /// <summary>
-	    /// Removes birth/death missing categories when xxx births/deaths category also present
-	    /// </summary>
-	    /// <param name="articleText"></param>
-	    /// <param name="cats"></param>
-	    /// <returns>The updated article text</returns>
-	    private static string YearOfBirthDeathMissingCategory(string articleText, string cats)
+        /// <summary>
+        /// Removes birth/death missing categories when xxx births/deaths category also present
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <param name="cats"></param>
+        /// <returns>The updated article text</returns>
+        private static string YearOfBirthDeathMissingCategory(string articleText, string cats)
         {
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
             if (Cat4YearBirths.IsMatch(cats))

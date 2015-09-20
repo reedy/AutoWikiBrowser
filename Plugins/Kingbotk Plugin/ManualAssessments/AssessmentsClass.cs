@@ -308,7 +308,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 get { return _page; }
                 set
                 {
-                	_pageRegex = new Regex(Variables.NamespacesCaseInsensitive[Namespace.Talk] + Regex.Escape(value));
+                    _pageRegex = new Regex(Variables.NamespacesCaseInsensitive[Namespace.Talk] + Regex.Escape(value));
                     _page = Variables.Namespaces[Namespace.Talk] + value;
                 }
             }

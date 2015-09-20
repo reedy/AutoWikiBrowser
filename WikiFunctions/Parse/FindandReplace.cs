@@ -225,49 +225,49 @@ namespace WikiFunctions.Parse
             if (chkAddToSummary.Checked)
             {
                 if (!string.IsNullOrEmpty(ReplacedSummary))
-	                if (Variables.LangCode.Equals("ar"))
-	                    editSummary = "استبدل: " + ReplacedSummary.Trim();
-	                else if (Variables.LangCode.Equals("arz"))
-	                    editSummary = "غير: " + ReplacedSummary.Trim();
-	                else if (Variables.LangCode.Equals("el"))
-	                    editSummary = "αντικατέστησε: " + ReplacedSummary.Trim();
-	                else if (Variables.LangCode.Equals("eo"))
-	                    editSummary = "anstataŭigis: " + ReplacedSummary.Trim();
-	                else if (Variables.LangCode.Equals("fr"))
-	                    editSummary = "remplacement: " + ReplacedSummary.Trim();
-	                else if (Variables.LangCode.Equals("hy"))
-	                    editSummary = "փոխարինվեց: " + ReplacedSummary.Trim();
-	                else if (Variables.LangCode.Equals("tr"))
-	                    editSummary = "değiştirildi: " + ReplacedSummary.Trim();
-                	else
-		                editSummary += "replaced: " + ReplacedSummary.Trim();
+                    if (Variables.LangCode.Equals("ar"))
+                        editSummary = "استبدل: " + ReplacedSummary.Trim();
+                    else if (Variables.LangCode.Equals("arz"))
+                        editSummary = "غير: " + ReplacedSummary.Trim();
+                    else if (Variables.LangCode.Equals("el"))
+                        editSummary = "αντικατέστησε: " + ReplacedSummary.Trim();
+                    else if (Variables.LangCode.Equals("eo"))
+                        editSummary = "anstataŭigis: " + ReplacedSummary.Trim();
+                    else if (Variables.LangCode.Equals("fr"))
+                        editSummary = "remplacement: " + ReplacedSummary.Trim();
+                    else if (Variables.LangCode.Equals("hy"))
+                        editSummary = "փոխարինվեց: " + ReplacedSummary.Trim();
+                    else if (Variables.LangCode.Equals("tr"))
+                        editSummary = "değiştirildi: " + ReplacedSummary.Trim();
+                    else
+                        editSummary += "replaced: " + ReplacedSummary.Trim();
 
                 if (!string.IsNullOrEmpty(RemovedSummary))
                 {
                     if (!string.IsNullOrEmpty(editSummary))
                     {
-                    	if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
+                        if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
                         editSummary += "، ";
-                    	else
-                        editSummary += ", ";                    		
+                        else
+                        editSummary += ", ";                            
                     }
 
-	                if (Variables.LangCode.Equals("ar"))
-	                    editSummary += "أزال: " + RemovedSummary.Trim();
-	                else if (Variables.LangCode.Equals("arz"))
-	                    editSummary += "شال: " + RemovedSummary.Trim();
-	                else if (Variables.LangCode.Equals("el"))
-	                    editSummary += "αφαίρεσε: " + RemovedSummary.Trim();
-	                else if (Variables.LangCode.Equals("eo"))
-	                    editSummary += "forigis: " + RemovedSummary.Trim();
-	                else if (Variables.LangCode.Equals("fr"))
-	                    editSummary += "retrait: " + RemovedSummary.Trim();
-	                else if (Variables.LangCode.Equals("hy"))
-	                    editSummary += "ջնջվեց: " + RemovedSummary.Trim();
-	                else if (Variables.LangCode.Equals("tr"))
-	                    editSummary += "çıkartıldı:" + RemovedSummary.Trim();
-	                else
-	                    editSummary += "removed: " + RemovedSummary.Trim();
+                    if (Variables.LangCode.Equals("ar"))
+                        editSummary += "أزال: " + RemovedSummary.Trim();
+                    else if (Variables.LangCode.Equals("arz"))
+                        editSummary += "شال: " + RemovedSummary.Trim();
+                    else if (Variables.LangCode.Equals("el"))
+                        editSummary += "αφαίρεσε: " + RemovedSummary.Trim();
+                    else if (Variables.LangCode.Equals("eo"))
+                        editSummary += "forigis: " + RemovedSummary.Trim();
+                    else if (Variables.LangCode.Equals("fr"))
+                        editSummary += "retrait: " + RemovedSummary.Trim();
+                    else if (Variables.LangCode.Equals("hy"))
+                        editSummary += "ջնջվեց: " + RemovedSummary.Trim();
+                    else if (Variables.LangCode.Equals("tr"))
+                        editSummary += "çıkartıldı:" + RemovedSummary.Trim();
+                    else
+                        editSummary += "removed: " + RemovedSummary.Trim();
                 }
             }
 
@@ -295,7 +295,7 @@ namespace WikiFunctions.Parse
 
             string comma = @", ";
             if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
-            	comma = @"، ";
+                comma = @"، ";
             
             Regex findRegex = new Regex(findThis, rep.RegularExpressionOptions);
 

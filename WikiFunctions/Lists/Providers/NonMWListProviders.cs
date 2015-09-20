@@ -169,11 +169,11 @@ namespace WikiFunctions.Lists.Providers
                     //Find each match to the pattern
                     foreach (Match m in RegexGoogle.Matches(googleText))
                     {
-                    	string searchres = m.Groups[1].Value;
-                    	
-                    	if (searchres.Contains(@"&amp;"))
-                    		searchres = searchres.Substring(0, searchres.IndexOf(@"&amp;"));
-                    	
+                        string searchres = m.Groups[1].Value;
+                        
+                        if (searchres.Contains(@"&amp;"))
+                            searchres = searchres.Substring(0, searchres.IndexOf(@"&amp;"));
+                        
                         string title = Tools.GetTitleFromURL(searchres);
 
                         // some google results are double encoded, so WikiDecode again

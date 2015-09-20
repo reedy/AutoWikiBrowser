@@ -86,12 +86,12 @@ namespace WikiFunctions.Profiles
                 MessageBox.Show("The Username cannot be blank");
             else
             {
-            	// warn user if profile for entered user ID already exists
+                // warn user if profile for entered user ID already exists
                 if (Editid == -1 && AWBProfiles.GetProfile(txtUsername.Text) != null)
                 {
-                	if (MessageBox.Show("Username \"" +txtUsername.Text + "\" is already used in another profile. Are you sure you want to use this username again?", 
-                	                    "Username already used in another profile", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                	return;
+                    if (MessageBox.Show("Username \"" +txtUsername.Text + "\" is already used in another profile. Are you sure you want to use this username again?", 
+                                        "Username already used in another profile", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    return;
                 }
 
                 AWBProfile profile = new AWBProfile {Username = txtUsername.Text};
@@ -99,7 +99,7 @@ namespace WikiFunctions.Profiles
                 if (chkSavePassword.Checked && !string.IsNullOrEmpty(txtPassword.Text))
                     profile.Password = txtPassword.Text;
                 else
-                	 profile.Password ="";
+                     profile.Password ="";
 
                 profile.DefaultSettings = txtPath.Text;
                 profile.Notes = txtNotes.Text;

@@ -68,7 +68,7 @@ namespace WikiFunctions.Lists.Providers
         {
             if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
             
-        	// TODO: error handling
+            // TODO: error handling
             List<Article> list = new List<Article>();
             string postfix = "";
 
