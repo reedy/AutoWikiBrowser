@@ -1211,7 +1211,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        	SelectAll();
+            SelectAll();
         }
 
         private void invertSelectionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1226,7 +1226,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        	SelectNone();
+            SelectNone();
         }
         
         /// <summary>
@@ -1234,11 +1234,11 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         private void SelectNone()
         {
-        	lbArticles.BeginUpdate();
+            lbArticles.BeginUpdate();
 
-        	lbArticles.SelectedIndex = -1;
+            lbArticles.SelectedIndex = -1;
 
-        	lbArticles.EndUpdate();
+            lbArticles.EndUpdate();
         }
         
         /// <summary>
@@ -1246,7 +1246,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         private void SelectAll()
         {
-        	lbArticles.BeginUpdate();
+            lbArticles.BeginUpdate();
 
             // workaround for Wine issue: use of {HOME} then +{END} leads to 100% CPU and locked application
             // so use slower SetSelected if on Linux
@@ -1261,7 +1261,7 @@ namespace WikiFunctions.Controls.Lists
                 SendKeys.SendWait("+{END}");
             }
 
-        	lbArticles.EndUpdate();
+            lbArticles.EndUpdate();
         }
 
         private void AddFromSelectedList(IListProvider provider)
@@ -1291,9 +1291,9 @@ namespace WikiFunctions.Controls.Lists
                 LoadArticlesInBrowser();
         }
 
-		//  Get selected list first, then process. Otherwise looping through listmaker and processing,
-		// may take seconds to open multiple browser tabs, could lead to exception if listmaker list changes
-		// in the meantime
+        //  Get selected list first, then process. Otherwise looping through listmaker and processing,
+        // may take seconds to open multiple browser tabs, could lead to exception if listmaker list changes
+        // in the meantime
         private void LoadArticlesInBrowser()
         {
             if (Variables.MainForm.TheSession.Site != null) // TheSession can be null if AWB encounters network problems on startup

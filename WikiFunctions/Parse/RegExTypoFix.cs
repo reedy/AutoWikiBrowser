@@ -246,7 +246,7 @@ namespace WikiFunctions.Parse
 
             string comma = @", ";
             if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
-            	comma = @"، ";
+                comma = @"، ";
 
             MatchCollection matches = typo.Key.Matches(articleText);
 
@@ -536,15 +536,15 @@ namespace WikiFunctions.Parse
             // Join all the threads: wait for all to complete
             foreach (Thread t in array)
             {
-	            t.Join();
+                t.Join();
             }
 
-	        foreach (TypoGroup tg in Groups)
+            foreach (TypoGroup tg in Groups)
             {
-	            string groupSummary;
-	            resultSummary.TryGetValue(tg.GroupSize, out groupSummary);
-	            string groupArticleText;
-	            resultArticleText.TryGetValue(tg.GroupSize, out groupArticleText);
+                string groupSummary;
+                resultSummary.TryGetValue(tg.GroupSize, out groupSummary);
+                string groupArticleText;
+                resultArticleText.TryGetValue(tg.GroupSize, out groupArticleText);
 
                 if (groupSummary.Length > 0)
                 {

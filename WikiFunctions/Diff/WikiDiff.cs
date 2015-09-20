@@ -166,7 +166,7 @@ namespace WikiFunctions
   <td class='diff-deletedline'>");
                 Result.Append(left);
                 Result.Append(@"  </td>
-		</tr>");
+        </tr>");
             }
             else
             {
@@ -179,7 +179,7 @@ namespace WikiFunctions
   <td class='diff-addedline'>");
                 Result.Append(right);
                 Result.Append(@"  </td>
-		</tr>");
+        </tr>");
             }
         }
 
@@ -417,7 +417,7 @@ namespace WikiFunctions
                 else
                     th = th + @"
     <td colspan='2' width='50%' class='diff-otitle'>Current revision</td>
-	<td colspan='2' width='50%' class='diff-ntitle'>Your text</td>";
+    <td colspan='2' width='50%' class='diff-ntitle'>Your text</td>";
 
                 th = th + @"
   </tr>
@@ -449,106 +449,106 @@ html , body {
 ** Diff rendering
 */
 table.diff, td.diff-otitle, td.diff-ntitle {
-	background-color: white;
+    background-color: white;
 }
 
 td.diff-otitle,
 td.diff-ntitle {
-	text-align: center;
+    text-align: center;
 }
 
 td.diff-marker {
-	text-align: right;
-	font-weight: bold;
-	font-size: 1.25em;
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.25em;
 }
 
 td.diff-lineno {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 td.diff-addedline,
 td.diff-deletedline,
 td.diff-context {
-	font-size: 88%;
-	vertical-align: top;
-	white-space: -moz-pre-wrap;
-	white-space: pre-wrap;
-	word-wrap: break-word;
+    font-size: 88%;
+    vertical-align: top;
+    white-space: -moz-pre-wrap;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 td.diff-addedline,
 td.diff-deletedline {
-	border-style: solid;
-	border-width: 1px 1px 1px 4px;
-	border-radius: 0.33em;
+    border-style: solid;
+    border-width: 1px 1px 1px 4px;
+    border-radius: 0.33em;
 }
 
 td.diff-addedline {
-	border-color: #a3d3ff;
+    border-color: #a3d3ff;
 }
 
 td.diff-deletedline {
-	border-color: #ffe49c;
+    border-color: #ffe49c;
 }
 
 td.diff-context {
-	background: #f3f3f3;
-	color: #333333;
-	border-style: solid;
-	border-width: 1px 1px 1px 4px;
-	border-color: #e6e6e6;
-	border-radius: 0.33em;
+    background: #f3f3f3;
+    color: #333333;
+    border-style: solid;
+    border-width: 1px 1px 1px 4px;
+    border-color: #e6e6e6;
+    border-radius: 0.33em;
 }
 
 .diffchange {
-	font-weight: bold;
-	text-decoration: none;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 table.diff {
-	border: none;
-	width: 100%;
-	border-spacing: 4px;
+    border: none;
+    width: 100%;
+    border-spacing: 4px;
 
-	/* Ensure that colums are of equal width */
-	table-layout: fixed;
+    /* Ensure that colums are of equal width */
+    table-layout: fixed;
 }
 
 td.diff-addedline .diffchange,
 td.diff-deletedline .diffchange {
-	border-radius: 0.33em;
-	padding: 0.25em 0;
+    border-radius: 0.33em;
+    padding: 0.25em 0;
 }
 
 td.diff-addedline .diffchange {
-	background: #d8ecff;
+    background: #d8ecff;
 }
 
 td.diff-deletedline .diffchange {
-	background: #feeec8;
+    background: #feeec8;
 }
 
 table.diff td {
-	padding: 0.25em 0.25em;
+    padding: 0.25em 0.25em;
 }
 
 table.diff col.diff-marker {
-	width: 1.5%;
+    width: 1.5%;
 }
 
 table.diff col.diff-content {
-	width: 48.5%;
+    width: 48.5%;
 }
 
 table.diff td div {
-	/* Force-wrap very long lines such as URLs or page-widening char strings.*/
-	word-wrap: break-word;
+    /* Force-wrap very long lines such as URLs or page-widening char strings.*/
+    word-wrap: break-word;
 
-	/* As fallback (FF<3.5, Opera <10.5), scrollbars will be added for very wide cells
-	   instead of text overflowing or widening
-	*/
-	overflow: auto;
+    /* As fallback (FF<3.5, Opera <10.5), scrollbars will be added for very wide cells
+       instead of text overflowing or widening
+    */
+    overflow: auto;
 }
 
 "; }

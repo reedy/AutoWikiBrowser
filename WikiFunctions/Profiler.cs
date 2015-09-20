@@ -120,8 +120,8 @@ namespace WikiFunctions
         }
 #else
         /* unfortunately it seems that code within [Conditional] blocks still gets analysed by the compiler; having the class level
-		 * vars in #if's and all the methods inside these Conditional attribute blocks didn't work. So, I've used #if statements to
-		 * get a clean compile, and the attribute to then have the calls totally compiled out in release mode. */
+         * vars in #if's and all the methods inside these Conditional attribute blocks didn't work. So, I've used #if statements to
+         * get a clean compile, and the attribute to then have the calls totally compiled out in release mode. */
 
         [Conditional("DEBUG")]
         public void Profile(string message)

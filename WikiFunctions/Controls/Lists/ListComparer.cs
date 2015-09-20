@@ -213,10 +213,10 @@ namespace WikiFunctions.Controls.Lists
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+            ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
 
-			if (selectedListBox != null)
-				Tools.Copy(selectedListBox);
+            if (selectedListBox != null)
+                Tools.Copy(selectedListBox);
         }
 
         private static ListBoxArticle MenuItemOwner(object sender)
@@ -246,12 +246,12 @@ namespace WikiFunctions.Controls.Lists
 
         private void removeSelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+            ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
 
-			if (selectedListBox != null)
-				selectedListBox.RemoveSelected(true);
+            if (selectedListBox != null)
+                selectedListBox.RemoveSelected(true);
 
-			UpdateCounts();
+            UpdateCounts();
         }
 
         private void AddListToListMaker(ListMaker lm, IEnumerable<Article> lb)
@@ -261,28 +261,28 @@ namespace WikiFunctions.Controls.Lists
             lm.Add(articles);
         }
 
-		private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-			ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
-
-			if (selectedListBox != null)
-            {
-        	    selectedListBox.BeginUpdate();
-        	
-        	    SendKeys.SendWait("{HOME}");
-        	    SendKeys.SendWait("+{END}");
-        	
-        	    selectedListBox.EndUpdate();
-            }
-        }
-
-		private void mnuList_Opening(object sender, EventArgs e)
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
 
-			if (selectedListBox != null)
+            if (selectedListBox != null)
             {
-				transferToListMaker1ToolStripMenuItem.Enabled = transferToListMaker2ToolStripMenuItem.Enabled = openInBrowserToolStripMenuItem.Enabled 
+                selectedListBox.BeginUpdate();
+            
+                SendKeys.SendWait("{HOME}");
+                SendKeys.SendWait("+{END}");
+            
+                selectedListBox.EndUpdate();
+            }
+        }
+
+        private void mnuList_Opening(object sender, EventArgs e)
+        {
+            ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+
+            if (selectedListBox != null)
+            {
+                transferToListMaker1ToolStripMenuItem.Enabled = transferToListMaker2ToolStripMenuItem.Enabled = openInBrowserToolStripMenuItem.Enabled 
                 = copyToolStripMenuItem.Enabled =  removeSelectedToolStripMenuItem.Enabled =  selectAllToolStripMenuItem.Enabled = selectedListBox.Items.Count > 0;
             }
         }

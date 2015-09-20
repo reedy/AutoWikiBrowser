@@ -219,9 +219,9 @@ namespace WikiFunctions
 
             string comma = ", ";
             if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
-            	comma = "، ";
+                comma = "، ";
 
-			if (summary.Length > 0)
+            if (summary.Length > 0)
                 summary.Append(comma + newText);
             else
                 summary.Append(newText);
@@ -1221,7 +1221,7 @@ namespace WikiFunctions
         /// <param name="checkIfChanged">Check if the new text does differ from the existing text before logging it; exits silently if this param is true and there was no change</param>
         public void ChangeArticleText(string changedBy, string reason, string newText, bool checkIfChanged)
         {
-        	if (checkIfChanged && newText.Equals(mArticleText)) return;
+            if (checkIfChanged && newText.Equals(mArticleText)) return;
 
             mArticleText = newText;
             mAWBLogListener.WriteLine(reason, changedBy);
@@ -1456,9 +1456,9 @@ namespace WikiFunctions
                 
                 // call this before MinorFixes so that Parsers.Conversions cleans up from MultipleIssues
                 if (Variables.IsWikipediaEN)
-				{
-	                AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);
-	                Variables.Profiler.Profile("MultipleIssues");
+                {
+                    AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);
+                    Variables.Profiler.Profile("MultipleIssues");
                 }
 
                 // must call EmboldenTitles before calling FixLinks
@@ -1583,7 +1583,7 @@ namespace WikiFunctions
         /// <param name="parsers"></param>
         public void PerformMetaDataSort(Parsers parsers)
         {
-        	if (!Globals.UnitTestMode && NameSpaceKey.Equals(Namespace.Mainspace))
+            if (!Globals.UnitTestMode && NameSpaceKey.Equals(Namespace.Mainspace))
                 mArticleText = parsers.SortMetaData(ArticleText, Name);
         }
         #endregion

@@ -440,7 +440,7 @@ namespace WikiFunctions.API
                 if (resp == null) throw;
                 switch (resp.StatusCode)
                 {
-                    case HttpStatusCode.Unauthorized: // 401						
+                    case HttpStatusCode.Unauthorized: // 401                        
                         break;
 
                     case HttpStatusCode.NotFound: // 404

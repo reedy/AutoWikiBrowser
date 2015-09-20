@@ -69,10 +69,10 @@ namespace WikiFunctions.Controls.Lists
 
         private class ForwardComparer : IComparer<Article>
         {
-        	public int Compare(Article article1, Article article2)
-        	{
+            public int Compare(Article article1, Article article2)
+            {
                 return article1.CompareTo(article2);
-        	}
+            }
         }
         
         private static readonly ForwardComparer ArticleForwardComparer = new ForwardComparer();
@@ -88,7 +88,7 @@ namespace WikiFunctions.Controls.Lists
         private class ReverseComparer : IComparer<Article>
         {
             public int Compare(Article article1, Article article2)
-        	{
+            {
                 return -article1.CompareTo(article2);
             }
         }

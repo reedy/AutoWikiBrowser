@@ -45,8 +45,8 @@ namespace WikiFunctions.DBScanner
             return (!Tools.IsRedirect(article.Text));
         }
     }
-	
-	//TODO:Update TextContains etc to use Inheritors of IArticleComparer
+    
+    //TODO:Update TextContains etc to use Inheritors of IArticleComparer
 
     /// <summary>
     /// Returns whether the article matches the provided regexes

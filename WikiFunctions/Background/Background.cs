@@ -141,8 +141,8 @@ namespace WikiFunctions.Background
         public ThreadState ThreadStatus()
         {
             if (BgThread != null)
-	            return BgThread.ThreadState;
-			
+                return BgThread.ThreadState;
+            
             return ThreadState.Unstarted;
         }
 

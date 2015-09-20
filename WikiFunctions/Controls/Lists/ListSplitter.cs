@@ -114,7 +114,7 @@ namespace WikiFunctions.Controls.Lists
                 int baseIndex = 0;
                 int splitValue = (int) numSplitAmount.Value;
                 var articles = listMaker1.GetArticleList();
-				int minValueCount = Math.Min(splitValue, articles.Count);
+                int minValueCount = Math.Min(splitValue, articles.Count);
                 if (xml)
                 {
                     string pathPrefix = path.Replace(".xml", " {0}.xml");

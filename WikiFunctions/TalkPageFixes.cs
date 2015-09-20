@@ -146,58 +146,58 @@ namespace WikiFunctions.TalkPages
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             if (zerothSection.Length > 0)
             {
-				// have we only added whitespace? then reset articletext
-				if (zerothSection.Length > zerothSectionOriginal.Length && 
-				   WikiRegexes.WhiteSpace.Replace(zerothSection, "").Equals(WikiRegexes.WhiteSpace.Replace(zerothSectionOriginal, "")))
-					articleText = articleTextOriginal;
-				else 
-				{
-	                string zerothbefore = zerothSection;
-	                // clean excess blank lines at end of zeroth section, leave only one newline
-	                // not when later sections: would remove blank line before heading
-	                if (zerothSection.Length == articleText.Length &&
-	                   (zerothSection.Length-zerothSection.Trim().Length) > 2)
-	                    zerothSection = zerothSection.Trim() + "\r\n";
+                // have we only added whitespace? then reset articletext
+                if (zerothSection.Length > zerothSectionOriginal.Length && 
+                   WikiRegexes.WhiteSpace.Replace(zerothSection, "").Equals(WikiRegexes.WhiteSpace.Replace(zerothSectionOriginal, "")))
+                    articleText = articleTextOriginal;
+                else 
+                {
+                    string zerothbefore = zerothSection;
+                    // clean excess blank lines at end of zeroth section, leave only one newline
+                    // not when later sections: would remove blank line before heading
+                    if (zerothSection.Length == articleText.Length &&
+                       (zerothSection.Length-zerothSection.Trim().Length) > 2)
+                        zerothSection = zerothSection.Trim() + "\r\n";
 
                 zerothSection = WikiRegexes.ThreeOrMoreNewlines.Replace(zerothSection, "\r\n\r\n");
                 zerothSection = Parse.Parsers.RemoveTemplateNamespace(zerothSection);
                 articleText = articleText.Replace(zerothbefore, zerothSection);
-				}
+                }
             }
 
 
             return pr.FoundSkipToTalk || pr.FoundDefaultSort;
         }
 
-		/// <summary>
-		/// Formats the default sort: ensures in {{DEFAULTSORT:key}} format
-		/// </summary>
-		/// <returns>
-		/// The updated article text.
-		/// </returns>
-		/// <param name='articleText'>
-		/// The article text.
-		/// </param>
+        /// <summary>
+        /// Formats the default sort: ensures in {{DEFAULTSORT:key}} format
+        /// </summary>
+        /// <returns>
+        /// The updated article text.
+        /// </returns>
+        /// <param name='articleText'>
+        /// The article text.
+        /// </param>
         public static string FormatDefaultSort(string articleText)
         {
             return WikiRegexes.Defaultsort.Replace(articleText, "{{DEFAULTSORT:${key}}}");
         }
 
-		/// <summary>
-		/// Moves the default sort.
-		/// </summary>
-		/// <returns>
-		/// The updated article text.
-		/// </returns>
-		/// <param name='key'>
-		/// Current defaultsort key.
-		/// </param>
-		/// <param name='location'>
-		/// Required defaultsort location (top or bottom).
-		/// </param>
-		/// <param name='articleText'>
-		/// Article text.
-		/// </param>
+        /// <summary>
+        /// Moves the default sort.
+        /// </summary>
+        /// <returns>
+        /// The updated article text.
+        /// </returns>
+        /// <param name='key'>
+        /// Current defaultsort key.
+        /// </param>
+        /// <param name='location'>
+        /// Required defaultsort location (top or bottom).
+        /// </param>
+        /// <param name='articleText'>
+        /// Article text.
+        /// </param>
         private static string SetDefaultSort(string key, DEFAULTSORT location, string articleText)
         {
             switch (location)
@@ -329,7 +329,7 @@ namespace WikiFunctions.TalkPages
                     string articletexttofirstcomment = articleText.Substring(0, firstCommentIndex);
 
                     articleText = WikiRegexes.HeadingLevelThree.IsMatch(articletexttofirstcomment) ? WikiRegexes.HeadingLevelThree.Replace(articleText, @"==$1==", 1) : articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n").TrimStart();
-					articleText = articleText.Replace("\r\n\r\n\r\n==Untitled", "\r\n\r\n==Untitled");
+                    articleText = articleText.Replace("\r\n\r\n\r\n==Untitled", "\r\n\r\n==Untitled");
                 }
             }
 

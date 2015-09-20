@@ -468,7 +468,7 @@ namespace WikiFunctions.Parse
            // https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Accessibility#Lists
             articleText = NewlinesBeforeUrl.Replace(articleText, "\r\n$1");
             while(NewlinesWithinLists.IsMatch(articleText))
-            	articleText = NewlinesWithinLists.Replace(articleText, "$1\r\n*");
+                articleText = NewlinesWithinLists.Replace(articleText, "$1\r\n*");
 
             articleText = HorizontalRule.Replace(articleText.Trim(), "");
 

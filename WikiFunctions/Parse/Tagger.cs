@@ -628,13 +628,13 @@ namespace WikiFunctions.Parse
                 select a).ToList();
         }
 
-	    /// <summary>
-	    /// Returns the categories that are not stub or proposed deletion categories from the input article text
-	    /// </summary>
-	    /// <param name="articleText">Wiki text</param>
-	    /// <param name="hideComments"></param>
-	    /// <returns>List of regular categories</returns>
-	    public static List<Article> RegularCategories(string articleText, bool hideComments)
+        /// <summary>
+        /// Returns the categories that are not stub or proposed deletion categories from the input article text
+        /// </summary>
+        /// <param name="articleText">Wiki text</param>
+        /// <param name="hideComments"></param>
+        /// <returns>List of regular categories</returns>
+        public static List<Article> RegularCategories(string articleText, bool hideComments)
         {
             // Don't count commented out categories
             if (hideComments)

@@ -355,7 +355,7 @@ namespace WikiFunctions
         # Adapted from the Smalltalk code of Mario I. Wolczko, <mario@wolczko.com>
         # by Ned Konz, perl@bike-nomad.com
         # Updates by Tye McQueen, http://perlmonks.org/?node=tye
-		
+        
         # Create a hash that maps each element of $aCollection to the set of
         # positions it occupies in $aCollection, restricted to the elements
         # within the range of indexes specified by $start and $end.
@@ -441,20 +441,20 @@ namespace WikiFunctions
 
         /*
         # This method computes the longest common subsequence in $a and $b.
-		
+        
         # Result is array or ref, whose contents is such that
         #   $a->[ $i ] == $b->[ $result[ $i ] ]
         # foreach $i in ( 0 .. $#result ) if $result[ $i ] is defined.
-		
+        
         # An additional argument may be passed; this is a hash or key generating
         # function that should return a string that uniquely identifies the given
         # element.  It should be the case that if the key is the same, the elements
         # will compare the same. If this parameter is undef or missing, the key
         # will be the element as a string.
-		
+        
         # By default, comparisons will use "eq" and elements will be turned into keys
         # using the default stringizing operator '""'.
-		
+        
         # Additional parameters, if any, will be passed to the key generation
         # routine.
         */

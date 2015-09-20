@@ -178,10 +178,10 @@ namespace WikiFunctions.Parse
                     articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
                 
                 // Remove br tags after maintance templates
-            	articleText = MaintanceTemplateWithBr.Replace(articleText,"$1");
+                articleText = MaintanceTemplateWithBr.Replace(articleText,"$1");
 
             }
-            	
+                
             if (TemplateExists(alltemplates, WikiRegexes.MagicWordTemplates))
                 articleText = Tools.TemplateToMagicWord(articleText);
 
@@ -272,7 +272,7 @@ namespace WikiFunctions.Parse
             if (SimpleTagsList.Any(s => s.Contains("font")))
                 articleText = RemoveNoPropertyFontTags.Replace(articleText, "$1");
 
-			//<ref>[[cite web|url=http://www.foo.com]]</ref>
+            //<ref>[[cite web|url=http://www.foo.com]]</ref>
             articleText = CiteTemplateWithSquareBrackets.Replace(articleText,"$1{{$2}}$4");
 
             if (SimpleTagsList.Any(s => s.Contains("reflist")))
