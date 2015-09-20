@@ -764,9 +764,12 @@ died 2002
 [[Category:1960 births|Smith, Fred]]";
 
             Variables.SetProjectLangCode("sco");
-            Assert.AreEqual(Before, Parsers.LivingPeople(Before, "A"));
+            Assert.AreEqual(Before, Parsers.LivingPeople(Before, "A"), "no changes in Scottish wikipedia");
 
-            Variables.SetProjectLangCode("en");
+            Variables.SetProjectSimple("en", ProjectEnum.commons);
+            Assert.AreEqual(Before, Parsers.LivingPeople(Before, "A"), "no changes in Commons");
+            
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
             Assert.AreEqual(Before + @"[[Category:Living people|Smith, Fred]]", Parsers.LivingPeople(Before, "A"));
 #endif
         }
