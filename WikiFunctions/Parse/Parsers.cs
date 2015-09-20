@@ -700,7 +700,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex RegexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Multiline);
         private static readonly Regex SeeAlsoLink = new Regex(@"^:?'{0,5}See also:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-        private static readonly Regex SeeAlsoMainArticleQuick = new Regex(@"\r\n[:']*(See also|Main article):", RegexOptions.IgnoreCase);
+        private static readonly Regex SeeAlsoMainArticleQuick = new Regex(@"\s*[:']*(See also|Main article):", RegexOptions.IgnoreCase);
 
         // Covered by: FixMainArticleTests
         /// <summary>
@@ -710,7 +710,13 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixMainArticle(string articleText)
         {
-            if (SeeAlsoMainArticleQuick.IsMatch(articleText))
+            // Performance: split article to check each line in text, filter to lines containing colon then check first 20 characters of line against regex
+            List<string> articleTextLines = articleText.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+            articleTextLines = articleTextLines.FindAll(s => s.Contains(":"));
+            articleTextLines = articleTextLines.Select(s => s.Substring(0, Math.Min(s.Length, 20))).ToList();
+            articleTextLines = Tools.DeduplicateList(articleTextLines);
+
+            if (articleTextLines.Any(s => SeeAlsoMainArticleQuick.IsMatch(s)))
             {
                 articleText = SeeAlsoLink.Replace(articleText,
                                                   m => m.Groups[2].Value.Length == 0
