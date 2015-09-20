@@ -33,6 +33,10 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Collections;
 using System.Diagnostics;
+using System.Security.Permissions;
+using System.Web;
+using System.Net;
+using System.Linq;
 using WikiFunctions;
 using WikiFunctions.API;
 using WikiFunctions.Lists.Providers;
@@ -41,20 +45,15 @@ using WikiFunctions.Parse;
 using WikiFunctions.Properties;
 using WikiFunctions.Controls;
 using WikiFunctions.Background;
-using System.Security.Permissions;
 using WikiFunctions.Controls.Lists;
 using AutoWikiBrowser.Plugins;
-using System.Web;
-using System.Net;
-using System.Linq;
-
 using ThreadState = System.Threading.ThreadState;
 
 namespace AutoWikiBrowser
 {
-    //TODO:Move any code that doesn't need to be directly behind the form to WF or other code files (Preferably WF)
-    //TODO:Move regexes declared in method bodies (if not dynamic based on article title, etc), into class body
-    //TODO:Move any Regexes to WikiRegexes as required
+    // TODO:Move any code that doesn't need to be directly behind the form to WF or other code files (Preferably WF)
+    // TODO:Move regexes declared in method bodies (if not dynamic based on article title, etc), into class body
+    // TODO:Move any Regexes to WikiRegexes as required
 
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     public sealed partial class MainForm : Form, IAutoWikiBrowser
@@ -304,7 +303,7 @@ namespace AutoWikiBrowser
 
             try
             {
-                //check that we are not using an old OS. 98 seems to mangled some unicode
+                // check that we are not using an old OS. 98 seems to mangled some unicode
                 if (Environment.OSVersion.Version.Major < 5 && Globals.RunningOnWindows)
                 {
                     MessageBox.Show(
@@ -615,7 +614,7 @@ namespace AutoWikiBrowser
                 switch ((ex as ApiErrorException).ErrorCode)
                 {
                     case "editconflict":
-                        //TODO: must be a less crude way
+                        // TODO: must be a less crude way
                         MessageBox.Show(this,
                             "There has been an edit conflict. AWB will now re-apply its changes on the updated page.\r\nPlease re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.",
                             "Edit conflict");
@@ -770,7 +769,7 @@ namespace AutoWikiBrowser
 
                 Shutdown();
 
-                //check edit summary
+                // Check edit summary
                 txtEdit.Enabled = txtReviewEditSummary.Enabled = true;
                 SetEditToolBarEnabled(true);
 
@@ -833,7 +832,7 @@ namespace AutoWikiBrowser
 
                 TheArticle = new Article(title, "");
 
-                //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#.27Find.27_sometimes_fails_to_use_the_search_key
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#.27Find.27_sometimes_fails_to_use_the_search_key
                 txtEdit.ResetFind();
 
                 NewHistory(title);
@@ -841,12 +840,12 @@ namespace AutoWikiBrowser
 
                 EditBoxSaveTimer.Enabled = _autoSaveEditBoxEnabled;
 
-                //if (dlg != null && dlg.AutoProtectAll)
+                // if (dlg != null && dlg.AutoProtectAll)
                 //    TheArticle.Protect(TheSession);
 
                 StartProgressBar();
 
-                //Navigate to edit page
+                // Navigate to edit page
                 OpenPage(title);
             }
             catch (Exception ex)
@@ -1022,8 +1021,8 @@ namespace AutoWikiBrowser
             StatusLabelText = (preParseModeToolStripMenuItem.Checked ? "Processing page (pre-parse mode)": "Processing page");
             Application.DoEvents();
 
-            //FIXME: this position is imprefect, since above there is code that can explode, but this way
-            //at least we don't get bogus reports of unrelated pages
+            // FIXME: this position is imprefect, since above there is code that can explode, but this way
+            // at least we don't get bogus reports of unrelated pages
             ErrorHandler.CurrentPage = TheArticle.Name;
 
             ProcessPage(TheArticle, true);
@@ -1142,7 +1141,7 @@ namespace AutoWikiBrowser
 
             Variables.Profiler.Profile("Set edit box text");
 
-            //Update statistics and alerts
+            // Update statistics and alerts
             if (!BotMode)
                 ArticleInfo(false);
 
@@ -1506,7 +1505,7 @@ namespace AutoWikiBrowser
             ClearBrowser();
             txtEdit.Text = "";
 
-            //TODO:Reinstate as needed
+            // TODO:Reinstate as needed
             //try
             //{
             //    if (IsReadOnlyDB())
@@ -1520,7 +1519,7 @@ namespace AutoWikiBrowser
             //    Start();
             //}
 
-            //lower restart delay
+            // lower restart delay
             if (_restartDelay > 5)
                 _restartDelay -= 1;
 
@@ -1556,13 +1555,13 @@ namespace AutoWikiBrowser
             try
             {
                 TheSession.Editor.Reset();
-                //reset timer.
+                // reset timer.
                 NumberOfIgnoredEdits++;
                 StopDelayedAutoSaveTimer();
                 NudgeTimer.Stop();
                 txtEdit.Text = "";
 
-                //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_15#Endless_cycle_of_loading_and_skipping
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_15#Endless_cycle_of_loading_and_skipping
                 bool successfullyremoved = listMaker.Remove(TheArticle);
 
                 SameArticleNudges = 0;
@@ -1986,7 +1985,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                                           + result
                                           + "</html>"
                                          );
-                //webBrowser.BringToFront();
+                // webBrowser.BringToFront();
             }
 
             StatusLabelText = "";
@@ -3055,11 +3054,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void txtRtb_TextChanged(object sender, EventArgs e)
         {
             RichTextBox rtb = (RichTextBox)sender;
-            string a =  rtb.Text; 
-            int i =  rtb.SelectionStart;
+            string a = rtb.Text; 
+            int i = rtb.SelectionStart;
             rtb.ResetText();
             rtb.Text = a;
-            rtb.Select(i,0);
+            rtb.Select(i, 0);
         }
 
         private void txtEdit_TextChanged(object sender, EventArgs e)
@@ -3239,15 +3238,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //refresh login status, and reload check list
+            // refresh login status, and reload check list
             CheckStatus(false);
 
-            //refresh typo list
+            // refresh typo list
             LoadTypos(true);
 
             WikiDiff.ResetCustomStyles();
 
-            //refresh talk warnings list
+            // refresh talk warnings list
             if (UserTalkWarningsLoaded)
                 LoadUserTalkWarnings();
 
@@ -3284,7 +3283,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void SetProject(string code, ProjectEnum project, string customProject, string protocol)
         {
             SplashScreen.SetProgress(81);
-            //set namespaces
+            // set namespaces
             try
             {
                 //set namespaces
@@ -3318,7 +3317,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     "Restricted Wiki");
             }
 
-            //set interwikiorder
+            // set interwikiorder
             switch (Variables.LangCode)
             {
                 case "en":
@@ -3351,7 +3350,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     break;
             }
 
-            //user interface
+            // user interface
             if (!Variables.IsWikipediaEN)
             {
                 humanNameDisambigTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = false;
@@ -3375,7 +3374,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         #endregion
 
-        //TODO: Cleanup/refactor UI update functions
+        // TODO: Cleanup/refactor UI update functions
         #region Enabling/Disabling of buttons
 
         private void UpdateButtons(object sender, EventArgs e)
@@ -5698,7 +5697,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             // attempt validation of the category's existence, warn user if it doesn't exist
             try
             {
-                //TODO:ApiEdit PageExists/similar function (wrapper for this, we don't need/care about page text)
+                // TODO:ApiEdit PageExists/similar function (wrapper for this, we don't need/care about page text)
                 IApiEdit editor = TheSession.Editor.SynchronousEditor.Clone();
                 editor.Open(_catName.CategoryName, false);
 
@@ -5903,7 +5902,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             string text = "";
 
-            switch(item.Name)
+            switch (item.Name)
             {
             case "lblUserName":
                 text = "Click to switch user";
@@ -5927,7 +5926,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             string text = "";
 
-            switch(item.Name)
+            switch (item.Name)
             {
             case "btntsDelete":
                 text = "Delete this page";

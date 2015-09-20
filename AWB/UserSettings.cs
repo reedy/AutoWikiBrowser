@@ -48,7 +48,7 @@ namespace AutoWikiBrowser
                                         MessageBoxDefaultButton.Button1) == DialogResult.No)
                         return;
 
-                    //Make an "old"/backup copy of a file. Old settings are still there if something goes wrong
+                    // Make an "old"/backup copy of a file. Old settings are still there if something goes wrong
                     File.Copy(SettingsFile, SettingsFile + ".old", true);
                 }
 
@@ -118,7 +118,7 @@ namespace AutoWikiBrowser
 
         private void LoadDefaultEditSummaries()
         {
-            //cmboEditSummary.Items.Clear();
+            // cmboEditSummary.Items.Clear();
             cmboEditSummary.Items.Add("clean up");
             cmboEditSummary.Items.Add("re-categorisation per [[WP:CFD|CFD]]");
             cmboEditSummary.Items.Add("clean up and re-categorisation per [[WP:CFD|CFD]]");
@@ -244,7 +244,7 @@ namespace AutoWikiBrowser
                 UpdateRecentList(path);
                 SettingsFile = path;
 
-                //Delete temporary/old file if exists when code reaches here
+                // Delete temporary/old file if exists when code reaches here
                 if (File.Exists(SettingsFile + ".old"))
                     File.Delete(SettingsFile + ".old");
             }
@@ -657,7 +657,7 @@ namespace AutoWikiBrowser
 
             CModule.Language = p.Module.Language;
             CModule.Code = p.Module.Code.Replace("\n", "\r\n");
-            //Don't enable custom module until code loaded, prevents phantom compile error
+            // Don't enable custom module until code loaded, prevents phantom compile error
             CModule.ModuleEnabled = p.Module.Enabled;
             if (!CModule.ModuleEnabled)
                 CModule.SetModuleNotBuilt();

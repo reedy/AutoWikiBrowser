@@ -68,7 +68,7 @@ namespace AutoWikiBrowser
             groupBox1.Enabled = chkSkip.Enabled = chkEnabled.Checked;
         }
 
-        //Look at User:Pseudomonas/AWBPerlWrapperPlugin
+        // Look at User:Pseudomonas/AWBPerlWrapperPlugin
         public string ProcessArticle(string articleText, string articleTitle, int @namespace, out string summary, out bool skip)
         {
             string origText = articleText;

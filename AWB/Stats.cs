@@ -44,7 +44,7 @@ namespace AutoWikiBrowser
             {
                 NoEdits = value;
                 lblEditCount.Text = "Edits: " + value;
-                //UpdateNotifyIconTooltip();
+                // UpdateNotifyIconTooltip();
                 if (value == 100 || (value > 0 && value % 1000 == 0)) // we'll first report to remote db when we have 100 saves or app is exiting, whichever comes first; we'll also update db at 1000 and each 1000 thereafter
                     UsageStats.Do(false);
             }
@@ -275,7 +275,7 @@ namespace AutoWikiBrowser
 
             PostData(postvars);
 
-            //Clear lists as we've posted
+            // Clear lists as we've posted
             NewAWBPlugins.Clear();
             NewAWBBasePlugins.Clear();
             NewListMakerPlugins.Clear();
