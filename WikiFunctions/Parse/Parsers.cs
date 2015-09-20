@@ -1335,7 +1335,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text.</returns>
         public static string LivingPeople(string articleText, string articleTitle)
         {
-            if (Variables.LangCode.Equals("sco"))
+            if (Variables.LangCode.Equals("sco") || Variables.IsWikimediaMonolingualProject)
                 return articleText;
 
             Match m = WikiRegexes.BirthsCategory.Match(GetCats(articleText));
