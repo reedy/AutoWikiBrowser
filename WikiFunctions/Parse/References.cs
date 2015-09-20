@@ -117,11 +117,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;\?\!]|$)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@"(?<=(?:/|ref) *)> *" + RefsPunctuation);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation.Replace(@"\!", "") + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;\?\!])" + RefsPunctuation.Replace(@"\!", "") + @"\1 *<");
         private static readonly Regex Footnote = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnb", "Sfnp", "Sfnm", "SfnRef", "Rp"});
         private static readonly Regex PunctuationAfterFootnote = new Regex(@"(?<sfn>" + Footnote + @")(?<punc>[,\.;:\?\!])");
         private static readonly Regex FootnoteAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation + @"\2 *(?<sfn>" + Footnote + @")");
-        private static readonly Regex FootnoteAfterDupePunctuationQuick = new Regex(RefsPunctuation + @"\1 *" + Footnote);
 
         /// <summary>
         /// Puts &lt;ref&gt; and {{sfn}} references after punctuation (comma, full stop) per WP:REFPUNC
@@ -148,10 +146,19 @@ namespace WikiFunctions.Parse
                 }
             }
 
+            // Performance: avoid running slow "after punctuation" regexes where possible so split article text
+            // on start of template or tag, then look at last two characters of strings, run regexes if last two characters are duplicate punctuation
+            // Use DeduplicateList to further improve performance
+            List<string> tex = articleText.Split("{<".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+            tex = Tools.DeduplicateList(tex).Where(t => t.Length > 1).Select(s => s.Substring(s.Length-2)).ToList();
+
+            bool dupePunctuationFound = Tools.DeduplicateList(tex).Any(s => Regex.IsMatch(s, @"([,\.;:\?])\1"));
+
             // clean duplicate punctuation before ref, not for !!, could be part of wiki table
-            if (RefsAfterDupePunctuationQuick.IsMatch(articleText))
+            if (dupePunctuationFound)
                 articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
-            if (hasFootnote && FootnoteAfterDupePunctuationQuick.IsMatch(articleText))
+
+            if (hasFootnote && dupePunctuationFound)
                 articleText = FootnoteAfterDupePunctuation.Replace(articleText, "$1$2${sfn}");
 
             // if there have been changes need to call FixReferenceTags in case punctation moved didn't have witespace after it  
