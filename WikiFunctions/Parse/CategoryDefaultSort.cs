@@ -80,7 +80,7 @@ namespace WikiFunctions.Parse
             else
                 articleText += cat;
 
-            return SortMetaData(articleText, articleTitle, false); //Sort metadata ordering so general fixes do not need to be enabled
+            return SortMetaData(articleText, articleTitle, false); // Sort metadata ordering so general fixes do not need to be enabled
         }
 
         // Covered by: RecategorizerTests.Replacement()
@@ -109,13 +109,13 @@ namespace WikiFunctions.Parse
         /// <returns>The re-categorised article text.</returns>
         public static string ReCategoriser(string oldCategory, string newCategory, string articleText, out bool noChange, bool removeSortKey)
         {
-            //remove category prefix
+            // remove category prefix
             oldCategory = Regex.Replace(oldCategory, "^"
                                         + Variables.NamespacesCaseInsensitive[Namespace.Category], "", RegexOptions.IgnoreCase);
             newCategory = Regex.Replace(newCategory, "^"
                                         + Variables.NamespacesCaseInsensitive[Namespace.Category], "", RegexOptions.IgnoreCase);
 
-            //format categories properly
+            // format categories properly
             articleText = FixCategories(articleText);
 
             string testText = articleText;
@@ -404,7 +404,7 @@ namespace WikiFunctions.Parse
                     ds = WikiRegexes.Defaultsort.Matches(articleText);
                     string defaultsortKey = ds[0].Groups["key"].Value;
 
-                    //Removes any explicit keys that are case insensitively the same as the default sort (To help tidy up on pages that already have defaultsort)
+                    // Removes any explicit keys that are case insensitively the same as the default sort (To help tidy up on pages that already have defaultsort)
                     articleText = ExplicitCategorySortkeys(articleText, defaultsortKey);
                 }
             }
