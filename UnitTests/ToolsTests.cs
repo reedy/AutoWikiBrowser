@@ -760,8 +760,19 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
 
             Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.custom));
             Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.wikia));
+            
+        }
 
+        [Test]
+        public void OrdeOfWikimediaProjects()
+        {
+        	// Be very causious if changing order or Wikimedia Projects
             Assert.IsTrue(ProjectEnum.commons > ProjectEnum.species);
+            Assert.IsTrue(ProjectEnum.meta > ProjectEnum.commons);
+            Assert.IsTrue(ProjectEnum.mediawiki > ProjectEnum.meta);
+            Assert.IsTrue(ProjectEnum.incubator > ProjectEnum.mediawiki);
+            Assert.IsTrue(ProjectEnum.wikia > ProjectEnum.incubator);
+            Assert.IsTrue(ProjectEnum.custom > ProjectEnum.wikia);
         }
 
         [Test]

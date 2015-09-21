@@ -287,13 +287,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikimediaMonolingualProject
         {
-            get
-            {
-                return (Project == ProjectEnum.commons || Project == ProjectEnum.meta
-                        || Project == ProjectEnum.species || Project == ProjectEnum.mediawiki
-                        || Project == ProjectEnum.incubator
-                        );
-            }
+            get { return Project >= ProjectEnum.species && Project < ProjectEnum.wikia; }
         }
 
         /// <summary>
