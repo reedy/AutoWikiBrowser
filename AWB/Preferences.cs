@@ -131,7 +131,7 @@ namespace AutoWikiBrowser
             ProjectEnum prj = Project;
 
             //disable language selection for single language projects
-            cmboLang.Enabled = !Variables.IsWikimediaMonolingualProject;
+            cmboLang.Enabled = prj < ProjectEnum.species;
 
             string temp = (cmboLang.SelectedItem != null) ? cmboLang.SelectedItem.ToString() : "";
 
