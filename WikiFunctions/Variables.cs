@@ -263,7 +263,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikimediaProject
         {
-            get { return Project <= ProjectEnum.species; }
+            get { return Project <= ProjectEnum.commons; }
         }
 
         /// <summary>

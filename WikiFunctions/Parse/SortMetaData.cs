@@ -60,7 +60,7 @@ namespace WikiFunctions.Parse
             if (Namespace.IsMainSpace(articleTitle) && NoIncludeIncludeOnlyProgrammingElement(articleText))
                 return articleText;
 
-            return (Variables.Project <= ProjectEnum.commons) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
+            return (Variables.IsWikimediaProject) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
         /// <summary>
