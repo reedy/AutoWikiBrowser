@@ -274,7 +274,8 @@ namespace WikiFunctions.Background
         /// checks wikilinks to make them bypass redirects 
         /// </summary>
         private void BypassRedirectsFunc()
-        {//checks links to make them bypass redirects and (TODO) disambigs
+        {
+        	// checks links to make them bypass redirects and (TODO) disambigs
             Dictionary<string, string> knownLinks = new Dictionary<string, string>();
 
             if (HasUI) UI.Worker = Thread.CurrentThread;
@@ -315,7 +316,7 @@ namespace WikiFunctions.Background
                     string value;
                     if (!knownLinks.TryGetValue(ftu, out value))
                     {
-                        //get text
+                        // get text
                         string text;
                         try
                         {
@@ -328,7 +329,7 @@ namespace WikiFunctions.Background
 
                         string dest = article;
 
-                        //test if redirect
+                        // test if redirect
                         if (Tools.IsRedirect(text))
                         {
                             dest = HttpUtility.UrlDecode(Tools.RedirectTarget(text).Replace("_", " "));
@@ -350,11 +351,11 @@ namespace WikiFunctions.Background
 
                 Result = StrParam;
                 InvokeOnComplete();
-                //UI.Close();
+                // UI.Close();
             }
             catch (Exception e)
             {
-                //UI.Close();
+                // UI.Close();
                 ErrorException = e;
                 InvokeOnError();
             }

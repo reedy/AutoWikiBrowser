@@ -596,7 +596,7 @@ namespace WikiFunctions.Lists.Providers
     {
         public LinksOnPageOnlyRedListProvider()
         {
-            Limit = 5000; //Cant imagine a page having more than 5000 links...
+            Limit = 5000; // Cant imagine a page having more than 5000 links...
         }
 
         #region Tags: <pages>/<page>
@@ -999,7 +999,7 @@ namespace WikiFunctions.Lists.Providers
     {
         public WikiTitleSearchListProvider()
         {
-            //SearchType = "title";
+            // SearchType = "title";
             SearchPrefix = "intitle:";
         }
 

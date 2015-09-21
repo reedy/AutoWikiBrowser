@@ -106,7 +106,8 @@ namespace WikiFunctions.Parse
         /// 
         /// </summary>
         public InterWikiOrderEnum InterWikiOrder
-        {//orders from https://meta.wikimedia.org/wiki/Interwiki_sorting_order
+        {
+        	// orders from https://meta.wikimedia.org/wiki/Interwiki_sorting_order
             set
             {
                 Order = value;
@@ -616,7 +617,7 @@ en, sq, ru
                 List<string> cp = new List<string>(stubList);
                 cp.RemoveAll(s => Tools.GetTemplateName(s).ToLower().StartsWith("uncategori"));
 
-                if(Parsers.GetAllTemplateDetail(ListToString(cp)).Count > 1)
+                if (Parsers.GetAllTemplateDetail(ListToString(cp)).Count > 1)
                     stubList.RemoveAll(s => Tools.GetTemplateName(s).TrimStart('-').ToLower().Equals("stub"));
             }
 
@@ -1225,8 +1226,8 @@ en, sq, ru
                     // compare on first letter case insensitive for templates
                     if (WikiRegexes.NestedTemplates.IsMatch(s2) && WikiRegexes.NestedTemplates.IsMatch(u))
                     {
-                        string s2upper = s2.Substring(1,3).ToUpper() + s2.Substring(3);
-                        string uupper = u.Substring(1,3).ToUpper() + u.Substring(3);
+                        string s2upper = s2.Substring(1, 3).ToUpper() + s2.Substring(3);
+                        string uupper = u.Substring(1, 3).ToUpper() + u.Substring(3);
                         if (s2upper.Equals(uupper))
                         {
                             addme = false;
@@ -1258,7 +1259,7 @@ en, sq, ru
         {
             name = Tools.MakeHumanCatKey(name, ""); // make key
 
-            //add key to cats that need it
+            // add key to cats that need it
             List<string> newCats = new List<string>();
             foreach (string s in list)
             {

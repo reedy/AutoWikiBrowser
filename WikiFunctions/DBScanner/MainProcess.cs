@@ -196,7 +196,7 @@ namespace WikiFunctions.DBScanner
 
                     if (From.Length > 0)
                     {
-                        //move to start from article
+                        // move to start from article
                         while (Run && reader.Read())
                         {
                             if (reader.NodeType != XmlNodeType.Element)
@@ -208,7 +208,7 @@ namespace WikiFunctions.DBScanner
                                 continue;
                             }
 
-                            //reader.ReadToFollowing("title");
+                            // reader.ReadToFollowing("title");
                             articleTitle = reader.ReadString();
 
                             if (From.Equals(articleTitle))

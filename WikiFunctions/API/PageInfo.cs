@@ -42,14 +42,14 @@ namespace WikiFunctions.API
 
             var redirects = doc.GetElementsByTagName("r");
 
-            if (redirects.Count >= 1) //We have redirects
+            if (redirects.Count >= 1) // We have redirects
             {
                 var first = redirects[0].Attributes;
                 var last = redirects[redirects.Count - 1].Attributes;
                 if (first != null && last != null && (first["from"].Value == last["to"].Value ||
                                                       last["from"].Value == last["to"].Value))
                 {
-                    //Redirect loop
+                    // Redirect loop
                     TitleChangedStatus = PageTitleStatus.RedirectLoop;
                     OriginalTitle = Title = first["from"].Value;
                     Exists = true;
@@ -58,7 +58,7 @@ namespace WikiFunctions.API
                 }
 
                 redirectFrom = first != null ? first["from"].Value : "";
-                //Valid redirects
+                // Valid redirects
                 TitleChangedStatus = redirects.Count == 1
                                          ? PageTitleStatus.Redirected
                                          : PageTitleStatus.MultipleRedirects;
@@ -79,7 +79,7 @@ namespace WikiFunctions.API
                 throw new Exception("Cannot find <page> element");
             }
 
-            //Normalised before redirect, so would be root. Could still be multiple redirects, or looped
+            // Normalised before redirect, so would be root. Could still be multiple redirects, or looped
             var normalised = doc.GetElementsByTagName("n");
 
             if (normalised.Count > 0 && normalised[0].Attributes != null)
@@ -92,7 +92,7 @@ namespace WikiFunctions.API
                     TitleChangedStatus |= PageTitleStatus.Normalised;
             }
 
-            //Normalisation occurs before redirection, so if that exists, that is the title passed to the API
+            // Normalisation occurs before redirection, so if that exists, that is the title passed to the API
             if (!string.IsNullOrEmpty(normalisedFrom))
             {
                 OriginalTitle = normalisedFrom;

@@ -62,7 +62,7 @@ namespace WikiFunctions
                 }
                 catch (ArgumentException ex)
                 {
-                    //TODO: handle things like "bad regex" here
+                    // TODO: handle things like "bad regex" here
                     // For now, tell the user then let normal exception handling process it as well
                     MessageBox.Show(ex.Message, "Bad Regex");
                     throw;

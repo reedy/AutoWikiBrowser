@@ -701,7 +701,7 @@ namespace WikiFunctions
         {
             List<string> Unknowns = new List<string>();
 
-            if (NameSpaceKey.Equals(Namespace.Mainspace) && WikiRegexes.MultipleIssues.IsMatch(string.Join("",Parsers.GetAllTemplateDetail(ArticleText).ToArray())))
+            if (NameSpaceKey.Equals(Namespace.Mainspace) && WikiRegexes.MultipleIssues.IsMatch(string.Join("", Parsers.GetAllTemplateDetail(ArticleText).ToArray())))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, MultipleIssuesKnowns);
             return Unknowns;
         }
@@ -1342,8 +1342,8 @@ namespace WikiFunctions
 
         #region Interfaces
 
-        //IMyTraceListener IProcessArticleEventArgs.AWBLogItem
-        //{ get { return mAWBLogListener; } }
+        // IMyTraceListener IProcessArticleEventArgs.AWBLogItem
+        // { get { return mAWBLogListener; } }
 
         string IProcessArticleEventArgs.ArticleTitle
         { get { return Name; } }
@@ -1385,7 +1385,7 @@ namespace WikiFunctions
         /// <param name="restrictDefaultsortAddition"></param>
         /// <param name="noMOSComplianceFixes"></param>
         public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags, bool restrictDefaultsortAddition, bool noMOSComplianceFixes)
-        { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
+        { // TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
             BeforeGeneralFixesTextChanged();
 
             // two flags for FixDates functionality

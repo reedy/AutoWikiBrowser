@@ -592,9 +592,9 @@ namespace WikiFunctions
                 text = text.Replace("%%subpagenamee%%", WikiEncode(subPageName));
 
                 // we need to use project's names, not user's
-                //text = text.Replace("{{CURRENTDAY}}", DateTime.Now.Day.ToString());
-                //text = text.Replace("{{CURRENTMONTHNAME}}", DateTime.Now.ToString("MMM"));
-                //text = text.Replace("{{CURRENTYEAR}}", DateTime.Now.Year.ToString());
+                // text = text.Replace("{{CURRENTDAY}}", DateTime.Now.Day.ToString());
+                // text = text.Replace("{{CURRENTMONTHNAME}}", DateTime.Now.ToString("MMM"));
+                // text = text.Replace("{{CURRENTYEAR}}", DateTime.Now.Year.ToString());
 
                 text = text.Replace("%%server%%", Variables.URL);
                 text = text.Replace("%%scriptpath%%", Variables.ScriptPath);
@@ -677,7 +677,7 @@ namespace WikiFunctions
             StringBuilder sb = new StringBuilder(s);
             
             for (int i = 0; i < n; i++)
-                sb.Insert(0,"\r\n");
+                sb.Insert(0, "\r\n");
             
             return sb.ToString();
         }
@@ -748,11 +748,11 @@ namespace WikiFunctions
         {
             int res = 0;
 
-            if(Parsers.TemplateExists(Parsers.GetAllTemplates(text), FlagIOC))
+            if (Parsers.TemplateExists(Parsers.GetAllTemplates(text), FlagIOC))
             {
                 res = FlagIOC.Matches(text).Count;
 
-                if(res >= limit)
+                if (res >= limit)
                     return limit;
             }
 

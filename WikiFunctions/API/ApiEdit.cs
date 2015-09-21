@@ -571,7 +571,7 @@ namespace WikiFunctions.API
         public void Login(string username, string password, string domain)
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentException("Username required", "username");
-            //if (string.IsNullOrEmpty(password)) throw new ArgumentException("Password required", "password");
+            // if (string.IsNullOrEmpty(password)) throw new ArgumentException("Password required", "password");
 
             Reset();
             User = new UserInfo(); // we don't know for sure what will be our status in case of exception
@@ -789,10 +789,10 @@ namespace WikiFunctions.API
             {
                 throw new ArgumentException("Can't save empty pages", "pageText");
             }
-            //if (string.IsNullOrEmpty(summary))
-            //{
-            //    throw new ArgumentException("Edit summary required", "summary");
-            //}
+            // if (string.IsNullOrEmpty(summary))
+            // {
+            //     throw new ArgumentException("Edit summary required", "summary");
+            // }
             if (Action != "edit")
             {
                 throw new ApiException(this, "This page is not opened properly for editing");
@@ -842,7 +842,7 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");
 
-            //Reset();
+            // Reset();
             Action = "delete";
 
             if (string.IsNullOrEmpty(Page.DeleteToken))
@@ -893,7 +893,7 @@ namespace WikiFunctions.API
                 {"reason", reason},
             };
 
-            //post.AddIfTrue(User.IsBot, "bot", null);
+            // post.AddIfTrue(User.IsBot, "bot", null);
             post.AddIfTrue(watch, "watch", null);
             var result2 = HttpPost(
                 new Dictionary<string, string>
@@ -930,7 +930,7 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");
 
-            //Reset();
+            // Reset();
             Action = "protect";
 
             if (string.IsNullOrEmpty(Page.ProtectToken))
@@ -1167,7 +1167,7 @@ namespace WikiFunctions.API
                                                                   + @"<!--\[if .*?-->"
                                                                   + @"|<style\b.*?>.*?</style>"
                                                                   + @"|<link rel=""stylesheet"".*?/\s?>"
-            //+ @"|<script type=""text/javascript"".*?</script>"
+            // + @"|<script type=""text/javascript"".*?</script>"
                                                                   + ")",
             RegexOptions.Singleline | RegexOptions.Compiled);
 
@@ -1373,7 +1373,7 @@ namespace WikiFunctions.API
 
                 switch (errorCode.ToLower())
                 {
-                    case "maxlag": //guessing
+                    case "maxlag": // guessing
                         int maxlag;
                         int.TryParse(MaxLag.Match(xml).Groups[1].Value, out maxlag);
                         throw new MaxlagException(this, maxlag, 10);
