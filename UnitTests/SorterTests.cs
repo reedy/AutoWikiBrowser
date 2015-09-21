@@ -1119,6 +1119,20 @@ foo";
             Assert.AreEqual(@"{{uncat|date=August 2014}}
 [[Category:One]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate uncat tags removed");
+
+            #if DEBUG
+            Variables.SetProjectSimple("en", ProjectEnum.species);
+
+            cats = @"[[Category:One]]
+[[Category:Two]]
+[[Category:One]]";
+
+            Assert.AreEqual(@"[[Category:One]]
+[[Category:Two]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, no sortkey");
+
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+            #endif            
         }
 
         [Test]
