@@ -1131,6 +1131,16 @@ foo";
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, no sortkey");
 
+            Variables.SetProjectSimple("en", ProjectEnum.commons);
+
+            cats = @"[[Category:One]]
+[[Category:Two]]
+[[Category:One]]";
+
+            Assert.AreEqual(@"[[Category:One]]
+[[Category:Two]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, no sortkey");
+
             Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
             #endif            
         }
