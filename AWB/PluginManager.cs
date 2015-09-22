@@ -204,7 +204,7 @@ namespace AutoWikiBrowser
 
             static string ErrorHandlerAppendToErrorHandler()
             {
-                if (AWBPlugins.Count == 0 && AWBBasePlugins.Count == 0 && ListMakerPlugins.Count == 0)
+            	if (!AWBPlugins.Any() && !AWBBasePlugins.Any() && !ListMakerPlugins.Any())
                     return "";
 
                 StringBuilder builder = new StringBuilder();
@@ -307,7 +307,8 @@ namespace AutoWikiBrowser
 
             public static void PurgeFailedPlugins()
             {
-                if (FailedPlugins.Count == 0) return;
+            	if (!FailedPlugins.Any())
+            		return;
 
                 foreach (IAWBPlugin p in FailedPlugins)
                 {
