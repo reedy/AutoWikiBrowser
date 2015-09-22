@@ -402,7 +402,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex SupTag = new Regex(@"<\s*sup\s*>((?>(?!<\s*/?\s*sup\s*>).|<\s*sup\s*>(?<DEPTH>)|<\s*/\s*sup\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*sup\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         private static readonly Regex SubTag = new Regex(@"<\s*sub\s*>((?>(?!<\s*/?\s*sub\s*>).|<\s*sub\s*>(?<DEPTH>)|<\s*/\s*sub\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*sub\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         private static readonly Regex AnyTag = new Regex(@"<([^<>]+)>");
-        private static readonly Regex TagToEnd = new Regex(@"<[^>]+$");
         private static readonly Regex SimpleTagPair = new Regex(@"<([^<>]+)>[^<>]+</\1>");
 
         /// <summary>
@@ -445,9 +444,16 @@ namespace WikiFunctions.Parse
             }
 
             // check for any unmatched tags or unclosed part tag
-            if (!unmatched && !TagToEnd.IsMatch(AnyTag.Replace(articleText, "")))
-                return back;
-            
+            if(!unmatched)
+            {
+                // now check for unclosed part tag
+                string noTags = AnyTag.Replace(articleText, "");
+                int tagOpen = noTags.IndexOf('<');
+
+                if(tagOpen == -1 || (tagOpen > 0 && noTags.Substring(tagOpen).Contains('>')))
+                    return back;
+            }
+
             // if here then have some unmatched tags, so do full clear down and search
             // performance of Refs/SourceCode is better if IgnoreCase avoided
             articleText = articleText.ToLower();
