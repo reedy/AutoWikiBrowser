@@ -538,14 +538,16 @@ namespace AutoWikiBrowser
         }
 
         /// <summary>
-        /// 
+        /// Displays You've been logged off message, opens profiles screen if not already open
         /// </summary>
         private void HandleLogoff()
         {
             MessageBox.Show("You've been logged off, probably due to loss of session data.\r\nPlease relogin.",
                             "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             Stop();
-            Profiles.ShowDialog(this);
+
+            if(!Profiles.Visible)
+                Profiles.ShowDialog(this);
         }
 
         /// <summary>
