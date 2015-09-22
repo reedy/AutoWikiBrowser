@@ -230,6 +230,7 @@ namespace AutoWikiBrowser
                         var fileInfo = new FileInfo(filename);
                         var watcher
                              = new FileSystemWatcher(fileInfo.Directory.FullName, fileInfo.Name);
+                        Tools.WriteDebug(string.Format("Deleting corrupt file {0}", filename), ex.Message);
                         File.Delete(filename);
                         if (File.Exists(filename))
                         {
