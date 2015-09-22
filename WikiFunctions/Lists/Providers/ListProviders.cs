@@ -1739,7 +1739,7 @@ namespace WikiFunctions.Lists.Providers
 
         public override string UserInputTextBoxText
         {
-            get { return "Property name"; }
+            get { return "Property name:"; }
         }
 
         public override bool UserInputTextBoxEnabled
