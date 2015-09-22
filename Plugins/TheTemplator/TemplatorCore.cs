@@ -59,8 +59,6 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             if (sender == null)
                 throw new ArgumentNullException("sender");
 
-            AWB = sender;
-
             // Menuitem should be checked when CFD plugin is active and unchecked when not, and default to not!
 
             pluginMenuItem.CheckedChanged += PluginEnabledCheckedChange;
