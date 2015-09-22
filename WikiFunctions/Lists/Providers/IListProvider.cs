@@ -86,4 +86,3 @@ namespace WikiFunctions.Lists.Providers
         bool NamespacesEnabled { get; }
     }
 }
-

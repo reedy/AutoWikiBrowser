@@ -1748,9 +1748,9 @@ namespace WikiFunctions.Lists.Providers
         }
 
         public override void Selected() { }
+        #endregion
 
         public bool PagesNeeded { get { return true; } }
         public bool NamespacesEnabled { get { return false; } }
-        #endregion
     }
 }
