@@ -1439,7 +1439,7 @@ namespace WikiFunctions.API
             if (api == null) return doc;
 
             var redirects = api.GetElementsByTagName("r");
-            if (action == "query" && redirects.Count >= 1) //We have redirects
+            if (action == "query" && redirects.Count > 0) //We have redirects
             {
                 // Workaround for https://phabricator.wikimedia.org/T41492
                 if (Namespace.IsSpecial(Namespace.Determine(redirects[redirects.Count - 1].Attributes["to"].Value)))
