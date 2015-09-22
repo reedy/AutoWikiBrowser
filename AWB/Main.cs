@@ -1352,7 +1352,7 @@ namespace AutoWikiBrowser
                     Errors.Add(kvp.Key, kvp.Value);
             }
 
-            if (Errors.Count > 0)
+            if (Errors.Any())
                 HighlightErrors(Errors);
         }
 
@@ -1668,7 +1668,7 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("External Program");
 
-                if (Plugin.AWBPlugins.Count > 0)
+                if (Plugin.AWBPlugins.Any())
                 {
                     foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.AWBPlugins)
                     {
@@ -5086,7 +5086,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 UserTalkWarningsLoaded = false;
             }
 
-            if (UserTalkTemplates.Count > 0)
+            if (UserTalkTemplates.Any())
                 UserTalkTemplatesRegex = Tools.NestedTemplateRegex(UserTalkTemplates);
         }
 

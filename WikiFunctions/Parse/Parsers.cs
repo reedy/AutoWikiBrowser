@@ -1251,7 +1251,7 @@ namespace WikiFunctions.Parse
             List<string> BD = new List<string>();
             foreach (Match m in BirthDate.Matches(articleText))
             {
-                if (BD.Count > 0 && !BD.Contains(m.Value))
+            	if (BD.Any() && !BD.Contains(m.Value))
                     return false;
 
                 BD.Add(m.Value);
@@ -1260,7 +1260,7 @@ namespace WikiFunctions.Parse
             List<string> DD = new List<string>();
             foreach (Match m in DeathDate.Matches(articleText))
             {
-                if (DD.Count > 0 && !DD.Contains(m.Value))
+            	if (DD.Any() && !DD.Contains(m.Value))
                     return false;
 
                 DD.Add(m.Value);

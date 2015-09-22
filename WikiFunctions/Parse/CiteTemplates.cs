@@ -814,7 +814,7 @@ namespace WikiFunctions.Parse
         /// <returns>If any matches were found</returns>
         public static bool AmbiguousCiteTemplateDates(string articleText)
         {
-            return AmbigCiteTemplateDates(articleText).Count > 0;
+        	return AmbigCiteTemplateDates(articleText).Any();
         }
 
         /// <summary>

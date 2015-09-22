@@ -657,7 +657,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 }
             }
 
-            if (!static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages && ActivePlugins.Count > 0)
+            if (!static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages && ActivePlugins.Any())
             {
                 if (AWBForm.SkipNonExistentPages.Checked)
                 {
@@ -711,7 +711,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         {
             if (AWBForm.TheSession.Editor.IsActive)
             {
-                if (ActivePlugins.Count > 0)
+            	if (ActivePlugins.Any())
                     _pluginSettings.AWBProcessingStart(sender);
             }
             else

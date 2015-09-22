@@ -912,7 +912,7 @@ namespace WikiFunctions.Parse
                     (tagsRemoved.Count == 1 ? "" : "s");
             }
 
-            if (tagsAdded.Count > 0)
+            if (tagsAdded.Any())
             {
                 if (!string.IsNullOrEmpty(summary))
                 {

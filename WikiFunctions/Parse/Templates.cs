@@ -191,7 +191,7 @@ namespace WikiFunctions.Parse
                     TFH2.Add(s);
             }
 
-            if (TFH2.Count > 0)
+            if (TFH2.Any())
             {
                 articleText = Tools.NestedTemplateRegex(TFH2).Replace(articleText, m2=>
                                                                       {
