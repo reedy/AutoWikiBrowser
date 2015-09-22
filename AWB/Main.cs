@@ -546,7 +546,7 @@ namespace AutoWikiBrowser
                             "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             Stop();
 
-            if(!Profiles.Visible)
+            if (!Profiles.Visible)
                 Profiles.ShowDialog(this);
         }
 
@@ -1750,6 +1750,7 @@ namespace AutoWikiBrowser
                                                            restrictDefaultsortChangesToolStripMenuItem.Checked,
                                                            noMOSComplianceFixesToolStripMenuItem.Checked);
                         }
+
                         Variables.Profiler.Profile("Mainspace Genfixes");
 
                         // auto tag
@@ -2793,86 +2794,88 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 int wordCount = Tools.WordCount(articleText);
                 int catCount = WikiRegexes.Category.Matches(articleText).Count;
+                
+                bool hasAlertsOn = !alertPreferences.Any();
 
-                if ((!alertPreferences.Any() || alertPreferences.Contains(12)) && TheArticle.NameSpaceKey == Namespace.Article  && wordCount > Parsers.StubMaxWordCount && WikiRegexes.Stub.IsMatch(templates))
+                if ((hasAlertsOn || alertPreferences.Contains(12)) && TheArticle.NameSpaceKey == Namespace.Article  && wordCount > Parsers.StubMaxWordCount && WikiRegexes.Stub.IsMatch(templates))
                     lbAlerts.Items.Add("Long article with a stub tag.");
 
-                if ((!alertPreferences.Any() || alertPreferences.Contains(14)) && catCount == 0 && !Namespace.IsTalk(TheArticle.Name))
+                if ((hasAlertsOn || alertPreferences.Contains(14)) && catCount == 0 && !Namespace.IsTalk(TheArticle.Name))
                     lbAlerts.Items.Add("No category (may be one in a template)");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Replace_nofootnotes_with_morefootnote_if_references_exists
-                if ((!alertPreferences.Any() || alertPreferences.Contains(7)) && TheArticle.NameSpaceKey == Namespace.Article && TheArticle.HasMorefootnotesAndManyReferences)
+                if ((hasAlertsOn || alertPreferences.Contains(7)) && TheArticle.NameSpaceKey == Namespace.Article && TheArticle.HasMorefootnotesAndManyReferences)
                     lbAlerts.Items.Add("Has 'No/More footnotes' template yet many references");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#.28Yet.29_more_reference_related_changes.
-                if ((!alertPreferences.Any() || alertPreferences.Contains(6)) && TheArticle.HasRefAfterReflist)
+                if ((hasAlertsOn || alertPreferences.Contains(6)) && TheArticle.HasRefAfterReflist)
                     lbAlerts.Items.Add(@"Has a <ref> after <references/>");
 
-                if ((!alertPreferences.Any() || alertPreferences.Contains(3)) && TheArticle.IsDisambiguationPageWithRefs)
+                if ((hasAlertsOn || alertPreferences.Contains(3)) && TheArticle.IsDisambiguationPageWithRefs)
                     lbAlerts.Items.Add(@"DAB page with <ref>s");
 
-                if ((!alertPreferences.Any() || alertPreferences.Contains(16)) && TheArticle.NameSpaceKey == Namespace.Article && articleText.StartsWith("=="))
+                if ((hasAlertsOn || alertPreferences.Contains(16)) && TheArticle.NameSpaceKey == Namespace.Article && articleText.StartsWith("=="))
                     lbAlerts.Items.Add("Starts with heading");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Format_references
-                if ((!alertPreferences.Any() || alertPreferences.Contains(19)) && TheArticle.HasBareReferences)
+                if ((hasAlertsOn || alertPreferences.Contains(19)) && TheArticle.HasBareReferences)
                     lbAlerts.Items.Add("Unformatted references");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Detect_multiple_DEFAULTSORT
-                if ((!alertPreferences.Any() || alertPreferences.Contains(13)) && WikiRegexes.Defaultsort.Matches(templates).Count > 1)
+                if ((hasAlertsOn || alertPreferences.Contains(13)) && WikiRegexes.Defaultsort.Matches(templates).Count > 1)
                     lbAlerts.Items.Add("Multiple DEFAULTSORTs");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Some_additional_edits
-                if (!alertPreferences.Any() || alertPreferences.Contains(4))
+                if (hasAlertsOn || alertPreferences.Contains(4))
                 {
                     deadLinks = TheArticle.DeadLinks();
                     if (deadLinks.Any())
                         lbAlerts.Items.Add("Dead links" + " (" + deadLinks.Count + ")");
                 }
 
-                if (!alertPreferences.Any() || alertPreferences.Contains(1))
+                if (hasAlertsOn || alertPreferences.Contains(1))
                 {
                     ambigCiteDates = TheArticle.AmbiguousCiteTemplateDates();
                     if (ambigCiteDates.Any())
                         lbAlerts.Items.Add("Ambiguous citation dates" + " (" + ambigCiteDates.Count + ")");
                 }
 
-                if (!alertPreferences.Any() || alertPreferences.Contains(17))
+                if (hasAlertsOn || alertPreferences.Contains(17))
                 {
                     unbalancedBracket = TheArticle.UnbalancedBrackets();
                     if (unbalancedBracket.Any())
                         lbAlerts.Items.Add("Unbalanced brackets" + " (" + unbalancedBracket.Count + ")");
                 }
 
-                if (!alertPreferences.Any() || alertPreferences.Contains(9))
+                if (hasAlertsOn || alertPreferences.Contains(9))
                 {
                     badCiteParameters = TheArticle.BadCiteParameters();
                     if (badCiteParameters.Any())
                         lbAlerts.Items.Add("Invalid citation parameter(s)" + " (" + badCiteParameters.Count + ")");
                 }
 
-                if (!alertPreferences.Any() || alertPreferences.Contains(11))
+                if (hasAlertsOn || alertPreferences.Contains(11))
                 {
                     targetlessLinks = TheArticle.TargetlessLinks();
                     if (targetlessLinks.Any())
                         lbAlerts.Items.Add("Links with no target" + " (" + targetlessLinks.Count + ")");
                 }
 
-                if (!alertPreferences.Any() || alertPreferences.Contains(10))
+                if (hasAlertsOn || alertPreferences.Contains(10))
                 {
                     doublepipeLinks = TheArticle.DoublepipeLinks();
                     if (doublepipeLinks.Any())
                         lbAlerts.Items.Add("Links with double pipes" + " (" + doublepipeLinks.Count + ")");
                 }
 
-                if (!alertPreferences.Any() || alertPreferences.Contains(5))
+                if (hasAlertsOn || alertPreferences.Contains(5))
                 {
                     dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
                     if (dupeBanerShellParameters.Any())
                         lbAlerts.Items.Add("Duplicate parameter(s) in WPBannerShell" + " (" + dupeBanerShellParameters.Count + ")");
                 }
 
-                if (!alertPreferences.Any() || alertPreferences.Contains(21))
+                if (hasAlertsOn || alertPreferences.Contains(21))
                 {
                     UnknownWikiProjectBannerShellParameters = TheArticle.UnknownWikiProjectBannerShellParameters();
                     if (UnknownWikiProjectBannerShellParameters.Any())
@@ -2884,7 +2887,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     }
                 }
 
-                if (!alertPreferences.Any() || alertPreferences.Contains(20))
+                if (hasAlertsOn || alertPreferences.Contains(20))
                 {
                     UnknownMultipleIssuesParameters = TheArticle.UnknownMultipleIssuesParameters();
                     if (UnknownMultipleIssuesParameters.Any())
@@ -2896,21 +2899,21 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     }
                 }
 
-                if (!alertPreferences.Any() || alertPreferences.Contains(8))
+                if (hasAlertsOn || alertPreferences.Contains(8))
                 {
                     wikilinkedHeaders = TheArticle.WikiLinkedHeaders();
                     if (wikilinkedHeaders.Any())
                         lbAlerts.Items.Add("Header(s) with wikilinks" + " (" + wikilinkedHeaders.Count + ")");
                 }
 
-                if (!alertPreferences.Any() || alertPreferences.Contains(18))
+                if (hasAlertsOn || alertPreferences.Contains(18))
                 {
                     unclosedTags = TheArticle.UnclosedTags();
                     if (unclosedTags.Any())
                         lbAlerts.Items.Add("Unclosed tag(s)" + " (" + unclosedTags.Count + ")");
                 }
 
-                if ((!alertPreferences.Any() || alertPreferences.Contains(15)) && TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
+                if ((hasAlertsOn || alertPreferences.Contains(15)) && TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
                 {
                     lbAlerts.Items.Add("See also section out of place");
 
@@ -2924,11 +2927,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 }
 
                 // check for {{sic}} tags etc. when doing typo fixes
-                if ((!alertPreferences.Any() || alertPreferences.Contains(2) || chkRegExTypo.Checked) && TheArticle.HasSicTag)
+                if ((hasAlertsOn || alertPreferences.Contains(2) || chkRegExTypo.Checked) && TheArticle.HasSicTag)
                     lbAlerts.Items.Add(@"Contains 'sic' tag");
 
                 // check for [[User: or [[[User talk:
-                if ((!alertPreferences.Any() || alertPreferences.Contains(22)) && TheArticle.NameSpaceKey == Namespace.Article)
+                if ((hasAlertsOn || alertPreferences.Contains(22)) && TheArticle.NameSpaceKey == Namespace.Article)
                 {
                     userSignature = TheArticle.UserSignature();
                     if (userSignature.Any())
@@ -3620,6 +3623,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 StatusLabelText = "Background process running";
                 return;
             }
+            
             _stopProcessing = false;
             Start();
         }
@@ -4112,7 +4116,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             DisableButtons();
 
             if (_intTimer > 0)
-            {//stop and reset the bot timer.
+            {// stop and reset the bot timer.
                 StopDelayedAutoSaveTimer();
                 EnableButtons();
                 return;
@@ -4988,7 +4992,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void NudgeTimer_Tick(object sender, NudgeTimer.NudgeTimerEventArgs e)
         {
-            //make sure there was no error and bot mode is still enabled
+            // make sure there was no error and bot mode is still enabled
             if (BotMode)
             {
                 // Tell plugins we're about to nudge, and give them the opportunity to cancel:
@@ -5857,7 +5861,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void clearCurrentListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (listMaker.Count > 0 && MessageBox.Show(this, "Do you want to clear the current list?", "Clear current list", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        	if (listMaker.Any() && MessageBox.Show(this, "Do you want to clear the current list?", "Clear current list", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 == DialogResult.Yes)
                 listMaker.Clear();
         }

@@ -163,7 +163,7 @@ namespace AutoWikiBrowser
                 bool hasErrors = false;
                 if (results.Errors.Count > 0)
                 {
-                    StringBuilder builder = new StringBuilder(); //"Compilation messages:\r\n");
+                    StringBuilder builder = new StringBuilder(); // "Compilation messages:\r\n");
                     foreach (CompilerError err in results.Errors)
                     {
                         hasErrors |= !err.IsWarning;

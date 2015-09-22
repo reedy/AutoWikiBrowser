@@ -23,11 +23,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Specialized;
 using System.Collections.Generic;
-using WikiFunctions;
 using System.Net;
 using System.IO;
-using WikiFunctions.Plugin;
 using System.Xml;
+using WikiFunctions;
+using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
 {

@@ -37,8 +37,8 @@ namespace AutoWikiBrowser
     internal sealed partial class PluginManager : Form
     {
         private readonly IAutoWikiBrowser _awb;
-        //List<string> prevArticlePlugins;
-        //List<string> prevLMPlugins;
+        // List<string> prevArticlePlugins;
+        // List<string> prevLMPlugins;
 
         private static string _lastPluginLoadedLocation;
 
@@ -46,7 +46,7 @@ namespace AutoWikiBrowser
         {
             InitializeComponent();
             _awb = awb;
-            //prevPlugins = previousPlugins;
+            // prevPlugins = previousPlugins;
         }
 
         public static void LoadNewPlugin(IAutoWikiBrowser awb)
