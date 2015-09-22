@@ -3713,8 +3713,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             switch (_listComparerUseCurrentArticleList)
             {
-                case 0: //Ask
-                    if (listMaker.Count > 0 &&
+                case 0: // Ask
+            		if (listMaker.Any() &&
                         MessageBox.Show("Would you like to copy your current Article List to the ListComparer?",
                                         "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
@@ -3723,10 +3723,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                     goto case 2;
 
-                case 1: //Always
+                case 1: // Always
                     Comparer = new ListComparer(listMaker, listMaker.GetArticleList());
                     break;
-                case 2: //Never
+                case 2: // Never
                     Comparer = new ListComparer(listMaker);
                     break;
             }
@@ -3738,8 +3738,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             switch (_listSplitterUseCurrentArticleList)
             {
-                case 0: //Ask
-                    if (listMaker.Count > 0 &&
+                case 0: // Ask
+                    if (listMaker.Any() &&
                         MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?",
                                         "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
@@ -3748,10 +3748,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                     goto case 2;
 
-                case 1: //Always
+                case 1: // Always
                     Splitter = new ListSplitter(MakePrefs(), listMaker.GetArticleList());
                     break;
-                case 2: //Never
+                case 2: // Never
                     Splitter = new ListSplitter(MakePrefs());
                     break;
             }
@@ -3768,7 +3768,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             switch (_dbScannerUseCurrentArticleList)
             {
-                case 0: //Ask
+                case 0: // Ask
                     if (MessageBox.Show("Would you like the results to be added to the ListMaker Article List?",
                                         "Add to ListMaker?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                         DialogResult.Yes)
@@ -3778,10 +3778,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                     goto case 2;
 
-                case 1: //Always
+                case 1: // Always
                     DBScanner = listMaker.DBScanner();
                     break;
-                case 2: //Never
+                case 2: // Never
                     DBScanner = new WikiFunctions.DBScanner.DatabaseScanner();
                     break;
             }
