@@ -160,7 +160,7 @@ namespace AutoWikiBrowser.Plugins.CFD
                         Settings.AppendToEditSummary = (bool)p.Setting;
                         break;
                 }
-                //Settings.Categories = (Dictionary<string, string>)pkp.Setting;
+                // Settings.Categories = (Dictionary<string, string>)pkp.Setting;
             }
         }
 
@@ -214,5 +214,3 @@ namespace AutoWikiBrowser.Plugins.CFD
         public bool AppendToEditSummary = true;
     }
 }
-
-
