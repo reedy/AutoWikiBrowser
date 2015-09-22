@@ -140,5 +140,3 @@ namespace WikiFunctions.Lists.Providers
         }
     }
 }
-
-

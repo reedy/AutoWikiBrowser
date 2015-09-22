@@ -1697,4 +1697,60 @@ namespace WikiFunctions.Lists.Providers
         public bool NamespacesEnabled
         { get { return false; } }
     }
+
+    public class PagesWithPropListProvider : ApiListProviderBase, ISpecialPageProvider
+    {
+        #region Tags: <pageswithprop>/<page>
+        protected override ICollection<string> PageElements
+        {
+            get { return new[] { "page" }; }
+        }
+
+        protected override ICollection<string> Actions
+        {
+            get { return new[] {"pageswithprop"}; }
+        }
+        #endregion
+
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string prop in searchCriteria)
+            {
+                string url = "list=pageswithprop&pwppropname="
+                             + HttpUtility.UrlEncode(prop) + "&pwplimit=max";
+
+                list.AddRange(ApiMakeList(url, list.Count));
+            }
+            return list;
+        }
+
+        public List<Article> MakeList(int @namespace, params string[] searchCriteria)
+        {
+            return MakeList(searchCriteria);
+        }
+
+        #region ListMaker properties
+        public override string DisplayText
+        {
+            get { return "Pages with a page property"; }
+        }
+
+        public override string UserInputTextBoxText
+        {
+            get { return "Property name"; }
+        }
+
+        public override bool UserInputTextBoxEnabled
+        {
+            get { return true; }
+        }
+
+        public override void Selected() { }
+
+        public bool PagesNeeded { get { return true; } }
+        public bool NamespacesEnabled { get { return false; } }
+        #endregion
+    }
 }
