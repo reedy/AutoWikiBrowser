@@ -3188,7 +3188,7 @@ Message: {2}
         /// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 is template arguments from bar to end, group 4 is arguments from bar without final }}</returns>
         public static Regex NestedTemplateRegex(ICollection<string> templatenames, bool compiled)
         {
-            if (templatenames.Count == 0)
+        	if (!templatenames.Any())
                 return null;
 
             string TemplateNamespace;

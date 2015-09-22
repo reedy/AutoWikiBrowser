@@ -90,7 +90,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (Portals.Count == 0)
+            if (!Portals.Any())
                 return articleText;
 
             // merge in new portal if multiple portals
