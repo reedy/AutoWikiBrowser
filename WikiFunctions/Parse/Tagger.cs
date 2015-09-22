@@ -503,20 +503,24 @@ namespace WikiFunctions.Parse
             bool PageHasReferences = TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(commentsCategoriesStripped).Count > 0;
             
             // rename unreferenced --> refimprove if has existing refs, update date
-            // if have both unreferenced and refimprove, and have some refs then just remove unreferenced
+            // if have both unreferenced and refimprove, and have some refs then just remove unreferenced provided not section template
             if (WikiRegexes.Unreferenced.IsMatch(templates) && PageHasReferences)
             {
                 articleText = Unreferenced.Replace(articleText, m2 => 
-                                                   {
-                                                       if (Tools.NestedTemplateRegex("Refimprove").IsMatch(articleText))
-                                                       {
-                                                           tagsRemoved.Add("unreferenced");
-                                                           return "";
-                                                       }
+                   {
+                        // no change if section template
+                       if(m2.Value.Contains("section"))
+                          return m2.Value;
 
-                                                       tagsrenamed++;
-                                                       return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "refimprove"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
-                                                   });
+                       if (Tools.NestedTemplateRegex("Refimprove").IsMatch(articleText))
+                       {
+                           tagsRemoved.Add("unreferenced");
+                           return "";
+                       }
+
+                       tagsrenamed++;
+                       return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "refimprove"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+                   });
             }
 
             // rename BLP unsourced --> BLP sources if has existing refs, update date
