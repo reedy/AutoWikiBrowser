@@ -166,7 +166,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         {
             string res;
 
-            if (ActivePlugins.Count == 0)
+            if (!ActivePlugins.Any())
                 return eventargs.ArticleText;
 
             Article theArticle;
@@ -565,7 +565,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 ActivePlugins.Remove(plugin);
 
-                if (ActivePlugins.Count == 0)
+                if (!ActivePlugins.Any())
                     AWBForm.RemoveTabPage(KingbotkPluginTab);
             }
             DefaultStatusText();
@@ -581,7 +581,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             Plugins.Remove(pg.GenericTemplateKey);
             if (ActivePlugins.Contains(p))
                 ActivePlugins.Remove(p);
-            if (ActivePlugins.Count == 0)
+            if (!ActivePlugins.Any())
                 AWBForm.RemoveTabPage(KingbotkPluginTab);
 
             var plugin = p as GenericTemplatePlugin;
@@ -718,7 +718,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 DefaultStatusText();
                 // If AWB has stopped and the list is empty we assume the job is finished, so close the log and upload:
-                if (AWBForm.ListMaker.Count == 0)
+                if (!AWBForm.ListMaker.Any())
                 {
                     AWBForm.TraceManager.Close();
                 }

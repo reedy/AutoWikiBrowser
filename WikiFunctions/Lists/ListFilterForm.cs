@@ -142,7 +142,7 @@ namespace WikiFunctions.Lists
         {
             List<int> selectedNS = pageNamespaces.GetSelectedNamespaces();
 
-            if (selectedNS.Count == 0)
+            if (!selectedNS.Any())
                 return;
 
             _list.RemoveAll(a => !selectedNS.Contains(a.NameSpaceKey));

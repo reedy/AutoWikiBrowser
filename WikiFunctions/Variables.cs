@@ -418,7 +418,8 @@ namespace WikiFunctions
             {
                 lock (DelayedRequests)
                 {
-                    if (DelayedRequests.Count == 0) return;
+                    if (DelayedRequests.Count == 0)
+                    	return;
                 }
                 Thread.Sleep(100);
             } while (true);
