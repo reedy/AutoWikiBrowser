@@ -1508,7 +1508,7 @@ namespace WikiFunctions.Lists.Providers
             List<Article> list = new List<Article>();
 
             string url = "list=recentchanges"
-                         + "&rclimit=500&rctype=new&rcshow=!redirect&rcnamespace=" + Namespace;
+                         + "&rclimit=max&rctype=new&rcshow=!redirect&rcnamespace=" + Namespace;
 
             list.AddRange(ApiMakeList(url, list.Count));
 
