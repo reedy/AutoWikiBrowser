@@ -604,7 +604,7 @@ namespace WikiFunctions.Parse
                 articleText = articleText.Substring(cutoff);
 
                 // don't apply if there are uncosed tags
-                if (UnclosedTags(articleText).Count == 0)
+                if (!UnclosedTags(articleText).Any())
                 {
                     articleText = SmallTagRegexes.Aggregate(articleText, (current, rx) => rx.Replace(current, FixSmallTagsME));
 
