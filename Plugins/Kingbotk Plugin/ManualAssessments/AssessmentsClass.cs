@@ -233,7 +233,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
         private void LoadTalkPage()
         {
-            //State.blnWaitingForATalkPage = True
+            // State.blnWaitingForATalkPage = True
 
             ToggleAWBCleanup(false);
 

@@ -25,7 +25,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 
         private void ListView1_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            //HACK:For some reason, during the setup phases, the items are there, but aren't assigned. And are null
+            // HACK:For some reason, during the setup phases, the items are there, but aren't assigned. And are null
             if (ListView1.Items[ListView1.Items.Count - 1] != null)
             {
                 if (e.Item.Text == "Living" && e.Item.Checked)

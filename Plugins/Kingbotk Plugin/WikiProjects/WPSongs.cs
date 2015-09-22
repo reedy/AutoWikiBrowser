@@ -83,7 +83,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             return "{{" + PluginName + WriteOutParameterToHeader("class");
         }
 
-        //User interface:
+        // User interface:
         protected override void ShowHideOurObjects(bool visible)
         {
             PluginManager.ShowHidePluginTab(_ourTab, visible);

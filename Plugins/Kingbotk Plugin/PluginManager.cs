@@ -270,7 +270,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                     break;
 
                 case Namespace.CategoryTalk:
-                case 101: //101 is Portal Talk 
+                case 101: // 101 is Portal Talk 
                 case Namespace.ProjectTalk:
                 case Namespace.TemplateTalk:
                 case Namespace.FileTalk:
@@ -308,7 +308,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
             if (!eventargs.Skip)
             {
-                //TempHackInsteadOfDefaultSettings:
+                // TempHackInsteadOfDefaultSettings:
                 if (AWBForm.EditSummaryComboBox.Text == "clean up")
                     AWBForm.EditSummaryComboBox.Text = "Tagging";
             }
@@ -320,7 +320,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             return res;
             SkipBadNamespace:
 
-            //FIXME
+            // FIXME
             var eaES = eventargs.EditSummary;
             var eaSkip = eventargs.Skip;
             res = Skipping(ref eaES, "", SkipReason.BadNamespace, eventargs.ArticleText, ref eaSkip);
@@ -524,7 +524,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         {
             if (visible)
             {
-                //If Not AWBForm.ContainsTabPage(tabp) Then
+                // If Not AWBForm.ContainsTabPage(tabp) Then
                 bool containedMainTab = AWBForm.ContainsTabPage(KingbotkPluginTab);
 
                 if (containedMainTab)
@@ -532,8 +532,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 AWBForm.AddTabPage(tabp);
                 if (containedMainTab)
                     AWBForm.AddTabPage(KingbotkPluginTab);
-                //End If
-                //If AWBForm.ContainsTabPage(tabp) Then
+                // End If
+                // If AWBForm.ContainsTabPage(tabp) Then
             }
             else
             {
