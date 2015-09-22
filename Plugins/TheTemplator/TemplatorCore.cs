@@ -574,7 +574,6 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         // 11. To extract the whitespace pattern which follows the value
         internal static readonly Regex trailingWhiteSpaceRegex = new Regex(@"(?<=\S)\s*$", RegexOptions.Compiled | RegexOptions.Singleline);
 
-        private static WikiFunctions.Plugin.IAutoWikiBrowser AWB;
         internal static TemplatorSettings Settings = new TemplatorSettings();
         private static readonly TemplatorSettings defaultSettings = new TemplatorSettings();
 
