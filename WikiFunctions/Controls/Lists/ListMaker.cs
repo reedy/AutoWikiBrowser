@@ -81,6 +81,9 @@ namespace WikiFunctions.Controls.Lists
         {
             if (DefaultProviders.Count == 0)
             {
+#if DEBUG
+                DefaultProviders.Add(new PagesWithPropJsonListProvider());
+#endif
                 DefaultProviders.Add(new CategoryListProvider());
                 DefaultProviders.Add(new CategoryRecursiveListProvider());
                 DefaultProviders.Add(new CategoryRecursiveOneLevelListProvider());

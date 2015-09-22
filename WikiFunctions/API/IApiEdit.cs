@@ -277,6 +277,13 @@ namespace WikiFunctions.API
         /// </summary>
         /// <param name="queryParameters"></param>
         /// <returns></returns>
+        string QueryApiJson(string queryParameters);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="queryParameters"></param>
+        /// <returns></returns>
         string ParseApi(Dictionary<string, string> queryParameters);
     }
 }

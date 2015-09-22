@@ -326,6 +326,7 @@
     <Compile Include="SubstTemplates.Designer.cs">
       <DependentUpon>SubstTemplates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Lists\Providers\ApiJsonListProviderBase.cs" />
     <None Include="SvnInfo.template.cs" />
     <Compile Include="Summary.cs" />
     <Compile Include="SvnInfo.cs" />
