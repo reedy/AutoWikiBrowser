@@ -33,7 +33,6 @@ namespace WikiFunctions.Parse
     /// </summary>
     public partial class Parsers
     {
-
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
         /// </summary>
@@ -201,7 +200,7 @@ namespace WikiFunctions.Parse
             }
 
             // remove empty <gallery>, <center>, <blockquote>, <sub> or <sup> tags, allow for nested tags
-            if (SimpleTagsList.Any(s => EmptyTagsList.Contains(s)))
+            if (SimpleTagsList.Any(EmptyTagsList.Contains))
             {
                 while(EmptyTags.IsMatch(articleText))
                     articleText = EmptyTags.Replace(articleText, "");
