@@ -13,7 +13,7 @@ namespace Fronds
         {
             InitializeComponent();
 
-            //Inefficient, but does work..
+            // Inefficient, but does work..
             foreach (string text in possibleFronds)
             {
                 bool checkme = false;
@@ -25,6 +25,7 @@ namespace Fronds
                         break;
                     }
                 }
+
                 listOptionsFronds.Items.Add(text, checkme);
             }
         }
@@ -36,7 +37,7 @@ namespace Fronds
 
         private void btnOptionsOK_Click(object sender, EventArgs e)
         {
-            //TODO:Improve this code so we're not reloading Fronds unnecesserily
+            // TODO:Improve this code so we're not reloading Fronds unnecesserily
             Fronds.Replacements.Clear();
             Fronds.Settings.EnabledFilenames.Clear();
 
@@ -47,7 +48,7 @@ namespace Fronds
                                     (item.Length - item.LastIndexOf("(") - 2)));
             }
 
-            //Loaded selected fronds
+            // Loaded selected fronds
             foreach (int index in listOptionsFronds.CheckedIndices)
             {
                 XmlDocument xd = new XmlDocument();
@@ -67,12 +68,13 @@ namespace Fronds
                                       : RegexOptions.IgnoreCase, xn.ChildNodes[1].InnerText));
                 }
             }
+
             Close();
         }
 
         private void linkWikipedia_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Tools.OpenENArticleInBrowser("WP:FRONDS",false);
+            Tools.OpenENArticleInBrowser("WP:FRONDS", false);
         }
 
         private void linkToolserver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

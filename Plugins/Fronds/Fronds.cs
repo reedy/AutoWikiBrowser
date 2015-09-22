@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml;
-using WikiFunctions;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using WikiFunctions;
 using WikiFunctions.Plugin;
 using WikiFunctions.AWBSettings;
 
@@ -12,7 +12,7 @@ namespace Fronds
     {
         private readonly ToolStripMenuItem EnabledMenuItem = new ToolStripMenuItem("Fronds plugin");
         private readonly ToolStripMenuItem ConfigMenuItem = new ToolStripMenuItem("Configuration");
-        //private readonly ToolStripMenuItem PluginAboutMenuItem = new ToolStripMenuItem("About");
+        // private readonly ToolStripMenuItem PluginAboutMenuItem = new ToolStripMenuItem("About");
         private readonly ToolStripMenuItem AboutMenuItem = new ToolStripMenuItem("About Fronds");
 
         private static IAutoWikiBrowser AWB;
@@ -39,17 +39,17 @@ namespace Fronds
             ConfigMenuItem.Click += ShowSettings;
             EnabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
             AboutMenuItem.Click += AboutMenuItemClicked;
-            //PluginAboutMenuItem.Click += AboutMenuItemClicked;
+            // PluginAboutMenuItem.Click += AboutMenuItemClicked;
 
-            //EnabledMenuItem.DropDownItems.AddRange(new[] { ConfigMenuItem, PluginAboutMenuItem });
-            EnabledMenuItem.DropDownItems.AddRange(new[] { ConfigMenuItem});
+            // EnabledMenuItem.DropDownItems.AddRange(new[] { ConfigMenuItem, PluginAboutMenuItem });
+            EnabledMenuItem.DropDownItems.AddRange(new[] { ConfigMenuItem });
             AWB.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
             AWB.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
         }
 
         public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
         {
-            //If menu item is not checked, then return
+            // If menu item is not checked, then return
             if (!PluginEnabled)
             {
                 eventargs.Skip = false;
@@ -165,7 +165,7 @@ namespace Fronds
 
         public void Reset()
         {
-            //set default settings
+            // set default settings
             Settings = new FrondsSettings();
             PluginEnabled = false;
         }
