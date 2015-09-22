@@ -98,6 +98,8 @@
     <Compile Include="Lists\Providers\AdvancedRegexHtmlScraper.Designer.cs">
       <DependentUpon>AdvancedRegexHtmlScraper.cs</DependentUpon>
     </Compile>
+    <Compile Include="Lists\Providers\CategoryProviderBase.cs" />
+    <Compile Include="Lists\Providers\ListProviderException.cs" />
     <Compile Include="Lists\Providers\NonMWListProviders.cs" />
     <Compile Include="Logging\ArticleActionListView.cs">
       <SubType>Component</SubType>
@@ -218,7 +220,7 @@
       <DependentUpon>FindandReplace.cs</DependentUpon>
     </Compile>
     <Compile Include="Lists\Providers\IListProvider.cs" />
-    <Compile Include="Lists\Providers\ListProviderBase.cs" />
+    <Compile Include="Lists\Providers\ApiListProviderBase.cs" />
     <Compile Include="Lists\Providers\ListProviders.cs">
     </Compile>
     <Compile Include="Controls\Lists\ListSplitter.cs">

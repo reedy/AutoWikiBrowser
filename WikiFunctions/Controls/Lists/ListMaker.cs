@@ -59,7 +59,8 @@ namespace WikiFunctions.Controls.Lists
         AdvHtmlScraperLProvider = new AdvancedRegexHtmlScraper(),
         CheckWikiLProvider = new CheckWikiListProvider(),
         CheckWikiWithNumberLProvider = new CheckWikiWithNumberListProvider(),
-        UserContribLProvider = new UserContribsListProvider();
+        UserContribLProvider = new UserContribsListProvider(),
+        PagesWithProvider = new PagesWithPropListProvider();
         #endregion
 
         public event ListMakerEventHandler StatusTextChanged,
@@ -108,7 +109,7 @@ namespace WikiFunctions.Controls.Lists
                 DefaultProviders.Add(new SpecialPageListProvider(WhatLinksHereLProvider, NewPagesLProvider,
                                                                  CategoriesOnPageLProvider, RandomPagesLProvider,
                                                                  WhatTranscludesLProvider, RedirectLProvider,
-                                                                 UserContribLProvider));
+                                                                 UserContribLProvider, PagesWithProvider));
                 DefaultProviders.Add(new ImageFileLinksListProvider());
                 DefaultProviders.Add(new MyWatchlistListProvider());
                 DefaultProviders.Add(new WikiSearchListProvider());
@@ -119,6 +120,7 @@ namespace WikiFunctions.Controls.Lists
                 DefaultProviders.Add(RedirectLProvider);
                 DefaultProviders.Add(new RedirectsAllNSListProvider());
                 DefaultProviders.Add(NewPagesLProvider);
+                DefaultProviders.Add(PagesWithProvider);
             }
         }
 
