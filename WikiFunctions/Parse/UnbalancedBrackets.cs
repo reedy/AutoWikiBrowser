@@ -417,7 +417,8 @@ namespace WikiFunctions.Parse
             // Then do full tag search if unmatched tags found
 
             // get all tags in format <tag...> in article
-            List<string> AnyTagList = (from Match m in AnyTag.Matches(articleText)
+            MatchCollection anyTagMatchCollection = AnyTag.Matches(articleText);
+            List<string> AnyTagList = (from Match m in anyTagMatchCollection
                 select m.Groups[1].Value.Trim().ToLower()).ToList();
 
             // discard self-closing tags in <tag/> format, discard wiki comments
@@ -447,7 +448,7 @@ namespace WikiFunctions.Parse
             if(!unmatched)
             {
                 // now check for unclosed part tag
-                string noTags = AnyTag.Replace(articleText, "");
+                string noTags = Tools.ReplaceWithSpaces(articleText, anyTagMatchCollection);
                 int tagOpen = noTags.IndexOf('<');
 
                 if(tagOpen == -1 || (tagOpen > 0 && noTags.Substring(tagOpen).Contains('>')))
