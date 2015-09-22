@@ -80,31 +80,58 @@ namespace WikiFunctions.Parse
             
             foreach(char c in articleText.ToCharArray())
             {
-                if (c == '[')
+                // if more closing that opening then have found unbalanced brackets
+
+                if(c == '[')
                     square++;
-                else if (c == ']')
+                else if(c == ']')
+                {
                     square--;
-                else if (c == '{')
+
+                    if(square < 0)
+                    {
+                        hasUnbalanced = true;
+                        break;
+                    }
+                } 
+                else if(c == '{')
                     curly++;
-                else if (c == '}')
+                else if(c == '}')
+                {
                     curly--;
+
+                    if(curly < 0)
+                    {
+                        hasUnbalanced = true;
+                        break;
+                    }
+                }
                 else if (c == '(')
                     round++;
                 else if (c == ')')
+                {
                     round--;
+
+                    if(round < 0)
+                    {
+                        hasUnbalanced = true;
+                        break;
+                    }
+                }
                 else if (c == '<')
                     chevron++;
                 else if (c == '>')
-                    chevron--;
-                
-                // if more closing that opening then have found unbalanced brackets
-                if (square < 0 || curly < 0 || round < 0 || chevron < 0)
                 {
-                    hasUnbalanced = true;
-                    break;
+                    chevron--;
+
+                    if(chevron < 0)
+                    {
+                        hasUnbalanced = true;
+                        break;
+                    }
                 }
             }
-            
+
             // if > 0 residual, means more opening brackets than closing
             if (!hasUnbalanced && square == 0 && curly == 0 && round == 0 && chevron == 0)
                 return -1;
