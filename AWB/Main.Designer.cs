@@ -4584,7 +4584,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshHistoryToolStripMenuItem;
         private System.Windows.Forms.Button btnProtect;
-        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
         private System.Windows.Forms.ToolStripMenuItem profilesToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkMinor;
         private System.Windows.Forms.GroupBox groupBox16;

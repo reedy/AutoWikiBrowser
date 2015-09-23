@@ -985,7 +985,6 @@ namespace AutoWikiBrowser
                 }
             }
 
-
             /* skip pages containing any Unicode character in Private Use Area as RichTextBox seems to break these
              * not exactly wrong as PUA characters won't be found in standard text, but not exactly right to break them either
              * Reference: [[Unicode#Character General Category]] PUA is U+E000 to U+F8FF */
@@ -1593,7 +1592,6 @@ namespace AutoWikiBrowser
 
         private void SkipPage(string reason)
         {
-
             if (TheArticle == null)
             {
                 DisableButtons();
@@ -2486,7 +2484,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                         break;
                 }
             }
-
 
             // check to see if we have only edited one level-2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
