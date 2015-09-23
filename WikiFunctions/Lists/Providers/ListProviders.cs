@@ -760,7 +760,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Gets the user contribs of the Named Users
+    /// Gets the user contributions of the Named Users
     /// </summary>
     public class UserContribsListProvider : ApiListProviderBase, ISpecialPageProvider
     {
@@ -842,7 +842,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Gets the specified number of user contribs for the Named Users
+    /// Gets the specified number of user contributions for the Named Users
     /// </summary>
     public class UserContribUserDefinedNumberListProvider : UserContribsListProvider
     {

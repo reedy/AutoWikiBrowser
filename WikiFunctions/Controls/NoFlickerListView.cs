@@ -137,7 +137,7 @@ namespace WikiFunctions.Controls
         }
 
         /// <summary>
-        /// Automatically resize all the coloum in the list view based on whether the text or the title is larger
+        /// Automatically resize all the columns in the list view based on whether the text or the title is larger
         /// No BeginUpdate()/EndUpdate called
         /// </summary>
         public void ResizeColumns()
@@ -178,7 +178,7 @@ namespace WikiFunctions.Controls
         }
 
         /// <summary>
-        /// Automatically resize all the coloum in the list view based on whether the text or the title is larger
+        /// Automatically resize all the columns in the list view based on whether the text or the title is larger
         /// </summary>
         /// <param name="useUpdateMethods">Whether to call BeginUpdate() and EndUpdate()</param>
         public void ResizeColumns(bool useUpdateMethods)

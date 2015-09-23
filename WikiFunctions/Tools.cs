@@ -269,7 +269,7 @@ namespace WikiFunctions
         /// Converts Roman numerals in the range I to CCCCXCIX to Arabic number
         /// </summary>
         /// <param name="Roman">Roman numerals</param>
-        /// <returns>Abrabic number as string with leading zero for 1–9</returns>
+        /// <returns>Arabic number as string with leading zero for 1–9</returns>
         public static string RomanToInt(string Roman)
         {
             int converted = 0;
@@ -1502,7 +1502,7 @@ Message: {2}
 
         // Covered by ToolsTests.ReplaceOnce()
         /// <summary>
-        /// Replaces first occurence of a given text within a StringBuilder
+        /// Replaces first occurrence of a given text within a StringBuilder
         /// </summary>
         /// <param name="text">Text to be processed</param>
         /// <param name="oldValue">Text to be replaced</param>
@@ -1710,7 +1710,7 @@ Message: {2}
         /// Expands (substitutes) template calls using the API
         /// </summary>
         /// <param name="articleText">The text of the article</param>
-        /// <param name="articleTitle">The title of the artlce</param>
+        /// <param name="articleTitle">The title of the article</param>
         /// <param name="regexes">Dictionary of templates to substitute</param>
         /// <param name="includeComment"></param>
         /// <returns>The updated article text</returns>
@@ -2041,7 +2041,7 @@ Message: {2}
 
         // Covered by ToolsTests.FilterSomeArticles()
         /// <summary>
-        /// Filter out articles which we definately do not want to edit and remove duplicates.
+        /// Filter out articles which we definitely do not want to edit and remove duplicates.
         /// (Filters MediaWiki (and talk) NS, Commons, and where NS is less than 0)
         /// </summary>
         /// <param name="unfilteredArticles">Original unfiltered article list</param>
@@ -2304,7 +2304,7 @@ Message: {2}
         private static readonly Regex MonthYear = new Regex(@"^\w+ \d{4}$", RegexOptions.Compiled);
         
         /// <summary>
-        /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
+        /// Returns the input date in the requested format (American or International). If another Locale is passed in the input date is returned. For en-wiki only.
         /// </summary>
         /// <param name="inputDate">string representing a date, any format that C# can parse</param>
         /// <param name="locale">Locale of output date required (American/International/ISO)</param>
@@ -2315,7 +2315,7 @@ Message: {2}
         }
         
         /// <summary>
-        /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
+        /// Returns the input date in the requested format (American or International). If another Locale is passed in the input date is returned. For en-wiki only.
         /// </summary>
         /// <param name="inputDate">string representing a date, any format that C# can parse</param>
         /// <param name="locale">Locale of output date required (American/International/ISO)</param>
@@ -2393,7 +2393,7 @@ Message: {2}
 
         /// <summary>
         /// Appends the input parameter and value to the input template
-        /// Determines whether to put parameter on newline, and whether to put space after pipe based on existing template paremeters' formatting
+        /// Determines whether to put parameter on newline, and whether to put space after pipe based on existing template parameters' formatting
         /// </summary>
         /// <param name="templateCall">The input template call</param>
         /// <param name="parameter">The input parameter name</param>
@@ -2570,7 +2570,7 @@ Message: {2}
         }
         
         /// <summary>
-        /// Returns the index of the given argumment from the input template call
+        /// Returns the index of the given argument from the input template call
         /// </summary>
         /// <param name="templateCall">The template call</param>
         /// <param name="argument">The argument to find</param>
@@ -3310,7 +3310,7 @@ Message: {2}
         }
         
         /// <summary>
-        /// Replaces escaped characters in XML with the single character: apotrophe, quote, greater than, less than, ampersand
+        /// Replaces escaped characters in XML with the single character: apostrophe, quote, greater than, less than, ampersand
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>

@@ -117,7 +117,7 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// Waits for asyncronous operation to complete
+        /// Waits for asynchronous operation to complete
         /// </summary>
         public void Wait()
         {

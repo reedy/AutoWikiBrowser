@@ -28,7 +28,7 @@ namespace WikiFunctions.CustomModules
         { get; }
 
         /// <summary>
-        /// Code to be apppended to module's source text
+        /// Code to be appended to module's source text
         /// </summary>
         public abstract string CodeEnd
         { get; }

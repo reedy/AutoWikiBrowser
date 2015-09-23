@@ -654,7 +654,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Returns a dictionary of the index and length of any user or user talk occurence
+        /// Returns a dictionary of the index and length of any user or user talk occurrence
         /// </summary>
         /// <returns></returns>
         public Dictionary<int, int> UserSignature()
@@ -1143,7 +1143,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// '''Emboldens''' the first occurence of the article title, if not already bold
+        /// '''Emboldens''' the first occurrence of the article title, if not already bold
         /// </summary>
         /// <param name="parsers"></param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
