@@ -281,7 +281,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoImgChange = new System.Windows.Forms.CheckBox();
             this.chkSkipCosmetic = new System.Windows.Forms.CheckBox();
             this.lblSummary = new System.Windows.Forms.Label();
-            this.txtReviewEditSummary = new System.Windows.Forms.TextBox();
+            this.txtReviewEditSummary = new System.Windows.Forms.RichTextBox();
             this.imgBold = new System.Windows.Forms.PictureBox();
             this.imgItalics = new System.Windows.Forms.PictureBox();
             this.imgLink = new System.Windows.Forms.PictureBox();
@@ -2700,9 +2700,10 @@ namespace AutoWikiBrowser
             this.txtReviewEditSummary.Location = new System.Drawing.Point(291, 3);
             this.txtReviewEditSummary.Multiline = true;
             this.txtReviewEditSummary.Name = "txtReviewEditSummary";
-            this.txtReviewEditSummary.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtReviewEditSummary.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.txtReviewEditSummary.Size = new System.Drawing.Size(103, 29);
             this.txtReviewEditSummary.TabIndex = 13;
+            this.txtReviewEditSummary.DetectUrls = false;
             this.ToolTip.SetToolTip(this.txtReviewEditSummary, "The edit summary for the page");
             // 
             // imgBold
@@ -4715,7 +4716,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.PictureBox imgItalics;
         private System.Windows.Forms.PictureBox imgBold;
         private WikiFunctions.Controls.ArticleTextBox txtEdit;
-        private System.Windows.Forms.TextBox txtReviewEditSummary;
+        private System.Windows.Forms.RichTextBox txtReviewEditSummary;
         private System.Windows.Forms.TabPage tpHistory;
         private System.Windows.Forms.WebBrowser webBrowserHistory;
         private System.Windows.Forms.TabPage tpLinks;
