@@ -1173,6 +1173,8 @@ namespace WikiFunctions.API
             html = html.Replace(@" href=""/wiki/", @" href=""" + Server + @"/wiki/");
 
             // relative links (to images, scripts etc.)
+            html = html.Replace(@" href=""/w/", @" href=""" + Server + @"/w/");
+
             html = html.Replace(@" href=""//", @" href=""https://");
             return html.Replace(@" src=""//", @" src=""https://");
         }
