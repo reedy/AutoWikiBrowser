@@ -42,7 +42,7 @@ namespace WikiFunctions.API
 
             var redirects = doc.GetElementsByTagName("r");
 
-            if (redirects.Count >= 1) // We have redirects
+            if (redirects.Count > 0) // We have redirects
             {
                 var first = redirects[0].Attributes;
                 var last = redirects[redirects.Count - 1].Attributes;
