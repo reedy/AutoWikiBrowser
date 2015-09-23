@@ -211,7 +211,7 @@ namespace AutoWikiBrowser
             this.btnFalsePositive = new System.Windows.Forms.Button();
             this.nudBotSpeed = new System.Windows.Forms.NumericUpDown();
             this.txtNewCategory = new System.Windows.Forms.TextBox();
-            this.txtAppendMessage = new System.Windows.Forms.RichTextBox();
+            this.txtAppendMessage = new WikiFunctions.Controls.RichTextBoxInvoke();
             this.chkAppend = new System.Windows.Forms.CheckBox();
             this.rdoAppend = new System.Windows.Forms.RadioButton();
             this.rdoPrepend = new System.Windows.Forms.RadioButton();
@@ -4512,7 +4512,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.RadioButton rdoAppend;
         private System.Windows.Forms.CheckBox chkAppend;
         private System.Windows.Forms.CheckBox chkAppendMetaDataSort;
-        private System.Windows.Forms.RichTextBox txtAppendMessage;
+        private WikiFunctions.Controls.RichTextBoxInvoke txtAppendMessage;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox chkSkipNoCatChange;
         private System.Windows.Forms.CheckBox chkRemoveSortKey;

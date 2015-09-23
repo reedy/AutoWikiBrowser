@@ -78,6 +78,9 @@
     <Compile Include="Controls\NamespacesControl.Designer.cs">
       <DependentUpon>NamespacesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\RichTextBoxInvoke.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\TypoStatsControl.cs">
       <SubType>Component</SubType>
     </Compile>
