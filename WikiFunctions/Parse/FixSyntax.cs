@@ -263,6 +263,7 @@ namespace WikiFunctions.Parse
             {
                 articleText = MissingColonInHttpLink.Replace(articleText, "$1://$2");
                 articleText = SingleTripleSlashInHttpLink.Replace(articleText, "$1://$2");
+                articleText = articleText.Replace("https://http://", "https://");
             }
 
             if (CellpaddingTypoQuick.IsMatch(articleText))

@@ -337,6 +337,8 @@ Template:foo}}"));
 
             Assert.AreEqual("[http://test.com/a.png]", Parsers.FixSyntax("[[Image:http://test.com/a.png]]"), "Image http 1");
             Assert.AreEqual("[http://test.com/a.png]", Parsers.FixSyntax("[Image:http://test.com/a.png]"), "Image http 2");
+
+            Assert.AreEqual("[https://test.com]", Parsers.FixSyntax("[https:http://test.com]"), "https and http");
         }
  
         [Test]
