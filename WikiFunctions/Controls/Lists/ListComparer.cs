@@ -115,7 +115,7 @@ namespace WikiFunctions.Controls.Lists
             lb1.BeginUpdate();
             lb2.BeginUpdate();
             lb3.BeginUpdate();
-            while (list1.Count > 0)
+            while (list1.Any())
             {
                 Article a = list1[0];
                 if (list2.Contains(a))
