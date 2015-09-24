@@ -1523,7 +1523,7 @@ namespace AutoWikiBrowser
             }
             UpdateOverallTypoStats();
 
-            if (listMaker.Count == 0 && _autoSaveEditBoxEnabled)
+            if (!listMaker.Any() && _autoSaveEditBoxEnabled)
                 EditBoxSaveTimer.Enabled = false;
             Retries = 0;
 

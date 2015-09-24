@@ -79,7 +79,7 @@ namespace WikiFunctions.Controls.Lists
 
         static ListMaker()
         {
-            if (DefaultProviders.Count == 0)
+        	if (!DefaultProviders.Any())
             {
 #if DEBUG
                 DefaultProviders.Add(new PagesWithPropJsonListProvider());
