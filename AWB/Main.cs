@@ -877,7 +877,6 @@ namespace AutoWikiBrowser
 
         private static readonly Regex UnicodePUA = new Regex(@"\p{IsPrivateUse}", RegexOptions.Compiled);
         private BackgroundRequest RunProcessPageBackground;
-        private event BackgroundRequestComplete RunProcessPageBackgroundComplete;
 
         /// <summary>
         /// Invoked on successful page load, performs skip checks and calls main page processing
@@ -1001,7 +1000,7 @@ namespace AutoWikiBrowser
             // use .Complete event to do rest of processing (skip checks, alerts etc.) once thread finished
             if (automaticallyDoAnythingToolStripMenuItem.Checked)
             {
-                RunProcessPageBackground = new BackgroundRequest(RunProcessPageBackgroundComplete);
+                RunProcessPageBackground = new BackgroundRequest();
                 RunProcessPageBackground.Execute(ProcessPageBackground);
                 RunProcessPageBackground.Complete += AutomaticallyDoAnythingComplete;
                 return;
@@ -4140,7 +4139,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         }
 
         private BackgroundRequest RunReparseEditBoxBackground;
-        private event BackgroundRequestComplete ReparseEditBoxBackgroundComplete;
 
         // run process page step of reparse edit box in a background thread
         // use .Complete event to do rest of processing (alerts etc.) once thread finished
@@ -4164,7 +4162,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             // refresh text from text box to pick up user changes
             TheArticle.AWBChangeArticleText("Reparse", txtEdit.Text, false);
 
-            RunReparseEditBoxBackground = new BackgroundRequest(ReparseEditBoxBackgroundComplete);
+            RunReparseEditBoxBackground = new BackgroundRequest();
             RunReparseEditBoxBackground.Execute(ReparseEditBoxBackground);
             RunReparseEditBoxBackground.Complete += ReparseEditBoxComplete;
             return;
