@@ -138,59 +138,59 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         // FIXME: To be replaced
         private readonly Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag
-            static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init =
+            RestoreTemplateToPlaceholderSpot_strPlaceholder_Init =
                 new Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag();
 
         // just write one instance of template even if have multiple conTemplatePlaceholder's
-        private string static_RestoreTemplateToPlaceholderSpot_strPlaceholder;
+        private string RestoreTemplateToPlaceholderSpot_strPlaceholder;
 
         private readonly Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag
-            static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init =
+            RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init =
                 new Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag();
 
-        private Regex static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex;
+        private Regex RestoreTemplateToPlaceholderSpotRegex;
 
         internal void RestoreTemplateToPlaceholderSpot(string templateheader)
         {
-            lock (static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init)
+            lock (RestoreTemplateToPlaceholderSpot_strPlaceholder_Init)
             {
                 try
                 {
-                    if (InitStaticVariableHelper(static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init))
+                    if (InitStaticVariableHelper(RestoreTemplateToPlaceholderSpot_strPlaceholder_Init))
                     {
-                        static_RestoreTemplateToPlaceholderSpot_strPlaceholder =
+                        RestoreTemplateToPlaceholderSpot_strPlaceholder =
                             Regex.Escape(Constants.TemplaterPlaceholder);
                     }
                 }
                 finally
                 {
-                    static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init.State = 1;
+                    RestoreTemplateToPlaceholderSpot_strPlaceholder_Init.State = 1;
                 }
             }
 
-            lock (static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init)
+            lock (RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init)
             {
                 try
                 {
                     if (
                         InitStaticVariableHelper(
-                            static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init))
+                            RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init))
                     {
-                        static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex =
-                            new Regex(static_RestoreTemplateToPlaceholderSpot_strPlaceholder);
+                        RestoreTemplateToPlaceholderSpotRegex =
+                            new Regex(RestoreTemplateToPlaceholderSpot_strPlaceholder);
                     }
                 }
                 finally
                 {
-                    static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init.State = 1;
+                    RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init.State = 1;
                 }
             }
 
             AlteredArticleText =
-                static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex.Replace(
+                RestoreTemplateToPlaceholderSpotRegex.Replace(
                     AlteredArticleText, templateheader, 1);
             AlteredArticleText =
-                static_RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex.Replace(
+                RestoreTemplateToPlaceholderSpotRegex.Replace(
                     AlteredArticleText, string.Empty);
         }
 
