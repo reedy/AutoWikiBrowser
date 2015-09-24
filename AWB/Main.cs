@@ -474,11 +474,6 @@ namespace AutoWikiBrowser
             set { _asEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
         }
 
-        private void SetStatusLabelText(string text)
-        {
-            StatusLabelText = text;
-        }
-
         private string StatusLabelText
         {
             get { return lblStatusText.Text; }
@@ -486,7 +481,7 @@ namespace AutoWikiBrowser
             {
                 if (InvokeRequired)
                 {
-                    Invoke(new GenericDelegate1Parm(SetStatusLabelText), new object[] { value });
+                    Invoke(new Action(() => { StatusLabelText = value; }));
                     return;
                 }
 
@@ -4411,7 +4406,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         }
 
         private delegate void GenericDelegate();
-        private delegate void GenericDelegate1Parm(string parm);
 
         private void RegexTyposComplete(BackgroundRequest req)
         {
