@@ -99,8 +99,6 @@ namespace Fronds
                     case "enabledfilenames":
                         Settings.EnabledFilenames = (List<string>)p.Setting;
                         break;
-                    default:
-                        break;
                 }
             }
         }

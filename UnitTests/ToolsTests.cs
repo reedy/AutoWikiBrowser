@@ -1142,9 +1142,9 @@ John", "*"));
             Assert.IsTrue(Tools.DateBeforeToday("11 May 2009"));
             Assert.IsTrue(Tools.DateBeforeToday("May 11, 2009"));
             Assert.IsTrue(Tools.DateBeforeToday("2013-12-31"));
-            Assert.IsTrue(Tools.DateBeforeToday(System.DateTime.Now.AddDays(-1).ToString()));
+            Assert.IsTrue(Tools.DateBeforeToday(DateTime.Now.AddDays(-1).ToString()));
 
-            Assert.IsFalse(Tools.DateBeforeToday(System.DateTime.Now.AddMonths(1).ToString()));
+            Assert.IsFalse(Tools.DateBeforeToday(DateTime.Now.AddMonths(1).ToString()));
             Assert.IsFalse(Tools.DateBeforeToday("foo"));
         }
 
@@ -1560,7 +1560,7 @@ There}}"), "handles parameters with newlines");
             Assert.AreEqual(@"{{bar||here1}} {{foo|here2}}", Tools.RenameTemplate(@"{{foo|here1}} {{foo|here2}}", "foo", "bar|", 1), "rename to add pipe");
         }
 
-        private readonly WikiFunctions.Parse.HideText Hider = new WikiFunctions.Parse.HideText();
+        private readonly HideText Hider = new HideText();
 
         [Test]
         public void RenameTemplate()

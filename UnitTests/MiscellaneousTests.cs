@@ -2323,8 +2323,8 @@ File:Example.jpg|Caption2
         [Test]
         public void RemoveSelected()
         {
-            WikiFunctions.Controls.Lists.ListBoxArticle lbArticles = new WikiFunctions.Controls.Lists.ListBoxArticle();
-            
+            ListBoxArticle lbArticles = new ListBoxArticle();
+
             const int big = 70000, sel = 5000;
 
             // sequential block deletion performance
@@ -2397,9 +2397,9 @@ File:Example.jpg|Caption2
         [Test]
         public void FindAndReplace()
         {
-            WikiFunctions.Parse.Replacement r = new WikiFunctions.Parse.Replacement("foo", "bar", true, true, true, true, RegexOptions.None, "");
+            Replacement r = new Replacement("foo", "bar", true, true, true, true, RegexOptions.None, "");
             
-            WikiFunctions.Parse.FindandReplace fr = new FindandReplace();
+            FindandReplace fr = new FindandReplace();
             
             bool changemade = false;
             
@@ -2409,34 +2409,34 @@ File:Example.jpg|Caption2
             
             Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was", "Test", out changemade), "the bar was");
             Assert.IsTrue(changemade);
-            Assert.AreEqual("foo" + WikiFunctions.Parse.FindandReplace.Arrow + "bar", fr.ReplacedSummary, "One match: a to b");
+            Assert.AreEqual("foo" + FindandReplace.Arrow + "bar", fr.ReplacedSummary, "One match: a to b");
             
             fr = new FindandReplace();
             changemade = false;
             
             Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was or foo was", "Test", out changemade), "the bar was or bar was");
-            Assert.AreEqual("foo" + WikiFunctions.Parse.FindandReplace.Arrow + "bar (2)", fr.ReplacedSummary, "Match count shown");
+            Assert.AreEqual("foo" + FindandReplace.Arrow + "bar (2)", fr.ReplacedSummary, "Match count shown");
             
             fr = new FindandReplace();
             changemade = false;
             
             Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was or foo was foo", "Test", out changemade), "the bar was or bar was bar");
-            Assert.AreEqual("foo" + WikiFunctions.Parse.FindandReplace.Arrow + "bar (3)", fr.ReplacedSummary, "Match count shown, 3");
+            Assert.AreEqual("foo" + FindandReplace.Arrow + "bar (3)", fr.ReplacedSummary, "Match count shown, 3");
             
-            r = new WikiFunctions.Parse.Replacement("foot?", "bar", true, true, true, true, RegexOptions.None, "");
+            r = new Replacement("foot?", "bar", true, true, true, true, RegexOptions.None, "");
             fr = new FindandReplace();
             changemade = false;
             
             Assert.AreEqual(fr.PerformFindAndReplace(r, "the foot was or foo was", "Test", out changemade), "the bar was or bar was");
             Assert.IsTrue(changemade);
-            Assert.AreEqual("foot" + WikiFunctions.Parse.FindandReplace.Arrow + "bar (2)", fr.ReplacedSummary, "Different matches, match text of first used");
+            Assert.AreEqual("foot" + FindandReplace.Arrow + "bar (2)", fr.ReplacedSummary, "Different matches, match text of first used");
             
-            r = new WikiFunctions.Parse.Replacement("fooo?", "foo", true, true, true, true, RegexOptions.None, "");
+            r = new Replacement("fooo?", "foo", true, true, true, true, RegexOptions.None, "");
             fr = new FindandReplace();
             changemade = false;
             Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was a fooo it", "Test", out changemade), "the foo was a foo it");
             Assert.IsTrue(changemade);
-            Assert.AreEqual("fooo" + WikiFunctions.Parse.FindandReplace.Arrow + "foo", fr.ReplacedSummary, "No-change match ignored");
+            Assert.AreEqual("fooo" + FindandReplace.Arrow + "foo", fr.ReplacedSummary, "No-change match ignored");
             
             fr = new FindandReplace();
             changemade = false;
@@ -2449,15 +2449,15 @@ File:Example.jpg|Caption2
         public void FindAndReplaceNewLines()
         {
             // regex
-            WikiFunctions.Parse.Replacement r = new WikiFunctions.Parse.Replacement("foo\n", "bar ", true, true, true, true, RegexOptions.None, "");
-            WikiFunctions.Parse.FindandReplace fr = new FindandReplace();
+            Replacement r = new Replacement("foo\n", "bar ", true, true, true, true, RegexOptions.None, "");
+            FindandReplace fr = new FindandReplace();
             bool changemade = false;
 
             Assert.AreEqual("the bar was", fr.PerformFindAndReplace(r, "the foo\nwas", "Test", out changemade));
             Assert.IsTrue(changemade);
             
             // not regex
-            r = new WikiFunctions.Parse.Replacement("foo\n", "bar ", false, true, true, true, RegexOptions.None, "");
+            r = new Replacement("foo\n", "bar ", false, true, true, true, RegexOptions.None, "");
             Assert.AreEqual("the bar was", fr.PerformFindAndReplace(r, "the foo\nwas", "Test", out changemade));
             Assert.IsTrue(changemade);
         }
@@ -2465,9 +2465,9 @@ File:Example.jpg|Caption2
         [Test]
         public void FindAndReplaceRemove()
         {
-            WikiFunctions.Parse.Replacement r = new WikiFunctions.Parse.Replacement("foo", "", true, true, true, true, RegexOptions.None, "");
+            Replacement r = new Replacement("foo", "", true, true, true, true, RegexOptions.None, "");
             
-            WikiFunctions.Parse.FindandReplace fr = new FindandReplace();
+            FindandReplace fr = new FindandReplace();
             
             bool changemade = false;
             
@@ -2486,7 +2486,7 @@ File:Example.jpg|Caption2
             Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was or foo was", "Test", out changemade), "the  was or  was");
             Assert.AreEqual("foo (2)", fr.RemovedSummary, "Match count shown");
 
-            r = new WikiFunctions.Parse.Replacement("foot?", "", true, true, true, true, RegexOptions.None, "");
+            r = new Replacement("foot?", "", true, true, true, true, RegexOptions.None, "");
             fr = new FindandReplace();
             changemade = false;
             
@@ -2498,10 +2498,10 @@ File:Example.jpg|Caption2
         [Test]
         public void FindAndReplaceProperties()
         {
-            WikiFunctions.Parse.Replacement r = new WikiFunctions.Parse.Replacement("foo", "bar", true, true, true, true, RegexOptions.None, "");
-            WikiFunctions.Parse.Replacement r2 = new WikiFunctions.Parse.Replacement("foo2", "bar2", true, true, true, false, RegexOptions.None, "");
-            WikiFunctions.Parse.Replacement r2Disabled = new WikiFunctions.Parse.Replacement("foo2", "bar2", true, false, true, false, RegexOptions.None, "");
-            WikiFunctions.Parse.FindandReplace fr = new FindandReplace();
+            Replacement r = new Replacement("foo", "bar", true, true, true, true, RegexOptions.None, "");
+            Replacement r2 = new Replacement("foo2", "bar2", true, true, true, false, RegexOptions.None, "");
+            Replacement r2Disabled = new Replacement("foo2", "bar2", true, false, true, false, RegexOptions.None, "");
+            FindandReplace fr = new FindandReplace();
 
             fr.AddNew(r);
             Assert.IsTrue(fr.HasAfterProcessingReplacements);
@@ -2527,7 +2527,7 @@ File:Example.jpg|Caption2
             Assert.IsFalse(fr.HasProcessingReplacements(false));
 
             fr.Clear();
-            List<WikiFunctions.Parse.Replacement> l = new List<Replacement>();
+            List<Replacement> l = new List<Replacement>();
             l.Add(r);
             l.Add(r2);
             fr.AddNew(l);
@@ -2544,13 +2544,13 @@ File:Example.jpg|Caption2
         {
             WikiFunctions.SubstTemplates st = new WikiFunctions.SubstTemplates();
             st.ExpandRecursively = false;
-            
+
             Assert.AreEqual("Now {{foo}}", st.SubstituteTemplates("Now {{foo}}", "test"));
 
             st.TemplateList = new[] {"foo", "bar"};
-            
+
             Assert.AreEqual(2, st.NoOfRegexes);
-            
+
             Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{foo}}", "test"));
             Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ foo}}", "test"));
             Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ foo }}", "test"));
@@ -2574,31 +2574,31 @@ File:Example.jpg|Caption2
         [Test]
         public void SessionUser()
         {
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"* ABC "));
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("abc", @"* abc "));
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("Abc", @"* abc "));
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("abc", @"* Abc "));
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"*ABC"));
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"*          ABC"));
+            Assert.IsTrue(Session.UserNameInText("ABC", @"* ABC "));
+            Assert.IsTrue(Session.UserNameInText("abc", @"* abc "));
+            Assert.IsTrue(Session.UserNameInText("Abc", @"* abc "));
+            Assert.IsTrue(Session.UserNameInText("abc", @"* Abc "));
+            Assert.IsTrue(Session.UserNameInText("ABC", @"*ABC"));
+            Assert.IsTrue(Session.UserNameInText("ABC", @"*          ABC"));
 
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"
+            Assert.IsTrue(Session.UserNameInText("ABC", @"
 * HELLO
 * ABC
 * DEF"));
 
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("aBC", @"* ABC "));
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"* aBC "));
+            Assert.IsTrue(Session.UserNameInText("aBC", @"* ABC "));
+            Assert.IsTrue(Session.UserNameInText("ABC", @"* aBC "));
 
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC*", @"* ABC* "));
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC[D]", @"* ABC[D]"));
+            Assert.IsTrue(Session.UserNameInText("ABC*", @"* ABC* "));
+            Assert.IsTrue(Session.UserNameInText("ABC[D]", @"* ABC[D]"));
 
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC D", @"* ABC D"));
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC D", @"* ABC_D"));
-            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC_D", @"* ABC D"));
+            Assert.IsTrue(Session.UserNameInText("ABC D", @"* ABC D"));
+            Assert.IsTrue(Session.UserNameInText("ABC D", @"* ABC_D"));
+            Assert.IsTrue(Session.UserNameInText("ABC_D", @"* ABC D"));
 
-            Assert.IsFalse(WikiFunctions.Session.UserNameInText("ABC", @"* ABCD "));
-            Assert.IsFalse(WikiFunctions.Session.UserNameInText("Abc", @"* ABC "));
-            Assert.IsFalse(WikiFunctions.Session.UserNameInText("ABC", @"* X"));
+            Assert.IsFalse(Session.UserNameInText("ABC", @"* ABCD "));
+            Assert.IsFalse(Session.UserNameInText("Abc", @"* ABC "));
+            Assert.IsFalse(Session.UserNameInText("ABC", @"* X"));
         }
     }
 }
