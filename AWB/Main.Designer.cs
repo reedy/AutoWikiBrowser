@@ -416,7 +416,7 @@ namespace AutoWikiBrowser
             this.menuitemMakeFromTextBoxCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
-            this.webBrowser = new AWBWebBrowser();
+            this.webBrowser = new AutoWikiBrowser.AWBWebBrowser();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
