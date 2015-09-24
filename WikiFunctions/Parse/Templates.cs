@@ -150,25 +150,26 @@ namespace WikiFunctions.Parse
             {
                 // performance: secondly filter the TemplateRedirects dictionary down to those rules matching templates used in article
                 string all = String.Join(" ", TemplatesFound.Select(s => "{{" + s + "}}").ToArray());
-                TemplateRedirects = TemplateRedirects.Where(s => s.Key.IsMatch(all)).ToDictionary(x => x.Key, y => y.Value);
+                TemplateRedirects = TemplateRedirects.Where(s => s.Key.IsMatch(all))
+                    .ToDictionary(x => x.Key, y => y.Value);
 
                 // performance: thirdly then run replacement for only those matching templates, and only against the matching rules, handle nested templates
                 Regex MatchedTemplates = Tools.NestedTemplateRegex(TemplatesFound.ToList());
-                while(MatchedTemplates.IsMatch(articleText))
-                    articleText = MatchedTemplates.Replace(articleText, m2=>
-                                                                              {
-                                                                                  string res = m2.Value;
-                                                                                  
-                                                                                  foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
-                                                                                  {
-                                                                                      res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
-                                                                                      
-                                                                                      // if template name changed and not nested template, done, so break out
-                                                                                      if (!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
-                                                                                          break;
-                                                                                  }
-                                                                                  return res;
-                                                                              });
+                while (MatchedTemplates.IsMatch(articleText))
+                    articleText = MatchedTemplates.Replace(articleText, m2 =>
+                    {
+                        string res = m2.Value;
+
+                        foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
+                        {
+                            res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
+
+                            // if template name changed and not nested template, done, so break out
+                            if (!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
+                                break;
+                        }
+                        return res;
+                    });
             }
             return articleText;
         }
@@ -184,29 +185,24 @@ namespace WikiFunctions.Parse
             List<string> TFH = GetAllTemplates(articleText);
 
             // if matches found, run replacements
-            List<string> TFH2 = new List<string>();
-            foreach(string s in TFH)
-            {
-                if (WikiRegexes.AllTemplateRedirectsList.Contains(s))
-                    TFH2.Add(s);
-            }
+            List<string> TFH2 = TFH.Where(s => WikiRegexes.AllTemplateRedirectsList.Contains(s)).ToList();
 
             if (TFH2.Any())
             {
-                articleText = Tools.NestedTemplateRegex(TFH2).Replace(articleText, m2=>
-                                                                      {
-                                                                          string res = m2.Value;
-                                                                          
-                                                                          foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
-                                                                          {
-                                                                              res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
-                                                                              
-                                                                              // if template name changed and not nested template, done, so break out
-                                                                              if (!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
-                                                                                  break;
-                                                                          }
-                                                                          return res;
-                                                                      });
+                articleText = Tools.NestedTemplateRegex(TFH2).Replace(articleText, m2 =>
+                {
+                    string res = m2.Value;
+
+                    foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
+                    {
+                        res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
+
+                        // if template name changed and not nested template, done, so break out
+                        if (!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
+                            break;
+                    }
+                    return res;
+                });
             }
             return articleText;
         }

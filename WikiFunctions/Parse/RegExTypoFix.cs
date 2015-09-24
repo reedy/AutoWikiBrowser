@@ -528,7 +528,12 @@ namespace WikiFunctions.Parse
             int i = 0;
             foreach (TypoGroup tg in Groups)
             {
-                array[i] = new Thread( delegate (object unused) { tg.FixTypos2(articleText, strSummary, articleTitle, originalArticleText); });
+                array[i] =
+                    new Thread(
+                        delegate(object unused)
+                        {
+                            tg.FixTypos2(articleText, strSummary, articleTitle, originalArticleText);
+                        });
                 array[i].Start(i);
                 i++;
             }
