@@ -1,2 +1,2 @@
 language: csharp
-solution: AutoWikiBrowser no plugins.sln
+solution: "AutoWikiBrowser no plugins.sln"
