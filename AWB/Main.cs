@@ -1116,7 +1116,7 @@ namespace AutoWikiBrowser
             // must use Invoke so that SkipChecks and CompleteProcessPage are done on main GUI thread
             if (InvokeRequired)
             {
-                Invoke(new GenericDelegate(RunSkipChecks));
+                Invoke(new MethodInvoker(RunSkipChecks));
                 return;
             }
             RunSkipChecks();
@@ -4237,7 +4237,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             // must use Invoke so that ReparseEditBoxPart2 is done on main GUI thread
             if (InvokeRequired)
             {
-                Invoke(new GenericDelegate(ReparseEditBoxPart2));
+                Invoke(new MethodInvoker(ReparseEditBoxPart2));
                 return;
             }
             ReparseEditBoxPart2();
@@ -4404,8 +4404,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 RegexTypos.Complete += RegexTyposComplete;
             }
         }
-
-        private delegate void GenericDelegate();
 
         private void RegexTyposComplete(BackgroundRequest req)
         {
@@ -5730,7 +5728,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             if (InvokeRequired)
             {
-                Invoke(new GenericDelegate(StartProgressBar));
+                Invoke(new MethodInvoker(StartProgressBar));
                 return;
             }
 
@@ -5742,7 +5740,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             if (InvokeRequired)
             {
-                Invoke(new GenericDelegate(StopProgressBar));
+                Invoke(new MethodInvoker(StopProgressBar));
                 return;
             }
 
