@@ -534,7 +534,7 @@ del SvnInfo.cs
 "C:\Program Files\TortoiseSVN\bin\SubWCRev" .. SvnInfo.template.cs SvnInfo.cs
 if not exist SvnInfo.cs copy SvnInfo.template.cs SvnInfo.cs
 cd $(OutDir)</PreBuildEvent>
-    <PreBuildEvent Condition=" '$(OS)' == 'Unix' ">cd ..\...
+    <PreBuildEvent Condition=" '$(OS)' == 'Unix' ">cd ..\..
 if not exist SvnInfo.cs copy SvnInfo.template.cs SvnInfo.cs
 cd $(OutDir)</PreBuildEvent>
   </PropertyGroup>
