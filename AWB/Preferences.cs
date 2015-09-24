@@ -418,7 +418,7 @@ namespace AutoWikiBrowser
                                                {
                                                    ID = kvp.Key,
                                                    Description = kvp.Value,
-                                                }, (value.Contains(kvp.Key) || value.Count == 0));
+                	                       }, (value.Contains(kvp.Key) || !value.Any()));
                 }
                 alertListBox.EndUpdate();
             }

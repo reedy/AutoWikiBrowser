@@ -3416,7 +3416,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             btnFind.Enabled = txtFind.TextLength > 0;
 
             // if there are find matches, colour the Find button yellow
-            if (btnFind.Enabled && txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name).Count > 0)
+            if (btnFind.Enabled && txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name).Any())
                 btnFind.BackColor = Color.Yellow;
             else
                 btnFind.BackColor = SystemColors.ButtonFace;
