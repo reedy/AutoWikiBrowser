@@ -529,10 +529,12 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>cd ..\..
-del SvnInfo.cs
-"C:\Program Files\TortoiseSVN\bin\SubWCRev" .. SvnInfo.template.cs SvnInfo.cs
-if not exist SvnInfo.cs copy SvnInfo.template.cs SvnInfo.cs
-cd $(OutDir)</PreBuildEvent>
+    <PreBuildEvent>if exist "C:\Program Files\TortoiseSVN\bin\SubWCRev" (
+  cd ..\..
+  del SvnInfo.cs
+  "C:\Program Files\TortoiseSVN\bin\SubWCRev" .. SvnInfo.template.cs SvnInfo.cs
+  if not exist SvnInfo.cs copy SvnInfo.template.cs SvnInfo.cs
+  cd $(OutDir)
+)</PreBuildEvent>
   </PropertyGroup>
 </Project>
