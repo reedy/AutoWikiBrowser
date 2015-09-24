@@ -20,13 +20,11 @@ Portions Copyright © 2002-2007 Charlie Poole or
 Copyright © 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov or
 Copyright © 2000-2002 Philip A. Craig
 
- */
+*/
 
-using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
-using System.Collections.Generic;
 
 namespace UnitTests
 {

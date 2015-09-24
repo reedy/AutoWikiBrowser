@@ -439,7 +439,7 @@ en, sq, ru
             if (rt.Length > 0 && WikiRegexes.Category.IsMatch(@"[[" + rt + @"]]"))
                 return "";
 
-            List<string> categoryList = new List<string>();
+            List<string>[] categoryList = {new List<string>()};
             string originalArticleText = articleText;
             string articleTextNoComments = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments.Matches(articleText));
 
@@ -467,7 +467,6 @@ en, sq, ru
                 string cut = articleText.Substring(cutoff);
                 cut = WikiRegexes.RemoveCatsAllCats.Replace(cut, m => {
                                                                        if (!CatsForDeletion.IsMatch(m.Value))
-                                                                           categoryList.Add(m.Value.Trim());
                                                                        
                                                                        // if category not at start of line, leave newline, otherwise text on next line moved up
                                                                        if (m.Index > 2 && !cut.Substring(m.Index-2, 2).Trim().Equals(""))
@@ -484,7 +483,7 @@ en, sq, ru
                 }
 
                 if (AddCatKey)
-                    categoryList = CatKeyer(categoryList, articleTitle);
+                    categoryList[0] = CatKeyer(categoryList[0], articleTitle);
 
                 // now refresh defaultsort to pick up any comment on same line after it
                 if (mc.Count > 0)
@@ -502,7 +501,7 @@ en, sq, ru
                 if (CatCommentRegex.IsMatch(cut))
                     articleText = CatCommentRegex.Replace(articleText, m =>
                                                           {
-                                                              categoryList.Insert(0, m.Value);
+                                                              categoryList[0].Insert(0, m.Value);
                                                               return "";
                                                           }, 1);
 
@@ -544,7 +543,7 @@ en, sq, ru
                                                         });
             }
 
-            return uncat + defaultSort + ListToString(categoryList);
+            return uncat + defaultSort + ListToString(categoryList[0]);
         }
 
         /// <summary>

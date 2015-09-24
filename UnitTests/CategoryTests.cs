@@ -22,11 +22,9 @@ Copyright © 2000-2002 Philip A. Craig
 
  */
 
-using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
-using System.Collections.Generic;
 
 namespace UnitTests
 {

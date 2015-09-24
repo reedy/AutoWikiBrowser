@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WikiFunctions.Controls
+﻿namespace WikiFunctions.Controls
 {
     /// <summary>
     /// Extends ToolTip to implement custom Style to prevent tooltips changing window focus under Wine
