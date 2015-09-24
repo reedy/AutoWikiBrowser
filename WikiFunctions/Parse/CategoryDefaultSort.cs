@@ -397,7 +397,7 @@ namespace WikiFunctions.Parse
                     string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value.TrimStart('|'), (HumanDefaultSortCleanupRequired(ds[0]) && IsArticleAboutAPerson(articleText, articleTitle, true))).Trim();
 
                     // do not change DEFAULTSORT just for casing
-                    if (!s.ToLower().Equals(ds[0].Groups[1].Value.ToLower()) && s.Length > 0 && !restrictDefaultsortChanges)
+                    if (!s.ToLower().Equals(ds[0].Groups[1].Value.ToLower()) && s.Length > 0)
                         articleText = articleText.Replace(ds[0].Value, "{{DEFAULTSORT:" + s + "}}");
 
                     // get key value again in case replace above changed it

@@ -599,7 +599,7 @@ namespace WikiFunctions
                 AWBChangeArticleText("Page Unicodified", strTemp, false);
                 UnHideMoreText(removeText);
             }
-            else if (skipIfNoChange && noChange)
+            else if (skipIfNoChange)
                 Trace.AWBSkipped("No Unicodification");
         }
 
