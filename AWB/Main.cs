@@ -31,7 +31,6 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.IO;
-using System.Collections;
 using System.Diagnostics;
 using System.Security.Permissions;
 using System.Web;
@@ -1885,7 +1884,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        bool diffAccessViolationSeen;
+        bool _diffAccessViolationSeen;
 
         private void GetDiff()
         {
@@ -1927,7 +1926,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 txtEdit.Focus();
                 txtEdit.SelectionLength = 0;
-                diffAccessViolationSeen = false;
+                _diffAccessViolationSeen = false;
 
                 GuiUpdateAfterProcessing();
             }
@@ -1936,9 +1935,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_22#AccessViolationException_in_MainForm.GetDiff
                 // catch this and use Refresh x2 to get around it
                 // but only try once (diffAccessViolationSeen = false) so we don't get stuck in a loop
-                if (ex is AccessViolationException && !diffAccessViolationSeen)
+                if (ex is AccessViolationException && !_diffAccessViolationSeen)
                 {
-                    diffAccessViolationSeen = true;
+                    _diffAccessViolationSeen = true;
                     Tools.WriteDebug("GetDiff", "AccessViolationException seen");
  
                     webBrowser.Refresh();
@@ -3381,9 +3380,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles;
 
-            this.specialFilterToolStripMenuItem1.Enabled = this.saveListToTextFileToolStripMenuItem.Enabled  
-                = this.clearCurrentListToolStripMenuItem.Enabled = this.convertFromTalkPagesToolStripMenuItem.Enabled
-                = this.convertToTalkPagesToolStripMenuItem.Enabled = (listMaker.NumberOfArticles > 0);
+            specialFilterToolStripMenuItem1.Enabled = saveListToTextFileToolStripMenuItem.Enabled  
+                = clearCurrentListToolStripMenuItem.Enabled = convertFromTalkPagesToolStripMenuItem.Enabled
+                = convertToTalkPagesToolStripMenuItem.Enabled = (listMaker.NumberOfArticles > 0);
         }
 
         private void SetStartButton(bool enabled)
@@ -4150,10 +4149,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             if (TheArticle == null)
                 return;
 
-            if ((RunProcessPageBackground != null && (RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Running 
-            || RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Background)) ||
-            (RunReparseEditBoxBackground != null && (RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Running 
-            || RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Background)))
+            if ((RunProcessPageBackground != null && (RunProcessPageBackground.ThreadStatus() == ThreadState.Running 
+            || RunProcessPageBackground.ThreadStatus() == ThreadState.Background)) ||
+            (RunReparseEditBoxBackground != null && (RunReparseEditBoxBackground.ThreadStatus() == ThreadState.Running 
+            || RunReparseEditBoxBackground.ThreadStatus() == ThreadState.Background)))
             {
                 StatusLabelText = "Background process running";
                 return;
@@ -4381,7 +4380,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                         checkPageText = "";
                     }
                     
-                    WikiFunctions.Session.HasTypoLink(checkPageText);
+                    Session.HasTypoLink(checkPageText);
                 }
 
                 #if !DEBUG
@@ -4409,7 +4408,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             if (InvokeRequired)
             {
-                Invoke(new BackgroundRequestComplete(RegexTyposComplete), new object[] { req });
+                Invoke(new BackgroundRequestComplete(RegexTyposComplete), req);
                 return;
             }
 
@@ -5051,7 +5050,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             UserTalkTemplatesRegex = null;
             UserTalkWarningsLoaded = true; // or it will retry on each page load
 
-            List<string> UserTalkTemplates = new List<string>();
+            List<string> userTalkTemplates = new List<string>();
 
             try
             {
@@ -5067,7 +5066,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 foreach (Match m in userTalkTemplate.Matches(text))
                 {
-                    UserTalkTemplates.Add(m.Groups[1].Value);
+                    userTalkTemplates.Add(m.Groups[1].Value);
                 }
             }
             catch (Exception ex)
@@ -5076,8 +5075,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 UserTalkWarningsLoaded = false;
             }
 
-            if (UserTalkTemplates.Any())
-                UserTalkTemplatesRegex = Tools.NestedTemplateRegex(UserTalkTemplates);
+            if (userTalkTemplates.Any())
+                UserTalkTemplatesRegex = Tools.NestedTemplateRegex(userTalkTemplates);
         }
 
         /// <summary>
@@ -5894,7 +5893,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             AWBToolTip tt = new AWBToolTip();
 
-            System.Windows.Forms.ToolStripStatusLabel item = (sender as System.Windows.Forms.ToolStripStatusLabel);
+            ToolStripStatusLabel item = (sender as ToolStripStatusLabel);
 
             string text = "";
 
@@ -5918,7 +5917,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             AWBToolTip tt = new AWBToolTip();
 
-            System.Windows.Forms.ToolStripButton item = (sender as System.Windows.Forms.ToolStripButton);
+            ToolStripButton item = (sender as ToolStripButton);
 
             string text = "";
 
