@@ -530,11 +530,11 @@ namespace WikiFunctions.Parse
             {
                 array[i] =
                     new Thread(
-                        delegate(object unused)
+                        delegate()
                         {
                             tg.FixTypos2(articleText, strSummary, articleTitle, originalArticleText);
                         });
-                array[i].Start(i);
+                array[i].Start();
                 i++;
             }
 
