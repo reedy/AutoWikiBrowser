@@ -535,7 +535,7 @@ del SvnInfo.cs
 if not exist SvnInfo.cs copy SvnInfo.template.cs SvnInfo.cs
 cd $(OutDir)</PreBuildEvent>
     <PreBuildEvent Condition=" '$(OS)' == 'Unix' ">cd ..\..
-if not exist SvnInfo.cs copy SvnInfo.template.cs SvnInfo.cs
+cp SvnInfo.template.cs SvnInfo.cs
 cd $(OutDir)</PreBuildEvent>
   </PropertyGroup>
 </Project>
