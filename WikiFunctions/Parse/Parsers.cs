@@ -773,7 +773,7 @@ namespace WikiFunctions.Parse
 
             foreach(string t in tags)
             {
-                string existingTag = newtags.Where(nt => Tools.TurnFirstToLower(Tools.GetTemplateName(nt)) == Tools.TurnFirstToLower(Tools.GetTemplateName(t))).FirstOrDefault();
+                string existingTag = newtags.FirstOrDefault(nt => Tools.TurnFirstToLower(Tools.GetTemplateName(nt)) == Tools.TurnFirstToLower(Tools.GetTemplateName(t)));
 
                 if (existingTag != null) // so list already contains tag for same template
                 {
