@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using WikiFunctions.Logging;
 
@@ -56,14 +57,7 @@ namespace AutoWikiBrowser.Logging
         // State:
         internal bool HaveOpenFile
         {
-            get
-            {
-                foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-                {
-                    if (t.Key != "AWB") return true; // we're interested in open files, not AWBLogListeners...
-                }
-                return false;
-            }
+            get { return Listeners.Any(t => t.Key != "AWB"); }
         }
 
         // Overrides:

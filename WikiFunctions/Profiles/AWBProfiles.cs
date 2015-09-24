@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using WikiFunctions.Encryption;
 using Microsoft.Win32;
@@ -41,12 +42,7 @@ namespace WikiFunctions.Profiles
         /// <returns>List of <see cref="AWBProfile"/></returns>
         public static List<AWBProfile> GetProfiles()
         {
-            List<AWBProfile> profiles = new List<AWBProfile>();
-            foreach (int id in GetProfileIDs())
-            {
-                profiles.Add(GetProfile(id));
-            }
-            return profiles;
+            return GetProfileIDs().Select(GetProfile).ToList();
         }
 
         /// <summary>
@@ -85,13 +81,7 @@ namespace WikiFunctions.Profiles
         /// <param name="userName">Profile username</param>
         public static AWBProfile GetProfile(string userName)
         {
-            foreach (AWBProfile prof in GetProfiles())
-            {
-                if (prof.Username == userName) return prof;
-            }
-
-            // failure
-            return null;
+            return GetProfiles().FirstOrDefault(prof => prof.Username == userName);
         }
 
         /// <summary>
@@ -226,7 +216,9 @@ namespace WikiFunctions.Profiles
             try
             {
                 foreach (string id in RegistryUtils.OpenSubKey(ProfileRegistryString).GetSubKeyNames())
-                { profileIds.Add(int.Parse(id)); }
+                {
+                    profileIds.Add(int.Parse(id));
+                }
                 return profileIds;
             }
             catch

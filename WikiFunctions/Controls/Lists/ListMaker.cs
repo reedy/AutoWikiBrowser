@@ -1273,12 +1273,7 @@ namespace WikiFunctions.Controls.Lists
             if (lbArticles.SelectedItems.Count == 0)
                 return;
 
-            List<string> articles = new List<string>();
-
-            foreach (Article a in lbArticles.SelectedItems)
-                articles.Add(a.Name);
-
-            MakeList(provider, articles.ToArray());
+            MakeList(provider, (from Article a in lbArticles.SelectedItems select a.Name).ToArray());
         }
 
         private void clearToolStripMenuItem1_Click(object sender, EventArgs e)

@@ -261,14 +261,8 @@ namespace WikiFunctions.Parse
         private static Dictionary<int, int> DictionaryOfMatches(string articleText, Regex r)
         {
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments);
-            Dictionary<int, int> found = new Dictionary<int, int>();
 
-            foreach (Match m in r.Matches(articleText))
-            {
-                found.Add(m.Index, m.Length);
-            }
-
-            return found;
+            return r.Matches(articleText).Cast<Match>().ToDictionary(m => m.Index, m => m.Length);
         }
 
         /// <summary>
@@ -289,7 +283,7 @@ namespace WikiFunctions.Parse
         public static Dictionary<int, int> DoublePipeLinks(string articleText)
         {
             // Performance strategy: get list of all internal wikilinks, filter to those with two | in
-            if (Parsers.GetAllWikiLinks(articleText).Any(l => l.Count(s => s == '|') > 1))
+            if (GetAllWikiLinks(articleText).Any(l => l.Count(s => s == '|') > 1))
                 return DictionaryOfMatches(articleText, WikiRegexes.DoublePipeLink);
 
             return (new Dictionary<int, int>());

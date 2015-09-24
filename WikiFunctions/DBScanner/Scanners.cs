@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using WikiFunctions.Parse;
 
@@ -62,13 +63,7 @@ namespace WikiFunctions.DBScanner
 
         public override bool Check(ArticleInfo article)
         {
-            foreach (Regex r in Contains)
-            {
-                if (!r.IsMatch(article.Text))
-                    return false;
-            }
-
-            return true;
+            return Contains.All(r => r.IsMatch(article.Text));
         }
     }
 

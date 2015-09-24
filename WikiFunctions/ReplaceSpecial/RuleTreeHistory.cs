@@ -16,6 +16,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace WikiFunctions.ReplaceSpecial
@@ -116,13 +117,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         private static List<TreeNode> Copy(TreeNodeCollection col)
         {
-            List<TreeNode> newCol = new List<TreeNode>();
-            foreach (TreeNode t in col)
-            {
-                TreeNode copy = (TreeNode)t.Clone();
-                newCol.Add(copy);
-            }
-            return newCol;
+            return (from TreeNode t in col select (TreeNode) t.Clone()).ToList();
         }
     }
 }
