@@ -126,7 +126,7 @@ namespace WikiFunctions.Parse
             }
 
             // refresh
-            if (tagsRemoved.Count > 0)
+            if (tagsRemoved.Any())
             {
                 commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
                 commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
@@ -538,7 +538,7 @@ namespace WikiFunctions.Parse
                                                    });
             }
 
-            if (tagsAdded.Count > 0 || tagsRemoved.Count > 0 || tagsrenamed > 0)
+            if (tagsAdded.Any() || tagsRemoved.Any() || tagsrenamed > 0)
             {
                 Parsers p = new Parsers();
                 HideText hider = new HideText();
@@ -848,7 +848,7 @@ namespace WikiFunctions.Parse
         {
             string summary = "";
             string tags;
-            if (tagsRemoved.Count > 0)
+            if (tagsRemoved.Any())
             {
                 // Reverse order of words for arwiki and arzwiki
                 if (Variables.LangCode.Equals("ar"))
