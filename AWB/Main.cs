@@ -1279,70 +1279,59 @@ namespace AutoWikiBrowser
 
         private void HighlightErrors()
         {
-            foreach (KeyValuePair<int, int> kvp in unbalancedBracket)
+            foreach (KeyValuePair<int, int> kvp in unbalancedBracket.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
-            foreach (KeyValuePair<int, int> kvp in badCiteParameters)
+            foreach (KeyValuePair<int, int> kvp in badCiteParameters.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
-            foreach (KeyValuePair<int, int> kvp in dupeBanerShellParameters)
+            foreach (KeyValuePair<int, int> kvp in dupeBanerShellParameters.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
-            foreach (KeyValuePair<int, int> kvp in deadLinks)
+            foreach (KeyValuePair<int, int> kvp in deadLinks.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
-            foreach (KeyValuePair<int, int> kvp in ambigCiteDates)
+            foreach (KeyValuePair<int, int> kvp in ambigCiteDates.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
-            foreach (KeyValuePair<int, int> kvp in unclosedTags)
+            foreach (KeyValuePair<int, int> kvp in unclosedTags.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
-            foreach (KeyValuePair<int, int> kvp in wikilinkedHeaders)
+            foreach (KeyValuePair<int, int> kvp in wikilinkedHeaders.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
-            foreach (KeyValuePair<int, int> kvp in targetlessLinks)
+            foreach (KeyValuePair<int, int> kvp in targetlessLinks.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
-            foreach (KeyValuePair<int, int> kvp in doublepipeLinks)
+            foreach (KeyValuePair<int, int> kvp in doublepipeLinks.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
-            foreach (KeyValuePair<int, int> kvp in otherErrors)
+            foreach (KeyValuePair<int, int> kvp in otherErrors.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
-            foreach (KeyValuePair<int, int> kvp in userSignature)
+            foreach (KeyValuePair<int, int> kvp in userSignature.Where(kvp => !Errors.ContainsKey(kvp.Key)))
             {
-                if (!Errors.ContainsKey(kvp.Key))
-                    Errors.Add(kvp.Key, kvp.Value);
+                Errors.Add(kvp.Key, kvp.Value);
             }
 
             if (Errors.Any())
