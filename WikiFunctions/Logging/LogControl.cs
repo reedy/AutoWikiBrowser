@@ -119,8 +119,8 @@ namespace WikiFunctions.Logging
         private ListView CurrentlySelectedListView()
         {
             // ActiveControl may be null if context menu opened at same time as main form page load finishes
-            if (this.ActiveControl != null)
-                return (ListView)this.ActiveControl;
+            if (ActiveControl != null)
+                return (ListView)ActiveControl;
 
             // first fallback
             if (lvIgnored.SelectedItems.Count > 0)
@@ -198,8 +198,8 @@ namespace WikiFunctions.Logging
             btnClearSaved.Enabled = btnSaveSaved.Enabled = btnAddSuccessToList.Enabled = lvSaved.Items.Count > 0;
             btnClearIgnored.Enabled = btnSaveIgnored.Enabled = btnAddSkippedToList.Enabled = lvIgnored.Items.Count > 0;
 
-            this.label8.Text = "Skipped: " + lvIgnored.Items.Count;
-            this.label7.Text = "Successfully saved: " + lvSaved.Items.Count;
+            label8.Text = "Skipped: " + lvIgnored.Items.Count;
+            label7.Text = "Successfully saved: " + lvSaved.Items.Count;
 
             ResizeListView(lvIgnored);
             ResizeListView(lvSaved);

@@ -213,7 +213,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+            ListBoxArticle selectedListBox = ActiveControl as ListBoxArticle;
 
             if (selectedListBox != null)
                 Tools.Copy(selectedListBox);
@@ -246,7 +246,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void removeSelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+            ListBoxArticle selectedListBox = ActiveControl as ListBoxArticle;
 
             if (selectedListBox != null)
                 selectedListBox.RemoveSelected(true);
@@ -263,7 +263,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+            ListBoxArticle selectedListBox = ActiveControl as ListBoxArticle;
 
             if (selectedListBox != null)
             {
@@ -278,7 +278,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void mnuList_Opening(object sender, EventArgs e)
         {
-            ListBoxArticle selectedListBox = this.ActiveControl as ListBoxArticle;
+            ListBoxArticle selectedListBox = ActiveControl as ListBoxArticle;
 
             if (selectedListBox != null)
             {
