@@ -529,7 +529,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>if exist "C:\Program Files\TortoiseSVN\bin\SubWCRev" (
+    <PreBuildEvent>if exist "C:\Program Files\TortoiseSVN\bin\SubWCRev" then (
   cd ..\..
   del SvnInfo.cs
   "C:\Program Files\TortoiseSVN\bin\SubWCRev" .. SvnInfo.template.cs SvnInfo.cs
