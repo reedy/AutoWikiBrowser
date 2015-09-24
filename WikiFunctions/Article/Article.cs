@@ -761,8 +761,8 @@ namespace WikiFunctions
         public void UpdateImages(ImageReplaceOptions option,
             string imageReplaceText, string imageWithText, bool skipIfNoChange)
         {
-            string strTemp = "";
-            bool noChange = true;
+            string strTemp;
+            bool noChange;
 
             imageReplaceText = imageReplaceText.Trim();
             imageWithText = imageWithText.Trim();

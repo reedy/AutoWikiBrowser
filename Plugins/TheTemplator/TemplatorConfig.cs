@@ -105,7 +105,6 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         public string TemplateName { get; private set; }
         public Dictionary<string, string> Parameters { get; private set; }
         public Dictionary<string, string> Replacements { get; private set; }
-        public string Replacement { get; private set; }
         public bool SkipIfNone { get; private set; }
         public bool RemoveExcessPipes { get; private set; }
 

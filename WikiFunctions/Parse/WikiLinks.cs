@@ -287,8 +287,8 @@ namespace WikiFunctions.Parse
             List<string> pipedLinks = Tools.DeduplicateList(GetAllWikiLinks(articleText)).FindAll(link => link.Contains("|"));
 
             // Performance: second determine if any links with pipe whitespace to clean
-            string Category = Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:";
-            bool whitespaceTrimNeeded = pipedLinks.Any(s => ((s.Contains("| ") && !s.Contains(Category)) || s.Contains(" |") || (!s.Contains("| ]]") && s.Contains(" ]]"))));
+            string categoryNS = Variables.Namespaces.ContainsKey(Namespace.Category) ? Variables.Namespaces[Namespace.Category] : "Category:";
+            bool whitespaceTrimNeeded = pipedLinks.Any(s => ((s.Contains("| ") && !s.Contains(categoryNS)) || s.Contains(" |") || (!s.Contains("| ]]") && s.Contains(" ]]"))));
 
             foreach (string pipedlink in pipedLinks)
             {

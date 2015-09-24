@@ -48,7 +48,7 @@ namespace WikiFunctions.DBScanner
         public event StopDel StoppedEvent;
         public CrossThreadQueue<string> OutputQueue;
 
-        private readonly string FileName = "";
+        private readonly string FileName;
         private readonly string From = "";
         private Stream stream;
 

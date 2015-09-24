@@ -44,7 +44,7 @@ namespace WikiFunctions.Controls.Lists
         private static readonly BindingList<IListProvider> DefaultProviders = new BindingList<IListProvider>();
         private readonly ListFilterForm _specialFilter;
 
-        private readonly BindingList<IListProvider> _listProviders = new BindingList<IListProvider>();
+        private readonly BindingList<IListProvider> _listProviders;
 
         //used to keep easy track of providers for add/remove/(re)use in code
         #region ListProviders

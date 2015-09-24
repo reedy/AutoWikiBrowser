@@ -1541,7 +1541,6 @@ Chris.";
         [Test]
         public void TagRefsIbid()
         {
-            string summary = "";
             string returned = parser.Tagger(@"now<ref>ibid</ref> was", "test", false, ref summary);
 
             Assert.IsTrue(returned.Contains(@"{{Ibid|date="));
@@ -1563,7 +1562,6 @@ Chris.";
         [Test]
         public void TagEmptySection()
         {
-            string summary = "";
             string twoTwos = @"==Foo1==
 ==Foo2==
 ", commentedOutTwoTwos = @"
