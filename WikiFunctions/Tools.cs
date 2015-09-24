@@ -798,11 +798,13 @@ namespace WikiFunctions
             int international = possibleDates.Select(d => WikiRegexes.DayMonth.Matches(d).Count).Sum();
             int american = possibleDates.Select(d => WikiRegexes.MonthDay.Matches(d).Count).Sum();
 
-            Dictionary<Parsers.DateLocale, int> results = new Dictionary<Parsers.DateLocale, int>();
+            Dictionary<Parsers.DateLocale, int> results = new Dictionary<Parsers.DateLocale, int>
+            {
+                {Parsers.DateLocale.ISO, iso},
+                {Parsers.DateLocale.International, international},
+                {Parsers.DateLocale.American, american}
+            };
 
-            results.Add(Parsers.DateLocale.ISO, iso);
-            results.Add(Parsers.DateLocale.International, international);
-            results.Add(Parsers.DateLocale.American, american);
 
             return results;
         }

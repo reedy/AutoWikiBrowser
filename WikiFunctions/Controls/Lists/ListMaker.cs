@@ -714,8 +714,7 @@ namespace WikiFunctions.Controls.Lists
             if (Variables.CapitalizeFirstLetter)
                 s = Tools.TurnFirstToUpper(s);
 
-            List<Article> l = new  List<Article>();
-            l.Add(new Article(s));
+            List<Article> l = new List<Article> {new Article(s)};
 
             Add(l);
         }

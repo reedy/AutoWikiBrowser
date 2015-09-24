@@ -641,7 +641,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         private static int TemplateCount(List<string> templatesFound, Regex r)
         {
-            return templatesFound.Where(s => r.IsMatch(@"{{" + s + "|}}")).Count();
+            return templatesFound.Count(s => r.IsMatch(@"{{" + s + "|}}"));
         }
 
     }

@@ -393,7 +393,7 @@ namespace WikiFunctions.Parse
                 int apilinks = 0;
 
                 if (!Globals.UnitTestMode)
-                    apilinks = LinksOnPageProv.MakeList(new[] { articleTitle }).Where(l => (l.NameSpaceKey == Namespace.Mainspace)).Count();
+                    apilinks = LinksOnPageProv.MakeList(articleTitle ).Count(l => (l.NameSpaceKey == Namespace.Mainspace));
 
                 // for dead end addition, use API call to get wikilink count (filter to mainspace links only), so we do count any links transcluded from templates
                 if (apilinks == 0)

@@ -490,7 +490,7 @@ namespace WikiFunctions.Parse
             // some (badly done) List of pages can have hundreds of unclosed small or center tags, causes regex bactracking when using <DEPTH>
             // so workaround solution: if > 10 unclosed tags, only remove tags without other tags embedded in them
             // Workaround constraint: we might incorrectly report some valid tags with < or > in them as unclosed
-            if (AnyTagList.Where(s => !s.StartsWith("/")).Count() > (AnyTagList.Where(s => s.StartsWith("/")).Count() + 10))
+            if (AnyTagList.Count(s => !s.StartsWith("/")) > (AnyTagList.Count(s => s.StartsWith("/")) + 10))
             {
                 while(SimpleTagPair.IsMatch(articleText))
                     articleText = Tools.ReplaceWithSpaces(articleText, SimpleTagPair);
