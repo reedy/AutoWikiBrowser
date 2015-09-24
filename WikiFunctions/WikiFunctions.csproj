@@ -529,9 +529,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>if not exist "C:\Program Files\TortoiseSVN\bin\SubWCRev" exit
-
-cd ..\..
+    <PreBuildEvent Condition=" '$(OS)' != 'Unix' ">cd ..\..
 del SvnInfo.cs
 "C:\Program Files\TortoiseSVN\bin\SubWCRev" .. SvnInfo.template.cs SvnInfo.cs
 if not exist SvnInfo.cs copy SvnInfo.template.cs SvnInfo.cs
