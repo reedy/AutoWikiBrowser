@@ -716,7 +716,6 @@ namespace WikiFunctions
         /// </summary>
         public static Regex UserSignature;
 
-
         /// <summary>
         /// Matches disambig templates, supports language variants e.g. for en-wiki {{disambig}}, {{dab}}.
         /// Matches wiki comment on same line after template if present
