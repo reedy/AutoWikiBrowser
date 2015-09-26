@@ -249,7 +249,7 @@ namespace WikiFunctions
             get
             {
                 return Variables.Project == ProjectEnum.wikipedia
-                    && (Variables.LangCode == "en" || Variables.LangCode == "simple")
+                	&& (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
                     && Parsers.IsArticleAboutAPerson(mArticleText, Name, true);
             }
         }

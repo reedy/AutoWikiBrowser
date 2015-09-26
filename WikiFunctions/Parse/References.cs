@@ -739,7 +739,7 @@ namespace WikiFunctions.Parse
                 return m.Value;
 
             // {{reflist}} template not used on sv-wiki
-            if (Variables.LangCode == "sv")
+            if (Variables.LangCode.Equals("sv"))
                 return "<references/>";
 
             if (m.Value.Contains("references-2column") || m.Value.Contains("column-count:2"))

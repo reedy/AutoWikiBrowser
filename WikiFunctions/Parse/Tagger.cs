@@ -712,7 +712,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (Variables.LangCode == "ru" && incomingLinks == 0 && Rq.Matches(articleText).Count == 1)
+            if (Variables.LangCode.Equals("ru") && incomingLinks == 0 && Rq.Matches(articleText).Count == 1)
             {
                 string rqText = Rq.Match(articleText).Value;
                 if (!rqText.Contains("linkless"))
@@ -794,7 +794,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string TagRefsIbid(string articleText)
         {
-            if (Variables.LangCode == "en" && IbidOpCitRef.IsMatch(articleText) && !WikiRegexes.Ibid.IsMatch(articleText))
+        	if (Variables.LangCode.Equals("en") && IbidOpCitRef.IsMatch(articleText) && !WikiRegexes.Ibid.IsMatch(articleText))
             {
                 tagsAdded.Add("Ibid");
                 return @"{{Ibid|" + WikiRegexes.DateYearMonthParameter + @"}}" + articleText;

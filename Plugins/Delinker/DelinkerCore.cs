@@ -165,8 +165,9 @@ namespace AutoWikiBrowser.Plugins.Delinker
             }
             else
             {
-                if (RemoveEmptiedSections && (Variables.LangCode == "en" ||
-                    Variables.LangCode == "de" || Variables.LangCode == "ru"))
+            	if (RemoveEmptiedSections && (Variables.LangCode.Equals("en") ||
+            	                              Variables.LangCode.Equals("de") ||
+            	                              Variables.LangCode.Equals("ru"))
                     articleText = RemoveSection(articleText);
             }
 

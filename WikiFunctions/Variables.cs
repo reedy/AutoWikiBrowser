@@ -271,7 +271,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikipediaEN
         {
-            get { return (Project == ProjectEnum.wikipedia && LangCode == "en"); }
+        	get { return (Project == ProjectEnum.wikipedia && LangCode.Equals("en")); }
         }
 
         /// <summary>

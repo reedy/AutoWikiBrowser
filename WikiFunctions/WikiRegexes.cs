@@ -154,7 +154,7 @@ namespace WikiFunctions
             if (Variables.MagicWords.TryGetValue("defaultsort", out magic))
                 s = "(?i:" + string.Join("|", magic.ToArray()).Replace(":", "") + ")";
             else
-                s = (Variables.LangCode == "en")
+            	s = (Variables.LangCode.Equals("en"))
                     ? "(?:(?i:defaultsort(key|CATEGORYSORT)?))"
                     : "(?i:defaultsort)";
 
