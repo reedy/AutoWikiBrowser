@@ -24,7 +24,6 @@ using System.Text.RegularExpressions;
 
 namespace WikiFunctions.Parse
 {
-
     /// <summary>
     /// Provides functions for editing wiki text, such as formatting and re-categorisation.
     /// </summary>
@@ -175,9 +174,8 @@ namespace WikiFunctions.Parse
                 
                 // Remove br tags after maintance templates
                 articleText = MaintanceTemplateWithBr.Replace(articleText,"$1");
-
             }
-                
+
             if (TemplateExists(alltemplates, WikiRegexes.MagicWordTemplates))
                 articleText = Tools.TemplateToMagicWord(articleText);
 
@@ -579,7 +577,6 @@ namespace WikiFunctions.Parse
         {
             return m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish));
         }
-
 
         private static readonly List<Regex> SmallTagRegexes = new List<Regex>();
         private static readonly Regex LegendTemplate = Tools.NestedTemplateRegex("legend");
