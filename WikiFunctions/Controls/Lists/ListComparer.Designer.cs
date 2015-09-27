@@ -78,6 +78,7 @@
             this.flwDiff1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
+            this.tooltip = new WikiFunctions.Controls.AWBToolTip(this.components);
             // 
             // lbBoth
             // 
@@ -88,6 +89,7 @@
             this.lbBoth.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbBoth.Size = new System.Drawing.Size(133, 264);
             this.lbBoth.TabIndex = 2;
+            this.lbBoth.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_MouseMove);
             // 
             // mnuList
             // 
@@ -304,6 +306,7 @@
             this.lbNo2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbNo2.Size = new System.Drawing.Size(133, 264);
             this.lbNo2.TabIndex = 18;
+            this.lbNo2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_MouseMove);
             // 
             // flowLayoutPanel3
             // 
@@ -409,6 +412,7 @@
             this.lbNo1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbNo1.Size = new System.Drawing.Size(133, 264);
             this.lbNo1.TabIndex = 14;
+            this.lbNo1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_MouseMove);
             // 
             // flowLayoutPanel1
             // 
@@ -514,6 +518,7 @@
         private System.Windows.Forms.ToolStripMenuItem removeSelectedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transferToListMaker2ToolStripMenuItem;
+        private WikiFunctions.Controls.AWBToolTip tooltip;
     }
 }
 

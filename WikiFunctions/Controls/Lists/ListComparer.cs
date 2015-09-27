@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 ListComparer
 Copyright (C) 2007 Martin Richards
 
@@ -285,6 +285,21 @@ namespace WikiFunctions.Controls.Lists
                 transferToListMaker1ToolStripMenuItem.Enabled = transferToListMaker2ToolStripMenuItem.Enabled = openInBrowserToolStripMenuItem.Enabled 
                 = copyToolStripMenuItem.Enabled =  removeSelectedToolStripMenuItem.Enabled =  selectAllToolStripMenuItem.Enabled = selectedListBox.Items.Count > 0;
             }
+        }
+
+        private void lb_MouseMove(object sender, MouseEventArgs e)
+        {
+            string strTip = "";
+
+            //Get the item
+            ListBoxArticle lba = sender as ListBoxArticle;
+            int nIdx = lba.IndexFromPoint(e.Location);
+
+            if ((nIdx >= 0) && (nIdx < lba.Items.Count))
+                strTip = lba.Items[nIdx].ToString();
+
+            if (strTip != tooltip.GetToolTip(lba))
+                tooltip.SetToolTip(lba, strTip);
         }
     }
 }
