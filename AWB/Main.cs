@@ -152,8 +152,7 @@ namespace AutoWikiBrowser
                 SplashScreen.SetProgress(10);
                 try
                 {
-                    Parser = new Parsers(Properties.Settings.Default.StubMaxWordCount,
-                                         Properties.Settings.Default.AddHummanKeyToCats);
+                    Parser = new Parsers(500, false);
                 }
                 catch (Exception ex)
                 {
