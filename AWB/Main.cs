@@ -69,7 +69,7 @@ namespace AutoWikiBrowser
 
         private int OldSelection, Retries, SameArticleNudges, actionOnLoad;
 
-        private readonly HideText RemoveText = new HideText(false, true, false);
+        private readonly HideText RemoveText = new HideText(false, true, true);
         private readonly List<string> NoParse = new List<string>();
         private readonly List<string> NoRetf = new List<string>();
         private readonly FindandReplace FindAndReplace = new FindandReplace();
