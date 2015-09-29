@@ -33,7 +33,7 @@ namespace UnitTests
     public class GenfixesTestsBase : RequiresParser
     {
         private Article A = new Article("Test");
-        private readonly HideText H = new HideText(false, true, false);
+        private readonly HideText H = new HideText(false, true, true);
         private readonly MockSkipOptions S = new MockSkipOptions();
 
         public void GenFixes(bool replaceReferenceTags)
@@ -93,7 +93,14 @@ namespace UnitTests
         {
             ArticleText = text;
             GenFixes(articleTitle);
-            Assert.AreEqual(text, ArticleText);
+            Assert.AreEqual(text, ArticleText, "unit test");
+        }
+
+        public void AssertNotChanged(string text, string articleTitle, string message)
+        {
+            ArticleText = text;
+            GenFixes(articleTitle);
+            Assert.AreEqual(text, ArticleText, message);
         }
     }
 
@@ -131,11 +138,11 @@ namespace UnitTests
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_Underscore_removal_in_URL.27s_in_wikilinks
         public void ExternalLinksInImageCaptions()
         {
-            AssertNotChanged("[[Image:foo.jpg|Some http://some_crap.com]]");
+            AssertNotChanged("[[Image:foo.jpg|Some http://some_crap.com]]", "Test", "Unlinked external link in image description");
 
-            AssertNotChanged("[[Image:foo.jpg|Some [http://some_crap.com]]]");
+            AssertNotChanged("[[Image:foo.jpg|Some [http://some_crap.com]]]", "Test", "Linked external link at end of image description");
 
-            AssertNotChanged("[[File:foo.jpg|Some [http://some_crap.com]]]");
+            AssertNotChanged("[[File:foo.jpg|Some [http://some_crap.com]]]", "Test", "Linked external link at end of image description 2");
 
             ArticleText = "[[Image:foo.jpg|Some [[http://some_crap.com]]]]";
             GenFixes();
@@ -667,6 +674,41 @@ company's founder<ref name=""Warnock 1980"">{{cite book|last=Warnock|first=C |ti
 
             Assert.IsFalse(ArticleText.Contains(@"{Multiple issues"));
             Assert.IsTrue(ArticleText.Contains(@"Category:Living people"));
+        }
+
+        [Test]
+        public void FixSyntaxImages()
+        {
+            string t = @"Foo
+<Gallery>
+File:T（p13 T2).jpg|
+File:T（ｐ16_T3）.jpg|a
+File:T（ｐ22 T5）.jpg|aa
+</Gallery>
+
+Bar";
+            ArticleText = t;
+            GenFixes();
+
+            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets in images, Chinese brackets");
+
+            t = @"Foo
+
+Other [[Image:A.png|Now [[foo]]]]
+Bar";
+            ArticleText = t;
+            GenFixes();
+
+            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets in images, simple");
+
+            t = @"Foo
+
+Other [[Image:A.png|foo [[bar]] there]]
+Bar";
+            ArticleText = t;
+            GenFixes();
+
+            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets in images, simple 2");
         }
     }
 

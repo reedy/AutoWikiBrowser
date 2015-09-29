@@ -76,8 +76,11 @@ namespace WikiFunctions.Parse
             articleText = sb.ToString();
         }
         
-        private static readonly Regex CiteTitle = new Regex(@"(?<=\|\s*(?:trans_)?title\s*=\s*)[^\|{}<>]+", RegexOptions.Compiled);
+        private static readonly Regex CiteTitleYear = new Regex(@"(?<=\|\s*(?:trans_)?title\s*=\s*)[^\|{}<>]*[12][0-9]{3}\b[^\|{}<>]*", RegexOptions.Compiled);
         private static readonly Regex MathCodeTypoTemplates = Tools.NestedTemplateRegex(new [] { "math", "code", "As written", "Notatypo", "Not a typo", "Proper name", "Typo" });
+        private static readonly Regex RetainBraces = new Regex(@"(?<=\[\[).+(?=\]\])", RegexOptions.Singleline);
+        private static readonly Regex RetainStartBraces = new Regex(@"(?<=\[\[).+", RegexOptions.Singleline);
+        private static readonly Regex All = new Regex(@".+", RegexOptions.Singleline);
 
         /// <summary>
         /// Hides Unformatted text (nowiki, pre, math, html comments, timelines), source tags
@@ -111,10 +114,25 @@ namespace WikiFunctions.Parse
             
             if (HideImages)
             {
-                Replace(WikiRegexes.Images.Matches(articleText), ref articleText);
+                // hide all image links but retain any braces at either end
+                articleText = WikiRegexes.Images.Replace(articleText, m => {
+                    string res = m.Value;
+                    if(res.StartsWith("[["))
+                    {
+                        if(res.EndsWith("]]"))
+                            Replace(RetainBraces.Matches(res), ref res);
+                        else
+                            Replace(RetainStartBraces.Matches(res), ref res);
+                    }
+                    else
+                        Replace(All.Matches(res), ref res);
+                    return res;});
+
                 if (AnyTagList.Any(t => t.Contains("imagemap")))
                     Replace(WikiRegexes.ImageMap.Matches(articleText), ref articleText);
-                Replace(CiteTitle.Matches(articleText), ref articleText);
+
+                // Hide any title or trans_title parameters with dates in them
+                Replace(CiteTitleYear.Matches(articleText), ref articleText);
 
                 // gallery tag does not require Image: namespace link before image in gallery, so hide anything before pipe
                 if (AnyTagList.Any(t => t.Contains("gallery")))

@@ -85,6 +85,7 @@ namespace UnitTests
         {
             RegexAssert.IsMatch(AllHidden, Hide(text));
         }
+
         private void AssertBothHidden(string text)
         {
             AssertBothHidden(text, true, false, true);
@@ -175,37 +176,33 @@ abc={{bar}}
         [Test]
         public void HideImages()
         {
-            AssertAllHidden(@"[[File:foo.jpg]]");
-            AssertAllHidden(@"[[File:foo with space and 0004.jpg]]");
-            AssertAllHidden(@"[[File:foo.jpeg]]");
-            AssertAllHidden(@"[[File:foo.JPEG]]");
-            AssertAllHidden(@"[[Image:foo with space and 0004.jpeg]]");
-            AssertAllHidden(@"[[Image:foo.jpeg]]");
-            AssertAllHidden(@"[[Image:foo with space and 0004.jpg]]");
-            AssertAllHidden(@"[[File:foo.jpg|");
-            AssertAllHidden(@"[[File:foo with space and 0004.jpg|");
-            AssertAllHidden(@"[[File:foo.jpeg|");
-            AssertAllHidden(@"[[Image:foo with space and 0004.jpeg|");
-            AssertAllHidden(@"[[Image:foo.jpeg|");
-            AssertAllHidden(@"[[Image:foo with SPACE() and 0004.jpg|");
-            AssertAllHidden(@"[[File:foo.gif|");
-            AssertAllHidden(@"[[Image:foo with space and 0004.gif|");
-            AssertAllHidden(@"[[Image:foo.gif|");
-            AssertAllHidden(@"[[Image:foo with SPACE() and 0004.gif|");
-            AssertAllHidden(@"[[File:foo.png|");
-            AssertAllHidden(@"[[Image:foo with space and 0004.png|");
-            AssertAllHidden(@"[[Image:foo_here.png|");
-            AssertAllHidden(@"[[Image:foo with SPACE() and 0004.png|");
-            AssertAllHidden(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
+            Assert.IsFalse(Hide(@"[[File:foo.jpg]]").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[File:foo with space and 0004.jpg]]").Contains("foo"), "with space");
+            Assert.IsFalse(Hide(@"[[File:foo.jpeg]]").Contains("foo"), "jpeg");
+            Assert.IsFalse(Hide(@"[[File:foo.JPEG]]").Contains("foo"), "JPEG");
+            Assert.IsFalse(Hide(@"[[Image:foo with space and 0004.jpeg]]").Contains("foo"), "space and jpeg");
+            Assert.IsFalse(Hide(@"[[Image:foo.jpeg]]").Contains("foo"), "Image jpeg");
+            Assert.IsFalse(Hide(@"[[Image:foo with space and 0004.jpg]]").Contains("foo"), "image jpeg space");
+            Assert.IsFalse(Hide(@"[[File:foo.jpg|").Contains("foo"), "To pipe");
+            Assert.IsFalse(Hide(@"[[File:foo with space and 0004.jpg|").Contains("foo"), "Space to pipe");
+            Assert.IsFalse(Hide(@"[[File:foo.jpeg|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[Image:foo with space and 0004.jpeg|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[Image:foo.jpeg|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[Image:foo with SPACE() and 0004.jpg|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[File:foo.gif|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[Image:foo with space and 0004.gif|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[Image:foo.gif|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[Image:foo with SPACE() and 0004.gif|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[File:foo.png|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[Image:foo with space and 0004.png|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[Image:foo_here.png|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[Image:foo with SPACE() and 0004.png|").Contains("foo"), "Standard case");
+            Assert.IsFalse(Hide(@"[[Image:westminster.tube.station.jubilee.arp.jpg|").Contains("westminster.tube.station.jubilee.arp"), "Dot name");
             
             AssertAllHidden(@"<imagemap>
 File:Blogs001.jpeg|Description
 File:Blogs002.jpeg|Description
 </imagemap>");
-
-            AssertBothHidden(@"[[File:foo.jpg]]");
-            AssertBothHidden(@"[[Image:foo with space and 0004.png|");
-            AssertBothHidden(@"[[Image:foo_here.png|");
 
             Assert.IsFalse(HideMore(@"[[Category:Foo|abc]]", false).Contains("abc"), "Category sort key always hidden if hiding wikilinks and not leaving target");
             Assert.IsFalse(HideMore(@"[[Category:Foo|abc]]", true).Contains("abc"), "Category sort key hidden even if keeping targets");
@@ -238,10 +235,13 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
         [Test]
         public void HideCiteTitles()
         {
-            Assert.IsFalse(Hide(@"{{cite web| title = foo | date = May 2011").Contains(@"foo"));
-            Assert.IsTrue(Tools.GetTemplateParameterValue(Hide(@"{{cite web| title = foo | date = May 2011"), "title").Length > 0);
+            Assert.IsTrue(Hide(@"{{cite web| title = foo | date = May 2011").Contains(@"foo"), "Title not hidden if no year");
+            Assert.IsFalse(Hide(@"{{cite web| title = Now September 20 - September 26, 2010 was | date = May 2011").Contains(@"September"), "title hidden when contains year");
+            Assert.IsTrue(Tools.GetTemplateParameterValue(Hide(@"{{cite web| title = September 20 - September 26, 2010 | date = May 2011"), "title").Length > 0, "title parameter has length if hidden");
             
-            Assert.IsFalse(Hide(@"{{cite web| trans_title = foo | date = May 2011").Contains(@"foo"));
+            Assert.IsTrue(Hide(@"{{cite web| trans_title = foo | date = May 2011").Contains(@"foo"), "trans_title not hidden if no year");
+            Assert.IsFalse(Hide(@"{{cite web| trans_title = Now September 20 - September 26, 2010 was | date = May 2011").Contains(@"September"), "trans_title hidden when contains year");
+            Assert.IsTrue(Tools.GetTemplateParameterValue(Hide(@"{{cite web| trans_title = September 20 - September 26, 2010 | date = May 2011"), "trans_title").Length > 0, "trans_title parameter has length if hidden");
         }
         
         [Test]
