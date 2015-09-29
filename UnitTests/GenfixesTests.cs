@@ -33,7 +33,7 @@ namespace UnitTests
     public class GenfixesTestsBase : RequiresParser
     {
         private Article A = new Article("Test");
-        private readonly HideText H = new HideText();
+        private readonly HideText H = new HideText(false, true, false);
         private readonly MockSkipOptions S = new MockSkipOptions();
 
         public void GenFixes(bool replaceReferenceTags)
