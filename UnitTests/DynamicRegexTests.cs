@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
+using System.Linq;
 
 namespace UnitTests
 {
@@ -95,6 +96,10 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.Images, "[[File:Test.JPG");
             
             RegexAssert.NoMatch(WikiRegexes.Images, "[[File Test.JPG]]");
+
+            string bef = @"[[File:Miguel.jpg|thumb|[[Miguel (privateer)|Miguel]]]] [[File:Demetrio.jpg|thumb|[[Demetrio]]]]";
+
+            Assert.AreEqual(@"_thumb|[[Miguel (privateer)|Miguel]]]] _thumb|[[Demetrio]]]]", WikiRegexes.Images.Replace(bef, "_"), "Image on same line handling");
         }
         
         [Test]
