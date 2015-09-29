@@ -500,6 +500,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// Load the redirects for a template from Wikipedia
         /// </summary>
         /// <param name="target">Template name</param>
+        /// <returns></returns>
         protected static List<WikiFunctions.Article> GetRedirects(string target)
         {
             string message = "Loading redirects for Template:" + target;

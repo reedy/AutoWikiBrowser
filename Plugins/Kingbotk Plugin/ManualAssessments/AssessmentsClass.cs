@@ -165,14 +165,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
                     foreach (PluginBase p in PluginManager.ActivePlugins)
                     {
-                        if (
-                            p.ProcessTalkPage(theArticle, _state.Classification, _state.Importance, _state.NeedsInfobox,
+                        if (p.ProcessTalkPage(theArticle, _state.Classification, _state.Importance, _state.NeedsInfobox,
                                 _state.NeedsAttention, true, ProcessTalkPageMode.ManualAssessment,
                                 reqPhoto || _state.NeedsPhoto) && (reqPhoto || _state.NeedsPhoto) && p.HasReqPhotoParam)
                         {
                             weAddedAReqPhotoParam = true;
                         }
-                        if (theArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
+
+                    	if (theArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
                         {
                             MessageBox.Show("Bad tag(s). Fix manually.", "Bad tag", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);

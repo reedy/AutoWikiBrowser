@@ -13,6 +13,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 

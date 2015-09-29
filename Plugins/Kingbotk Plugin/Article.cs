@@ -218,6 +218,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 throw new Microsoft.VisualBasic.CompilerServices.IncompleteInitialization();
             }
+
             return false;
         }
     }

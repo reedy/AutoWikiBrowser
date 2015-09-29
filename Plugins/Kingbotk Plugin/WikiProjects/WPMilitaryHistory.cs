@@ -430,6 +430,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 Template.Parameters.Remove(conMiddleAges);
                 TheArticle.ArticleHasAMinorChange();
             }
+
             return false;
         }
 

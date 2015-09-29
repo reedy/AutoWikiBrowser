@@ -36,8 +36,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
     public sealed class PluginManager : IAWBPlugin
     {
         private const string Me = "Kingbotk Plugin Manager";
-        // Regular expressions:
 
+        // Regular expressions:
         private static readonly Regex ReqPhotoNoParamsRegex =
             new Regex(Constants.TemplatePrefix + "reqphoto\\s*\\}\\}\\s*",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.ExplicitCapture);
@@ -94,7 +94,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             _pluginSettings = new PluginSettingsControl();
 
             // Set up our UI objects:
-
             AWBForm.BotModeCheckbox.EnabledChanged += AWBBotModeCheckboxEnabledChangedHandler;
             AWBForm.BotModeCheckbox.CheckedChanged += AWBBotModeCheckboxCheckedChangeHandler;
             AWBForm.StatusStrip.Items.Insert(2, StatusText);
@@ -568,6 +567,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 if (!ActivePlugins.Any())
                     AWBForm.RemoveTabPage(KingbotkPluginTab);
             }
+
             DefaultStatusText();
         }
 
@@ -589,6 +589,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 plugin.Dispose();
             }
+
             DefaultStatusText();
         }
 
@@ -629,6 +630,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                     StatusText.Text = ActivePlugins.Count.ToString("0 Kingbotk plugins ready");
                     break;
             }
+
             if (_pluginSettings.ManuallyAssess)
                 StatusText.Text += " (manual assessments plugin active)";
         }
@@ -777,6 +779,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                         MessageBoxIcon.Exclamation);
                     return;
                 }
+
                 if (str.Contains(" "))
                 {
                     str = str.Replace(" ", "");
@@ -912,10 +915,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 flag.State = 2;
                 return true;
             }
+
             if (flag.State == 2)
             {
                 throw new Microsoft.VisualBasic.CompilerServices.IncompleteInitialization();
             }
+
             return false;
         }
     }

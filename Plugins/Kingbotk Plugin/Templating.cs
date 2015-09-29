@@ -134,10 +134,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                             theArticle.DoneReplacement(parameterName + "=" + existingValue, parameterValue);
                         }
                     }
+
                     return true;
                     // Contains param with a different value, and we don't want to change it
                 }
             }
+
             // Else: Already contains parameter and correct value; no need to change
             return false;
         }

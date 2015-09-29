@@ -110,6 +110,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 {
                     return ImportanceSettingEnum.None;
                 }
+
                 return (ImportanceSettingEnum) ImportanceCheckedListBox.CheckedIndices[0];
             }
             set { ImportanceCheckedListBox.SetItemChecked((int) value, true); }
@@ -377,6 +378,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     PluginManager.StopAWB();
                 }
             }
+
             return false;
         }
 

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
+
 namespace AutoWikiBrowser.Plugins.Kingbotk
 {
     partial class GenericWithWorkgroups : IGenericSettings
@@ -65,6 +66,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
                 ListView1.Items.Add(lvi);
             }
+
             ListView1.EndUpdate();
         }
 
@@ -72,7 +74,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         protected string Template;
         private const string StubClassParm = "StubClass";
-
         private const string AutoStubParm = "AutoStub";
 
         #region "XML interface"
