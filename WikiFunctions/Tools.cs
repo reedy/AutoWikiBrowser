@@ -214,7 +214,7 @@ namespace WikiFunctions
             int pos = name.IndexOf(',');
 
             // ruwiki has "Lastname, Firstname Patronymic" convention
-            if (pos >= 0 && Variables.LangCode != "ru")
+            if (pos >= 0 && !Variables.LangCode.Equals("ru"))
             {
                 suffix = name.Substring(pos + 1).Trim();
                 name = name.Substring(0, pos).Trim();
@@ -2326,7 +2326,7 @@ Message: {2}
         public static string ConvertDate(string inputDate, Parsers.DateLocale locale, bool AmericanInputDate)
         {
             inputDate = inputDate.Trim();
-            if (Variables.LangCode != "en" || YearMon.IsMatch(inputDate) || MonthYear.IsMatch(inputDate))
+            if (!Variables.LangCode.Equals("en") || YearMon.IsMatch(inputDate) || MonthYear.IsMatch(inputDate))
                 return inputDate;
 
             DateTime dt;

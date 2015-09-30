@@ -252,7 +252,7 @@ namespace WikiFunctions.Parse
             // prevent wictionary redirects from being tagged as uncategorised
             if (totalCategories == 0
                 && !WikiRegexes.Uncat.IsMatch(templates)
-                && Variables.LangCode != "nl")
+                && !Variables.LangCode.Equals("nl"))
             {
                 // bulleted or indented text should weigh less than simple text.
                 // for example, actor stubs may contain large filmographies
@@ -422,7 +422,7 @@ namespace WikiFunctions.Parse
                             tagsRemoved.Add("ويكى");
                         }
                     }
-                    else if (Variables.LangCode != "sv" && !WikiRegexes.Centuryinbox.IsMatch(articleText)
+                    else if (!Variables.LangCode.Equals("sv") && !WikiRegexes.Centuryinbox.IsMatch(articleText)
                              && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b")
                              && !MinorPlanetListFooter.IsMatch(articleText))
                     {

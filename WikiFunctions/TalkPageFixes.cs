@@ -278,7 +278,7 @@ namespace WikiFunctions.TalkPages
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
             // avoid moving commented out tags
-            if (Variables.LangCode != "en" || !r.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
+            if (!Variables.LangCode.Equals("en") || !r.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
                 return articleText;
 
             // get the rest of the article including first heading (may be null if article has no headings)

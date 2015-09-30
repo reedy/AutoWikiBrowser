@@ -631,7 +631,7 @@ en, sq, ru
         /// <returns>Article text stripped of disambiguation templates</returns>
         public static string RemoveDisambig(ref string articleText)
         {
-            if (Variables.LangCode != "en")
+        	if (!Variables.LangCode.Equals("en"))
                 return "";
 
             string strDisambig = "";
@@ -663,7 +663,7 @@ en, sq, ru
             string zerothSection = Tools.GetZerothSection(articleText);
 
             // avoid moving commented out templates
-            if (Variables.LangCode != "en" || !templateRegex.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
+            if (!Variables.LangCode.Equals("en") || !templateRegex.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
                 return articleText;
 
             // get the rest of the article including first heading (may be null if article has no headings)
