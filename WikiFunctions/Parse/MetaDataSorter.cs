@@ -621,7 +621,7 @@ en, sq, ru
                     stubList.RemoveAll(s => Tools.GetTemplateName(s).TrimStart('-').ToLower().Equals("stub"));
             }
 
-            return (stubList.Count != 0) ? ListToString(stubList) : "";
+            return (stubList.Any()) ? ListToString(stubList) : "";
         }
 
         /// <summary>
