@@ -102,54 +102,58 @@ namespace WikiFunctions
             MonthDayRangeSpan = new Regex(Months + @" ((?:[1-9]|[12][0-9]|3[01])(?:–|&ndash;|{{ndash}}|\/)(?:[1-9]|[12][0-9]|3[01]))\b");
 
             List<string> magic;
-            string s = Variables.MagicWords.TryGetValue("redirect", out magic)
+            string RedirectString = Variables.MagicWords.TryGetValue("redirect", out magic)
                 ? string.Join("|", magic.ToArray()).Replace("#", "")
                 : "REDIRECT";
 
             //Regex contains extra opening/closing brackets and double bot, equal sign so that we fix with FixSyntaxRedirects
-            Redirect = new Regex(@"#(?:" + s + @")\s*[:|=]?\s*\[?\[?\[\[\s*:?\s*([^\|\[\]]*?)\s*(\|.*?)?\]\]\]?\]?", RegexOptions.IgnoreCase);
+            Redirect = new Regex(@"#(?:" + RedirectString + @")\s*[:|=]?\s*\[?\[?\[\[\s*:?\s*([^\|\[\]]*?)\s*(\|.*?)?\]\]\]?\]?", RegexOptions.IgnoreCase);
+
+            string DisambigString;
 
             switch (Variables.LangCode)
             {
                 case "ar":
-                    s = "([Dd]isambig|توضيح|صفحة توضيح|أسمياء)";
+                    DisambigString = "([Dd]isambig|توضيح|صفحة توضيح|أسمياء)";
                     break;
                 case "arz":
-                    s = "([Dd]isambig|صفحة توضيح|توضيح)";
+                    DisambigString = "([Dd]isambig|صفحة توضيح|توضيح)";
                     break;
                 case "ca":
-                    s = "([Dd]esambiguació|[Dd]esambigua|[Dd]isambig)";
+                    DisambigString = "([Dd]esambiguació|[Dd]esambigua|[Dd]isambig)";
                     break;
                 case "de":
-                    s = "([Bb]egriffsklärung)";
+                    DisambigString = "([Bb]egriffsklärung)";
                     break;
                 case "el":
-                    s = "([Αα]ποσαφήνιση|[Αα]ποσαφ|[Dd]isambig)";
+                    DisambigString = "([Αα]ποσαφήνιση|[Αα]ποσαφ|[Dd]isambig)";
                     break;
                 case "es":
-                    s = "([Dd]esambiguación|[Dd]esambig|[Dd]es|[Dd]esambiguacion|[Dd]isambig)";
+                    DisambigString = "([Dd]esambiguación|[Dd]esambig|[Dd]es|[Dd]esambiguacion|[Dd]isambig)";
                     break;
                 case "pl":
-                    s = "([Dd]isambig)";
+                    DisambigString = "([Dd]isambig)";
                     break;
                 case "ru":
-                    s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность|[Мm]ногозначность)";
+                    DisambigString = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность|[Мm]ногозначность)";
                     break;
                 case "sv":
-                    s = "(4LA|[Bb]etydelselista|[Dd]ab|[Dd]isambig|[Dd]isambiguation|[Ee]fternamn|[Ff]örgrening|[Ff]örgreningssida|[Ff]lertydig|[Ff]örnamn|[Gg]affel|[Gg]ren|[Gg]rensida|[Hh]ndis||[Nn]amnförgrening|[Nn]amngrensida|[Oo]rtnamn|[Rr]obotskapad förgrening|[Tt]rebokstavsförkortning|[Tt]rebokstavsförgrening)";
+                    DisambigString = "(4LA|[Bb]etydelselista|[Dd]ab|[Dd]isambig|[Dd]isambiguation|[Ee]fternamn|[Ff]örgrening|[Ff]örgreningssida|[Ff]lertydig|[Ff]örnamn|[Gg]affel|[Gg]ren|[Gg]rensida|[Hh]ndis||[Nn]amnförgrening|[Nn]amngrensida|[Oo]rtnamn|[Rr]obotskapad förgrening|[Tt]rebokstavsförkortning|[Tt]rebokstavsförgrening)";
                     break;
                 default:
-                    s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Cc]hinese title disambiguation|[Gg]enus disambiguation|[Gg]enus disambig|[Mm]athdab|[Mm]athematics disambiguation|[Mm]athematical disambiguation|[Mm]il-unit-dis|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig(?:uation)?|[Cc]allsigndis|[Cc]all sign disambiguation|[Dd]isambig-cleanup|[Dd]isambig-cleanup|[Dd]isambiguation cleanup|[Mm]olFormDisambig|[Mm]olecular formula disambiguation|[Rr]oad disambiguation|([Ss]pecies|)LatinNameDisambig|[Ss]pecies Latin name disambiguation|[[Ss]pecies Latin name abbreviation disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Ll]etter-Number Combination Disambiguation|[Hh]ndis|[Hh]ndis-cleanup|[Gg]enus disambiguation|[Tt]axonomy disambiguation|[Hh]urricane season disambiguation|[Hh]ospital disambiguation|[Ss]chool disambiguation)";
+                    DisambigString = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Cc]hinese title disambiguation|[Gg]enus disambiguation|[Gg]enus disambig|[Mm]athdab|[Mm]athematics disambiguation|[Mm]athematical disambiguation|[Mm]il-unit-dis|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig(?:uation)?|[Cc]allsigndis|[Cc]all sign disambiguation|[Dd]isambig-cleanup|[Dd]isambig-cleanup|[Dd]isambiguation cleanup|[Mm]olFormDisambig|[Mm]olecular formula disambiguation|[Rr]oad disambiguation|([Ss]pecies|)LatinNameDisambig|[Ss]pecies Latin name disambiguation|[[Ss]pecies Latin name abbreviation disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Ll]etter-Number Combination Disambiguation|[Hh]ndis|[Hh]ndis-cleanup|[Gg]enus disambiguation|[Tt]axonomy disambiguation|[Hh]urricane season disambiguation|[Hh]ospital disambiguation|[Ss]chool disambiguation)";
                     break;
             }
-            Disambigs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}(?: *<!--.*?-->(?=\r\n|$))?", RegexOptions.Multiline);
+
+            Disambigs = new Regex(TemplateStart + DisambigString + @"\s*(?:\|[^{}]*?)?}}(?: *<!--.*?-->(?=\r\n|$))?", RegexOptions.Multiline);
 
             DisambigsGeneral = new Regex(TemplateStart + @"([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab)" + @"\s*(?:\|[^{}]*?)?}}");
             DisambigsCleanup = new Regex(TemplateStart + @"([Dd]isambig-cleanup|[Dd]isambig cleanup|[Dd]isambiguation cleanup)" + @"\s*(?:\|[^{}]*?)?}}");
 
-
             string SiaTemplate = "([Ss]urnames?|SIA|[Ss]ia|[Ss]et index article|[Ss]et ?index|[Ss]hip ?index|[Mm]ountain ?index|[[Rr]oad ?index|[Ss]port ?index|[Gg]iven name|[Mm]olForm ?Index|[Mm]olecular formula index|[Cc]hemistry index|[Ee]nzyme index|[Mm]edia set index|[Ll]ake ?index|[Pp]lant common name)";
             SIAs = new Regex(TemplateStart + SiaTemplate + @"\s*(?:\|[^{}]*?)?}}");
+            
+            string s;
             
             if (Variables.MagicWords.TryGetValue("defaultsort", out magic))
                 s = "(?i:" + string.Join("|", magic.ToArray()).Replace(":", "") + ")";
