@@ -148,8 +148,8 @@ namespace WikiFunctions
             DisambigsCleanup = new Regex(TemplateStart + @"([Dd]isambig-cleanup|[Dd]isambig cleanup|[Dd]isambiguation cleanup)" + @"\s*(?:\|[^{}]*?)?}}");
 
 
-            s = "([Ss]urnames?|SIA|[Ss]ia|[Ss]et index article|[Ss]et ?index|[Ss]hip ?index|[Mm]ountain ?index|[[Rr]oad ?index|[Ss]port ?index|[Gg]iven name|[Mm]olForm ?Index|[Mm]olecular formula index|[Cc]hemistry index|[Ee]nzyme index|[Mm]edia set index|[Ll]ake ?index|[Pp]lant common name)";
-            SIAs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}");
+            string SiaTemplate = "([Ss]urnames?|SIA|[Ss]ia|[Ss]et index article|[Ss]et ?index|[Ss]hip ?index|[Mm]ountain ?index|[[Rr]oad ?index|[Ss]port ?index|[Gg]iven name|[Mm]olForm ?Index|[Mm]olecular formula index|[Cc]hemistry index|[Ee]nzyme index|[Mm]edia set index|[Ll]ake ?index|[Pp]lant common name)";
+            SIAs = new Regex(TemplateStart + SiaTemplate + @"\s*(?:\|[^{}]*?)?}}");
             
             if (Variables.MagicWords.TryGetValue("defaultsort", out magic))
                 s = "(?i:" + string.Join("|", magic.ToArray()).Replace(":", "") + ")";
@@ -168,15 +168,15 @@ namespace WikiFunctions
 
             Persondata = (Variables.LangCode.Equals("de") ? Tools.NestedTemplateRegex("personendaten") : Tools.NestedTemplateRegex("persondata"));
 
-            //if (Variables.URL == Variables.URLLong)
-            //    s = Regex.Escape(Variables.URL);
-            //else
-            //{
+            // if (Variables.URL == Variables.URLLong)
+            //     s = Regex.Escape(Variables.URL);
+            // else
+            // {
             int pos = Tools.FirstDifference(Variables.URL, Variables.URLLong);
             s = Regex.Escape(Variables.URLLong.Substring(0, pos)).Replace(@"https://", @"https?://");
             s += "(?:" + Regex.Escape(Variables.URLLong.Substring(pos)) + @"index\.php(?:\?title=|/)|"
                 + Regex.Escape(Variables.URL.Substring(pos)) + "/wiki/" + ")";
-            //}
+            // }
             ExtractTitle = new Regex("^" + s + "([^?&]*)$");
 
             EmptyLink = new Regex(@"\[\[\s*(?:(:?" + category + "|" + image + @")\s*:?\s*(\|.*?)?|[|\s]*)\]\]");
