@@ -190,7 +190,7 @@ namespace WikiFunctions
                     Orphan = Tools.NestedTemplateRegex(@"يتيمة");
                     uncattemplate = UncatTemplatesAR;
                     DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
-                    DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|نهاية مسدودة)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
+                    DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|نهاية مسدودة)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
                     Wikify =Tools.NestedTemplateRegex(@"ويكي");
                     InUse = Tools.NestedTemplateRegex(new[] {"إنشاء", "تحرر", "Underconstruction", "تحت الإنشاء", "تحت الأنشاء", "يحرر", "إنشاء مقالة", "انشاء مقالة", "Inuse", "تحرير كثيف", "يحرر المقالة", "تحت التحرير", "قيد الاستخدام" });
                     break;
