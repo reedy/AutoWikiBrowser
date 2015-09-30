@@ -574,7 +574,7 @@ namespace WikiFunctions.Parse
             DatesT = DatesT.Replace("iso", "ymd");
             DatesT = Regex.Match(DatesT, @"(ymd|dmy|mdy)").Value;
 
-            if (Variables.LangCode == "en" && DatesT.Length > 0)
+            if (Variables.LangCode.Equals("en") && DatesT.Length > 0)
                 switch (DatesT)
             {
                 case "dmy":
