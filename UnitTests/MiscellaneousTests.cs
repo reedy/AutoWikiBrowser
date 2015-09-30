@@ -198,7 +198,11 @@ abc={{bar}}
             Assert.IsFalse(Hide(@"[[Image:foo_here.png|").Contains("foo"), "Standard case");
             Assert.IsFalse(Hide(@"[[Image:foo with SPACE() and 0004.png|").Contains("foo"), "Standard case");
             Assert.IsFalse(Hide(@"[[Image:westminster.tube.station.jubilee.arp.jpg|").Contains("westminster.tube.station.jubilee.arp"), "Dot name");
-            
+
+            Assert.IsTrue(Hide(@"[[File:foo.jpg|thumb|140px|[[Jo]] Assistant [[Ge]]]]").StartsWith("[["), "Retain starting brackets");
+            Assert.IsTrue(Hide(@"[[File:foo.jpg|thumb|140px|[[Jo]] Assistant [[Ge]]]]").Contains(@"thumb|140px|[[Jo]] Assistant [[Ge]]]]"), "Retain ending brackets");
+
+
             AssertAllHidden(@"<imagemap>
 File:Blogs001.jpeg|Description
 File:Blogs002.jpeg|Description

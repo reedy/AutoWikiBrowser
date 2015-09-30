@@ -709,6 +709,13 @@ Bar";
             GenFixes();
 
             Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets in images, simple 2");
+
+            t = @"[[File:Miguel.jpg|x120px|thumb|[[Miguel Enríquez (privateer)|Miguel Enríquez]]]][[File:Demetrio O'Daly.jpg|x120px|thumb|[[Demetrio O'Daly]]]] [[File:Antonio Valero Bernabe.gif|x120px|thumb|[[Antonio Valero de Bernabé]]]] [[File:Manuel Rojas drawing.jpg|x120px|thumb|[[Manuel Rojas (independence leader)|Manuel Rojas]]]] [[File:CIVILWAR,PRSOLDIERsmall2.jpg|x120px|thumb|[[Augusto Rodríguez (soldier)|Augusto Rodríguez]]]] [[File:General Juan Luis Rivera.jpg|x120px|thumb|[[Juan Ríus Rivera]]]] [[File:GenSemidei.jpg|x120px|thumb|[[José Semidei Rodríguez]]]]";
+
+            ArticleText = t;
+            GenFixes();
+
+            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets in images, 3");
         }
     }
 
