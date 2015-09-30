@@ -147,6 +147,7 @@ namespace WikiFunctions
             
             string DisambigString;
 
+            // set disambguation template strings
             switch (Variables.LangCode)
             {
                 case "ar":
@@ -186,7 +187,7 @@ namespace WikiFunctions
             DisambigsGeneral = new Regex(TemplateStart + @"([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab)" + @"\s*(?:\|[^{}]*?)?}}");
             DisambigsCleanup = new Regex(TemplateStart + @"([Dd]isambig-cleanup|[Dd]isambig cleanup|[Dd]isambiguation cleanup)" + @"\s*(?:\|[^{}]*?)?}}");
 
-            // set orphan, wikify, uncat, inuse templates, dateparameter & Link FA/GA/GL strings
+            // set orphan, wikify, uncat, inuse templates, date parameter & Link FA/GA/GL strings
             string uncattemplate = UncatTemplatesEN;
             switch(Variables.LangCode)
             {
