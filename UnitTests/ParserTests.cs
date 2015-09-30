@@ -2223,18 +2223,9 @@ Text
 }}
 Text
 
-==hello==", ThreeTag = @"{{multiple issues|underlinked=May 2012|unreferenced=May 2012|POV=May 2012}}
-Text
-
-==hello==", TwoTag = @"{{multiple issues|underlinked=May 2012|unreferenced=May 2012}}
-Text
-
 ==hello==";
             Assert.AreEqual(ThreeTagNew, parser.MultipleIssues(ThreeTagNew), "no change to existing 3-tag MI new style");
-            Assert.AreEqual(TwoTagNew, parser.MultipleIssues(TwoTagNew), "no change to existing 2-tag MI new style");
-            
-            Assert.AreEqual(ThreeTag, parser.MultipleIssues(ThreeTag), "no change to existing 3-tag MI old style");
-            Assert.AreEqual(TwoTag, parser.MultipleIssues(TwoTag), "no change to existing 2-tag MI old style");
+            Assert.AreEqual(TwoTagNew, parser.MultipleIssues(TwoTagNew), "no change to existing 2-tag MI new style");            
         }
         
         [Test]
@@ -2450,20 +2441,9 @@ Text
 }}
 Text
 
-==hello==", ThreeTag = @"==sec==
-{{multiple issues|section=yes|wikify=May 2012|underlinked=May 2012|POV=May 2012}}
-Text
-
-==hello==", TwoTag = @"==sec==
-{{multiple issues|section=yes|wikify=May 2012|underlinked=May 2012}}
-Text
-
 ==hello==";
             Assert.AreEqual(ThreeTagNew, parser.MultipleIssues(ThreeTagNew), "no change to existing 3-tag MI new style");
-            Assert.AreEqual(TwoTagNew, parser.MultipleIssues(TwoTagNew), "no change to existing 2-tag MI new style");
-            
-            Assert.AreEqual(ThreeTag, parser.MultipleIssues(ThreeTag), "no change to existing 3-tag MI old style");
-            Assert.AreEqual(TwoTag, parser.MultipleIssues(TwoTag), "no change to existing 2-tag MI old style");
+            Assert.AreEqual(TwoTagNew, parser.MultipleIssues(TwoTagNew), "no change to existing 2-tag MI new style");            
         }
         
         [Test]
