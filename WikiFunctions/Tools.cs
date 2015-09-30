@@ -3143,7 +3143,7 @@ Message: {2}
 
         /// <summary>
         /// Returns a regex to match the input template
-        /// Supports nested templates and comments at end of template call
+        /// Supports nested templates and comments at end of template name
         /// </summary>
         /// <param name="templatename">The template name</param>
         /// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 is template arguments from bar to end, group 4 is arguments from bar without final }}</returns>
@@ -3183,7 +3183,7 @@ Message: {2}
         
         /// <summary>
         /// Returns a regex to match the input templates
-        /// Supports nested templates and comments at end of template call
+        /// Supports nested templates and comments at end of template name
         /// </summary>
         /// <param name="templatenames">The list of template names</param>
         /// <param name="compiled">Whether to return a compiled regex</param>
