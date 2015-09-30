@@ -1082,6 +1082,16 @@ disambig|surname
             RegexAssert.Matches(@"{{dab}}<!--comm-->", WikiRegexes.Disambigs, @"{{dab}}<!--comm-->
 ABC");
 
+            RegexAssert.IsMatch(WikiRegexes.DisambigsGeneral, @"{{Disamb}}");
+            RegexAssert.IsMatch(WikiRegexes.DisambigsGeneral, @"{{Disambig}}");
+            RegexAssert.IsMatch(WikiRegexes.DisambigsGeneral, @"{{Disambiguation}}");
+            RegexAssert.IsMatch(WikiRegexes.DisambigsGeneral, @"{{Dab}}");
+
+            RegexAssert.IsMatch(WikiRegexes.DisambigsCleanup, @"{{Disambig-cleanup}}");
+            RegexAssert.IsMatch(WikiRegexes.DisambigsCleanup, @"{{Disambig cleanup}}");
+            RegexAssert.IsMatch(WikiRegexes.DisambigsCleanup, @"{{Disambiguation cleanup}}");
+            RegexAssert.IsMatch(WikiRegexes.DisambigsCleanup, @"{{Disambiguation cleanup}} <!-- page needs cleanup-->");
+
             // language variation
             #if DEBUG
             Variables.SetProjectLangCode("sv");
