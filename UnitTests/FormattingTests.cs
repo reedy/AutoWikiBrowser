@@ -229,10 +229,17 @@ Bar", Parsers.FixHeadings(@"Foo
 Bar", "test"), "External Links capitalization");
 
             
-            string HeadingEqualTitle = Parsers.FixHeadings(@"A
+            string HeadingEqualTitle = Parsers.FixHeadings(@"
 ==Foo==
 B", "Foo");
             Assert.IsFalse(HeadingEqualTitle.Contains("Foo"), "Heading same as title");
+
+            HeadingEqualTitle = Parsers.FixHeadings(@"Words here
+==Section==
+Words there.
+==Foo==
+B", "Foo");
+            Assert.IsTrue(HeadingEqualTitle.Contains("Foo"), "Heading same as title in later section retained");
 
             Assert.AreEqual(@"'''The'''.
 
@@ -609,11 +616,7 @@ Bar", "Test"), "inserts blank line if one missing");
 '''Foo''' great.", "Foo"), @"
 '''Foo''' great.", "Removes unnecessary general headers from start of article");
 
-            Assert.AreEqual(@"Great article
-
-Really great", Parsers.FixHeadings(@"Great article
-
-==Foo==
+            Assert.AreEqual(@"Really great", Parsers.FixHeadings(@"==Foo==
 Really great", "Foo"), "Removes heading if it matches pagetitle");
 
             const string L3 = @"Great article

@@ -99,9 +99,9 @@ namespace WikiFunctions.Parse
             // Get all the custom headings, ignoring normal References, External links, See also sections with correct capitalization
             List<string> customHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText) where !ReferencesExternalLinksSeeAlsoValid.IsMatch(m.Value) select m.Value.ToLower()).ToList();
 
-            // Removes level 2 heading if it matches pagetitle
+            // Removes level 2 heading (at start of article only) if it matches pagetitle
             if (customHeadings.Any(h => h.Contains(articleTitle.ToLower())))
-                articleText = Regex.Replace(articleText, @"^(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
+                articleText = Regex.Replace(articleText, @"^\s*(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "");
 
             // Performance: apply fixes to all headings only if a custom heading matches for the bad headings words
             if (customHeadings.Any(h => BadHeadings.Any(h.Contains)))
