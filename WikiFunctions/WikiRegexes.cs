@@ -1188,17 +1188,17 @@ namespace WikiFunctions
         /// Matches the sister links templates such as {{wiktionary}}
         /// </summary>
         public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new[] { "wiktionary", "sisterlinks", "sister links", "sister project links", "wikibooks", "wikimedia", "wikiversity" }, false );
-        
+
         /// <summary>
         /// Matches the maintenance tags (en-wiki only) such as orphan, cleanup
         /// </summary>
         public static readonly Regex MaintenanceTemplates = MultipleIssuesArticleMaintenanceTemplates;
         
         /// <summary>
-        /// Matches the {{Unreferenced}} template, or parameter within old-style multiple issues template
+        /// Matches the {{Unreferenced}} template
         /// </summary>
-        public static readonly Regex Unreferenced = new Regex(@"(?:{{\s*([Uu]nreferenced( stub)?)\s*(?:\|.*?)?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*unreferenced\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.Singleline);
-        
+        public static readonly Regex Unreferenced = Tools.NestedTemplateRegex(new[] { "unreferenced", "unreferenced stub"}, false );
+
         /// <summary>
         /// Matches {{Portal}} template
         /// </summary>
