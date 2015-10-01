@@ -286,7 +286,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Loads ObjectCache.xml file if it exists
         /// </summary>
         /// <param name="fileName"></param>
         public void Load(string fileName)
