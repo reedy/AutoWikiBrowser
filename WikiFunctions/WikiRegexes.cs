@@ -184,8 +184,8 @@ namespace WikiFunctions
 
             Disambigs = new Regex(TemplateStart + DisambigString + @"\s*(?:\|[^{}]*?)?}}(?: *<!--.*?-->(?=\r\n|$))?", RegexOptions.Multiline);
 
-            DisambigsGeneral = new Regex(TemplateStart + @"([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab)" + @"\s*(?:\|[^{}]*?)?}}");
-            DisambigsCleanup = new Regex(TemplateStart + @"([Dd]isambig-cleanup|[Dd]isambig cleanup|[Dd]isambiguation cleanup)" + @"\s*(?:\|[^{}]*?)?}}");
+            DisambigsGeneral = Tools.NestedTemplateRegex(new[] {"Disamb", "Disambig", "Disambiguation", "Dab"});
+            DisambigsCleanup = Tools.NestedTemplateRegex(new[] {"Disambig-cleanup", "Disambig cleanup", "Disambiguation cleanup"});
 
             // set orphan, wikify, uncat, inuse templates, date parameter & Link FA/GA/GL strings
             string uncattemplate = UncatTemplatesEN;
