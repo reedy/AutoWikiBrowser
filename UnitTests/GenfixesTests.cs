@@ -716,6 +716,13 @@ Bar";
             GenFixes();
 
             Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets in images, 3");
+
+            t = @"[[File:Mat.jpg|thumb|Same|link=https://en.wikipedia.org/wiki/File:Mat.jpg]]";
+
+            ArticleText = t;
+            GenFixes();
+
+            Assert.AreEqual(ArticleText, t, "No change to brackets/images, 4");
         }
     }
 

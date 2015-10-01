@@ -80,6 +80,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex MathCodeTypoTemplates = Tools.NestedTemplateRegex(new [] { "math", "code", "As written", "Notatypo", "Not a typo", "Proper name", "Typo" });
         private static readonly Regex RetainBraces = new Regex(@"(?<=\[\[).+(?=\]\])", RegexOptions.Singleline);
         private static readonly Regex RetainStartBraces = new Regex(@"(?<=\[\[).+", RegexOptions.Singleline);
+        private static readonly Regex RetainEndBraces = new Regex(@".+(?=\]\])", RegexOptions.Singleline);
         private static readonly Regex All = new Regex(@".+", RegexOptions.Singleline);
 
         /// <summary>
@@ -124,6 +125,8 @@ namespace WikiFunctions.Parse
                         else
                             Replace(RetainStartBraces.Matches(res), ref res);
                     }
+                    else if(res.EndsWith("]]"))
+                        Replace(RetainEndBraces.Matches(res), ref res);
                     else
                         Replace(All.Matches(res), ref res);
                     return res;});
