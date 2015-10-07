@@ -78,8 +78,9 @@ namespace WikiFunctions.Parse
                         continue;
 
                     string after = FixDateOrdinalsAndOfLocal(before, monthsInTitle);
-                    
-                    if (!after.Equals(before))
+
+                    // check substring as do not want to change start of string as we could have broken up a year etc. by taking exactly 25 characters
+                    if (!after.Equals(before) && after.Substring(0, 1).Equals(before.Substring(0, 1)))
                     {
                         reparse = true;
                         articleText = articleText.Replace(before, after);

@@ -181,6 +181,9 @@ namespace UnitTests
         {
             AssertChange(@"over July 09-11, 2009", @"over July 9–11, 2009");
             AssertChange(@"{{Citation | title = Admiralty notice | date = March 1st – March 5th, 1747 | page = 1}}", @"{{Citation | title = Admiralty notice | date = March 1–5, 1747 | page = 1}}");
+
+            AssertNotChanged(@"First was won on 2007 February 7. 
+In 2007 May 22 team has won gold medals.");
         }
 
         [Test]
