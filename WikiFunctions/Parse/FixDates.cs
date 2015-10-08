@@ -34,6 +34,7 @@ namespace WikiFunctions.Parse
         // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
         private static readonly Regex OfBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.Months + @" +of +(20\d\d|1[89]\d\d)\b(?<!\b[Tt]he {1,5}\w{3,15} {1,5}of {1,5}(20\d\d|1[89]\d\d))");
         private static readonly Regex OrdinalsInDatesAm = new Regex(@"(?<!\b[1-3]\d +)\b" + WikiRegexes.Months + @" +([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he +\w{3,10} +(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:( *(?:to|and|.|&.dash;) *[0-3]?\d)(?:st|nd|rd|th)\b)?");
+        private static readonly Regex OrdinalsInDatesAmRange = new Regex(@"(?<!\b[1-3]\d +)\b" + WikiRegexes.Months + @" +([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he +\w{3,10} +(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:( *(?:to|and|.|&.dash;) *[0-3]?\d)(?:st|nd|rd|th)\b)*");
         private static readonly Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)( *(?:to|and|.|&.dash;) *))?\b([0-3]?\d)(?:st|nd|rd|th) +" + WikiRegexes.Months + @"\b(?<!\b[Tt]he +(?:[0-3]?\d)(?:st|nd|rd|th) +\w{3,10})");
         private static readonly Regex DateLeadingZerosAm = new Regex(@"(?<!\b[0-3]?\d *)\b" + WikiRegexes.Months + @" +0([1-9])" + @"\b");
         private static readonly Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9]) +" + WikiRegexes.Months + @"\b");
@@ -107,7 +108,7 @@ namespace WikiFunctions.Parse
             // ordinals check for performance
             if (!monthsInTitle && Regex.IsMatch(textPortion, @"[0-9](st|nd|rd|th)"))
             {
-                textPortion = OrdinalsInDatesAm.Replace(textPortion, "$1 $2$3");
+                textPortion = OrdinalsInDatesAmRange.Replace(textPortion, m => Regex.Replace(m.Value, @"\b([1-3]?[0-9])(?:st|nd|rd|th)\b", "$1"));
                 textPortion = OrdinalsInDatesInt.Replace(textPortion, "$1$2$3 $4");
                 textPortion = DayOfMonth.Replace(textPortion, "$1 $2");
             }

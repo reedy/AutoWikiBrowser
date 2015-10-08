@@ -101,6 +101,8 @@ namespace UnitTests
             Assert.AreEqual(@"On 14,15 June elections were", parser.FixDateOrdinalsAndOf(@"On 14th,15th June elections were", "test"));
             Assert.AreEqual(@"On 3 and 15 June elections were", parser.FixDateOrdinalsAndOf(@"On 3rd and 15th June elections were", "test"));
 
+            Assert.AreEqual(@"On March 12, 13, 14, 2008 elections were", parser.FixDateOrdinalsAndOf(@"On March 12th, 13th, 14th, 2008 elections were", "test"));
+
             // no Matches, particularly dates with 'the' before where fixing the ordinal may leave 'on the 11 May' which wouldn't read well
             genFixes.AssertNotChanged(@"On 14th march was");
             genFixes.AssertNotChanged(@"Now the 14th February was");
