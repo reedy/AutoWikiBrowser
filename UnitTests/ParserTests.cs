@@ -69,6 +69,8 @@ namespace UnitTests
             Assert.AreEqual(@"Now in January 1807 a new", parser.FixDateOrdinalsAndOf(@"Now in January of 1807 a new", "test"));
             Assert.AreEqual(@"Now in January 1807 and May 1804 a new", parser.FixDateOrdinalsAndOf(@"Now in January of 1807 and May of 1804 a new", "test"));
 
+            Assert.AreEqual(@"On 28 July 2006 – 14 October 2008 was", parser.FixDateOrdinalsAndOf(@"On 28 July of 2006 – 14 October of 2008 was", "test"));
+
             // no Matches
             genFixes.AssertNotChanged(@"Now ""in July of 2007"" a new");
             genFixes.AssertNotChanged(@"Now {{quote|in July of 2007}} a new");
