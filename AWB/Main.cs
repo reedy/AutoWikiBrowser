@@ -3333,6 +3333,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     Parser.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
                     break;
             }
+            
+            // commons uses alpha as https://commons.wikimedia.org/w/api.php?action=query&meta=allmessages&ammessages=Interwiki%20config-sorting%20order is not set to an override value
+            if(project == ProjectEnum.commons)
+                Parser.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
 
             // user interface
             if (!Variables.IsWikipediaEN)
