@@ -40,11 +40,11 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9]) +" + WikiRegexes.Months + @"\b");
         private static readonly Regex MonthsRegex = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @"\b.{0,30}");
         private static readonly Regex MonthsRegexNoSecondBreak = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @".{0,30}");
-        private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12]\d|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months);
-        private static readonly Regex Ordinal = new Regex(@"\d(?:st|nd|rd|th)");
+        private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12][0-9]|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months);
+        private static readonly Regex Ordinal = new Regex(@"[0-9](?:st|nd|rd|th)");
         private static readonly Regex MonthsAct = new Regex(@"\b(?:January|February|March|April|May|June|July|August|September|October|November|December) Act\b");
         //Ordinal number found inside <sup> tags.
-        private static readonly Regex SupOrdinal = new Regex(@"(\d)<sup>(st|nd|rd|th)</sup>", RegexOptions.Compiled);
+        private static readonly Regex SupOrdinal = new Regex(@"([0-9])<sup>(st|nd|rd|th)</sup>", RegexOptions.Compiled);
         private static readonly Regex FixDateOrdinalsAndOfQuick = new Regex(@"[0-9](st|nd|rd|th)|\b0[1-9]\b| of +([0-9]|[A-Z])");
 
         // Covered by TestFixDateOrdinalsAndOf
