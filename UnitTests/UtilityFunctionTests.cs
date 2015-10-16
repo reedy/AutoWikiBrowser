@@ -804,6 +804,8 @@ foo {{persondata}}
 ==references== {{reflist}} <ref>b</ref>"));
             Variables.SetProjectLangCode("en");
             #endif
+
+            Assert.IsFalse(Parsers.HasRefAfterReflist(@""));
         }
 
         [Test]

@@ -1809,7 +1809,7 @@ namespace WikiFunctions.Parse
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         public static bool HasRefAfterReflist(string articleText)
         {
-             if (!Variables.LangCode.Equals("en"))
+            if (!Variables.LangCode.Equals("en") || articleText.Length == 0)
                 return false;
 
             int refstemplateindex = 0, reflength = 0;
