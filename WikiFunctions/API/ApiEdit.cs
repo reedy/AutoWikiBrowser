@@ -224,7 +224,8 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected static string BuildQuery(Dictionary<string, string> request)
         {
-            if (!UseInToken && request.ContainsKey("intoken")){
+            if (!UseInToken && request.ContainsKey("intoken"))
+            {
                 request.Remove("intoken");
             }
 
@@ -918,8 +919,7 @@ namespace WikiFunctions.API
             Protect(title, reason, expiry, edit, move, false, false);
         }
 
-        public void Protect(string title, string reason, TimeSpan expiry, string edit, string move, bool cascade,
-            bool watch)
+        public void Protect(string title, string reason, TimeSpan expiry, string edit, string move, bool cascade, bool watch)
         {
             Protect(title, reason, expiry.ToString(), edit, move, cascade, watch);
         }
@@ -1261,7 +1261,6 @@ namespace WikiFunctions.API
                         {"type", "rollback"},
                         {"rvtoken", "rollback"}, // Pre 1.24 compat
                         {"titles", title}
-
                     },
                     ActionOptions.All);
 
@@ -1602,5 +1601,5 @@ namespace WikiFunctions.API
         CheckNewMessages = 4,
 
         All = CheckMaxlag | RequireLogin | CheckNewMessages
-    };
+    }
 }
