@@ -408,7 +408,7 @@ namespace WikiFunctions.Parse
                         if (WikiRegexes.Wikify.IsMatch(articleText))
                         {
                             articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
-                            tagsRemoved.Add("ويكي");
+                            tagsRemoved.Add("وصلات قليلة");
                         }
                     }
                     else if (Variables.LangCode.Equals("arz"))
@@ -453,8 +453,8 @@ namespace WikiFunctions.Parse
                 
                 if (Variables.LangCode.Equals("ar"))
                 {
-                    articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText.TrimStart();
-                    tagsAdded.Add("[[وب:ويكي|ويكي]]");
+                    articleText = "{{وصلات قليلة|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText.TrimStart();
+                    tagsAdded.Add("[[وب:وصلات قليلة|وصلات قليلة]]");
                 }
                 else if (Variables.LangCode.Equals("arz"))
                 {
@@ -485,7 +485,7 @@ namespace WikiFunctions.Parse
                 {
                     if (Variables.LangCode.Equals("ar"))
                     {
-                        tagsRemoved.Add("ويكي");
+                        tagsRemoved.Add("وصلات قليلة");
                     }
                     else if (Variables.LangCode.Equals("arz"))
                     {

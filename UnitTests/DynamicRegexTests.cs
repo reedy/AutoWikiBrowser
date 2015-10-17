@@ -802,7 +802,7 @@ now stubborn}}");
             WikiRegexes.MakeLangSpecificRegexes();
 
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{ويكي}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{وصلات قليلة}}"));
 
             Variables.SetProjectLangCode("arz");
             WikiRegexes.MakeLangSpecificRegexes();

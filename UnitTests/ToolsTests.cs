@@ -2004,10 +2004,10 @@ title={{abc|fdkjdsfjk=fdaskjlfds
         [Test]
         public void NestedTemplateRegexRTL()
         {
-            Regex ArTemplate = Tools.NestedTemplateRegex(@"ويكي");
-            Assert.IsTrue(ArTemplate.IsMatch(@"{{ويكي|تاريخ=ديسمبر 2012}}"));
-            Assert.AreEqual("", ArTemplate.Replace(@"{{ويكي|تاريخ=ديسمبر 2012}}", ""));
-            Assert.AreEqual("", ArTemplate.Replace(@"{{ويكي|تاريخ=يناير_2009}}", ""));
+            Regex ArTemplate = Tools.NestedTemplateRegex(@"وصلات قليلة");
+            Assert.IsTrue(ArTemplate.IsMatch(@"{{وصلات قليلة|تاريخ=ديسمبر 2012}}"));
+            Assert.AreEqual("", ArTemplate.Replace(@"{{وصلات قليلة|تاريخ=ديسمبر 2012}}", ""));
+            Assert.AreEqual("", ArTemplate.Replace(@"{{وصلات قليلة|تاريخ=يناير_2009}}", ""));
         }
 
         [Test]

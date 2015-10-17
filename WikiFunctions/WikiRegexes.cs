@@ -156,7 +156,7 @@ namespace WikiFunctions
                     uncattemplate = @"(غير مصنفة|غير مصنف|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub|بذرة غير مصنفة)";
                     DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|نهاية مسدودة)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
-                    Wikify =Tools.NestedTemplateRegex(@"ويكي");
+                    Wikify =Tools.NestedTemplateRegex(@"وصلات قليلة");
                     InUse = Tools.NestedTemplateRegex(new[] {"إنشاء", "تحرر", "Underconstruction", "تحت الإنشاء", "تحت الأنشاء", "يحرر", "إنشاء مقالة", "انشاء مقالة", "Inuse", "تحرير كثيف", "يحرر المقالة", "تحت التحرير", "قيد الاستخدام" });
                     DisambigString = "([Dd]isambig|توضيح|صفحة توضيح|أسمياء)";
                     break;
