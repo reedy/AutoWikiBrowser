@@ -90,6 +90,7 @@ namespace UnitTests
             RegexAssert.Matches(WikiRegexes.Images, "[[File:Test of the.ogg]]", "[[File:Test of the.ogg]]");
             RegexAssert.IsMatch(WikiRegexes.Images, "[[File:Test_of_the.ogg]]");
             RegexAssert.IsMatch(WikiRegexes.Images, "[[Image:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.Images, "[[File:test.jpg|thumbnail|Some description [[here]], 1987]]");
             RegexAssert.IsMatch(WikiRegexes.Images, "[[Image:Test here.png|right|200px|Some description [[here]] or there]]");
             RegexAssert.IsMatch(WikiRegexes.Images, @"[[Image:Test here.png|right|200px|Some description [[here]] or there
  over lines]]");
