@@ -3964,6 +3964,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             {
                 string articleTextLocal = txtEdit.Text;
 
+                // ignore dates in file captions etc.
+                articleTextLocal = Tools.ReplaceWithSpaces(articleTextLocal, WikiRegexes.FileNamespaceLink.Matches(articleTextLocal));
+                
                 // ignore dates from dated maintenance tags etc.
                 foreach (Match m2 in WikiRegexes.NestedTemplates.Matches(articleTextLocal))
                 {
