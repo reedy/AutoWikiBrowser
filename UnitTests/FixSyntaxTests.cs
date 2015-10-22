@@ -826,9 +826,10 @@ Now [[A],] was."));
         public void TestFixSyntaxUnbalancedBrackets()
         {
             Assert.AreEqual(@"<ref>[http://www.site.com]</ref>", Parsers.FixSyntax(@"<ref>{{http://www.site.com}}</ref>"));
+            Assert.AreEqual(@"<ref>[http://www.site.com]</ref>", Parsers.FixSyntax(@"<ref>{{http://www.site.com }}</ref>"));
             Assert.AreEqual(@"<ref>[http://www.site.com cool site]</ref>", Parsers.FixSyntax(@"<ref>{{http://www.site.com cool site}}</ref>"));
             Assert.AreEqual(@"<ref name=""Fred"">[http://www.site.com]</ref>", Parsers.FixSyntax(@"<ref name=""Fred"">{{http://www.site.com}}</ref>"));
-            Assert.AreEqual(@"<ref> [http://www.site.com] </ref>", Parsers.FixSyntax(@"<ref> {{http://www.site.com}} </ref>"));
+            Assert.AreEqual(@"<ref>[http://www.site.com]</ref>", Parsers.FixSyntax(@"<ref> {{http://www.site.com}} </ref>"));
 
             Assert.AreEqual(@"{{hello}}", Parsers.FixSyntax(@"{[hello}}"));
             Assert.AreEqual(@"{{hello}}", Parsers.FixSyntax(@"[{hello}}"));
