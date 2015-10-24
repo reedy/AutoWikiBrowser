@@ -342,7 +342,9 @@ Template:foo}}"));
         [Test]
         public void TestFixSyntaxDisambigCat()
         {
-            Assert.AreEqual(@"Foo {{Disambiguation}}", Parsers.FixSyntax(@"Foo [[Category:Disambiguation pages]]"), "do nothing if everything is OK");
+            Assert.AreEqual(@"Foo {{Disambiguation}}", Parsers.FixSyntax(@"Foo [[Category:Disambiguation pages]]"), "Cat to template");
+            Assert.AreEqual(@"Foo {{Disambiguation}}", Parsers.FixSyntax(@"Foo {{Disambiguation}}
+[[Category:Disambiguation pages]]"), "Remove cat when template also present");
         }
 
         [Test]

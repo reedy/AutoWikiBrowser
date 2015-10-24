@@ -168,9 +168,9 @@ namespace WikiFunctions.Parse
                 // DEFAULTSORT whitespace fix - CHECKWIKI error 88
                 articleText = FixSyntaxDefaultSort(articleText);
 
-                // This category should not be directly added
+                // This category should not be directly added, remove if template present else replace with template
                 if ((from Match m in ssbMc where m.Value.Equals(@"[[Category:Disambiguation pages]]") select m).Any())
-                    articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
+                    articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", TemplateExists(alltemplates, Tools.NestedTemplateRegex("disambiguation")) ? "" : @"{{Disambiguation}}");
                 
                 // Remove br tags after maintance templates
                 articleText = MaintanceTemplateWithBr.Replace(articleText,"$1");
