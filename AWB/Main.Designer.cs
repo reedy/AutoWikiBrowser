@@ -88,6 +88,7 @@ namespace AutoWikiBrowser
             this.cleanupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedyDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disambiguationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncategorisedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
@@ -773,6 +774,7 @@ namespace AutoWikiBrowser
             this.cleanupToolStripMenuItem,
             this.speedyDeleteToolStripMenuItem,
             this.clearToolStripMenuItem,
+            this.disambiguationToolStripMenuItem,
             this.uncategorisedToolStripMenuItem,
             this.stubToolStripMenuItem,
             this.toolStripTextBox1});
@@ -821,6 +823,13 @@ namespace AutoWikiBrowser
             this.clearToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.clearToolStripMenuItem.Text = "{{clear}}";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
+            // 
+            // disambiguationToolStripMenuItem
+            // 
+            this.disambiguationToolStripMenuItem.Name = "disambiguationToolStripMenuItem";
+            this.disambiguationToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.disambiguationToolStripMenuItem.Text = "Disambiguation";
+            this.disambiguationToolStripMenuItem.Click += new System.EventHandler(this.disambiguationToolStripMenuItem_Click);
             // 
             // uncategorisedToolStripMenuItem
             // 
@@ -4394,6 +4403,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem openPageInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disambiguationToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveListDialog;
         private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem followRedirectsToolStripMenuItem;

@@ -3910,6 +3910,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             txtEdit.SelectedText = "{{subst:clear}}";
         }
 
+        private void disambiguationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            txtEdit.SelectedText = "{{Disambiguation}}";
+        }
+
         private void uncategorisedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.SelectedText = "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
