@@ -61,7 +61,6 @@ namespace WikiFunctions.Logging
             if (skipped)
             {
                 logListener.AddAndDateStamp(lvIgnored);
-                ResizeListView(lvIgnored);
                 
                 // sort descending (newest first) unless user has clicked columns to create custom sort order
                 if (lvIgnored.Sorting == SortOrder.None)
@@ -73,7 +72,6 @@ namespace WikiFunctions.Logging
             else
             {
                 logListener.AddAndDateStamp(lvSaved);
-                ResizeListView(lvSaved);
                 
                  // sort descending (newest first) unless user has clicked columns to create custom sort order
                 if (lvSaved.Sorting == SortOrder.None)
