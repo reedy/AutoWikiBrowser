@@ -304,13 +304,18 @@ a");
 ==References==
 {{Reflist}}"); // ((template}} --> {{template}}
 
-AssertNotChanged(@"'''Peroni''' is<ref>{{cite web|url=http://www.assobirra.it|form.
+            AssertNotChanged(@"'''Peroni''' is<ref>{{cite web|url=http://www.assobirra.it|form.
 
 ==Nastro Azzurro==
 W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
 
 ==References==
 {{reflist}}");
+
+            AssertNotChanged(@"'''J''' [http://foo.com|title=2014] in [[W–S|A]].
+
+{{DEFAULTSORT:P, A}}
+[[Category:1960]]");
         }
 
         [Test]

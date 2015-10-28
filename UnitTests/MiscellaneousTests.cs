@@ -242,6 +242,8 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(Hide(@"{{cite web| title = foo | date = May 2011").Contains(@"foo"), "Title not hidden if no year");
             Assert.IsFalse(Hide(@"{{cite web| title = Now September 20 - September 26, 2010 was | date = May 2011").Contains(@"September"), "title hidden when contains year");
             Assert.IsTrue(Tools.GetTemplateParameterValue(Hide(@"{{cite web| title = September 20 - September 26, 2010 | date = May 2011"), "title").Length > 0, "title parameter has length if hidden");
+
+            Assert.IsTrue(Hide(@"{{cite web| title = [Now September 20 - September 26, 2010] was | date = May 2011").Contains(@"]"), "title hiding, bracket handling");
             
             Assert.IsTrue(Hide(@"{{cite web| trans_title = foo | date = May 2011").Contains(@"foo"), "trans_title not hidden if no year");
             Assert.IsFalse(Hide(@"{{cite web| trans_title = Now September 20 - September 26, 2010 was | date = May 2011").Contains(@"September"), "trans_title hidden when contains year");

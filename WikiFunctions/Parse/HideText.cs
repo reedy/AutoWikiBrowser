@@ -76,7 +76,7 @@ namespace WikiFunctions.Parse
             articleText = sb.ToString();
         }
         
-        private static readonly Regex CiteTitleYear = new Regex(@"(?<=\|\s*(?:trans_)?title\s*=\s*)[^\|{}<>]*[12][0-9]{3}\b[^\|{}<>]*", RegexOptions.Compiled);
+        private static readonly Regex CiteTitleYear = new Regex(@"(?<=\|\s*(?:trans_)?title\s*=\s*)[^\|{}<>]*[12][0-9]{3}\b[^\|{}<>[\]]*", RegexOptions.Compiled);
         private static readonly Regex MathCodeTypoTemplates = Tools.NestedTemplateRegex(new [] { "math", "code", "As written", "Notatypo", "Not a typo", "Proper name", "Typo" });
         private static readonly Regex RetainBraces = new Regex(@"(?<=\[\[).+(?=\]\])", RegexOptions.Singleline);
         private static readonly Regex RetainStartBraces = new Regex(@"(?<=\[\[).+", RegexOptions.Singleline);
