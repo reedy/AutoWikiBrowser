@@ -159,6 +159,23 @@ namespace WikiFunctions.Controls
 
             foreach (ColumnHeader head in Columns)
             {
+                // Performance: Time heading only ever has date & time so don't need to resize on every item addition
+                if(head.Text.Equals("Time"))
+                {
+                    if(Items.Count == 0)
+                        head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    else if(Items.Count == 1)
+                        head.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+
+                    continue;
+                }
+                // Performance: Skipped By is "User" or "AWB" only so is always defined by header size not content
+                else if(head.Text.Equals("Skipped By") && Items.Count <= 1)
+                {
+                    head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    continue;
+                }
+
                 int width;
 
                 if(!colheadsizes.TryGetValue(head.Text, out width))
