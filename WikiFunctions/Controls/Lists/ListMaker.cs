@@ -19,19 +19,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
-using System.Threading;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
 using WikiFunctions.API;
 using WikiFunctions.DBScanner;
 using WikiFunctions.Lists;
 using WikiFunctions.Lists.Providers;
-using WikiFunctions.Plugin;
-using System.Linq;
 
 namespace WikiFunctions.Controls.Lists
 {
