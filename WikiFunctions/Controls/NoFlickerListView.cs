@@ -136,16 +136,36 @@ namespace WikiFunctions.Controls
             catch { }
         }
 
+        // Cache of column headings and sizes for listview
+        System.Collections.Generic.Dictionary<string, int> colheadsizes = new System.Collections.Generic.Dictionary<string, int>();
+
         /// <summary>
         /// Automatically resize all the columns in the list view based on whether the text or the title is larger
         /// No BeginUpdate()/EndUpdate called
         /// </summary>
         public void ResizeColumns()
         {
+            // cache the column sizes of the listview when sized based on column headings
+            // so we calculate this once per listview not once per change to listview
+            if(colheadsizes.Count == 0)
+            {
+                foreach(ColumnHeader head in Columns)
+                {
+                    head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    if(!head.Text.Equals("ColumnHeader"))
+                        colheadsizes.Add(head.Text, head.Width);
+                }
+            }
+
             foreach (ColumnHeader head in Columns)
             {
-                head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-                int width = head.Width;
+                int width;
+
+                if(!colheadsizes.TryGetValue(head.Text, out width))
+                {
+                    head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    width = head.Width;
+                }
 
                 head.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
                 int width2 = head.Width;
