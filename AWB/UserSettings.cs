@@ -19,13 +19,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Windows.Forms;
-using System.IO;
 using System.Collections.Generic;
-using WikiFunctions;
-using WikiFunctions.Plugin;
-using WikiFunctions.AWBSettings;
+using System.IO;
+using System.Windows.Forms;
 using AutoWikiBrowser.Plugins;
+using WikiFunctions;
+using WikiFunctions.AWBSettings;
+using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
 {

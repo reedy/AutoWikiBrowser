@@ -10,20 +10,20 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY o
 You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System.Globalization;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+using AutoWikiBrowser.Plugins.Kingbotk.Components;
+using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
+using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 using AutoWikiBrowser.Plugins.Kingbotk.WikiProjects;
 using WikiFunctions;
-using WikiFunctions.Plugin;
 using WikiFunctions.API;
+using WikiFunctions.Plugin;
 
 [assembly: CLSCompliant(true)]
 
