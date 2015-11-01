@@ -1090,6 +1090,9 @@ now"));
             Assert.AreNotEqual("[[somelink]]", Parsers.FixSyntax("[somelink]"));
             Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[[somelink|]"));
 
+             // double pipe
+            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixSyntax(@"[[foo||bar]]"));
+
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Erroneously_removing_pipe
             Assert.AreEqual("[[|foo]]", Parsers.FixSyntax("[[|foo]]"));
 
