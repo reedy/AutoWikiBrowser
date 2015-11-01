@@ -1821,6 +1821,7 @@ def
         public void RemoveExcessTemplatePipes()
         {
             Assert.AreEqual(@"{{foo|param1=before}}", Tools.RemoveExcessTemplatePipes(@"{{foo||param1=before}}"), "excess pipe removed");
+            Assert.AreEqual(@"{{foo|param1=before}}", Tools.RemoveExcessTemplatePipes(@"{{foo||param1=before|}}"), "excess pipes removed");
             Assert.AreEqual(@"{{foo|param1=before}}", Tools.RemoveExcessTemplatePipes(@"{{foo| |param1=before}}"), "excess spaced pipe removed");
             Assert.AreEqual(@"{{foo|param1=before}}", Tools.RemoveExcessTemplatePipes(@"{{foo|
 		|param1=before}}"), "space is newline");
