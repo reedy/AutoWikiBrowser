@@ -21,8 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 using WikiFunctions.Background;
 using WikiFunctions.Controls;
 
