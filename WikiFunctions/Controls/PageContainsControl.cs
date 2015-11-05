@@ -15,7 +15,8 @@ namespace WikiFunctions.Controls
 
         private void chkSkipIfContains_CheckedChanged(object sender, EventArgs e)
         {
-            txtContains.Enabled = chkContains.Checked;
+            // TODO: This feels weird
+            CheckEnabled = chkContains.Checked;
         }
 
         private void txtContains_TextChanged(object sender, EventArgs e)
@@ -34,7 +35,14 @@ namespace WikiFunctions.Controls
         public bool CheckEnabled
         {
             get { return chkContains.Checked; }
-            set { chkContains.Checked = value; }
+            set
+            {
+                txtContains.Enabled = value;
+                chkIsRegex.Enabled = value;
+                chkCaseSensitive.Enabled = value;
+                chkAfterProcessing.Enabled = value;
+                chkContains.Checked = value;
+            }
         }
 
         public string CheckText
