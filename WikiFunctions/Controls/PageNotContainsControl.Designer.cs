@@ -30,10 +30,27 @@
         {
             this.SuspendLayout();
             // 
+            // chkCaseSensitive
+            // 
+            this.toolTip1.SetToolTip(this.chkCaseSensitive, "Makes \"Doesn\'t contain\" matches case-sensitive");
+            // 
+            // chkAfterProcessing
+            // 
+            this.toolTip1.SetToolTip(this.chkAfterProcessing, "Apply the \"Doesn\'t contain\" check after processing the page");
+            // 
+            // chkIsRegex
+            // 
+            this.toolTip1.SetToolTip(this.chkIsRegex, "Enables regular expressions for \"Doesn\'t contain\"");
+            // 
+            // txtContains
+            // 
+            this.toolTip1.SetToolTip(this.txtContains, "Skip pages that don\'t contain this text");
+            // 
             // chkContains
             // 
             this.chkContains.Size = new System.Drawing.Size(107, 17);
             this.chkContains.Text = "Doesn\'t contain:";
+            this.toolTip1.SetToolTip(this.chkContains, "Skip pages that don\'t contain this text");
             // 
             // PageNotContainsControl
             // 

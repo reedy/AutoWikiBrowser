@@ -45,7 +45,7 @@
             this.chkCaseSensitive.Size = new System.Drawing.Size(94, 17);
             this.chkCaseSensitive.TabIndex = 10;
             this.chkCaseSensitive.Text = "Case sensitive";
-            this.toolTip1.SetToolTip(this.chkCaseSensitive, "Makes \"Skip if contains\" matches case-sensitive");
+            this.toolTip1.SetToolTip(this.chkCaseSensitive, "Makes \"Contains\" matches case-sensitive");
             this.chkCaseSensitive.UseVisualStyleBackColor = true;
             this.chkCaseSensitive.CheckedChanged += new System.EventHandler(this.InvalidateComparer);
             // 
@@ -57,7 +57,7 @@
             this.chkAfterProcessing.Size = new System.Drawing.Size(81, 17);
             this.chkAfterProcessing.TabIndex = 11;
             this.chkAfterProcessing.Text = "Check after";
-            this.toolTip1.SetToolTip(this.chkAfterProcessing, "Apply the \"Skip if contains\" check after processing the page");
+            this.toolTip1.SetToolTip(this.chkAfterProcessing, "Apply the \"Contains\" check after processing the page");
             this.chkAfterProcessing.UseVisualStyleBackColor = true;
             // 
             // chkIsRegex
@@ -68,7 +68,7 @@
             this.chkIsRegex.Size = new System.Drawing.Size(57, 17);
             this.chkIsRegex.TabIndex = 9;
             this.chkIsRegex.Text = "Regex";
-            this.toolTip1.SetToolTip(this.chkIsRegex, "Enables regular expressions for \"Skip if contains\"");
+            this.toolTip1.SetToolTip(this.chkIsRegex, "Enables regular expressions for \"Contains\"");
             this.chkIsRegex.UseVisualStyleBackColor = true;
             this.chkIsRegex.CheckedChanged += new System.EventHandler(this.InvalidateComparer);
             // 
@@ -83,7 +83,7 @@
             this.txtContains.Size = new System.Drawing.Size(154, 20);
             this.txtContains.TabIndex = 8;
             this.txtContains.Text = "";
-            this.toolTip1.SetToolTip(this.txtContains, "Skip pages that contains this text");
+            this.toolTip1.SetToolTip(this.txtContains, "Skip pages that contain this text");
             this.txtContains.TextChanged += new System.EventHandler(this.InvalidateComparer);
             // 
             // chkContains
@@ -93,7 +93,7 @@
             this.chkContains.Size = new System.Drawing.Size(89, 17);
             this.chkContains.TabIndex = 7;
             this.chkContains.Text = "Contains:";
-            this.toolTip1.SetToolTip(this.chkContains, "Skip pages that contains this text");
+            this.toolTip1.SetToolTip(this.chkContains, "Skip pages that contain this text");
             this.chkContains.UseVisualStyleBackColor = true;
             this.chkContains.CheckedChanged += new System.EventHandler(this.chkSkipIfContains_CheckedChanged);
             // 
