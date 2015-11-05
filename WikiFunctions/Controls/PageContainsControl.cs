@@ -10,6 +10,7 @@ namespace WikiFunctions.Controls
         public PageContainsControl()
         {
             InitializeComponent();
+            txtContains.TextChanged += txtContains_TextChanged;
         }
 
         private void chkSkipIfContains_CheckedChanged(object sender, EventArgs e)
@@ -68,7 +69,7 @@ namespace WikiFunctions.Controls
         /// </summary>
         /// <param name="article"></param>
         /// <returns></returns>
-        public bool Matches(Article article)
+        public virtual bool Matches(Article article)
         {
             if (_comparer == null)
             {
@@ -85,7 +86,7 @@ namespace WikiFunctions.Controls
         /// <summary>
         /// 
         /// </summary>
-        public string SkipReason
+        public virtual string SkipReason
         {
             get { return "Page contains: " + txtContains.Text; }
         }

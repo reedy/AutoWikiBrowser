@@ -115,11 +115,11 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox chkCaseSensitive;
-        private System.Windows.Forms.CheckBox chkAfterProcessing;
-        private System.Windows.Forms.CheckBox chkIsRegex;
-        private System.Windows.Forms.RichTextBox txtContains;
-        private System.Windows.Forms.CheckBox chkContains;
-        private System.Windows.Forms.ToolTip toolTip1;
+        protected System.Windows.Forms.CheckBox chkCaseSensitive;
+        protected System.Windows.Forms.CheckBox chkAfterProcessing;
+        protected System.Windows.Forms.CheckBox chkIsRegex;
+        protected System.Windows.Forms.RichTextBox txtContains;
+        protected System.Windows.Forms.CheckBox chkContains;
+        protected System.Windows.Forms.ToolTip toolTip1;
     }
 }

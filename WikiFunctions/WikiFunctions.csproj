@@ -84,6 +84,12 @@
     <Compile Include="Controls\PageContainsControl.Designer.cs">
       <DependentUpon>PageContainsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PageNotContainsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PageNotContainsControl.Designer.cs">
+      <DependentUpon>PageNotContainsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RichTextBoxInvoke.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -386,6 +392,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\PageContainsControl.resx">
       <DependentUpon>PageContainsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PageNotContainsControl.resx">
+      <DependentUpon>PageNotContainsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TypoStatsControl.resx">
       <DependentUpon>TypoStatsControl.cs</DependentUpon>
