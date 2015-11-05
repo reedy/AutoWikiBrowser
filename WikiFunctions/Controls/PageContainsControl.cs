@@ -5,7 +5,7 @@ namespace WikiFunctions.Controls
 {
     public partial class PageContainsControl : UserControl
     {
-        IArticleComparer _comparer;
+        private IArticleComparer _comparer;
 
         public PageContainsControl()
         {
@@ -14,7 +14,7 @@ namespace WikiFunctions.Controls
 
         private void chkSkipIfContains_CheckedChanged(object sender, EventArgs e)
         {
-            txtSkipIfContains.Enabled = chkSkipIfContains.Checked;
+            txtContains.Enabled = chkContains.Checked;
         }
 
         private void Invalidate_CheckedChanged(object sender, EventArgs e)
@@ -25,9 +25,34 @@ namespace WikiFunctions.Controls
         /// <summary>
         /// 
         /// </summary>
-        public bool Enabled
+        public bool SkipEnabled
         {
-            get { return chkSkipIfContains.Checked; }
+            get { return chkContains.Checked; }
+            set { chkContains.Checked = value; }
+        }
+
+        public string SkipText
+        {
+            get { return txtContains.Text; }
+            set { txtContains.Text = value; }
+        }
+
+        public bool IsRegex
+        {
+            get { return chkIsRegex.Checked; }
+            set { chkIsRegex.Checked = value; }
+        }
+
+        public bool IsCaseSensitive
+        {
+            get { return chkCaseSensitive.Checked; }
+            set { chkCaseSensitive.Checked = value; }
+        }
+
+        public bool After
+        {
+            get { return chkAfterProcessing.Checked; }
+            set { chkAfterProcessing.Checked = value;  }
         }
 
         /// <summary>
@@ -39,9 +64,9 @@ namespace WikiFunctions.Controls
         {
             if (_comparer == null)
             {
-                _comparer = ArticleComparerFactory.Create(txtSkipIfContains.Text,
-                    chkSkipContainsCaseSensitive.Checked,
-                    chkSkipContainsIsRegex.Checked,
+                _comparer = ArticleComparerFactory.Create(txtContains.Text,
+                    chkCaseSensitive.Checked,
+                    chkIsRegex.Checked,
                     false, // singleline
                     false // multiline
                     );
@@ -54,7 +79,7 @@ namespace WikiFunctions.Controls
         /// </summary>
         public string SkipReason
         {
-            get { return "Page contains: " + txtSkipIfContains.Text; }
+            get { return "Page contains: " + txtContains.Text; }
         }
     }
 }

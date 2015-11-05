@@ -28,76 +28,76 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.chkSkipContainsCaseSensitive = new System.Windows.Forms.CheckBox();
-            this.chkSkipContainsAfterProcessing = new System.Windows.Forms.CheckBox();
-            this.chkSkipContainsIsRegex = new System.Windows.Forms.CheckBox();
-            this.txtSkipIfContains = new System.Windows.Forms.RichTextBox();
-            this.chkSkipIfContains = new System.Windows.Forms.CheckBox();
+            this.chkCaseSensitive = new System.Windows.Forms.CheckBox();
+            this.chkAfterProcessing = new System.Windows.Forms.CheckBox();
+            this.chkIsRegex = new System.Windows.Forms.CheckBox();
+            this.txtContains = new System.Windows.Forms.RichTextBox();
+            this.chkContains = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
-            // chkSkipContainsCaseSensitive
+            // chkCaseSensitive
             // 
-            this.chkSkipContainsCaseSensitive.AutoSize = true;
-            this.chkSkipContainsCaseSensitive.Location = new System.Drawing.Point(66, 26);
-            this.chkSkipContainsCaseSensitive.Name = "chkSkipContainsCaseSensitive";
-            this.chkSkipContainsCaseSensitive.Size = new System.Drawing.Size(94, 17);
-            this.chkSkipContainsCaseSensitive.TabIndex = 10;
-            this.chkSkipContainsCaseSensitive.Text = "Case sens&itive";
-            this.chkSkipContainsCaseSensitive.UseVisualStyleBackColor = true;
-            this.chkSkipContainsCaseSensitive.CheckedChanged += new System.EventHandler(this.Invalidate_CheckedChanged);
+            this.chkCaseSensitive.AutoSize = true;
+            this.chkCaseSensitive.Location = new System.Drawing.Point(66, 26);
+            this.chkCaseSensitive.Name = "chkCaseSensitive";
+            this.chkCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkCaseSensitive.TabIndex = 10;
+            this.chkCaseSensitive.Text = "Case sensitive";
+            this.chkCaseSensitive.UseVisualStyleBackColor = true;
+            this.chkCaseSensitive.CheckedChanged += new System.EventHandler(this.Invalidate_CheckedChanged);
             // 
-            // chkSkipContainsAfterProcessing
+            // chkAfterProcessing
             // 
-            this.chkSkipContainsAfterProcessing.AutoSize = true;
-            this.chkSkipContainsAfterProcessing.Location = new System.Drawing.Point(169, 26);
-            this.chkSkipContainsAfterProcessing.Name = "chkSkipContainsAfterProcessing";
-            this.chkSkipContainsAfterProcessing.Size = new System.Drawing.Size(81, 17);
-            this.chkSkipContainsAfterProcessing.TabIndex = 11;
-            this.chkSkipContainsAfterProcessing.Text = "Check after";
-            this.chkSkipContainsAfterProcessing.UseVisualStyleBackColor = true;
+            this.chkAfterProcessing.AutoSize = true;
+            this.chkAfterProcessing.Location = new System.Drawing.Point(169, 26);
+            this.chkAfterProcessing.Name = "chkAfterProcessing";
+            this.chkAfterProcessing.Size = new System.Drawing.Size(81, 17);
+            this.chkAfterProcessing.TabIndex = 11;
+            this.chkAfterProcessing.Text = "Check after";
+            this.chkAfterProcessing.UseVisualStyleBackColor = true;
             // 
-            // chkSkipContainsIsRegex
+            // chkIsRegex
             // 
-            this.chkSkipContainsIsRegex.AutoSize = true;
-            this.chkSkipContainsIsRegex.Location = new System.Drawing.Point(0, 26);
-            this.chkSkipContainsIsRegex.Name = "chkSkipContainsIsRegex";
-            this.chkSkipContainsIsRegex.Size = new System.Drawing.Size(57, 17);
-            this.chkSkipContainsIsRegex.TabIndex = 9;
-            this.chkSkipContainsIsRegex.Text = "Regex";
-            this.chkSkipContainsIsRegex.UseVisualStyleBackColor = true;
-            this.chkSkipContainsIsRegex.CheckedChanged += new System.EventHandler(this.Invalidate_CheckedChanged);
+            this.chkIsRegex.AutoSize = true;
+            this.chkIsRegex.Location = new System.Drawing.Point(0, 26);
+            this.chkIsRegex.Name = "chkIsRegex";
+            this.chkIsRegex.Size = new System.Drawing.Size(57, 17);
+            this.chkIsRegex.TabIndex = 9;
+            this.chkIsRegex.Text = "Regex";
+            this.chkIsRegex.UseVisualStyleBackColor = true;
+            this.chkIsRegex.CheckedChanged += new System.EventHandler(this.Invalidate_CheckedChanged);
             // 
-            // txtSkipIfContains
+            // txtContains
             // 
-            this.txtSkipIfContains.DetectUrls = false;
-            this.txtSkipIfContains.Enabled = false;
-            this.txtSkipIfContains.Location = new System.Drawing.Point(100, 1);
-            this.txtSkipIfContains.Multiline = false;
-            this.txtSkipIfContains.Name = "txtSkipIfContains";
-            this.txtSkipIfContains.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtSkipIfContains.Size = new System.Drawing.Size(154, 20);
-            this.txtSkipIfContains.TabIndex = 8;
-            this.txtSkipIfContains.Text = "";
+            this.txtContains.DetectUrls = false;
+            this.txtContains.Enabled = false;
+            this.txtContains.Location = new System.Drawing.Point(100, 1);
+            this.txtContains.Multiline = false;
+            this.txtContains.Name = "txtContains";
+            this.txtContains.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtContains.Size = new System.Drawing.Size(154, 20);
+            this.txtContains.TabIndex = 8;
+            this.txtContains.Text = "";
             // 
-            // chkSkipIfContains
+            // chkContains
             // 
-            this.chkSkipIfContains.Location = new System.Drawing.Point(0, 3);
-            this.chkSkipIfContains.Name = "chkSkipIfContains";
-            this.chkSkipIfContains.Size = new System.Drawing.Size(89, 17);
-            this.chkSkipIfContains.TabIndex = 7;
-            this.chkSkipIfContains.Text = "&Contains:";
-            this.chkSkipIfContains.UseVisualStyleBackColor = true;
-            this.chkSkipIfContains.CheckedChanged += new System.EventHandler(this.chkSkipIfContains_CheckedChanged);
+            this.chkContains.Location = new System.Drawing.Point(0, 3);
+            this.chkContains.Name = "chkContains";
+            this.chkContains.Size = new System.Drawing.Size(89, 17);
+            this.chkContains.TabIndex = 7;
+            this.chkContains.Text = "&Contains:";
+            this.chkContains.UseVisualStyleBackColor = true;
+            this.chkContains.CheckedChanged += new System.EventHandler(this.chkSkipIfContains_CheckedChanged);
             // 
             // PageContainsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.chkSkipContainsCaseSensitive);
-            this.Controls.Add(this.chkSkipContainsAfterProcessing);
-            this.Controls.Add(this.chkSkipContainsIsRegex);
-            this.Controls.Add(this.txtSkipIfContains);
-            this.Controls.Add(this.chkSkipIfContains);
+            this.Controls.Add(this.chkCaseSensitive);
+            this.Controls.Add(this.chkAfterProcessing);
+            this.Controls.Add(this.chkIsRegex);
+            this.Controls.Add(this.txtContains);
+            this.Controls.Add(this.chkContains);
             this.Name = "PageContainsControl";
             this.Size = new System.Drawing.Size(260, 46);
             this.ResumeLayout(false);
@@ -107,10 +107,10 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox chkSkipContainsCaseSensitive;
-        private System.Windows.Forms.CheckBox chkSkipContainsAfterProcessing;
-        private System.Windows.Forms.CheckBox chkSkipContainsIsRegex;
-        private System.Windows.Forms.RichTextBox txtSkipIfContains;
-        private System.Windows.Forms.CheckBox chkSkipIfContains;
+        private System.Windows.Forms.CheckBox chkCaseSensitive;
+        private System.Windows.Forms.CheckBox chkAfterProcessing;
+        private System.Windows.Forms.CheckBox chkIsRegex;
+        private System.Windows.Forms.RichTextBox txtContains;
+        private System.Windows.Forms.CheckBox chkContains;
     }
 }
