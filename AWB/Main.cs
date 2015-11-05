@@ -960,8 +960,11 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (SkipChecks(!chkSkipAfterProcessing.Checked)) // pre-processing of article
+            // pre-processing of article
+            if (SkipChecks(!chkSkipContainsAfterProcessing.Checked || !chkSkipNotContainsAfterProcessing.Checked))
+            {
                 return;
+            }
 
             // check not in use
             if (TheArticle.IsInUse)
@@ -1097,8 +1100,11 @@ namespace AutoWikiBrowser
                 Variables.Profiler.Profile("Skip checks");
 
                 // post-processing
-                if (chkSkipAfterProcessing.Checked && SkipChecks(true))
+                if ((chkSkipContainsAfterProcessing.Checked || chkSkipNotContainsAfterProcessing.Checked) &&
+                    SkipChecks(true))
+                {
                     return;
+                }
 
                 CompleteProcessPage();
             }
@@ -1382,7 +1388,7 @@ namespace AutoWikiBrowser
                     return true;
                 }
 
-                if (chkSkipIfNotContains.Checked && !_notContainsComparer.Matches(TheArticle))
+                if (chkSkipIfNotContains.Checked && _notContainsComparer != null && !_notContainsComparer.Matches(TheArticle))
                 {
                     SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
                     return true;
@@ -1401,14 +1407,14 @@ namespace AutoWikiBrowser
         private void MakeSkipChecks()
         {
             _containsComparer = ArticleComparerFactory.Create(txtSkipIfContains.Text,
-                                                              chkSkipCaseSensitive.Checked,
-                                                              chkSkipIsRegex.Checked,
+                                                              chkSkipContainsCaseSensitive.Checked,
+                                                              chkSkipContainsIsRegex.Checked,
                                                               false, // singleline
                                                               false); // multiline
 
             _notContainsComparer = ArticleComparerFactory.Create(txtSkipIfNotContains.Text,
-                                                                 chkSkipCaseSensitive.Checked,
-                                                                 chkSkipIsRegex.Checked,
+                                                                 chkSkipNotContainsCaseSensitive.Checked,
+                                                                 chkSkipNotContainsIsRegex.Checked,
                                                                  false, // singleline
                                                                  false); // multiline
         }
@@ -5805,24 +5811,18 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             txtEdit.ScrollToCaret();
         }
 
-        private void txtSkipIfContains_TextChanged(object sender, EventArgs e)
+        private void SkipContains_TextChanged(object sender, EventArgs e)
         {
             InvalidateSkipChecks();
             txtRtb_TextChanged(sender, e);
         }
 
-        private void txtSkipIfNotContains_TextChanged(object sender, EventArgs e)
-        {
-            InvalidateSkipChecks();
-            txtRtb_TextChanged(sender, e);
-        }
-
-        private void chkSkipIsRegex_CheckedChanged(object sender, EventArgs e)
+        private void SkipIsRegex_CheckedChanged(object sender, EventArgs e)
         {
             InvalidateSkipChecks();
         }
 
-        private void chkSkipCaseSensitive_CheckedChanged(object sender, EventArgs e)
+        private void SkipCaseSensitive_CheckedChanged(object sender, EventArgs e)
         {
             InvalidateSkipChecks();
         }

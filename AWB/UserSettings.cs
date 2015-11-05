@@ -316,9 +316,9 @@ namespace AutoWikiBrowser
                         SkipDoesNot = chkSkipIfNotContains.Checked,
                         SkipDoesText = txtSkipIfContains.Text,
                         SkipDoesNotText = txtSkipIfNotContains.Text,
-                        Regex = chkSkipIsRegex.Checked,
-                        CaseSensitive = chkSkipCaseSensitive.Checked,
-                        AfterProcessing = chkSkipAfterProcessing.Checked,
+                        Regex = chkSkipContainsIsRegex.Checked,
+                        CaseSensitive = chkSkipContainsCaseSensitive.Checked,
+                        AfterProcessing = chkSkipContainsAfterProcessing.Checked,
                         SkipNoFindAndReplace = chkSkipWhenNoFAR.Checked,
                         SkipMinorFindAndReplace = chkSkipOnlyMinorFaR.Checked,
                         SkipNoRegexTypoFix = chkSkipIfNoRegexTypo.Checked,
@@ -565,9 +565,9 @@ namespace AutoWikiBrowser
             txtSkipIfContains.Text = p.SkipOptions.SkipDoesText;
             txtSkipIfNotContains.Text = p.SkipOptions.SkipDoesNotText;
 
-            chkSkipIsRegex.Checked = p.SkipOptions.Regex;
-            chkSkipCaseSensitive.Checked = p.SkipOptions.CaseSensitive;
-            chkSkipAfterProcessing.Checked = p.SkipOptions.AfterProcessing;
+            chkSkipContainsIsRegex.Checked = p.SkipOptions.Regex;
+            chkSkipContainsCaseSensitive.Checked = p.SkipOptions.CaseSensitive;
+            chkSkipContainsAfterProcessing.Checked = p.SkipOptions.AfterProcessing;
 
             chkSkipWhenNoFAR.Checked = p.SkipOptions.SkipNoFindAndReplace;
             chkSkipOnlyMinorFaR.Checked = p.SkipOptions.SkipMinorFindAndReplace;
