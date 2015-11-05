@@ -961,7 +961,7 @@ namespace AutoWikiBrowser
             }
 
             // pre-processing of article
-            if (SkipChecks(!chkSkipContainsAfterProcessing.Checked || !chkSkipNotContainsAfterProcessing.Checked))
+            if (SkipChecks(!chkSkipContainsAfterProcessing.Checked, !chkSkipNotContainsAfterProcessing.Checked))
             {
                 return;
             }
@@ -1100,8 +1100,7 @@ namespace AutoWikiBrowser
                 Variables.Profiler.Profile("Skip checks");
 
                 // post-processing
-                if ((chkSkipContainsAfterProcessing.Checked || chkSkipNotContainsAfterProcessing.Checked) &&
-                    SkipChecks(true))
+                if (SkipChecks(chkSkipContainsAfterProcessing.Checked, chkSkipNotContainsAfterProcessing.Checked))
                 {
                     return;
                 }
@@ -1358,12 +1357,14 @@ namespace AutoWikiBrowser
         }
 
         private IArticleComparer _containsComparer, _notContainsComparer;
+
         /// <summary>
         /// Skips the article based on protection level and contains/not contains logic
         /// </summary>
-        /// <param name="checkContainsNotContains">whether to test contains/not contains logic</param>
+        /// <param name="checkContains">Whether to test contains logic</param>
+        /// <param name="checkNotContains">Whether to test not contains logic</param>
         /// <returns>Whether the page has been skipped</returns>
-        private bool SkipChecks(bool checkContainsNotContains)
+        private bool SkipChecks(bool checkContains, bool checkNotContains)
         {
             if (!TheSession.User.CanEditPage(TheSession.Page))
             {
@@ -1380,19 +1381,18 @@ namespace AutoWikiBrowser
             if (_containsComparer == null)
                 MakeSkipChecks();
 
-            if (checkContainsNotContains)
+            if (checkContains && chkSkipIfContains.Checked && _containsComparer != null &&
+                _containsComparer.Matches(TheArticle))
             {
-                if (chkSkipIfContains.Checked && _containsComparer != null && _containsComparer.Matches(TheArticle))
-                {
-                    SkipPage("Page contains: " + txtSkipIfContains.Text);
-                    return true;
-                }
+                SkipPage("Page contains: " + txtSkipIfContains.Text);
+                return true;
+            }
 
-                if (chkSkipIfNotContains.Checked && _notContainsComparer != null && !_notContainsComparer.Matches(TheArticle))
-                {
-                    SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
-                    return true;
-                }
+            if (checkNotContains && chkSkipIfNotContains.Checked && _notContainsComparer != null &&
+                !_notContainsComparer.Matches(TheArticle))
+            {
+                SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
+                return true;
             }
 
             return false;
