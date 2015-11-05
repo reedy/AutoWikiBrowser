@@ -1381,7 +1381,7 @@ namespace AutoWikiBrowser
             if (_notContainsComparer == null)
                 MakeSkipChecks();
 
-            if (checkContains && skipIfContains.SkipEnabled && skipIfContains.Matches(TheArticle))
+            if (checkContains && skipIfContains.CheckEnabled && skipIfContains.Matches(TheArticle))
             {
                 SkipPage(skipIfContains.SkipReason);
                 return true;

@@ -312,8 +312,8 @@ namespace AutoWikiBrowser
                         SkipWhenNoChanges = chkSkipNoChanges.Checked,
                         SkipSpamFilterBlocked = chkSkipSpamFilter.Checked,
                         SkipInuse = chkSkipIfInuse.Checked,
-                        SkipDoes = skipIfContains.SkipEnabled,
-                        SkipDoesText = skipIfContains.SkipText,
+                        SkipDoes = skipIfContains.CheckEnabled,
+                        SkipDoesText = skipIfContains.CheckText,
                         SkipDoesRegex = skipIfContains.IsRegex,
                         SkipDoesCaseSensitive = skipIfContains.IsCaseSensitive,
                         SkipDoesAfterProcessing = skipIfContains.After,
@@ -562,8 +562,8 @@ namespace AutoWikiBrowser
             chkSkipIfRedirect.Checked = p.SkipOptions.SkipIfRedirect;
             chkSkipIfNoAlerts.Checked = p.SkipOptions.SkipIfNoAlerts;
 
-            skipIfContains.SkipEnabled = p.SkipOptions.SkipDoes;
-            skipIfContains.SkipText = p.SkipOptions.SkipDoesText;
+            skipIfContains.CheckEnabled = p.SkipOptions.SkipDoes;
+            skipIfContains.CheckText = p.SkipOptions.SkipDoesText;
             skipIfContains.IsRegex = p.SkipOptions.SkipDoesRegex;
             skipIfContains.IsCaseSensitive = p.SkipOptions.SkipDoesCaseSensitive;
             skipIfContains.After = p.SkipOptions.SkipDoesAfterProcessing;

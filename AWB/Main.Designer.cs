@@ -4241,8 +4241,8 @@ namespace AutoWikiBrowser
             this.skipIfContains.Location = new System.Drawing.Point(7, 14);
             this.skipIfContains.Name = "skipIfContains";
             this.skipIfContains.Size = new System.Drawing.Size(257, 46);
-            this.skipIfContains.SkipEnabled = false;
-            this.skipIfContains.SkipText = "";
+            this.skipIfContains.CheckEnabled = false;
+            this.skipIfContains.CheckText = "";
             this.skipIfContains.TabIndex = 10;
             // 
             // MainForm

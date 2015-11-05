@@ -30,13 +30,13 @@ namespace WikiFunctions.Controls
         /// <summary>
         /// 
         /// </summary>
-        public bool SkipEnabled
+        public bool CheckEnabled
         {
             get { return chkContains.Checked; }
             set { chkContains.Checked = value; }
         }
 
-        public string SkipText
+        public string CheckText
         {
             get { return txtContains.Text; }
             set { txtContains.Text = value; }
@@ -54,6 +54,9 @@ namespace WikiFunctions.Controls
             set { chkCaseSensitive.Checked = value; }
         }
 
+        /// <summary>
+        /// Whether to check before or after processing
+        /// </summary>
         public bool After
         {
             get { return chkAfterProcessing.Checked; }
