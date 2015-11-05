@@ -313,12 +313,15 @@ namespace AutoWikiBrowser
                         SkipSpamFilterBlocked = chkSkipSpamFilter.Checked,
                         SkipInuse = chkSkipIfInuse.Checked,
                         SkipDoes = chkSkipIfContains.Checked,
-                        SkipDoesNot = chkSkipIfNotContains.Checked,
                         SkipDoesText = txtSkipIfContains.Text,
+                        SkipDoesRegex = chkSkipContainsIsRegex.Checked,
+                        SkipDoesCaseSensitive = chkSkipContainsCaseSensitive.Checked,
+                        SkipDoesAfterProcessing = chkSkipContainsAfterProcessing.Checked,
+                        SkipDoesNot = chkSkipIfNotContains.Checked,
                         SkipDoesNotText = txtSkipIfNotContains.Text,
-                        Regex = chkSkipContainsIsRegex.Checked,
-                        CaseSensitive = chkSkipContainsCaseSensitive.Checked,
-                        AfterProcessing = chkSkipContainsAfterProcessing.Checked,
+                        SkipDoesNotRegex = chkSkipNotContainsIsRegex.Checked,
+                        SkipDoesNotCaseSensitive = chkSkipNotContainsCaseSensitive.Checked,
+                        SkipDoesNotAfterProcessing = chkSkipNotContainsAfterProcessing.Checked,
                         SkipNoFindAndReplace = chkSkipWhenNoFAR.Checked,
                         SkipMinorFindAndReplace = chkSkipOnlyMinorFaR.Checked,
                         SkipNoRegexTypoFix = chkSkipIfNoRegexTypo.Checked,
@@ -560,14 +563,16 @@ namespace AutoWikiBrowser
             chkSkipIfNoAlerts.Checked = p.SkipOptions.SkipIfNoAlerts;
 
             chkSkipIfContains.Checked = p.SkipOptions.SkipDoes;
-            chkSkipIfNotContains.Checked = p.SkipOptions.SkipDoesNot;
-
             txtSkipIfContains.Text = p.SkipOptions.SkipDoesText;
-            txtSkipIfNotContains.Text = p.SkipOptions.SkipDoesNotText;
+            chkSkipContainsIsRegex.Checked = p.SkipOptions.SkipDoesRegex;
+            chkSkipContainsCaseSensitive.Checked = p.SkipOptions.SkipDoesCaseSensitive;
+            chkSkipContainsAfterProcessing.Checked = p.SkipOptions.SkipDoesAfterProcessing;
 
-            chkSkipContainsIsRegex.Checked = p.SkipOptions.Regex;
-            chkSkipContainsCaseSensitive.Checked = p.SkipOptions.CaseSensitive;
-            chkSkipContainsAfterProcessing.Checked = p.SkipOptions.AfterProcessing;
+            chkSkipIfNotContains.Checked = p.SkipOptions.SkipDoesNot;
+            txtSkipIfNotContains.Text = p.SkipOptions.SkipDoesNotText;
+            chkSkipNotContainsIsRegex.Checked = p.SkipOptions.SkipDoesNotRegex;
+            chkSkipNotContainsCaseSensitive.Checked = p.SkipOptions.SkipDoesNotCaseSensitive;
+            chkSkipNotContainsAfterProcessing.Checked = p.SkipOptions.SkipDoesNotAfterProcessing;
 
             chkSkipWhenNoFAR.Checked = p.SkipOptions.SkipNoFindAndReplace;
             chkSkipOnlyMinorFaR.Checked = p.SkipOptions.SkipMinorFindAndReplace;

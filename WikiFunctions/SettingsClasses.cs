@@ -304,14 +304,16 @@ namespace WikiFunctions.AWBSettings
         public bool SkipIfNoAlerts = false;
 
         public bool SkipDoes = false;
-        public bool SkipDoesNot = false;
-
         public string SkipDoesText = "";
-        public string SkipDoesNotText = "";
+        public bool SkipDoesRegex = false;
+        public bool SkipDoesCaseSensitive = false;
+        public bool SkipDoesAfterProcessing = false;
 
-        public bool Regex = false;
-        public bool CaseSensitive = false;
-        public bool AfterProcessing = false;
+        public bool SkipDoesNot = false;
+        public string SkipDoesNotText = "";
+        public bool SkipDoesNotRegex = false;
+        public bool SkipDoesNotCaseSensitive = false;
+        public bool SkipDoesNotAfterProcessing = false;
 
         public bool SkipNoFindAndReplace = false;
         public bool SkipMinorFindAndReplace = false;
