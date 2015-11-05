@@ -961,7 +961,7 @@ namespace AutoWikiBrowser
             }
 
             // pre-processing of article
-            if (SkipChecks(!skipIfContains.After, !chkSkipNotContainsAfterProcessing.Checked))
+            if (SkipChecks(!skipIfContains.After, !skipIfNotContains.After))
             {
                 return;
             }
@@ -1100,7 +1100,7 @@ namespace AutoWikiBrowser
                 Variables.Profiler.Profile("Skip checks");
 
                 // post-processing
-                if (SkipChecks(skipIfContains.After, chkSkipNotContainsAfterProcessing.Checked))
+                if (SkipChecks(skipIfContains.After, skipIfNotContains.After))
                 {
                     return;
                 }
@@ -1356,8 +1356,6 @@ namespace AutoWikiBrowser
             txtEdit.TextChanged += txtEdit_TextChanged;
         }
 
-        private IArticleComparer _notContainsComparer;
-
         /// <summary>
         /// Skips the article based on protection level and contains/not contains logic
         /// </summary>
@@ -1378,37 +1376,19 @@ namespace AutoWikiBrowser
                 return true;
             }
 
-            if (_notContainsComparer == null)
-                MakeSkipChecks();
-
             if (checkContains && skipIfContains.CheckEnabled && skipIfContains.Matches(TheArticle))
             {
                 SkipPage(skipIfContains.SkipReason);
                 return true;
             }
 
-            if (checkNotContains && chkSkipIfNotContains.Checked && _notContainsComparer != null &&
-                !_notContainsComparer.Matches(TheArticle))
+            if (checkNotContains && skipIfNotContains.CheckEnabled && skipIfNotContains.Matches(TheArticle))
             {
-                SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
+                SkipPage(skipIfNotContains.SkipReason);
                 return true;
             }
 
             return false;
-        }
-
-        private void InvalidateSkipChecks()
-        {
-            _notContainsComparer = null;
-        }
-
-        private void MakeSkipChecks()
-        {
-            _notContainsComparer = ArticleComparerFactory.Create(txtSkipIfNotContains.Text,
-                                                                 chkSkipNotContainsCaseSensitive.Checked,
-                                                                 chkSkipNotContainsIsRegex.Checked,
-                                                                 false, // singleline
-                                                                 false); // multiline
         }
 
         private void ClearBrowser()
@@ -2708,11 +2688,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             txtEdit.WordWrap = wordWrapToolStripMenuItem1.Checked;
         }
 
-        private void chkOnlyIfContains_CheckedChanged(object sender, EventArgs e)
-        {
-            txtSkipIfNotContains.Enabled = chkSkipIfNotContains.Checked;
-        }
-
         private void CategoryLeave(object sender, EventArgs e)
         {
             TextBox cat = sender as TextBox;
@@ -3015,24 +2990,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             txtEdit.ResetFind();
 
             if (sender is RichTextBox)
-                txtRtb_TextChanged(sender, e);
+            {
+                RichTextBox rtb = (RichTextBox)sender;
+                rtb.ResetFormatting();
+            }
 
             btnFind.Enabled = txtFind.TextLength > 0;
 
             if (!btnFind.Enabled)
                 btnFind.BackColor = SystemColors.ButtonFace;
-        }
-        
-        /// <summary>
-        /// Resets any custom formatting of text (if copied from syntax highlighted text in edit box etc.),
-        /// restoring cursor position
-        /// </summary>
-        /// <param name="sender">Rich text box</param>
-        /// <param name="e">E.</param>
-        private void txtRtb_TextChanged(object sender, EventArgs e)
-        {
-            RichTextBox rtb = (RichTextBox)sender;
-            rtb.ResetFormatting();
         }
 
         private void txtEdit_TextChanged(object sender, EventArgs e)
@@ -5793,22 +5759,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             txtEdit.SetEditBoxSelection(0, 0);
             txtEdit.Select(0, 0);
             txtEdit.ScrollToCaret();
-        }
-
-        private void SkipContains_TextChanged(object sender, EventArgs e)
-        {
-            InvalidateSkipChecks();
-            txtRtb_TextChanged(sender, e);
-        }
-
-        private void SkipIsRegex_CheckedChanged(object sender, EventArgs e)
-        {
-            InvalidateSkipChecks();
-        }
-
-        private void SkipCaseSensitive_CheckedChanged(object sender, EventArgs e)
-        {
-            InvalidateSkipChecks();
         }
 
         private void openXML_FileOk(object sender, CancelEventArgs e)

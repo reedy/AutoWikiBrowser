@@ -317,11 +317,11 @@ namespace AutoWikiBrowser
                         SkipDoesRegex = skipIfContains.IsRegex,
                         SkipDoesCaseSensitive = skipIfContains.IsCaseSensitive,
                         SkipDoesAfterProcessing = skipIfContains.After,
-                        SkipDoesNot = chkSkipIfNotContains.Checked,
-                        SkipDoesNotText = txtSkipIfNotContains.Text,
-                        SkipDoesNotRegex = chkSkipNotContainsIsRegex.Checked,
-                        SkipDoesNotCaseSensitive = chkSkipNotContainsCaseSensitive.Checked,
-                        SkipDoesNotAfterProcessing = chkSkipNotContainsAfterProcessing.Checked,
+                        SkipDoesNot = skipIfNotContains.CheckEnabled,
+                        SkipDoesNotText = skipIfNotContains.CheckText,
+                        SkipDoesNotRegex = skipIfNotContains.IsRegex,
+                        SkipDoesNotCaseSensitive = skipIfNotContains.IsCaseSensitive,
+                        SkipDoesNotAfterProcessing = skipIfNotContains.After,
                         SkipNoFindAndReplace = chkSkipWhenNoFAR.Checked,
                         SkipMinorFindAndReplace = chkSkipOnlyMinorFaR.Checked,
                         SkipNoRegexTypoFix = chkSkipIfNoRegexTypo.Checked,
@@ -568,11 +568,11 @@ namespace AutoWikiBrowser
             skipIfContains.IsCaseSensitive = p.SkipOptions.SkipDoesCaseSensitive;
             skipIfContains.After = p.SkipOptions.SkipDoesAfterProcessing;
 
-            chkSkipIfNotContains.Checked = p.SkipOptions.SkipDoesNot;
-            txtSkipIfNotContains.Text = p.SkipOptions.SkipDoesNotText;
-            chkSkipNotContainsIsRegex.Checked = p.SkipOptions.SkipDoesNotRegex;
-            chkSkipNotContainsCaseSensitive.Checked = p.SkipOptions.SkipDoesNotCaseSensitive;
-            chkSkipNotContainsAfterProcessing.Checked = p.SkipOptions.SkipDoesNotAfterProcessing;
+            skipIfNotContains.CheckEnabled = p.SkipOptions.SkipDoesNot;
+            skipIfNotContains.CheckText = p.SkipOptions.SkipDoesNotText;
+            skipIfNotContains.IsRegex = p.SkipOptions.SkipDoesNotRegex;
+            skipIfNotContains.IsCaseSensitive = p.SkipOptions.SkipDoesNotCaseSensitive;
+            skipIfNotContains.After = p.SkipOptions.SkipDoesNotAfterProcessing;
 
             chkSkipWhenNoFAR.Checked = p.SkipOptions.SkipNoFindAndReplace;
             chkSkipOnlyMinorFaR.Checked = p.SkipOptions.SkipMinorFindAndReplace;
