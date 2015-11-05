@@ -2252,16 +2252,16 @@ namespace AutoWikiBrowser
             this.chkSkipWhitespace.AutoSize = true;
             this.chkSkipWhitespace.Location = new System.Drawing.Point(24, 88);
             this.chkSkipWhitespace.Name = "chkSkipWhitespace";
-            this.chkSkipWhitespace.Size = new System.Drawing.Size(159, 17);
+            this.chkSkipWhitespace.Size = new System.Drawing.Size(104, 17);
             this.chkSkipWhitespace.TabIndex = 4;
-            this.chkSkipWhitespace.Text = "Only whitespace is changed";
+            this.chkSkipWhitespace.Text = "Only whitespace";
             this.ToolTip.SetToolTip(this.chkSkipWhitespace, "Automatically skips pages when only whitespace changes were automatically made");
             this.chkSkipWhitespace.UseVisualStyleBackColor = true;
             // 
             // chkSkipGeneralFixes
             // 
             this.chkSkipGeneralFixes.AutoSize = true;
-            this.chkSkipGeneralFixes.Location = new System.Drawing.Point(24, 134);
+            this.chkSkipGeneralFixes.Location = new System.Drawing.Point(24, 111);
             this.chkSkipGeneralFixes.Name = "chkSkipGeneralFixes";
             this.chkSkipGeneralFixes.Size = new System.Drawing.Size(89, 17);
             this.chkSkipGeneralFixes.TabIndex = 6;
@@ -2274,7 +2274,7 @@ namespace AutoWikiBrowser
             // chkSkipMinorGeneralFixes
             // 
             this.chkSkipMinorGeneralFixes.AutoSize = true;
-            this.chkSkipMinorGeneralFixes.Location = new System.Drawing.Point(113, 134);
+            this.chkSkipMinorGeneralFixes.Location = new System.Drawing.Point(134, 111);
             this.chkSkipMinorGeneralFixes.Name = "chkSkipMinorGeneralFixes";
             this.chkSkipMinorGeneralFixes.Size = new System.Drawing.Size(117, 17);
             this.chkSkipMinorGeneralFixes.TabIndex = 7;
@@ -2286,11 +2286,11 @@ namespace AutoWikiBrowser
             // chkSkipCasing
             // 
             this.chkSkipCasing.AutoSize = true;
-            this.chkSkipCasing.Location = new System.Drawing.Point(24, 111);
+            this.chkSkipCasing.Location = new System.Drawing.Point(134, 88);
             this.chkSkipCasing.Name = "chkSkipCasing";
-            this.chkSkipCasing.Size = new System.Drawing.Size(136, 17);
+            this.chkSkipCasing.Size = new System.Drawing.Size(81, 17);
             this.chkSkipCasing.TabIndex = 5;
-            this.chkSkipCasing.Text = "Only casing is changed";
+            this.chkSkipCasing.Text = "Only casing";
             this.ToolTip.SetToolTip(this.chkSkipCasing, "Automatically skips pages when only case changes were automatically made");
             this.chkSkipCasing.UseVisualStyleBackColor = true;
             // 
@@ -2677,11 +2677,11 @@ namespace AutoWikiBrowser
             // chkSkipCosmetic
             // 
             this.chkSkipCosmetic.AutoSize = true;
-            this.chkSkipCosmetic.Location = new System.Drawing.Point(24, 156);
+            this.chkSkipCosmetic.Location = new System.Drawing.Point(24, 133);
             this.chkSkipCosmetic.Name = "chkSkipCosmetic";
-            this.chkSkipCosmetic.Size = new System.Drawing.Size(183, 17);
+            this.chkSkipCosmetic.Size = new System.Drawing.Size(136, 17);
             this.chkSkipCosmetic.TabIndex = 10;
-            this.chkSkipCosmetic.Text = "Only cosmetic changes are made";
+            this.chkSkipCosmetic.Text = "Only cosmetic changes";
             this.ToolTip.SetToolTip(this.chkSkipCosmetic, "Automatically skips pages when only cosmetic changes were made");
             this.chkSkipCosmetic.UseVisualStyleBackColor = true;
             // 
@@ -2705,14 +2705,14 @@ namespace AutoWikiBrowser
             this.txtReviewEditSummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtReviewEditSummary.BackColor = System.Drawing.SystemColors.Window;
+            this.txtReviewEditSummary.DetectUrls = false;
             this.txtReviewEditSummary.Enabled = false;
             this.txtReviewEditSummary.Location = new System.Drawing.Point(291, 3);
-            this.txtReviewEditSummary.Multiline = true;
             this.txtReviewEditSummary.Name = "txtReviewEditSummary";
             this.txtReviewEditSummary.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.txtReviewEditSummary.Size = new System.Drawing.Size(103, 29);
             this.txtReviewEditSummary.TabIndex = 13;
-            this.txtReviewEditSummary.DetectUrls = false;
+            this.txtReviewEditSummary.Text = "";
             this.ToolTip.SetToolTip(this.txtReviewEditSummary, "The edit summary for the page");
             // 
             // imgBold
@@ -4273,7 +4273,6 @@ namespace AutoWikiBrowser
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Location = new System.Drawing.Point(0, 0);
             this.MinimumSize = new System.Drawing.Size(780, 499);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
