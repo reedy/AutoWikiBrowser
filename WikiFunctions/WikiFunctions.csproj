@@ -78,6 +78,12 @@
     <Compile Include="Controls\NamespacesControl.Designer.cs">
       <DependentUpon>NamespacesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PageContainsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PageContainsControl.Designer.cs">
+      <DependentUpon>PageContainsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RichTextBoxInvoke.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -377,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\NamespacesControl.resx">
       <DependentUpon>NamespacesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PageContainsControl.resx">
+      <DependentUpon>PageContainsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TypoStatsControl.resx">
       <DependentUpon>TypoStatsControl.cs</DependentUpon>
