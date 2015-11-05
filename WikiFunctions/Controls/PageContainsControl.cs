@@ -17,7 +17,12 @@ namespace WikiFunctions.Controls
             txtContains.Enabled = chkContains.Checked;
         }
 
-        private void Invalidate_CheckedChanged(object sender, EventArgs e)
+        private void txtContains_TextChanged(object sender, EventArgs e)
+        {
+            txtContains.ResetFormatting();
+        }
+
+        private void InvalidateComparer(object sender, EventArgs e)
         {
             _comparer = null;
         }
@@ -81,5 +86,7 @@ namespace WikiFunctions.Controls
         {
             get { return "Page contains: " + txtContains.Text; }
         }
+
+
     }
 }

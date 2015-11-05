@@ -961,7 +961,7 @@ namespace AutoWikiBrowser
             }
 
             // pre-processing of article
-            if (SkipChecks(!chkSkipContainsAfterProcessing.Checked, !chkSkipNotContainsAfterProcessing.Checked))
+            if (SkipChecks(!skipIfContains.After, !chkSkipNotContainsAfterProcessing.Checked))
             {
                 return;
             }
@@ -1100,7 +1100,7 @@ namespace AutoWikiBrowser
                 Variables.Profiler.Profile("Skip checks");
 
                 // post-processing
-                if (SkipChecks(chkSkipContainsAfterProcessing.Checked, chkSkipNotContainsAfterProcessing.Checked))
+                if (SkipChecks(skipIfContains.After, chkSkipNotContainsAfterProcessing.Checked))
                 {
                     return;
                 }
@@ -1356,7 +1356,7 @@ namespace AutoWikiBrowser
             txtEdit.TextChanged += txtEdit_TextChanged;
         }
 
-        private IArticleComparer _containsComparer, _notContainsComparer;
+        private IArticleComparer _notContainsComparer;
 
         /// <summary>
         /// Skips the article based on protection level and contains/not contains logic
@@ -1378,13 +1378,12 @@ namespace AutoWikiBrowser
                 return true;
             }
 
-            if (_containsComparer == null)
+            if (_notContainsComparer == null)
                 MakeSkipChecks();
 
-            if (checkContains && chkSkipIfContains.Checked && _containsComparer != null &&
-                _containsComparer.Matches(TheArticle))
+            if (checkContains && skipIfContains.SkipEnabled && skipIfContains.Matches(TheArticle))
             {
-                SkipPage("Page contains: " + txtSkipIfContains.Text);
+                SkipPage(skipIfContains.SkipReason);
                 return true;
             }
 
@@ -1400,18 +1399,11 @@ namespace AutoWikiBrowser
 
         private void InvalidateSkipChecks()
         {
-            _containsComparer = null;
             _notContainsComparer = null;
         }
 
         private void MakeSkipChecks()
         {
-            _containsComparer = ArticleComparerFactory.Create(txtSkipIfContains.Text,
-                                                              chkSkipContainsCaseSensitive.Checked,
-                                                              chkSkipContainsIsRegex.Checked,
-                                                              false, // singleline
-                                                              false); // multiline
-
             _notContainsComparer = ArticleComparerFactory.Create(txtSkipIfNotContains.Text,
                                                                  chkSkipNotContainsCaseSensitive.Checked,
                                                                  chkSkipNotContainsIsRegex.Checked,
@@ -2716,11 +2708,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             txtEdit.WordWrap = wordWrapToolStripMenuItem1.Checked;
         }
 
-        private void chkIgnoreIfContains_CheckedChanged(object sender, EventArgs e)
-        {
-            txtSkipIfContains.Enabled = chkSkipIfContains.Checked;
-        }
-
         private void chkOnlyIfContains_CheckedChanged(object sender, EventArgs e)
         {
             txtSkipIfNotContains.Enabled = chkSkipIfNotContains.Checked;
@@ -3037,18 +3024,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         }
         
         /// <summary>
-        /// resets any custom formatting of text (if copied from syntax highlighted text in edit box etc.), restoring cursor position
+        /// Resets any custom formatting of text (if copied from syntax highlighted text in edit box etc.),
+        /// restoring cursor position
         /// </summary>
         /// <param name="sender">Rich text box</param>
         /// <param name="e">E.</param>
         private void txtRtb_TextChanged(object sender, EventArgs e)
         {
             RichTextBox rtb = (RichTextBox)sender;
-            string a = rtb.Text; 
-            int i = rtb.SelectionStart;
-            rtb.ResetText();
-            rtb.Text = a;
-            rtb.Select(i, 0);
+            rtb.ResetFormatting();
         }
 
         private void txtEdit_TextChanged(object sender, EventArgs e)

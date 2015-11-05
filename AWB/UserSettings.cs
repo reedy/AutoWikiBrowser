@@ -312,11 +312,11 @@ namespace AutoWikiBrowser
                         SkipWhenNoChanges = chkSkipNoChanges.Checked,
                         SkipSpamFilterBlocked = chkSkipSpamFilter.Checked,
                         SkipInuse = chkSkipIfInuse.Checked,
-                        SkipDoes = chkSkipIfContains.Checked,
-                        SkipDoesText = txtSkipIfContains.Text,
-                        SkipDoesRegex = chkSkipContainsIsRegex.Checked,
-                        SkipDoesCaseSensitive = chkSkipContainsCaseSensitive.Checked,
-                        SkipDoesAfterProcessing = chkSkipContainsAfterProcessing.Checked,
+                        SkipDoes = skipIfContains.SkipEnabled,
+                        SkipDoesText = skipIfContains.SkipText,
+                        SkipDoesRegex = skipIfContains.IsRegex,
+                        SkipDoesCaseSensitive = skipIfContains.IsCaseSensitive,
+                        SkipDoesAfterProcessing = skipIfContains.After,
                         SkipDoesNot = chkSkipIfNotContains.Checked,
                         SkipDoesNotText = txtSkipIfNotContains.Text,
                         SkipDoesNotRegex = chkSkipNotContainsIsRegex.Checked,
@@ -562,11 +562,11 @@ namespace AutoWikiBrowser
             chkSkipIfRedirect.Checked = p.SkipOptions.SkipIfRedirect;
             chkSkipIfNoAlerts.Checked = p.SkipOptions.SkipIfNoAlerts;
 
-            chkSkipIfContains.Checked = p.SkipOptions.SkipDoes;
-            txtSkipIfContains.Text = p.SkipOptions.SkipDoesText;
-            chkSkipContainsIsRegex.Checked = p.SkipOptions.SkipDoesRegex;
-            chkSkipContainsCaseSensitive.Checked = p.SkipOptions.SkipDoesCaseSensitive;
-            chkSkipContainsAfterProcessing.Checked = p.SkipOptions.SkipDoesAfterProcessing;
+            skipIfContains.SkipEnabled = p.SkipOptions.SkipDoes;
+            skipIfContains.SkipText = p.SkipOptions.SkipDoesText;
+            skipIfContains.IsRegex = p.SkipOptions.SkipDoesRegex;
+            skipIfContains.IsCaseSensitive = p.SkipOptions.SkipDoesCaseSensitive;
+            skipIfContains.After = p.SkipOptions.SkipDoesAfterProcessing;
 
             chkSkipIfNotContains.Checked = p.SkipOptions.SkipDoesNot;
             txtSkipIfNotContains.Text = p.SkipOptions.SkipDoesNotText;

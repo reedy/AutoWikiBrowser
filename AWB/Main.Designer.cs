@@ -233,12 +233,8 @@ namespace AutoWikiBrowser
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnFindAndReplaceAdvanced = new System.Windows.Forms.Button();
             this.btnMoreFindAndReplce = new System.Windows.Forms.Button();
-            this.chkSkipIfContains = new System.Windows.Forms.CheckBox();
             this.txtSkipIfNotContains = new System.Windows.Forms.RichTextBox();
-            this.txtSkipIfContains = new System.Windows.Forms.RichTextBox();
             this.chkSkipIfNotContains = new System.Windows.Forms.CheckBox();
-            this.chkSkipContainsIsRegex = new System.Windows.Forms.CheckBox();
-            this.chkSkipContainsAfterProcessing = new System.Windows.Forms.CheckBox();
             this.chkSkipNoChanges = new System.Windows.Forms.CheckBox();
             this.chkSkipSpamFilter = new System.Windows.Forms.CheckBox();
             this.chkSkipIfInuse = new System.Windows.Forms.CheckBox();
@@ -248,7 +244,6 @@ namespace AutoWikiBrowser
             this.chkSkipCasing = new System.Windows.Forms.CheckBox();
             this.chkSkipIfRedirect = new System.Windows.Forms.CheckBox();
             this.chkSkipIfNoAlerts = new System.Windows.Forms.CheckBox();
-            this.chkSkipContainsCaseSensitive = new System.Windows.Forms.CheckBox();
             this.chkSkipNoPageLinks = new System.Windows.Forms.CheckBox();
             this.radSkipExistent = new System.Windows.Forms.RadioButton();
             this.radSkipNonExistent = new System.Windows.Forms.RadioButton();
@@ -422,6 +417,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.webBrowser = new AutoWikiBrowser.AWBWebBrowser();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.skipIfContains = new WikiFunctions.Controls.PageContainsControl();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -2144,17 +2140,6 @@ namespace AutoWikiBrowser
             this.ToolTip.SetToolTip(this.btnMoreFindAndReplce, "Simple find and replace with regular expression support in a table style layout");
             this.btnMoreFindAndReplce.Click += new System.EventHandler(this.btnMoreFindAndReplce_Click);
             // 
-            // chkSkipIfContains
-            // 
-            this.chkSkipIfContains.Location = new System.Drawing.Point(6, 19);
-            this.chkSkipIfContains.Name = "chkSkipIfContains";
-            this.chkSkipIfContains.Size = new System.Drawing.Size(89, 17);
-            this.chkSkipIfContains.TabIndex = 0;
-            this.chkSkipIfContains.Text = "&Contains:";
-            this.ToolTip.SetToolTip(this.chkSkipIfContains, "Skip pages that contain this text");
-            this.chkSkipIfContains.UseVisualStyleBackColor = true;
-            this.chkSkipIfContains.CheckedChanged += new System.EventHandler(this.chkIgnoreIfContains_CheckedChanged);
-            // 
             // txtSkipIfNotContains
             // 
             this.txtSkipIfNotContains.DetectUrls = false;
@@ -2169,20 +2154,6 @@ namespace AutoWikiBrowser
             this.ToolTip.SetToolTip(this.txtSkipIfNotContains, "Skip pages that do not contain this text");
             this.txtSkipIfNotContains.TextChanged += new System.EventHandler(this.SkipContains_TextChanged);
             // 
-            // txtSkipIfContains
-            // 
-            this.txtSkipIfContains.DetectUrls = false;
-            this.txtSkipIfContains.Enabled = false;
-            this.txtSkipIfContains.Location = new System.Drawing.Point(106, 17);
-            this.txtSkipIfContains.Multiline = false;
-            this.txtSkipIfContains.Name = "txtSkipIfContains";
-            this.txtSkipIfContains.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtSkipIfContains.Size = new System.Drawing.Size(154, 20);
-            this.txtSkipIfContains.TabIndex = 1;
-            this.txtSkipIfContains.Text = "";
-            this.ToolTip.SetToolTip(this.txtSkipIfContains, "Skip pages that contain this text");
-            this.txtSkipIfContains.TextChanged += new System.EventHandler(this.SkipContains_TextChanged);
-            // 
             // chkSkipIfNotContains
             // 
             this.chkSkipIfNotContains.Location = new System.Drawing.Point(6, 66);
@@ -2193,29 +2164,6 @@ namespace AutoWikiBrowser
             this.ToolTip.SetToolTip(this.chkSkipIfNotContains, "Skip pages that do not contain this text");
             this.chkSkipIfNotContains.UseVisualStyleBackColor = true;
             this.chkSkipIfNotContains.CheckedChanged += new System.EventHandler(this.chkOnlyIfContains_CheckedChanged);
-            // 
-            // chkSkipContainsIsRegex
-            // 
-            this.chkSkipContainsIsRegex.AutoSize = true;
-            this.chkSkipContainsIsRegex.Location = new System.Drawing.Point(6, 42);
-            this.chkSkipContainsIsRegex.Name = "chkSkipContainsIsRegex";
-            this.chkSkipContainsIsRegex.Size = new System.Drawing.Size(57, 17);
-            this.chkSkipContainsIsRegex.TabIndex = 4;
-            this.chkSkipContainsIsRegex.Text = "Regex";
-            this.ToolTip.SetToolTip(this.chkSkipContainsIsRegex, "Enables regular expressions for the \"Skip if contains\"");
-            this.chkSkipContainsIsRegex.UseVisualStyleBackColor = true;
-            this.chkSkipContainsIsRegex.CheckedChanged += new System.EventHandler(this.SkipIsRegex_CheckedChanged);
-            // 
-            // chkSkipContainsAfterProcessing
-            // 
-            this.chkSkipContainsAfterProcessing.AutoSize = true;
-            this.chkSkipContainsAfterProcessing.Location = new System.Drawing.Point(175, 42);
-            this.chkSkipContainsAfterProcessing.Name = "chkSkipContainsAfterProcessing";
-            this.chkSkipContainsAfterProcessing.Size = new System.Drawing.Size(81, 17);
-            this.chkSkipContainsAfterProcessing.TabIndex = 6;
-            this.chkSkipContainsAfterProcessing.Text = "Check after";
-            this.ToolTip.SetToolTip(this.chkSkipContainsAfterProcessing, "Apply the \"Skip if contains\" check after processing the page");
-            this.chkSkipContainsAfterProcessing.UseVisualStyleBackColor = true;
             // 
             // chkSkipNoChanges
             // 
@@ -2318,18 +2266,6 @@ namespace AutoWikiBrowser
             this.chkSkipIfNoAlerts.Text = "No alerts";
             this.ToolTip.SetToolTip(this.chkSkipIfNoAlerts, "Automatically skips pages if there are no alerts");
             this.chkSkipIfNoAlerts.UseVisualStyleBackColor = true;
-            // 
-            // chkSkipContainsCaseSensitive
-            // 
-            this.chkSkipContainsCaseSensitive.AutoSize = true;
-            this.chkSkipContainsCaseSensitive.Location = new System.Drawing.Point(72, 42);
-            this.chkSkipContainsCaseSensitive.Name = "chkSkipContainsCaseSensitive";
-            this.chkSkipContainsCaseSensitive.Size = new System.Drawing.Size(94, 17);
-            this.chkSkipContainsCaseSensitive.TabIndex = 5;
-            this.chkSkipContainsCaseSensitive.Text = "Case sens&itive";
-            this.ToolTip.SetToolTip(this.chkSkipContainsCaseSensitive, "Makes \"Skip if contains\" matches case-sensitive");
-            this.chkSkipContainsCaseSensitive.UseVisualStyleBackColor = true;
-            this.chkSkipContainsCaseSensitive.CheckedChanged += new System.EventHandler(this.SkipCaseSensitive_CheckedChanged);
             // 
             // chkSkipNoPageLinks
             // 
@@ -3625,16 +3561,12 @@ namespace AutoWikiBrowser
             // 
             // gbRegexSkip
             // 
+            this.gbRegexSkip.Controls.Add(this.skipIfContains);
             this.gbRegexSkip.Controls.Add(this.chkSkipNotContainsCaseSensitive);
             this.gbRegexSkip.Controls.Add(this.chkSkipNotContainsAfterProcessing);
             this.gbRegexSkip.Controls.Add(this.chkSkipNotContainsIsRegex);
             this.gbRegexSkip.Controls.Add(this.txtSkipIfNotContains);
-            this.gbRegexSkip.Controls.Add(this.chkSkipContainsCaseSensitive);
-            this.gbRegexSkip.Controls.Add(this.chkSkipContainsAfterProcessing);
-            this.gbRegexSkip.Controls.Add(this.chkSkipContainsIsRegex);
             this.gbRegexSkip.Controls.Add(this.chkSkipIfNotContains);
-            this.gbRegexSkip.Controls.Add(this.txtSkipIfContains);
-            this.gbRegexSkip.Controls.Add(this.chkSkipIfContains);
             this.gbRegexSkip.Location = new System.Drawing.Point(6, 6);
             this.gbRegexSkip.Name = "gbRegexSkip";
             this.gbRegexSkip.Size = new System.Drawing.Size(266, 113);
@@ -4301,6 +4233,18 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // skipIfContains
+            // 
+            this.skipIfContains.After = false;
+            this.skipIfContains.IsCaseSensitive = false;
+            this.skipIfContains.IsRegex = false;
+            this.skipIfContains.Location = new System.Drawing.Point(7, 14);
+            this.skipIfContains.Name = "skipIfContains";
+            this.skipIfContains.Size = new System.Drawing.Size(257, 46);
+            this.skipIfContains.SkipEnabled = false;
+            this.skipIfContains.SkipText = "";
+            this.skipIfContains.TabIndex = 10;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4698,13 +4642,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSkipIfInuse;
         private System.Windows.Forms.CheckBox chkSkipSpamFilter;
         private System.Windows.Forms.CheckBox chkSkipNoChanges;
-        private System.Windows.Forms.CheckBox chkSkipContainsAfterProcessing;
-        private System.Windows.Forms.CheckBox chkSkipContainsCaseSensitive;
-        private System.Windows.Forms.CheckBox chkSkipContainsIsRegex;
         private System.Windows.Forms.CheckBox chkSkipIfNotContains;
-        private System.Windows.Forms.RichTextBox txtSkipIfContains;
         private System.Windows.Forms.RichTextBox txtSkipIfNotContains;
-        private System.Windows.Forms.CheckBox chkSkipIfContains;
         private System.Windows.Forms.CheckBox chkSkipNoPageLinks;
         private System.Windows.Forms.CheckBox chkSkipGeneralFixes;
         private System.Windows.Forms.CheckBox chkSkipMinorGeneralFixes;
@@ -4790,5 +4729,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSkipNotContainsCaseSensitive;
         private System.Windows.Forms.CheckBox chkSkipNotContainsAfterProcessing;
         private System.Windows.Forms.CheckBox chkSkipNotContainsIsRegex;
+        private WikiFunctions.Controls.PageContainsControl skipIfContains;
     }
 }

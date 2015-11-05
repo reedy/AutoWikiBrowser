@@ -46,5 +46,18 @@ namespace WikiFunctions
             t.ScrollToCaret();
             t.Focus();
         }
+
+        /// <summary>
+        /// Resets any custom formatting of text (if copied from syntax highlighted text in edit box etc.),
+        /// restoring cursor position
+        /// </summary>
+        public static void ResetFormatting(this RichTextBox rtb)
+        {
+            string a = rtb.Text;
+            int i = rtb.SelectionStart;
+            rtb.ResetText();
+            rtb.Text = a;
+            rtb.Select(i, 0);
+        }
     }
 }

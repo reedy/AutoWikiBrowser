@@ -44,7 +44,7 @@
             this.chkCaseSensitive.TabIndex = 10;
             this.chkCaseSensitive.Text = "Case sensitive";
             this.chkCaseSensitive.UseVisualStyleBackColor = true;
-            this.chkCaseSensitive.CheckedChanged += new System.EventHandler(this.Invalidate_CheckedChanged);
+            this.chkCaseSensitive.CheckedChanged += new System.EventHandler(this.InvalidateComparer);
             // 
             // chkAfterProcessing
             // 
@@ -65,7 +65,7 @@
             this.chkIsRegex.TabIndex = 9;
             this.chkIsRegex.Text = "Regex";
             this.chkIsRegex.UseVisualStyleBackColor = true;
-            this.chkIsRegex.CheckedChanged += new System.EventHandler(this.Invalidate_CheckedChanged);
+            this.chkIsRegex.CheckedChanged += new System.EventHandler(this.InvalidateComparer);
             // 
             // txtContains
             // 
@@ -78,6 +78,8 @@
             this.txtContains.Size = new System.Drawing.Size(154, 20);
             this.txtContains.TabIndex = 8;
             this.txtContains.Text = "";
+            this.txtContains.TextChanged += new System.EventHandler(this.txtContains_TextChanged);
+            this.txtContains.TextChanged += new System.EventHandler(this.InvalidateComparer);
             // 
             // chkContains
             // 
@@ -99,7 +101,7 @@
             this.Controls.Add(this.txtContains);
             this.Controls.Add(this.chkContains);
             this.Name = "PageContainsControl";
-            this.Size = new System.Drawing.Size(260, 46);
+            this.Size = new System.Drawing.Size(257, 46);
             this.ResumeLayout(false);
             this.PerformLayout();
 
