@@ -1295,6 +1295,23 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
+    /// Returns a list of "all pages", without the redirects
+    /// </summary>
+    public class AllPagesNoRedirectsSpecialPageProvider : AllPagesSpecialPageProvider
+    {
+        public AllPagesNoRedirectsSpecialPageProvider()
+        {
+            Extra = "&apfilterredir=nonredirects";
+        }
+
+        public override string DisplayText
+        { get { return base.DisplayText + " (no redirects)"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Start page:"; } }
+    }
+
+    /// <summary>
     /// Returns a list of protected pages
     /// </summary>
     public class ProtectedPagesSpecialPageProvider : AllPagesSpecialPageProvider

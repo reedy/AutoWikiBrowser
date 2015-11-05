@@ -40,6 +40,7 @@ namespace WikiFunctions.Lists.Providers
             {
                 ListItems.Add(new PrefixIndexSpecialPageProvider());
                 ListItems.Add(new AllPagesSpecialPageProvider());
+                ListItems.Add(new AllPagesNoRedirectsSpecialPageProvider());
                 ListItems.Add(new AllCategoriesSpecialPageProvider());
                 ListItems.Add(new AllFilesSpecialPageProvider());
                 ListItems.Add(new AllRedirectsSpecialPageProvider());
