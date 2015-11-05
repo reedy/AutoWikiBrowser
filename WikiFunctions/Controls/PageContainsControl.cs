@@ -89,7 +89,5 @@ namespace WikiFunctions.Controls
         {
             get { return "Page contains: " + txtContains.Text; }
         }
-
-
     }
 }
