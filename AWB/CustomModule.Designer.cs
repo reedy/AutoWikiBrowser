@@ -57,6 +57,7 @@
             this.lblStart = new System.Windows.Forms.Label();
             this.txtCode = new System.Windows.Forms.TextBox();
             this.lblEnd = new System.Windows.Forms.Label();
+            this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -75,7 +76,7 @@
             this.toolStripSeparator2,
             this.goToLineToolStripMenuItem});
             this.mnuTextBox.Name = "mnuMakeFromTextBox";
-            this.mnuTextBox.Size = new System.Drawing.Size(165, 176);
+            this.mnuTextBox.Size = new System.Drawing.Size(165, 154);
             // 
             // menuitemMakeFromTextBoxUndo
             // 
@@ -248,7 +249,8 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.guideToolStripMenuItem});
+            this.guideToolStripMenuItem,
+            this.manualToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
@@ -256,8 +258,8 @@
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.guideToolStripMenuItem.Text = "&Guide";
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.guideToolStripMenuItem.Text = "Quick &guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // chkFixedwidth
@@ -334,6 +336,13 @@
             this.lblEnd.Size = new System.Drawing.Size(637, 39);
             this.lblEnd.TabIndex = 11;
             // 
+            // manualToolStripMenuItem
+            // 
+            this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
+            this.manualToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.manualToolStripMenuItem.Text = "Manual";
+            this.manualToolStripMenuItem.Click += new System.EventHandler(this.manualToolStripMenuItem_Click);
+            // 
             // CustomModule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -396,5 +405,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem goToLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem;
     }
 }

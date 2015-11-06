@@ -239,15 +239,15 @@ namespace AutoWikiBrowser
 
         private void guideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(@"A module allows you to process the article text using your own dotnet code.
-
-See https://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Custom_Modules
+            MessageBox.Show(@"A module allows you to process the article text using your own .NET code.
 
 Use the ""Make module"" button to compile and load the code.
 
 The method ""ProcessArticle"" is called when AWB is applying all its own processes. Do not change the signature of this method.
 
-The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace is 0 etc., the string ""Summary"" must be set to the message to append to the summary (or can be an empty string), the bool ""Skip"" must be set whether to skip the article or not.",
+The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace is 0 etc., the string ""Summary"" must be set to the message to append to the summary (or can be an empty string), the bool ""Skip"" must be set whether to skip the article or not.
+
+For more detailed information, click Help -> Manual on the Custom Module window.",
                 "Guide", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -333,6 +333,11 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
                 txtCode.GoToLine(int.Parse(toolStripTextBox1.Text));
                 mnuTextBox.Hide();
             }
+        }
+
+        private void manualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Tools.OpenENArticleInBrowser("Wikipedia:AutoWikiBrowser/Custom_Modules", false);
         }
     }
 }
