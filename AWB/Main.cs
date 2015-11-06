@@ -4343,7 +4343,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 {
                     string s = Variables.RetfPath;
 
-                    if (!s.StartsWith("http:"))
+                    if (!s.StartsWith("http:") && !s.StartsWith("https:"))
                         s = Variables.URL + "/wiki/" + s;
 
                     message += "\r\n\r\nThe newest typos will now be downloaded from " + s + " when you press OK.";
