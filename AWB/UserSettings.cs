@@ -309,6 +309,7 @@ namespace AutoWikiBrowser
                     {
                         SkipNonexistent = radSkipNonExistent.Checked,
                         Skipexistent = radSkipExistent.Checked,
+                        SkipDontCare = radSkipNone.Checked;
                         SkipWhenNoChanges = chkSkipNoChanges.Checked,
                         SkipSpamFilterBlocked = chkSkipSpamFilter.Checked,
                         SkipInuse = chkSkipIfInuse.Checked,
@@ -551,6 +552,7 @@ namespace AutoWikiBrowser
 
             radSkipNonExistent.Checked = p.SkipOptions.SkipNonexistent;
             radSkipExistent.Checked = p.SkipOptions.Skipexistent;
+            radSkipNone.Checked = p.SkipOptions.SkipDontCare;
             chkSkipNoChanges.Checked = p.SkipOptions.SkipWhenNoChanges;
             chkSkipSpamFilter.Checked = p.SkipOptions.SkipSpamFilterBlocked;
             chkSkipIfInuse.Checked = p.SkipOptions.SkipInuse;

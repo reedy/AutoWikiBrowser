@@ -292,6 +292,7 @@ namespace WikiFunctions.AWBSettings
     {
         public bool SkipNonexistent = true;
         public bool Skipexistent = false;
+        public bool SkipDontCare = false;
         public bool SkipWhenNoChanges = false;
         public bool SkipSpamFilterBlocked = false;
         public bool SkipInuse = false;
