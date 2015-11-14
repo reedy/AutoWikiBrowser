@@ -132,6 +132,10 @@ image = [[File:Test.JPG]]
   | there=here}}");
             RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
   bar = a|
+  1 = Test2.png
+  | there=here}}", "1-character parameter name");
+            RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
+  bar = a|
   cover_ar = Test.JPG
   | there=here}}");
             RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
