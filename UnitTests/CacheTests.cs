@@ -130,28 +130,28 @@ namespace UnitTests
             Assert.IsNull(Cache.Get<string>("boz"));
         }
 
-        [Test, ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void DontStoreUnknownTypes()
         {
-            Cache.Set("foo", 3);
+            Assert.Throws<ArgumentException>(() => Cache.Set("foo", 3));
         }
 
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void DisallowNullKeys()
         {
-            Cache.Set(null, "foo");
+            Assert.Throws<ArgumentNullException>(() => Cache.Set(null, "foo"));
         }
 
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void DisallowEmptyKeys()
         {
-            Cache.Set("", "foo");
+            Assert.Throws<ArgumentNullException>(() => Cache.Set("", "foo"));
         }
 
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void DontStoreNull()
         {
-            Cache.Set("foo", null);
+            Assert.Throws<ArgumentNullException>(() => Cache.Set("foo", null));
         }
 
         [Test]
