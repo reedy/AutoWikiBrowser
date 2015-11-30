@@ -1798,6 +1798,13 @@ Text
 {{unreferenced|Date=May 2010}}
 [[Category:Living people]]"));
 
+            Assert.AreEqual(@"Foo
+{{BLP unsourced|date=May 2010}}
+
+[[Category:Living people]]", Parsers.Conversions(@"Foo
+{{BLP unsourced|date=May 2010}}
+{{unreferenced|date=May 2010}}
+[[Category:Living people]]"));
         }
 
         [Test]

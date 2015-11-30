@@ -1514,7 +1514,17 @@ namespace WikiFunctions.Parse
                 {
                     if (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unrefm[0].Value, 1)).StartsWith("date")
                         || Tools.GetTemplateArgumentCount(unrefm[0].Value) == 0)
-                        articleText = Tools.RenameTemplate(articleText, "unreferenced", "BLP unsourced", false);
+                    {
+                        // if also have existing BLP unsourced then remove unreferenced
+                        if (Tools.NestedTemplateRegex("BLP unsourced").IsMatch(articleText))
+                        {
+                            articleText = Tools.NestedTemplateRegex("unreferenced").Replace(articleText, "");
+                            Parsers p = new Parsers();
+                            articleText = WikiRegexes.MultipleIssues.Replace(articleText, p.MultipleIssuesSingleTagME);
+                        }
+                        else
+                            articleText = Tools.RenameTemplate(articleText, "unreferenced", "BLP unsourced", false);
+                    }
                 }
 
                 articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
