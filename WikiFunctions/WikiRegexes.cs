@@ -1146,9 +1146,11 @@ namespace WikiFunctions
 
         // covered by DablinksTests
         /// <summary>
-        /// Finds article disamiguation links from https://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection (en only)
+        /// Finds article disamiguation links from https://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection and https://en.wikipedia.org/wiki/Template:Hatnote_templates (en only)
         /// </summary>
-        public static readonly Regex Dablinks = Tools.NestedTemplateRegex(new [] { "about", "about-distinguish", "about-distinguish2", "ambiguous link", "for", "for2", "for3", "dablink", "distinguish", "distinguish2", "hatnote", "otherpeople", "otherpeople1", "otherpeople2", "otherpeople3", "other people", "other people1", "other people2", "other people3", "other persons", "otherpersons", "otherpersons2", "otherpersons3", "otherplaces", "other places", "otherplaces3", "other places3", "otherships", "other ships", "otheruses-number", "other uses", "other uses2", "other uses3", "other uses4", "other uses6", "otheruses", "otheruses2", "otheruses3", "otheruses4", "other uses of", "otheruse", "2otheruses", "redirect-acronym", "redirect-distinguish", "redirect", "redirect2", "redirect3", "redirect4", "this", "two other uses", "three other uses", "disambig-acronym", "selfref" }, false);
+        public static readonly Regex Dablinks = Tools.NestedTemplateRegex(new [] { "about", "about2", "about-distinguish", "about-distinguish2", "ambiguous link", "for", "for2", "for3", "dablink", "distinguish", "distinguish2", "distinguish-otheruses", "distinguish-otheruses2", "further", "further2", "hatnote", "otherpeople", "otherpeople1", "otherpeople2", "otherpeople3", 
+                "other hurricanes", "other people", "other people1", "other people2", "other people3", "other persons", "otherpersons", "otherpersons2", "otherpersons3", "otherplaces", "other places", "otherplaces3", "other places3", "otherships", "other ships", "otheruses-number", "other uses", "other uses2", "other uses3", "other uses4", "other uses6", "otheruses", 
+                "otheruses2", "otheruses3", "otheruses4", "other uses of", "otheruse", "outline", "2otheruses", "redirect-acronym", "redirect-distinguish", "redirect-distinguish2", "redirect-several", "redirect", "redirect2", "redirect3", "redirect4", "redirect5", "redirect6", "redirect10", "see also", "this", "two other uses", "three other uses", "disambig-acronym", "selfref" }, false);
 
         /// <summary>
         /// matches speedy deletion templates (from Category:Speedy_deletion_templates), deletion templates (Category:Proposed_deletion-related_templates) and protection templates (Category:Protection_templates)
