@@ -1008,7 +1008,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches wikilinks with no target e.g. [[|foo]]
         /// </summary>
-        private const string AllowedCharacters = @"([\w\s\-–\+\(\),\'\.&\!\?\$\#""]*)";
+        private const string AllowedCharacters = @"([\w\s\-–\+\(\),\'\.&\!\?\$\:\#""]*)";
         public static readonly Regex TargetLessLink =  new Regex(@"\[\[\|"+AllowedCharacters+@"\]\]");
 
         /// <summary>
@@ -1017,7 +1017,7 @@ namespace WikiFunctions
         public static readonly Regex DoublePipeLink =  new Regex(@"\[\["+AllowedCharacters+@"\|"+AllowedCharacters+@"\|"+AllowedCharacters+@"\]\]");
 
         /// <summary>
-        /// 
+        /// Mathes the {{circa}} template and [[circa]] links
         /// </summary>
         public static readonly Regex CircaLinkTemplate = new Regex(@"({{[Cc]irca}}|\[\[[Cc]irca *(?:\|[Cc]a?\.?)?\]\]|\[\[[Cc]a?\.?\]*\.?)");
 
