@@ -129,6 +129,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexISBN2 = new Regex(@"ISBN-(?!1[03]\b)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN3 = new Regex(@"\[\[ISBN\]\]\s\[\[Special\:BookSources[^\|]*\|([^\]]*)\]\]", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN4 = new Regex(@"\[\[International Standard Book Number\|ISBN\]\]\:?\s\[\[Special\:BookSources[^\|]*\|([^\]]*)\]\]", RegexOptions.Compiled);
+        private static readonly Regex ISBNx =new Regex(@"(ISBN [0-9\-]{9,14})x", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *(\d)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexExternalLinkOnWholeLine = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex SyntaxRegexClosingBracket = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
@@ -361,6 +362,9 @@ namespace WikiFunctions.Parse
 
             if (ssb.Contains("[[International Standard Book Number|ISBN]]"))
                 articleText = SyntaxRegexISBN4.Replace(articleText, "ISBN $1");
+
+            // Capitalise check digig X in ISBN-10 format
+            articleText = ISBNx.Replace(articleText, "$1X");
 
             if (articleText.Contains("PMID:"))
                 articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");

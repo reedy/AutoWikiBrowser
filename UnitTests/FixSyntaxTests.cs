@@ -49,6 +49,9 @@ namespace UnitTests
             Assert.AreEqual(@"ISBN-10 12345781549", Parsers.FixSyntax(@"ISBN-10 12345781549"), "do nothing");
             Assert.AreEqual(@"ISBN-13 12345781549", Parsers.FixSyntax(@"ISBN-13 12345781549"), "do nothing");
 
+            Assert.AreEqual(@"ISBN 0-9752298-0-X", Parsers.FixSyntax(@"ISBN 0-9752298-0-x"), "capitalise X");
+            Assert.AreEqual(@"ISBN 097522980X", Parsers.FixSyntax(@"ISBN 097522980x"), "capitalise X");
+
             // {{ISBN-10}} and {{ISBN-13}} have been deleted
             // Assert.AreEqual(@"{{ISBN-10|1245781549}}", Parsers.FixSyntax(@"{{ISBN-10|1245781549}}"), "no change if already correct – ISBN-10 template");
             // Assert.AreEqual(@"{{ISBN-13|9781245781549}}", Parsers.FixSyntax(@"{{ISBN-13|9781245781549}}"), "no change if already correct – ISBN-13 template");
