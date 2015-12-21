@@ -268,10 +268,20 @@ namespace WikiFunctions.Controls.Lists
             if (selectedListBox != null)
             {
                 selectedListBox.BeginUpdate();
-            
-                SendKeys.SendWait("{HOME}");
-                SendKeys.SendWait("+{END}");
-            
+    
+                // workaround for Wine issue: use of {HOME} then +{END} leads to 100% CPU and locked application
+                // so use slower SetSelected if on Linux
+                if (Globals.UsingLinux)
+                {
+                    for(int i = 0; i < selectedListBox.Items.Count; i++)
+                        selectedListBox.SetSelected(i, true);
+                }
+                else
+                {
+                    SendKeys.SendWait("{HOME}");
+                    SendKeys.SendWait("+{END}");
+                }
+    
                 selectedListBox.EndUpdate();
             }
         }
