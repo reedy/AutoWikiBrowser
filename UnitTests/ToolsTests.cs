@@ -1328,12 +1328,19 @@ John", "*"));
             Back.Add("author", "");
             
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 }}"));
-            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello |<!-- comm--> author = | accessdate = 2012-05-15 }}"));
-            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author <!-- comm--> = | accessdate = 2012-05-15 }}"));
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello |<!-- comm--> author = | accessdate = 2012-05-15 }}"), "ignores comments between parameters");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author <!-- comm--> = | accessdate = 2012-05-15 }}"), "ignores comments between parameters 2");
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello |author =|accessdate = 2012-05-15 }}"));
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 | url=}}"), "ignores second parameter call (no value)");
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 | url=http://site2.com}}"), "ignores second parameter call (with value)");
 
+            Back.Remove("author");
+            Back.Add("author", "<!-- comm-->");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = <!-- comm--> | accessdate = 2012-05-15 }}"), "Reports parameter value of comment");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | accessdate = 2012-05-15 | author = <!-- comm--> }}"), "Reports parameter value of comment: last param");
+
+            Back.Remove("author");
+            Back.Add("author", "");
             Back.Add("format", "{{PDF|test}}");
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 | format={{PDF|test}} }}"), "handles nested templates");
             Back.Add("last1", "Jones");
@@ -1368,6 +1375,8 @@ There}}"), "handles parameters with newlines");
             Assert.AreEqual(@"here {{foo}}", Tools.GetTemplateParameterValue(@"{{cite|param1 = here {{foo}}}}", "param1"));
             Assert.AreEqual(@"here {{foo|bar}}", Tools.GetTemplateParameterValue(@"{{cite|param1 = here {{foo|bar}}}}", "param1"));
             Assert.AreEqual(@"here <!--foo|bar-->", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <!--foo|bar-->}}", "param1"));
+            Assert.AreEqual(@"<!--foo-->", Tools.GetTemplateParameterValue(@"{{cite|param1 = <!--foo-->}}", "param1"), "Reports comment when param value just comment");
+            Assert.AreEqual(@"<!--foo-->", Tools.GetTemplateParameterValue(@"{{cite|param1 = <!--foo--> | param2 = bar }}", "param1"), "Reports comment when param value just comment");
             Assert.AreEqual(@"[[File:abc.png|asdf|dsfjk|a]]", Tools.GetTemplateParameterValue(@"{{cite|param1 = [[File:abc.png|asdf|dsfjk|a]] }}", "param1"));
             Assert.AreEqual(@"[[File:abc.png|asdf|dsfjk|a]]", Tools.GetTemplateParameterValue(@"{{cite|param1 = [[File:abc.png|asdf|dsfjk|a]]
 }}", "param1"));
