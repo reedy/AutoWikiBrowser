@@ -812,6 +812,8 @@ Bar4.<ref name=""ABCDEFGHI""/>
 |edition= |publisher=, |institution=
 |journal=, |jstor=, |agency=, |archive-date=, |others= }}"));
 
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite arxiv|display-authors=0}} was"));
+
             // multiple errors
             Found.Add(15, 6);
             Found.Add(36, 4);
