@@ -438,7 +438,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             _ourSettingsControl.WriteXML(writer);
         }
 
-        //' These do nothing because generic templates already have a AlternateNames XML property
+        // These do nothing because generic templates already have a AlternateNames XML property
         internal override void ReadXMLRedirects(XmlTextReader reader)
         {
         }
