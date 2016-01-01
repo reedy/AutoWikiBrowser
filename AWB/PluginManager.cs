@@ -37,16 +37,13 @@ namespace AutoWikiBrowser
     internal sealed partial class PluginManager : Form
     {
         private readonly IAutoWikiBrowser _awb;
-        // List<string> prevArticlePlugins;
-        // List<string> prevLMPlugins;
 
         private static string _lastPluginLoadedLocation;
 
-        public PluginManager(IAutoWikiBrowser awb) //, List<string> previousPlugins)
+        public PluginManager(IAutoWikiBrowser awb)
         {
             InitializeComponent();
             _awb = awb;
-            // prevPlugins = previousPlugins;
         }
 
         public static void LoadNewPlugin(IAutoWikiBrowser awb)
@@ -110,7 +107,6 @@ namespace AutoWikiBrowser
         private void PluginManager_Load(object sender, EventArgs e)
         {
             LoadLoadedPluginList();
-            //LoadPreviouslyLoadedPluginList();
         }
 
         private void loadNewPluginsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -118,7 +114,6 @@ namespace AutoWikiBrowser
             LoadNewPlugin(_awb);
             lvPlugin.Items.Clear();
             LoadLoadedPluginList();
-            //LoadPreviouslyLoadedPluginList();
         }
 
         private void LoadLoadedPluginList()
@@ -139,39 +134,8 @@ namespace AutoWikiBrowser
             UpdatePluginCount();
         }
 
-        //private void LoadPreviouslyLoadedPluginList()
-        //{
-        //    foreach (string pluginName in prevArticlePlugins)
-        //    {
-        //        if (System.IO.File.Exists(pluginName))
-        //        {
-        //            lvi = new ListViewItem(pluginName);
-        //            lvi.Group = lvPlugin.Groups["groupAWBPrevious"];
-        //            lvPlugin.Items.Add(lvi);
-        //        }
-        //    }
-        //    foreach (string pluginName in prevLMPlugins)
-        //    {
-        //        if (System.IO.File.Exists(pluginName))
-        //        {
-        //            lvi = new ListViewItem(pluginName);
-        //            lvi.Group = lvPlugin.Groups["groupLMPrevious"];
-        //            lvPlugin.Items.Add(lvi);
-        //        }
-        //    }
-        //}
-
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            //foreach (ListViewItem item in lvPlugin.SelectedItems)
-            //{
-            //    if (item.Group == lvPlugin.Groups["groupAWBLoaded"])
-            //    {
-            //        loadPluginToolStripMenuItem.Enabled = false;
-            //        return;
-            //    }
-            //}
-            //loadPluginToolStripMenuItem.Enabled = true;
             loadPluginToolStripMenuItem.Enabled = false;
         }
 
