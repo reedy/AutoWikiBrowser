@@ -426,7 +426,7 @@ died 2002
             Assert.AreEqual(m3 + m3a, Parsers.FixPeopleCategories(m3, "foo"));
 
             const string bug1 = @"'''Jane Borghesi''' (born 17 June{{Fact|date=January 2009}}, [[Melbourne]]) {{persondata}}";
-            Assert.AreEqual(bug1, Parsers.FixPeopleCategories(bug1, "foo"));
+            Assert.AreEqual(bug1, Parsers.FixPeopleCategories(bug1, "foo"), "Don't take year from date param of template e.g. maintenance tag");
 
             const string miss1 = @"'''Alonza J. White''' (ca 1836 &ndash; [[August 29]] [[1912]]) {{persondata}}
 {{DEFAULTSORT:White, Alonza J}}
