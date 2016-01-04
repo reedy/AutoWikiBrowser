@@ -21,6 +21,25 @@ namespace AutoWikiBrowser
                 Variables.MainForm.EditBox.Find(SelectedText(), false, false, Variables.MainForm.TheSession.Page.Title);
                 return true;
             }
+
+            // Ctrl+S passed through
+            if (msg.Msg == 0x101 && msg.WParam.ToInt32() == (int)Keys.S && ModifierKeys == Keys.Control)
+            {
+                if(Variables.MainForm.SaveButton.Enabled)
+                    Variables.MainForm.Save("AWBWebBrowser");
+                else if(Variables.MainForm.StartButton.Enabled)
+                    Variables.MainForm.Start("AWBWebBrowser");
+                return true;
+            }
+
+            // Ctrl+I passed through
+            if (msg.Msg == 0x101 && msg.WParam.ToInt32() == (int)Keys.I && ModifierKeys == Keys.Control)
+            {
+                if(Variables.MainForm.SkipButton.Enabled)
+                    Variables.MainForm.SkipPage("AWBWebBrowser", "user");
+                return true;
+            }
+
             return base.PreProcessMessage(ref msg);
         }
     
