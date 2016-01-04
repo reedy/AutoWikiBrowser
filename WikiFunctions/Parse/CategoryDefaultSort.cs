@@ -572,9 +572,9 @@ namespace WikiFunctions.Parse
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
             zerothSection = LongWikilink.Replace(zerothSection, " ");
 
-            // ignore dates from dated maintenance tags etc.
-            zerothSection = WikiRegexes.NestedTemplates.Replace(zerothSection, m2=> Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0 ? "" : m2.Value);
-            zerothSection = WikiRegexes.TemplateMultiline.Replace(zerothSection, m2=> Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0 ? "" : m2.Value);
+            // ignore dates containing years from dated maintenance tags etc.
+            zerothSection = WikiRegexes.NestedTemplates.Replace(zerothSection, m2=> ThreeOrFourDigitNumber.IsMatch(Tools.GetTemplateParameterValue(m2.Value, "date")) ? "" : m2.Value);
+            zerothSection = WikiRegexes.TemplateMultiline.Replace(zerothSection, m2=> ThreeOrFourDigitNumber.IsMatch(Tools.GetTemplateParameterValue(m2.Value, "date")) ? "" : m2.Value);
 
             string StartCategory = Tools.Newline(@"[[" + (Namespace.IsMainSpace(articleTitle) ? "" : ":") + @"Category:");
             string yearstring, yearFromInfoBox = "", sort = GetCategorySort(articleText);

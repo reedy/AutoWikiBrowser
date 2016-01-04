@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -594,6 +594,11 @@ died 2002
             // too many refs for it to be plausible that the cats are missing
             const string Refs = @"<ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref>";
             Assert.AreEqual(a1 + Refs + Refs + Refs, Parsers.FixPeopleCategories(a1 + Refs + Refs + Refs, "foo"));
+
+            string infob1Date = infob1.Replace(@"alma_mater      =", @"date=1 March");
+            Assert.AreEqual(infob1Date + @"
+[[Category:1835 births]]
+[[Category:1935 deaths]]", Parsers.FixPeopleCategories(infob1Date, "foo"), "Can use template with date param when date doesn't contain year");
         }
 
         [Test]
