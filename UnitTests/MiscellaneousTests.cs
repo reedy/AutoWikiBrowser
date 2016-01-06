@@ -2116,6 +2116,8 @@ File:Example.jpg|Caption2
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/wiki/Foo"), "HTTP not HTTPS support");
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"//en.wikipedia.org/w/index.php?title=Foo&action=history"), "Protocol-relative support");
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&redirect=no"));
+
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&type=revision&diff=75558108&oldid=65316243"));
         }
 
         [Test]

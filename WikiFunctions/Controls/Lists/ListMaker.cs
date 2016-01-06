@@ -658,7 +658,7 @@ namespace WikiFunctions.Controls.Lists
             return true;
         }
 
-        private const string DiffEditURL = @"/w(?:(?:iki)?/index\.php5?\?|/\?)title=(.*?)(?:&(?:action|diff|oldid|pe|offset|curid|redirect)=.*|$)";
+        private const string DiffEditURL = @"/w(?:(?:iki)?/index\.php5?\?|/\?)title=(.*?)(?:&(?:action|diff|oldid|pe|offset|curid|redirect|type)=.*|$)";
         /// <summary>
         /// Extracts wiki page title from wiki page URL, including diff and revision history URLs
         /// </summary>
