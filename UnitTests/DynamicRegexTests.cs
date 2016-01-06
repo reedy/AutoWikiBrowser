@@ -821,6 +821,12 @@ now stubborn}}");
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Վիքիֆիկացում}}"));
 
+            Variables.SetProjectLangCode("ru");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{underlinked}}"));
+
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
