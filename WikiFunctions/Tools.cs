@@ -1394,7 +1394,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Returns directory delimiter: normally \\ but / if running under Mono
+        /// Returns directory delimiter: normally \ but / if running under Mono
         /// </summary>
         /// <returns></returns>
         private static string DirectoryDelimiter()
