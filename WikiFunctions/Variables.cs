@@ -939,12 +939,12 @@ namespace WikiFunctions
 
                 case "zh-classical":
                     mSummaryTag = "藉";
-                    WPAWB = "[[维基百科:自动维基浏览器|自動維基瀏覽器]]之助";
+                    WPAWB = "[[維基大典:自動維基瀏覽器|自動維基瀏覽器]]之助";
                     break;
 
                 case "zh-yue":
-                    mSummaryTag = "由";
-                    WPAWB = "[[维基百科:自动维基浏览器|自動維基瀏覽器]]協助";
+                    mSummaryTag = "用";
+                    WPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]幫手";
                     break;
 
                     // case "xx:
