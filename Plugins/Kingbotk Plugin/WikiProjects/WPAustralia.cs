@@ -220,11 +220,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 
         protected override bool TemplateFound()
         {
-            if (CheckForDoublyNamedParameters("V8", "v8"))
-                return true;
-            if (CheckForDoublyNamedParameters("nbl", "NBL"))
-                return true;
-
+            // Nothing to do here
             return false;
         }
 

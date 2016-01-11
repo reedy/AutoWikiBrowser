@@ -350,28 +350,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
         }
 
-        /// <summary>
-        /// Checks if parameters which have two names (V8, v8) exist under both names
-        /// </summary>
-        /// <returns>True if BAD TAG</returns>
-        protected bool CheckForDoublyNamedParameters(string name1, string name2)
-        {
-            var parameters = Template.Parameters;
-            if (parameters.ContainsKey(name1) && parameters.ContainsKey(name2))
-            {
-                if (parameters[name1].Value == parameters[name2].Value)
-                {
-                    parameters.Remove(name2);
-                    TheArticle.DoneReplacement(name2, "");
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         // Interraction with manager:
         internal bool Enabled
         {
