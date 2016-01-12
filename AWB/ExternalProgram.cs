@@ -127,7 +127,7 @@ namespace AutoWikiBrowser
         private void ExternalProgram_Load(object sender, EventArgs e)
         {
             groupBox1.Enabled = chkSkip.Enabled = chkEnabled.Checked;
-            ToolTip tip = new ToolTip();
+            WikiFunctions.Controls.AWBToolTip tip = new WikiFunctions.Controls.AWBToolTip();
 
             string tooltip = "If you need a parameter of the actual article text, please use \"%%articletext%%\". If you want to use the value of the Input/Output file, please use \"%%file%%\"";
             tip.SetToolTip(txtParameters, tooltip);
