@@ -79,26 +79,49 @@ namespace AutoWikiBrowser
 
             try
             {
-                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo
-                                                              {
-                                                                  WorkingDirectory = Path.GetDirectoryName(txtProgram.Text),
-                                                                  FileName = Path.GetFileName(txtProgram.Text),
-                                                                  Arguments = Tools.ApplyKeyWords(articleTitle, txtParameters.Text.Replace("%%file%%", txtFile.Text))
-                                                              };
-
-                if (radFile.Checked)
+                // under Wine WaitForExit() does not work and need to use absolute file paths. So under Linux use StandardOutput.ReadToEnd instead
+                if(Globals.UsingLinux)
                 {
-                    if (txtFile.Text.Contains("\\"))
+                    System.Diagnostics.Process p = new System.Diagnostics.Process();
+                    p.StartInfo.FileName = txtProgram.Text;
+                    p.StartInfo.Arguments = Tools.ApplyKeyWords(articleTitle, txtParameters.Text.Replace("%%file%%", txtFile.Text));
+                    p.StartInfo.UseShellExecute = false;
+                    p.StartInfo.RedirectStandardOutput = true;
+
+                    if (radFile.Checked)
                         Tools.WriteTextFileAbsolutePath(articleText, ioFile, false);
                     else
-                        Tools.WriteTextFile(articleText, ioFile, false);
+                        p.StartInfo.Arguments = p.StartInfo.Arguments.Replace("%%articletext%%", articleText);
+    
+                    p.Start();
+
+                    string output = p.StandardOutput.ReadToEnd();
+                    // pretend to do something with output just to keep compiler happy
+                    Tools.WriteDebug("Ext Proc", output);
                 }
                 else
-                    psi.Arguments = psi.Arguments.Replace("%%articletext%%", articleText);
-
-                System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
-
-                p.WaitForExit();
+                {
+                    System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo
+                                                                  {
+                                                                      WorkingDirectory = Path.GetDirectoryName(txtProgram.Text),
+                                                                      FileName = Path.GetFileName(txtProgram.Text),
+                                                                      Arguments = Tools.ApplyKeyWords(articleTitle, txtParameters.Text.Replace("%%file%%", txtFile.Text))
+                                                                  };
+    
+                    if (radFile.Checked)
+                    {
+                        if (txtFile.Text.Contains("\\"))
+                            Tools.WriteTextFileAbsolutePath(articleText, ioFile, false);
+                        else
+                            Tools.WriteTextFile(articleText, ioFile, false);
+                    }
+                    else
+                        psi.Arguments = psi.Arguments.Replace("%%articletext%%", articleText);
+    
+                    System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
+    
+                    p.WaitForExit();
+                }
 
                 if (File.Exists(ioFile))
                 {
