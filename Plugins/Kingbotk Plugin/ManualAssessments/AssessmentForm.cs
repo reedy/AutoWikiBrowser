@@ -44,6 +44,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             {
                 classification = (Classification) ClassCheckedListBox.SelectedIndex;
             }
+
             if (ImportanceCheckedListBox.SelectedIndices.Count == 0)
             {
                 importance = Importance.Unassessed;
@@ -52,6 +53,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             {
                 importance = (Importance) ImportanceCheckedListBox.SelectedIndex;
             }
+
             infobox = (SettingsCheckedListBox.GetItemCheckState(0) == CheckState.Checked);
             attention = (SettingsCheckedListBox.GetItemCheckState(1) == CheckState.Checked);
             needsPhoto = (SettingsCheckedListBox.GetItemCheckState(2) == CheckState.Checked);
