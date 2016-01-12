@@ -184,12 +184,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 }
             }
 
-            AlteredArticleText =
-                RestoreTemplateToPlaceholderSpotRegex.Replace(
-                    AlteredArticleText, templateheader, 1);
-            AlteredArticleText =
-                RestoreTemplateToPlaceholderSpotRegex.Replace(
-                    AlteredArticleText, string.Empty);
+            AlteredArticleText = RestoreTemplateToPlaceholderSpotRegex.Replace(AlteredArticleText, templateheader, 1);
+            AlteredArticleText = RestoreTemplateToPlaceholderSpotRegex.Replace(AlteredArticleText, string.Empty);
         }
 
         internal void EditInBrowser()
