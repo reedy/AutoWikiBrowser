@@ -72,6 +72,12 @@
     <Compile Include="Controls\ComboBoxInvoke.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\InputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\InputBox.Designer.cs">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\NamespacesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -383,6 +389,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\ArticleTextBox.resx">
       <DependentUpon>ArticleTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\InputBox.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Lists\ProtectionLevel.resx">
       <DependentUpon>ProtectionLevel.cs</DependentUpon>
