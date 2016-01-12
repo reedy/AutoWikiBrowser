@@ -115,6 +115,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
+                Tools.WriteDebug("Ext Proc", ex.StackTrace);
                 // Most, if not all exceptions here are related to user wrong user input
                 // or environment specifics, so ErrorHandler is not needed.
                 MessageBox.Show(ActiveForm, ex.Message, "External processing error",
