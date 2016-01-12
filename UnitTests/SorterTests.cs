@@ -738,7 +738,7 @@ words.
             Assert.AreEqual(f + e + g, MetaDataSorter.MoveTemplateToReferencesSection(f + e + g, WikiRegexes.MoreNoFootnotes, true));
 
             // if duplicate sections, don't duplicate template
-            Assert.AreEqual(b + c + a + "\r\n" + c  + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + c +c + g, WikiRegexes.MoreNoFootnotes, true));
+            Assert.AreEqual(b + c + a + "\r\n" + c + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + c +c + g, WikiRegexes.MoreNoFootnotes, true));
         }
 
         [Test]
@@ -1270,7 +1270,7 @@ b = @"A
             Assert.AreEqual("", parser2.Sorter.RemoveCats(ref g, "test"), "does not modify page with multiple defaultsorts");
 
             d = a + "\r\n" + b + "\r\n" + c + " <!--foo -->";
-            Assert.AreEqual(c  + " <!--foo -->\r\n" + b + "\r\n", parser2.Sorter.RemoveCats(ref d, "test"), "Retain comment on same line as defaultsort");
+            Assert.AreEqual(c + " <!--foo -->\r\n" + b + "\r\n", parser2.Sorter.RemoveCats(ref d, "test"), "Retain comment on same line as defaultsort");
         }
 
         [Test]
