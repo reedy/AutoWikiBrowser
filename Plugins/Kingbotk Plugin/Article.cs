@@ -172,9 +172,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 try
                 {
-                    if (
-                        InitStaticVariableHelper(
-                            RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init))
+                    if (InitStaticVariableHelper(RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init))
                     {
                         RestoreTemplateToPlaceholderSpotRegex =
                             new Regex(RestoreTemplateToPlaceholderSpot_strPlaceholder);
