@@ -2161,7 +2161,7 @@ Message: {2}
         /// <summary>
         /// Wrapper for System.Windows.Forms.MessageBox.Show() - So things dont have to reference the Forms library
         /// </summary>
-        /// <param name="message"></param>s
+        /// <param name="message"></param>
         public static void MessageBox(string message)
         {
             System.Windows.Forms.MessageBox.Show(message);
