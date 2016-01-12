@@ -142,7 +142,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         public bool AutoStub
         {
-            get { return (AutoStubCheckBox.Checked & AutoStubSupportYNCheckBox.Checked); }
+            get { return AutoStubCheckBox.Checked & AutoStubSupportYNCheckBox.Checked; }
             set { AutoStubCheckBox.Checked = AutoStubYN && value; }
         }
 
@@ -364,11 +364,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         // Article processing:
         protected override bool SkipIfContains()
         {
-            if ((SkipRegex != null))
+            if (SkipRegex != null)
             {
                 try
                 {
-                    return (SkipRegex.Matches(TheArticle.AlteredArticleText).Count > 0);
+                    return SkipRegex.Matches(TheArticle.AlteredArticleText).Count > 0;
                 }
                 catch (Exception ex)
                 {
@@ -553,7 +553,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     _ourSettingsControl.AlternateNames =
                         ConvertRedirectsToString(GetRedirects(_ourSettingsControl.TemplateName));
                     _ourSettingsControl.HasAlternateNamesCheckBox.Checked =
-                        !(string.IsNullOrEmpty(_ourSettingsControl.AlternateNames));
+                        !string.IsNullOrEmpty(_ourSettingsControl.AlternateNames);
                 }
                 catch (Exception ex)
                 {

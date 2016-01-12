@@ -161,8 +161,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             // HACK: A little hack to ensure we don't change no to No or yes to Yes as our only edit, and also for checking "yes" values
             if (Parameters.ContainsKey(paramName))
             {
-            	if (yes && Parameters[paramName].Value.ToLower().Equals("yes") ||
-            	    !yes && Parameters[paramName].Value.ToLower().Equals("no"))
+                if (yes && Parameters[paramName].Value.ToLower().Equals("yes") || !yes && Parameters[paramName].Value.ToLower().Equals("no"))
                 {
                     return true;
                 }

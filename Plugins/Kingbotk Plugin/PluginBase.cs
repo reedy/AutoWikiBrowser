@@ -434,7 +434,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 mHasAlternateNames = true;
                 LastKnownGoodRedirects = alternateNames;
-                regexpMiddle = Regex.Escape(PreferredTemplateName) + "|" +  alternateNames;
+                regexpMiddle = Regex.Escape(PreferredTemplateName) + "|" + alternateNames;
             }
             
             regexpMiddle = regexpMiddle.Replace(" ", "[ _]");
@@ -458,7 +458,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// <returns>True if the template has alternate names</returns>
         protected bool HasAlternateNames
         {
-            get { return ((PreferredTemplateNameRegex != null)); }
+            get { return (PreferredTemplateNameRegex != null); }
         }
 
         /// <summary>

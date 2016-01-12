@@ -172,7 +172,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                             weAddedAReqPhotoParam = true;
                         }
 
-                    	if (theArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
+                        if (theArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
                         {
                             MessageBox.Show("Bad tag(s). Fix manually.", "Bad tag", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);

@@ -62,7 +62,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         }
 
         // Button event handlers:
-        private void OK_Button_Click(Object sender, EventArgs e)
+        private void OK_Button_Click(object sender, EventArgs e)
         {
             Close();
         }

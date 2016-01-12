@@ -713,7 +713,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         {
             if (AWBForm.TheSession.Editor.IsActive)
             {
-            	if (ActivePlugins.Any())
+                if (ActivePlugins.Any())
                     _pluginSettings.AWBProcessingStart(sender);
             }
             else
@@ -735,7 +735,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         private void StopButtonClickEventHandler(object sender, EventArgs e)
         {
             DefaultStatusText();
-            if ((_assessmentsObject != null))
+            if (_assessmentsObject != null)
                 _assessmentsObject.Reset();
             _pluginSettings.AWBProcessingAborted();
         }
