@@ -2155,13 +2155,13 @@ Message: {2}
         /// <returns>A string with the contents of the input box</returns>
         public static string VBInputBox(string prompt, string title, string defaultResponse, int xPos, int yPos)
         {
-            return Microsoft.VisualBasic.Interaction.InputBox(prompt, title, defaultResponse, xPos, yPos);
+            return Controls.InputBox.Show(prompt, title, defaultResponse, null, xPos, yPos).Text;
         }
 
         /// <summary>
         /// Wrapper for System.Windows.Forms.MessageBox.Show() - So things dont have to reference the Forms library
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message"></param>s
         public static void MessageBox(string message)
         {
             System.Windows.Forms.MessageBox.Show(message);

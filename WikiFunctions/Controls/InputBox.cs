@@ -24,6 +24,7 @@ namespace WikiFunctions.Controls
     /// "substantial" is defined as enough code to be recognizably from this library. 
     /// 
     /// Code from http://www.reflectionit.nl/blog/2003/c-inputbox
+    /// Licence: Creative Commons Attribution By licenses
     /// 
     /// </remarks>
     public partial class InputBox : Form
