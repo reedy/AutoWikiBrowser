@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -599,6 +599,10 @@ journal=Crypt of Cthulhu #19: A Pulp Thriller and Theological Journal |volume=sp
 journal=Crypt of Cthulhu #19: |volume=3 Issue 3|url=http://www.clare.ltd.new.net/cryptofcthulhu/blreanimator.htm|issue=December}} Robert M. Price (ed.), Bloomfield, NJ";
 
             Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
+
+            nochange2 = @"*{{cite journal |title=Lia |journal=Control |volume=I Nov 1962 II Dec 1962 |year=1962 }}";
+
+            Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2), "No change to No as part of word in volume param");
         }
 
         [Test]

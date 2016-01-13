@@ -44,7 +44,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CiteTemplatesJournalVolumeAndIssue =
             new Regex(
-                @"(?<=\|\s*volume\s*=\s*[0-9VXMILC]+?)(?:[;,]?\s*(?:nos?[\.:;]?|(?:numbers?|issues?|iss)\s*[:;]?))",
+                @"(?<=\|\s*volume\s*=\s*[0-9VXMILC]+?)(?:[;,]?\s*(?:nos?[\.:; ]|(?:numbers?|issues?|iss)\s*[:; ]))",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static readonly Regex CiteTemplatesJournalIssue =
