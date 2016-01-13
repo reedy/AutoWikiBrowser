@@ -565,7 +565,7 @@ cp SvnInfo.template.cs SvnInfo.cs
 HEADREV=`svn info | grep Revision | cut -c 11-20`
 HEADDATE=`svn info | grep 'Last Changed Date' | cut -c 20-38`
 perl -pi -e s/.WCREV./$HEADREV/g SvnInfo.cs
-perl -pi -e s/.WCDATE./$HEADDATE/g SvnInfo.cs
+perl -pi -e s/.WCDATE./&quot;$HEADDATE&quot;/g SvnInfo.cs
 cd $(OutDir)</PreBuildEvent>
   </PropertyGroup>
 </Project>
