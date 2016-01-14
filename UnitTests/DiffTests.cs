@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using WikiFunctions;
 using NUnit.Framework;
+using System.Text.RegularExpressions;
 
 namespace UnitTests
 {
@@ -109,5 +110,40 @@ A2
 ", d.UndoDeletion(2, 2), "Undo of delete last blank line");
         }
 
+
+        [Test]
+        public void DiffHTML()
+        {
+            WikiDiff d = new WikiDiff();
+
+            string diffResult = d.GetDiff(@"A1
+A2", @"A1
+A2", 2);
+
+            Assert.AreEqual(@"", diffResult, "No HTML when no change");
+
+            diffResult = d.GetDiff(@"A1
+A2", @"A1X
+A2", 2).Replace(System.Environment.NewLine, " ");
+
+            diffResult = Regex.Replace(diffResult, @"\s+", " ");
+
+            Assert.AreEqual(@"<tr onclick='window.external.GoTo(0)'> <td colspan='2' class='diff-lineno'>Line 1:</td> <td colspan='2' class='diff-lineno'>Line 1:</td> </tr><tr onclick='window.external.GoTo(0)' ondblclick='window.external.UndoChange(0,0)'> <td>-</td> <td class='diff-deletedline'><span class='diffchange'>A1</span> </td> <td>+</td> <td class='diff-addedline'><span class='diffchange'>A1X</span> </td> </tr><tr onclick='window.external.GoTo(1);'> <td class='diff-marker'> </td> <td class='diff-context'>A2</td> <td class='diff-marker'> </td> <td class='diff-context'>A2</td> </tr>", diffResult, "Standard case: first line changed");
+
+            diffResult = d.GetDiff(@"A1
+A2", @"A1X
+A2X", 2).Replace(System.Environment.NewLine, " ");
+
+            diffResult = Regex.Replace(diffResult, @"\s+", " ");
+
+            Assert.AreEqual(@"<tr onclick='window.external.GoTo(0)'> <td colspan='2' class='diff-lineno'>Line 1:</td> <td colspan='2' class='diff-lineno'>Line 1:</td> </tr><tr onclick='window.external.GoTo(0)' ondblclick='window.external.UndoChange(0,0)'> <td>-</td> <td class='diff-deletedline'><span class='diffchange'>A1</span> </td> <td>+</td> <td class='diff-addedline'><span class='diffchange'>A1X</span> </td> </tr><tr onclick='window.external.GoTo(1)' ondblclick='window.external.UndoChange(1,1)'> <td>-</td> <td class='diff-deletedline'><span class='diffchange'>A2</span> </td> <td>+</td> <td class='diff-addedline'><span class='diffchange'>A2X</span> </td> </tr>", diffResult, "Standard case: two lines changed");
+
+            diffResult = d.GetDiff(@"A1
+A2", @"A1", 2).Replace(System.Environment.NewLine, " ");
+
+            diffResult = Regex.Replace(diffResult, @"\s+", " ");
+
+            Assert.AreEqual(@"<tr onclick='window.external.GoTo(0);'> <td class='diff-marker'> </td> <td class='diff-context'>A1</td> <td class='diff-marker'> </td> <td class='diff-context'>A1</td> </tr><tr> <td>-</td> <td class='diff-deletedline' onclick='window.external.GoTo(1)' ondblclick='window.external.UndoDeletion(1, 1)'>A2 </td> <td> </td> <td> </td> </tr>", diffResult, "Standard case: second line deleted");
+        }
     }
 }
