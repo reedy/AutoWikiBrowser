@@ -2145,20 +2145,6 @@ Message: {2}
         }
 
         /// <summary>
-        /// Wrapper for VisualBasic's Inputbox, so other projects don't have to reference Microsoft.VisualBasic
-        /// </summary>
-        /// <param name="prompt">String displayed as the message</param>
-        /// <param name="title">Title of Input Box</param>
-        /// <param name="defaultResponse">Response if no other input provided</param>
-        /// <param name="xPos">X Position of input box</param>
-        /// <param name="yPos">Y Position of input box</param>
-        /// <returns>A string with the contents of the input box</returns>
-        public static string VBInputBox(string prompt, string title, string defaultResponse, int xPos, int yPos)
-        {
-            return Controls.InputBox.Show(prompt, title, defaultResponse, null, xPos, yPos).Text;
-        }
-
-        /// <summary>
         /// Wrapper for System.Windows.Forms.MessageBox.Show() - So things dont have to reference the Forms library
         /// </summary>
         /// <param name="message"></param>
