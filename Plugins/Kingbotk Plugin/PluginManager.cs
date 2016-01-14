@@ -769,10 +769,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         private static void AddGenericTemplateMenuItem_Click(object sender, EventArgs e)
         {
-            string str = WikiFunctions.Controls.InputBox.Show("Enter the name for this generic plugin", "Enter name", "", null).Text.Trim();
-
-            if (!string.IsNullOrEmpty(str))
+            var res = WikiFunctions.Controls.InputBox.Show("Enter the name for this generic plugin", "Enter name", "", null);
+            if (!string.IsNullOrEmpty(res.Text))
             {
+                string str = res.Text.Trim();
                 if (Plugins.ContainsKey(str))
                 {
                     MessageBox.Show("A plugin of this name already exists", "Error", MessageBoxButtons.OK,
