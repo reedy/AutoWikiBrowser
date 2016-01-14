@@ -770,7 +770,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         private static void AddGenericTemplateMenuItem_Click(object sender, EventArgs e)
         {
             var res = WikiFunctions.Controls.InputBox.Show("Enter the name for this generic plugin", "Enter name", "", null);
-            if (!string.IsNullOrEmpty(res.Text))
+            if (res.OK && !string.IsNullOrEmpty(res.Text))
             {
                 string str = res.Text.Trim();
                 if (Plugins.ContainsKey(str))
