@@ -96,6 +96,17 @@ A2", 2);
             Assert.AreEqual(@"
 A1
 A2", d.UndoDeletion(0, 0), "Undo of delete first blank line");
+
+d = new WikiDiff();
+
+            d.GetDiff(@"A1
+A2
+", @"A1
+A2", 2);
+
+            Assert.AreEqual(@"A1
+A2
+", d.UndoDeletion(2, 2), "Undo of delete last blank line");
         }
 
     }
