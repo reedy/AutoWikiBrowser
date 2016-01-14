@@ -371,7 +371,8 @@ namespace WikiFunctions
                     }
                     s.Append(LeftLines[left]);
                 }
-                if (s.Length > 0)
+                // specifically handle case of deletion of first line being a blank line
+                if (s.Length > 0 || (i == 0 && i == left && string.IsNullOrEmpty(LeftLines[left])))
                 {
                     s.Append("\r\n");
                 }

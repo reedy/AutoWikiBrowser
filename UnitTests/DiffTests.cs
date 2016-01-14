@@ -82,5 +82,21 @@ namespace UnitTests
             lst = Word.SplitString("ภา");
             AssertWords(lst, "ภ", "า");
         }
+
+        [Test]
+        public void UndoDeletion()
+        {
+            WikiDiff d = new WikiDiff();
+
+            d.GetDiff(@"
+A1
+A2", @"A1
+A2", 2);
+
+            Assert.AreEqual(@"
+A1
+A2", d.UndoDeletion(0, 0), "Undo of delete first blank line");
+        }
+
     }
 }
