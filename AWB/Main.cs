@@ -3857,8 +3857,18 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void speedyDeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Rectangle scrn = Screen.GetWorkingArea(this);
-            txtEdit.Text = "{{db|" + Tools.VBInputBox("Enter a reason. Leave blank if you'll edit " +
-                                                      "the reason in the AWB text box", "Speedy deletion", "", scrn.Width / 2, scrn.Height / 3) + "}}\r\n\r\n" + txtEdit.Text;
+
+            var res =
+                WikiFunctions.Controls.InputBox.Show(
+                    "Enter a reason. Leave blank if you'll edit the reason in the AWB text box",
+                    "Speedy deletion",
+                    "",
+                    null,
+                    scrn.Width/2, scrn.Height/3);
+            if (res.OK)
+            {
+                txtEdit.Text = "{{db|" + res.Text.Trim()  + "}}\r\n\r\n" + txtEdit.Text;
+            }
         }
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
