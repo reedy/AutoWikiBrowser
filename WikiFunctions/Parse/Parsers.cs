@@ -394,7 +394,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex SpacesThenTwoNewline = new Regex(" +\r\n\r\n", RegexOptions.Compiled);
         private static readonly Regex WikiListWithMultipleSpaces = new Regex(@"^([\*#]+) +", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedDashes = new Regex(" (—|&#15[01];|&mdash;|&#821[12];|&#x201[34];) ", RegexOptions.Compiled);
-        private static readonly Regex NewlinesWithinLists = new Regex(@"(\r\n\*.*)\r\n\r\n+\*", RegexOptions.Compiled);
+        private static readonly Regex NewlinesWithinLists = new Regex(@"(\r\n\*.*)\r\n\r\n\*", RegexOptions.Compiled);
+        private static readonly Regex TwoLists = new Regex(@"\r\n\*.*\r\n\r\n\r\n\*");
 
         /// <summary>
         /// Applies/removes some excess whitespace from the article
@@ -428,6 +429,7 @@ namespace WikiFunctions.Parse
             // remove excessive newlines
             // Don't apply within <poem> tags
             // retain one or two newlines before stub
+            // don't merge together two lists
             if (articleText.Contains("\r\n\r\n\r\n"))
             {
                 bool OK = true;
@@ -447,7 +449,7 @@ namespace WikiFunctions.Parse
 
                 if (OK)
                 {
-                    if (WikiRegexes.Stub.IsMatch(articleText))
+                    if (WikiRegexes.Stub.IsMatch(articleText) || TwoLists.IsMatch(articleText))
                         articleText = FourOrMoreNewlines.Replace(articleText, "\r\n\r\n");
                     else
                         articleText = WikiRegexes.ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");

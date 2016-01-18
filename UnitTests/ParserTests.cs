@@ -2656,6 +2656,16 @@ Text
 
 * ad"));
 
+            const string TwoNewLines = @"The following items:
+
+* ab
+* ac
+
+
+* ba
+* bb";
+
+            Assert.AreEqual(TwoNewLines, Parsers.RemoveWhiteSpace(TwoNewLines), "No change to two or more newlines between list items, could be two separate lists");
         }
     }
 
