@@ -329,6 +329,7 @@
             this.lvIgnored.UseCompatibleStateImageBehavior = false;
             this.lvIgnored.View = System.Windows.Forms.View.Details;
             this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
+            this.lvIgnored.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LogLists_MouseMove);
             // 
             // colIgnoreArticle
             // 
@@ -369,6 +370,7 @@
             this.lvSaved.UseCompatibleStateImageBehavior = false;
             this.lvSaved.View = System.Windows.Forms.View.Details;
             this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
+            this.lvSaved.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LogLists_MouseMove);
             // 
             // colSuccessSave
             // 

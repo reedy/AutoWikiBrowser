@@ -33,6 +33,7 @@ namespace WikiFunctions.Logging
     {
         protected ListMaker listMaker;
         protected readonly List<AWBLogListener> FilteredItems = new List<AWBLogListener>();
+        private WikiFunctions.Controls.AWBToolTip tooltip = new AWBToolTip();
 
         #region Public
         public LogControl()
@@ -185,6 +186,26 @@ namespace WikiFunctions.Logging
                 ((AWBLogListener)((ListView)sender).FocusedItem).OpenInBrowser();
             }
             catch { }
+        }
+
+        private AWBLogListener previousLogListenerItem = new AWBLogListener("");
+
+        private void LogLists_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Wine workaround: ToolTipText for ListViewItem doesn't work under Wine, use MouseMove event to show tooltip instead
+            if(!Globals.UsingLinux)
+                return;
+
+            // find list view item under mouse, if any
+            AWBLogListener currentLogListenerItem = (AWBLogListener)((ListView)sender).GetItemAt(e.X, e.Y);
+
+            // if same item, don't redisplay tooltip (avoid rapidly flickerting tooltip)
+            if (currentLogListenerItem != null && currentLogListenerItem != previousLogListenerItem)
+            {
+                previousLogListenerItem = currentLogListenerItem;
+
+                tooltip.Show(currentLogListenerItem.ToolTipText, (ListView)sender, e.Location);
+            }
         }
 
         /// <summary>
