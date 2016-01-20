@@ -147,12 +147,12 @@ namespace WikiFunctions.Controls
         {
             // cache the column sizes of the listview when sized based on column headings
             // so we calculate this once per listview not once per change to listview
-            if(colheadsizes.Count == 0)
+            if (colheadsizes.Count == 0)
             {
-                foreach(ColumnHeader head in Columns)
+                foreach (ColumnHeader head in Columns)
                 {
                     head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-                    if(!head.Text.Equals("ColumnHeader"))
+                    if (!head.Text.Equals("ColumnHeader"))
                         colheadsizes.Add(head.Text, head.Width);
                 }
             }
@@ -160,17 +160,17 @@ namespace WikiFunctions.Controls
             foreach (ColumnHeader head in Columns)
             {
                 // Performance: Time heading only ever has date & time so don't need to resize on every item addition
-                if(head.Text.Equals("Time"))
+                if (head.Text.Equals("Time"))
                 {
-                    if(Items.Count == 0)
+                    if (Items.Count == 0)
                         head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-                    else if(Items.Count == 1)
+                    else if (Items.Count == 1)
                         head.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
                     continue;
                 }
                 // Performance: Skipped By is "User" or "AWB" only so is always defined by header size not content
-                else if(head.Text.Equals("Skipped By") && Items.Count <= 1)
+                else if (head.Text.Equals("Skipped By") && Items.Count <= 1)
                 {
                     head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
                     continue;
@@ -178,7 +178,7 @@ namespace WikiFunctions.Controls
 
                 int width;
 
-                if(!colheadsizes.TryGetValue(head.Text, out width))
+                if (!colheadsizes.TryGetValue(head.Text, out width))
                 {
                     head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
                     width = head.Width;

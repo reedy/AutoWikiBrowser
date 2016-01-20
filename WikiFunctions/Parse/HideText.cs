@@ -120,12 +120,12 @@ namespace WikiFunctions.Parse
                     string res = m.Value;
                     if(res.StartsWith("[["))
                     {
-                        if(res.EndsWith("]]"))
+                        if (res.EndsWith("]]"))
                             Replace(RetainBraces.Matches(res), ref res);
                         else
                             Replace(RetainStartBraces.Matches(res), ref res);
                     }
-                    else if(res.EndsWith("]]"))
+                    else if (res.EndsWith("]]"))
                         Replace(RetainEndBraces.Matches(res), ref res);
                     else
                         Replace(All.Matches(res), ref res);

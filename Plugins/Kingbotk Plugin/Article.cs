@@ -141,12 +141,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             RestoreTemplateToPlaceholderSpot_strPlaceholder_Init =
                 new Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag();
 
-        // just write one instance of template even if have multiple conTemplatePlaceholder's
-        private string RestoreTemplateToPlaceholderSpot_strPlaceholder;
-
         private readonly Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag
             RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init =
                 new Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag();
+
+        // just write one instance of template even if have multiple conTemplatePlaceholder's
+        private string RestoreTemplateToPlaceholderSpot_strPlaceholder;
 
         private Regex RestoreTemplateToPlaceholderSpotRegex;
 
