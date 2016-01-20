@@ -216,7 +216,9 @@ namespace WikiFunctions.ReplaceSpecial
 
                 pattern = pattern.Replace(" ", "[ _]+");
 
-                text = Regex.Replace(text, pattern, "$1" + r.ReplaceWith_ + "$2");
+                string replace = Tools.ApplyKeyWords(title, r.ReplaceWith_, false);
+
+                text = Regex.Replace(text, pattern, "$1" + replace + "$2");
             }
 
             return text;
