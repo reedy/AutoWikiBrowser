@@ -427,9 +427,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         internal System.Windows.Forms.Label lblAWBNudges;
         internal System.Windows.Forms.Button ResetTimerButton;
         internal System.Windows.Forms.Timer BotTimer;
-        private System.Windows.Forms.Label ETALabel;
         internal System.Windows.Forms.ToolStripMenuItem SetAWBToolStripMenuItem;
         internal System.Windows.Forms.CheckBox OpenBadInBrowserCheckBox;
+        private System.Windows.Forms.Label ETALabel;
     }
 
 }
