@@ -200,7 +200,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
         private void SkipNoChangesCheckBoxCheckedChanged(object sender, EventArgs e)
         {
-            if ((PluginManager.AWBForm.SkipNoChanges != SkipNoChangesCheckBox.Checked))
+            if (PluginManager.AWBForm.SkipNoChanges != SkipNoChangesCheckBox.Checked)
             {
                 SkipNoChangesCheckBox.Checked = PluginManager.AWBForm.SkipNoChanges;
             }
@@ -398,7 +398,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
         private void SkipNoChangesCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if ((PluginManager.AWBForm.SkipNoChanges != SkipNoChangesCheckBox.Checked))
+            if (PluginManager.AWBForm.SkipNoChanges != SkipNoChangesCheckBox.Checked)
             {
                 PluginManager.AWBForm.SkipNoChanges = SkipNoChangesCheckBox.Checked;
             }
