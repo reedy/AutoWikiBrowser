@@ -48,7 +48,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             //
             //PictureBox1
             //
-            this.PictureBox1.Image = Resources.WP1;
+            this.PictureBox1.Image = global::AutoWikiBrowser.Plugins.Kingbotk.Properties.Resources.WP1;
             this.PictureBox1.Location = new System.Drawing.Point(12, 12);
             this.PictureBox1.Name = "PictureBox1";
             this.PictureBox1.Size = new System.Drawing.Size(64, 61);

@@ -168,7 +168,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = Resources.king_worship;
+            this.BackgroundImage = global::AutoWikiBrowser.Plugins.Kingbotk.Properties.Resources.king_worship;
             this.ClientSize = new System.Drawing.Size(448, 262);
             this.Controls.Add(this.LicencingButton);
             this.Controls.Add(this.linkReedy);
