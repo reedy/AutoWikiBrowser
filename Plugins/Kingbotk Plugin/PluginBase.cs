@@ -263,12 +263,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, false, false, pluginName: PluginShortName);
         }
 
-        protected void AddAndLogNewParamWithAYesValue(string paramName, string paramAlternativeName)
-        {
-            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, true, true,
-                paramAlternativeName: paramAlternativeName, pluginName: PluginShortName);
-        }
-
         protected void AddEmptyParam(string paramName)
         {
             if (!Template.Parameters.ContainsKey(paramName))
@@ -331,22 +325,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                     // If add class=Stub (we don't change if set) add auto
                     AddAndLogNewParamWithAYesValue("auto");
                 }
-            }
-        }
-
-        protected void ReplaceATemplateWithAYesParameter(Regex r, string paramName, string templateCall,
-            bool replace = true)
-        {
-            if (r.Matches(TheArticle.AlteredArticleText).Count > 0)
-            {
-                if (replace)
-                {
-                    TheArticle.AlteredArticleText = r.Replace(TheArticle.AlteredArticleText, string.Empty);
-                }
-                
-                TheArticle.DoneReplacement(templateCall, paramName + "=yes");
-                Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, false, false);
-                TheArticle.ArticleHasAMinorChange();
             }
         }
 

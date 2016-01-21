@@ -604,16 +604,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             get { return Me; }
         }
 
-        internal static void EditBoxInsertYesParam(string parameterName)
-        {
-            EditBoxInsert("|" + parameterName + "=yes");
-        }
-
-        internal static void EditBoxInsert(string text)
-        {
-            AWBForm.EditBox.SelectedText = text;
-        }
-
         // User interface management:
 
         internal static void DefaultStatusText()

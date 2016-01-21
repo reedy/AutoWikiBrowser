@@ -159,16 +159,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             }
         }
 
-        internal void IncrementSavedEdits(AsyncApiEdit sender, SaveInfo save)
-        {
-            IncrementSavedEdits();
-        }
-
-        internal void IncrementSavedEdits()
-        {
-            NumberOfEdits += 1;
-        }
-
         private void StatsSkipMisc(int val)
         {
             _skipped += 1;
