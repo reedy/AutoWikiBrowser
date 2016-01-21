@@ -158,8 +158,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 {
                     if (InitStaticVariableHelper(RestoreTemplateToPlaceholderSpot_strPlaceholder_Init))
                     {
-                        RestoreTemplateToPlaceholderSpot_strPlaceholder =
-                            Regex.Escape(Constants.TemplaterPlaceholder);
+                        RestoreTemplateToPlaceholderSpot_strPlaceholder = Regex.Escape(Constants.TemplaterPlaceholder);
                     }
                 }
                 finally
@@ -174,8 +173,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 {
                     if (InitStaticVariableHelper(RestoreTemplateToPlaceholderSpot_RestoreTemplateToPlaceholderSpotRegex_Init))
                     {
-                        RestoreTemplateToPlaceholderSpotRegex =
-                            new Regex(RestoreTemplateToPlaceholderSpot_strPlaceholder);
+                        RestoreTemplateToPlaceholderSpotRegex = new Regex(RestoreTemplateToPlaceholderSpot_strPlaceholder);
                     }
                 }
                 finally
