@@ -43,17 +43,17 @@ namespace WikiFunctions.Plugins.ListMaker.BingSearch
         {
             List<Article> articles = new List<Article>();
             var bingContainer = new Bing.BingSearchContainer(new Uri("https://api.datamarket.azure.com/Bing/Search/"))
-                {Credentials = new NetworkCredential(AccountKey, AccountKey)};
+                { Credentials = new NetworkCredential(AccountKey, AccountKey) };
 
             foreach (string s in searchCriteria)
             {
-                var searchQuery = bingContainer.Web(string.Format("{0}({1})", s, Variables.URL), null, null, null, null,
-                                                    null, null, null);
+                var searchQuery = bingContainer.Web(string.Format("{0}({1})", s, Variables.URL), null, null, null, null, null, null, null);
                 var searchResults = searchQuery.Execute();
                 if (searchResults == null)
                 {
                     continue;
                 }
+
                 foreach (var result in searchResults)
                 {
                     articles.Add(new Article(result.Title));
@@ -75,12 +75,18 @@ namespace WikiFunctions.Plugins.ListMaker.BingSearch
         }
 
         public bool UserInputTextBoxEnabled
-        { get { return true; } }
+        {
+            get { return true; }
+        }
 
-        public void Selected() { }
+        public void Selected()
+        {
+        }
 
         public bool RunOnSeparateThread
-        { get { return true; } }
+        {
+            get { return true; }
+        }
 
         public string Name
         {
@@ -88,6 +94,8 @@ namespace WikiFunctions.Plugins.ListMaker.BingSearch
         }
 
         public virtual bool StripUrl
-        { get { return false; } }
+        {
+            get { return false; }
+        }
     }
 }
