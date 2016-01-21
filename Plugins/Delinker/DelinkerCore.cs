@@ -259,12 +259,12 @@ namespace AutoWikiBrowser.Plugins.Delinker
                 RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase);
         }
 
-        public void Nudge(out bool Cancel)
+        public void Nudge(out bool cancel)
         {
-            Cancel = false;
+            cancel = false;
         }
 
-        public void Nudged(int Nudges)
+        public void Nudged(int nudges)
         {
         }
     }
