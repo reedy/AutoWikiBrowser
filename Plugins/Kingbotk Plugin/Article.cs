@@ -65,7 +65,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         // For calling by plugin:
-        internal void PluginCheckTemplateCall(string templateCall, string pluginName)
+        internal void PluginCheckTemplateCall(string templateCall)
         {
             // we have "template:"
             if (!string.IsNullOrEmpty(templateCall))

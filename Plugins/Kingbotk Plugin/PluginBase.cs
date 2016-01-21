@@ -189,7 +189,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             else
             {
                 Template.FoundTemplate = true;
-                TheArticle.PluginCheckTemplateCall(match.Groups["tl"].Value, PluginShortName);
+                TheArticle.PluginCheckTemplateCall(match.Groups["tl"].Value);
 
                 if (HasAlternateNames)
                     PluginCheckTemplateName(match.Groups["tlname"].Value);
