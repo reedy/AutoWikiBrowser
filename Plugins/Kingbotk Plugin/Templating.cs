@@ -53,13 +53,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
             else
             {
-                Parameters.Add(parameterName, new TemplateParametersObject(parameterName, parameterValue));
+                Parameters.Add(parameterName, new TemplateParametersObject(parameterValue));
             }
         }
 
         internal void NewTemplateParm(string parameterName, string parameterValue)
         {
-            Parameters.Add(parameterName, new TemplateParametersObject(parameterName, parameterValue));
+            Parameters.Add(parameterName, new TemplateParametersObject(parameterValue));
         }
 
         internal void NewTemplateParm(string parameterName, string parameterValue, bool logItAndUpdateEditSummary,
@@ -175,11 +175,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// </summary>
         internal sealed class TemplateParametersObject
         {
-            internal string Name, Value;
+            internal string Value;
 
-            internal TemplateParametersObject(string parameterName, string parameterValue)
+            internal TemplateParametersObject(string parameterValue)
             {
-                Name = parameterName;
                 Value = parameterValue;
             }
         }
