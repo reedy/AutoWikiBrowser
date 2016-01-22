@@ -183,8 +183,8 @@ namespace AutoWikiBrowser.Plugins.IFD
             PluginEnabled = Settings.Enabled;
         }
 
-        public void Nudge(out bool Cancel) { Cancel = false; }
-        public void Nudged(int Nudges) { }
+        public void Nudge(out bool cancel) { cancel = false; }
+        public void Nudged(int nudges) { }
 
         private static void ShowSettings(Object sender, EventArgs e)
         { new IfdOptions().Show(); }

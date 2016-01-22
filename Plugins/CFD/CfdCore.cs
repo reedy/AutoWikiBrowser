@@ -181,8 +181,8 @@ namespace AutoWikiBrowser.Plugins.CFD
             PluginEnabled = false;
         }
 
-        public void Nudge(out bool Cancel) { Cancel = false; }
-        public void Nudged(int Nudges) { }
+        public void Nudge(out bool cancel) { cancel = false; }
+        public void Nudged(int nudges) { }
 
         private static void ShowSettings(object sender, EventArgs e)
         { new CfdOptions().Show(); }
