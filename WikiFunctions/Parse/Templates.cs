@@ -249,7 +249,7 @@ namespace WikiFunctions.Parse
         {
             lock(GetAllTemplatesNewQueueLock)
             {
-                // For peformance, use cached result if available: articletext plus List of template names
+                // For performance, use cached result if available: articletext plus List of template names
                 List<string> found = GetAllTemplatesNewQueue.FirstOrDefault(q => q.Key.Equals(articleText)).Value;
                 if (found != null)
                     return found;
