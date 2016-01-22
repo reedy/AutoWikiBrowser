@@ -45,7 +45,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             this.GroupBox3 = new System.Windows.Forms.GroupBox();
             this.ImportanceCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.PropertiesButton = new System.Windows.Forms.Button();
-            this.Timer1 = new System.Windows.Forms.Timer(this.components);
             this.GroupBox2.SuspendLayout();
             this.GroupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -290,8 +289,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         internal System.Windows.Forms.TextBox SkipRegexTextBox;
         internal System.Windows.Forms.CheckBox SkipRegexCheckBox;
         internal System.Windows.Forms.Button PropertiesButton;
-        internal System.Windows.Forms.Timer Timer1;
-
         internal System.Windows.Forms.Button GetRedirectsButton;
     }
 }
