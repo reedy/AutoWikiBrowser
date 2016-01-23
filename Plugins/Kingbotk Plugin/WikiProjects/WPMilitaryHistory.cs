@@ -422,8 +422,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             {
                 if (Template.Parameters[conMiddleAges].Value.ToLower() == "yes")
                 {
-                    Template.NewOrReplaceTemplateParm(MedievalTaskForce, "yes", TheArticle, false, false, false, "",
-                        PluginShortName);
+                    Template.NewOrReplaceTemplateParm(MedievalTaskForce, "yes", TheArticle, false, false, false, "");
                     TheArticle.DoneReplacement(conMiddleAges, MedievalTaskForce);
                 }
 

@@ -216,13 +216,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 case Living.Dead:
                     if (!Template.HasYesParamLowerOrTitleCase(false, "living"))
                     {
-                        Template.NewOrReplaceTemplateParm("living", "no", TheArticle, true, false, false, "",
-                            PluginShortName, true);
+                        Template.NewOrReplaceTemplateParm("living", "no", TheArticle, true, false, false, "", true);
                     }
                     break;
                 case Living.Unknown:
-                    Template.NewOrReplaceTemplateParm("living", "", TheArticle, false, false, true, "", PluginShortName,
-                        true);
+                    Template.NewOrReplaceTemplateParm("living", "", TheArticle, false, false, true, "", true);
                     break;
             }
 
@@ -230,9 +228,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             {
                 // Since we're dealing with talk pages, we want a listas= even if it's the same as the
                 // article title without namespace (otherwise it sorts to namespace)
-                Template.NewOrReplaceTemplateParm("listas",
-                    Tools.MakeHumanCatKey(TheArticle.FullArticleTitle, TheArticle.AlteredArticleText), TheArticle, true, false,
-                    true, "", PluginShortName);
+                Template.NewOrReplaceTemplateParm("listas", Tools.MakeHumanCatKey(TheArticle.FullArticleTitle, TheArticle.AlteredArticleText), TheArticle, true, false, true, "");
             }
         }
 

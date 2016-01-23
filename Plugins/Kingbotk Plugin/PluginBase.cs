@@ -139,7 +139,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 if (processTalkPageMode != ProcessTalkPageMode.Normal)
                 {
                     ProcessArticleFinishNonStandardMode(classification, importance, forceNeedsInfobox,
-                        forceNeedsAttention, removeAutoStub, processTalkPageMode);
+                        forceNeedsAttention, removeAutoStub);
                 }
 
                 if (TheArticle.ProcessIt)
@@ -255,23 +255,22 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         protected void AddAndLogNewParamWithAYesValue(string paramName)
         {
-            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, true, false, pluginName: PluginShortName);
+            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, true, false);
         }
 
         protected void AddNewParamWithAYesValue(string paramName)
         {
-            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, false, false, pluginName: PluginShortName);
+            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, false, false);
         }
 
         protected void AddEmptyParam(string paramName)
         {
             if (!Template.Parameters.ContainsKey(paramName))
-                Template.NewTemplateParm(paramName, "", false, TheArticle, PluginShortName);
+                Template.NewTemplateParm(paramName, "", false, TheArticle);
         }
 
         protected void ProcessArticleFinishNonStandardMode(Classification classification, Importance importance,
-            bool forceNeedsInfobox, bool forceNeedsAttention, bool removeAutoStub,
-            ProcessTalkPageMode processTalkPageMode)
+            bool forceNeedsInfobox, bool forceNeedsAttention, bool removeAutoStub)
         {
             if (TheArticle.Namespace == Namespace.Talk && classification != Classification.Unassessed)
             {
@@ -314,13 +313,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 if (GenericSettings.StubClass)
                 {
-                    Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, pluginName: PluginShortName,
-                        dontChangeIfSet: true);
+                    Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, dontChangeIfSet: true);
                 }
 
                 if (GenericSettings.AutoStub &&
-                    Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, pluginName: PluginShortName,
-                        dontChangeIfSet: true))
+                    Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, dontChangeIfSet: true))
                 {
                     // If add class=Stub (we don't change if set) add auto
                     AddAndLogNewParamWithAYesValue("auto");

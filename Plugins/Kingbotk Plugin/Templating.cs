@@ -63,7 +63,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         internal void NewTemplateParm(string parameterName, string parameterValue, bool logItAndUpdateEditSummary,
-            Article theArticle, string pluginName, bool minorEdit = false)
+            Article theArticle, bool minorEdit = false)
         {
             NewTemplateParm(parameterName, parameterValue);
             if (logItAndUpdateEditSummary)
@@ -76,7 +76,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// <returns>True if made a change</returns>
         internal bool NewOrReplaceTemplateParm(string parameterName, string parameterValue, Article theArticle,
             bool logItAndUpdateEditSummary, bool paramHasAlternativeName, bool dontChangeIfSet = false,
-            string paramAlternativeName = "", string pluginName = "", bool minorEditOnlyIfAdding = false)
+            string paramAlternativeName = "", bool minorEditOnlyIfAdding = false)
         {
             bool res;
 
@@ -93,8 +93,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
             else
             {
-                NewTemplateParm(parameterName, parameterValue, logItAndUpdateEditSummary, theArticle, pluginName,
-                    minorEditOnlyIfAdding);
+                NewTemplateParm(parameterName, parameterValue, logItAndUpdateEditSummary, theArticle, minorEditOnlyIfAdding);
 
                 if (minorEditOnlyIfAdding)
                     theArticle.ArticleHasAMinorChange();
