@@ -331,13 +331,13 @@ en, sq, ru
                     articleText = zerothSection + restOfArticle;
                 }
 
-            // deletion/protection templates above maintenance tags, below dablinks per [[WP:LAYOUT]]
-            if (TemplateExists(alltemplates, WikiRegexes.DeletionProtectionTags))
-                articleText = MoveTemplate(articleText, WikiRegexes.DeletionProtectionTags);
-
-            // Dablinks above maintance tags per [[WP:LAYOUT]]
-            if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
-                articleText = MoveTemplate(articleText, WikiRegexes.Dablinks);
+                // deletion/protection templates above maintenance tags, below dablinks per [[WP:LAYOUT]]
+                if (TemplateExists(alltemplates, WikiRegexes.DeletionProtectionTags))
+                    articleText = MoveTemplate(articleText, WikiRegexes.DeletionProtectionTags);
+    
+                // Dablinks above maintance tags per [[WP:LAYOUT]]
+                if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
+                    articleText = MoveTemplate(articleText, WikiRegexes.Dablinks);
 
                 if (Variables.LangCode.Equals("en"))
                 {
