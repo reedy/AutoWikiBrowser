@@ -88,6 +88,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
+            // return if no portal parameters, removing empty portal template
             if (!Portals.Any())
                 return articleText;
 
