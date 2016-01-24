@@ -266,7 +266,7 @@ namespace WikiFunctions.Logging
 
         private void SetSubItemText(SubItem subItem, string value)
         {
-            if ((subItem == SubItem.SkippedBy || subItem == SubItem.SkippedReason) &! (HaveSkipInfo))
+            if ((subItem == SubItem.SkippedBy || subItem == SubItem.SkippedReason) & !(HaveSkipInfo))
             {
                 base.SubItems.Add("SkippedBy");
                 base.SubItems.Add("SkipReason");

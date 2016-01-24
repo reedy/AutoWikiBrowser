@@ -463,14 +463,14 @@ en, sq, ru
 
             if (cq.Success)
             {
-                int cutoff = Math.Max(0, cq.Index -500);
+                int cutoff = Math.Max(0, cq.Index - 500);
                 string cut = articleText.Substring(cutoff);
                 cut = WikiRegexes.RemoveCatsAllCats.Replace(cut, m => {
                                                                        if (!CatsForDeletion.IsMatch(m.Value))
                                                                            categoryList.Add(m.Value.Trim());
                                                                        
                                                                        // if category not at start of line, leave newline, otherwise text on next line moved up
-                                                                       if (m.Index > 2 && !cut.Substring(m.Index-2, 2).Trim().Equals(""))
+                                                                       if (m.Index > 2 && !cut.Substring(m.Index - 2, 2).Trim().Equals(""))
                                                                            return "\r\n";
 
                                                                        return "";

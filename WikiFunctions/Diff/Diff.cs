@@ -347,7 +347,7 @@ namespace WikiFunctions
             }
 
 
-            return new Patch((Patch.Hunk[]) hunks.ToArray(typeof (Patch.Hunk)));
+            return new Patch((Patch.Hunk[]) hunks.ToArray(typeof(Patch.Hunk)));
         }
 
         /*

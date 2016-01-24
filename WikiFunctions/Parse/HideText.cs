@@ -118,7 +118,7 @@ namespace WikiFunctions.Parse
                 // hide all image links but retain any braces at either end
                 articleText = WikiRegexes.Images.Replace(articleText, m => {
                     string res = m.Value;
-                    if(res.StartsWith("[["))
+                    if (res.StartsWith("[["))
                     {
                         if (res.EndsWith("]]"))
                             Replace(RetainBraces.Matches(res), ref res);

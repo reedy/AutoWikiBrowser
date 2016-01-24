@@ -824,7 +824,7 @@ namespace WikiFunctions
             List<string> linksInUnformattedText = (from Match m in WikiRegexes.SimpleWikiLink.Matches(string.Join(" ", allUnformattedText.ToArray()))
                 select m.Value).ToList();
 
-            foreach(string l in linksInUnformattedText)
+            foreach (string l in linksInUnformattedText)
                 allWikiLinks.Remove(l);
 
             // Make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
@@ -905,10 +905,10 @@ namespace WikiFunctions
             List<string> sections = new List<string>();
 
             int lastmatchpos = 0;
-            foreach(Match m in WikiRegexes.Headings.Matches(articleText))
+            foreach (Match m in WikiRegexes.Headings.Matches(articleText))
             {
                 if (m.Index > 0) // Don't add empty first section if page starts with heading
-                    sections.Add(articleText.Substring(lastmatchpos, m.Index-lastmatchpos));
+                    sections.Add(articleText.Substring(lastmatchpos, m.Index - lastmatchpos));
                 lastmatchpos = m.Index;
             }
 
@@ -963,7 +963,7 @@ namespace WikiFunctions
 
             string replaced = ReplaceWithSpaces(text, mc).TrimStart();
 
-            return (text.Length-replaced.Length+heading);
+            return (text.Length - replaced.Length+heading);
         }
 
         // Covered by ToolsTests.RemoveMatches()

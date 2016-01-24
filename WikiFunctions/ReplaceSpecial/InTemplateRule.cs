@@ -122,7 +122,7 @@ namespace WikiFunctions.ReplaceSpecial
 
             public void Parse(TreeNode tn)
             {
-                for (; ; )
+                for (; ;)
                 {
                     int i = text_.IndexOf("{{");
                     if (i < 0)
@@ -141,7 +141,7 @@ namespace WikiFunctions.ReplaceSpecial
 
             private void Inside(TreeNode tn)
             {
-                for (; ; )
+                for (; ;)
                 {
                    /* 
                        This function used to have slightly different logic;

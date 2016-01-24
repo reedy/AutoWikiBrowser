@@ -59,7 +59,7 @@ namespace WikiFunctions.Logging
 
         public void WriteArticleActionLineVerbose(string line, string pluginName, bool verboseOnly)
         {
-            if (verboseOnly && ! Verbose)
+            if (verboseOnly && !Verbose)
             {
                 return;
             }

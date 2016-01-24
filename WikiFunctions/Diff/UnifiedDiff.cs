@@ -42,7 +42,7 @@ namespace WikiFunctions
                     lines.Add(s);
                 }
             }
-            return (string[]) lines.ToArray(typeof (string));
+            return (string[]) lines.ToArray(typeof(string));
         }
 
         public static void WriteUnifiedDiff(Diff diff, TextWriter writer)

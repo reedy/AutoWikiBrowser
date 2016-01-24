@@ -180,7 +180,7 @@ namespace WikiFunctions.Controls.Lists
         private void RemoveSelectedOld()
         {
             // is this a contiguous block of selected items: e.g. last selected minus first selected+1 equals the number of selected items
-            if (SelectedIndices[SelectedItems.Count-1] - SelectedIndex + 1 == SelectedItems.Count)
+            if (SelectedIndices[SelectedItems.Count - 1] - SelectedIndex + 1 == SelectedItems.Count)
             {
                 /* Fast block mode: convert all articles in listbox into an article list, remove range from article list by index, then add articles back to 
                    listbox. This means loop through listbox once, a single remove by index operation and a single loop through article list.
