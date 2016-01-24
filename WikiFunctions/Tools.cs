@@ -2582,7 +2582,7 @@ Message: {2}
         private static readonly Regex TemplateArgument = new Regex(@"\|\s*([^{}\|]*?)\s*(?=\||}}$)", RegexOptions.Compiled);
 
         /// <summary>
-        /// Returns the number of arguments to the input template call
+        /// Returns the number of arguments to the input template call, positional if populatedparametersonly=false, and named parameters
         /// </summary>
         /// <param name="template">The template call</param>
         /// <param name="populatedparametersonly"> </param>
@@ -2604,6 +2604,11 @@ Message: {2}
             return i;
         }
         
+        /// <summary>
+        /// Returns the number of arguments to the input template call, positional and named parameters
+        /// </summary>
+        /// <param name="template">The template call</param>
+        /// <returns>The argument count</returns>
         public static int GetTemplateArgumentCount(string template)
         {
             return GetTemplateArgumentCount(template, false);
