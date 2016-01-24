@@ -103,7 +103,7 @@ namespace WikiFunctions.Parse
                 return WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal" + portalsToAdd + @"}}"));
 
             // otherwise merge to original location if all portals in same section
-            if (Summary.ModifiedSection(originalArticleText, articleText).Length > 0)
+            if (!WikiRegexes.Headings.IsMatch(originalArticleText) || Summary.ModifiedSection(originalArticleText, articleText).Length > 0)
                 return articleText.Insert(firstPortal, @"{{Portal" + portalsToAdd + @"}}" + "\r\n");
 
             return originalArticleText;

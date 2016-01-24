@@ -1323,9 +1323,10 @@ Text
 {{Portal|Foo2 }}"), "merges multiple portals to single portal");
 
             const string NoSeeAlso = @"{{Portal|Bar}}
+===One===
 {{Portal|Foo2 }}";
 
-            Assert.AreEqual(NoSeeAlso, Parsers.MergePortals(NoSeeAlso), "no merging if no portal and no see also");
+            Assert.AreEqual(NoSeeAlso, Parsers.MergePortals(NoSeeAlso), "no merging if no portal and no see also, separate sections");
 
             const string MultipleArguments = @"Foo
 ==See also==
@@ -1358,6 +1359,14 @@ Text
 ==See also==
 {{Portal|Foo}}";
             Assert.AreEqual(TwoSeeAlso, Parsers.MergePortals(TwoSeeAlso), "not merged when multiple see also sections");
+
+            const string SingleSection = @"Foo
+{{Portal|Bar}}
+{{Portal|Foo}}
+";
+            Assert.AreEqual(@"Foo
+{{Portal|Bar|Foo}}
+", Parsers.MergePortals(SingleSection), "portals merged to first portal location when article has no sections");
         }
 
         [Test]
