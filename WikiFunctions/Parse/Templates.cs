@@ -109,18 +109,18 @@ namespace WikiFunctions.Parse
         /// Calls TemplateToMagicWord if changes made
         /// </summary>
         /// <param name="articleText">the page text</param>
-        /// <param name="TemplateRedirects">Dictionary of redirects and templates</param>
+        /// <param name="DictionaryOfTemplateRedirects">Dictionary of redirects and templates</param>
         /// <returns>The updated article text</returns>
-        public static string TemplateRedirects(string articleText, Dictionary<Regex, string> StringOfTemplateRedirects)
+        public static string TemplateRedirects(string articleText, Dictionary<Regex, string> DictionaryOfTemplateRedirects)
         {
             string newArticleText;
             if (WikiRegexes.AllTemplateRedirects == null)
                 return articleText;
 
             if (Globals.SystemCore3500Available)
-                newArticleText = TemplateRedirectsHashSet(articleText, StringOfTemplateRedirects);
+                newArticleText = TemplateRedirectsHashSet(articleText, DictionaryOfTemplateRedirects);
             else
-                newArticleText = TemplateRedirectsList(articleText, StringOfTemplateRedirects);
+                newArticleText = TemplateRedirectsList(articleText, DictionaryOfTemplateRedirects);
 
             // call TemplateToMagicWord if changes made
             if (!newArticleText.Equals(articleText))
