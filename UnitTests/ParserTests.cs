@@ -1328,12 +1328,19 @@ Text
 
             Assert.AreEqual(NoSeeAlso, Parsers.MergePortals(NoSeeAlso), "no merging if no portal and no see also, separate sections");
 
-            const string MultipleArguments = @"Foo
+            string MultipleArguments = @"Foo
 ==See also==
 {{Portal|Bar}}
 {{Portal|Foo2|other=here}}";
 
-            Assert.AreEqual(MultipleArguments, Parsers.MergePortals(MultipleArguments), "no merging of portal with multiple arguments");
+            Assert.AreEqual(MultipleArguments, Parsers.MergePortals(MultipleArguments), "no merging of portal with named arguments");
+
+            MultipleArguments = @"Foo
+==See also==
+{{Portal|Foo2|other=here}}
+{{Portal|Bar}}
+";
+            Assert.AreEqual(MultipleArguments, Parsers.MergePortals(MultipleArguments), "no merging of portal with named arguments 2");
 
             // merging in same section
             const string SameSection = @"Foo
@@ -1351,7 +1358,7 @@ Text
 {{Portal|Bar}}
 ==Other==
 {{Portal|Foo}}";
-            Assert.AreEqual(differentSection, Parsers.MergePortals(differentSection), "not merged when portals in ddifferent sections");
+            Assert.AreEqual(differentSection, Parsers.MergePortals(differentSection), "not merged when portals in different sections");
 
             const string TwoSeeAlso = @"Foo
 ==See also==
@@ -1375,6 +1382,34 @@ Text
             Assert.AreEqual(@"Foo
 {{Portal|Bar}}
 ", Parsers.MergePortals(Dupes), "portals deduplicated");
+
+            Assert.AreEqual(@"Foo
+{{Portal|Bar|Bar2|Foo|Foo2}}
+", Parsers.MergePortals(@"Foo
+{{Portal|Bar|Bar2}}
+{{Portal|Foo|Foo2}}
+"), "portals with multiple arguments combined");
+
+            Assert.AreEqual(@"Foo
+{{Portal|Bar|Bar2|Foo|Foo2}}
+", Parsers.MergePortals(@"Foo
+{{Portal|Bar|Bar2|Foo}}
+{{Portal|Foo2}}
+"), "portals with multiple arguments combined 2");
+
+            Assert.AreEqual(@"Foo
+{{Portal|Bar|Bar2|Foo1|Foo2}}
+", Parsers.MergePortals(@"Foo
+{{Portal|Bar|Bar2|Foo1}}
+{{Portal|Foo2}}
+"), "portals with multiple arguments combined and deduplicated");
+
+            Assert.AreEqual(@"Foo
+{{Portal|Bar|Bar2|Foo1|Abc|Foo2}}
+", Parsers.MergePortals(@"Foo
+{{Portal|Bar|Bar2|Foo1|Abc}}
+{{Portal|Foo2|Abc}}
+"), "portals with multiple arguments combined and deduplicated");
         }
 
         [Test]

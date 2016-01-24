@@ -79,16 +79,19 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in WikiRegexes.PortalTemplate.Matches(articleText))
             {
-                string thePortalCall = m.Value, thePortalName = Tools.GetTemplateArgument(m.Value, 1);
+                string thePortalCall = m.Value;
 
-                if (Tools.GetTemplateArgumentCount(thePortalCall) == 1)
+                // Do not process portal templates with named arguments
+                if(!Tools.GetTemplateParameterValues(thePortalCall).Any())
                 {
-                    Portals.Add(thePortalName);
+                    for(int i = 1; i <= Tools.GetTemplateArgumentCount(thePortalCall); i++)
+                        Portals.Add(Tools.GetTemplateArgument(thePortalCall, i).Trim());
+
                     articleText = Regex.Replace(articleText, Regex.Escape(thePortalCall) + @"\s*(?:\r\n)?", "");
                 }
             }
 
-            // return if no portal parameters, removing empty portal template
+            // if no portal parameters, return now, removing empty portal template
             if (!Portals.Any())
                 return articleText;
 
