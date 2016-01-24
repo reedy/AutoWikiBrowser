@@ -81,7 +81,7 @@ namespace WikiFunctions.Parse
             {
                 string thePortalCall = m.Value, thePortalName = Tools.GetTemplateArgument(m.Value, 1);
 
-                if (!Portals.Contains(thePortalName) && Tools.GetTemplateArgumentCount(thePortalCall) == 1)
+                if (Tools.GetTemplateArgumentCount(thePortalCall) == 1)
                 {
                     Portals.Add(thePortalName);
                     articleText = Regex.Replace(articleText, Regex.Escape(thePortalCall) + @"\s*(?:\r\n)?", "");
@@ -96,7 +96,7 @@ namespace WikiFunctions.Parse
                 return originalArticleText;
 
             // generate portal string
-            string portalsToAdd = Portals.Aggregate("", (current, portal) => current + ("|" + portal));
+            string portalsToAdd = Tools.DeduplicateList(Portals).Aggregate("", (current, portal) => current + ("|" + portal));
 
             // first merge to see also section
             if (WikiRegexes.SeeAlso.Matches(articleText).Count == 1)

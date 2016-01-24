@@ -1367,6 +1367,14 @@ Text
             Assert.AreEqual(@"Foo
 {{Portal|Bar|Foo}}
 ", Parsers.MergePortals(SingleSection), "portals merged to first portal location when article has no sections");
+
+            const string Dupes = @"Foo
+{{Portal|Bar}}
+{{Portal|Bar}}
+";
+            Assert.AreEqual(@"Foo
+{{Portal|Bar}}
+", Parsers.MergePortals(Dupes), "portals deduplicated");
         }
 
         [Test]
