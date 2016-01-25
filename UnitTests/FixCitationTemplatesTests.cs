@@ -531,6 +531,9 @@ world|format=PDF}} was";
             const string correct2 = @"{{cite book |title=Evaluation of x |last=Office |year=2001 |pages=1–2 |accessdate=39 June 2011 }}";
 
             Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite book |title=Evaluation of x |last=Office |year=2001 |page=1-2 |pages= |accessdate=39 June 2011 }}"));
+
+            const string correct3 = @"{{cite book | page = ੯-੨ }}";
+            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(correct3), "No change to non-standard numbers");
         }
 
         [Test]
