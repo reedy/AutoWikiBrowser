@@ -27,7 +27,7 @@ namespace WikiFunctions
         public const int MaxLength = 255;
 
         /// <summary>
-        /// Returns the name of modified section or empty string if more than one section has changed
+        /// Returns the name of modified section, top for zeroth section, or empty string if more than one section has changed or no changes
         /// </summary>
         /// <param name="originalText"></param>
         /// <param name="articleText"></param>
@@ -56,8 +56,12 @@ namespace WikiFunctions
                     return "";
             }
 
-            // so SectionsChanged == 1, get heading name from regex
-            return WikiRegexes.Headings.Match(sectionsAfter[sectionChangeNumber]).Groups[1].Value.Trim();
+            if(sectionsChanged == 0)
+                return "";
+
+            // so SectionsChanged == 1, get heading name from regex, or return "top" if zeroth section
+            string heading = WikiRegexes.Headings.Match(sectionsAfter[sectionChangeNumber]).Groups[1].Value.Trim();
+            return (heading.Length == 0 ? "top" : heading);
         }
 
         private static readonly Regex SummaryTrim = new Regex(@"\s*\[\[[^\[\]\r\n]+?\]\]$", RegexOptions.Compiled);
