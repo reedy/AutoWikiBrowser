@@ -896,7 +896,7 @@ namespace WikiFunctions
 
         // Covered by ToolsTests.SplitToSections()
         /// <summary>
-        /// Splits wikitext to sections based on any level wiki heading
+        /// Splits wikitext to sections based on any level wiki heading. Includes zeroth section
         /// </summary>
         /// <param name="articleText">Page text</param>
         /// <returns>Array of strings, each represents a section with its heading (if any)</returns>
