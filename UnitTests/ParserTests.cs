@@ -1410,6 +1410,15 @@ Text
 {{Portal|Bar|Bar2|Foo1|Abc}}
 {{Portal|Foo2|Abc}}
 "), "portals with multiple arguments combined and deduplicated");
+
+            Assert.AreEqual(@"Foo
+{{Portal|Bar|Foo1|Abc}}
+==Head==
+", Parsers.MergePortals(@"Foo
+{{Portal|Bar|Foo1}}
+{{Portal|Abc}}
+==Head==
+"), "portals with multiple arguments combined, zeroth section");
         }
 
         [Test]

@@ -60,11 +60,12 @@ namespace UnitTests
         [Test]
         public void ModifiedSection()
         {
-            Assert.AreEqual("", Summary.ModifiedSection("", ""));
-            Assert.AreEqual("", Summary.ModifiedSection("foo", "foo"));
-            Assert.AreEqual("", Summary.ModifiedSection("foo", "bar"));
+            Assert.AreEqual("", Summary.ModifiedSection("", ""), "No change to text");
+            Assert.AreEqual("", Summary.ModifiedSection("foo", "foo"), "No change to text 2");
+            Assert.AreEqual("top", Summary.ModifiedSection("foo", "bar"), "Zeroth section change, no other sections");
+            Assert.AreEqual("top", Summary.ModifiedSection("foo\r\n==sec==\r\na", "bar\r\n==sec==\r\na"), "Zeroth section change");
 
-            Assert.AreEqual("foo", Summary.ModifiedSection("==foo==\r\n123", "==foo==\r\ntest"));
+            Assert.AreEqual("foo", Summary.ModifiedSection("==foo==\r\n123", "==foo==\r\ntest"), "Section 1 change, no zeroth section");
             Assert.AreEqual("foo", Summary.ModifiedSection("rawr\r\n==foo==\r\n123", "rawr\r\n==foo==\r\ntest"));
             Assert.AreEqual("foo", Summary.ModifiedSection("==foo==\r\n123", "== foo ==\r\ntest"));
             Assert.AreEqual("bar", Summary.ModifiedSection("==foo==\r\n123", "==bar==\r\ntest"));
