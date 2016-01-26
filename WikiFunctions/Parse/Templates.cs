@@ -152,11 +152,16 @@ namespace WikiFunctions.Parse
 
                 // performance: thirdly then run replacement for only those matching templates, and only against the matching rules, handle nested templates
                 Regex MatchedTemplates = Tools.NestedTemplateRegex(TemplatesFound.ToList());
-                while (MatchedTemplates.IsMatch(articleText))
-                    articleText = MatchedTemplates.Replace(articleText, m2 =>
-                    {
-                        string res = m2.Value;
 
+                articleText = MatchedTemplates.Replace(articleText, m2 =>
+                {
+                    string res = m2.Value;
+                    string valBefore = "";
+
+                    // inner loop to handle nested templates
+                    while(res != valBefore)
+                    {
+                        valBefore = res;
                         foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
                         {
                             res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
@@ -165,8 +170,9 @@ namespace WikiFunctions.Parse
                             if (!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
                                 break;
                         }
-                        return res;
-                    });
+                    }
+                    return res;
+                });
             }
             return articleText;
         }
