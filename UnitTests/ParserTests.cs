@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -1419,6 +1419,12 @@ Text
 {{Portal|Abc}}
 ==Head==
 "), "portals with multiple arguments combined, zeroth section");
+
+            const string stack = @"Foo
+==See also==
+{{stack|{{portal|Foo|bar}}}}
+"; 
+            Assert.AreEqual(stack, Parsers.MergePortals(stack), "No change when portal in stack template");
         }
 
         [Test]

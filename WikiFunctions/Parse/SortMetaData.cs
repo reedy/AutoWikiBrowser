@@ -61,6 +61,8 @@ namespace WikiFunctions.Parse
             return (Variables.IsWikimediaProject) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
+        private static readonly Regex StackTemplate = Tools.NestedTemplateRegex("stack");
+
         /// <summary>
         /// Merges multiple {{portal}} templates into a single one, removing any duplicates. En-wiki only.
         /// Restricted to {{portal}} calls with one argument
@@ -71,6 +73,12 @@ namespace WikiFunctions.Parse
         public static string MergePortals(string articleText)
         {
             if (!Variables.LangCode.Equals("en"))
+                return articleText;
+
+            // return if {{portal}} within {{stack}}
+            List<string> stacks = Parsers.GetAllTemplateDetail(articleText).Where(t => StackTemplate.IsMatch(t)).ToList();
+
+            if(stacks.Any(s => WikiRegexes.PortalTemplate.IsMatch(s)))
                 return articleText;
 
             string originalArticleText = articleText;
