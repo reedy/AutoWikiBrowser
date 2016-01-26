@@ -388,7 +388,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?> *)\r\n\r\n", RegexOptions.IgnoreCase);
         private static readonly Regex FourOrMoreNewlines = new Regex("(\r\n){4,}");
         private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*");
-        private static readonly Regex NewlinesBeforeUrl = new Regex(@"\r\n\r\n(\* ?\[?http)");
         private static readonly Regex HorizontalRule = new Regex("----+$");
         private static readonly Regex MultipleTabs = new Regex("  +", RegexOptions.Compiled);
         private static readonly Regex SpacesThenTwoNewline = new Regex(" +\r\n\r\n", RegexOptions.Compiled);
