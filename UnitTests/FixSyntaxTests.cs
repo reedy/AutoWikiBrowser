@@ -838,6 +838,7 @@ Now [[A],] was."));
 
             Assert.AreEqual(@"{{hello}}", Parsers.FixSyntax(@"{[hello}}"));
             Assert.AreEqual(@"{{hello}}", Parsers.FixSyntax(@"[{hello}}"));
+            Assert.AreEqual(@"{{hello}}", Parsers.FixSyntax(@"{hello}}"));
 
             Assert.AreEqual(@"<ref>[http://site.com]</ref>", Parsers.FixSyntax(@"<ref>http://site.com]</ref>"));
             Assert.AreEqual(@"<ref>[http://site.com]</ref>", Parsers.FixSyntax(@"<ref>[http://site.com</ref>"));
