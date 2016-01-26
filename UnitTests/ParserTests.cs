@@ -2676,26 +2676,6 @@ Text
         }
 
         [Test]
-        public void NewlinesbeforeURL()
-        {
-            Assert.AreEqual(@"* [http://www.foo.com]
-* [http://www.bar.com]
-* [http://www.foobar.com]", Parsers.RemoveWhiteSpace(@"* [http://www.foo.com]
-
-* [http://www.bar.com]
-
-* [http://www.foobar.com]"));
-
-            Assert.AreEqual(@"* [http://www.foo.com]
-* [https://www.bar.com]
-* [https://www.foobar.com]", Parsers.RemoveWhiteSpace(@"* [http://www.foo.com]
-
-* [https://www.bar.com]
-
-* [https://www.foobar.com]"));
-        }
-
-        [Test]
         public void NewlinesinLists()
         {
             Assert.AreEqual(@"The following items:
@@ -2717,13 +2697,24 @@ Text
 
 * ad"));
 
-            const string TwoNewLines = @"The following items:
+            string TwoNewLines = @"The following items:
 
 * ab
 * ac
 
 
 * ba
+* bb";
+
+            Assert.AreEqual(TwoNewLines, Parsers.RemoveWhiteSpace(TwoNewLines), "No change to two or more newlines between list items, could be two separate lists");
+
+            TwoNewLines = @"The following items:
+
+* ab
+* ac
+
+
+* [http://www.foo.com ba]
 * bb";
 
             Assert.AreEqual(TwoNewLines, Parsers.RemoveWhiteSpace(TwoNewLines), "No change to two or more newlines between list items, could be two separate lists");
