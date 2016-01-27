@@ -131,9 +131,9 @@ namespace WikiFunctions.Logging
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="template"></param>
+        /// <param name="templateName"></param>
         /// <param name="pluginName"></param>
-        void WriteTemplateAdded(string template, string pluginName);
+        void WriteTemplateAdded(string templateName, string pluginName);
     }
 
     public interface IAWBTraceListener : IMyTraceListener
