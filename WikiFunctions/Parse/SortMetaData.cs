@@ -85,7 +85,9 @@ namespace WikiFunctions.Parse
             List<string> Portals = new List<string>();
             int firstPortal = WikiRegexes.PortalTemplate.Match(articleText).Index;
 
-            foreach (Match m in WikiRegexes.PortalTemplate.Matches(articleText))
+            MatchCollection portalCalls = WikiRegexes.PortalTemplate.Matches(articleText);
+
+            foreach (Match m in portalCalls)
             {
                 string thePortalCall = m.Value;
 
@@ -103,8 +105,8 @@ namespace WikiFunctions.Parse
             if (!Portals.Any())
                 return articleText;
 
-            // merge in new portal if multiple portals
-            if (Portals.Count < 2)
+            // abort if not enough portals to merge, or all in one existing template
+            if (Portals.Count < 2 || portalCalls.Count == 1)
                 return originalArticleText;
 
             // generate portal string

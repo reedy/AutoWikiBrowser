@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -1306,6 +1306,7 @@ Text
         public void MergePortals()
         {
             Assert.AreEqual("", Parsers.MergePortals(""), "no change when no portals");
+            Assert.AreEqual("{{portal|Foo|Bar}}", Parsers.MergePortals("{{portal|Foo|Bar}}"), "no change when already OK");
             Assert.AreEqual("==see also==", Parsers.MergePortals("==see also=="), "no change when no portals");
 
             const string singlePortal = @"Foo
