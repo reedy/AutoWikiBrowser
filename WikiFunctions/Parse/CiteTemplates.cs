@@ -66,7 +66,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex LangTemplate = new Regex(@"(\|\s*language\s*=\s*)({{(\w{2}) icon}}\s*)(?=\||}})");
 
-        private static readonly Regex UnspacedCommaPageRange = new Regex(@"((?:[ ,–]|^)\d+),(\d+(?:[ ,–]|$))");
+        private static readonly Regex UnspacedCommaPageRange = new Regex(@"((?:[ ,–]|^)[0-9]+),([0-9]+(?:[ ,–]|$))");
 
         private static readonly List<string> ParametersToDequote = new List<string>(new[] {"title", "trans_title"});
         private static readonly Regex rpTemplate = Tools.NestedTemplateRegex("rp");
