@@ -95,7 +95,7 @@ namespace WikiFunctions.Parse
                 foreach (
                     string s in
                         allTemplatesDetail.Where(
-                            t => citeTemplatesUsed.Any(c => t.IndexOf(c, StringComparison.OrdinalIgnoreCase) > -1)))
+                            t => citeTemplatesUsed.Any(c => t.Substring(0, t.IndexOfAny(TemplateNameEndChars)).IndexOf(c, StringComparison.OrdinalIgnoreCase) > -1)))
                 {
                     string res = s, original = "";
                     while (!res.Equals(original))
