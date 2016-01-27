@@ -175,13 +175,13 @@ namespace WikiFunctions.Parse
             // fix cite params not in lower case, allowing for ISBN, DOI identifiers being uppercase, avoiding changing text within malformatted URL
             foreach (
                 string notlowercaseCiteParam in
-                    paramsFound.Keys.ToList()
+                    paramsFound.Keys
                         .Where(
                             p =>
                                 (p.ToLower() != p) &&
                                 !Regex.IsMatch(p,
                                     @"(?:IS[BS]N|DOI|PMID|OCLC|PMC|LCCN|ASIN|ARXIV|ASIN\-TLD|BIBCODE|ID|ISBN13|JFM|JSTOR|MR|OL|OSTI|RFC|SSRN|URL|ZBL)")
-                                && !CiteUrl.Match(newValue).Value.Contains(p)).ToList())
+                                && !CiteUrl.Match(newValue).Value.Contains(p)))
             {
                 newValue = Tools.RenameTemplateParameter(newValue, notlowercaseCiteParam,
                     notlowercaseCiteParam.ToLower());
