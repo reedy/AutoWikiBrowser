@@ -407,7 +407,7 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
 
             // remove leading zero in day of month
-            if (Regex.IsMatch(newValue, @"\b0[1-9]") && DateLeadingZero.IsMatch(newValue))
+            if(paramsFound.Any(p => p.Key.Contains("date") && Regex.IsMatch(p.Value, @"\b0[1-9]")))
             {
                 newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
                 newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
