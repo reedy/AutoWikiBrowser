@@ -556,8 +556,8 @@ namespace WikiFunctions.Parse
         #region PageRanges
 
         private static readonly List<string> PageFields = new List<string>(new[] {"page", "pages", "p", "pp"});
-        private static readonly Regex PageRange = new Regex(@"\b([0-9]+)\s*[-—]+\s*([0-9]+)", RegexOptions.Compiled);
-        private static readonly Regex SpacedPageRange = new Regex(@"(\d+) +(–|&ndash;) +(\d)", RegexOptions.Compiled);
+        private static readonly Regex PageRange = new Regex(@"\b([0-9]+)\s*[-—]+\s*([0-9]+)");
+        private static readonly Regex SpacedPageRange = new Regex(@"(\d+) +(–|&ndash;) +(\d)");
 
         /// <summary>
         /// Converts hyphens in page ranges in citation template fields to endashes
@@ -590,7 +590,7 @@ namespace WikiFunctions.Parse
 
             if (pageRange.Length > 2 && !pageRange.Contains(" to "))
             {
-                bool pagerangesokay = true;
+                bool pagerangesokay = false;
                 Dictionary<int, int> PageRanges = new Dictionary<int, int>();
 
                 foreach (Match pagerange in PageRange.Matches(pageRange))
