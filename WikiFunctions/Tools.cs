@@ -2533,6 +2533,8 @@ Message: {2}
             return GetTemplateParametersValues(templateCall, parameters, false);
         }
 
+        private static readonly Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+
         /// <summary>
         /// Returns the requested argument from the input template call
         /// </summary>
@@ -2541,8 +2543,6 @@ Message: {2}
         /// <returns>The argument value (trimmed)</returns>
         public static string GetTemplateArgument(string templateCall, int argument)
         {
-            Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
-
             string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
             int count = 1;
 
