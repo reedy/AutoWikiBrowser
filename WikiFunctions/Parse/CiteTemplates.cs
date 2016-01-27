@@ -70,6 +70,7 @@ namespace WikiFunctions.Parse
 
         private static readonly List<string> ParametersToDequote = new List<string>(new[] {"title", "trans_title"});
         private static readonly Regex rpTemplate = Tools.NestedTemplateRegex("rp");
+        private static readonly char[] TemplateNameEndChars = "}|".ToCharArray();
 
         /// <summary>
         /// Applies various formatting fixes to citation templates
@@ -130,7 +131,9 @@ namespace WikiFunctions.Parse
             // Performance: use TemplateDetail cache to avoid regex search on whole article text for the templates
             if (TemplateExists(allTemplates, rpTemplate))
             {
-                foreach (string s in allTemplatesDetail.Where(t => rpTemplate.IsMatch(t)))
+                // filter down to templates with rp in name
+                List<string> rpTemplates = allTemplatesDetail.FindAll(t => t.Substring(0, t.IndexOfAny(TemplateNameEndChars)).IndexOf("rp", StringComparison.OrdinalIgnoreCase) > -1);
+                foreach (string s in rpTemplates)
                 {
                     string res = rpTemplate.Replace(s, m =>
                     {
