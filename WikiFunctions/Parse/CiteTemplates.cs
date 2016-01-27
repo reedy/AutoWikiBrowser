@@ -396,9 +396,9 @@ namespace WikiFunctions.Parse
             if (templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
             {
                 newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
-                newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
-
-                if (TheIssue.Length == 0)
+                if (TheIssue.Length > 0)
+                    newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
+                else
                     newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
             }
 
