@@ -495,9 +495,10 @@ namespace WikiFunctions.Parse
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "url", theURL);
 
             // {{dead link}} should be placed outside citation, not in format field per [[Template:Dead link]]
-            if (WikiRegexes.DeadLink.IsMatch(format))
+            Match deadLinkMatch = WikiRegexes.DeadLink.Match(format);
+            if (deadLinkMatch.Success)
             {
-                string deadLink = WikiRegexes.DeadLink.Match(format).Value;
+                string deadLink = deadLinkMatch.Value;
 
                 if (theURL.ToUpper().TrimEnd('L').EndsWith("HTM") && format.Equals(deadLink))
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
