@@ -515,8 +515,7 @@ namespace WikiFunctions.Parse
             }
 
             //id=ASIN fix
-            if (IdASIN.IsMatch(id) && Tools.GetTemplateParameterValue(newValue, "asin").Length == 0 &&
-                Tools.GetTemplateParameterValue(newValue, "ASIN").Length == 0)
+            if (IdASIN.IsMatch(id) && Tools.GetTemplateParameterValue(newValue, "asin", true).Length == 0)
             {
                 newValue = Tools.RenameTemplateParameter(newValue, "id", "asin");
                 newValue = Tools.SetTemplateParameterValue(newValue, "asin", IdASIN.Match(id).Groups[1].Value.Trim());
