@@ -2774,7 +2774,7 @@ Message: {2}
                 foreach(Match m in anyParam.Matches(pipecleanedtemplate))
                 {
                     string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
-                    paramName = m.Groups[1].Value;
+                    paramName = m.Groups[1].Value.Trim();
                     
                     if (!Params.ContainsKey(paramName))
                         Params.Add(paramName, paramValue);
@@ -2811,7 +2811,7 @@ Message: {2}
             return templatecall;
         }
         
-        private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*([^}|]*)(?=\||}}$)");
+        private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n=]+)\s*=\s*([^}|]*)(?=\||}}$)");
         
         /// <summary>
         /// Returns duplicate named parameters in a template call
@@ -2828,7 +2828,7 @@ Message: {2}
             foreach(Match m in anyParam.Matches(pipecleanedtemplate))
             {
                 string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
-                paramName = m.Groups[1].Value;
+                paramName = m.Groups[1].Value.Trim();
                 
                 if (!Params.ContainsKey(paramName))
                     Params.Add(paramName, paramValue);
@@ -2884,7 +2884,7 @@ Message: {2}
             
             foreach(Match m in anyParam.Matches(pipecleanedtemplate))
             {
-                string paramName = m.Groups[1].Value;
+                string paramName = m.Groups[1].Value.Trim();
                 
                 if (!knownParameters.Contains(paramName))
                     Unknowns.Add(paramName);
