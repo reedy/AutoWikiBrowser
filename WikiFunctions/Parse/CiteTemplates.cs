@@ -51,7 +51,7 @@ namespace WikiFunctions.Parse
             new Regex(@"(?<=\|\s*issue\s*=\s*)(?:issues?|(?:nos?|iss)(?:[\.,;:]|\b)|numbers?[\.,;:]?)(?:&nbsp;)?",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private static readonly Regex CiteTemplatesPageRangeName = new Regex(@"(\|\s*)page(\s*=\s*\d+\s*(?:–|, )\s*\d)");
+        private static readonly Regex CiteTemplatesPageRangeName = new Regex(@"(\|\s*)page(\s*=\s*[0-9]+\s*(?:–|, )\s*[0-9])");
 
         private static readonly Regex AccessDateYear =
             new Regex(@"(?<=\|\s*access\-?date\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" +
@@ -333,19 +333,18 @@ namespace WikiFunctions.Parse
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "year", TheYearCorected);
                     TheYear = TheYearCorected;
                 }
-            }
 
-            if (TheYear.Length > 5 &&
-                (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
-                 || WikiRegexes.AmericanDates.IsMatch(TheYear)))
-            {
-                TheDate = TheYear;
-                TheYear = "";
-                newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
+                if (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
+                     || WikiRegexes.AmericanDates.IsMatch(TheYear))
+                {
+                    TheDate = TheYear;
+                    TheYear = "";
+                    newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
+                }
             }
 
             // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
-            if (TheYear.Length == 4 && TheDate.Contains(TheYear) && YearOnly.IsMatch(TheYear))
+            else if (TheYear.Length == 4 && TheDate.Contains(TheYear) && YearOnly.IsMatch(TheYear))
             {
                 Parsers p = new Parsers();
                 TheDate = p.FixDatesAInternal(TheDate);
@@ -358,7 +357,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            // month=Month and date=...Month... OR month=Month and date=same month (by conversion from ISO format)Ors month=nn and date=same month (by conversion to ISO format)
+            // month=Month and date=...Month... OR month=Month and date=same month (by conversion from ISO format) Or month=nn and date=same month (by conversion to ISO format)
             int num;
             if ((TheMonth.Length > 2 && TheDate.Contains(TheMonth)) // named month within date
                 || (TheMonth.Length > 2 && Tools.ConvertDate(TheDate, DateLocale.International).Contains(TheMonth))
@@ -550,7 +549,7 @@ namespace WikiFunctions.Parse
             }
 
             // origyear --> year when no year/date
-            if (TheYear.Length == 0 && TheDate.Length == 0 && origyear.Length == 4)
+            if (origyear.Length == 4 && TheYear.Length == 0 && TheDate.Length == 0)
             {
                 newValue = Tools.RenameTemplateParameter(newValue, "origyear", "year");
                 newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
