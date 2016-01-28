@@ -198,6 +198,7 @@ namespace WikiFunctions.Parse
                 TheWork,
                 nopp,
                 TheIssue,
+                TheVolume,
                 accessyear,
                 accessdate,
                 pages,
@@ -229,6 +230,8 @@ namespace WikiFunctions.Parse
                 nopp = "";
             if (!paramsFound.TryGetValue("issue", out TheIssue))
                 TheIssue = "";
+            if (!paramsFound.TryGetValue("volume", out TheVolume))
+                TheVolume = "";
             if (!paramsFound.TryGetValue("accessyear", out accessyear))
                 accessyear = "";
             if (!paramsFound.TryGetValue("accessdate", out accessdate) &&
@@ -395,7 +398,8 @@ namespace WikiFunctions.Parse
             // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
             if (templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
             {
-                newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
+                if(TheVolume.Length > 0)
+                    newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
                 if (TheIssue.Length > 0)
                     newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
                 else
