@@ -448,7 +448,7 @@ namespace WikiFunctions.Parse
             newValue = FixPageRanges(newValue, paramsFound);
 
             // page range or list should use 'pages' parameter not 'page'
-            if (CiteTemplatesPageRangeName.IsMatch(newValue))
+            if (page.Length > 0 && CiteTemplatesPageRangeName.IsMatch(newValue))
             {
                 newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
                 newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
