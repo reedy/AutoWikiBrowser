@@ -422,7 +422,7 @@ namespace WikiFunctions.Parse
             // performance: check for intersection of bad parameters and parameters used in template
             // rather than simply looping through all parameters in list
             Dictionary<string, string> pv = Tools.GetTemplateParameterValues(m.Value);
-            List<string> oldP = RenameTemplateParametersOldParams.Intersect(pv.Keys.ToArray()).ToList();
+            List<string> oldP = RenameTemplateParametersOldParams.Intersect(pv.Keys).ToList();
             if (oldP.Any())
             {
                 string tname = Tools.TurnFirstToLower(Tools.GetTemplateName(@"{{" + m.Groups[2].Value + @"}}"));
