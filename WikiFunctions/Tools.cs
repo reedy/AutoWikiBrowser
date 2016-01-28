@@ -2781,7 +2781,7 @@ Message: {2}
                     else
                     {
                         // do not remove parameter if ends with digit (e.g. last2 parameter), more likely needs renaming (e.g. last3) than removing 
-                        if (Regex.IsMatch(paramName, @".+[0-9]$"))
+                        if (Regex.IsMatch(paramName, @".[0-9]$"))
                             continue;
 
                         string earlierParamValue;
@@ -2811,7 +2811,7 @@ Message: {2}
             return templatecall;
         }
         
-        private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*([^}|]*)(?=\||}}$)", RegexOptions.Singleline);
+        private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*([^}|]*)(?=\||}}$)");
         
         /// <summary>
         /// Returns duplicate named parameters in a template call
