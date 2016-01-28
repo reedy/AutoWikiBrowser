@@ -199,7 +199,6 @@ namespace WikiFunctions.Parse
                 nopp,
                 TheIssue,
                 TheVolume,
-                accessyear,
                 accessdate,
                 pages,
                 page,
@@ -232,8 +231,6 @@ namespace WikiFunctions.Parse
                 TheIssue = "";
             if (!paramsFound.TryGetValue("volume", out TheVolume))
                 TheVolume = "";
-            if (!paramsFound.TryGetValue("accessyear", out accessyear))
-                accessyear = "";
             if (!paramsFound.TryGetValue("accessdate", out accessdate) &&
                 !paramsFound.TryGetValue("access-date", out accessdate))
                 accessdate = "";
@@ -405,9 +402,8 @@ namespace WikiFunctions.Parse
                 else
                     newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
             }
-
             // {{cite web}} for Google books -> {{Cite book}}
-            if (templatename.Contains("web") && newValue.Contains("http://books.google.") && TheWork.Length == 0)
+            else if (templatename.Contains("web") && newValue.Contains("http://books.google.") && TheWork.Length == 0)
                 newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
 
             // remove leading zero in day of month
@@ -421,6 +417,10 @@ namespace WikiFunctions.Parse
 
             if (paramsFound.Any(s => s.Key.Contains("access") && !s.Key.Contains("date")))
             {
+                string accessyear;
+                if (!paramsFound.TryGetValue("accessyear", out accessyear))
+                    accessyear = "";
+
                 if (Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
                 {
                     // remove any empty accessdaymonth, accessmonthday, accessmonth and accessyear
