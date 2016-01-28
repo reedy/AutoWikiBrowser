@@ -437,7 +437,7 @@ namespace WikiFunctions.Parse
             }
 
             // fix unspaced comma ranges, avoid pages=12,345 as could be valid page number
-            if (pages.Contains(",") && Regex.Matches(pages, @"\b\d{1,2},\d{3}\b").Count == 0)
+            if (pages.Contains(",") && !Regex.IsMatch(pages, @"\b[0-9]{1,2},[0-9]{3}\b"))
             {
                 while (UnspacedCommaPageRange.IsMatch(pages))
                 {
