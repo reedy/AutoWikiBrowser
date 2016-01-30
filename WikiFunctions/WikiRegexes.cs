@@ -1333,7 +1333,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches a number between 1000 and 2999
         /// </summary>
-        public static readonly Regex GregorianYear = new Regex(@"\b[12]\d{3}\b");
+        public static readonly Regex GregorianYear = new Regex(@"\b[12][0-9]{3}\b");
         
         /// <summary>
         /// Matches a percentage with a space or a non-breaking space
