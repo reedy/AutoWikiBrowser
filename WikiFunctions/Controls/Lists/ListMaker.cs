@@ -1186,7 +1186,6 @@ namespace WikiFunctions.Controls.Lists
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lbArticles.BeginUpdate();
             try
             {
                 object obj = Clipboard.GetDataObject();
@@ -1196,7 +1195,7 @@ namespace WikiFunctions.Controls.Lists
                 string textTba = ((IDataObject)obj).GetData(DataFormats.UnicodeText).ToString();
 
                 List<Article> NewArticles = new List<Article>();
-                BeginUpdate();
+
                 foreach (string entry in textTba.Split(new[] { "\r\n", "\n", "|" }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (!string.IsNullOrEmpty(entry.Trim()))
@@ -1209,10 +1208,9 @@ namespace WikiFunctions.Controls.Lists
                         NewArticles.Add(new Article(s));
                     }
                 }
-
+                lbArticles.BeginUpdate();
                 Add(NewArticles);
 
-                EndUpdate();
             }
             catch
             { }
