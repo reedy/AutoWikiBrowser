@@ -2651,11 +2651,11 @@ Message: {2}
         /// Renames the given template named parameters in the input template
         /// </summary>
         /// <param name="templateCall">The template to update</param>
-        /// <param name="Params">Dictionary of old names, new names to apply</param>
+        /// <param name="templateparams">Dictionary of old names, new names to apply</param>
         /// <returns>The updated template call</returns>
-        public static string RenameTemplateParameter(string templateCall, Dictionary<string, string> Params)
+        public static string RenameTemplateParameter(string templateCall, Dictionary<string, string> templateparams)
         {
-            foreach(KeyValuePair<string, string> kvp in Params)
+            foreach(KeyValuePair<string, string> kvp in templateparams)
             {
                 templateCall = RenameTemplateParameter(templateCall, kvp.Key, kvp.Value);
             }
@@ -2759,15 +2759,15 @@ Message: {2}
         /// Removes duplicate (same or null) named parameters from template calls
         /// </summary>
         /// <param name="templatecall">The template call to clean up</param>
-        /// <param name="Params">Dictionary of parameter name and value found in template call</param>
+        /// <param name="templateparams">Dictionary of parameter name and value found in template call</param>
         /// <returns>The updated template call</returns>
-        public static string RemoveDuplicateTemplateParameters(string templatecall, Dictionary<string, string> Params)
+        public static string RemoveDuplicateTemplateParameters(string templatecall, Dictionary<string, string> templateparams)
         {
             string originalTemplateCall = templatecall, updatedTemplateCall = "";
 
             while(!updatedTemplateCall.Equals(templatecall))
             {
-                Params.Clear();
+                templateparams.Clear();
                 string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
                 updatedTemplateCall = templatecall;
                 
@@ -2776,8 +2776,8 @@ Message: {2}
                     string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
                     paramName = m.Groups[1].Value.Trim();
                     
-                    if (!Params.ContainsKey(paramName))
-                        Params.Add(paramName, paramValue);
+                    if (!templateparams.ContainsKey(paramName))
+                        templateparams.Add(paramName, paramValue);
                     else
                     {
                         // do not remove parameter if ends with digit (e.g. last2 parameter), more likely needs renaming (e.g. last3) than removing 
@@ -2785,7 +2785,7 @@ Message: {2}
                             continue;
 
                         string earlierParamValue;
-                        Params.TryGetValue(paramName, out earlierParamValue);
+                        templateparams.TryGetValue(paramName, out earlierParamValue);
                         
                         // remove this param if equal value to earlier one, or either value blank, or earlier one contains this one
                         if (paramValue.Equals(earlierParamValue) || paramValue.Length == 0 || earlierParamValue.Length == 0
