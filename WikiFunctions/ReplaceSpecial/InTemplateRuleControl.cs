@@ -48,33 +48,33 @@ namespace WikiFunctions.ReplaceSpecial
             NameTextbox.SelectAll();
         }
 
-        public void SaveToRule(InTemplateRule r)
+        public void SaveToRule(InTemplateRule rule)
         {
-            if (r == null)
+            if (rule == null)
                 return;
 
-            r.enabled_ = RuleEnabledCheckBox.Checked;
-            r.Name = NameTextbox.Text.Trim();
-            r.ReplaceWith_ = ReplaceWithTextBox.Text.Trim();
-            r.DoReplace_ = ReplaceCheckBox.Checked;
+            rule.enabled_ = RuleEnabledCheckBox.Checked;
+            rule.Name = NameTextbox.Text.Trim();
+            rule.ReplaceWith_ = ReplaceWithTextBox.Text.Trim();
+            rule.DoReplace_ = ReplaceCheckBox.Checked;
 
-            r.TemplateNames_.Clear();
+            rule.TemplateNames_.Clear();
             foreach (string s in AliasesListBox.Items)
             {
-                r.TemplateNames_.Add(s);
+                rule.TemplateNames_.Add(s);
             }
         }
 
-        public void RestoreFromRule(InTemplateRule r)
+        public void RestoreFromRule(InTemplateRule rule)
         {
-            NameTextbox.Text = r.Name;
-            RuleEnabledCheckBox.Checked = r.enabled_;
-            ReplaceWithTextBox.Text = r.ReplaceWith_;
-            ReplaceCheckBox.Checked = r.DoReplace_;
+            NameTextbox.Text = rule.Name;
+            RuleEnabledCheckBox.Checked = rule.enabled_;
+            ReplaceWithTextBox.Text = rule.ReplaceWith_;
+            ReplaceCheckBox.Checked = rule.DoReplace_;
 
             AliasesListBox.BeginUpdate();
             AliasesListBox.Items.Clear();
-            foreach (string s in r.TemplateNames_)
+            foreach (string s in rule.TemplateNames_)
             {
                 AliasesListBox.Items.Add(s);
             }
