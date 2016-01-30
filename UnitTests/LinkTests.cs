@@ -820,6 +820,25 @@ x
             Assert.AreEqual(uct.Count, 14, "multiple unclosed small, but counts tag containing >");
             uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small> <ref name=fo>a</ref> <gallery param=a>b</gallery>");
             Assert.AreEqual(uct.Count, 12, "multiple unclosed small, don't count ref/gallery with params");
+
+            uct = Parsers.UnclosedTags(@"<code>a</code><code>a</code><code>a</code><code>a</code><code>a</code><code>a</code>
+<code>a</code><code>a</code><code>a</code><code>a</code><code>a</code><code>a</code>
+<code> a <some-tag> </code>");
+            Assert.AreEqual(uct.Count, 0, "No unclosed code tags here, don't report code tags just because of another tag");
+
+            uct = Parsers.UnclosedTags(@"<code> a <'foo'> </code>
+<code> a <'foo'> </code>
+<code> a <'foo'> </code>
+<code> a <'foo'> </code>
+<code> a <'foo'> </code>
+<code> a <'foo'> </code>
+<code> a <'foo'> </code>
+<code> a <'foo'> </code>
+<code> a <'foo'> </code>
+<code> a <'foo'> </code>
+<code> a <'foo'> </code>
+<code> a <'foo'> </code>");
+            Assert.AreEqual(uct.Count, 0, "No unclosed code tags here, ignore what aren't genuine tags");
         }
 
         [Test]
