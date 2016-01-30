@@ -1200,7 +1200,14 @@ namespace WikiFunctions.Controls.Lists
                 foreach (string entry in textTba.Split(new[] { "\r\n", "\n", "|" }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (!string.IsNullOrEmpty(entry.Trim()))
-                        NewArticles.Add(new Article(NormalizeTitle(entry)));
+                    {
+                        string s = NormalizeTitle(entry);
+                        s = Tools.RemoveSyntax(s);
+
+                        if (Variables.CapitalizeFirstLetter)
+                            s = Tools.TurnFirstToUpper(s);
+                        NewArticles.Add(new Article(s));
+                    }
                 }
 
                 Add(NewArticles);
