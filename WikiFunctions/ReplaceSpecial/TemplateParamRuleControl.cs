@@ -44,26 +44,26 @@ namespace WikiFunctions.ReplaceSpecial
             NameTextbox.SelectAll();
         }
 
-        public void SaveToRule(TemplateParamRule r)
+        public void SaveToRule(TemplateParamRule rule)
         {
-            if (r == null)
+            if (rule == null)
                 return;
 
-            r.enabled_ = RuleEnabledCheckBox.Checked;
-            r.Name = NameTextbox.Text.Trim();
-            r.ParamName = ParamNameTextBox.Text.Trim();
-            r.NewParamName = ChangeNameToTextBox.Text.Trim();
+            rule.enabled_ = RuleEnabledCheckBox.Checked;
+            rule.Name = NameTextbox.Text.Trim();
+            rule.ParamName = ParamNameTextBox.Text.Trim();
+            rule.NewParamName = ChangeNameToTextBox.Text.Trim();
         }
 
-        public void RestoreFromRule(TemplateParamRule r)
+        public void RestoreFromRule(TemplateParamRule rule)
         {
-            if (r == null)
+            if (rule == null)
                 return;
 
-            RuleEnabledCheckBox.Checked = r.enabled_;
-            NameTextbox.Text = r.Name;
-            ParamNameTextBox.Text = r.ParamName;
-            ChangeNameToTextBox.Text = r.NewParamName;
+            RuleEnabledCheckBox.Checked = rule.enabled_;
+            NameTextbox.Text = rule.Name;
+            ParamNameTextBox.Text = rule.ParamName;
+            ChangeNameToTextBox.Text = rule.NewParamName;
         }
 
         private void NameTextbox_TextChanged(object sender, EventArgs e)

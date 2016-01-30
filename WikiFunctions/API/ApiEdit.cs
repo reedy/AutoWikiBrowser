@@ -1116,12 +1116,12 @@ namespace WikiFunctions.API
 
         #region Query Api
 
-        public string QueryApi(string queryParamters)
+        public string QueryApi(string queryParameters)
         {
-            if (string.IsNullOrEmpty(queryParamters))
+            if (string.IsNullOrEmpty(queryParameters))
                 throw new ArgumentException("queryParamters cannot be null/empty", "queryParamters");
 
-            string result = HttpGet(ApiURL + "?action=query&format=xml&" + queryParamters);
+            string result = HttpGet(ApiURL + "?action=query&format=xml&" + queryParameters);
             //Should we be checking for maxlag?
 
             CheckForErrors(result, "query");
@@ -1129,12 +1129,12 @@ namespace WikiFunctions.API
             return result;
         }
 
-        public string QueryApiJson(string queryParamters)
+        public string QueryApiJson(string queryParameters)
         {
-            if (string.IsNullOrEmpty(queryParamters))
+            if (string.IsNullOrEmpty(queryParameters))
                 throw new ArgumentException("queryParamters cannot be null/empty", "queryParamters");
 
-            string result = HttpGet(ApiURL + "?action=query&format=json&" + queryParamters);
+            string result = HttpGet(ApiURL + "?action=query&format=json&" + queryParameters);
             // Should we be checking for maxlag?
 
             // TODO: Not Json friendly

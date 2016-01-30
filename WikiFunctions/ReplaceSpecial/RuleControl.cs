@@ -47,66 +47,66 @@ namespace WikiFunctions.ReplaceSpecial
             NameTextbox.SelectAll();
         }
 
-        public void SaveToRule(Rule r)
+        public void SaveToRule(Rule rule)
         {
-            if (r == null)
+            if (rule == null)
                 return;
 
-            r.Name = NameTextbox.Text.Trim();
-            r.replace_ = ReplaceTextbox.Text.Replace("\r\n", "\n");
-            r.with_ = WithTextbox.Text.Replace("\r\n", "\n");
-            r.ruletype_ = (Rule.T)RuleTypeCombobox.SelectedIndex;
-            r.enabled_ = RuleEnabledCheckBox.Checked;
+            rule.Name = NameTextbox.Text.Trim();
+            rule.replace_ = ReplaceTextbox.Text.Replace("\r\n", "\n");
+            rule.with_ = WithTextbox.Text.Replace("\r\n", "\n");
+            rule.ruletype_ = (Rule.T)RuleTypeCombobox.SelectedIndex;
+            rule.enabled_ = RuleEnabledCheckBox.Checked;
 
-            r.regex_ = ReplaceIsRegexCheckbox.Checked;
-            r.regexOptions_ = RegexOptions.None;
+            rule.regex_ = ReplaceIsRegexCheckbox.Checked;
+            rule.regexOptions_ = RegexOptions.None;
             if (!ReplaceIsCaseSensitiveCheckBox.Checked)
-                r.regexOptions_ |= RegexOptions.IgnoreCase;
+                rule.regexOptions_ |= RegexOptions.IgnoreCase;
             if (ReplaceIsSinglelineCheckbox.Checked)
-                r.regexOptions_ |= RegexOptions.Singleline;
+                rule.regexOptions_ |= RegexOptions.Singleline;
             if (ReplaceIsMultilineCheckBox.Checked)
-                r.regexOptions_ |= RegexOptions.Multiline;
+                rule.regexOptions_ |= RegexOptions.Multiline;
 
-            r.numoftimes_ = (int)NumberOfTimesUpDown.Value;
+            rule.numoftimes_ = (int)NumberOfTimesUpDown.Value;
 
-            r.ifContains_ = IfContainsTextBox.Text;
-            r.ifNotContains_ = IfNotContainsTextBox.Text;
+            rule.ifContains_ = IfContainsTextBox.Text;
+            rule.ifNotContains_ = IfNotContainsTextBox.Text;
 
-            r.ifIsRegex_ = IfIsRegexCheckBox.Checked;
-            r.ifRegexOptions_ = RegexOptions.None;
+            rule.ifIsRegex_ = IfIsRegexCheckBox.Checked;
+            rule.ifRegexOptions_ = RegexOptions.None;
             if (!IfIsCaseSensitiveCheckBox.Checked)
-                r.ifRegexOptions_ |= RegexOptions.IgnoreCase;
+                rule.ifRegexOptions_ |= RegexOptions.IgnoreCase;
             if (IfIsSinglelineCheckBox.Checked)
-                r.ifRegexOptions_ |= RegexOptions.Singleline;
+                rule.ifRegexOptions_ |= RegexOptions.Singleline;
             if (IfIsMultilineCheckbox.Checked)
-                r.ifRegexOptions_ |= RegexOptions.Multiline;
+                rule.ifRegexOptions_ |= RegexOptions.Multiline;
         }
 
-        public void RestoreFromRule(Rule r)
+        public void RestoreFromRule(Rule rule)
         {
-            NameTextbox.Text = r.Name;
+            NameTextbox.Text = rule.Name;
 
-            ReplaceTextbox.Text = r.replace_.Replace("\n", "\r\n");
+            ReplaceTextbox.Text = rule.replace_.Replace("\n", "\r\n");
 
-            WithTextbox.Text = r.with_.Replace("\n", "\r\n");
+            WithTextbox.Text = rule.with_.Replace("\n", "\r\n");
 
-            RuleTypeCombobox.SelectedIndex = (int)r.ruletype_;
-            RuleEnabledCheckBox.Checked = r.enabled_;
+            RuleTypeCombobox.SelectedIndex = (int)rule.ruletype_;
+            RuleEnabledCheckBox.Checked = rule.enabled_;
 
-            ReplaceIsRegexCheckbox.Checked = r.regex_;
-            ReplaceIsCaseSensitiveCheckBox.Checked = (r.regexOptions_ & RegexOptions.IgnoreCase) == 0;
-            ReplaceIsMultilineCheckBox.Checked = (r.regexOptions_ & RegexOptions.Multiline) > 0;
-            ReplaceIsSinglelineCheckbox.Checked = (r.regexOptions_ & RegexOptions.Singleline) > 0;
+            ReplaceIsRegexCheckbox.Checked = rule.regex_;
+            ReplaceIsCaseSensitiveCheckBox.Checked = (rule.regexOptions_ & RegexOptions.IgnoreCase) == 0;
+            ReplaceIsMultilineCheckBox.Checked = (rule.regexOptions_ & RegexOptions.Multiline) > 0;
+            ReplaceIsSinglelineCheckbox.Checked = (rule.regexOptions_ & RegexOptions.Singleline) > 0;
 
-            NumberOfTimesUpDown.Value = r.numoftimes_;
+            NumberOfTimesUpDown.Value = rule.numoftimes_;
 
-            IfContainsTextBox.Text = r.ifContains_;
-            IfNotContainsTextBox.Text = r.ifNotContains_;
+            IfContainsTextBox.Text = rule.ifContains_;
+            IfNotContainsTextBox.Text = rule.ifNotContains_;
 
-            IfIsRegexCheckBox.Checked = r.ifIsRegex_;
-            IfIsCaseSensitiveCheckBox.Checked = (r.ifRegexOptions_ & RegexOptions.IgnoreCase) == 0;
-            IfIsMultilineCheckbox.Checked = (r.ifRegexOptions_ & RegexOptions.Multiline) > 0;
-            IfIsSinglelineCheckBox.Checked = (r.ifRegexOptions_ & RegexOptions.Singleline) > 0;
+            IfIsRegexCheckBox.Checked = rule.ifIsRegex_;
+            IfIsCaseSensitiveCheckBox.Checked = (rule.ifRegexOptions_ & RegexOptions.IgnoreCase) == 0;
+            IfIsMultilineCheckbox.Checked = (rule.ifRegexOptions_ & RegexOptions.Multiline) > 0;
+            IfIsSinglelineCheckBox.Checked = (rule.ifRegexOptions_ & RegexOptions.Singleline) > 0;
 
             UpdateRegexOptionCheckboxes();
         }
