@@ -1150,6 +1150,13 @@ was"));
 
             string Dupe2 = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = | acccessdate = 11 June 2012 }}";
             Assert.AreEqual(@"{{cite web | url=http://www.site.com | title = Testing | accessdate = | accessdate = 11 June 2012 }}", Parsers.RenameTemplateParameters(Dupe2, RenamedTemplateParameters), "changed when target parameter present without value");
+
+            const string nested = @"{{reflist|refs={{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}}}";
+            Assert.AreEqual(nested, Parsers.RenameTemplateParameters(nested.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in nested template call");
+
+            const string nested2 = @"{{reflist|refs={{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}
+{{cite web | url=http://www.site2.com | title = Testing2 | accessdate = 20 June 2009 }}}}";
+            Assert.AreEqual(nested, Parsers.RenameTemplateParameters(nested.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in nested and unnested template calls");
         }
 
         [Test]
