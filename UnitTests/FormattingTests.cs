@@ -1156,7 +1156,7 @@ was"));
 
             const string nested2 = @"{{reflist|refs={{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}
 {{cite web | url=http://www.site2.com | title = Testing2 | accessdate = 20 June 2009 }}}}";
-            Assert.AreEqual(nested, Parsers.RenameTemplateParameters(nested.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in nested and unnested template calls");
+            Assert.AreEqual(nested2, Parsers.RenameTemplateParameters(nested2.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in nested and unnested template calls");
 
             string nomatch = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}";
             Assert.AreEqual(nomatch, Parsers.RenameTemplateParameters(nomatch, RenamedTemplateParameters), "No change when no matched parameters");
