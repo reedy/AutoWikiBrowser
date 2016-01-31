@@ -397,13 +397,20 @@ namespace WikiFunctions.Parse
             // Now process distinct templates used in articles using GetAllTemplateDetail
             foreach(string s in GetAllTemplateDetail(articleText))
             {
-                string res = r.Replace(s,
-                                         m => (Globals.SystemCore3500Available ?
-                                               RenameTemplateParametersHashSetME(m, RenamedTemplateParameters)
-                                               : RenameTemplateParametersME(m, RenamedTemplateParameters)));
-                                                                   
-                if (!s.Equals(res))
-                    articleText = articleText.Replace(s, res);                
+                Match m = r.Match(s);
+                // Performance: don't need to process nested templates as GetAllTemplateDetail includes these separately
+                if(m.Success && m.Index == 0)
+                {
+                    string res = m.Value;
+
+                    if(Globals.SystemCore3500Available)
+                        res = RenameTemplateParametersHashSetME(m, RenamedTemplateParameters);
+                    else
+                        res = RenameTemplateParametersME(m, RenamedTemplateParameters);
+                                                               
+                    if (!m.Value.Equals(res))
+                        articleText = articleText.Replace(m.Value, res);
+                }
             }
 
             return articleText;

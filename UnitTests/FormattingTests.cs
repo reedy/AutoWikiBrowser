@@ -1161,6 +1161,9 @@ was"));
             string nomatch = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}";
             Assert.AreEqual(nomatch, Parsers.RenameTemplateParameters(nomatch, RenamedTemplateParameters), "No change when no matched parameters");
 
+            nomatch = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }} {{cn}}";
+            Assert.AreEqual(nomatch, Parsers.RenameTemplateParameters(nomatch, RenamedTemplateParameters), "No change when no matched parameters, other template");
+
             nomatch = @"{{cite news | url=http://www.site.com | title = Testing | acccessdate = 20 May 2009 }}";
             Assert.AreEqual(nomatch, Parsers.RenameTemplateParameters(nomatch, RenamedTemplateParameters), "No change when no matched templates");
         }
