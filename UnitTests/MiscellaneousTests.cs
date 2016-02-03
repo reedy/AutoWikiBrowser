@@ -2559,20 +2559,27 @@ File:Example.jpg|Caption2
 
             Assert.AreEqual(2, st.NoOfRegexes);
 
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{foo}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{foo}}", "test"), "simple case");
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{Foo}}", "test"), "First letter casing handling");
             Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ foo}}", "test"), "whitespace before");
             Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ foo }}", "test"), "whitespace after");
             Assert.AreEqual("Now {{subst:foo|first=y}}", st.SubstituteTemplates("Now {{foo|first=y}}", "test"), "template with parameters");
             Assert.AreEqual("Now {{subst:foo|first}}", st.SubstituteTemplates("Now {{foo|first}}", "test"), "template with arguments");
-            Assert.AreEqual("Now {{subst:foo}} {{subst:bar}}", st.SubstituteTemplates("Now {{foo}} {{bar}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}} {{subst:bar}}", st.SubstituteTemplates("Now {{foo}} {{bar}}", "test"), "Multiple");
             
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{Template:foo}}", "Template prefix"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{template:foo}}", "template prefix"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{template :foo}}", "template spacing after"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ template :foo}}", "template spacing before"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ template : foo}}", "all whitespace"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{Template:foo}}", "test"), "Template prefix");
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{template:foo}}", "test"), "template prefix");
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{template :foo}}", "test"), "template spacing after");
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ template :foo}}", "test"), "template spacing before");
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ template : foo}}", "test"), "all whitespace");
             Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{Msg:foo}}", "test"), "Msg prefix");
             Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{msg :foo}}", "test"), "Msg prefix spacing");
+
+            st.TemplateList = new[] {"foo (bar)"};
+            Assert.AreEqual(1, st.NoOfRegexes);
+
+            Assert.AreEqual("Now {{subst:foo (bar)}}", st.SubstituteTemplates("Now {{foo (bar)}}", "test"), "template name is escaped");
+            Assert.AreEqual("Now {{subst:foo (bar)}}", st.SubstituteTemplates("Now {{Foo (bar)}}", "test"), "template name is escaped, casing handling");
         }
     }
 

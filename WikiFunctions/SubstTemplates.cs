@@ -97,7 +97,7 @@ namespace WikiFunctions
                 if (string.IsNullOrEmpty(s.Trim())) 
                     continue;
                 
-                Regexes.Add(new Regex(@"\{\{\s*" + templ + Tools.CaseInsensitive(s) + @"\s*(\|[^\}]*|)}}",
+                Regexes.Add(new Regex(@"\{\{\s*" + templ + Tools.CaseInsensitive(Regex.Escape(s)) + @"\s*(\|[^\}]*|)}}",
                     RegexOptions.Singleline), @"{{subst:" + s + "$1}}");
             }
         }
