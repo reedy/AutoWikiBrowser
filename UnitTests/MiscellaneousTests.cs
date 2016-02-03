@@ -2553,26 +2553,26 @@ File:Example.jpg|Caption2
             WikiFunctions.SubstTemplates st = new WikiFunctions.SubstTemplates();
             st.ExpandRecursively = false;
 
-            Assert.AreEqual("Now {{foo}}", st.SubstituteTemplates("Now {{foo}}", "test"));
+            Assert.AreEqual("Now {{foo}}", st.SubstituteTemplates("Now {{foo}}", "test"), "no change when no templates in list");
 
             st.TemplateList = new[] {"foo", "bar"};
 
             Assert.AreEqual(2, st.NoOfRegexes);
 
             Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{foo}}", "test"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ foo}}", "test"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ foo }}", "test"));
-            Assert.AreEqual("Now {{subst:foo|first=y}}", st.SubstituteTemplates("Now {{foo|first=y}}", "test"));
-            Assert.AreEqual("Now {{subst:foo|first}}", st.SubstituteTemplates("Now {{foo|first}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ foo}}", "test"), "whitespace before");
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ foo }}", "test"), "whitespace after");
+            Assert.AreEqual("Now {{subst:foo|first=y}}", st.SubstituteTemplates("Now {{foo|first=y}}", "test"), "template with parameters");
+            Assert.AreEqual("Now {{subst:foo|first}}", st.SubstituteTemplates("Now {{foo|first}}", "test"), "template with arguments");
             Assert.AreEqual("Now {{subst:foo}} {{subst:bar}}", st.SubstituteTemplates("Now {{foo}} {{bar}}", "test"));
             
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{Template:foo}}", "test"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{template:foo}}", "test"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{template :foo}}", "test"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ template :foo}}", "test"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ template : foo}}", "test"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{Msg:foo}}", "test"));
-            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{msg :foo}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{Template:foo}}", "Template prefix"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{template:foo}}", "template prefix"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{template :foo}}", "template spacing after"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ template :foo}}", "template spacing before"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ template : foo}}", "all whitespace"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{Msg:foo}}", "test"), "Msg prefix");
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{msg :foo}}", "test"), "Msg prefix spacing");
         }
     }
 
