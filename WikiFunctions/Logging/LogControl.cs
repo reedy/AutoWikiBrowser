@@ -208,6 +208,13 @@ namespace WikiFunctions.Logging
             }
         }
 
+        // further to LogLists_MouseMove workaround, ensure tooltip is closed again when mouse leaves control
+        private void LogLists_MouseLeave(object sender, EventArgs e)
+        {
+            if(Globals.UsingLinux)
+                tooltip.Hide((ListView)sender);
+        }
+
         /// <summary>
         /// Disables the Clear / Save log / Add all to list buttons when no articles in log, enables when 1 or more articles.
         /// Updates the skipped/saved count labels, refreshes column sizing

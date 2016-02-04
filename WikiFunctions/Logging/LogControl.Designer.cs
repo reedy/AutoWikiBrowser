@@ -330,6 +330,7 @@
             this.lvIgnored.View = System.Windows.Forms.View.Details;
             this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
             this.lvIgnored.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LogLists_MouseMove);
+            this.lvIgnored.MouseLeave += new System.EventHandler(this.LogLists_MouseLeave);
             // 
             // colIgnoreArticle
             // 
@@ -371,6 +372,7 @@
             this.lvSaved.View = System.Windows.Forms.View.Details;
             this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
             this.lvSaved.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LogLists_MouseMove);
+            this.lvSaved.MouseLeave += new System.EventHandler(this.LogLists_MouseLeave);
             // 
             // colSuccessSave
             // 
