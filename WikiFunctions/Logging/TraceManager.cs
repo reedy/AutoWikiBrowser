@@ -146,11 +146,11 @@ namespace WikiFunctions.Logging
             }
         }
 
-        public virtual void WriteTemplateAdded(string template, string pluginName)
+        public virtual void WriteTemplateAdded(string templateName, string pluginName)
         {
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                t.Value.WriteTemplateAdded(template, pluginName);
+                t.Value.WriteTemplateAdded(templateName, pluginName);
             }
         }
 

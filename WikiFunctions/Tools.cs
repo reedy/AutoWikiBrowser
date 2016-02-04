@@ -1269,46 +1269,46 @@ namespace WikiFunctions
         /// <summary>
         /// Removes recognised diacritics and double quotes, converts to Proper Case per [[WP:CAT]]
         /// </summary>
-        public static string FixupDefaultSort(string s, bool isArticleAboutAPerson)
+        public static string FixupDefaultSort(string defaultsort, bool isArticleAboutAPerson)
         {
-            s = CleanSortKey(s);
+            defaultsort = CleanSortKey(defaultsort);
             
-            s = BadDsChars.Replace(s, "");
+            defaultsort = BadDsChars.Replace(defaultsort, "");
             
             if (isArticleAboutAPerson)
             {
-                s = s.Replace("'", "");
-                s = Regex.Replace(s, @"(\w) *,(\w)", "$1, $2"); // ensure space after comma between names
+                defaultsort = defaultsort.Replace("'", "");
+                defaultsort = Regex.Replace(defaultsort, @"(\w) *,(\w)", "$1, $2"); // ensure space after comma between names
             }
 
-            return s.Trim();
+            return defaultsort.Trim();
         }
 
         /// <summary>
         /// Cleans sortkeys: removes diacritics, except for ru, fr, pl wikis
         /// Cleans up/removes specific characters per WP:SORTKEY
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="defaultsort"></param>
         /// <returns></returns>
-        public static string CleanSortKey(string s)
+        public static string CleanSortKey(string defaultsort)
         {
             // no diacritic removal in sortkeys on wikis using uca- / Unicode sorting (e.g. fr/pl/ru wiki)
             if (!Variables.UnicodeCategoryCollation)
-                s = RemoveDiacritics(s);
+                defaultsort = RemoveDiacritics(defaultsort);
 
-            s = s.Replace("&ndash;", "–");
-            s = s.Replace("&mdash;", "—");
+            defaultsort = defaultsort.Replace("&ndash;", "–");
+            defaultsort = defaultsort.Replace("&mdash;", "—");
 
             // normalisation - simplify double spaces to a single one
-            while(s.Contains("  "))
-                s = s.Replace("  ", " ");
+            while(defaultsort.Contains("  "))
+                defaultsort = defaultsort.Replace("  ", " ");
 
             foreach (var p in SortKeyChars)
             {
-                s = s.Replace(p[0], p[1]);
+                defaultsort = defaultsort.Replace(p[0], p[1]);
             }
 
-            return s;
+            return defaultsort;
         }
 
         /// <summary>

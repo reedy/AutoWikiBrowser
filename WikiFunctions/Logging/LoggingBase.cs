@@ -43,7 +43,7 @@ namespace WikiFunctions.Logging
         public abstract void SkippedArticle(string skippedBy, string reason);
         public abstract void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns);
         public abstract void WriteArticleActionLine(string line, string pluginName);
-        public abstract void WriteTemplateAdded(string template, string pluginName);
+        public abstract void WriteTemplateAdded(string templateName, string pluginName);
         public abstract void WriteComment(string line);
         public abstract void WriteCommentAndNewLine(string line);
 
