@@ -1527,9 +1527,9 @@ Chris.";
             Assert.AreEqual(@"#REDIRECT:[[Category:FooBar]] {{R to category namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Category:FooBar]]", "FooBar"));
             Assert.AreEqual(@"#REDIRECT:[[User:FooBar]] {{R to user namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[User:FooBar]]", "FooBar"));
             Assert.AreEqual(@"#REDIRECT:[[Talk:FooBar]] {{R to talk namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Talk:FooBar]]", "FooBar"));
-            Assert.AreEqual(@"#REDIRECT:[[Template talk:FooBar]] {{R to other namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Template talk:FooBar]]", "FooBar"));
+            Assert.AreEqual(@"#REDIRECT:[[Template talk:FooBar]]", Parsers.RedirectTagger(@"#REDIRECT:[[Template talk:FooBar]]", "FooBar"), "No change for unsupported namespace");
 
-            const string correct = @"#REDIRECT:[[Category:FooBar]] {{R to other namespace}}", redirectNam = @"#REDIRECT:[[Category:FooBar]]";
+            const string correct = @"#REDIRECT:[[Category:FooBar]] {{R to category namespace}}", redirectNam = @"#REDIRECT:[[Category:FooBar]]";
 
             Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "FooBar"), "No change when already tagged");
             Assert.AreEqual(redirectNam, Parsers.RedirectTagger(redirectNam, "Template:FooBar"), "Not tagged when redirect not in mainspace");

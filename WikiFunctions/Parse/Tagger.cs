@@ -1136,8 +1136,7 @@ namespace WikiFunctions.Parse
             if (Tools.TurnFirstToUpperNoProjectCheck(redirecttarget).Equals(Tools.TurnFirstToUpperNoProjectCheck(articleTitle)))
                 return articleText;
 
-            // {{R to other namespace}} or more specific template for project/help/portal/category/template/user/talk
-            // See https://en.wikipedia.org/wiki/Template:R_to_other_namespace
+            // {{R to xxx namespace}} template for project/help/portal/category/template/user/talk
             if (Namespace.IsMainSpace(articleTitle) && !Namespace.IsMainSpace(redirecttarget) && !WikiRegexes.NestedTemplates.IsMatch(articleText))
             {
                 string template;
@@ -1166,12 +1165,15 @@ namespace WikiFunctions.Parse
                         template = "{{R to talk namespace}}";
                         break;
 
-                    default:
-                        template = "{{R to other namespace}}";
+                    default: // some other namespace, cannot tag
+                        template = "";
                         break;
                 }
 
-                return (articleText + " " + template);
+                if(template.Length > 0)
+                    return (articleText + " " + template);
+
+                return articleText;
             }
 
             // {{R from modification}}
