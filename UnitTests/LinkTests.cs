@@ -720,6 +720,21 @@ x
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name=Foo>boo</ref>");
             Assert.AreEqual(uct.Count, 0);
 
+            uct = Parsers.UnclosedTags(@"<source lang=""text"">
+<typename T>
+<std::string, T>
+<typename T>
+<std::string, T>
+<std::string, T> 
+<std::string, int>
+<int>
+<typename T>
+<std::string, T>
+<std::string, int>
+<int>
+</source>");
+            Assert.AreEqual(uct.Count, 0, "Ignore other tags");
+
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <math> not ended");
             Assert.AreEqual(uct.Count, 1, "math");
             Assert.IsTrue(uct.ContainsKey(15));

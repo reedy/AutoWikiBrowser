@@ -431,6 +431,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SubTag = new Regex(@"<\s*sub\s*>((?>(?!<\s*/?\s*sub\s*>).|<\s*sub\s*>(?<DEPTH>)|<\s*/\s*sub\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*sub\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         private static readonly Regex AnyTag = new Regex(@"<\s*([A-Za-z/][^<>]+)>");
         private static readonly Regex SimpleTagPair = new Regex(@"<([^<>]+)>[^<>]+</\1>");
+        private static readonly List<string> MathSourceCodeNowikiPreTagList = new List<string>(new [] {"math", "source", "ref", "gallery", "code", "nowiki", "pre", "small", "center", "sup", "sub"});
 
         /// <summary>
         ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt;, &lt;pre&gt; &lt;center&gt; &lt;sup&gt; &lt;sub&gt; or &lt;gallery&gt; tags and comments
@@ -441,7 +442,7 @@ namespace WikiFunctions.Parse
         {
             Dictionary<int, int> back = new Dictionary<int, int>();
 
-            // Performance: get all tags, compare the count of matched tags of same name
+            // Performance: get all tags, filter to the ones we're checking, compare the count of matched tags of same name
             // Then do full tag search if unmatched tags found
 
             // get all tags in format <tag...> in article
@@ -455,8 +456,8 @@ namespace WikiFunctions.Parse
             // remove any text after first space, so we're left with tag name only
             AnyTagList = AnyTagList.Select(s => s.Contains(" ") ? s.Substring(0, s.IndexOf(" ")).Trim() : s).ToList();
 
-            // discard <br> and <p> tags as not a tag pair
-            AnyTagList = AnyTagList.FindAll(s => !s.Equals("br") && !s.Equals("p"));
+            // filter to only the tags we're checking
+            AnyTagList = AnyTagList.FindAll(s => MathSourceCodeNowikiPreTagList.Contains(s.TrimStart('/')));
 
             // Count the tag names in use, determine if unmatched tags by comparing count of opening and closing tags
             bool unmatched = false;
