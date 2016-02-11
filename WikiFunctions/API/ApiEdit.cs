@@ -594,6 +594,14 @@ namespace WikiFunctions.API
                 );
 
             XmlReader xr = CreateXmlReader(result);
+
+            // if we have login section in warnings don't want to look in there for the token
+            if(result.Contains("<warnings>") && Regex.Matches(result, @"<login ").Count > 1)
+            {
+                xr.ReadToFollowing("warnings");
+                xr.ReadToFollowing("login");
+            }
+
             xr.ReadToFollowing("login");
 
             var attribute = xr.GetAttribute("result");
