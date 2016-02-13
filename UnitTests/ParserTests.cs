@@ -2681,58 +2681,6 @@ Text
 }}
 {{wikify}}"), "De-duplicates tags, removes MI if only one tag remains");
         }
-
-        [Test]
-        public void NewlinesinLists()
-        {
-            Assert.AreEqual(@"The following items:
-* ab
-* ac", Parsers.RemoveWhiteSpace(@"The following items:
-* ab
-
-* ac"));
-
-            Assert.AreEqual(@"The following items:
-* ab
-* ac", Parsers.RemoveWhiteSpace(@"The following items:
-* ab
-     
-* ac"), "Newlines with spaces cleaned");
-
-            Assert.AreEqual(@"The following items:
-
-* ab
-* ac
-* ad", Parsers.RemoveWhiteSpace(@"The following items:
-
-* ab
-
-* ac
-
-* ad"));
-
-            string TwoNewLines = @"The following items:
-
-* ab
-* ac
-
-
-* ba
-* bb";
-
-            Assert.AreEqual(TwoNewLines, Parsers.RemoveWhiteSpace(TwoNewLines), "No change to two or more newlines between list items, could be two separate lists");
-
-            TwoNewLines = @"The following items:
-
-* ab
-* ac
-
-
-* [http://www.foo.com ba]
-* bb";
-
-            Assert.AreEqual(TwoNewLines, Parsers.RemoveWhiteSpace(TwoNewLines), "No change to two or more newlines between list items, could be two separate lists");
-        }
     }
 
     [TestFixture]
