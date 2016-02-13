@@ -754,20 +754,19 @@ There [was.");
         [Test]
         public void ContainsComparers()
         {
-            IArticleComparer containsComparer = ArticleComparerFactory.Create(@"foo\nbar",
+            IArticleComparer containsComparer = ArticleComparerFactory.Create("foo\nbar",
                                                                               false,
                                                                               false,
                                                                               false, // singleline
                                                                               false); // multiline
 
-            IArticleComparer notContainsComparer = ArticleComparerFactory.Create(@"foo\nbar",
+            IArticleComparer notContainsComparer = ArticleComparerFactory.Create("foo\nbar",
                                                                                  false,
                                                                                  false,
                                                                                  false, // singleline
                                                                                  false); // multiline
             
-            Article a = new Article("A", @"Now foo
-bar");
+            Article a = new Article("A", "Now foo\nbar");
             Assert.IsTrue(notContainsComparer.Matches(a), "does not contain comparer");
             Assert.IsTrue(containsComparer.Matches(a), "it contains comparer");
             
