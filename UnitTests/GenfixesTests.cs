@@ -740,10 +740,10 @@ Bar";
 
             ArticleText = AllCommented;
             TalkGenFixes();
-            Assert.AreEqual(AllCommented, ArticleText, "no WikiProjectBannerShell addition when templates all commented out");
+            Assert.AreEqual(AllCommented, ArticleText, "no WikiProject banner shell addition when templates all commented out");
 
             string a = @"{{Talk header}}
-{{WikiProjectBannerShell|1=
+{{WikiProject banner shell|1=
 {{WikiProject a |text}}
 {{WikiProject b|text}}
 {{WikiProject Biography|living=yes}}
@@ -759,31 +759,31 @@ Bar";
 {{WikiProject c|text}}";
 
             TalkGenFixes();
-            Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell below talk header");
+            Assert.AreEqual(a, ArticleText, "Adds WikiProject banner shell below talk header");
 
             a = @"{{Talk header}}
-{{WikiProjectBannerShell|1=
+{{WikiProject banner shell|1=
 {{WikiProject a |text}}
-{{WikiProject b|text}}
+{{WikiProject d|text}}
 {{WikiProject c|text}}
 }}
 ";
 
             ArticleText = @"{{Talk header}}
 {{WikiProject a |text}}
-{{WikiProject b|text}}
+{{WikiProject d|text}}
 {{WikiProject c|text}}";
 
             TalkGenFixes();
-            Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell when 3 wikiproject links");
+            Assert.AreEqual(a, ArticleText, "Adds WikiProject banner shell when 3 wikiproject links");
 
             ArticleText = @"{{Talk header}}
 {{wikiProject a |text}}
-{{wikiProject b|text}}
+{{wikiProject d|text}}
 {{wiki project c|text}}";
 
             TalkGenFixes();
-            Assert.AreEqual(a.Replace("WikiProject c", "wiki project c").Replace("WikiProject ", "wikiProject "), ArticleText, "Adds WikiProjectBannerShell when 3 wikiProject links, wikiproject name variatsions");
+            Assert.AreEqual(a.Replace("WikiProject c", "wiki project c").Replace("WikiProject a", "wikiProject a").Replace("WikiProject d", "wikiProject d"), ArticleText, "Adds WikiProject banner shell when 3 wikiProject links, wikiproject name variations");
         }
 
         [Test]
@@ -794,7 +794,7 @@ Bar";
 {{WikiProject b|text}}
 {{WikiProject c|text}}";
 
-            string a = @"{{WikiProjectBannerShell|1=
+            string a = @"{{WikiProject banner shell|1=
 {{WikiProject Biography|living=yes}}
 {{WikiProject a |text}}
 {{WikiProject b|text}}
@@ -804,7 +804,7 @@ Bar";
 ";
 
             TalkGenFixes();
-            Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell when 3 wikiproject links, cleans whitespace");
+            Assert.AreEqual(a, ArticleText, "Adds WikiProject banner shell when 3 wikiproject links, cleans whitespace");
 
              ArticleText = @"{{WikiProject Biography|living=yes}}
 {{WikiProject a |text}}
@@ -819,7 +819,7 @@ Word.
 
 Second.";
 
-            a = @"{{WikiProjectBannerShell|1=
+            a = @"{{WikiProject banner shell|1=
 {{WikiProject Biography|living=yes}}
 {{WikiProject a |text}}
 {{WikiProject b|text}}
@@ -836,7 +836,7 @@ Word.
 Second.";
 
             TalkGenFixes();
-            Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell when 3 wikiproject links, cleans whitespace");
+            Assert.AreEqual(a, ArticleText, "Adds WikiProject banner shell when 3 wikiproject links, cleans whitespace");
         }
     }
 }

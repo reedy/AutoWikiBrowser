@@ -1911,14 +1911,14 @@ File:Example.jpg|Caption2
             const string a = @"{{WikiProject a|text}}", b = @"{{WikiProject b|text}}", c = @"{{WikiProject c|text}}", d = @"{{WikiProject d|text}}";
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a));
             Assert.AreEqual(a + b, TalkPageFixes.WikiProjectBannerShell(a + b));
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c), "banner shell added for 3 or more wikiproject links");
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c + d));
+            Assert.AreEqual(@"{{WikiProject banner shell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c), "banner shell added for 3 or more wikiproject links");
+            Assert.AreEqual(@"{{WikiProject banner shell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c + d));
             
             const string e = @"{{talk header}}
 {{WikiProject Biography|listas=Bar, F|living=yes|class=Start|priority=mid|sports-work-group=yes}}
 {{WikiProject F|class=Start|importance=mid|italy=y}}
 {{WikiProject X|class=Start|importance=Mid}}
-{{WikiProject D|class=Start|importance=Low}}", f = @"{{WikiProjectBannerShell|1=
+{{WikiProject D|class=Start|importance=Low}}", f = @"{{WikiProject banner shell|1=
 {{WikiProject Biography|listas=Bar, F|living=yes|class=Start|priority=mid|sports-work-group=yes}}
 {{WikiProject F|class=Start|importance=mid|italy=y}}
 {{WikiProject X|class=Start|importance=Mid}}
