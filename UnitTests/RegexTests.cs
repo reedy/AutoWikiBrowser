@@ -157,6 +157,7 @@ namespace UnitTests
         {
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WPBS|1=foo}}", 1);
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBannerShell}}", 1);
+            TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProject banner shell}}", 1);
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|foo}}", 1);
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|1=foo|bar}}", 1);
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|blp=yes|activepol=yes|1=foo}}", 1);
