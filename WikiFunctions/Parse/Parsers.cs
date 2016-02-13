@@ -393,7 +393,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SpacesThenTwoNewline = new Regex(" +\r\n\r\n", RegexOptions.Compiled);
         private static readonly Regex WikiListWithMultipleSpaces = new Regex(@"^([\*#]+) +", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedDashes = new Regex(" (—|&#15[01];|&mdash;|&#821[12];|&#x201[34];) ", RegexOptions.Compiled);
-        private static readonly Regex NewlinesWithinLists = new Regex(@"(\r\n\*.*)\r\n\r\n\*", RegexOptions.Compiled);
+        private static readonly Regex NewlinesWithinLists = new Regex(@"(\r\n\*.*)\r\n[\t ]*\r\n\*", RegexOptions.Compiled);
         private static readonly Regex TwoLists = new Regex(@"\r\n\*.*\r\n\r\n\r\n\*");
 
         /// <summary>
@@ -456,7 +456,7 @@ namespace WikiFunctions.Parse
             }
 
             articleText = NewlinesBelowExternalLinks.Replace(articleText, "==External links==\r\n*");
-            // For bulleted vertical lists, do not separate items by leaving blank lines between them.
+            // For bulleted vertical lists, do not separate items by leaving blank lines between them (or lines with just spaces).
             // WP:LISTGAP
             while(NewlinesWithinLists.IsMatch(articleText))
                 articleText = NewlinesWithinLists.Replace(articleText, "$1\r\n*");

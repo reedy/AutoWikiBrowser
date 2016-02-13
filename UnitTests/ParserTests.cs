@@ -2693,6 +2693,13 @@ Text
 * ac"));
 
             Assert.AreEqual(@"The following items:
+* ab
+* ac", Parsers.RemoveWhiteSpace(@"The following items:
+* ab
+     
+* ac"), "Newlines with spaces cleaned");
+
+            Assert.AreEqual(@"The following items:
 
 * ab
 * ac
