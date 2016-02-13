@@ -643,9 +643,12 @@ God.<ref name=""Smith63""/>
         }
 
         [Test]
-        public void IsbnInUrl()
+        public void CiteUrl()
         {
             AssertNotChanged(@"*{{cite thesis |last=A |first=S |title=Categorizing |url=http://urn.fi/URN:ISBN:978-999-61-9999-2 |year=2010 }}");
+
+            AssertChange(@"{{cite web | url = www.site.com/a.pdf | title = Something }}", @"{{cite web | url = http://www.site.com/a.pdf | title = Something }}");
+            AssertChange(@"{{cite web | url = WWW.site.com/a.pdf | title = Something }}", @"{{cite web | url = http://WWW.site.com/a.pdf | title = Something }}");
         }
 
         [Test]

@@ -248,6 +248,8 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(Hide(@"{{cite web| trans_title = foo | date = May 2011").Contains(@"foo"), "trans_title not hidden if no year");
             Assert.IsFalse(Hide(@"{{cite web| trans_title = Now September 20 - September 26, 2010 was | date = May 2011").Contains(@"September"), "trans_title hidden when contains year");
             Assert.IsTrue(Tools.GetTemplateParameterValue(Hide(@"{{cite web| trans_title = September 20 - September 26, 2010 | date = May 2011"), "trans_title").Length > 0, "trans_title parameter has length if hidden");
+
+            Assert.AreEqual(@"{{cite web | url = www.site.com/a.pdf }}", Hide(@"{{cite web | url = www.site.com/a.pdf }}"), "PDF www URL not hidden");
         }
         
         [Test]

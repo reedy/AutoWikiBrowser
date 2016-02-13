@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -118,6 +119,11 @@ namespace WikiFunctions.Parse
                 // hide all image links but retain any braces at either end
                 articleText = WikiRegexes.Images.Replace(articleText, m => {
                     string res = m.Value;
+
+                    // don't hide URL parameter starting www as FixCitationTemplates will fix these
+                    if(res.TrimStart().StartsWith("www.", StringComparison.OrdinalIgnoreCase))
+                        return res;
+
                     if (res.StartsWith("[["))
                     {
                         if (res.EndsWith("]]"))
