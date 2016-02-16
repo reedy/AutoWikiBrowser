@@ -163,9 +163,14 @@ namespace WikiFunctions.Controls.Lists
 
             // We'll manage our own collection of list items:
             cmboSourceSelect.DataSource = _listProviders;
-            // Bind IListProvider.DisplayText to be the displayed text:
-            cmboSourceSelect.DisplayMember = "DisplayText";
-            cmboSourceSelect.ValueMember = "DisplayText";
+
+            // Mono throws exception in relation to DisplayMember
+            if(!Globals.UsingMono)
+            {
+                // Bind IListProvider.DisplayText to be the displayed text:
+                cmboSourceSelect.DisplayMember = "DisplayText";
+                cmboSourceSelect.ValueMember = "DisplayText";
+            }
 
             // Use the long-time default, also being quite basic, instead of relying on alphasort
             SelectedProvider = "CategoryListProvider";
