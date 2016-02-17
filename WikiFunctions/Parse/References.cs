@@ -317,13 +317,16 @@ namespace WikiFunctions.Parse
         private const string RefName = @"(?si)<\s*ref\s+name\s*=\s*(?:""|')?";
 
         /// <summary>
-        /// Checks for named references
+        /// Checks for named references in short format &lt;ref name=foo /&gt;
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>Whether the text contains named references</returns>
         public static bool HasNamedReferences(string articleText)
         {
-            return WikiRegexes.NamedReferences.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
+            articleText = WikiRegexes.Comments.Replace(articleText, "");
+            List<string> namedRefs = (from Match m in WikiRegexes.NamedReferencesIncludingCondensed.Matches(articleText)
+                                      select m.Value).ToList();
+            return namedRefs.Any(r => !Regex.IsMatch(r, @"<\s*/\s*ref"));
         }
 
         /// <summary>

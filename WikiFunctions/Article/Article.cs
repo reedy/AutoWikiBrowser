@@ -342,7 +342,7 @@ namespace WikiFunctions
         { get { return Parsers.HasRefAfterReflist(mArticleText); } }
 
         /// <summary>
-        /// Returns true if the article uses named references ([[WP:REFNAME]])
+        /// Returns true if the article uses named references ([[WP:REFNAME]]) in short format &lt;ref name=foo /&gt;
         /// </summary>
         [XmlIgnore]
         public bool HasNamedReferences

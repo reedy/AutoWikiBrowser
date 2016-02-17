@@ -526,7 +526,7 @@ Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=Fred>The 
         [Test]
         public void DuplicateUnnamedReferences()
         {
-            string namedref = @"now <ref name=foo>foo</ref>";
+            string namedref = @"now <ref name=foo>foo</ref> and <ref name=foo/>";
             Assert.AreEqual("", Parsers.DuplicateUnnamedReferences(""));
             Assert.AreEqual(namedref, Parsers.DuplicateUnnamedReferences(namedref));
 
@@ -566,8 +566,10 @@ Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=Fred>The 
         [Test]
         public void HasNamedReferences()
         {
-            Assert.IsTrue(Parsers.HasNamedReferences(@"now <ref name=foo>foo</ref>"));
-            Assert.IsTrue(Parsers.HasNamedReferences(@"now <ref name=""foo"">bar</ref>"));
+            Assert.IsTrue(Parsers.HasNamedReferences(@"now <ref name=foo />"));
+            Assert.IsTrue(Parsers.HasNamedReferences(@"now <ref name=""foo"" />"));
+            Assert.IsFalse(Parsers.HasNamedReferences(@"now <ref name=foo>foo</ref>"));
+            Assert.IsFalse(Parsers.HasNamedReferences(@"now <ref name=""foo"">bar</ref>"));
             Assert.IsFalse(Parsers.HasNamedReferences(@"now <ref>foo</ref>"));
             Assert.IsFalse(Parsers.HasNamedReferences(@"now <!--<ref name = foo>foo</ref>-->"));
         }
