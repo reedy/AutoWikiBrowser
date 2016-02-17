@@ -577,6 +577,24 @@ namespace WikiFunctions.API
             Reset();
             User = new UserInfo(); // we don't know for sure what will be our status in case of exception
 
+            // first see if we can get a login token via the new MediaWiki way using action=query&meta=tokens&type=login
+            string result = HttpPost(
+                new Dictionary<string, string>
+                {
+                    {"action", "query"},
+                    {"meta", "tokens"},
+                    {"type", "login"}
+                },
+                new Dictionary<string, string>());
+
+            Tools.WriteDebug("API::Edit meta/tokens", result);
+
+            /* Result format: <query><tokens logintoken="b0fc31b291ebf9999a8e9a4bfac8ef0456c44116+\"/></query> */
+            XmlReader xr = CreateXmlReader(result);
+            xr.ReadToFollowing("tokens");
+            string token = xr.GetAttribute("logintoken");
+
+            // first log in. If we got a logintoken then use it, this should be our only action=login in that case
             bool domainSet = !string.IsNullOrEmpty(domain);
             var post = new Dictionary<string, string>
             {
@@ -584,8 +602,9 @@ namespace WikiFunctions.API
                 {"lgpassword", password},
             };
             post.AddIfTrue(domainSet, "lgdomain", domain);
+            post.AddIfTrue(!string.IsNullOrEmpty(token), "lgtoken", token);
 
-            string result = HttpPost(
+            result = HttpPost(
                 new Dictionary<string, string>
                 {
                     {"action", "login"}
@@ -593,31 +612,43 @@ namespace WikiFunctions.API
                 post
                 );
 
-            XmlReader xr = CreateXmlReader(result);
+            xr = CreateXmlReader(result);
 
-            // if we have login section in warnings don't want to look in there for the token
-            if(result.Contains("<warnings>") && Regex.Matches(result, @"<login ").Count > 1)
+            Tools.WriteDebug("API::Edit action/login", result);
+
+            // if got token from new meta/tokens way, should now be logged in
+            if(!string.IsNullOrEmpty(token))
             {
-                xr.ReadToFollowing("warnings");
                 xr.ReadToFollowing("login");
             }
-
-            xr.ReadToFollowing("login");
-
-            var attribute = xr.GetAttribute("result");
-            if (attribute != null && attribute.Equals("NeedToken", StringComparison.InvariantCultureIgnoreCase))
+            else // support the old way of first action=login to be told NeedToken and given token, then second action=login sending the token
             {
-                AdjustCookies();
-                string token = xr.GetAttribute("token");
+                // if we have login section in warnings don't want to look in there for the token
+                if(result.Contains("<warnings>") && Regex.Matches(result, @"<login ").Count > 1)
+                {
+                    xr.ReadToFollowing("warnings");
+                    xr.ReadToFollowing("login");
+                }
 
-                post.Add("lgtoken", token);
-                result = HttpPost(
-                    new Dictionary<string, string> {{"action", "login"}},
-                    post
-                    );
-
-                xr = CreateXmlReader(result);
                 xr.ReadToFollowing("login");
+
+                var attribute = xr.GetAttribute("result");
+
+                if (attribute != null && attribute.Equals("NeedToken", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    AdjustCookies();
+                    token = xr.GetAttribute("token");
+
+                    post.Add("lgtoken", token);
+                    result = HttpPost(
+                        new Dictionary<string, string> {{"action", "login"}},
+                        post
+                        );
+
+                    Tools.WriteDebug("API::Edit action/login NeedToken", result);
+                    xr = CreateXmlReader(result);
+                    xr.ReadToFollowing("login");
+                }
             }
 
             string status = xr.GetAttribute("result");
