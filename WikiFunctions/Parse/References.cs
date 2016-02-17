@@ -324,9 +324,13 @@ namespace WikiFunctions.Parse
         public static bool HasNamedReferences(string articleText)
         {
             articleText = WikiRegexes.Comments.Replace(articleText, "");
-            List<string> namedRefs = (from Match m in WikiRegexes.NamedReferencesIncludingCondensed.Matches(articleText)
-                                      select m.Value).ToList();
-            return namedRefs.Any(r => !Regex.IsMatch(r, @"<\s*/\s*ref"));
+            foreach(Match m in WikiRegexes.NamedReferencesIncludingCondensed.Matches(articleText))
+            {
+                if(!Regex.IsMatch (m.Value, @"<\s*/\s*ref"))
+                    return true;
+            }
+
+            return false;
         }
 
         /// <summary>
