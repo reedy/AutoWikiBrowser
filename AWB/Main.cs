@@ -2992,7 +2992,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             if (sender is RichTextBox)
             {
                 RichTextBox rtb = (RichTextBox)sender;
+
+                // disable TextChanged temporarily under Mono otherwise get infinite loop
+                if(Globals.UsingMono)
+                    txtFind.TextChanged -= ResetFind;
+
                 rtb.ResetFormatting();
+
+                if(Globals.UsingMono)
+                    txtFind.TextChanged += ResetFind;
             }
 
             btnFind.Enabled = txtFind.TextLength > 0;
