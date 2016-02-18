@@ -159,7 +159,8 @@ namespace WikiFunctions.API
             xr.ReadToDescendant("rev");
             Timestamp = xr.GetAttribute("timestamp");
 
-            Text = Tools.ConvertToLocalLineEndings(xr.ReadString());
+            // API returns \n line endings, we have standardized on \r\n (including under Mono)
+            Text = xr.ReadString().Replace("\n", "\r\n");
         }
 
         /// <summary>

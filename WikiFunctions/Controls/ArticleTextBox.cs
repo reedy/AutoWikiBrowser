@@ -40,7 +40,13 @@ namespace WikiFunctions.Controls
 
         public override string Text
         {
-            get { return base.Text.Replace("\n", "\r\n"); }
+            get {
+                    if (Globals.UsingMono)
+                        return base.Text;
+
+                    // Windows richtextbox uses \n, so convert to \r\n
+                    return base.Text.Replace("\n", "\r\n");
+                }
             set
             {
                 Locked = true;
