@@ -53,10 +53,6 @@ namespace WikiFunctions
         /// </summary>
         public static void ResetFormatting(this RichTextBox rtb)
         {
-            // under Mono assigning Text fires another _TextChanged event so we get an infinite loop; so just return
-            if (Globals.UsingMono)
-                return;
-
             string a = rtb.Text;
             int i = rtb.SelectionStart;
             rtb.ResetText();

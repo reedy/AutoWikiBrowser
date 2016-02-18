@@ -21,7 +21,14 @@ namespace WikiFunctions.Controls
 
         private void txtContains_TextChanged(object sender, EventArgs e)
         {
+            // disable TextChanged temporarily under Mono otherwise get infinite loop
+            if(Globals.UsingMono)
+                txtContains.TextChanged -= txtContains_TextChanged;
+
             txtContains.ResetFormatting();
+
+            if(Globals.UsingMono)
+                txtContains.TextChanged += txtContains_TextChanged;
         }
 
         private void InvalidateComparer(object sender, EventArgs e)
