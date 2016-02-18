@@ -136,7 +136,10 @@ namespace WikiFunctions
         /// <returns><c>true</c>, if loaded from cache successfully, <c>false</c> otherwise.</returns>
         private bool LoadFromCache()
         {
-            siteinfoOutput = (string) ObjectCache.Global.Get<string>("SiteInfo:" + scriptPath);
+            var cacheResult = ObjectCache.Global.Get<string>("SiteInfo:" + scriptPath);
+
+            // simple (string) cast of line above fails under Mono so do more verbosely
+            siteinfoOutput = (cacheResult == null ? "" : cacheResult.ToString());
 
             return !string.IsNullOrEmpty(siteinfoOutput);
         }
