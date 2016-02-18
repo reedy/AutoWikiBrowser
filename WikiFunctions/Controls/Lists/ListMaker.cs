@@ -517,14 +517,21 @@ namespace WikiFunctions.Controls.Lists
         {
             btnAdd.Enabled = txtPage.Text.Trim().Length > 0;
 
+            // under Mono assigning txtPage.Text fires another _TextChanged event so we get an infinite loop; so remove and reassign event as workaround 
+            if (Globals.UsingMono)
+                txtPage.TextChanged -= txtNewArticle_TextChanged;
+
             // reset any custom formatting of text (if copied from syntax highlighted text in edit box etc.), restoring cursor position
             string a = txtPage.Text; 
             int i = txtPage.SelectionStart;
             txtPage.ResetText();
             txtPage.Text = a;
             txtPage.Select(i,0);
+
+            if (Globals.UsingMono)
+                txtPage.TextChanged += txtNewArticle_TextChanged;
         }
-        
+
         private void lbArticles_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnRemove.Enabled = lbArticles.SelectedItems.Count > 0;
