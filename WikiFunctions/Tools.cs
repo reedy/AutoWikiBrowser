@@ -547,7 +547,7 @@ namespace WikiFunctions
             }
             return builder.ToString();
         }
-        
+
         /// <summary>
         /// Applies the key words "%%title%%" etc.
         /// https://meta.wikimedia.org/wiki/Help:Magic_words
@@ -567,7 +567,7 @@ namespace WikiFunctions
             if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(title) && text.Contains("%%"))
             {
                 string titleEncoded = WikiEncode(title);
-                
+
                 text = text.Replace("%%title%%", escape ? Regex.Escape(title) : title);
                 text = text.Replace("%%titlee%%", titleEncoded);
                 text = text.Replace("%%fullpagename%%", escape ? Regex.Escape(title) : title);
@@ -652,7 +652,7 @@ namespace WikiFunctions
 
             return (EnglishCultureTextInfo.ToTitleCase(text.Trim()));
         }
-        
+
         /// <summary>
         /// Prepends a newline to the string, only if string not empty
         /// </summary>
@@ -691,6 +691,7 @@ namespace WikiFunctions
         {
             return WordCount(text, 999999);
         }
+
         // Covered by ToolsTests.WordCount()
         /// <summary>
         /// Returns word count of the string
@@ -737,7 +738,7 @@ namespace WikiFunctions
             List<string> allWikiLinks = Parsers.GetAllWikiLinks(text).FindAll(l => l.Contains(":"));
             return allWikiLinks.Count(s => SiteMatrix.Languages.Contains(WikiRegexes.PossibleInterwikis.Match(s + "]]").Groups[1].Value.ToLower()));
         }
-        
+
         private static readonly Regex FlagIOC = NestedTemplateRegex("flagIOC");
 
         // Covered by ToolsTests.LinkCountTests
