@@ -146,11 +146,13 @@ namespace AutoWikiBrowser
                     IncludeDebugInformation = false
                 };
 
+                // Microsoft.GeneratedCode check is for Mono compatibility
                 foreach (
                     var path in
                         AppDomain.CurrentDomain.GetAssemblies()
                             .Where(
                                 asm =>
+                                    !asm.FullName.Contains("Microsoft.GeneratedCode") &&
                                     !asm.Location.Contains("mscorlib") &&
                                     !string.IsNullOrEmpty(asm.Location))
                             .Select(asm => asm.Location))
