@@ -31,7 +31,7 @@ namespace WikiFunctions.Parse
     public partial class Parsers
     {
 
-        private static readonly Regex TlOrTlx = Tools.NestedTemplateRegex(new List<string>(new[] { "tl", "tlx" }));
+        private static readonly Regex TlOrTlx = Tools.NestedTemplateRegex(new[] { "tl", "tlx" });
         private static readonly Regex TemplateRedirectsR = new Regex(@"({{ *[Tt]lx? *\|.*}}) *→[ ']*({{ *[Tt]lx? *\| *(.*?) *}})");
 
         /// <summary>
