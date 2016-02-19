@@ -1348,7 +1348,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches 12-hour clock time without a non-breaking space
         /// </summary>
-        public static readonly Regex ClockTime = new Regex(@"(\b[01]?\d(?::[0-5]\d)?:[0-5]\d) ?([ap]\.m\.)");
+        public static readonly Regex ClockTime = new Regex(@"(\b[01]?[0-9](?::[0-5][0-9])?:[0-5][0-9]) ?([ap]\.m\.)");
 
         /// <summary>
         /// List of known infobox fields holding date of birth
