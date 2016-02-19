@@ -120,5 +120,12 @@ namespace AutoWikiBrowser
             if(!Globals.UsingMono)
                 base.Refresh();
         }
+
+        public new void Navigate(string urlString)
+        {
+            // webbrowser Navigate calls fail under Mono so silently ignore for the moment
+            if (!Globals.UsingMono)
+                base.Navigate (urlString);
+        }
     }
 }
