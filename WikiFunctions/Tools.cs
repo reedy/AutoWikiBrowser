@@ -62,7 +62,7 @@ namespace WikiFunctions
         { get { return Version.ToString(); } }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static string DefaultUserAgentString
         { get; private set; }
@@ -192,7 +192,7 @@ namespace WikiFunctions
         }
 
         private static readonly Regex PersonOfPlace = new Regex(@"^(?<person>\w+( +\w+)*?)(?<ordinal> [IXV]+)? of (?<place>(\w+ *)+)(?<![IVX]+)$", RegexOptions.Compiled);
-        
+
         // Covered by HumanCatKeyTests
         /// <summary>
         /// Returns Category key from article name e.g. "David Smith" returns "Smith, David".
@@ -225,7 +225,7 @@ namespace WikiFunctions
             // find the most common of these names and use that format for them
             if (Regex.IsMatch(origName, @"(\b(Abd[au]ll?ah?|Ahmed|Mustaq|Merza|Kandah[a-z]*|Mohabet|Nasrat|Nazargul|Yasi[mn]|Husayn|Akram|M[ou]hamm?[ae]d\w*|Abd[eu]l|Razzaq|Adil|Anwar|Fahed|Habi[bdr]|Hafiz|Jawad|Hassan|Ibr[ao]him|Khal[ei]d|Karam|Majid|Mustafa|Rash[ie]d|Yusef|[Bb]in|Nasir|Aziz|Rahim|Kareem|Abu|Aminullah|Fahd|Fawaz|Ahmad|Rahman|Hasan|Nassar|A(?:zz|s)am|Jam[ai]l|Tariqe?|Yussef|Said|Wass?im|Wazir|Tarek|Umran|Mahmoud|Malik|Shoaib|Hizani|Abib|Raza|Salim|Iqbal|Saleh|Hajj|Brahim|Zahir|Wasm|Yo?usef|Yunis|Zakim|Shah|Yasser|Samil|Akh[dk]ar|Haji|Uthman|Khadr|Asiri|Rajab|Shakouri|Ishmurat|Anazi|Nahdi|Zaheed|Ramzi|Rasul|Muktar|Muhassen|Radhi|Rafat|Kadir|Zaman|Karim|Awal|Mahmud|Mohammon|Husein|Airat|Alawi|Ullah|Sayaf|Henali|Ismael|Salih|Mahnut|Faha|Hammad|Hozaifa|Ravil|Jehan|Abdah|Djamel|Sabir|Ruhani|Hisham|Rehman|Mesut|Mehdi|Lakhdar|Mourad|Fazal[a-z]*|Mukit|Jalil|Rustam|Jumm?a|Omar Ali)\b|(?:[bdfmtnrz]ullah|alludin|[hm]atulla|r[ao]llah|harudin|millah)\b|\b(?:Abd[aeu][lr]|Nazur| Al[- ][A-Z]| al-[A-Z]))"))
                 return FixupDefaultSort(origName);
-            
+
             // Person of Place --> Person Of Place, WP:NAMESORT
             if (PersonOfPlace.IsMatch(origName))
             {
@@ -264,7 +264,7 @@ namespace WikiFunctions
             // set correct casing
             return FixupDefaultSort(name);
         }
-        
+
         /// <summary>
         /// Converts Roman numerals in the range I to CCCCXCIX to Arabic number
         /// </summary>
@@ -302,7 +302,7 @@ namespace WikiFunctions
             converted += (Regex.Matches(Roman, "X").Count * 10);
             converted += (Regex.Matches(Roman, "V").Count * 5);
             converted += Regex.Matches(Roman, "I").Count;
-            
+
             string convertedString = converted.ToString();
             if (converted < 10)
                 convertedString = 0 + convertedString;
@@ -336,7 +336,7 @@ namespace WikiFunctions
 
         // Covered by ToolsTests.GetNamespaceString()
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
@@ -361,7 +361,7 @@ namespace WikiFunctions
 
         // Covered by ToolsTests.SubPageName()
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
@@ -396,7 +396,7 @@ namespace WikiFunctions
         {
             return GetHTML(url, Encoding.UTF8);
         }
-        
+
         /// <summary>
         /// Gets the HTML from the given web address.
         /// </summary>
@@ -419,7 +419,7 @@ namespace WikiFunctions
             string x;
             return GetHTML(url, enc, out x);
         }
-        
+
         /// <summary>
         /// Gets the HTML from the given web address.
         /// </summary>
@@ -437,7 +437,7 @@ namespace WikiFunctions
             rq.CookieContainer = cookieJar;
 
             HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
-            
+
             responseURL = response.ResponseUri.ToString();
 
             Stream stream = response.GetResponseStream();
@@ -451,7 +451,7 @@ namespace WikiFunctions
 
             return text;
         }
-        
+
         private static readonly Regex HTTPWWW = new Regex(@"^https?:?/+(?:www\d*\.)?", RegexOptions.Compiled);
         private static readonly Regex SubDomain = new Regex(@"^[a-z0-9\-]{4,}\.", RegexOptions.Compiled);
         private static readonly Regex DomainEndings = new Regex(@"\.[a-z]{2,3}(?:\.[a-z]{2,3})?$", RegexOptions.Compiled);
@@ -675,10 +675,10 @@ namespace WikiFunctions
                 return s;
 
             StringBuilder sb = new StringBuilder(s);
-            
+
             for (int i = 0; i < n; i++)
                 sb.Insert(0, "\r\n");
-            
+
             return sb.ToString();
         }
 
@@ -719,7 +719,7 @@ namespace WikiFunctions
                     do
                         i++;
                     while (i < text.Length && char.IsLetterOrDigit(text[i]));
-                    
+
                     if (words == limit)
                         return words;
                 }
@@ -852,12 +852,12 @@ namespace WikiFunctions
         {
             if (string.IsNullOrEmpty(text))
                 return text;
-            
+
             text = text.Trim();
-            
+
             if (string.IsNullOrEmpty(text))
                 return text;
-            
+
             if (text[0] == '#' || text[0] == '*')
                 text = text.Substring(1);
 
@@ -891,7 +891,7 @@ namespace WikiFunctions
 
             if (metaContent.IsMatch(pagesource))
                 return metaContent.Match(pagesource).Groups[1].Value.Trim();
-            
+
             return metaContent2.Match(pagesource).Groups[1].Value.Trim();
         }
 
@@ -949,7 +949,7 @@ namespace WikiFunctions
             if (allowHeading)
             {
                 Match m = WikiRegexes.Headings.Match(text);
-                
+
                 if (m.Index == 0)
                 {
                     text = WikiRegexes.Headings.Replace(text, "", 1);
@@ -1206,7 +1206,7 @@ namespace WikiFunctions
             new[] {"´", "'"}, // acute accent
             new[] {"′", "'"}, // prime
             new[] {"ʹ", "'"}, // greek numeral
-          
+
             new[] {"“", "'"}, // double quotes (curly)
             new[] {"”", "'"}, // double quotes (curly)
             new[] {"„", "'"}, // double low-9 quotation mark
@@ -1218,7 +1218,7 @@ namespace WikiFunctions
             new[] {"‑", "-"}, // hyphen-minus
             new[] {"‒", "-"}, // figure dash
             new[] {"−", "-"}, // minus
-            
+
             new[] {"¡", ""}, // inverted exclamation mark
             new[] {"¿", ""}, // inverted question mark
             new[] {"ʾ", "'"}, // modifier letter right half ring
@@ -1255,7 +1255,7 @@ namespace WikiFunctions
         {
             return s != RemoveDiacritics(s);
         }
-        
+
         /// <summary>
         /// Removes recognised diacritics and double quotes, converts to Proper Case per [[WP:CAT]]
         /// </summary>
@@ -1273,9 +1273,9 @@ namespace WikiFunctions
         public static string FixupDefaultSort(string defaultsort, bool isArticleAboutAPerson)
         {
             defaultsort = CleanSortKey(defaultsort);
-            
+
             defaultsort = BadDsChars.Replace(defaultsort, "");
-            
+
             if (isArticleAboutAPerson)
             {
                 defaultsort = defaultsort.Replace("'", "");
@@ -1444,7 +1444,7 @@ namespace WikiFunctions
         {
             if (!WriteDebugEnabled)
                 return;
-            
+
             for(int a = 0; a < 100; a++)
             {
                 try
@@ -1573,7 +1573,7 @@ Message: {2}
 
         // TODO: should be replaced with SiteInfo.OpenPageInBrowser() wherever possible
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static void OpenArticleInBrowser(string title)
         {
@@ -1780,7 +1780,7 @@ Message: {2}
 
         // Not Covered
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -1904,7 +1904,7 @@ Message: {2}
             if (originalArticleText.Equals(articleText))
                 return true;
 
-            List<string> after = (from Match m in WikiRegexes.UnformattedText.Matches(articleText) 
+            List<string> after = (from Match m in WikiRegexes.UnformattedText.Matches(articleText)
                 select m.Value).ToList();
 
             if (!after.Any())
@@ -2291,7 +2291,7 @@ Message: {2}
 
         private static readonly Regex YearMon = new Regex(@"^\d{4}\-[0-3]\d$", RegexOptions.Compiled);
         private static readonly Regex MonthYear = new Regex(@"^\w+ \d{4}$", RegexOptions.Compiled);
-        
+
         /// <summary>
         /// Returns the input date in the requested format (American or International). If another Locale is passed in the input date is returned. For en-wiki only.
         /// </summary>
@@ -2302,7 +2302,7 @@ Message: {2}
         {
             return ConvertDate(inputDate, locale, false);
         }
-        
+
         /// <summary>
         /// Returns the input date in the requested format (American or International). If another Locale is passed in the input date is returned. For en-wiki only.
         /// </summary>
@@ -2339,7 +2339,7 @@ Message: {2}
                     return inputDate;
             }
         }
-        
+
         /// <summary>
         /// Attempts to parse the input string as a date, if parsed returns whether the date is before the system date
         /// Otherwise returns false
@@ -2359,10 +2359,10 @@ Message: {2}
             {
                 return false;
             }
-            
+
             return false;
         }
-        
+
         /// <summary>
         /// Appends the input parameter and value to the input template
         /// </summary>
@@ -2374,7 +2374,7 @@ Message: {2}
         {
             return AppendParameterToTemplate(templateCall, parameter, newValue, false);
         }
-        
+
         private static readonly Regex Bars = new Regex(@"\|", RegexOptions.Compiled);
         private static readonly Regex AfterSpacedBars = new Regex(@"\| ", RegexOptions.Compiled);
         private static readonly Regex BeforeSpacedBars = new Regex(@" +\|", RegexOptions.Compiled);
@@ -2395,7 +2395,7 @@ Message: {2}
                 return templateCall;
 
             string separatorBefore = "", separatorAfter = "";
-            
+
             if (!unspaced)
             {
                 string templatecopy = templateCall;
@@ -2409,10 +2409,10 @@ Message: {2}
                 if (newlines > 2 && newlines >= (bars - 2))
                 {
                     separatorBefore = "\r\n";
-                    
+
                     // copy number of spaces used prior to bar
                     int spacesBeforeBar = BeforeSpacedBars.Match(templatecopy).Value.Length-1;
-                    
+
                     if (spacesBeforeBar >= 1)
                         separatorBefore += BeforeSpacedBars.Match(templatecopy).Value.TrimEnd('|');
                 }
@@ -2420,7 +2420,7 @@ Message: {2}
                 {
                     // are spaces before bar used?
                     int beforeSpacedBars = BeforeSpacedBars.Matches(templatecopy).Count;
-                    
+
                     if (bars > 3 && beforeSpacedBars <= 2)
                         separatorBefore = "";
                     else
@@ -2429,7 +2429,7 @@ Message: {2}
 
                 // are spaces after bar used?
                 int afterSpacedBars = AfterSpacedBars.Matches(templatecopy).Count;
-                
+
                 if (bars > 3 && afterSpacedBars <= 2)
                     separatorAfter = "";
                 else
@@ -2449,10 +2449,10 @@ Message: {2}
         public static string GetTemplateParameterValue(string templateCall, string parameter, bool caseInsensitiveParameterName)
         {
             RegexOptions ro = RegexOptions.Singleline;
-            
+
             if (caseInsensitiveParameterName)
                 ro |= RegexOptions.IgnoreCase;
-            
+
             Regex paramRegex = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=([^|]*?)(?=\||}}$)", ro);
 
             string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
@@ -2470,7 +2470,7 @@ Message: {2}
         }
 
         private static readonly Regex param = new Regex(@"\|\s*([\w0-9_ -]+?)\s*=([^|}]*)");
-        
+
         /// <summary>
         /// Returns a dictionary of all named parameters used in the template and the value used.
         /// If the parameter is specified with no value, an empty string is returned as the value.
@@ -2479,8 +2479,8 @@ Message: {2}
         /// <param name="templateCall"></param>
         /// <returns></returns>
         public static Dictionary<string, string> GetTemplateParameterValues(string templateCall)
-        {    
-            Dictionary<string, string> paramsFound = new Dictionary<string, string>();            
+        {
+            Dictionary<string, string> paramsFound = new Dictionary<string, string>();
 
             string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
 
@@ -2492,7 +2492,7 @@ Message: {2}
 
             return paramsFound;
         }
-        
+
         /// <summary>
         /// Returns the value of the input parameter in the input template
         /// </summary>
@@ -2522,7 +2522,7 @@ Message: {2}
 
             return returnedvalues;
         }
-        
+
         /// <summary>
         /// Returns the values of given parameters for a template call
         /// </summary>
@@ -2557,7 +2557,7 @@ Message: {2}
 
             return "";
         }
-        
+
         /// <summary>
         /// Returns the index of the given argument from the input template call
         /// </summary>
@@ -2593,7 +2593,7 @@ Message: {2}
             string pipecleanedtemplate = PipeCleanedTemplate(template);
 
             int i=0;
-            
+
             foreach (Match m in (TemplateArgument.Matches(pipecleanedtemplate)))
             {
                 if (!populatedparametersonly)
@@ -2601,10 +2601,10 @@ Message: {2}
                 else if (m.Groups[1].Value.Contains("=") && !m.Groups[1].Value.EndsWith("="))
                     i++;
             }
-            
+
             return i;
         }
-        
+
         /// <summary>
         /// Returns the number of arguments to the input template call, positional and named parameters
         /// </summary>
@@ -2647,7 +2647,7 @@ Message: {2}
 
             return (paramRegex.Replace(templateCall, m => RenameTemplateParameterME(m, templateCall, newparameter)));
         }
-        
+
         /// <summary>
         /// Renames the given template named parameters in the input template
         /// </summary>
@@ -2660,10 +2660,10 @@ Message: {2}
             {
                 templateCall = RenameTemplateParameter(templateCall, kvp.Key, kvp.Value);
             }
-            
+
             return templateCall;
         }
-        
+
         private static string RenameTemplateParameterME(Match m, string templateCall, string newparameter)
         {
             // check for nested templates within the main template to avoid changing their parameter names
@@ -2672,10 +2672,10 @@ Message: {2}
                 if (n.Index > 0 && m.Index >= n.Index && m.Index <= (n.Index+n.Length))
                     return m.Value;
             }
-            
+
             return (m.Groups[1].Value + newparameter + m.Groups[2].Value);
         }
-        
+
         /// <summary>
         /// Removes the input parameter from all instances of the input template in the article text
         /// </summary>
@@ -2684,10 +2684,10 @@ Message: {2}
         /// <param name="parameter"></param>
         /// <returns>The updated article text</returns>
         public static string RemoveTemplateParameter(string articletext, string templatename, string parameter)
-        {            
+        {
             return NestedTemplateRegex(templatename).Replace(articletext, m => RemoveTemplateParameter(m.Value, parameter));
         }
-        
+
         /// <summary>
         /// Removes the input parameter from the input template
         /// </summary>
@@ -2698,7 +2698,7 @@ Message: {2}
         {
             return RemoveTemplateParameter(templateCall, parameter, false);
         }
-        
+
         /// <summary>
         /// Removes the input parameters from the input template
         /// </summary>
@@ -2709,7 +2709,7 @@ Message: {2}
         {
             foreach(string parameter in parameters)
                 templateCall = RemoveTemplateParameter(templateCall, parameter, false);
-            
+
             return templateCall;
         }
 
@@ -2735,14 +2735,14 @@ Message: {2}
                     foreach(Match y in paramRegex.Matches(pipecleanedtemplate))
                         m = y;
                 }
-                
+
                 int start = m.Index;
                 return (templateCall.Substring(0, start) + templateCall.Substring(start + m.Length));
             }
 
             return templateCall;
         }
-        
+
         private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)", RegexOptions.Compiled);
 
         /// <summary>
@@ -2771,23 +2771,23 @@ Message: {2}
                 templateparams.Clear();
                 string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
                 updatedTemplateCall = templatecall;
-                
+
                 foreach(Match m in anyParam.Matches(pipecleanedtemplate))
                 {
                     string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
                     paramName = m.Groups[1].Value.Trim();
-                    
+
                     if (!templateparams.ContainsKey(paramName))
                         templateparams.Add(paramName, paramValue);
                     else
                     {
-                        // do not remove parameter if ends with digit (e.g. last2 parameter), more likely needs renaming (e.g. last3) than removing 
+                        // do not remove parameter if ends with digit (e.g. last2 parameter), more likely needs renaming (e.g. last3) than removing
                         if (Regex.IsMatch(paramName, @".[0-9]$"))
                             continue;
 
                         string earlierParamValue;
                         templateparams.TryGetValue(paramName, out earlierParamValue);
-                        
+
                         // remove this param if equal value to earlier one, or either value blank, or earlier one contains this one
                         if (paramValue.Equals(earlierParamValue) || paramValue.Length == 0 || earlierParamValue.Length == 0
                            || earlierParamValue.Contains(paramValue) || paramValue.Contains(earlierParamValue))
@@ -2811,9 +2811,9 @@ Message: {2}
 
             return templatecall;
         }
-        
+
         private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n=]+)\s*=\s*([^}|]*)(?=\||}}$)");
-        
+
         /// <summary>
         /// Returns duplicate named parameters in a template call
         /// </summary>
@@ -2822,15 +2822,15 @@ Message: {2}
         public static Dictionary<int, int> DuplicateTemplateParameters(string templatecall)
         {
             Dictionary<int, int> Dupes = new Dictionary<int, int>();
-            
+
             Dictionary<string, string> Params = new Dictionary<string, string>();
             string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
-            
+
             foreach(Match m in anyParam.Matches(pipecleanedtemplate))
             {
                 string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
                 paramName = m.Groups[1].Value.Trim();
-                
+
                 if (!Params.ContainsKey(paramName))
                     Params.Add(paramName, paramValue);
                 else
@@ -2840,7 +2840,7 @@ Message: {2}
         }
 
         private static readonly Regex SpacedPipes = new Regex(@"(\|\s*)(?:\||}})");
-        
+
         /// <summary>
         /// Removes excess pipes from template calls, any where two pipes with no value/only whitespace between
         /// </summary>
@@ -2882,11 +2882,11 @@ Message: {2}
             List<string> Unknowns = new List<string>();
 
             string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
-            
+
             foreach(Match m in anyParam.Matches(pipecleanedtemplate))
             {
                 string paramName = m.Groups[1].Value.Trim();
-                
+
                 if (!knownParameters.Contains(paramName))
                     Unknowns.Add(paramName);
             }
@@ -2996,10 +2996,10 @@ Message: {2}
         {
             if (GetTemplateParameterValue(templateCall, parameter).Equals(newvalue))
                 return templateCall;
-            
+
             if (prependSpace)
                 newvalue = " " + newvalue;
-            
+
             // first try to update existing field's value
             string updatedtemplate = UpdateTemplateParameterValue(templateCall, parameter, newvalue);
 
@@ -3009,7 +3009,7 @@ Message: {2}
 
             return updatedtemplate;
         }
-        
+
         /// <summary>
         /// Sets the template parameter value to the new value input: if the template already has the parameter then its value is updated, otherwise the new value is appended
         /// </summary>
@@ -3063,7 +3063,7 @@ Message: {2}
         {
             return RenameTemplate(articletext, templatename, newtemplatename, true);
         }
-        
+
         /// <summary>
         /// Renames all matches of the given template name in the input text to the new name given
         /// </summary>
@@ -3076,7 +3076,7 @@ Message: {2}
         {
             if (templatename.Equals(newtemplatename))
                 return articletext;
-            
+
             return NestedTemplateRegex(templatename).Replace(articletext, m => RenameTemplateME(m, newtemplatename, keepFirstLetterCase));
         }
 
@@ -3090,7 +3090,7 @@ Message: {2}
         {
             return RenameTemplate(templateCall, newtemplatename, true);
         }
-        
+
         /// <summary>
         /// Renames the input template to the new name given
         /// </summary>
@@ -3102,7 +3102,7 @@ Message: {2}
         {
             return NestedTemplateRegex(GetTemplateName(templateCall)).Replace(templateCall, m => RenameTemplateME(m, newtemplatename, keepFirstLetterCase));
         }
-        
+
         private static string RenameTemplateME(Match m, string newTemplateName, bool keepFirstLetterCase)
         {
             string originalTemplateName = m.Groups[2].Value;
@@ -3146,7 +3146,7 @@ Message: {2}
 
             return NestedTemplateRegex(new [] { templatename }, false);
         }
-        
+
         /// <summary>
         /// Returns a regex to match the input template
         /// Supports nested templates and comments at end of template call
@@ -3172,7 +3172,7 @@ Message: {2}
         {
             return NestedTemplateRegex(templatenames, false);
         }
-        
+
         /// <summary>
         /// Returns a regex to match the input templates
         /// Supports nested templates and comments at end of template name
@@ -3182,7 +3182,7 @@ Message: {2}
         /// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 is template arguments from bar to end, group 4 is arguments from bar without final }}</returns>
         public static Regex NestedTemplateRegex(ICollection<string> templatenames, bool compiled)
         {
-        	if (!templatenames.Any())
+            if (!templatenames.Any())
                 return null;
 
             string TemplateNamespace;
@@ -3193,7 +3193,7 @@ Message: {2}
             // support (deprecated) {{msg:Foo}} syntax
             if (string.IsNullOrEmpty(Variables.LangCode) || Variables.LangCode.Equals("en"))
                 TemplateNamespace = Regex.Replace(TemplateNamespace, @"(.+?):$", @"(?:$1|[Mm]sg):");
-            
+
             // allow whitespace before semicolon
             TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
 
@@ -3214,7 +3214,7 @@ Message: {2}
 
             return new Regex(theRegex.ToString());
         }
-        
+
         /// <summary>
         /// Returns whether template call is a section template or has reason parameter
         /// </summary>
@@ -3224,7 +3224,7 @@ Message: {2}
         {
             return IsSectionOrReasonTemplate(templateCall, "");
         }
-        
+
         /// <summary>
         /// Returns whether template call is a section template or has reason parameter
         /// Checks articletext for any {{multiple issues}} section templates
@@ -3254,7 +3254,7 @@ Message: {2}
             }
             return false;
         }
-        
+
         private static readonly Regex LowerMagicWordTemplates = Tools.NestedTemplateRegex(new[] { "namespace", "numberofarticles", "padleft" });
         /// <summary>
         /// Replaces magic word templates with magic words, ignores templates with no arguments
@@ -3265,7 +3265,7 @@ Message: {2}
         {
             return WikiRegexes.MagicWordTemplates.Replace(articleText, TemplateToMagicWordME);
         }
-        
+
         private static string TemplateToMagicWordME(Match m)
         {
             if (GetTemplateArgumentCount(m.Value) == 0)
@@ -3283,7 +3283,7 @@ Message: {2}
         }
 
         /// <summary>
-        /// Creates a string from a list with the following additions: 
+        /// Creates a string from a list with the following additions:
         /// Specify a separator to be used between all elements in the list
         /// Specify a suffix to be added to each element in the list
         /// Specify a lastseparator that will be used between the last two elements in the list
@@ -3297,12 +3297,12 @@ Message: {2}
                     ret += items[i] + suffix + lastseparator;
                 else if (i == items.Count)
                     ret += items[i] + suffix;
-                else 
+                else
                     ret += items[i] + suffix + separator;
             }
             return ret;
         }
-        
+
         /// <summary>
         /// Replaces escaped characters in XML with the single character: apostrophe, quote, greater than, less than, ampersand
         /// </summary>
@@ -3319,7 +3319,7 @@ Message: {2}
             returnString = returnString.Replace("&lt;", "<");
             return returnString.Replace("&amp;", "&");
         }
-        
+
         public static string ReAddDiacritics(string WithDiacritics, string WithoutDiacritics)
         {
             foreach(Match m in WikiRegexes.RegexWordApostrophes.Matches(WithDiacritics))
