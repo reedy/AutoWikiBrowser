@@ -386,9 +386,9 @@ namespace AutoWikiBrowser
             this.tpEdit = new System.Windows.Forms.TabPage();
             this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
             this.tpHistory = new System.Windows.Forms.TabPage();
-            this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
+            this.webBrowserHistory = new AWBWebBrowser();
             this.tpLinks = new System.Windows.Forms.TabPage();
-            this.webBrowserLinks = new System.Windows.Forms.WebBrowser();
+            this.webBrowserLinks = new AWBWebBrowser();
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.logControl = new WikiFunctions.Logging.LogControl();
             this.tpArticleActionLogs = new System.Windows.Forms.TabPage();
@@ -4647,9 +4647,9 @@ namespace AutoWikiBrowser
         private WikiFunctions.Controls.ArticleTextBox txtEdit;
         private System.Windows.Forms.RichTextBox txtReviewEditSummary;
         private System.Windows.Forms.TabPage tpHistory;
-        private System.Windows.Forms.WebBrowser webBrowserHistory;
+        private AWBWebBrowser webBrowserHistory;
         private System.Windows.Forms.TabPage tpLinks;
-        private System.Windows.Forms.WebBrowser webBrowserLinks;
+        private AWBWebBrowser webBrowserLinks;
         private System.Windows.Forms.TabPage tpLogs;
         private WikiFunctions.Logging.LogControl logControl;
         private System.Windows.Forms.TabPage tpArticleActionLogs;
