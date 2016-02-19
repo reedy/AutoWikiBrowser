@@ -113,5 +113,12 @@ namespace AutoWikiBrowser
 
             return "";
         }
+
+        public override void Refresh()
+        {
+            // webbrowser Refresh calls fail under Mono so silently ignore for the moment
+            if(!Globals.UsingMono)
+                base.Refresh();
+        }
     }
 }
