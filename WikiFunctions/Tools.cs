@@ -1403,22 +1403,23 @@ namespace WikiFunctions
             return Globals.UsingMono ? "/" : "\\";
         }
 
+        private static readonly Regex WholeLine = new Regex(@"^(.*)$(?<!^\s+$)", RegexOptions.Multiline);
+
         /// <summary>
-        /// Turns an HTML list into a wiki style list using the input bullet style
+        /// Turns an HTML list into a wiki style list using the input bullet style (with space)
         /// </summary>
         /// <param name="text">HTML text to convert to list</param>
         /// <param name="bullet">List style to use (# or *)</param>
         public static string HTMLListToWiki(string text, string bullet)
         {
             text = text.Replace("\r\n\r\n", "\r\n");
-            //   text = text.Replace("\n\n", "\n");
             text = Regex.Replace(text, "<br ?/?>", "", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "</?(ol|ul|li)>", "", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "^</?(ol|ul|li)>\r\n", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
             text = Regex.Replace(text, @"^(\:|\*|#|\(? ?\d{1,3}\b ?\)|\d{1,3}\b\.?)", "", RegexOptions.Multiline);
 
             // add bullet to start of each line, but not lines with just whitespace
-            return Regex.Replace(text, @"^(.*)$(?<!^\s+$)", bullet + "$1", RegexOptions.Multiline);
+            return WholeLine.Replace(text, m => bullet + " " + m.Groups[1].Value.TrimStart());
         }
 
         private static readonly System.Media.SoundPlayer Sound = new System.Media.SoundPlayer();

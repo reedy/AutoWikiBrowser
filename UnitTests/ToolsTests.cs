@@ -862,65 +862,65 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         [Test]
         public void HTMLListToWiki()
         {
-            Assert.AreEqual(@"*Fred", Tools.HTMLListToWiki("Fred", "*"));
-            Assert.AreEqual(@"*Fred
-*Jones", Tools.HTMLListToWiki(@"Fred
-Jones", "*"));
-            Assert.AreEqual(@"*Fred", Tools.HTMLListToWiki("Fred<BR>", "*"));
-            Assert.AreEqual(@"*Fred", Tools.HTMLListToWiki("Fred<br/>", "*"));
-            Assert.AreEqual(@"#Fred", Tools.HTMLListToWiki("Fred", "#"));
-            Assert.AreEqual(@"#Fred", Tools.HTMLListToWiki("<OL>Fred</OL>", "#"));
-            Assert.AreEqual(@"#Fred", Tools.HTMLListToWiki("<li>Fred</li>", "#"));
-            Assert.AreEqual(@"*Fred", Tools.HTMLListToWiki(":Fred", "*"));
-            Assert.AreEqual(@"*Fred", Tools.HTMLListToWiki("*Fred", "*"));
-            Assert.AreEqual(@"*Fred Smith [[Foo#bar]]", Tools.HTMLListToWiki("#Fred Smith [[Foo#bar]]", "*"));
+            Assert.AreEqual(@"* Fred", Tools.HTMLListToWiki("Fred", "*"), "simple case");
+            Assert.AreEqual(@"* Fred
+* Jones", Tools.HTMLListToWiki(@"Fred
+Jones", "*"), "Two entries");
+            Assert.AreEqual(@"* Fred", Tools.HTMLListToWiki("Fred<BR>", "*"), "br handling");
+            Assert.AreEqual(@"* Fred", Tools.HTMLListToWiki("Fred<br/>", "*"), "br handling");
+            Assert.AreEqual(@"# Fred", Tools.HTMLListToWiki("Fred", "#"), "simple case #");
+            Assert.AreEqual(@"# Fred", Tools.HTMLListToWiki("<OL>Fred</OL>", "#"), "ol handling");
+            Assert.AreEqual(@"# Fred", Tools.HTMLListToWiki("<li>Fred</li>", "#"), "li handling");
+            Assert.AreEqual(@"* Fred", Tools.HTMLListToWiki(":Fred", "*"), "trim colon");
+            Assert.AreEqual(@"* Fred", Tools.HTMLListToWiki("*Fred", "*"), "already a list");
+            Assert.AreEqual(@"* Fred Smith [[Foo#bar]]", Tools.HTMLListToWiki("#Fred Smith [[Foo#bar]]", "*"), "number to bullet conversion");
 
-            Assert.AreEqual(@"*Fred Smith:here", Tools.HTMLListToWiki("Fred Smith:here", "*"));
+            Assert.AreEqual(@"* Fred Smith:here", Tools.HTMLListToWiki("Fred Smith:here", "*"), "normal colon retained");
 
             Assert.AreEqual(@"* Fred
 * Jones", Tools.HTMLListToWiki(@"1 Fred
-2 Jones", "*"));
+2 Jones", "*"), "number to bullet conversion 2 entries");
 
             Assert.AreEqual(@"* Fred
 * Jones", Tools.HTMLListToWiki(@"11. Fred
-12. Jones", "*"));
+12. Jones", "*"), "dot number conversion");
 
             Assert.AreEqual(@"* Fred
 * Jones", Tools.HTMLListToWiki(@"(1) Fred
-(2) Jones", "*"));
+(2) Jones", "*"), "full bracket number conversion 1 digit");
 
             Assert.AreEqual(@"* Fred
 * Jones", Tools.HTMLListToWiki(@"1) Fred
-2) Jones", "*"));
+2) Jones", "*"), "bracket number conversion 1 digit");
 
             Assert.AreEqual(@"* Fred
 * Jones", Tools.HTMLListToWiki(@"(11) Fred
-(12) Jones", "*"));
+(12) Jones", "*"), "bracket number conversion 2 digits");
 
             Assert.AreEqual(@"* Fred
 * Jones", Tools.HTMLListToWiki(@"(998) Fred
-(999) Jones", "*"));
+(999) Jones", "*"), "bracket number conversion 3 digits");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Text_deleted_by_.22convert_list_to.22_.22.2A_list.22
-            Assert.AreEqual(@"*1980 Fred
-*2004 Jones", Tools.HTMLListToWiki(@"1980 Fred
+            Assert.AreEqual(@"* 1980 Fred
+* 2004 Jones", Tools.HTMLListToWiki(@"1980 Fred
 2004 Jones", "*"));
-            // do not add list to blank lines/lines with just whitespace
-            Assert.AreEqual(@"*Fred
-*Tim
-*John", Tools.HTMLListToWiki(@"Fred
-Tim
-John", "*"));
 
-            Assert.AreEqual(@"*Fred
+            Assert.AreEqual(@"* Fred
+* Tim
+* John", Tools.HTMLListToWiki(@"Fred
+Tim
+John", "*"), "do not add list to blank lines/lines with just whitespace");
+
+            Assert.AreEqual(@"* Fred
  
-*Tim
+* Tim
  
-*John", Tools.HTMLListToWiki(@"Fred
+* John", Tools.HTMLListToWiki(@"Fred
  
 Tim
  
-John", "*"));
+John", "*"), "do not add list to blank lines/lines with just whitespace 2");
         }
 
         [Test]
