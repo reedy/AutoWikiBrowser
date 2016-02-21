@@ -375,7 +375,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated wiki text</returns>
         public static string RenameTemplateParameters(string articleText, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
         {
-        	if (!RenamedTemplateParameters.Any())
+            if (!RenamedTemplateParameters.Any())
                 return articleText;
 
             // Performance: now filter templates with parameters to rename against templates used on the page
@@ -407,7 +407,7 @@ namespace WikiFunctions.Parse
                         res = RenameTemplateParametersHashSetME(m, RenamedTemplateParameters);
                     else
                         res = RenameTemplateParametersME(m, RenamedTemplateParameters);
-                                                               
+
                     if (!m.Value.Equals(res))
                         articleText = articleText.Replace(m.Value, res);
                 }
