@@ -872,7 +872,7 @@ Now [[A],] was."));
 
             // set single curly bracket to normal bracket if that makes all brackets balance
             Assert.AreEqual(@"Great (not really) now", Parsers.FixSyntax(@"Great (not really} now"));
-            Assert.AreEqual(@"# [[Herbert H. H. Fox]] ([[1934 - 1939]])<br>", Parsers.FixSyntax(@"# [[Herbert H. H. Fox]] ([[1934 - 1939]]}<br>"));
+            Assert.AreEqual(@"# [[Herbert H. H. Fox]] ([[1934 - 1939]])<ref>foo</ref>", Parsers.FixSyntax(@"# [[Herbert H. H. Fox]] ([[1934 - 1939]]}<ref>foo</ref>"));
 
             // can't fix these
             Assert.AreEqual(@"Great { but (not really} now", Parsers.FixSyntax(@"Great { but (not really} now"));
