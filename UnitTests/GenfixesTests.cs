@@ -523,7 +523,7 @@ y";
             ar1.PerformGeneralFixes(parser, H, S, false, false, false);
             Assert.AreEqual("'''Hello''' world text", ar1.ArticleText);
         }
-        
+
         [Test]
         public void ExternalLinksBr()
         {
@@ -531,16 +531,16 @@ y";
 [http://foo.com]</br>
 [http://foo2.com]</br>
 [[Category:A]]";
-            
+
             GenFixes("Test");
-            
+
             string correct = @"==External links==
 * [http://foo.com]
 * [http://foo2.com]
 [[Category:A]]";
 
-            Assert.AreEqual(correct, ArticleText);
-            
+            Assert.AreEqual(correct, ArticleText, "Clean br at end of lists");
+
             ArticleText = @"==External links==
 [http://foo.com]
 <br>
@@ -548,10 +548,10 @@ y";
             correct = @"==External links==
 * [http://foo.com]
 * [http://foo2.com]";
-            
+
             GenFixes("Test");
-            
-            Assert.AreEqual(correct, ArticleText);
+
+            Assert.AreEqual(correct, ArticleText, "Clean br between list items");
         }
 
         [Test]
