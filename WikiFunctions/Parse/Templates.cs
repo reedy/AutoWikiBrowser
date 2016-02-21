@@ -260,7 +260,7 @@ namespace WikiFunctions.Parse
                 if (found != null)
                     return found;
             }
-                
+
             /* performance: process all templates in bulk, extract template contents and reprocess. This is faster than loop applying template match on individual basis. 
             Extract rough template name then get exact template names later, faster to deduplicate then get exact template names */
             // process all templates, handle nested templates to any level of nesting
@@ -645,7 +645,7 @@ namespace WikiFunctions.Parse
         public static string RemoveTemplateNamespace(string articleText)
         {
             Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"([^\|]*?)(\s*(?:\}\}|\|))", RegexOptions.Singleline);
-            
+
             return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + m.Groups[3].Value));
         }
 
