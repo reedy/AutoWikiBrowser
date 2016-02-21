@@ -218,6 +218,7 @@ namespace WikiFunctions
                     InUse = Tools.NestedTemplateRegex(new[] {"S-dezvoltare"});
                     break;
                 case "ru":
+                    uncattemplate = "([Нн]ет категорий|[Uu]ncategorized|[Uu]ncategorized stub|[Nn]ocat)";
                     Orphan = Tools.NestedTemplateRegex(@"изолированная статья");
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     DeadEnd = new Regex(@"(?:{{\s*(?:[Tt]упиковая статья|[Dd]ead ?end)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");

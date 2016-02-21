@@ -279,6 +279,11 @@ namespace WikiFunctions.Parse
                             articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("Կատեգորիա չկա");
                         }
+                        else if (Variables.LangCode.Equals("ru")) // same template for uncat and uncat stub
+                        {
+                            articleText += Tools.Newline("{{Нет категорий|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("Нет категорий");
+                        }
                         else if (Variables.LangCode.Equals("sv")) // same template for uncat and uncat stub
                         {
                             articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
@@ -311,6 +316,11 @@ namespace WikiFunctions.Parse
                         {
                             articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("Կատեգորիա չկա");
+                        }
+                        else if (Variables.LangCode.Equals("ru"))
+                        {
+                            articleText += Tools.Newline("{{Нет категорий|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("Нет категорий");
                         }
                         else if (Variables.LangCode.Equals("sv"))
                         {
