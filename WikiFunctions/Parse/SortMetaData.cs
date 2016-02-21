@@ -232,7 +232,7 @@ namespace WikiFunctions.Parse
                     // about supports up to 9 arguments
                     if (Tools.GetTemplateArgument(about, 9).Length > 0)
                         continue;
-                    
+
                     string extra = "";
 
                     // where about has 2 arguments need extra pipe
@@ -369,7 +369,7 @@ namespace WikiFunctions.Parse
                 // only take templates at very start of section (after heading)
                 if (m.Index > 0)
                     break;
-                
+
                 // if first template just append, if subsequent then merge in value
                 if (mergedTemplates.Length == 0)
                     mergedTemplates = m.Value;
@@ -378,7 +378,7 @@ namespace WikiFunctions.Parse
                     mergedTemplates = mergedTemplates.Replace(@"}}", m.Groups[3].Value);
                     merged++;
                 }
-                
+
                 // remove template from section text
                 sectionText = sectionText.Substring(m.Length).TrimStart();
             }
