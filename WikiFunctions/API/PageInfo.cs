@@ -68,6 +68,10 @@ namespace WikiFunctions.API
                 TitleChangedStatus = PageTitleStatus.NoChange;
             }
 
+            string curtimestamp = "";
+            if(xr.ReadToFollowing("api"))
+                curtimestamp = xr.GetAttribute("curtimestamp");
+
             if (!xr.ReadToFollowing("page"))
             {
                 if (redirects.Count > 0)
@@ -125,7 +129,10 @@ namespace WikiFunctions.API
                 RollbackToken = tokens[0].Attributes["rollbacktoken"].Value;
             }
 
+            // if UseInToken = false then won't be given starttimestamp, so use curtimestamp instead
             TokenTimestamp = xr.GetAttribute("starttimestamp");
+            if(string.IsNullOrEmpty(TokenTimestamp))
+                TokenTimestamp = curtimestamp;
 
             long revId;
             RevisionID = long.TryParse(xr.GetAttribute("lastrevid"), out revId) ? revId : -1;

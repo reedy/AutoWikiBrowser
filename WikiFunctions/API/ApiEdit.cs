@@ -802,6 +802,7 @@ namespace WikiFunctions.API
                 {"titles", title},
                 {"inprop", "protection|watched|displaytitle"},
                 {"rvprop", "content|timestamp"}, // timestamp|user|comment|
+                {"curtimestamp", null}
             };
             query.AddIfTrue(resolveRedirects, "redirects", null);
 
