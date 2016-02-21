@@ -1741,6 +1741,21 @@ File:Example.jpg|Caption2
 File:Example.jpg|Caption1
 File:Example.jpg|Caption2
 </gallery>", articleTextIn);
+
+            // no change – don't pick up text within wiki table
+            articleTextIn = @"
+{|
+|Foo
+bar
+|}";
+
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+
+            Assert.AreEqual(@"
+{|
+|Foo
+bar
+|}", articleTextIn);
         }
         
         [Test]

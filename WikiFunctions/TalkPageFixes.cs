@@ -304,6 +304,7 @@ namespace WikiFunctions.TalkPages
         }
 
         private static readonly Regex FirstComment = new Regex(@"^ {0,4}[:\*\w'""](?<!_)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SingleCurlyBrackets = new Regex(@"{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))})");
 
         /// <summary>
         /// Adds a section 2 heading before the first comment if the talk page does not have one
@@ -312,8 +313,8 @@ namespace WikiFunctions.TalkPages
         /// <returns>The updated article text</returns>
         private static string AddMissingFirstCommentHeader(string articleText)
         {
-            // don't match on lines within templates
-            string articleTextTemplatesSpaced = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates.Matches(articleText));
+            // don't match on lines within templates or wiki tables
+            string articleTextTemplatesSpaced = Tools.ReplaceWithSpaces(articleText, SingleCurlyBrackets.Matches(articleText));
             articleTextTemplatesSpaced = Tools.ReplaceWithSpaces(articleTextTemplatesSpaced, WikiRegexes.UnformattedText.Matches(articleTextTemplatesSpaced));
             articleTextTemplatesSpaced = Tools.ReplaceWithSpaces(articleTextTemplatesSpaced, WikiRegexes.GalleryTag.Matches(articleTextTemplatesSpaced));
 
