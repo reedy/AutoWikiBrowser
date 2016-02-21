@@ -56,9 +56,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexExternalLinkToImageURL = new Regex("\\[?\\["+Variables.NamespacesCaseInsensitive[Namespace.File]+"(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex ExternalLinksStart = new Regex(@"^\[ *(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://", RegexOptions.IgnoreCase);
 
-        private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]? ?>)+ *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"((?:\r\n|^)[#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]? ?>)+ *(?=\r\n|$)", RegexOptions.IgnoreCase);
         private static readonly Regex SyntaxRegexListRowBrTagMiddle = new Regex(@"^([#\*:;]+.*?)\s*(?:<[/\\]?br ?[/\\]? ?>)+ *\r\n([#\*:;]+)", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-        private static readonly Regex SyntaxRegexBrNewline = new Regex(@"<[/\\]?[Bb][Rr] ?[/\\]? ?> *\r\n");
+        private static readonly Regex SyntaxRegexBrNewline = new Regex(@"<[/\\]?[Bb][Rr] ?[/\\]? ?> *(\r\n|$)");
 
         private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]? ?> *(\r\n[#\*:;]+)", RegexOptions.IgnoreCase);
 
@@ -238,7 +238,7 @@ namespace WikiFunctions.Parse
             if (SyntaxRegexBrNewline.IsMatch(articleText))
             {
                 // remove <br> from lists (end of list line) - CHECKWIKI error 54
-                articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
+                articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1");
 
                 // remove <br> from the middle of lists
                 articleText = SyntaxRegexListRowBrTagMiddle.Replace(articleText, "$1\r\n$2");
