@@ -1507,49 +1507,58 @@ namespace WikiFunctions.Parse
             // fixes if article has [[Category:Living people]]
             if (Variables.IsWikipediaEN && CategoryMatch(articleText, "Living people"))
             {
-                // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
-                MatchCollection unrefm = Tools.NestedTemplateRegex("unreferenced").Matches(articleText);
-                if (unrefm.Count == 1)
+                if(alltemplates.Contains("Unreferenced"))
                 {
-                    if (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unrefm[0].Value, 1)).StartsWith("date")
-                        || Tools.GetTemplateArgumentCount(unrefm[0].Value) == 0)
+                    // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
+                    MatchCollection unrefm = Tools.NestedTemplateRegex("unreferenced").Matches(articleText);
+                    if (unrefm.Count == 1)
                     {
-                        // if also have existing BLP unsourced then remove unreferenced
-                        if (Tools.NestedTemplateRegex("BLP unsourced").IsMatch(articleText))
+                        if (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unrefm[0].Value, 1)).StartsWith("date")
+                            || Tools.GetTemplateArgumentCount(unrefm[0].Value) == 0)
                         {
-                            articleText = Tools.NestedTemplateRegex("unreferenced").Replace(articleText, "");
-                            Parsers p = new Parsers();
-                            articleText = WikiRegexes.MultipleIssues.Replace(articleText, p.MultipleIssuesSingleTagME);
+                            // if also have existing BLP unsourced then remove unreferenced
+                            if (Tools.NestedTemplateRegex("BLP unsourced").IsMatch(articleText))
+                            {
+                                articleText = Tools.NestedTemplateRegex("unreferenced").Replace(articleText, "");
+                                Parsers p = new Parsers();
+                                articleText = WikiRegexes.MultipleIssues.Replace(articleText, p.MultipleIssuesSingleTagME);
+                            }
+                            else
+                                articleText = Tools.RenameTemplate(articleText, "unreferenced", "BLP unsourced", false);
                         }
-                        else
-                            articleText = Tools.RenameTemplate(articleText, "unreferenced", "BLP unsourced", false);
                     }
                 }
 
-                articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
-                articleText = Tools.RenameTemplate(articleText, "primary sources", "BLP primary sources", false);
+                if(alltemplates.Contains("Unreferenced section"))
+                    articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
+                if(alltemplates.Contains("Primary sources"))
+                    articleText = Tools.RenameTemplate(articleText, "primary sources", "BLP primary sources", false);
 
-                // {{refimprove}} --> {{BLP sources}} if article has [[Category:Living people]], and no free-text first argument to {{refimprove}}
-                MatchCollection mc = Tools.NestedTemplateRegex("refimprove").Matches(articleText);
-                if (mc.Count == 1)
+                if(alltemplates.Contains("Refimprove"))
                 {
-                    string refimprove = mc[0].Value;
-                    if ((Tools.TurnFirstToLower(Tools.GetTemplateArgument(refimprove, 1)).StartsWith("date")
-                         || Tools.GetTemplateArgumentCount(refimprove) == 0))
+                    // {{refimprove}} --> {{BLP sources}} if article has [[Category:Living people]], and no free-text first argument to {{refimprove}}
+                    MatchCollection mc = Tools.NestedTemplateRegex("refimprove").Matches(articleText);
+                    if (mc.Count == 1)
                     {
-                        // if also have existing BLP sources then remove refimprove
-                        if (Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
+                        string refimprove = mc[0].Value;
+                        if ((Tools.TurnFirstToLower(Tools.GetTemplateArgument(refimprove, 1)).StartsWith("date")
+                             || Tools.GetTemplateArgumentCount(refimprove) == 0))
                         {
-                            articleText = Tools.NestedTemplateRegex("refimprove").Replace(articleText, "");
-                            Parsers p = new Parsers();
-                            articleText = WikiRegexes.MultipleIssues.Replace(articleText, p.MultipleIssuesSingleTagME);
+                            // if also have existing BLP sources then remove refimprove
+                            if (Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
+                            {
+                                articleText = Tools.NestedTemplateRegex("refimprove").Replace(articleText, "");
+                                Parsers p = new Parsers();
+                                articleText = WikiRegexes.MultipleIssues.Replace(articleText, p.MultipleIssuesSingleTagME);
+                            }
+                            else
+                                articleText = Tools.RenameTemplate(articleText, "refimprove", "BLP sources", false);
                         }
-                        else
-                            articleText = Tools.RenameTemplate(articleText, "refimprove", "BLP sources", false);
                     }
                 }
 
-                articleText = Tools.RenameTemplate(articleText, "refimprove section", "BLP sources section", false);
+                if(alltemplates.Contains("Refimprove section"))
+                    articleText = Tools.RenameTemplate(articleText, "refimprove section", "BLP sources section", false);
             }
 
             if (TemplateExists(alltemplates, WikiRegexes.PortalTemplate))
