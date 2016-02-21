@@ -125,9 +125,9 @@ namespace WikiFunctions.Parse
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
             List<string> wikiLinks = Tools.DeduplicateList(GetAllWikiLinks(articleText));
-            
+
             // Replace {{!}} with a standard pipe
-            if(TemplateExists(GetAllTemplates(articleText), Tools.NestedTemplateRegex("!")))
+            if(GetAllTemplates(articleText).Contains("!"))
                 foreach(string e in wikiLinks.Where(l => l.Contains(@"{{!}}") && !l.Contains("|")))
                     articleText = articleText.Replace(e, e.Replace(@"{{!}}", "|"));
 
