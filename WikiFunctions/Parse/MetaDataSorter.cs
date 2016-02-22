@@ -1192,7 +1192,7 @@ en, sq, ru
         /// <returns></returns>
         private static string ListToString(ICollection<string> items)
         {
-        	if (!items.Any())
+            if (!items.Any())
                 return "";
 
             List<string> uniqueItems = new List<string>();
