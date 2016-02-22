@@ -72,13 +72,10 @@ namespace WikiFunctions.Parse
 
             // get badmd5 error from API on save due to WebRequest::normalizeUnicode (https://svn.wikimedia.org/doc/classWebRequest.html#ac1b762873fc2f0fe661499cfc116a9da) in API code
             RegexUnicode.Add(new Regex("&#(x232[A9]);"), "&amp;#$1;");
-            
+
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Greedy_regex_for_unicode_characters
             // .NET doesn't seem to like the Unicode versions of these – deleted from edit box
             RegexUnicode.Add(new Regex("&#(x2[0-9AB][0-9A-Fa-f]{3});"), "&amp;#$1;");
-
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
-            RegexConversion.Add(new Regex(@"\{\{\s*[Cc]ommons\s?\|\s*[Cc]ategory:\s*([^{}]+?)\s*\}\}"), @"{{Commons category|$1}}");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Commons_category
             RegexConversion.Add(new Regex(@"({{[Cc]ommons cat(?:egory)?\|\s*)([^{}\|]+?)\s*\|\s*\2\s*}}"), @"$1$2}}");
@@ -1454,6 +1451,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex NoFootnotes = Tools.NestedTemplateRegex("no footnotes");
         private static readonly Regex ConversionsCnCommons = Tools.NestedTemplateRegex( new [] {"citation needed", "commons", "commons cat", "commons category" });
         private const string CategoryLivingPeople = @"[[Category:Living people";
+        private static readonly Regex CommonsCategory = new Regex(@"\{\{\s*[Cc]ommons\s?\|\s*[Cc]ategory:\s*([^{}]+?)\s*\}\}");
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
@@ -1469,6 +1467,10 @@ namespace WikiFunctions.Parse
 
             if (TemplateExists(alltemplates, ConversionsCnCommons))
             {
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
+                if(Variables.IsWikimediaProject)
+                    articleText = CommonsCategory.Replace(articleText, @"{{Commons category|$1}}");
+
                 foreach (KeyValuePair<Regex, string> k in RegexConversion)
                 {
                     articleText = k.Key.Replace(articleText, k.Value);

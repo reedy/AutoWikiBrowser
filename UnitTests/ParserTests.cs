@@ -1748,6 +1748,12 @@ Text
             Assert.AreEqual(@"{{Commons category|Backgammon|Backgammon main}}", Parsers.Conversions(@"{{Commons|Category:Backgammon|Backgammon main}}"));
             Assert.AreEqual(@"{{commons cat|Gander International Airport}}", Parsers.Conversions(@"{{commons cat|Gander International Airport|Gander International Airport}}"));
             Assert.AreEqual(@"{{Commons cat|Gander International Airport}}", Parsers.Conversions(@"{{Commons cat|Gander International Airport|Gander International Airport}}"));
+
+            #if DEBUG
+            Variables.SetProjectSimple("en", ProjectEnum.wikia);
+            Assert.AreEqual(@"{{commons|Category:Backgammon|Backgammon}}", Parsers.Conversions(@"{{commons|Category:Backgammon|Backgammon}}"), "{{Commons category}} not used on Wikia");
+            Variables.SetProjectLangCode("en");
+            #endif
         }
 
         [Test]
