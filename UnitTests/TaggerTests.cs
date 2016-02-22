@@ -1650,28 +1650,27 @@ foo
         {
             List<Article> Cats = new List<Article>();
             Assert.AreEqual(0, Parsers.RegularCategories(Cats).Count);
-            
+
             Cats.Add(new Article("Category:Foo"));
             Assert.AreEqual(1, Parsers.RegularCategories(Cats).Count);
-            
+
             Cats.Add(new Article("Category:Bar"));
             Cats.Add(new Article("Category:Some stubs"));
             Cats.Add(new Article("Category:A :Stubs"));
             Cats.Add(new Article("Category:Stubs"));
             Assert.AreEqual(2, Parsers.RegularCategories(Cats).Count);
-            
+
             Cats.Add(new Article("Category:Proposed deletion"));
             Cats.Add(new Article("Category:Foo proposed deletions"));
             Cats.Add(new Article("Category:Foo proposed for deletion"));
             Cats.Add(new Article("Category:Articles created via the Article Wizard"));
             Assert.AreEqual(2, Parsers.RegularCategories(Cats).Count);
-            
+
             Cats.Clear();
             Assert.AreEqual(0, Parsers.RegularCategories("").Count);
             Assert.AreEqual(1, Parsers.RegularCategories("[[Category:Foo]]").Count);
             Assert.AreEqual(1, Parsers.RegularCategories("[[Category:Foo]] [[Category:Some stubs]]").Count);
             Assert.AreEqual(1, Parsers.RegularCategories("[[Category:Foo]] <!--[[Category:Bar]]-->").Count);
         }
-        
     }
 }
