@@ -139,7 +139,8 @@ namespace WikiFunctions.Parse
             }
 
             // do orphan tagging before template analysis for categorisation tags
-            articleText = TagOrphans(articleText, articleTitle, restrictOrphanTagging);
+            if(!Variables.IsWikia)
+                articleText = TagOrphans(articleText, articleTitle, restrictOrphanTagging);
 
             articleText = TagRefsIbid(articleText);
 
@@ -252,7 +253,8 @@ namespace WikiFunctions.Parse
             // prevent wictionary redirects from being tagged as uncategorised
             if (totalCategories == 0
                 && !WikiRegexes.Uncat.IsMatch(templates)
-                && !Variables.LangCode.Equals("nl"))
+                && !Variables.LangCode.Equals("nl")
+                && !Variables.IsWikia)
             {
                 // bulleted or indented text should weigh less than simple text.
                 // for example, actor stubs may contain large filmographies
@@ -397,7 +399,8 @@ namespace WikiFunctions.Parse
                 !WikiRegexes.DeadEnd.IsMatch(articleText) &&
                 !WikiRegexes.SIAs.IsMatch(templates) &&
                 !WikiRegexes.NonDeadEndPageTemplates.IsMatch(templates) &&
-                !WikiRegexes.MeaningsOfMinorPlanetNames.IsMatch(articleTitle)                
+                !WikiRegexes.MeaningsOfMinorPlanetNames.IsMatch(articleTitle) &&
+                !Variables.IsWikia // no dead end tag for wikia
                )
             {
                 int apilinks = 0;

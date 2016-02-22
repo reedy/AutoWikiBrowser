@@ -763,6 +763,23 @@ namespace UnitTests
         }
 
         [Test]
+        public void AddTagsWikia()
+        {
+            #if DEBUG
+            Variables.SetProjectSimple("en", ProjectEnum.wikia);
+            Globals.UnitTestBoolValue = true;
+            string text = parser.Tagger(@"{{Infobox foo bar|great=yes}}" + ShortText, "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "No orphan tag added on Wikia");
+
+            text = parser.Tagger(ShortText + "{{Underlinked}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text), "uncat");
+            Globals.UnitTestBoolValue = false;
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+            #endif
+        }
+
+        [Test]
         public void AddLinklessRu()
         {
             Globals.UnitTestIntValue = 0;
