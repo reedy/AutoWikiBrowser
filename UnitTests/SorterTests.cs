@@ -1109,9 +1109,12 @@ foo";
             Assert.AreEqual(@"[[Category:One|Foo]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, uppercase sortkey");
-
+        }
+        [Test]
+        public void CategoryDupeUncatTagRemoval()
+        {
             // dupe uncat tags
-            cats = @"[[Category:One]]
+            string cats = @"[[Category:One]]
 {{uncat|date=August 2014}}
 {{uncat|date=August 2014}}
 ";
@@ -1119,11 +1122,15 @@ foo";
             Assert.AreEqual(@"{{uncat|date=August 2014}}
 [[Category:One]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate uncat tags removed");
+        }
 
+        [Test]
+        public void CategoryDupeRemovalWikis()
+        {
             #if DEBUG
             Variables.SetProjectSimple("en", ProjectEnum.species);
 
-            cats = @"[[Category:One]]
+            string cats = @"[[Category:One]]
 [[Category:Two]]
 [[Category:One]]";
 
@@ -1142,7 +1149,7 @@ foo";
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, no sortkey");
 
             Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
-            #endif            
+            #endif
         }
 
         [Test]
