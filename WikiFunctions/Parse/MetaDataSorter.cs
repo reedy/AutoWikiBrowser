@@ -1222,7 +1222,17 @@ en, sq, ru
                         uniqueItems.Remove(u);
                         break;
                     }
-
+                    // for Category: e.g. [[Category:A|Foo]] already added but [[Category:A|Foo bar]] next in list
+                    if (WikiRegexes.Category.IsMatch(s2) && s2.TrimEnd(']').StartsWith(u.TrimEnd(']')))
+                    {
+                        uniqueItems.Remove(u);
+                        break;
+                    }
+                    if (WikiRegexes.Category.IsMatch(s2) && u.TrimEnd(']').StartsWith(s2.TrimEnd(']')))
+                    {
+                        addme = false;
+                        break;
+                    }
                     // compare on first letter case insensitive for templates
                     if (WikiRegexes.NestedTemplates.IsMatch(s2) && WikiRegexes.NestedTemplates.IsMatch(u))
                     {

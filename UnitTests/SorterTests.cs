@@ -1109,6 +1109,22 @@ foo";
             Assert.AreEqual(@"[[Category:One|Foo]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, uppercase sortkey");
+
+            cats = @"[[Category:One|Foo Bar]]
+[[Category:Two]]
+[[Category:One|Foo]]";
+
+            Assert.AreEqual(@"[[Category:One|Foo Bar]]
+[[Category:Two]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, one sortkey substring of another");
+
+            cats = @"[[Category:One|Foo]]
+[[Category:Two]]
+[[Category:One|Foo Bar]]";
+
+            Assert.AreEqual(@"[[Category:Two]]
+[[Category:One|Foo Bar]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, one sortkey substring of another, longer second");
         }
         [Test]
         public void CategoryDupeUncatTagRemoval()
