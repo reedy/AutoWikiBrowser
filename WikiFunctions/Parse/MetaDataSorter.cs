@@ -1206,8 +1206,9 @@ en, sq, ru
                 bool addme = true;
 
                 string s2 =s;
+                bool isACategory = WikiRegexes.Category.IsMatch (s2);
                 // compare based on first letter upper sortkey for categories
-                if (s2.Contains("|") && WikiRegexes.Category.IsMatch(s2))
+                if (s2.Contains("|") && isACategory)
                     s2 = Regex.Replace(s2, @"(\|\s*)(.+)(\s*\]\]$)", m=> m.Groups[1].Value + Tools.TurnFirstToUpper(m.Groups[2].Value) + m.Groups[3].Value);
 
                 foreach (string u in uniqueItems)
@@ -1223,12 +1224,12 @@ en, sq, ru
                         break;
                     }
                     // for Category: e.g. [[Category:A|Foo]] already added but [[Category:A|Foo bar]] next in list
-                    if (WikiRegexes.Category.IsMatch(s2) && s2.TrimEnd(']').StartsWith(u.TrimEnd(']')))
+                    if (isACategory && s2.TrimEnd(']').StartsWith(u.TrimEnd(']')))
                     {
                         uniqueItems.Remove(u);
                         break;
                     }
-                    if (WikiRegexes.Category.IsMatch(s2) && u.TrimEnd(']').StartsWith(s2.TrimEnd(']')))
+                    if (isACategory && u.TrimEnd(']').StartsWith(s2.TrimEnd(']')))
                     {
                         addme = false;
                         break;
