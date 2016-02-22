@@ -1057,7 +1057,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             WikiRegexes.MakeLangSpecificRegexes();
 #endif
         }
-        
+
         [Test]
         public void RemoveAr()
         {
@@ -1065,7 +1065,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             string text = "";
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
-            
+
             Globals.UnitTestBoolValue = true;
 
             text = parser.Tagger(ShortText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
@@ -1096,7 +1096,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             string text = "";
             Variables.SetProjectLangCode("arz");
             WikiRegexes.MakeLangSpecificRegexes();
-            
+
             Globals.UnitTestBoolValue = true;
 
             text = parser.Tagger(ShortText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
@@ -1106,7 +1106,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             text = parser.Tagger(LongText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
             // stub tag removed
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
-            
+
             text = parser.Tagger("{{ويكى}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             string text1 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             string text2 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]") + @"{{بذرة}}", "Test", false, out noChange, ref summary);
@@ -1151,7 +1151,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 }}
 
 ''Now'' [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary));
-            
+
             Globals.UnitTestBoolValue = true;
 
             Assert.IsTrue(summary.Contains("removed deadend tag"));
