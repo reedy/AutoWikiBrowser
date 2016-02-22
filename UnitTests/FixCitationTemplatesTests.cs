@@ -34,14 +34,12 @@ namespace UnitTests
         public GenfixesTestsBase genFixes  = new GenfixesTestsBase();
 
         [Test]
-        public void FixCitationTemplatesNewlineInTitle()
+        public void FixCitationTemplatesNewlineInParamValue()
         {
             Assert.AreEqual(@"now {{cite web| url=a.com|title=hello world|format=PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello
 world|format=PDF}} was"), "newline converted to space");
-            const string NoURL = @"now {{cite news|title=hello
-world|format=PDF}} was";
-
-            Assert.AreEqual(NoURL, Parsers.FixCitationTemplates(NoURL), "title newline not changed when no URL");
+            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello world|publisher=Foo Bar}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello world|publisher=Foo
+Bar}} was"), "newline converted to space, any parameter");
         }
 
         [Test]

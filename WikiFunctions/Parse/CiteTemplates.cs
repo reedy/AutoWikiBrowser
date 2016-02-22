@@ -268,13 +268,10 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RemoveTemplateParameter(newValue, "origdate");
             }
 
-            // newlines to spaces in title field if URL used, otherwise display broken
-            if (theTitle.Contains("\r\n") && theURL.Length > 0)
+            // newlines to spaces in all parameters
+            foreach(KeyValuePair<string, string> newlines in paramsFound.Where(p => p.Value.Contains("\r\n")))
             {
-                theTitle = theTitle.Replace("\r\n", " ");
-                paramsFound.Remove("title");
-                paramsFound.Add("title", theTitle);
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "title", theTitle);
+                newValue = Tools.UpdateTemplateParameterValue(newValue, newlines.Key, newlines.Value.Replace("\r\n", " "));
             }
 
             // {{sv icon}} -> sv in language=
