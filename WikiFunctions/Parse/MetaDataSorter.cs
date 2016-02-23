@@ -1224,12 +1224,12 @@ en, sq, ru
                         break;
                     }
                     // for Category: e.g. [[Category:A|Foo]] already added but [[Category:A|Foo bar]] next in list
-                    if (isACategory && s2.TrimEnd(']').StartsWith(u.TrimEnd(']')))
+                    if (isACategory && u.Contains("|") && s2.TrimEnd(']').StartsWith(u.TrimEnd(']')))
                     {
                         uniqueItems.Remove(u);
                         break;
                     }
-                    if (isACategory && u.TrimEnd(']').StartsWith(s2.TrimEnd(']')))
+                    if (isACategory && s2.Contains("|") && u.TrimEnd(']').StartsWith(s2.TrimEnd(']')))
                     {
                         addme = false;
                         break;

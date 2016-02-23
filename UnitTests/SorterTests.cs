@@ -1125,7 +1125,26 @@ foo";
             Assert.AreEqual(@"[[Category:Two]]
 [[Category:One|Foo Bar]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, one sortkey substring of another, longer second");
+
+            cats = @"[[Category:One Foo]]
+[[Category:Two]]
+[[Category:One]]";
+
+            Assert.AreEqual(@"[[Category:One Foo]]
+[[Category:Two]]
+[[Category:One]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "No change, cat substring rule only applies to sortkeys, longer first");
+
+            cats = @"[[Category:One]]
+[[Category:Two]]
+[[Category:One Foo]]";
+
+            Assert.AreEqual(@"[[Category:One]]
+[[Category:Two]]
+[[Category:One Foo]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "No change, cat substring rule only applies to sortkeys, longer second");
         }
+
         [Test]
         public void CategoryDupeUncatTagRemoval()
         {
