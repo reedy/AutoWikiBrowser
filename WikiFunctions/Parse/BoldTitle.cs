@@ -72,7 +72,8 @@ namespace WikiFunctions.Parse
             noChange = true;
             List<string> alltemplates = GetAllTemplates(articleText);
 
-            if (TemplateExists(alltemplates, NoBoldTitle))
+            // don't apply in exception cases: (<section> used to transclude text in other articles so self link is valid use case)
+            if (TemplateExists(alltemplates, NoBoldTitle) || articleText.Contains("<section"))
                 return articleText;
 
             HideText Hider2 = new HideText(), Hider3 = new HideText(true, true, true);

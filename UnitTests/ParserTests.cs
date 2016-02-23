@@ -478,6 +478,20 @@ Aikido was", "Aikido", out noChangeBack), "Bold text in infobox ignored");
         }
 
         [Test]
+        public void Exceptions()
+        {
+            bool noChange;
+            string Section = @"<section>'''[[Foo]]''' bar</section>";
+            Assert.AreEqual(Section, parser.BoldTitle(Section, "Foo", out noChange), "No change when article text contains <section> tags");
+
+            Section = @"{{year article header}} Foo bar.";
+            Assert.AreEqual(Section, parser.BoldTitle(Section, "Foo", out noChange), "No change when article text contains {{year article header}}");
+
+            Section = @"{{bio}} Foo bar.";
+            Assert.AreEqual(Section, parser.BoldTitle(Section, "Foo", out noChange), "No change when article text contains {{bio}}");
+        }
+
+        [Test]
         public void StandardCases()
         {
             Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders",
