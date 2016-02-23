@@ -832,7 +832,9 @@ namespace WikiFunctions.Controls.Lists
             btnGenerate.Enabled = true;
 
             btnStop.Visible = false;
-            UpdateNumberOfArticles();
+
+            if (newArticles > 0)
+                UpdateNumberOfArticles();
 
             if (ListFinished != null)
                 ListFinished(null, null);
