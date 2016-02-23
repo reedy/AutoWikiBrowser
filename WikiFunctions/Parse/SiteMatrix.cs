@@ -129,7 +129,7 @@ namespace WikiFunctions.Parse
                 string langCode = lang.Attributes["code"].Value;
                 string langName;
 
-                // handle case of wiki not having a name value in sitematrix data                
+                // handle case of wiki not having a name value in sitematrix data
                 try
                 {
                     langName = lang.Attributes["name"].Value;
