@@ -349,22 +349,8 @@ namespace WikiFunctions.Parse
             if (ssb.Any(m => m.Contains(":") && m.ToLower().Contains(":http")))
                 articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
 
-            //  CHECKWIKI error 69
-            bool isbnDash = articleText.Contains("ISBN-");
-            if (isbnDash || articleText.Contains("ISBN:") || articleText.Contains("ISBN\t") || ssb.Contains("[[ISBN]]"))
-                articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
-
-            if (isbnDash)
-                articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
-            
-            if (ssb.Contains("[[ISBN]]"))
-                articleText = SyntaxRegexISBN3.Replace(articleText, "ISBN $1");
-
-            if (ssb.Contains("[[International Standard Book Number|ISBN]]"))
-                articleText = SyntaxRegexISBN4.Replace(articleText, "ISBN $1");
-
-            // Capitalise check digig X in ISBN-10 format
-            articleText = ISBNx.Replace(articleText, "$1X");
+            // apply ISBN fixes
+            articleText = FixSyntaxISBN(articleText, ssb.FindAll(s => s.Contains("ISBN]]")));
 
             if (articleText.Contains("PMID:"))
                 articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
@@ -445,6 +431,28 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.MagicWordsBehaviourSwitches.Replace(articleText, m=> @"__" + m.Groups[1].Value.ToUpper() + @"__");
 
             return articleText.Trim();
+        }
+
+        private static string FixSyntaxISBN(string articleText, List<string> ssbISBN)
+        {
+            //  CHECKWIKI error 69
+            bool isbnDash = articleText.Contains("ISBN-");
+            if (isbnDash || articleText.Contains("ISBN:") || articleText.Contains("ISBN\t") || ssbISBN.Contains("[[ISBN]]"))
+                articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
+
+            if (isbnDash)
+                articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
+
+            if (ssbISBN.Contains("[[ISBN]]"))
+                articleText = SyntaxRegexISBN3.Replace(articleText, "ISBN $1");
+
+            if (ssbISBN.Contains("[[International Standard Book Number|ISBN]]"))
+                articleText = SyntaxRegexISBN4.Replace(articleText, "ISBN $1");
+
+            // Capitalise check digig X in ISBN-10 format
+            articleText = ISBNx.Replace(articleText, "$1X");
+
+            return articleText;
         }
 
         /// <summary>
