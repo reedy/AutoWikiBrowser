@@ -129,6 +129,10 @@ namespace WikiFunctions.Parse
                 string langCode = lang.Attributes["code"].Value;
                 string langName;
 
+                // handle exceptional case that be-x-old uses different site name to language code
+                if(langCode.Equals ("be-x-old"))
+                    langCode = "be-tarask";
+
                 // handle case of wiki not having a name value in sitematrix data
                 try
                 {
