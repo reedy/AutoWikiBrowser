@@ -324,7 +324,8 @@ namespace AutoWikiBrowser
 
                 Size = Properties.Settings.Default.WindowSize;
 
-                WindowState = Properties.Settings.Default.WindowState;
+                // T99305: No vertical scroll bar in diff window: don't restore AWB Minimized as we lose scrollbars
+                WindowState = (Properties.Settings.Default.WindowState == FormWindowState.Minimized ? FormWindowState.Normal : Properties.Settings.Default.WindowState);
 
                 Plugin.LoadPluginsStartup(this, SplashScreen); // progress 25-50 in LoadPlugins()
                 LoadPrefs(); // progress 50-59 in LoadPrefs()
