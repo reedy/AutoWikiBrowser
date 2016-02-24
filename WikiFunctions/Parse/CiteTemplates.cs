@@ -204,6 +204,7 @@ namespace WikiFunctions.Parse
                 pages,
                 page,
                 ISBN,
+                ISSN,
                 origyear,
                 origdate,
                 archiveurl,
@@ -249,6 +250,8 @@ namespace WikiFunctions.Parse
                 contributionurl = "";
             if (!paramsFound.TryGetValue("isbn", out ISBN) && !paramsFound.TryGetValue("ISBN", out ISBN))
                 ISBN = "";
+            if (!paramsFound.TryGetValue("issn", out ISSN) && !paramsFound.TryGetValue("ISSN", out ISSN))
+                ISSN = "";
 
             string theURLoriginal = theURL;
 
@@ -524,11 +527,20 @@ namespace WikiFunctions.Parse
 
             //id=ISSN fix
             Match IdISSNMatch = IdISSN.Match(id);
-            if (IdISSNMatch.Success && Tools.GetTemplateParameterValue(newValue, "issn", true).Length == 0 && Tools.GetTemplateParameterValue(newValue, "eissn", true).Length == 0)
+            if (IdISSNMatch.Success && ISSN.Length == 0 && Tools.GetTemplateParameterValue(newValue, "eissn", true).Length == 0)
             {
                 string newIssn = IdISSNMatch.Groups[1].Value + "-" + IdISSNMatch.Groups[2].Value; // 1234-5678 using standard hyphen
                 newValue = Tools.RenameTemplateParameter(newValue, idParamName, "issn");
                 newValue = Tools.SetTemplateParameterValue(newValue, "issn", newIssn);
+            }
+
+            // format ISSN: 1234-5678 with hyphen
+            if(ISSN.Length > 0)
+            {
+                string newISSN = Regex.Replace (ISSN, @"^([0-9]{4}) *[- ]* *([0-9]{4})$", "$1-$2");
+
+                if (!newISSN.Equals (ISSN))
+                    newValue = Tools.UpdateTemplateParameterValue (newValue, paramsFound.Where (p => p.Key == "ISSN" || p.Key == "issn").FirstOrDefault ().Key, newISSN);
             }
 
             if (ISBN.Length > 0)

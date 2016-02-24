@@ -437,6 +437,20 @@ Bar}} was"), "newline converted to space, any parameter");
         }
 
         [Test]
+        public void FixCitationTemplatesISSNFormat()
+        {
+            const string correct = @"{{cite journal|title=foo|journal=foo|ISSN=1234-5678|year=2009}}";
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=12345678|year=2009}}"), "format ISSN, unspaced");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234 5678|year=2009}}"), "format ISSN, spaced");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234  5678|year=2009}}"), "format ISSN, doublespaced");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234 - 5678|year=2009}}"), "format ISSN, dashed");
+
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct), "No change, already correct");
+
+            Assert.AreEqual(@"{{cite journal|title=foo|journal=foo|issn=1234-5678|year=2009}}", Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|issn=12345678|year=2009}}"), "format lowercase issn");
+        }
+
+        [Test]
         public void FixCitationTemplatesISBN()
         {
             // id=ISBN... fix
@@ -807,7 +821,7 @@ publisher=The BBC|date=3rd June 2009|accessdate=15th January 2010}}"));
             // ISBN, DOI, PMID, PMC, LCCN, ASIN is allowed to be uppercase
             string ISBN = @"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}";
             Assert.AreEqual(ISBN, Parsers.FixCitationTemplates(ISBN));
-            string ISSN = @"{{cite book | author=Smith | title=Great Book | ISSN=15478454 | date=17 May 2004 }}";
+            string ISSN = @"{{cite book | author=Smith | title=Great Book | ISSN=1547-8454 | date=17 May 2004 }}";
             Assert.AreEqual(ISSN, Parsers.FixCitationTemplates(ISSN));
             string OCLC = @"{{cite book | author=Smith | title=Great Book | OCLC=15478454 | date=17 May 2004 }}";
             Assert.AreEqual(OCLC, Parsers.FixCitationTemplates(OCLC));
