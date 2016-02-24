@@ -505,7 +505,6 @@ namespace WikiFunctions.Parse
             }
 
             //id=ISBN fix
-
             if (IdISBN.IsMatch(id) && ISBN.Length == 0)
             {
                 newValue = Tools.RenameTemplateParameter(newValue, "id", "isbn");
