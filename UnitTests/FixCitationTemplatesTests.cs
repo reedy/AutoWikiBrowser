@@ -395,11 +395,6 @@ Bar}} was"), "newline converted to space, any parameter");
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|origdate=}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009|origdate=2005}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|origdate=2005}}"));
 
-            // id=ASIN... fix
-            Assert.AreEqual(@"{{cite book|title=foo|asin=123456789X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ASIN 123456789X|year=2009}}"));
-            Assert.AreEqual(@"{{cite book|title=foo|asin=123456789X |year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ASIN 123456789X |year=2009}}"));
-            Assert.AreEqual(@"{{cite book|title=foo|asin=123-45678-9-X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ASIN: 123-45678-9-X|year=2009}}"));
-
             const string NoChangeSpacedEndashInTitle = @"{{cite web | author=IGN staff | year=2008 | title=IGN Top 100 Games 2008 – 2 Chrono Trigger | url=http://top100.ign.com/2008/ign_top_game_2.html | publisher=IGN | accessdate=March 13, 2009}}";
 
             Assert.AreEqual(NoChangeSpacedEndashInTitle, Parsers.FixCitationTemplates(NoChangeSpacedEndashInTitle));
@@ -407,6 +402,15 @@ Bar}} was"), "newline converted to space, any parameter");
             const string NoChangeFormatGivesSize = @"{{cite web|title=foo|url=http://site.net/asdfsadf.PDF|year=2009|format=150 MB}}";
 
             Assert.AreEqual(NoChangeFormatGivesSize, Parsers.FixCitationTemplates(NoChangeFormatGivesSize));
+        }
+
+        [Test]
+        public void FixCitationTemplatesId()
+        {
+            // id=ASIN... fix
+            Assert.AreEqual(@"{{cite book|title=foo|asin=123456789X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ASIN 123456789X|year=2009}}"));
+            Assert.AreEqual(@"{{cite book|title=foo|asin=123456789X |year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ASIN 123456789X |year=2009}}"));
+            Assert.AreEqual(@"{{cite book|title=foo|asin=123-45678-9-X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ASIN: 123-45678-9-X|year=2009}}"));
         }
 
         [Test]
