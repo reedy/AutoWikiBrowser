@@ -409,8 +409,31 @@ Bar}} was"), "newline converted to space, any parameter");
         {
             // id=ASIN... fix
             Assert.AreEqual(@"{{cite book|title=foo|asin=123456789X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ASIN 123456789X|year=2009}}"));
+            Assert.AreEqual(@"{{cite book|title=foo|asin=123456789X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|ID=ASIN 123456789X|year=2009}}"));
             Assert.AreEqual(@"{{cite book|title=foo|asin=123456789X |year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ASIN 123456789X |year=2009}}"));
             Assert.AreEqual(@"{{cite book|title=foo|asin=123-45678-9-X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ASIN: 123-45678-9-X|year=2009}}"));
+
+            //id=ISSN fix
+            const string correct = @"{{cite journal|title=foo|journal=foo|issn=1234-5678|year=2009}}";
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|id=ISSN 12345678|year=2009}}"), "id ISSN conversion, unspaced");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|id=ISSN: 12345678|year=2009}}"), "id ISSN conversion, colon");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|id=ISSN 1234 5678|year=2009}}"), "id ISSN conversion, spaced");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|id=ISSN 1234  5678|year=2009}}"), "id ISSN conversion, spaced");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|id=ISSN 1234-5678|year=2009}}"), "id ISSN conversion, dashed");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|id=ISSN 1234 - 5678|year=2009}}"), "id ISSN conversion, dashed");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|id=issn 1234-5678|year=2009}}"), "id ISSN conversion, lowercase");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ID=issn 1234-5678|year=2009}}"), "ID ISSN conversion, uppercase ID");
+
+            const string BadISSN = @"{{cite journal|title=foo|journal=foo|id=issn 1234-56789X|year=2009}}";
+            Assert.AreEqual(BadISSN, Parsers.FixCitationTemplates(BadISSN), "No change, invalid ISSN");
+            string ExistingISSN = @"{{cite journal|title=foo|journal=foo|id=issn 1234-5678|year=2009|issn= 1234-5678}}";
+            Assert.AreEqual(ExistingISSN, Parsers.FixCitationTemplates(ExistingISSN), "No change, existing issn");
+            ExistingISSN = @"{{cite journal|title=foo|journal=foo|id=issn 1234-5678|year=2009|ISSN= 1234-5678}}";
+            Assert.AreEqual(ExistingISSN, Parsers.FixCitationTemplates(ExistingISSN), "No change, existing ISSN");
+            ExistingISSN = @"{{cite journal|title=foo|journal=foo|id=issn 1234-5678|year=2009|eissn= 1234-5678}}";
+            Assert.AreEqual(ExistingISSN, Parsers.FixCitationTemplates(ExistingISSN), "No change, existing eissn");
+            ExistingISSN = @"{{cite journal|title=foo|journal=foo|id=issn 1234-5678|year=2009|EISSN= 1234-5678}}";
+            Assert.AreEqual(ExistingISSN, Parsers.FixCitationTemplates(ExistingISSN), "No change, existing EISSN");
         }
 
         [Test]
@@ -419,6 +442,7 @@ Bar}} was"), "newline converted to space, any parameter");
             // id=ISBN... fix
             Assert.AreEqual(@"{{cite book|title=foo|isbn=123456789X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN 123456789X|year=2009}}"));
             Assert.AreEqual(@"{{cite book|title=foo|isbn=123456789X |year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN 123456789X |year=2009}}"));
+            Assert.AreEqual(@"{{cite book|title=foo|isbn=123456789X |year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|ID=ISBN 123456789X |year=2009}}"));
             Assert.AreEqual(@"{{cite book|title=foo|isbn=123-45678-9-X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN: 123-45678-9-X|year=2009}}"));
 
             string doubleISBN = @"{{cite book|title=foo|id=ISBN 012345678X, 978012345678X|year=2009}}";

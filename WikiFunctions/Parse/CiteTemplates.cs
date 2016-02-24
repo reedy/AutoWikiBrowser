@@ -154,6 +154,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex IdISBN = new Regex(@"^ISBN:?\s*([\d \-]+X?)$");
         private static readonly Regex IdASIN = new Regex(@"^ASIN:?\s*([\d \-]+X?)$");
+        private static readonly Regex IdISSN = new Regex(@"^ISSN:?\s*([0-9]{4}) *[- ]? *([0-9]{4})$", RegexOptions.IgnoreCase);
         private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
         private static readonly Regex ISBNDash = new Regex(@"(\d)[–](\d|X$)");
         private static readonly Regex BalancedArrows = new Regex(@"(?:«([^»]+)»|‹([^›]+)›)");
@@ -209,7 +210,7 @@ namespace WikiFunctions.Parse
                 contributionurl;
             if (!paramsFound.TryGetValue("url", out theURL))
                 theURL = "";
-            if (!paramsFound.TryGetValue("id", out id))
+            if (!paramsFound.TryGetValue("id", out id) && !paramsFound.TryGetValue("ID", out id))
                 id = "";
             if (!paramsFound.TryGetValue("format", out format))
                 format = "";
@@ -504,18 +505,30 @@ namespace WikiFunctions.Parse
                 newValue += (" " + deadLink);
             }
 
+            // get id param name, id or ID
+            string idParamName = paramsFound.Where(p => p.Key == "ID" || p.Key == "id").FirstOrDefault().Key;
+
             //id=ISBN fix
             if (IdISBN.IsMatch(id) && ISBN.Length == 0)
             {
-                newValue = Tools.RenameTemplateParameter(newValue, "id", "isbn");
+                newValue = Tools.RenameTemplateParameter(newValue, idParamName, "isbn");
                 newValue = Tools.SetTemplateParameterValue(newValue, "isbn", IdISBN.Match(id).Groups[1].Value.Trim());
             }
 
             //id=ASIN fix
             if (IdASIN.IsMatch(id) && Tools.GetTemplateParameterValue(newValue, "asin", true).Length == 0)
             {
-                newValue = Tools.RenameTemplateParameter(newValue, "id", "asin");
+                newValue = Tools.RenameTemplateParameter(newValue, idParamName, "asin");
                 newValue = Tools.SetTemplateParameterValue(newValue, "asin", IdASIN.Match(id).Groups[1].Value.Trim());
+            }
+
+            //id=ISSN fix
+            Match IdISSNMatch = IdISSN.Match(id);
+            if (IdISSNMatch.Success && Tools.GetTemplateParameterValue(newValue, "issn", true).Length == 0 && Tools.GetTemplateParameterValue(newValue, "eissn", true).Length == 0)
+            {
+                string newIssn = IdISSNMatch.Groups[1].Value + "-" + IdISSNMatch.Groups[2].Value; // 1234-5678 using standard hyphen
+                newValue = Tools.RenameTemplateParameter(newValue, idParamName, "issn");
+                newValue = Tools.SetTemplateParameterValue(newValue, "issn", newIssn);
             }
 
             if (ISBN.Length > 0)
