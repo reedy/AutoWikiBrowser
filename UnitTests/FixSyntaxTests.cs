@@ -62,7 +62,18 @@ namespace UnitTests
             Assert.AreEqual(@"ISBN 9711005522", Parsers.FixSyntax(@"[[ISBN]] [[Special:BookSources/9711005522|9711005522]]"), "ISBNT substed");
             Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[ISBN]] [[Special:BookSources/9780881925166|9780881925166]]"), "ISBNT substed");
             Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[International Standard Book Number|ISBN]] [[Special:BookSources/9780881925166|9780881925166]]"), "ISBNT substed");
+        }
 
+        [Test]
+        public void FixISBNInfobox()
+        {
+            Assert.AreEqual(@"{{infobox foo|isbn=9711005522 }}", Parsers.FixSyntax(@"{{infobox foo|isbn=ISBN 9711005522 }}"), "ISBN removed in infobox isbn parameter");
+            Assert.AreEqual(@"{{infobox foo|isbn=9711005522 }}", Parsers.FixSyntax(@"{{infobox foo|isbn=ISBN: 9711005522 }}"), "ISBN: removed in infobox isbn parameter");
+            Assert.AreEqual(@"{{infobox foo|isbn=9711005522 }}", Parsers.FixSyntax(@"{{infobox foo|isbn=ISBN : 9711005522 }}"), "ISBN : removed in infobox isbn parameter");
+            Assert.AreEqual(@"{{infobox foo|isbn=9711005522 }}", Parsers.FixSyntax(@"{{infobox foo|isbn=ISBN  9711005522 }}"), "ISBN removed in infobox isbn parameter, extra space");
+            Assert.AreEqual(@"{{infobox foo|isbn=9711005522 }} {{infobox foo|isbn=9744005522 }}", Parsers.FixSyntax(@"{{infobox foo|isbn=ISBN 9711005522 }} {{infobox foo|isbn=ISBN 9744005522 }}"), "ISBN removed in infobox isbn parameter, multiple infoxboxes");
+            Assert.AreEqual(@"{{infobox foo|isbn=9711005522 }}", Parsers.FixSyntax(@"{{infobox foo|isbn=9711005522 }}"), "No change when isbn= already correct");
+            Assert.AreEqual(@"{{infobox foo|foo=ISBN 9711005522 }}", Parsers.FixSyntax(@"{{infobox foo|foo=ISBN 9711005522 }}"), "No change to non-isbn parameter");
         }
 
         [Test]

@@ -452,6 +452,18 @@ namespace WikiFunctions.Parse
             // Capitalise check digig X in ISBN-10 format
             articleText = ISBNx.Replace(articleText, "$1X");
 
+            // remove ISBN from start of isbn= parameter in infoboxes
+            if(TemplateExists(GetAllTemplates(articleText), WikiRegexes.InfoBox))
+            {
+                foreach(string infobox in GetAllTemplateDetail(articleText).Where(t => WikiRegexes.InfoBox.IsMatch(t)))
+                {
+                    string isbn = Tools.GetTemplateParameterValue(infobox, "isbn");
+
+                    if(isbn.StartsWith("ISBN"))
+                        articleText = articleText.Replace(infobox, Tools.UpdateTemplateParameterValue(infobox, "isbn", Regex.Replace(isbn, @"^ISBN\s*:?\s*", "")));
+                }
+            }
+
             return articleText;
         }
 
