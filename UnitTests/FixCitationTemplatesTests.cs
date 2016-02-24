@@ -430,10 +430,6 @@ Bar}} was"), "newline converted to space, any parameter");
             Assert.AreEqual(ExistingISSN, Parsers.FixCitationTemplates(ExistingISSN), "No change, existing issn");
             ExistingISSN = @"{{cite journal|title=foo|journal=foo|id=issn 1234-5678|year=2009|ISSN= 1234-5678}}";
             Assert.AreEqual(ExistingISSN, Parsers.FixCitationTemplates(ExistingISSN), "No change, existing ISSN");
-            ExistingISSN = @"{{cite journal|title=foo|journal=foo|id=issn 1234-5678|year=2009|eissn= 1234-5678}}";
-            Assert.AreEqual(ExistingISSN, Parsers.FixCitationTemplates(ExistingISSN), "No change, existing eissn");
-            ExistingISSN = @"{{cite journal|title=foo|journal=foo|id=issn 1234-5678|year=2009|EISSN= 1234-5678}}";
-            Assert.AreEqual(ExistingISSN, Parsers.FixCitationTemplates(ExistingISSN), "No change, existing EISSN");
         }
 
         [Test]

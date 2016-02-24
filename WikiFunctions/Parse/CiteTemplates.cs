@@ -527,7 +527,7 @@ namespace WikiFunctions.Parse
 
             //id=ISSN fix
             Match IdISSNMatch = IdISSN.Match(id);
-            if (IdISSNMatch.Success && ISSN.Length == 0 && Tools.GetTemplateParameterValue(newValue, "eissn", true).Length == 0)
+            if (IdISSNMatch.Success && ISSN.Length == 0)
             {
                 string newIssn = IdISSNMatch.Groups[1].Value + "-" + IdISSNMatch.Groups[2].Value; // 1234-5678 using standard hyphen
                 newValue = Tools.RenameTemplateParameter(newValue, idParamName, "issn");
