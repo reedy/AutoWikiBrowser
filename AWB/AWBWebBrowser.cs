@@ -42,7 +42,7 @@ namespace AutoWikiBrowser
 
             return base.PreProcessMessage(ref msg);
         }
-    
+
         /// <summary>
         /// Copies the selected text (if any) to the clipboard
         /// </summary>
@@ -50,7 +50,7 @@ namespace AutoWikiBrowser
         {
             Document.ExecCommand("Copy", false, null);
         }
-    
+
         /// <summary>
         /// Returns whether there is currently any text selected
         /// Only works if Microsoft.mshtml.dll is available
