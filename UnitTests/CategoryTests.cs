@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -654,7 +654,6 @@ died 2002
             const string a = @"Mr foo {{persondata}} was great
 [[Category:1960 deaths]]";
             Assert.AreEqual(a + "\r\n", Parsers.FixPeopleCategories(a + "\r\n" + @"[[Category:Year of death missing]]", "test"));
-
         }
 
         [Test]
@@ -693,7 +692,6 @@ died 2002
             Assert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990"));
             Assert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990_births]]", @"1990 births"));
         }
-
 
         [Test]
         public void LivingPeopleTests()
@@ -791,7 +789,6 @@ died 2002
             Assert.AreEqual(correct, Parsers.FixSyntax(correct));
         }
 
-
         [Test]
         public void TestFixCategories()
         {
@@ -803,7 +800,6 @@ died 2002
             Assert.AreEqual(@"[[Category:Foo bar]]", Parsers.FixCategories(@"[[Category::Foo bar]]"));
             Assert.AreEqual(@"[[Category:Foo bar]]", Parsers.FixCategories(@"[[Category  :  Foo_bar  ]]"));
             Assert.AreEqual("[[Category:Foo bar]]", Parsers.FixCategories("[[CATEGORY: Foo_bar]]"));
-
 
             // https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&oldid=262844859#General_fixes_remove_spaces_from_category_sortkeys
             Assert.AreEqual(@"[[Category:Public transport in Auckland| Public transport in Auckland]]", Parsers.FixCategories(@"[[Category:Public transport in Auckland| Public transport in Auckland]]"));
@@ -849,7 +845,5 @@ died 2002
             Assert.AreEqual(@"[[Category:London]]", Parsers.FixCategories(@"[[[[Category:London]]]]"));
             Assert.AreEqual(@"[[Category:London]]", Parsers.FixCategories(@"[[Category:London]]"));
         }
-
-
     }
 }

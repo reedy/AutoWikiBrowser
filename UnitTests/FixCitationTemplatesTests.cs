@@ -198,25 +198,25 @@ Bar}} was"), "newline converted to space, any parameter");
         [Test]
         public void FixCitationTemplatesMonthWithinDate()
         {
-        	string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 May 2009}}",
-        	nochange = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 May 2009 | month=March}}";
+            string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 May 2009}}",
+            nochange = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 May 2009 | month=March}}";
 
-        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct.Replace(@"}}", @"|month=May}}")), "month removed when within date");
-        	Assert.AreEqual(nochange, Parsers.FixCitationTemplates(nochange), "month not removed if different to month in date");
-        	
-        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct.Replace(@"}}", @"|month=5}}")), "number month removed when within date");
-        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct.Replace(@"}}", @"|month=05}}")), "number month removed when within date");
-        	
-        	string correct2 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 December 2009}}",
-        	nochange2 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 May 2009 | month=2}}";
-        	Assert.AreEqual(correct2, Parsers.FixCitationTemplates(correct2.Replace(@"}}", @"|month=12}}")), "number month removed when within date");
-        	Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2), "nn month not removed if different to month in date");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct.Replace(@"}}", @"|month=May}}")), "month removed when within date");
+            Assert.AreEqual(nochange, Parsers.FixCitationTemplates(nochange), "month not removed if different to month in date");
 
-        	Assert.AreEqual(@"{{cite journal|last=Mahoney|first=Noreen|date=2010 April 14|volume=58}}", 
-        	                Parsers.FixCitationTemplates(@"{{cite journal|last=Mahoney|first=Noreen|date=2010 April 14|year=2010|month=April|volume=58}}"), "year not added when date already has it");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct.Replace(@"}}", @"|month=5}}")), "number month removed when within date");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct.Replace(@"}}", @"|month=05}}")), "number month removed when within date");
 
-        	string correct3 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-12-17}}";
-        	Assert.AreEqual(correct3, Parsers.FixCitationTemplates(correct3.Replace(@"}}", @"|month=December}}")), "number month removed when within date");
+            string correct2 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 December 2009}}",
+            nochange2 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 May 2009 | month=2}}";
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(correct2.Replace(@"}}", @"|month=12}}")), "number month removed when within date");
+            Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2), "nn month not removed if different to month in date");
+
+            Assert.AreEqual(@"{{cite journal|last=Mahoney|first=Noreen|date=2010 April 14|volume=58}}", 
+                            Parsers.FixCitationTemplates(@"{{cite journal|last=Mahoney|first=Noreen|date=2010 April 14|year=2010|month=April|volume=58}}"), "year not added when date already has it");
+
+            string correct3 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-12-17}}";
+            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(correct3.Replace(@"}}", @"|month=December}}")), "number month removed when within date");
         }
 
         [Test]
@@ -875,5 +875,5 @@ publisher=The BBC|date=3rd June 2009|accessdate=15th January 2010}}"));
             Assert.AreEqual(@"now {{cite web| url=http://site.net cool site]|title=hello}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=http://site.net cool site]|title=hello}} was"));
             Assert.AreEqual(@"now {{cite web| url=[http://site.net cool site|title=hello}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=[http://site.net cool site|title=hello}} was"));
         }
-	}
+    }
 }

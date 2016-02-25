@@ -766,7 +766,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         [Test]
         public void OrdeOfWikimediaProjects()
         {
-        	// Be very causious if changing order or Wikimedia Projects
+            // Be very causious if changing order or Wikimedia Projects
             Assert.IsTrue(ProjectEnum.commons > ProjectEnum.species);
             Assert.IsTrue(ProjectEnum.meta > ProjectEnum.commons);
             Assert.IsTrue(ProjectEnum.mediawiki > ProjectEnum.meta);
