@@ -424,6 +424,8 @@ Bar}} was"), "newline converted to space, any parameter");
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|id=issn 1234-5678|year=2009}}"), "id ISSN conversion, lowercase");
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ID=issn 1234-5678|year=2009}}"), "ID ISSN conversion, uppercase ID");
 
+            Assert.AreEqual(@"{{cite journal|title=foo|journal=foo|issn=1234-567X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|id=ISSN 1234567X|year=2009}}"), "id ISSN conversion, unspaced");
+
             const string BadISSN = @"{{cite journal|title=foo|journal=foo|id=issn 1234-56789X|year=2009}}";
             Assert.AreEqual(BadISSN, Parsers.FixCitationTemplates(BadISSN), "No change, invalid ISSN");
             string ExistingISSN = @"{{cite journal|title=foo|journal=foo|id=issn 1234-5678|year=2009|issn= 1234-5678}}";
@@ -440,6 +442,7 @@ Bar}} was"), "newline converted to space, any parameter");
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234 5678|year=2009}}"), "format ISSN, spaced");
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234  5678|year=2009}}"), "format ISSN, doublespaced");
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234 - 5678|year=2009}}"), "format ISSN, dashed");
+            Assert.AreEqual(@"{{cite journal|title=foo|journal=foo|ISSN=1234-567X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234567X|year=2009}}"), "format ISSN, dashed");
 
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct), "No change, already correct");
 
