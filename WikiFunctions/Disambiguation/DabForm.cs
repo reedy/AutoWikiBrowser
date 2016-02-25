@@ -83,7 +83,7 @@ namespace WikiFunctions.Disambiguation
             }
 
             if (!Variants.Any())
-            	return articleText;
+                return articleText;
 
             BotMode = botMode;
 

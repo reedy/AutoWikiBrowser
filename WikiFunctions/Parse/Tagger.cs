@@ -807,7 +807,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string TagRefsIbid(string articleText)
         {
-        	if (Variables.LangCode.Equals("en") && IbidOpCitRef.IsMatch(articleText) && !WikiRegexes.Ibid.IsMatch(articleText))
+            if (Variables.LangCode.Equals("en") && IbidOpCitRef.IsMatch(articleText) && !WikiRegexes.Ibid.IsMatch(articleText))
             {
                 tagsAdded.Add("Ibid");
                 return @"{{Ibid|" + WikiRegexes.DateYearMonthParameter + @"}}" + articleText;

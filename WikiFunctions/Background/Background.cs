@@ -275,7 +275,7 @@ namespace WikiFunctions.Background
         /// </summary>
         private void BypassRedirectsFunc()
         {
-        	// checks links to make them bypass redirects and (TODO) disambigs
+            // checks links to make them bypass redirects and (TODO) disambigs
             Dictionary<string, string> knownLinks = new Dictionary<string, string>();
 
             if (HasUI) UI.Worker = Thread.CurrentThread;

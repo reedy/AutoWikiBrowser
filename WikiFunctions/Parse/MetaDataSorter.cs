@@ -107,7 +107,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public InterWikiOrderEnum InterWikiOrder
         {
-        	// orders from https://meta.wikimedia.org/wiki/Interwiki_sorting_order
+            // orders from https://meta.wikimedia.org/wiki/Interwiki_sorting_order
             set
             {
                 Order = value;

@@ -271,7 +271,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikipediaEN
         {
-        	get { return (Project == ProjectEnum.wikipedia && LangCode.Equals("en")); }
+            get { return (Project == ProjectEnum.wikipedia && LangCode.Equals("en")); }
         }
 
         /// <summary>
@@ -419,7 +419,7 @@ namespace WikiFunctions
                 lock (DelayedRequests)
                 {
                     if (DelayedRequests.Count == 0)
-                    	return;
+                        return;
                 }
                 Thread.Sleep(100);
             } while (true);

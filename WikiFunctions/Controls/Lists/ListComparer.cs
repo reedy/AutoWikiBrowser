@@ -65,7 +65,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void UpdateButtons(object sender, EventArgs e)
         {
-        	btnGo.Enabled = (listMaker1.Any() && listMaker2.Any());
+            btnGo.Enabled = (listMaker1.Any() && listMaker2.Any());
         }
 
         /// <summary>
