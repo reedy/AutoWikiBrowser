@@ -60,14 +60,11 @@ namespace WikiFunctions.Parse
                 TRs.Add(Tools.NestedTemplateRegex(redirectsList), templateName);
                 AllRedirectsList.AddRange(redirectsList);
             }
-            
+
             WikiRegexes.AllTemplateRedirects = Tools.NestedTemplateRegex(AllRedirectsList);
 
-            // must use separate functions to set value: if HashSets in same function compiler will pre-load them even if not used
-            if (Globals.SystemCore3500Available)
-                SetAllTemplateRedirectsHashSet(AllRedirectsList);
-            else
-                SetAllTemplateRedirectsList(AllRedirectsList);
+            SetAllTemplateRedirectsHashSet(AllRedirectsList);
+
 
             return TRs;
         }
@@ -79,15 +76,6 @@ namespace WikiFunctions.Parse
         private static void SetAllTemplateRedirectsHashSet(List<string> RedirectsList)
         {
             WikiRegexes.AllTemplateRedirectsHS = new HashSet<string>(RedirectsList);
-        }
-        
-        /// <summary>
-        /// Sets the WikiRegexes .AllTemplateRedirects List
-        /// </summary>
-        /// <param name="RedirectsList"></param>
-        private static void SetAllTemplateRedirectsList(List<string> RedirectsList)
-        {
-            WikiRegexes.AllTemplateRedirectsList = RedirectsList;
         }
 
         /// <summary>
@@ -117,10 +105,7 @@ namespace WikiFunctions.Parse
             if (WikiRegexes.AllTemplateRedirects == null)
                 return articleText;
 
-            if (Globals.SystemCore3500Available)
-                newArticleText = TemplateRedirectsHashSet(articleText, DictionaryOfTemplateRedirects);
-            else
-                newArticleText = TemplateRedirectsList(articleText, DictionaryOfTemplateRedirects);
+            newArticleText = TemplateRedirectsHashSet(articleText, DictionaryOfTemplateRedirects);
 
             // call TemplateToMagicWord if changes made
             if (!newArticleText.Equals(articleText))
@@ -177,39 +162,6 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        /// <summary>
-        /// (slower) version of TemplateRedirects using List
-        /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="TemplateRedirects"></param>
-        /// <returns></returns>
-        private static string TemplateRedirectsList(string articleText, Dictionary<Regex, string> TemplateRedirects)
-        {
-            List<string> TFH = GetAllTemplates(articleText);
-
-            // if matches found, run replacements
-            List<string> TFH2 = TFH.Where(s => WikiRegexes.AllTemplateRedirectsList.Contains(s)).ToList();
-
-            if (TFH2.Any())
-            {
-                articleText = Tools.NestedTemplateRegex(TFH2).Replace(articleText, m2 =>
-                {
-                    string res = m2.Value;
-
-                    foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
-                    {
-                        res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
-
-                        // if template name changed and not nested template, done, so break out
-                        if (!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
-                            break;
-                    }
-                    return res;
-                });
-            }
-            return articleText;
-        }
-
         private static readonly Regex AcronymTemplate = new Regex(@"^[A-Z]{3}");
 
         private static string TemplateRedirectsME(Match m, string newTemplateName)
@@ -236,9 +188,7 @@ namespace WikiFunctions.Parse
         /// <returns>List of all templates in text</returns>
         public static List<string> GetAllTemplates(string articleText)
         {
-            if (Globals.SystemCore3500Available)
-                return GetAllTemplatesNew(articleText);
-            return GetAllTemplatesOld(articleText);
+            return GetAllTemplatesNew(articleText);
         }
 
         private static object GetAllTemplatesNewQueueLock = new object();
@@ -310,41 +260,6 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Extracts a list of all templates used in the input text. Template name given in first letter upper. .NET 2.0 version not using HashSet
-        /// </summary>
-        /// <param name="articleText"></param>
-        /// <returns></returns>
-        private static List<string> GetAllTemplatesOld(string articleText)
-        {
-            /* performance: faster to process all templates, extract rough template name then get exact template names later
-             than to get exact template name for each template found */
-            // process all templates, handle nested templates to any level of nesting
-            List<string> TFH = new List<string>();
-            foreach(Match m in NestedTemplates.Matches(articleText))
-            {
-                TFH.Add(m.Groups[1].Value);
-                string template = m.Value.Substring(2);
-
-                while(NestedTemplates.IsMatch(template))
-                {
-                    Match m2 = NestedTemplates.Match(template);
-                    TFH.Add(m2.Groups[1].Value);
-                    template = template.Substring(m2.Index + 2);
-                }
-            }
-
-            // now extract exact template names
-            TFH = Tools.DeduplicateList(TFH);
-            List<string> TFH2 = new List<string>();
-            foreach(string s in TFH)
-            {
-                TFH2.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}")));
-            }
-
-            return Tools.DeduplicateList(TFH2);
-        }
-
-        /// <summary>
         /// Extracts a distinct list of all template calls in the input text, supporting any level of template nesting.
         /// </summary>
         /// <param name="articleText"></param>
@@ -403,10 +318,7 @@ namespace WikiFunctions.Parse
                 {
                     string res = m.Value;
 
-                    if(Globals.SystemCore3500Available)
-                        res = RenameTemplateParametersHashSetME(m, RenamedTemplateParameters);
-                    else
-                        res = RenameTemplateParametersME(m, RenamedTemplateParameters);
+                    res = RenameTemplateParametersHashSetME(m, RenamedTemplateParameters);
 
                     if (!m.Value.Equals(res))
                         articleText = articleText.Replace(m.Value, res);
@@ -441,26 +353,6 @@ namespace WikiFunctions.Parse
                     if (string.IsNullOrEmpty(newp))
                         newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
                 }
-            }
-
-            return newvalue;
-        }
-
-        /// <summary>
-        /// Less performant RenameTemplateParameters not using HashSets
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="RenamedTemplateParameters"></param>
-        /// <returns></returns>
-        private static string RenameTemplateParametersME(Match m, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
-        {
-            string templatename = Tools.TurnFirstToLower(m.Groups[2].Value), newvalue = m.Value;
-
-            foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
-            {
-                if (Params.TemplateName.Equals(templatename) && newvalue.Contains(Params.OldParameter)
-                    && Tools.GetTemplateParameterValue(m.Value, Params.NewParameter).Length == 0)
-                    newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
             }
 
             return newvalue;
