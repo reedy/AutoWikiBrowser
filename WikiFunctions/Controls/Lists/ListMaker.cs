@@ -749,7 +749,7 @@ namespace WikiFunctions.Controls.Lists
                 l = l.FindAll(a => a.NameSpaceKey == Namespace.Article);
 
             // if deduplicating, only add items not already in the list, rather than adding all and deduplicating entire list again
-            if (FilterDuplicates && Globals.SystemCore3500Available)
+            if (FilterDuplicates)
                 l = DeDuplicate(l);
 
             if (l.Any())
@@ -757,9 +757,6 @@ namespace WikiFunctions.Controls.Lists
                 lbArticles.BeginUpdate();
                 lbArticles.Items.AddRange(l.ToArray());
                 lbArticles.EndUpdate();
-
-                if (FilterDuplicates && !Globals.SystemCore3500Available)
-                    RemoveListDuplicates();
 
                 UpdateNumberOfArticles();
             }
