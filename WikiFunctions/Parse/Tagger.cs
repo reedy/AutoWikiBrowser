@@ -1207,6 +1207,10 @@ namespace WikiFunctions.Parse
                 && !Tools.NestedTemplateRegex(WikiRegexes.RFromOtherCapitaliastionList).IsMatch(articleText))
                 return (articleText + " " + WikiRegexes.RFromOtherCapitalisationString);
 
+            // {{R to section}}
+            if(redirecttarget.Contains("#"))
+                return (articleText + " {{R to section}}");
+
             return articleText;
         }
     }

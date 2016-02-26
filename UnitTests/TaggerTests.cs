@@ -1553,6 +1553,15 @@ Chris.";
         }
 
         [Test]
+        public void RedirectTaggerSection()
+        {
+            const string correct = @"#REDIRECT:[[Foo#Bar]] {{R to section}}";
+
+            Assert.AreEqual(correct, Parsers.RedirectTagger(@"#REDIRECT:[[Foo#Bar]]", "Foo"), "Tag r to section");
+            Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "Foo"), "No change when already tagged");
+        }
+
+        [Test]
         public void TagRefsIbid()
         {
             string returned = parser.Tagger(@"now<ref>ibid</ref> was", "test", false, ref summary);
