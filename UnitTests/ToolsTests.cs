@@ -603,7 +603,8 @@ bar"));
             Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT:[[Foo]]"));
             Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT : [[Foo]]"));
 
-            Assert.AreEqual("Foo#bar", Tools.RedirectTarget("#REDIRECT [[Foo#bar]]"));
+            Assert.AreEqual("Foo#bar", Tools.RedirectTarget("#REDIRECT [[Foo#bar]]"), "redirect to section");
+            Assert.AreEqual("Foo#bar", Tools.RedirectTarget("#REDIRECT [[Foo#bar|other]]"), "redirect to section, piped link");
 
             Assert.AreEqual("", Tools.RedirectTarget("<nowiki>#REDIRECT  [[Foo]]</nowiki>"));
 
