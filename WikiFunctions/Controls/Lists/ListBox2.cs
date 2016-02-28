@@ -159,9 +159,9 @@ namespace WikiFunctions.Controls.Lists
                         Items.RemoveAt(SelectedIndex);
                 }
                 else if (filterDuplicates)
-                    RemoveSelectedNew();
+                    RemoveSelectedNoDupes();
                 else
-                    RemoveSelectedOld();
+                    RemoveSelectedAllowDupes();
 
                 // update selected index: if last deleted article was at end of list then set selected item at end of list
                 if (Items.Count > i)
@@ -177,7 +177,7 @@ namespace WikiFunctions.Controls.Lists
         /// Operates in two modes: a relatively quick (even at 50k volumes) mode when the selected items are in a contiguous block
         /// OR an individual mode for non-contiguous selections, which can be very slow on large volumes
         /// </summary>
-        private void RemoveSelectedOld()
+        private void RemoveSelectedAllowDupes()
         {
             // is this a contiguous block of selected items: e.g. last selected minus first selected+1 equals the number of selected items
             if (SelectedIndices[SelectedItems.Count - 1] - SelectedIndex + 1 == SelectedItems.Count)
@@ -205,7 +205,7 @@ namespace WikiFunctions.Controls.Lists
 
         // Fast implementation to remove the currently selected articles from the list, making use of List.Except method
         // As list is implicitly deduplicated, only use for main listbox if remove duplicates option is on
-        private void RemoveSelectedNew()
+        private void RemoveSelectedNoDupes()
         {
             List<Article> articles = Items.Cast<Article>().ToList();
             List<Article> Sarticles = SelectedItems.Cast<Article>().ToList();
