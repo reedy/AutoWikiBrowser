@@ -2412,6 +2412,16 @@ bar
             lbArticles.SetSelected(2, true);
             lbArticles.RemoveSelected(false);
             Assert.AreEqual(lbArticles.Items.Count, 2, "Duplicates not removed if not in duplicate mode");
+
+            lbArticles.Items.Clear();
+            lbArticles.Items.Add(new Article("A"));
+            lbArticles.Items.Add(new Article("B"));
+            lbArticles.Items.Add(new Article("C"));
+            lbArticles.SetSelected(0, true);
+            lbArticles.SetSelected(1, true);
+            lbArticles.SetSelected(2, true);
+            lbArticles.RemoveSelected(false);
+            Assert.AreEqual(lbArticles.Items.Count, 0, "List cleared if all items selected and removed");
         }
     }
     
