@@ -1695,12 +1695,11 @@ namespace WikiFunctions.Parse
             Dictionary<string, string> data = new Dictionary<string, string>();
             // match only the COinS section of the text
             text = coinsR.Match(text).Groups[1].Value;
-            text = HttpUtility.UrlDecode(text);
 
             foreach(Match m in coinsParam.Matches(text))
             {
                 if (!data.ContainsKey(m.Groups[1].Value))
-                    data.Add(m.Groups[1].Value, m.Groups[2].Value);
+                    data.Add(m.Groups[1].Value, HttpUtility.UrlDecode(m.Groups[2].Value));
             }
 
             return data;
