@@ -154,7 +154,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex IdISBN = new Regex(@"^ISBN:?\s*([\d \-]+X?)$");
         private static readonly Regex IdASIN = new Regex(@"^ASIN:?\s*([\d \-]+X?)$");
-        private static readonly Regex IdISSN = new Regex(@"^ISSN:?\s*([0-9]{4}) *[- ]? *([0-9]{3}[0-9X])$", RegexOptions.IgnoreCase);
+        private static readonly Regex IdISSN = new Regex(@"^ISSN:?\s*([0-9]{4}) *[- –]? *([0-9]{3}[0-9X])$", RegexOptions.IgnoreCase);
         private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
         private static readonly Regex ISBNDash = new Regex(@"(\d)[–](\d|X$)");
         private static readonly Regex BalancedArrows = new Regex(@"(?:«([^»]+)»|‹([^›]+)›)");
@@ -540,7 +540,7 @@ namespace WikiFunctions.Parse
             // format ISSN: 1234-5678 with hyphen
             if(ISSN.Length > 0)
             {
-                string newISSN = Regex.Replace (ISSN, @"^([0-9]{4}) *[- ]* *([0-9]{3}[0-9X])$", "$1-$2");
+                string newISSN = Regex.Replace (ISSN, @"^([0-9]{4}) *[- –]* *([0-9]{3}[0-9X])$", "$1-$2");
 
                 if (!newISSN.Equals (ISSN))
                     newValue = Tools.UpdateTemplateParameterValue (newValue, paramsFound.Where (p => p.Key == "ISSN" || p.Key == "issn").FirstOrDefault ().Key, newISSN);

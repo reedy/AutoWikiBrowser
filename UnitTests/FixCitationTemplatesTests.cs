@@ -439,6 +439,7 @@ Bar}} was"), "newline converted to space, any parameter");
         {
             const string correct = @"{{cite journal|title=foo|journal=foo|ISSN=1234-5678|year=2009}}";
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=12345678|year=2009}}"), "format ISSN, unspaced");
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234–5678|year=2009}}"), "format ISSN, dash");
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234 5678|year=2009}}"), "format ISSN, spaced");
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234  5678|year=2009}}"), "format ISSN, doublespaced");
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|title=foo|journal=foo|ISSN=1234 - 5678|year=2009}}"), "format ISSN, dashed");
