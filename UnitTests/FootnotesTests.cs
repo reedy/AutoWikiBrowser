@@ -813,7 +813,7 @@ Bar4.<ref name=""ABCDEFGHI""/>
 |date=, |year=, |publicationdate=, |publication-date=
 |series= |volume= |issue=, |number= |page=, |pages=, |at=
 |edition= |publisher=, |institution=
-|journal=, |jstor=, |agency=, |archive-date=, |others= }}"));
+|journal=, |jstor=, |agency=, |archive-date=, |others= | vauthors =}}"));
 
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite arxiv|display-authors=0}} was"));
 
