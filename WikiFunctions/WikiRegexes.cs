@@ -911,7 +911,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various citation templates {{citation}}, {{cite web}} etc. on en-wiki
         /// </summary>
-        public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "cite news", "cite journal", "cite book", "citation", "cite conference", "cite hansard", "cite manual", "cite paper", "cite press release", "cite encyclopedia", "cite AV media", "vcite2 journal" }, false);
+        public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "cite news", "cite journal", "cite book", "citation", "cite conference", "cite hansard", "cite manual", "cite paper", "cite press release", "cite encyclopedia", "cite AV media", "vcite2 journal", "cite magazine" }, false);
         
         /// <summary>
         /// Matches the various url templates {{URL}} etc. on en-wiki
