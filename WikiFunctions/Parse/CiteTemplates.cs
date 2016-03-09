@@ -152,9 +152,9 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex IdISBN = new Regex(@"^ISBN:?\s*([\d \-]+X?)$");
-        private static readonly Regex IdASIN = new Regex(@"^ASIN:?\s*([\d \-]+X?)$");
-        private static readonly Regex IdISSN = new Regex(@"^ISSN:?\s*([0-9]{4}) *[- –]? *([0-9]{3}[0-9X])$", RegexOptions.IgnoreCase);
+        private static readonly Regex IdISBN = new Regex(@"^ISBN ?[:=]?\s*([\d \-]+X?)$");
+        private static readonly Regex IdASIN = new Regex(@"^ASIN ?[:=]?\s*([\d \-]+X?)$");
+        private static readonly Regex IdISSN = new Regex(@"^ISSN ?[:=]?\s*([0-9]{4}) *[- –]? *([0-9]{3}[0-9X])$", RegexOptions.IgnoreCase);
         private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
         private static readonly Regex ISBNDash = new Regex(@"(\d)[–](\d|X$)");
         private static readonly Regex BalancedArrows = new Regex(@"(?:«([^»]+)»|‹([^›]+)›)");
