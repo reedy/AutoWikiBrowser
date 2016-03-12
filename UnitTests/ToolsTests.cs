@@ -2408,6 +2408,8 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual("ONEWORDNAME", Tools.MakeHumanCatKey("ONEWORDNAME", ""));
             Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("Onewordname", ""));
             Assert.AreEqual("onewordname", Tools.MakeHumanCatKey("onewordname", ""));
+
+            Assert.IsTrue(Tools.MakeHumanCatKey(@"Friends of the Mission Clinic of Our Lady of Guadalupe, Inc.", "Test").Length > 0);
         }
 
         [Test]

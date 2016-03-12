@@ -192,6 +192,7 @@ namespace WikiFunctions
         }
 
         private static readonly Regex PersonOfPlace = new Regex(@"^(?<person>\w+( +\w+)*?)(?<ordinal> [IXV]+)? of (?<place>(\w+ *)+)(?<![IVX]+)$", RegexOptions.Compiled);
+        private static readonly Regex WordsOnly = new Regex(@"^[\w ]+$");
 
         // Covered by HumanCatKeyTests
         /// <summary>
@@ -227,7 +228,8 @@ namespace WikiFunctions
                 return FixupDefaultSort(origName);
 
             // Person of Place --> Person Of Place, WP:NAMESORT
-            if (PersonOfPlace.IsMatch(origName))
+            // WordsOnly regex check to avoid backtracking issue
+            if (WordsOnly.IsMatch(origName) && PersonOfPlace.IsMatch(origName))
             {
                 origName = PersonOfPlace.Replace(origName,
                     m =>
