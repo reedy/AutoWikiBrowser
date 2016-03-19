@@ -853,7 +853,7 @@ namespace WikiFunctions
         /// Matches the {{skip to talk}} template and its redirects
         /// </summary>
         public static readonly Regex SkipTOCTemplateRegex = new Regex(
-            @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skip to talk)\s*\}\}\s*",
+            @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skip to talk|skip to toc)\s*\}\}\s*",
             RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         /// <summary>
