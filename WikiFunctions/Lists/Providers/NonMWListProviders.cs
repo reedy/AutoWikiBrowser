@@ -253,12 +253,7 @@ namespace WikiFunctions.Lists.Providers
 
                 foreach (string fileName in searchCriteria)
                 {
-                    string pageText;
-
-                    using (StreamReader sr = new StreamReader(fileName, TargetEncoding))
-                    {
-                        pageText = sr.ReadToEnd();
-                    }
+                    string pageText = File.ReadAllText(fileName, TargetEncoding);
 
                     switch (OpenListDialog.FilterIndex)
                     {
