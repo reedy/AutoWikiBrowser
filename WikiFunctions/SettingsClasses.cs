@@ -115,11 +115,7 @@ namespace WikiFunctions.AWBSettings
         /// <returns>Loaded UserPrefs</returns>
         public static UserPrefs LoadPrefs(string file)
         {
-            string settings;
-            using (StreamReader f = new StreamReader(file, Encoding.UTF8))
-            {
-                settings = f.ReadToEnd();
-            }
+            string settings = File.ReadAllText(file, Encoding.UTF8);
 
             // test to see if it is an old AWB file
             if (settings.Contains("<projectlang proj="))
