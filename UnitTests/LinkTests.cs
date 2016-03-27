@@ -249,6 +249,7 @@ namespace UnitTests
             genFixes.AssertChange(DateToYear2.Replace("–", "-"), DateToYear2.Replace("–", " – "));
 
             genFixes.AssertNotChanged(@"Volume 1, 2001–2004 was");
+            genFixes.AssertNotChanged(@"ISBN 1-883402-17-4 February 1998, hardcover");
         }
 
         [Test]
