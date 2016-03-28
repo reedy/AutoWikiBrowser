@@ -523,6 +523,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex NotCircaTemplate = new Regex(@"{{(?!(?:[Cc]irca|[Ff]l\.?))[^{]*?}}");
         private static readonly Regex AsOfText = new Regex(@"\bas of\b");
         private static readonly Regex FloruitTemplate = Tools.NestedTemplateRegex(new [] {"fl", "fl."});
+        private static readonly Regex BirthDateBasedOnAgeAtDeath = Tools.NestedTemplateRegex("Birth date based on age at death");
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -581,8 +582,8 @@ namespace WikiFunctions.Parse
 
             bool alreadyUncertain = false;
 
-            // scrape any infobox for birth year
-            string fromInfoBox = GetInfoBoxFieldValue(zerothSection, WikiRegexes.InfoBoxDOBFields);
+            // scrape any infobox for birth year, ignore {{Birth date based on age at death}}
+            string fromInfoBox = GetInfoBoxFieldValue(BirthDateBasedOnAgeAtDeath.Replace(zerothSection, ""), WikiRegexes.InfoBoxDOBFields);
 
             // ignore as of dates
             if (AsOfText.IsMatch(fromInfoBox))
