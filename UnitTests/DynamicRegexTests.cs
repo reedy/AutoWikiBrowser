@@ -760,6 +760,7 @@ now stubborn}}");
             WikiRegexes.MakeLangSpecificRegexes();
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{изолированная статья}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Сирота}}"));
 
             Variables.SetProjectLangCode("sv");
             WikiRegexes.MakeLangSpecificRegexes();
