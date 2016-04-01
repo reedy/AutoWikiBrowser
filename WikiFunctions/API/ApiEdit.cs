@@ -576,6 +576,7 @@ namespace WikiFunctions.API
 
             Reset();
             User = new UserInfo(); // we don't know for sure what will be our status in case of exception
+            Cookies = new CookieContainer();
 
             // first see if we can get a login token via the new MediaWiki way using action=query&meta=tokens&type=login
             string result = HttpPost(
@@ -669,6 +670,7 @@ namespace WikiFunctions.API
             User = new UserInfo();
             string result = HttpGet(new Dictionary<string, string> {{"action", "logout"}});
             CheckForErrors(result, "logout");
+            Cookies = new CookieContainer();
         }
 
         public void Watch(string title)
