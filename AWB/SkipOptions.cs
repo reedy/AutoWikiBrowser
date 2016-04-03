@@ -34,7 +34,7 @@ namespace AutoWikiBrowser
 
             foreach (KeyValuePair<int, string> kvp in skipOptions)
             {
-                skipCheckedListBox.Items.Add(new CheckedBoxItem
+                skipListBox.Items.Add(new CheckedBoxItem
                 {
                     ID = kvp.Key,
                     Description = kvp.Value
@@ -60,52 +60,52 @@ namespace AutoWikiBrowser
 
         public bool SkipNoBoldTitle
         {
-            get { return skipCheckedListBox.GetItemCheckState(1) == CheckState.Checked; }
+            get { return skipListBox.GetItemCheckState(1) == CheckState.Checked; }
         }
 
         public bool SkipNoBulletedLink
         {
-            get { return skipCheckedListBox.GetItemCheckState(2) == CheckState.Checked; }
+            get { return skipListBox.GetItemCheckState(2) == CheckState.Checked; }
         }
 
         public bool SkipNoBadLink
         {
-            get { return skipCheckedListBox.GetItemCheckState(3) == CheckState.Checked; }
+            get { return skipListBox.GetItemCheckState(3) == CheckState.Checked; }
         }
 
         public bool SkipNoUnicode
         {
-            get { return skipCheckedListBox.GetItemCheckState(4) == CheckState.Checked; }
+            get { return skipListBox.GetItemCheckState(4) == CheckState.Checked; }
         }
 
         public bool SkipNoTag
         {
-            get { return skipCheckedListBox.GetItemCheckState(5) == CheckState.Checked; }
+            get { return skipListBox.GetItemCheckState(5) == CheckState.Checked; }
         }
 
         public bool SkipNoHeaderError
         {
-            get { return skipCheckedListBox.GetItemCheckState(6) == CheckState.Checked; }
+            get { return skipListBox.GetItemCheckState(6) == CheckState.Checked; }
         }
 
         public bool SkipNoDefaultSortAdded
         {
-            get { return skipCheckedListBox.GetItemCheckState(7) == CheckState.Checked; }
+            get { return skipListBox.GetItemCheckState(7) == CheckState.Checked; }
         }
 
         public bool SkipNoUserTalkTemplatesSubstd
         {
-            get { return skipCheckedListBox.GetItemCheckState(8) == CheckState.Checked; }
+            get { return skipListBox.GetItemCheckState(8) == CheckState.Checked; }
         }
 
         public bool SkipNoCiteTemplateDatesFixed
         {
-            get { return skipCheckedListBox.GetItemCheckState(9) == CheckState.Checked; }
+            get { return skipListBox.GetItemCheckState(9) == CheckState.Checked; }
         }
 
         public bool SkipNoPeopleCategoriesFixed
         {
-            get { return skipCheckedListBox.GetItemCheckState(10) == CheckState.Checked; }
+            get { return skipListBox.GetItemCheckState(10) == CheckState.Checked; }
         }
         #endregion
 
@@ -127,11 +127,11 @@ namespace AutoWikiBrowser
             get
             {
                 List<int> items = new List<int>();
-                for (int i = 0; i < skipCheckedListBox.Items.Count; i++)
+                for (int i = 0; i < skipListBox.Items.Count; i++)
                 {
-                    if (skipCheckedListBox.GetItemChecked(i))
+                    if (skipListBox.GetItemChecked(i))
                     {
-                        CheckedBoxItem cbi = (CheckedBoxItem)skipCheckedListBox.Items[i];
+                        CheckedBoxItem cbi = (CheckedBoxItem)skipListBox.Items[i];
                         items.Add(cbi.ID);
                     }
                 }
@@ -142,10 +142,10 @@ namespace AutoWikiBrowser
                 CheckAll.Checked = false;
                 CheckNone.Checked = false;
 
-                for (int i = 0; i < skipCheckedListBox.Items.Count; i++)
+                for (int i = 0; i < skipListBox.Items.Count; i++)
                 {
-                    CheckedBoxItem cbi = (CheckedBoxItem) skipCheckedListBox.Items[i];
-                    skipCheckedListBox.SetItemChecked(i, value.Contains(cbi.ID));
+                    CheckedBoxItem cbi = (CheckedBoxItem) skipListBox.Items[i];
+                    skipListBox.SetItemChecked(i, value.Contains(cbi.ID));
                 }
             }
         }
@@ -172,9 +172,9 @@ namespace AutoWikiBrowser
 
         private void SetCheckboxes(bool value)
         {
-            for (int i = 0; i < skipCheckedListBox.Items.Count; i++)
+            for (int i = 0; i < skipListBox.Items.Count; i++)
             {
-                skipCheckedListBox.SetItemChecked(i, value);
+                skipListBox.SetItemChecked(i, value);
             }
         }
     }

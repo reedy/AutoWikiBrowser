@@ -34,7 +34,7 @@
             this.CheckNone = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new WikiFunctions.Controls.AWBToolTip(this.components);
-            this.skipCheckedListBox = new System.Windows.Forms.CheckedListBox();
+            this.skipListBox = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
             // btnClose
@@ -82,17 +82,17 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "Check";
             // 
-            // skipCheckedListBox
+            // skipListBox
             // 
-            this.skipCheckedListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.skipListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.skipCheckedListBox.FormattingEnabled = true;
-            this.skipCheckedListBox.Location = new System.Drawing.Point(13, 26);
-            this.skipCheckedListBox.Name = "skipCheckedListBox";
-            this.skipCheckedListBox.ScrollAlwaysVisible = true;
-            this.skipCheckedListBox.Size = new System.Drawing.Size(216, 274);
-            this.skipCheckedListBox.TabIndex = 14;
+            this.skipListBox.FormattingEnabled = true;
+            this.skipListBox.Location = new System.Drawing.Point(13, 26);
+            this.skipListBox.Name = "skipListBox";
+            this.skipListBox.ScrollAlwaysVisible = true;
+            this.skipListBox.Size = new System.Drawing.Size(216, 274);
+            this.skipListBox.TabIndex = 14;
             // 
             // SkipOptions
             // 
@@ -101,7 +101,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(241, 357);
-            this.Controls.Add(this.skipCheckedListBox);
+            this.Controls.Add(this.skipListBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CheckNone);
             this.Controls.Add(this.CheckAll);
@@ -125,6 +125,6 @@
         private System.Windows.Forms.CheckBox CheckNone;
         private System.Windows.Forms.Label label1;
         private WikiFunctions.Controls.AWBToolTip toolTip1;
-        private System.Windows.Forms.CheckedListBox skipCheckedListBox;
+        private System.Windows.Forms.CheckedListBox skipListBox;
     }
 }
