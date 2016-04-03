@@ -3063,6 +3063,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             profileTyposToolStripMenuItem.Visible = true;
             toolStripSeparator29.Visible = true;
             invalidateCacheToolStripMenuItem.Visible = true;
+            toolStripSeparator32.Visible = true;
+            cEvalToolStripMenuItem.Visible = true;
 
             #if DEBUG
             try
@@ -5638,6 +5640,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void menuitemMakeFromTextBoxPaste_Click(object sender, EventArgs e)
         {
             listMaker.UserInputTextBox.Paste();
+        }
+
+        private void cEvalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (CSharpEval cs = new CSharpEval())
+            {
+                cs.ShowDialog();
+            }
         }
 
         private void ListMakerSourceSelectHandler(object sender, EventArgs e)
