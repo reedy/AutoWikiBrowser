@@ -400,9 +400,9 @@ namespace AutoWikiBrowser
 
                 for (int i = 0; i < alertListBox.Items.Count; i++)
                 {
-                    CheckedBoxItem cbi = (CheckedBoxItem) alertListBox.Items[i];
                     if (alertListBox.GetItemChecked(i) || !anyChecked)
                     {
+                        CheckedBoxItem cbi = (CheckedBoxItem)alertListBox.Items[i];
                         alerts.Add(cbi.ID);
                     }
                 }

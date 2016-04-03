@@ -126,17 +126,26 @@ namespace AutoWikiBrowser
         {
             get
             {
-                return (from CheckBox c in skipCheckedListBox.CheckedItems select (int) c.Tag).ToList();
+                List<int> items = new List<int>();
+                for (int i = 0; i < skipCheckedListBox.Items.Count; i++)
+                {
+                    if (skipCheckedListBox.GetItemChecked(i))
+                    {
+                        CheckedBoxItem cbi = (CheckedBoxItem)skipCheckedListBox.Items[i];
+                        items.Add(cbi.ID);
+                    }
+                }
+                return items;
             }
             set
             {
                 CheckAll.Checked = false;
                 CheckNone.Checked = false;
-                SetCheckboxes(false);
 
-                foreach (CheckedBoxItem c in skipCheckedListBox.Items)
+                for (int i = 0; i < skipCheckedListBox.Items.Count; i++)
                 {
-                    skipCheckedListBox.SetItemChecked(c.ID - 1, value.Contains(c.ID));
+                    CheckedBoxItem cbi = (CheckedBoxItem) skipCheckedListBox.Items[i];
+                    skipCheckedListBox.SetItemChecked(i, value.Contains(cbi.ID));
                 }
             }
         }
