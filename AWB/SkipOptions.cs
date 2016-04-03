@@ -58,54 +58,56 @@ namespace AutoWikiBrowser
 
         #region Properties
 
+        // NOTE 0 based indexing
+
         public bool SkipNoBoldTitle
         {
-            get { return skipListBox.GetItemCheckState(1) == CheckState.Checked; }
+            get { return skipListBox.GetItemChecked(0); }
         }
 
         public bool SkipNoBulletedLink
         {
-            get { return skipListBox.GetItemCheckState(2) == CheckState.Checked; }
+            get { return skipListBox.GetItemChecked(1); }
         }
 
         public bool SkipNoBadLink
         {
-            get { return skipListBox.GetItemCheckState(3) == CheckState.Checked; }
+            get { return skipListBox.GetItemChecked(2); }
         }
 
         public bool SkipNoUnicode
         {
-            get { return skipListBox.GetItemCheckState(4) == CheckState.Checked; }
+            get { return skipListBox.GetItemChecked(3); }
         }
 
         public bool SkipNoTag
         {
-            get { return skipListBox.GetItemCheckState(5) == CheckState.Checked; }
+            get { return skipListBox.GetItemChecked(4); }
         }
 
         public bool SkipNoHeaderError
         {
-            get { return skipListBox.GetItemCheckState(6) == CheckState.Checked; }
+            get { return skipListBox.GetItemChecked(5); }
         }
 
         public bool SkipNoDefaultSortAdded
         {
-            get { return skipListBox.GetItemCheckState(7) == CheckState.Checked; }
+            get { return skipListBox.GetItemChecked(6); }
         }
 
         public bool SkipNoUserTalkTemplatesSubstd
         {
-            get { return skipListBox.GetItemCheckState(8) == CheckState.Checked; }
+            get { return skipListBox.GetItemChecked(7); }
         }
 
         public bool SkipNoCiteTemplateDatesFixed
         {
-            get { return skipListBox.GetItemCheckState(9) == CheckState.Checked; }
+            get { return skipListBox.GetItemChecked(8); }
         }
 
         public bool SkipNoPeopleCategoriesFixed
         {
-            get { return skipListBox.GetItemCheckState(10) == CheckState.Checked; }
+            get { return skipListBox.GetItemChecked(9); }
         }
         #endregion
 
