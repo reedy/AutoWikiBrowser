@@ -1012,7 +1012,7 @@ en, sq, ru
             string externalLinks = elm.Groups[1].Value;
 
             // validate no <ref> in external links section
-            if (!elm.Success || Regex.IsMatch(externalLinks, WikiRegexes.ReferenceEndGR))
+            if (!elm.Success || Regex.IsMatch(externalLinks, WikiRegexes.ReferenceEnd))
                 return articleTextAtStart;
             
             string references = ReferencesSection.Match(articleText).Groups[1].Value;

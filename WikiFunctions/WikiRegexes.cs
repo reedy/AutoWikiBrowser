@@ -879,9 +879,9 @@ namespace WikiFunctions
         public const string ReferencesTemplates = @"(\{\{\s*(?:[Rr]ef(?:-?li(?:st|nk)|erence)|[Ll]istaref|[Ll]ist of botanists by author abbreviation footer|[Aa]irline codes page/bottom|[Ss]COTUS-justice-listframe)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))\}\}|<\s*[Rr]eferences\s*/>|\{\{refs|<\s*references\s*>.*</\s*references\s*>)";
         
         /// <summary>
-        /// Matches a closing &lt;/ref&gt; tag or the {{GR}} template
+        /// Matches a closing &lt;/ref&gt; tag
         /// </summary>
-        public const string ReferenceEndGR = @"(?:</ref>|{{GR\|\d}})";
+        public const string ReferenceEnd = @"(?:</ref>)";
 
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references e.g. {{reflist}}, {{refs}}, &lt;references/&gt;
@@ -891,7 +891,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references followed by a &gt;ref&lt; reference
         /// </summary>
-        public static readonly Regex RefAfterReflist = new Regex(ReferencesTemplates + ".*?" + ReferenceEndGR, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex RefAfterReflist = new Regex(ReferencesTemplates + ".*?" + ReferenceEnd, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches a line with a bare external link (no description or name of link)

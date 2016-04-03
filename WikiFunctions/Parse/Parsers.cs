@@ -1852,7 +1852,7 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.Comments.Replace(articleText, "");
 
                 if(refstemplateindex > 0)
-                    return Regex.IsMatch(articleText, WikiRegexes.ReferenceEndGR);
+                    return Regex.IsMatch(articleText, WikiRegexes.ReferenceEnd);
             }
 
             return false;
