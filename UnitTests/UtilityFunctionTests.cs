@@ -453,10 +453,10 @@ foo {{persondata}}
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{England-bio-stub}}", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{Switzerland-politician-stub}}", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Some words {{death date and age|1960|01|9}}", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{RefimproveBLP}}", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "16 and pregnant"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP unsourced section|foo=bar}}", "foo"));
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{RefimproveBLP}}", "foo"),"BLP template");
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "foo"),"BLP sources template");
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "16 and pregnant"),"BLP sources template");
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP unsourced section|foo=bar}}", "foo"),"BLP unsourced template");
 
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{persondata|name=smith}}", "Category:foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "List of foo"));
@@ -547,7 +547,7 @@ foo {{persondata}}
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{infobox television|bye=a}} {{refimproveBLP}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{England-bio-stub}} {{sia}}", "Foo"));
 
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Afrikaner people]] {{foo-bio-stub}}", "foo"));
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Afrikaner people]] {{foo-bio-stub}}", "foo"),"category about people");
 
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox settlement}} {{foo-bio-stub}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{italic title}} {{foo-bio-stub}}", "foo"));
@@ -598,7 +598,7 @@ foo {{persondata}}
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"foo [[Category:227 characters]] {{persondata}}", "foo"));
 
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Margaret Sidney''' was the [[pseudonym]] of American author '''Harriett Mulford Stone''' (June 22, 1844–August 2, 1924).
-[[Category:1844 births]]", "foo"));
+[[Category:1844 births]]", "foo"),"births category");
             
             string AR = @"{{Infobox rugby biography
 | birth_name = Opeti Fonua
@@ -623,7 +623,7 @@ foo {{persondata}}
 ==References==
 {{Reflist}}
 ";
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(AR, "Opeti Fonua"));
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(AR, "Opeti Fonua"),"Infobox about a person");
             
         }
 
