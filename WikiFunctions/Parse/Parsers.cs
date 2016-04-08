@@ -188,7 +188,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DiedDateRegex =
             new Regex(
                 @"^d\.\s*(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
-                WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[12]?\d{3}\]*[\),])", RegexOptions.IgnoreCase);
+                WikiRegexes.MonthsNoGroup + @")?\]*,?\s*\[*[12]?\d{3}\]*[\),])", RegexOptions.IgnoreCase);
 
         private static readonly Regex DOBRegex =
             new Regex(
