@@ -1535,6 +1535,9 @@ namespace WikiFunctions.Parse
                     articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
                 if(alltemplates.Contains("Primary sources"))
                     articleText = Tools.RenameTemplate(articleText, "primary sources", "BLP primary sources", false);
+         
+                if(alltemplates.Contains("Self-published"))
+                    articleText = Tools.RenameTemplate(articleText, "self-published", "BLP self-published", false);
 
                 if(alltemplates.Contains("Refimprove"))
                 {

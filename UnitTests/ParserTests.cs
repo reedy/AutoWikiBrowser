@@ -1766,7 +1766,7 @@ Text
             #if DEBUG
             Variables.SetProjectSimple("en", ProjectEnum.wikia);
             Assert.AreEqual(@"{{commons|Category:Backgammon|Backgammon}}", Parsers.Conversions(@"{{commons|Category:Backgammon|Backgammon}}"), "{{Commons category}} not used on Wikia");
-            Variables.SetProjectLangCode("en");
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
             #endif
         }
 
@@ -1927,6 +1927,23 @@ Text
             Assert.AreEqual(correct, Parsers.Conversions(correct));
 
             Assert.AreEqual(nochange, Parsers.Conversions(nochange));
+        }
+
+        [Test]
+        public void ConversionTestsSelfPublished()
+        {
+            string correct = @"Foo
+{{BLP self-published}}
+[[Category:Living people]]", nochange = @"Foo
+{{self-published}}";
+
+            Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"), "BLP conv 1");
+            Assert.AreEqual(correct, Parsers.Conversions(@"Foo
+{{self-published}}" + "\r\n" + @"[[Category:Living people]]"), "BLP conv 2");
+
+            Assert.AreEqual(correct, Parsers.Conversions(correct), "No change already correct");
+
+            Assert.AreEqual(nochange, Parsers.Conversions(nochange), "no change not BLP");
         }
 
         [Test]
