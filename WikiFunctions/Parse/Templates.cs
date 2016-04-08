@@ -505,6 +505,7 @@ namespace WikiFunctions.Parse
             // clean out references and comments
             infoBox = WikiRegexes.Comments.Replace(infoBox, "");
             infoBox = WikiRegexes.Refs.Replace(infoBox, "");
+            infoBox = Tools.NestedTemplateRegex("efn").Replace(infoBox, "");
 
             List<string> FieldsBack = Tools.GetTemplateParametersValues(infoBox, fields, true);
 

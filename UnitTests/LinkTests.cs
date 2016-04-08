@@ -510,6 +510,19 @@ Other (fl. 1645) was also", FloruitTwice = @"'''Foo''' (fl. 55) was a peasant, r
             Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  1990  |some=where
 |other=great}} now", Year));
+
+            // comments/refs
+            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+|  Year  =  <!--1990-->
+|other=great}} now", Year));
+
+            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+|  Year  =  <ref>1990</ref>
+|other=great}} now", Year));
+            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+|  Year  =  {{efn|1990}}
+|other=great}} now", Year));
+
         }
 
         [Test]
