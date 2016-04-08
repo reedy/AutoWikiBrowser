@@ -304,6 +304,10 @@ died 2002
 
             Assert.AreEqual(bd1 + bd1b + bd1a, Parsers.FixPeopleCategories(bd1 + bd1b, "foo"));
 
+            const string image = @"[[File:long text here.jpg|thumb|250px|Long text here as well to make sure it is over 100 in total length [[this is a long wilikink]]]]
+";
+            Assert.AreEqual(image + bd1 + bd1a + bd1b, Parsers.FixPeopleCategories(image + bd1, "foo"), "Ignore File link at start of page");
+
             const string bd2 = @"''Foo''' (8 May 1920 – 11 June 2004) was {{persondata}}";
             Assert.AreEqual(bd2 + bd1a + bd1b, Parsers.FixPeopleCategories(bd2, "foo"));
 

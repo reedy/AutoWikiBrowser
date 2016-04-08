@@ -571,7 +571,8 @@ namespace WikiFunctions.Parse
 
             // remove references and long wikilinks (but allow an ISO date) that may contain false positives of birth/death date
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
-            zerothSection = LongWikilink.Replace(zerothSection, " ");
+            while(LongWikilink.IsMatch(zerothSection))
+                zerothSection = LongWikilink.Replace(zerothSection, " ");
 
             // ignore dates containing years from dated maintenance tags etc.
             zerothSection = WikiRegexes.NestedTemplates.Replace(zerothSection, m2=> ThreeOrFourDigitNumber.IsMatch(Tools.GetTemplateParameterValue(m2.Value, "date")) ? "" : m2.Value);
