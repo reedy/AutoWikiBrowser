@@ -2657,6 +2657,11 @@ Text
 }}"), "converts new style 1-tag MI to single template");
             Assert.AreEqual(@"==sec==
 {{wikify section}}", parser.MultipleIssues(@"==sec==
+{{multiple issues|1=
+{{wikify section}}
+}}"), "converts new style 1-tag MI to single template, removing 1=");
+            Assert.AreEqual(@"==sec==
+{{wikify section}}", parser.MultipleIssues(@"==sec==
 {{multiple issues|section=yes|
 {{wikify section}}
 }}"), "converts new style 1-tag MI to single template");

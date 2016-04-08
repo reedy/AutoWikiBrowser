@@ -277,12 +277,19 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string MultipleIssuesSingleTagME(Match m)
         {
+            string res = m.Value;
             string newValue = Tools.RemoveTemplateParameter(Tools.RemoveExcessTemplatePipes(m.Value), "section");
 
-            if (Tools.GetTemplateArgumentCount(newValue) == 1 && WikiRegexes.NestedTemplates.Matches(Tools.GetTemplateArgument(newValue, 1)).Count == 1)
-                return Tools.GetTemplateArgument(newValue, 1);
+            if (Tools.GetTemplateArgumentCount (newValue) == 1 && WikiRegexes.NestedTemplates.Matches (Tools.GetTemplateArgument (newValue, 1)).Count == 1)
+            {
+                res = Tools.GetTemplateArgument (newValue, 1);
+
+                // template may have 1= parameter, remove
+                if(res.StartsWith("1"))
+                    res = Regex.Replace(res, @"^1\s*=\s*", "");
+            }
             
-            return m.Value;
+            return res;
         }
 
         /// <summary>
