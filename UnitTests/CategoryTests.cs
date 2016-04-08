@@ -136,6 +136,9 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 
             const string d5 = @"Some words {{death date and age|1960|01|9}}";
             Assert.AreEqual(d5 + @"[[Category:1960 deaths]]", Parsers.FixPeopleCategories(d4 + @"[[Category:Year of death missing]]", "foo"));
+
+            const string d6 = @"'''Foo''' (died 960) was {{persondata}}";
+            Assert.AreEqual(d6 + @"[[Category:960 deaths]]", Parsers.FixPeopleCategories(d6 + @"[[Category:Year of death missing]]", "Foo"));
         }
 
         [Test]
