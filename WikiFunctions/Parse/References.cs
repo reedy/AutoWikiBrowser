@@ -114,9 +114,15 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;\?\!]|$)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@"(?<=(?:/|ref) *)> *" + RefsPunctuation);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation.Replace(@"\!", "") + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly Regex Footnote = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnb", "Sfnp", "Sfnm", "SfnRef", "Rp"});
-        private static readonly Regex PunctuationAfterFootnote = new Regex(@"(?<sfn>" + Footnote + @")(?<punc>[,\.;:\?\!])");
-        private static readonly Regex FootnoteAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation + @"\2 *(?<sfn>" + Footnote + @")");
+
+        private static readonly List<string> FootnoteTemplatesList = new List<string>(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnb", "Sfnp", "Sfnm", "SfnRef"});
+
+        // these templates should not have punctuation between the end of a ref and the start of the template, in addition to all the footnote ones
+        private static readonly List<string> PunctuationBeforeTheseTemplatesList = new List<string>(new[] {"Rp", "Better source"});
+        private static readonly Regex Footnote = Tools.NestedTemplateRegex(FootnoteTemplatesList);
+        private static readonly Regex PunctuationBeforeTheseTemplates  = Tools.NestedTemplateRegex(FootnoteTemplatesList.Union(PunctuationBeforeTheseTemplatesList).ToList());
+        private static readonly Regex PunctuationAfterTemplate = new Regex(@"(?<template>" + PunctuationBeforeTheseTemplates + @")(?<punc>[,\.;:\?\!])");
+        private static readonly Regex TemplateAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation + @"\2 *(?<template>" + PunctuationBeforeTheseTemplates + @")");
 
         /// <summary>
         /// Puts &lt;ref&gt; and {{sfn}} references after punctuation (comma, full stop) per WP:REFPUNC
@@ -130,15 +136,15 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             string articleTextOriginal = articleText;
-            bool hasFootnote = TemplateExists(GetAllTemplates(articleText), Footnote);
+            bool hasPunctuationBeforeTheseTemplates = TemplateExists(GetAllTemplates(articleText), PunctuationBeforeTheseTemplates);
 
             articleText = RefsBeforePunctuation(articleText);
 
-            if (hasFootnote)
+            if (hasPunctuationBeforeTheseTemplates)
             {
-                while(PunctuationAfterFootnote.IsMatch(articleText))
+                while(PunctuationAfterTemplate.IsMatch(articleText))
                 {
-                    articleText = PunctuationAfterFootnote.Replace(articleText, "${punc}${sfn}");
+                    articleText = PunctuationAfterTemplate.Replace(articleText, "${punc}${template}");
                     articleText = RefsBeforePunctuation(articleText);
                 }
             }
@@ -155,8 +161,8 @@ namespace WikiFunctions.Parse
             if (dupePunctuationFound)
                 articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
 
-            if (hasFootnote && dupePunctuationFound)
-                articleText = FootnoteAfterDupePunctuation.Replace(articleText, "$1$2${sfn}");
+            if (hasPunctuationBeforeTheseTemplates && dupePunctuationFound)
+                articleText = TemplateAfterDupePunctuation.Replace(articleText, "$1$2${template}");
 
             // if there have been changes need to call FixReferenceTags in case punctation moved didn't have witespace after it  
             if (!articleTextOriginal.Equals(articleText))
