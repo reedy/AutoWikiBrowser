@@ -993,7 +993,9 @@ was"));
             Assert.AreEqual("2nd day at school", Parsers.FixSyntax(@"2<sup>nd</sup> day at school"), "2nd");
             Assert.AreEqual("3rd day at school", Parsers.FixSyntax(@"3<sup>rd</sup> day at school"), "3rd");
             Assert.AreEqual("4th day at school", Parsers.FixSyntax(@"4<sup>th</sup> day at school"), "4th");
-        }
+
+            Assert.AreEqual("1st day at school", Parsers.FixSyntax(@"1<sup>st </sup> day at school"), "1st with whitespace");
+            Assert.AreEqual("1st day at school", Parsers.FixSyntax(@"1<sup> st </sup> day at school"), "1st with whitespace");        }
 
 
         [Test]
