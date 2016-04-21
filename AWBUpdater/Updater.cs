@@ -292,10 +292,16 @@ namespace AwbUpdater
         private void UnzipAwb()
         {
             string zip = Path.Combine(_tempDirectory, AWBZipName);
+            bool awbUpdated = false;
             if (!string.IsNullOrEmpty(AWBZipName) && File.Exists(zip))
             {
                 Extract(zip);
                 DeleteAbsoluteIfExists(zip);
+                awbUpdated = true;
+            }
+            else
+            {
+                UpdateUI("AutoWikiBrowser not updated...", true);
             }
 
             zip = Path.Combine(_tempDirectory, _updaterZipName);
@@ -303,6 +309,10 @@ namespace AwbUpdater
             {
                 Extract(zip);
                 DeleteAbsoluteIfExists(zip);
+            }
+            else if (!awbUpdated)
+            {
+                UpdateUI("AWB not updated, and neither was the updater...", true);
             }
 
             progressUpdate.Value = 70;
