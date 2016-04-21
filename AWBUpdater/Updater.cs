@@ -32,7 +32,7 @@ namespace AwbUpdater
 {
     internal sealed partial class Updater : Form
     {
-        private readonly string _awBdirectory = "", _tempDirectory = "";
+        private readonly string _awbDirectory = "", _tempDirectory = "";
         private string AWBZipName = "", _awbWebAddress = "", _updaterZipName = "", _updaterWebAddress = "";
 
         private IWebProxy _proxy;
@@ -45,7 +45,7 @@ namespace AwbUpdater
 
             Text += " - " + Application.ProductVersion;
 
-            _awBdirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            _awbDirectory = Path.GetDirectoryName(Application.ExecutablePath);
             _tempDirectory = Environment.GetEnvironmentVariable("TEMP") ?? "C:\\Windows\\Temp";
             _tempDirectory = Path.Combine(_tempDirectory, "$AWB$Updater$Temp$");
         }
@@ -231,7 +231,7 @@ namespace AwbUpdater
             try
             {
                 _awbUpdate = _updaterUpdate = false;
-                FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(Path.Combine(_awBdirectory, "AutoWikiBrowser.exe"));
+                FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(Path.Combine(_awbDirectory, "AutoWikiBrowser.exe"));
                 int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
                 if (awbFileVersion < awbCurrentVersion)
@@ -364,7 +364,7 @@ namespace AwbUpdater
 
         private void DeleteIfExists(string name)
         {
-            string path = Path.Combine(_awBdirectory, name);
+            string path = Path.Combine(_awbDirectory, name);
             while (true)
             {
                 try
@@ -414,7 +414,7 @@ namespace AwbUpdater
         {
             string updater = Path.Combine(_tempDirectory, "AWBUpdater.exe");
             if (_updaterUpdate || File.Exists(updater))
-                CopyFile(updater, Path.Combine(_awBdirectory, "AWBUpdater.exe.new"));
+                CopyFile(updater, Path.Combine(_awbDirectory, "AWBUpdater.exe.new"));
 
             if (_awbUpdate)
             {
@@ -427,8 +427,8 @@ namespace AwbUpdater
 
                 DeleteIfExists("WPAssessmentsCatCreator.dll");
 
-                if (Directory.Exists(Path.Combine(_awBdirectory, "Plugins\\WPAssessmentsCatCreator")))
-                    Directory.Delete(Path.Combine(_awBdirectory, "Plugins\\WPAssessmentsCatCreator"), true);
+                if (Directory.Exists(Path.Combine(_awbDirectory, "Plugins\\WPAssessmentsCatCreator")))
+                    Directory.Delete(Path.Combine(_awbDirectory, "Plugins\\WPAssessmentsCatCreator"), true);
 
                 foreach (string file in Directory.GetFiles(_tempDirectory, "*.*", SearchOption.AllDirectories))
                 {
@@ -436,12 +436,12 @@ namespace AwbUpdater
                         continue;
 
                     CopyFile(file,
-                             Path.Combine(_awBdirectory, file.Replace(_tempDirectory + "\\", "")));
+                             Path.Combine(_awbDirectory, file.Replace(_tempDirectory + "\\", "")));
                 }
 
-                string[] pluginFiles = Directory.GetFiles(Path.Combine(_awBdirectory, "Plugins"), "*.*", SearchOption.AllDirectories);
+                string[] pluginFiles = Directory.GetFiles(Path.Combine(_awbDirectory, "Plugins"), "*.*", SearchOption.AllDirectories);
 
-                foreach (string file in Directory.GetFiles(_awBdirectory, "*.*", SearchOption.TopDirectoryOnly))
+                foreach (string file in Directory.GetFiles(_awbDirectory, "*.*", SearchOption.TopDirectoryOnly))
                 {
                     foreach (string pluginFile in pluginFiles)
                     {
@@ -531,10 +531,10 @@ namespace AwbUpdater
                     break;
             }
 
-            if (!awbOpen && File.Exists(_awBdirectory + "AutoWikiBrowser.exe")
+            if (!awbOpen && File.Exists(_awbDirectory + "AutoWikiBrowser.exe")
                 && MessageBox.Show("Would you like to start AWB?", "Start AWB?", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                Process.Start(_awBdirectory + "AutoWikiBrowser.exe");
+                Process.Start(_awbDirectory + "AutoWikiBrowser.exe");
             }
 
             progressUpdate.Value = 99;
