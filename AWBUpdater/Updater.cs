@@ -27,6 +27,7 @@ using ICSharpCode.SharpZipLib.Zip;
 
 using System.Text.RegularExpressions;
 using System.Net;
+using System.Web;
 
 namespace AwbUpdater
 {
@@ -118,6 +119,7 @@ namespace AwbUpdater
         }
 
         #region UI functions
+
         /// <summary>
         /// Multiple use function to update the GUI items
         /// </summary>
@@ -162,6 +164,7 @@ namespace AwbUpdater
             progressUpdate.Visible = false;
             btnCancel.Enabled = true;
         }
+
         #endregion
 
         /// <summary>
@@ -197,15 +200,18 @@ namespace AwbUpdater
             UpdateUI("   Retrieving current version...", true);
             try
             {
-                HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
+                HttpWebRequest rq =
+                    (HttpWebRequest)
+                        WebRequest.Create(
+                            "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
                 rq.Proxy = _proxy;
 
                 rq.UserAgent = string.Format("AWBUpdater/{0} ({1}; .NET CLR {2})",
-                                             Assembly.GetExecutingAssembly().GetName().Version,
-                                             Environment.OSVersion.VersionString, Environment.Version);
+                    Assembly.GetExecutingAssembly().GetName().Version,
+                    Environment.OSVersion.VersionString, Environment.Version);
 
-                HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
+                HttpWebResponse response = (HttpWebResponse) rq.GetResponse();
 
                 Stream stream = response.GetResponseStream();
                 StreamReader sr = new StreamReader(stream, Encoding.UTF8);
@@ -231,26 +237,28 @@ namespace AwbUpdater
             try
             {
                 _awbUpdate = _updaterUpdate = false;
-                FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(Path.Combine(_awbDirectory, "AutoWikiBrowser.exe"));
+                FileVersionInfo awbVersionInfo =
+                    FileVersionInfo.GetVersionInfo(Path.Combine(_awbDirectory, "AutoWikiBrowser.exe"));
                 int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
                 if (awbFileVersion < awbCurrentVersion)
                     _awbUpdate = true;
                 else if ((awbFileVersion >= awbCurrentVersion) &&
                          (awbFileVersion < awbNewestVersion) &&
-                         MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                         MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?",
+                             "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     _awbUpdate = true;
 
                 if (_awbUpdate)
                 {
                     AWBZipName = "AutoWikiBrowser" + awbNewestVersion + ".zip";
-                    _awbWebAddress = "https://sourceforge.net/projects/autowikibrowser/files/" + AWBZipName;
+                    _awbWebAddress = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", AWBZipName.Replace(".zip", ""), AWBZipName);
                 }
                 else if ((updaterVersion > 1400) &&
                          (updaterVersion > AssemblyVersion))
                 {
                     _updaterZipName = "AWBUpdater" + updaterVersion + ".zip";
-                    _updaterWebAddress = "https://sourceforge.net/projects/autowikibrowser/files/" + _updaterZipName;
+                    _updaterWebAddress = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", _updaterZipName.Replace(".zip", ""), _updaterZipName);
                     _updaterUpdate = true;
                 }
             }
@@ -267,23 +275,42 @@ namespace AwbUpdater
         /// </summary>
         private void GetAwbFromInternet()
         {
-            WebClient client = new WebClient { Proxy = _proxy };
+            WebClient client = new WebClient {Proxy = _proxy};
 
-            try
+            if (!string.IsNullOrEmpty(_awbWebAddress))
             {
-                if (!string.IsNullOrEmpty(_awbWebAddress))
-                    client.DownloadFile(_awbWebAddress, Path.Combine(_tempDirectory, AWBZipName));
-                else if (!string.IsNullOrEmpty(_updaterWebAddress))
-                    client.DownloadFile(_updaterWebAddress, Path.Combine(_tempDirectory, _updaterZipName));
+                actuallyDownloadAWB(client, _awbWebAddress, Path.Combine(_tempDirectory, AWBZipName));
             }
-            catch (WebException)
+            else if (!string.IsNullOrEmpty(_updaterWebAddress))
             {
-                // TODO:
+                actuallyDownloadAWB(client, _updaterWebAddress, Path.Combine(_tempDirectory, _updaterZipName));
             }
 
             client.Dispose();
 
             progressUpdate.Value = 50;
+        }
+
+        private void actuallyDownloadAWB(WebClient client, string source, string target)
+        {
+            try
+            {
+                TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+                var unixTime = (int) t.TotalSeconds;
+                var url = string.Format(
+                    "{0}?r={1}&ts={2}",
+                    source,
+                    HttpUtility.UrlEncode(
+                        string.Format("https://sourceforge.net/projects/autowikibrowser/files/autowikibrowser/{0}/", source.Substring(source.LastIndexOf("/") + 1).Replace(".zip", ""))
+                        ),
+                    unixTime
+                    );
+                client.DownloadFile(url, target);
+            }
+            catch (WebException webEx)
+            {
+                UpdateUI(string.Format("Download of `{0}` failed: {1}", source, webEx.Message), true);
+            }
         }
 
         /// <summary>
