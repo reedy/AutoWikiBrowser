@@ -170,6 +170,11 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(e, Parsers.FixPeopleCategories(e, "foo"));
             Assert.AreEqual(f, Parsers.FixPeopleCategories(f, "foo"));
             Assert.AreEqual(g, Parsers.FixPeopleCategories(g, "foo"));
+
+            const string h = @"'''Fred Smith''' (born 1950) is a bloke.
+{{Persondata}}
+[[:Category:1950 births|Smith, Fred]]";
+            Assert.AreEqual(h, Parsers.FixPeopleCategories(h, "User:Foo"));
         }
 
         [Test]

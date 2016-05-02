@@ -597,8 +597,11 @@ namespace WikiFunctions.Parse
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
 
+            // convert [[:Category to [[Category for non-mainspace Category checking
+            string checkText = Namespace.IsMainSpace(articleTitle) ? articleText : articleText.Replace("[[:", "[[");
+
             // birth
-            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1
+            if (!WikiRegexes.BirthsCategory.IsMatch(checkText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1
                                                                      || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection)
                                                                      || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
                                                                      || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
@@ -657,7 +660,8 @@ namespace WikiFunctions.Parse
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
 
-            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(RemoveCategory(YearofDeathMissing, articleText)) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DeathDate.IsMatch(zerothSection)
+            checkText = Namespace.IsMainSpace(articleTitle) ? articleText : articleText.Replace("[[:", "[[");
+            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(RemoveCategory(YearofDeathMissing, checkText)) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DeathDate.IsMatch(zerothSection)
                                                                                                                  || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
             {
                 // look for '{{death date...' template first
