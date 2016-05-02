@@ -1989,6 +1989,11 @@ Text
 }}
 [[Category:Living people]]"), "when have existing BLP sources then remove refimprove");
 
+            Assert.AreEqual(@"Foo
+{{BLP sources section|date=May 2010}}
+[[Category:Living people]]", Parsers.Conversions(@"Foo
+{{refimprove|section|date=May 2010}}
+[[Category:Living people]]"));
         }
 
         [Test]

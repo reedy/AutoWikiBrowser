@@ -1500,7 +1500,11 @@ namespace WikiFunctions.Parse
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
             if (TemplateExists(alltemplates, SectionTemplates))
+            {
                 articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
+                // refresh for xxx section checks later
+                alltemplates = GetAllTemplates(articleText);
+            }
 
             // fixes if article has [[Category:Living people]]
             if (Variables.IsWikipediaEN && CategoryMatch(articleText, "Living people"))
