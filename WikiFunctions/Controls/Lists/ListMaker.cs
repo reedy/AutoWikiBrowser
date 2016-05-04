@@ -691,8 +691,8 @@ namespace WikiFunctions.Controls.Lists
 
             s = s.Replace(url, "").Trim();
 
-            // handle section links
-            if (s.Contains("#"))
+            // clean section links
+            if (s.IndexOf("#") > 0)
                 s = s.Substring(0, s.IndexOf("#"));
 
             if (!originals.Equals(s))
