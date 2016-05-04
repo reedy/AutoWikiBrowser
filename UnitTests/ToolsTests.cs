@@ -964,6 +964,8 @@ John", "*"), "do not add list to blank lines/lines with just whitespace 2");
             Assert.AreEqual(@"foo bar", Tools.RemoveSyntax(@"foo_bar"));
             Assert.AreEqual(@"foo bar:the great", Tools.RemoveSyntax(@"foo_bar:the great"));
             Assert.AreEqual(@"foo", Tools.RemoveSyntax(@"[foo]"));
+            Assert.AreEqual(@"foo", Tools.RemoveSyntax(@"[[foo]]"));
+            Assert.AreEqual(@"foo", Tools.RemoveSyntax(@"#[[foo]]"));
             Assert.AreEqual(@"foo&bar", Tools.RemoveSyntax(@"foo&amp;bar"));
             Assert.AreEqual(@"http://site.com words", Tools.RemoveSyntax(@"* [http://site.com words]"));
             Assert.AreEqual(@"https://site.com words", Tools.RemoveSyntax(@"* [https://site.com words]"));
