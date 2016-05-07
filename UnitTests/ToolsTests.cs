@@ -577,6 +577,7 @@ bar"));
             Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Commons category redirect|Foo}}"));
             Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Deprecated shortcut|Foo}}"));
             Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Wikisource redirect|Foo}}"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Double soft redirect|Foo}}"));
 
             Assert.IsFalse(Tools.IsRedirectOrSoftRedirect("{{software|Foo}}"));
         }
