@@ -366,6 +366,10 @@ Bar}} was"), "newline converted to space, any parameter");
             Assert.AreEqual(c, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b | date=May 01, 2008|author=Lee}}"));
 
             Assert.AreEqual(c, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |year=2008 | date=May 01|author=Lee}}"), "handles field merge and leading zero in date");
+
+            const string URL = @"{{cite web|url=http://www.broadwaytovegas.com/October31,1999.html |title=Out of Chapter 11 bankruptcy |publisher=Broadwaytovegas.com |accessdate=2011-02-12}}";
+
+            Assert.AreEqual(URL, Parsers.FixCitationTemplates(URL), "No change to date spacing in URL");
         }
 
         [Test]

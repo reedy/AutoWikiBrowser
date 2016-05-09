@@ -476,7 +476,8 @@ namespace WikiFunctions.Parse
                         OrdinalsInDatesAm.Replace(accessdate, "$1 $2$3"));
             }
             // catch after any other fixes
-            newValue = IncorrectCommaAmericanDates.Replace(newValue, @"$1 $2, $3");
+            if(!IncorrectCommaAmericanDates.IsMatch(theURLoriginal))
+                newValue = IncorrectCommaAmericanDates.Replace(newValue, @"$1 $2, $3");
 
             // URL starting www needs http://
             if (theURL.StartsWith("www", StringComparison.OrdinalIgnoreCase))
