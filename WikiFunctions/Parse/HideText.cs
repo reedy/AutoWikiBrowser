@@ -101,7 +101,7 @@ namespace WikiFunctions.Parse
 
             if (AnyTagList.Any(t => t.Equals("tt") || t.StartsWith("syntaxhighlight") || t.Equals("code") || t.StartsWith("source")))
                 Replace(WikiRegexes.SourceCode.Matches(articleText), ref articleText);
-            Replace(MathCodeTypoTemplates.Matches(articleText), ref articleText);                 
+            Replace(MathCodeTypoTemplates.Matches(articleText), ref articleText);
 
             var matches = (from Match m in WikiRegexes.UnformattedText.Matches(articleText) where !LeaveMetaHeadings || !NoWikiIgnoreRegex.IsMatch(m.Value) select m).ToList();
             Replace(matches, ref articleText);
