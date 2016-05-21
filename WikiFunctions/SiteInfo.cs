@@ -152,7 +152,8 @@ namespace WikiFunctions
         {
             siteinfoOutput = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics|magicwords&format=xml");
 
-            if (string.IsNullOrEmpty(siteinfoOutput))
+            // readapidenied API error check for private wikis that require login for any query
+            if (string.IsNullOrEmpty(siteinfoOutput) || siteinfoOutput.Contains("readapidenied"))
                 return false;
 
             // cache successful result
