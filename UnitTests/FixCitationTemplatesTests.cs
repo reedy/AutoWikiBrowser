@@ -581,6 +581,9 @@ Bar}} was"), "newline converted to space, any parameter");
 
             const string correct3 = @"{{cite book | page = ੯-੨ }}";
             Assert.AreEqual(correct3, Parsers.FixCitationTemplates(correct3), "No change to non-standard numbers");
+            Assert.AreEqual(@"{{cite book|author=Smith|title=Great|pages=59999990–59999999}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=59999990—59999999}}"));
+            const string tooLong = @"{{cite book|author=Smith|title=Great|page=57999999000—59999999000}}";
+            Assert.AreEqual(tooLong, Parsers.FixCitationTemplates(tooLong));
         }
 
         [Test]

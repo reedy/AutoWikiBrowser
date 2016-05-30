@@ -588,7 +588,7 @@ namespace WikiFunctions.Parse
         #region PageRanges
 
         private static readonly List<string> PageFields = new List<string>(new[] {"page", "pages", "p", "pp"});
-        private static readonly Regex PageRange = new Regex(@"\b([0-9]+)\s*[-—]+\s*([0-9]+)");
+        private static readonly Regex PageRange = new Regex(@"\b([0-9]{1,8})\s*[-—]+\s*([0-9]{1,8})");
         private static readonly Regex SpacedPageRange = new Regex(@"(\d+) +(–|&ndash;) +(\d)");
 
         /// <summary>
