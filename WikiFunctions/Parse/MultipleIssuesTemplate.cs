@@ -141,13 +141,14 @@ namespace WikiFunctions.Parse
             if (!existingMultipleIssues)
                 zerothsection = @"{{Multiple issues}}" + "\r\n" + zerothsection;
             
-            // add each template to MI
-            foreach(Match m in Templates.Matches(zerothsectionNoMI))
+            // add each distinct template to MI
+            List<string> miTemplates = Tools.DeduplicateList((from Match m in Templates.Matches(zerothsectionNoMI) select m.Value).ToList());
+            foreach(string t in miTemplates)
             {
-                zerothsection = zerothsection.Replace(m.Value, "");
+                zerothsection = zerothsection.Replace(t, "");
                 string MI = WikiRegexes.MultipleIssues.Match(zerothsection).Value;
                 bool newstyleMI = WikiRegexes.NestedTemplates.IsMatch(MI.Substring(2));
-                zerothsection = zerothsection.Replace(MI, Regex.Replace(MI, @"\s*}}$", (newstyleMI ? "" : "|") + "\r\n" + m.Value + "\r\n}}"));
+                zerothsection = zerothsection.Replace(MI, Regex.Replace(MI, @"\s*}}$", (newstyleMI ? "" : "|") + "\r\n" + t + "\r\n}}"));
             }
 
             // clean up again in case of duplicate tags

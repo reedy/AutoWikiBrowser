@@ -379,7 +379,7 @@ W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
         }
 
         [Test]
-        public void MultipleIssuesSectionAutoTemplates()
+        public void MultipleIssues()
         {
             string before = @"{{Unreferenced|auto=yes|date=December 2009}}
 {{Underlinked|date=November 2006}}
@@ -407,6 +407,24 @@ W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
 
 {{Norway-band-stub}}";
             AssertChange(before, after);
+
+
+            ArticleText = @"{{POV|date=May 2016}}
+{{NPOV|date=May 2016}}
+{{Orphan|date=May 2016}}
+{{Dead end|date=May 2016}}
+
+Minor bug";
+
+            WikiRegexes.TemplateRedirects.Clear();
+            WikiRegexes.TemplateRedirects = Parsers.LoadTemplateRedirects(@"{{tl|NPOV}} → {{tl|POV}}");
+            GenFixes("A");
+
+            Assert.IsTrue(ArticleText.Contains(@"{{Multiple issues|
+{{POV|date=May 2016}}
+{{Orphan|date=May 2016}}
+{{Dead end|date=May 2016}}
+}}"), "No excess pipes left when MI incorporates duplicate tags");
         }
 
         [Test]
