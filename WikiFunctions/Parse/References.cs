@@ -918,7 +918,7 @@ namespace WikiFunctions.Parse
                                                                           select m.Value).ToList());
 
             // fix incorrect closing </ref>
-            articleText = Regex.Replace(articleText, "</ref\r\n", "</ref>\r\n");
+            articleText = Regex.Replace(articleText, "</ref ?\r\n", "</ref>\r\n");
 
             // <REF>, </REF> and <Ref> to lowercase ref
             if (AllTagsList.Any(s => Regex.IsMatch(s, @"R[Ee][Ff]|r[Ee]F")))
