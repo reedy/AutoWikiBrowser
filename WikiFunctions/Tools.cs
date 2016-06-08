@@ -1389,7 +1389,7 @@ namespace WikiFunctions
             return Globals.UsingMono ? "/" : "\\";
         }
 
-        private static readonly Regex WholeLine = new Regex(@"^(.*)$(?<!^\s+$)", RegexOptions.Multiline);
+        private static readonly Regex WholeLine = new Regex(@"^(.*)$(?<!^\s*$)", RegexOptions.Multiline);
 
         /// <summary>
         /// Turns an HTML list into a wiki style list using the input bullet style (with space)
@@ -1404,7 +1404,7 @@ namespace WikiFunctions
             text = Regex.Replace(text, "^</?(ol|ul|li)>\r\n", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
             text = Regex.Replace(text, @"^(\:|\*|#|\(? ?\d{1,3}\b ?\)|\d{1,3}\b\.?)", "", RegexOptions.Multiline);
 
-            // add bullet to start of each line, but not lines with just whitespace
+            // add bullet to start of each line, but not empty lines or lines with just whitespace
             return WholeLine.Replace(text, m => bullet + " " + m.Groups[1].Value.TrimStart());
         }
 

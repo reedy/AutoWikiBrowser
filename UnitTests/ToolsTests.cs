@@ -865,6 +865,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         public void HTMLListToWiki()
         {
             Assert.AreEqual(@"* Fred", Tools.HTMLListToWiki("Fred", "*"), "simple case");
+            Assert.AreEqual(@"* Fred" + "\r\n", Tools.HTMLListToWiki("Fred" + "\r\n", "*"), "simple case, trailing newline");
             Assert.AreEqual(@"* Fred
 * Jones", Tools.HTMLListToWiki(@"Fred
 Jones", "*"), "Two entries");
