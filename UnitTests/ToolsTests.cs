@@ -1743,9 +1743,6 @@ dateformat=mdy}}", "cite web", "dateformat"));
         public void RemoveDuplicateTemplateParameters()
         {
             Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=def}}"));
-            Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=de}}"), "removed when one contains the other");
-            Assert.AreEqual(@"{{foo|first=abc|second=def|a=c}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|a=c|second=de}}"));
-            Assert.AreEqual(@"{{foo|first=abc|a=c|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=de|a=c|second=def}}"));
             Assert.AreEqual(@"{{foo|first=abc|second = def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second = def}}"), "first removed if both the same");
             Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=}}"), "null dupe param removed");
             Assert.AreEqual(@"{{foo|first=abc|second=

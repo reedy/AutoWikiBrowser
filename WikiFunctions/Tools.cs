@@ -2775,11 +2775,10 @@ Message: {2}
                         string earlierParamValue;
                         templateparams.TryGetValue(paramName, out earlierParamValue);
 
-                        // remove this param if equal value to earlier one, or either value blank, or earlier one contains this one
-                        if (paramValue.Equals(earlierParamValue) || paramValue.Length == 0 || earlierParamValue.Length == 0
-                           || earlierParamValue.Contains(paramValue) || paramValue.Contains(earlierParamValue))
+                        // remove this param if equal value to earlier one, or either value blank
+                        if (paramValue.Equals(earlierParamValue) || paramValue.Length == 0 || earlierParamValue.Length == 0)
                         {
-                            bool removeLastmatch = (paramValue.Length == 0 || (!paramValue.Equals(earlierParamValue) && earlierParamValue.Contains(paramValue)));
+                            bool removeLastmatch = (paramValue.Length == 0);
                             templatecall = RemoveTemplateParameter(templatecall, paramName, removeLastmatch);
                             break;
                         }
