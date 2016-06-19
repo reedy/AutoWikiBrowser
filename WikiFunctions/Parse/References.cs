@@ -853,34 +853,34 @@ namespace WikiFunctions.Parse
         private static readonly RegexReplacement[] RefSimple = {
             new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>",  RegexOptions.Singleline), "<ref>"),
             // <ref name="Fred" /ref> --> <ref name="Fred"/>
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*(?:ref|/)\s*>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1/>"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*(?:ref|/)\s*>", RegexOptions.IgnoreCase), "$1/>"),
 
             // <ref name="Fred""> --> <ref name="Fred">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")""\s*(/?)>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1$2>"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")""\s*(/?)>", RegexOptions.IgnoreCase), "$1$2>"),
 
             // <ref name=""Fred"> --> <ref name="Fred">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)""""([^<>=""\/]+?"")\s*(/?)>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1$2$3>"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)""""([^<>=""\/]+?"")\s*(/?)>", RegexOptions.IgnoreCase), "$1$2$3>"),
 
             // <ref name = ”Fred”> --> <ref name="Fred">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:[“‘”’]+(?<val>[^<>=""\/]+?)[“‘”’]*|[“‘”’]*(?<val>[^<>=""\/]+?)[“‘”’]+)(\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""${val}""$2"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:[“‘”’]+(?<val>[^<>=""\/]+?)[“‘”’]*|[“‘”’]*(?<val>[^<>=""\/]+?)[“‘”’]+)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""${val}""$2"),
 
             // <ref name = ''Fred'> --> <ref name="Fred"> (two apostrophes) or <ref name = 'Fred''> --> <ref name="Fred"> (two apostrophes)
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:''+(?<val>[^<>=""\/]+?)'+|'+(?<val>[^<>=""\/]+?)''+)(\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""${val}""$2"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:''+(?<val>[^<>=""\/]+?)'+|'+(?<val>[^<>=""\/]+?)''+)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""${val}""$2"),
 
             // <ref name=foo bar> --> <ref name="foo bar">, match when spaces
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]+?\s+[^<>=""'\/\s]+?)(\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]+?\s+[^<>=""'\/\s]+?)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
             // <ref name=foo bar> --> <ref name="foo bar">, match when non-ASCII characters ([\x00-\xff]*)
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]*?[^\x00-\xff]+?[^<>=""'\/]*?)(\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]*?[^\x00-\xff]+?[^<>=""'\/]*?)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
             // <ref name=foo bar"> --> <ref name="foo bar"> or <ref name="foo bar> --> <ref name="foo bar">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:['`”]*(?<val>[^<>=""\/]+?)""|""(?<val>[^<>=""\/]+?)['`”]*)(\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""${val}""$2"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:['`”]*(?<val>[^<>=""\/]+?)""|""(?<val>[^<>=""\/]+?)['`”]*)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""${val}""$2"),
 
             // <ref name "foo bar"> --> <ref name="foo bar">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)[\+\-]?(\s*""[^<>=""\/]+?""\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1=$2"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)[\+\-]?(\s*""[^<>=""\/]+?""\s*/?>)", RegexOptions.IgnoreCase), @"$1=$2"),
 
             // <ref "foo bar"> --> <ref name="foo bar">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+)=?\s*(""[^<>=""\/]+?""\s*/?>)",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1name=$2"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+)=?\s*(""[^<>=""\/]+?""\s*/?>)", RegexOptions.IgnoreCase), "$1name=$2"),
 
             // ref name typos
             new RegexReplacement(new Regex(@"(<\s*ref\s+n)(me\s*=)",  RegexOptions.IgnoreCase), "$1a$2"),
