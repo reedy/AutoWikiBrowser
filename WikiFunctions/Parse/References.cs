@@ -884,17 +884,17 @@ namespace WikiFunctions.Parse
 
             // ref name typos
             new RegexReplacement(new Regex(@"(<\s*ref\s+n)(me\s*=)",  RegexOptions.IgnoreCase), "$1a$2"),
-            
+
             // <ref name="Fred" Smith> --> <ref name="Fred Smith">
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?)""([^<>=""\/]{2,}?)(?<!\s+)(?=\s*/?>)",  RegexOptions.IgnoreCase), @"$1$2"""),
-            
+
             // <ref name-"Fred"> --> <ref name="Fred">
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)-"), "$1="),
-            
+
             // <ref NAME= --> <ref name=
             // <refname= --> <ref name=
             new RegexReplacement(new Regex(@"<\s*ref(?:\s+NAME|name)(\s*=)"), "<ref name$1"),
-            
+
             // empty ref name: <ref name=>
             new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=\s*>"), "<ref>")
         };
