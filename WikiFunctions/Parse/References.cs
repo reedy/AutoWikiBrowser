@@ -888,8 +888,8 @@ namespace WikiFunctions.Parse
             // <ref name="Fred" Smith> --> <ref name="Fred Smith">
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?)""([^<>=""\/]{2,}?)(?<!\s+)(?=\s*/?>)",  RegexOptions.IgnoreCase), @"$1$2"""),
 
-            // <ref name-"Fred"> --> <ref name="Fred">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)-"), "$1="),
+            // <ref name-"Fred"> or <ref name=="Fred">  --> <ref name="Fred">
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)(?:-|={2,})"), "$1="),
 
             // <ref NAME= --> <ref name=
             // <refname= --> <ref name=
