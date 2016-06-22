@@ -228,6 +228,7 @@ namespace WikiFunctions
                 case "sq":
                     uncattemplate = "([Pp]a kategori|[Uu]ncategorized)";
                     Orphan = Tools.NestedTemplateRegex(new[] {@"Faqe e palidhur", "Orphan"});
+                    DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     break;
                 case "sv":
                     Orphan = Tools.NestedTemplateRegex(@"Föräldralös");

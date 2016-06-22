@@ -913,6 +913,10 @@ namespace WikiFunctions
                     Stub = "(?:[^{}]*?[Ss]tub|[Šš]krbina[^{}]*?)";
                     break;
 
+                case "sq":
+                    mSummaryTag = "duke përdorur";
+                    break;
+                    
                 case "sv":
                     mSummaryTag = "med";
                     TypoSummaryTag = "rättar stavfel: ";
