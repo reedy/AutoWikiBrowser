@@ -825,7 +825,6 @@ namespace WikiFunctions
 
                 case "el":
                     mSummaryTag = "με τη χρήση";
-                    WPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
                     Stub = @"[^{}|]*?([Ss]tub|[Εε]πέκταση)";
                     SectStub = @"\{\{θέματος";
                     SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
@@ -886,7 +885,11 @@ namespace WikiFunctions
                     mSummaryTag = "met";
                     break;
                     
-                case "pl":
+                case "pa":
+                    mSummaryTag = "ਦੀ ਵਰਤੋਂ ਨਾਲ";
+                    break;
+
+                   case "pl":
                     mSummaryTag = "przy użyciu";
                     SectStub = @"\{\{[Ss]ek";
                     SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
@@ -894,7 +897,6 @@ namespace WikiFunctions
 
                 case "pt":
                     mSummaryTag = "utilizando";
-                    WPAWB = "[[Project:AutoWikiBrowser|AWB]]";
                     break;
 
                 case "ru":
@@ -904,12 +906,10 @@ namespace WikiFunctions
 
                 case "sk":
                     mSummaryTag = "";
-                    WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case "sl":
                     mSummaryTag = "";
-                    WPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
                     Stub = "(?:[^{}]*?[Ss]tub|[Šš]krbina[^{}]*?)";
                     break;
 
@@ -928,7 +928,6 @@ namespace WikiFunctions
                 case "uk":
                     Stub = ".*?(?:[Ss]tub|[Дд]оробити)";
                     mSummaryTag = "за допомогою";
-                    WPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                     break;
 
                 case "zh":

@@ -902,6 +902,13 @@ namespace WikiFunctions.Parse
                 else if (Variables.LangCode.Equals("hy"))
                     summary = "ջնջվեց " + Tools.ListToStringCommaSeparator(tagsRemoved) + " կաղապար" +
                     (tagsRemoved.Count == 1 ? "" : "ներ");
+                else if (Variables.LangCode.Equals("sq"))
+                {
+                     if (tagsRemoved.Count == 1)
+                        summary = "hoqa etiketën:" + Tools.ListToStringCommaSeparator(tagsRemoved);
+                    else 
+                        summary = "hoqa etiketat:" + Tools.ListToStringCommaSeparator(tagsRemoved);
+                }
                 else if (Variables.LangCode.Equals("sv"))
                 {
                      if (tagsRemoved.Count == 1)
@@ -972,6 +979,13 @@ namespace WikiFunctions.Parse
                 else if (Variables.LangCode.Equals("hy"))
                     summary += "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsAdded) + " կաղապար" +
                     (tagsAdded.Count == 1 ? "" : "ներ");
+                else if (Variables.LangCode.Equals("sq"))
+                {
+                    if (tagsAdded.Count == 1)
+                        summary += "shtova etiketën: " + Tools.ListToStringCommaSeparator(tagsAdded);
+                    else 
+                        summary += "shtova etiketat: " + Tools.ListToStringCommaSeparator(tagsAdded);
+                }
                 else if (Variables.LangCode.Equals("sv"))
                 {
                     if (tagsAdded.Count == 1)
