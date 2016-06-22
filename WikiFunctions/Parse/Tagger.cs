@@ -232,6 +232,11 @@ namespace WikiFunctions.Parse
                         articleText += Tools.Newline("{{Անավարտ}}", 3);
                         tagsAdded.Add("Անավարտ");
                     }
+                    else if (Variables.LangCode.Equals("sq"))
+                    {
+                        articleText += Tools.Newline("{{cung}}", 3);
+                        tagsAdded.Add("cung");
+                    }
                     else
                     {
                         articleText += Tools.Newline("{{stub}}", 3);

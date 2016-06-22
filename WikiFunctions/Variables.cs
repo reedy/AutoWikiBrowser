@@ -915,6 +915,8 @@ namespace WikiFunctions
 
                 case "sq":
                     mSummaryTag = "duke përdorur";
+                    TypoSummaryTag = @"[[WP:AWB/T|përmirësime tipografike]]: ";
+                    Stub = "(?:[^{}]*?[Cc]ung[^{}]*?)";
                     break;
                     
                 case "sv":
