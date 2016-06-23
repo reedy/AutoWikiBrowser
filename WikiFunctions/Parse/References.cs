@@ -854,7 +854,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>",  RegexOptions.Singleline), "<ref>"),
 
             // <ref name-"Fred"> or <ref name=="Fred">  --> <ref name="Fred">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)(?:[-\+]|={2,})"), "$1="),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)(?:[-\+\:]|={2,})"), "$1="),
 
             // <ref name="Fred" /ref> --> <ref name="Fred"/>
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*(?:ref|/)\s*>", RegexOptions.IgnoreCase), "$1/>"),
