@@ -852,6 +852,10 @@ namespace WikiFunctions.Parse
 
         private static readonly RegexReplacement[] RefSimple = {
             new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>",  RegexOptions.Singleline), "<ref>"),
+
+            // <ref name-"Fred"> or <ref name=="Fred">  --> <ref name="Fred">
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)(?:[-\+]|={2,})"), "$1="),
+
             // <ref name="Fred" /ref> --> <ref name="Fred"/>
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*(?:ref|/)\s*>", RegexOptions.IgnoreCase), "$1/>"),
 
@@ -887,9 +891,6 @@ namespace WikiFunctions.Parse
 
             // <ref name="Fred" Smith> --> <ref name="Fred Smith">
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?)""([^<>=""\/]{2,}?)(?<!\s+)(?=\s*/?>)",  RegexOptions.IgnoreCase), @"$1$2"""),
-
-            // <ref name-"Fred"> or <ref name=="Fred">  --> <ref name="Fred">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)(?:[-\+]|={2,})"), "$1="),
 
             // <ref NAME= --> <ref name=
             // <refname= --> <ref name=
