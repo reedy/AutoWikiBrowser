@@ -738,8 +738,6 @@ now stubborn}}");
             
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphanblahblah}}"));
             
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{multiple issues|orphan=June 2010}}"));
-            
             #if DEBUG
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
