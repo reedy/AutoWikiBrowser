@@ -494,6 +494,20 @@ y";
 ==References==
 {{reflist}}", ArticleText);
         }
+
+        [Test]
+        public void MergeRefsErrors()
+        {
+            ArticleText = @"A.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413 |title=a}}</ref><ref name=c>x</ref>
+
+B.<ref name=c />
+C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413 |title=a}}</ref>
+
+==References==
+{{reflist}}";
+            GenFixes("Test");
+            Assert.IsTrue(ArticleText.Contains(@"<ref name=""XXL Mag"">") && ArticleText.Contains(@"<ref name=""XXL Mag""/>"), "Fix the ref quote errors, then merge them");
+        }
         
         [Test]
         public void RefPunctuationSpacing()
