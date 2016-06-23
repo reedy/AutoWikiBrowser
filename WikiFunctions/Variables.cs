@@ -793,6 +793,10 @@ namespace WikiFunctions
                     TypoSummaryTag = "الأخطاء المصححة: ";
                     break;
                     
+                case "be":
+                    mSummaryTag = "з дапамогай";
+                    break;
+
                 case "bg":
                     mSummaryTag = "редактирано с";
                     WPAWB = "AWB";
@@ -889,7 +893,7 @@ namespace WikiFunctions
                     mSummaryTag = "ਦੀ ਵਰਤੋਂ ਨਾਲ";
                     break;
 
-                   case "pl":
+                case "pl":
                     mSummaryTag = "przy użyciu";
                     SectStub = @"\{\{[Ss]ek";
                     SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);

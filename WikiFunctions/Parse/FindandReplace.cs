@@ -229,6 +229,8 @@ namespace WikiFunctions.Parse
                         editSummary = "استبدل: " + ReplacedSummary.Trim();
                     else if (Variables.LangCode.Equals("arz"))
                         editSummary = "غير: " + ReplacedSummary.Trim();
+                    else if (Variables.LangCode.Equals("be"))
+                        editSummary = "перанесена: " + ReplacedSummary.Trim();
                     else if (Variables.LangCode.Equals("el"))
                         editSummary = "αντικατέστησε: " + ReplacedSummary.Trim();
                     else if (Variables.LangCode.Equals("eo"))
@@ -237,6 +239,8 @@ namespace WikiFunctions.Parse
                         editSummary = "remplacement: " + ReplacedSummary.Trim();
                     else if (Variables.LangCode.Equals("hy"))
                         editSummary = "փոխարինվեց: " + ReplacedSummary.Trim();
+                    else if (Variables.LangCode.Equals("sq"))
+                        editSummary = "zëvendësova: " + ReplacedSummary.Trim();
                     else if (Variables.LangCode.Equals("tr"))
                         editSummary = "değiştirildi: " + ReplacedSummary.Trim();
                     else
@@ -256,6 +260,8 @@ namespace WikiFunctions.Parse
                         editSummary += "أزال: " + RemovedSummary.Trim();
                     else if (Variables.LangCode.Equals("arz"))
                         editSummary += "شال: " + RemovedSummary.Trim();
+                    else if (Variables.LangCode.Equals("be"))
+                        editSummary += "выдалена: " + RemovedSummary.Trim();
                     else if (Variables.LangCode.Equals("el"))
                         editSummary += "αφαίρεσε: " + RemovedSummary.Trim();
                     else if (Variables.LangCode.Equals("eo"))
@@ -264,6 +270,8 @@ namespace WikiFunctions.Parse
                         editSummary += "retrait: " + RemovedSummary.Trim();
                     else if (Variables.LangCode.Equals("hy"))
                         editSummary += "ջնջվեց: " + RemovedSummary.Trim();
+                    else if (Variables.LangCode.Equals("sq"))
+                        editSummary += "hoqa: " + RemovedSummary.Trim();
                     else if (Variables.LangCode.Equals("tr"))
                         editSummary += "çıkartıldı:" + RemovedSummary.Trim();
                     else
