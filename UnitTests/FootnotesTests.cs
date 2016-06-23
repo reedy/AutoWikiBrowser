@@ -257,6 +257,7 @@ namespace UnitTests
             // <ref name=> --> <ref>
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name=>"));
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name =  >"));
+            Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name = """" >"));
 
             Assert.AreEqual(@"A.<ref>[http://www.site.com a site]</ref>
 Then", Parsers.FixReferenceTags(@"A.<ref>[http://www.site.com a site]</ref
