@@ -40,7 +40,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -565,7 +565,7 @@ cp SvnInfo.template.cs SvnInfo.cs
 HEADREV=`svn info | grep Revision | cut -c 11-20`
 HEADDATE=`svn info | grep 'Last Changed Date' | cut -c 20-38`
 perl -pi -e s/.WCREV./$HEADREV/g SvnInfo.cs
-perl -pi -e s/.WCDATE./&quot;$HEADDATE&quot;/g SvnInfo.cs
+perl -pi -e s/.WCDATE./"$HEADDATE"/g SvnInfo.cs
 cd $(OutDir)</PreBuildEvent>
   </PropertyGroup>
 </Project>
