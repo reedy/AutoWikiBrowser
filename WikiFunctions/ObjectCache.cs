@@ -352,7 +352,10 @@ namespace WikiFunctions
 
         public void Invalidate()
         {
-            Storage.Clear();
+            lock (Storage)
+            {
+                Storage.Clear();
+            }
             Save();
             File.Delete(FileName);
         }
