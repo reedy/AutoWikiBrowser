@@ -867,9 +867,16 @@ namespace WikiFunctions.DBScanner
                 {
                     var fileName = openXMLDialog.FileName;
                     var extension = Path.GetExtension(fileName);
+                    
                     if (extension != null && extension.ToLower() != ".xml")
                     {
                         MessageBox.Show("The Database Scanner works with XML dump files. Please extract any compressed files (gz, bz2, 7z) and try again using the XML file from archive", "Wrong extension");
+                        return;
+                    }
+
+                    if (new FileInfo(fileName).Length == 0)
+                    {
+                        MessageBox.Show("The file you are trying to open seems to be empty. Is it still being downloaded?", "Empty File?");
                         return;
                     }
 
