@@ -31,6 +31,7 @@ using WikiFunctions.API;
 using WikiFunctions.DBScanner;
 using WikiFunctions.Lists;
 using WikiFunctions.Lists.Providers;
+using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Controls.Lists
 {
