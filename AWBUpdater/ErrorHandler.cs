@@ -6,8 +6,6 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Threading;
 using System.Text.RegularExpressions;
-using System.Web;
-// using WikiFunctions.API;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 /* Don't use anything WikiFunctions-specific here, for source-compatibility with Updater  */
