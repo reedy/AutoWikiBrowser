@@ -512,7 +512,7 @@ namespace WikiFunctions.Parse
             if(id.Length > 0)
             {
                 // get id param name, id or ID
-                string idParamName = paramsFound.Where(p => p.Key == "ID" || p.Key == "id").FirstOrDefault().Key;
+                string idParamName = paramsFound.FirstOrDefault(p => p.Key == "ID" || p.Key == "id").Key;
 
                 //id=ISBN fix
                 if (IdISBN.IsMatch(id) && ISBN.Length == 0)
@@ -544,7 +544,7 @@ namespace WikiFunctions.Parse
                 string newISSN = Regex.Replace (ISSN, @"^([0-9]{4}) *[- –]* *([0-9]{3}[0-9X])$", "$1-$2");
 
                 if (!newISSN.Equals (ISSN))
-                    newValue = Tools.UpdateTemplateParameterValue (newValue, paramsFound.Where (p => p.Key == "ISSN" || p.Key == "issn").FirstOrDefault ().Key, newISSN);
+                    newValue = Tools.UpdateTemplateParameterValue (newValue, paramsFound.FirstOrDefault (p => p.Key == "ISSN" || p.Key == "issn").Key, newISSN);
             }
 
             if (ISBN.Length > 0)

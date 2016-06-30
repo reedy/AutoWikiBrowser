@@ -163,7 +163,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             return true;
         }
 
-        static internal string PluginName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        internal static string PluginName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
         private void regexHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

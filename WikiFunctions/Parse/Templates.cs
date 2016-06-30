@@ -101,11 +101,10 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string TemplateRedirects(string articleText, Dictionary<Regex, string> DictionaryOfTemplateRedirects)
         {
-            string newArticleText;
             if (WikiRegexes.AllTemplateRedirects == null)
                 return articleText;
 
-            newArticleText = TemplateRedirectsHashSet(articleText, DictionaryOfTemplateRedirects);
+            var newArticleText = TemplateRedirectsHashSet(articleText, DictionaryOfTemplateRedirects);
 
             // call TemplateToMagicWord if changes made
             if (!newArticleText.Equals(articleText))

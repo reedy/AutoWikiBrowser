@@ -428,7 +428,10 @@ namespace WikiFunctions
         internal static void LoadUnderscores(params string[] cats)
         {
             BackgroundRequest r = new BackgroundRequest(UnderscoresLoaded) {HasUI = false};
-            DelayedRequests.Add(r);
+            lock (DelayedRequests)
+            {
+                DelayedRequests.Add(r);
+            }
             r.GetList(new CategoryListProvider(), cats);
         }
 
