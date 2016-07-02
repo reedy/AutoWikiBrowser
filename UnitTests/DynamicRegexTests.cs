@@ -631,6 +631,12 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{保加利亞地理小作品}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Germany-geo-stub}}");
 
+            Variables.SetProjectLangCode("sco");
+            WikiRegexes.MakeLangSpecificRegexes();
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Stub/foo}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Stub/foo bar}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{foo-stub}}");
+
             Variables.SetProject("en", ProjectEnum.wikipedia);
             WikiRegexes.MakeLangSpecificRegexes();
             #endif

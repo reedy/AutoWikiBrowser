@@ -911,6 +911,10 @@ namespace WikiFunctions
                     Stub = "[^{}]*?(?:[Ss]tub|[Зз]аготовка)";
                     break;
 
+                case "sco":
+                    Stub = "(Stub/[^{}|]+|[^{}|]*?[Ss]tub)";
+                    break;
+
                 case "sk":
                     mSummaryTag = "";
                     break;
