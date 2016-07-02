@@ -894,7 +894,7 @@ namespace WikiFunctions.Parse
 
             // <ref NAME= --> <ref name=
             // <refname= --> <ref name=
-            new RegexReplacement(new Regex(@"<\s*ref(?:\s+NAME|name)(\s*=)"), "<ref name$1"),
+            new RegexReplacement(new Regex(@"<\s*ref(?:\s+NAME|name|\s+name\s*=\s*name)(\s*=)"), "<ref name$1"),
 
             // empty ref name: <ref name=>
             new RegexReplacement(new Regex(@"<\s*ref\s+name[\s""]*=[\s""]*>"), "<ref>")
