@@ -897,7 +897,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"<\s*ref(?:\s+NAME|name)(\s*=)"), "<ref name$1"),
 
             // empty ref name: <ref name=>
-            new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=[\s""]*>"), "<ref>")
+            new RegexReplacement(new Regex(@"<\s*ref\s+name[\s""]*=[\s""]*>"), "<ref>")
         };
 
         // Matches possibly bad ref tags, but not the most common valid formats
