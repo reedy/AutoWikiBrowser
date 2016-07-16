@@ -481,6 +481,26 @@ Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=""Fred""/
 Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=Fred>The Honourable Fred Smith, 2002</ref>
 ==References==
 {{reflist}}"), "Ref that was used in short form in template can be condensed elsewhere");
+
+            const string Lewis = @"Hello<ref name=""Lewis"">{{cite journal |authors=Lewis JT |title=Low-grade cases |journal=Am J Surg Pathol |pmid=22301502}}</ref> recommended.
+
+A<ref name=""Wang"">{{cite journal |authors=Wang X |title=Recurrent |journal=Nat Genet |pmid=24859338}}</ref> only. Surgery.<ref name=""Lewis"">{{cite journal |authors=Lewis JT |title=Low-grade cases |journal=Am J Surg Pathol |pmid=22301502}}</ref>
+
+== References ==
+{{Reflist}}
+
+<ref name=""Wang"">{{cite journal |authors=Wang X |title=Recurrent |journal=Nat Genet |pmid=24859338}}</ref>
+<ref name=""Lewis"">{{cite journal |authors=Lewis JT |title=Low-grade cases |journal=Am J Surg Pathol |pmid=22301502}}</ref>";
+
+            Assert.AreEqual(@"Hello<ref name=""Lewis"">{{cite journal |authors=Lewis JT |title=Low-grade cases |journal=Am J Surg Pathol |pmid=22301502}}</ref> recommended.
+
+A<ref name=""Wang"">{{cite journal |authors=Wang X |title=Recurrent |journal=Nat Genet |pmid=24859338}}</ref> only. Surgery.<ref name=""Lewis""/>
+
+== References ==
+{{Reflist}}
+
+<ref name=""Wang"">{{cite journal |authors=Wang X |title=Recurrent |journal=Nat Genet |pmid=24859338}}</ref>
+<ref name=""Lewis"">{{cite journal |authors=Lewis JT |title=Low-grade cases |journal=Am J Surg Pathol |pmid=22301502}}</ref>", Parsers.DuplicateNamedReferences(Lewis), "When dupe cite to condense, and another one after reflist, don't condense both");
         }
 
         [Test]

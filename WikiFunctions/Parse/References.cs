@@ -290,7 +290,10 @@ namespace WikiFunctions.Parse
                             string textaftermatch = articleText.Substring(m.Index);
 
                             if (textaftermatch.Contains(m.Value))
-                                articleText = texttomatch + textaftermatch.Replace(m.Value, @"<ref name=""" + refName + @"""/>");
+                            {
+                                Tools.ReplaceOnce(ref textaftermatch, m.Value, @"<ref name=""" + refName + @"""/>");
+                                articleText = texttomatch + textaftermatch;
+                            }
                             else
                             {
                                 reparse = true;
