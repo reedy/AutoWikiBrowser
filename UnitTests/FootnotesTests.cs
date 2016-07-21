@@ -114,7 +114,7 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=foo bar /> and"));
             Assert.AreEqual(@"now <ref name = ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name = foo bar >and"));
 
-            const string nochange = @"<ref name=VulgarisAerae1
+            string nochange = @"<ref name=VulgarisAerae1
 />";
             Assert.AreEqual(nochange, Parsers.FixReferenceTags(nochange));
 
@@ -122,6 +122,10 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"""">and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"""" >and"));
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar"""">and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""""foo bar"""">and"));
+
+            nochange = @"now <ref name=""foo bar"">and";
+            Assert.AreEqual(nochange, Parsers.FixReferenceTags(nochange));
 
             // <ref name=""Fred"> --> <ref name="Fred">
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""""foo bar"">and"));
