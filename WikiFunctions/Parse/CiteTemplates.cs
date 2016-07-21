@@ -289,7 +289,7 @@ namespace WikiFunctions.Parse
             if (TheWork.Contains("''") && !TheWork.Contains("."))
                 newValue = WorkInItalics.Replace(newValue, "$1$2");
 
-            // remove quotes around title field: are automatically added by template markup
+            // format quotes in title fields, remove stray quotes
             foreach (string dequoteParam in ParametersToDequote)
             {
                 string quotetitle;
@@ -301,8 +301,14 @@ namespace WikiFunctions.Parse
                     quotetitle = WikiRegexes.CurlyDoubleQuotes.Replace(quotetitle, @"""");
                     quotetitle = BalancedArrows.Replace(quotetitle, @"""$1$2""");
 
-                    if (quotetitle.Contains(@"""") && !quotetitle.Trim('"').Contains(@""""))
-                        quotetitle = quotetitle.Trim('"');
+                    // trim stray quotes (but don't change title in quotes as this may be a title that is itself a quote)
+                    if(!quotetitle.Trim('"').Contains(@""""))
+                    {
+                        if (quotetitle.StartsWith(@"""") && !quotetitle.EndsWith(@""""))
+                            quotetitle = quotetitle.TrimStart('"');
+                        else if (quotetitle.EndsWith(@"""") && !quotetitle.StartsWith(@""""))
+                            quotetitle = quotetitle.TrimEnd('"');
+                    }
 
                     if (!before.Equals(quotetitle))
                         newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, quotetitle);
