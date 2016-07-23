@@ -899,8 +899,8 @@ namespace WikiFunctions.Parse
             // <refname= --> <ref name=
             new RegexReplacement(new Regex(@"<\s*ref(?:\s+NAME|name|\s+name\s*=\s*name)(\s*=)"), "<ref name$1"),
 
-            // empty ref name: <ref name=>
-            new RegexReplacement(new Regex(@"<\s*ref\s+name[\s""]*=[\s""]*>"), "<ref>")
+            // empty ref name: <ref name=> or <ref name = group =>
+            new RegexReplacement(new Regex(@"<\s*ref\s+name[\s""]*=[\s""]*(?:group\s*=\s*)?>"), "<ref>")
         };
 
         // Matches possibly bad ref tags, but not the most common valid formats
@@ -921,7 +921,7 @@ namespace WikiFunctions.Parse
             // Performance strategy: get all tags in article, filter down to tags that look like ref tags, ignore valid tags, only apply regexes where relevant tags are found
             List<string> AllTagsList = Tools.DeduplicateList((from Match m in AllTagsSpace.Matches(articleText)
                 where m.Value.IndexOf("re", StringComparison.OrdinalIgnoreCase) > 0 
-                && !m.Value.Equals("<ref>") && !m.Value.Equals("</ref>") && !m.Value.StartsWith(@"<references") && !m.Value.Contains(" group")
+                && !m.Value.Equals("<ref>") && !m.Value.Equals("</ref>") && !m.Value.StartsWith(@"<references")
                                                                           select m.Value).ToList());
 
             // fix incorrect closing </ref>
