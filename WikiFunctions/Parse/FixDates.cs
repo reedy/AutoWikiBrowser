@@ -59,6 +59,10 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
             
+            // Remove sup tags from ordinals per [[WP:ORDINAL]].
+            // CHECKWIKI error 101
+            articleText = SupOrdinal.Replace(articleText, @"$1$2");
+
             bool monthsInTitle = MonthsRegex.IsMatch(articleTitle);
 
             for (; ; )
@@ -108,7 +112,7 @@ namespace WikiFunctions.Parse
             // ordinals check for performance
             if (!monthsInTitle && Regex.IsMatch(textPortion, @"[0-9](st|nd|rd|th)"))
             {
-                textPortion = OrdinalsInDatesAmRange.Replace(textPortion, m => Regex.Replace(m.Value, @"\b([1-3]?[0-9])(?:st|nd|rd|th)\b", "$1"));
+            	textPortion = OrdinalsInDatesAmRange.Replace(textPortion, m => Regex.Replace(m.Value, @"\b([1-3]?[0-9])(?:st|nd|rd|th)\b", "$1"));
                 textPortion = OrdinalsInDatesInt.Replace(textPortion, "$1$2$3 $4");
                 textPortion = DayOfMonth.Replace(textPortion, "$1 $2");
             }
