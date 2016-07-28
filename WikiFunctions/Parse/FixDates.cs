@@ -44,8 +44,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex Ordinal = new Regex(@"[0-9](?:st|nd|rd|th)");
         private static readonly Regex MonthsAct = new Regex(@"\b(?:January|February|March|April|May|June|July|August|September|October|November|December) Act\b");
         //Ordinal number found inside <sup> tags.
-        private static readonly Regex SupOrdinal = new Regex(@"([0-9])<sup> ?(st|nd|rd|th) ?</sup>", RegexOptions.Compiled);
-        private static readonly Regex FixDateOrdinalsAndOfQuick = new Regex(@"[0-9](st|nd|rd|th)|\b0[1-9]\b| of +([0-9]|[A-Z])");
+        private static readonly Regex SupOrdinal = new Regex(@"([0-9])<sup> ?(st|nd|rd|th) ?</sup>", RegexOptions.IgnoreCase);
+        private static readonly Regex FixDateOrdinalsAndOfQuick = new Regex(@"[0-9](?:<sup> *)?(st|nd|rd|th)|\b0[1-9]\b| of +([0-9]|[A-Z])", RegexOptions.IgnoreCase);
 
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
@@ -58,11 +58,6 @@ namespace WikiFunctions.Parse
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
-            
-            // Remove sup tags from ordinals per [[WP:ORDINAL]].
-            // CHECKWIKI error 101
-            if (articleText.Contains("sup>"))
-				articleText = SupOrdinal.Replace(articleText, @"$1$2");
 
             bool monthsInTitle = MonthsRegex.IsMatch(articleTitle);
 
@@ -111,9 +106,13 @@ namespace WikiFunctions.Parse
 
             // don't apply if article title has a month in it (e.g. [[6th of October City]])
             // ordinals check for performance
-            if (!monthsInTitle && Regex.IsMatch(textPortion, @"[0-9](st|nd|rd|th)"))
+            if (!monthsInTitle && Regex.IsMatch(textPortion, @"[0-9](?:<sup> *)?(st|nd|rd|th)", RegexOptions.IgnoreCase))
             {
-            	textPortion = OrdinalsInDatesAmRange.Replace(textPortion, m => Regex.Replace(m.Value, @"\b([1-3]?[0-9])(?:st|nd|rd|th)\b", "$1"));
+                // Remove sup tags from ordinals per [[WP:ORDINAL]].
+                // CHECKWIKI error 101
+                textPortion = SupOrdinal.Replace(textPortion, @"$1$2");
+
+                textPortion = OrdinalsInDatesAmRange.Replace(textPortion, m => Regex.Replace(m.Value, @"\b([1-3]?[0-9])(?:st|nd|rd|th)\b", "$1"));
                 textPortion = OrdinalsInDatesInt.Replace(textPortion, "$1$2$3 $4");
                 textPortion = DayOfMonth.Replace(textPortion, "$1 $2");
             }
