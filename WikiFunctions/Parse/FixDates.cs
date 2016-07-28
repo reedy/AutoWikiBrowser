@@ -61,7 +61,8 @@ namespace WikiFunctions.Parse
             
             // Remove sup tags from ordinals per [[WP:ORDINAL]].
             // CHECKWIKI error 101
-            articleText = SupOrdinal.Replace(articleText, @"$1$2");
+            if (articleText.Contains("sup>"))
+				articleText = SupOrdinal.Replace(articleText, @"$1$2");
 
             bool monthsInTitle = MonthsRegex.IsMatch(articleTitle);
 
