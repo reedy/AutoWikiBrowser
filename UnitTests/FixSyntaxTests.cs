@@ -776,6 +776,9 @@ Now [[A],] was."));
             Assert.AreEqual(MI + "}}", Parsers.FixSyntax(MI));
 
             Assert.AreEqual(MI + "}}" + "\r\n\r\n" + Infobox, Parsers.FixSyntax(MI + "\r\n" + Infobox));
+
+            const string BrokenWikiLinkInExternalLink = @"[http://a.site.edu/text/ [[ABC] {{wayback|url=http://a.site.edu/text/ |date=20100522200011 }}] Words here]";
+            Assert.AreEqual(BrokenWikiLinkInExternalLink, Parsers.FixSyntax(BrokenWikiLinkInExternalLink), "No change when broken wikilink in external link");
         }
 
         [Test]

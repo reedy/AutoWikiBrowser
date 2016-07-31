@@ -540,7 +540,12 @@ namespace WikiFunctions.Parse
             // strip off leading [ and trailing ]
             string externalLink = SyntaxRegexExternalLinkOnWholeLine.Replace(m.Value, "$1");
 
-            // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link at the first ] found
+            // if there are unmatched double brackets, we can't fix this
+            if((externalLink.Contains("[[") && !externalLink.Contains("]]")) ||
+                (!externalLink.Contains("[[") && externalLink.Contains("]]")))
+                return (@"[" + externalLink + @"]");
+
+            // if there are some single brackets left then they need fixing; the mediawiki parser finishes the external link at the first ] found
             if (!WikiRegexes.Newline.IsMatch(externalLink) && (externalLink.Contains("]") || externalLink.Contains("[")))
             {
                 // replace single ] with &#93; when used for brackets in the link description
