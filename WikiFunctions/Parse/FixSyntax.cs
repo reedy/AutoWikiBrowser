@@ -119,7 +119,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex IncorrectBr = new Regex(@"<(\\ *br *| *br *\\ *| *br\. */?| *br */([a-z/0-9•\-]|br)| *br *\?|/ *br */?)>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         // CHECKWIKI error 2: https://en.wikipedia.org/wiki/Wikipedia:HTML5#Other_obsolete_attributes
         private static readonly Regex IncorrectBr2 = new Regex(@"<br\s*clear\s*=\s*""?(both|all|left|right)""?\s*\/?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex IncorrectBr3 = new Regex(@"<br\s*style\s*=\s*""clear\: ?(both|left|right)\;""\s*clear=\s*""(all|left|right)""\s*/?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex IncorrectBr3 = new Regex(@"<br\s*style\s*=\s*""clear\: ?(both|left|right)\;""(\s*clear=\s*""(all|left|right)"")?\s*/?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex IncorrectClosingHtmlTags = new Regex(@"< */?(center|gallery|small|sub|sup|i) *[\\/] *>");
 
         private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^(<hr>|-{5,})", RegexOptions.Compiled | RegexOptions.Multiline);
@@ -404,6 +404,7 @@ namespace WikiFunctions.Parse
                                                 }
                                               );
             //<br style="clear:both;" clear="all" />
+            //<br style="clear:both;" />
             articleText = IncorrectBr3.Replace(articleText, m =>
                                                 {
                                                     if (m.Groups[1].Value == "left")
