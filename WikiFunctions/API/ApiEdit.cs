@@ -83,9 +83,11 @@ namespace WikiFunctions.API
             {
                 ProxySettings = proxy;
             }
-            else
+            // GetSystemWebProxy doesn't work under Linux (no IE settings to find) and can cause 60-second timeout, so skip proxy lookup under Linux
+            else if(!Globals.UsingLinux)
             {
                 ProxySettings = WebRequest.GetSystemWebProxy();
+
                 if (ProxySettings.IsBypassed(new Uri(url)))
                 {
                     ProxySettings = null;
