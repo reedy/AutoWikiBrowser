@@ -98,7 +98,6 @@ namespace WikiFunctions
             using (log = new StreamWriter(FileName, Append, Encoding.Unicode))
             {
                 log.WriteLine(s);
-                log.Close();
             }
             ProfilerSemaphore.Release();
         }
@@ -113,7 +112,6 @@ namespace WikiFunctions
             using (log = new StreamWriter(FileName, Append, Encoding.Unicode))
             {
                 log.Flush();
-                log.Close();
             }
 
             ProfilerSemaphore.Release();
