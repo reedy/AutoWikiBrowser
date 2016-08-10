@@ -369,7 +369,7 @@ namespace WikiFunctions.TalkPages
 
             // rename redirects
             articletext = BannerShellRedirects.Aggregate(articletext,
-                (current, redirect) => Tools.RenameTemplate(current, redirect, "WikiProjectBannerShell", false));
+                (current, redirect) => Tools.RenameTemplate(current, redirect, "WikiProject banner shell", false));
 
             articletext = BannerRedirects.Aggregate(articletext,
                 (current, redirect) => Tools.RenameTemplate(current, redirect, "WikiProjectBanners", false));

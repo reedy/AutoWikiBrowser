@@ -1763,7 +1763,7 @@ bar
         {
             string red1 = @"{{WPBS}}", red2 = @"{{Wikiprojectbannershell}}", red3 = @"{{wpb}}", red4 = @"{{WPB}}",
 
-            WikiProjectBannerShell = @"{{WikiProjectBannerShell}}",
+            WikiProjectBannerShell = @"{{WikiProject banner shell}}",
             WikiProjectBanners = @"{{WikiProjectBanners}}";
             
             Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(red1));
@@ -1910,7 +1910,7 @@ bar
 {{WPBiography|living=yes|class=Start|priority=|listas=Hill, A}}
 {{WikiProject Gender Studies}}
 {{WikiProject Oklahoma}}
-}}", b = @"{{WikiProjectBannerShell|banner collapsed=no|1=
+}}", b = @"{{WikiProject banner shell|banner collapsed=no|1=
 {{WPBiography|living=yes|class=Start|priority=|listas=Hill, A}}
 {{WikiProject Gender Studies}}
 {{WikiProject Oklahoma}}
