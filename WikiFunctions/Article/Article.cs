@@ -679,7 +679,7 @@ namespace WikiFunctions
         private static readonly List<string> WikiProjectBannerShellKnowns = new List<string>(new[] { "blp", "blpo", "activepol", "collapsed", "banner collapsed", "1", "living" });
 
         /// <summary>
-        /// Returns a list of any unknown parameters in any WikiProjectBannerShell template
+        /// Returns a list of any unknown parameters in any WikiProject banner shell template
         /// </summary>
         /// <returns></returns>
         public List<string> UnknownWikiProjectBannerShellParameters()

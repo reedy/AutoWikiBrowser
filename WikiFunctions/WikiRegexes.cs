@@ -861,7 +861,7 @@ namespace WikiFunctions
             RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Matches the {{WikiProjectBannerShell}} templates and its redirects
+        /// Matches the {{WikiProject banner shell}} templates and its redirects
         /// </summary>
         public static readonly Regex WikiProjectBannerShellTemplate =
             Tools.NestedTemplateRegex(new[]

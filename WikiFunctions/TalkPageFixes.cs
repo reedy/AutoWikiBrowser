@@ -78,7 +78,7 @@ namespace WikiFunctions.TalkPages
             // 6. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
             // 7. Language related talk page guideline banners, such as {{American English}}
             // 8. Any "article history" banner
-            // 10. WikiProjectBannerShell - Any WikiProject banners
+            // 10. WikiProject banner shell - Any WikiProject banners
             // 11. {{Image requested}}
             // 12. Any "article milestone" banner (e.g., {{DYK talk}}, {{On this day}}, {{ITN talk}})
             // 12. {{Press}} and {{Connected contributor}}
@@ -350,7 +350,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex SirRegex = Tools.NestedTemplateRegex(new[] { "sir", "Single infobox request" });
 
         /// <summary>
-        /// Performs fixes to the WikiProjectBannerShells template:
+        /// Performs fixes to the WikiProject banner shell template:
         /// Add explicit call to first unnamed parameter 1= if missing/has no value
         /// Remove duplicate parameters
         /// Moves any other WikiProjects into WPBS
@@ -667,7 +667,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex WikiProject = new Regex(@"^[Ww]iki ?[Pp]roject ");
         
         /// <summary>
-        /// Adds WikiProjectBannerShell when needed (>= 3 WikiProject templates and no WikiProjectBannerShell)
+        /// Adds WikiProject banner shell when needed (>= 3 WikiProject templates and no WikiProject banner shell)
         /// </summary>
         /// <param name="articletext">The talk page text</param>
         /// <returns>The updated talk page text</returns>
