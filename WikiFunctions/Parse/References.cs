@@ -121,7 +121,7 @@ namespace WikiFunctions.Parse
         private static readonly List<string> PunctuationBeforeTheseTemplatesList = new List<string>(new[] {"Rp", "Better source"});
         private static readonly Regex Footnote = Tools.NestedTemplateRegex(FootnoteTemplatesList);
         private static readonly Regex PunctuationBeforeTheseTemplates  = Tools.NestedTemplateRegex(FootnoteTemplatesList.Union(PunctuationBeforeTheseTemplatesList).ToList());
-        private static readonly Regex PunctuationAfterTemplate = new Regex(@"(?<template>" + PunctuationBeforeTheseTemplates + @")(?<punc>[,\.;:\?\!])");
+        private static readonly Regex PunctuationAfterTemplate = new Regex(@"(?<template>" + PunctuationBeforeTheseTemplates + @")(?<punc>[,\.;:\?])");
         private static readonly Regex TemplateAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation + @"\2 *(?<template>" + PunctuationBeforeTheseTemplates + @")");
 
         /// <summary>
