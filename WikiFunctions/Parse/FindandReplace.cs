@@ -253,7 +253,7 @@ namespace WikiFunctions.Parse
                         if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
                         editSummary += "، ";
                         else
-                        editSummary += ", ";                            
+                        editSummary += ", ";
                     }
 
                     if (Variables.LangCode.Equals("ar"))
@@ -389,11 +389,19 @@ namespace WikiFunctions.Parse
             dataGridView1.Rows.Clear();
         }
 
+        /// <summary>
+        /// Encode the specified text, replacing actual CRLF newline with \r\n text
+        /// </summary>
+        /// <param name="text">Text.</param>
         private static string Encode(string text)
         {
             return text.Replace("\\r\\n", "\r\n");
         }
 
+        /// <summary>
+        /// Decode the specified text, replacing \n newline with \r\n text
+        /// </summary>
+        /// <param name="text">Text.</param>
         private static string Decode(string text)
         {
             return text.Replace("\n", "\\r\\n");
