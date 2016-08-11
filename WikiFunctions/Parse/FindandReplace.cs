@@ -111,6 +111,9 @@ namespace WikiFunctions.Parse
             return rep;
         }
 
+        /// <summary>
+        /// Builds backup list of find and replace entries in case user later wants to restore them
+        /// </summary>
         public void MakeList()
         {
             _replacementList.Clear();
@@ -390,7 +393,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Encode the specified text, replacing actual CRLF newline with \r\n text
+        /// Encode the specified text, replacing \r\n text with actual CRLF newline
         /// </summary>
         /// <param name="text">Text.</param>
         private static string Encode(string text)
@@ -399,7 +402,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Decode the specified text, replacing \n newline with \r\n text
+        /// Decode the specified text, replacing LF newline with \r\n text
         /// </summary>
         /// <param name="text">Text.</param>
         private static string Decode(string text)
@@ -415,13 +418,27 @@ namespace WikiFunctions.Parse
         /// <param name="r"></param>
         public void AddNew(Replacement r)
         {
+            AddNew(r, true);
+        }
+
+        /// <summary>
+        /// Loads a single replacement entry into the find and replace data grid
+        /// </summary>
+        /// <param name="r">The red component.</param>
+        /// <param name="decodeRequired">Whether decoding of newlines in find and replace text required. Required when loading settings from XML. NOT required when restoring from backup after Cancel</param>
+        public void AddNew(Replacement r, bool decodeRequired)
+        {
             bool caseSens = (r.RegularExpressionOptions & RegexOptions.IgnoreCase) != RegexOptions.IgnoreCase;
             bool multiline = (r.RegularExpressionOptions & RegexOptions.Multiline) == RegexOptions.Multiline;
             bool singleLine = (r.RegularExpressionOptions & RegexOptions.Singleline) == RegexOptions.Singleline;
 
-            dataGridView1.Rows.Add(r.IsRegex ? Decode(r.Find) : Regex.Unescape(Decode(r.Find)), Decode(r.Replace),
+            if(decodeRequired)
+                dataGridView1.Rows.Add(r.IsRegex ? Decode(r.Find) : Regex.Unescape(Decode(r.Find)), Decode(r.Replace),
                                    caseSens, r.IsRegex, multiline, singleLine, r.Minor, r.BeforeOrAfter, r.Enabled, r.Comment);
-
+            else
+                dataGridView1.Rows.Add(r.IsRegex ? r.Find : Regex.Unescape(r.Find), r.Replace,
+                    caseSens, r.IsRegex, multiline, singleLine, r.Minor, r.BeforeOrAfter, r.Enabled, r.Comment);
+            
             _replacementList.Add(r);
         }
 
@@ -509,7 +526,10 @@ namespace WikiFunctions.Parse
             if (replacementBackup != null && DialogResult == DialogResult.Cancel)
             {
                 dataGridView1.Rows.Clear();
-                AddNew(replacementBackup);
+                foreach (Replacement r in replacementBackup)
+                {
+                    AddNew(r, false);
+                }
                 _replacementList.Clear();
                 _replacementList = replacementBackup;
                 replacementBackup = null;
