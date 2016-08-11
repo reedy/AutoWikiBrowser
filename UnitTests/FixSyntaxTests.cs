@@ -848,6 +848,10 @@ Now [[A],] was."));
             Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br style=""clear:both;"" />"));
             Assert.AreEqual("{{clear|left}}", Parsers.FixSyntax(@"<br style=""clear:left;"" />"));
             Assert.AreEqual("{{clear|right}}", Parsers.FixSyntax(@"<br style=""clear:right;"" />"));
+
+            Assert.AreEqual("{{clear}}", Parsers.FixSyntax(@"<br style=clear:both; />"));
+            Assert.AreEqual("{{clear|left}}", Parsers.FixSyntax(@"<br style=clear:left; />"));
+            Assert.AreEqual("{{clear|right}}", Parsers.FixSyntax(@"<br style=clear:right; />"));
         }
 
         [Test]
