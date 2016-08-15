@@ -1079,6 +1079,7 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
 			// colon may serve as wiki markup or as punctuation. We should not affect it in the first case
             Assert.AreEqual(@"Foo:<ref>something</ref> Bar", Parsers.RefsAfterPunctuation(@"Foo<ref>something</ref>: Bar"),"colon as punctuation");
             Assert.AreEqual(@";Foo<ref>something</ref>: Bar", Parsers.RefsAfterPunctuation(@";Foo<ref>something</ref>: Bar"),"no changes, colon is not a punctuation");
+            Assert.AreEqual(@"Sometimes; Foo:<ref>something</ref> Bar", Parsers.RefsAfterPunctuation(@"Sometimes; Foo<ref>something</ref>: Bar"),"colon as punctuation");
         }
 
         [Test]
