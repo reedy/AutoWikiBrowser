@@ -164,21 +164,34 @@ namespace WikiFunctions.Parse
             if (hasPunctuationBeforeTheseTemplates && dupePunctuationFound)
                 articleText = TemplateAfterDupePunctuation.Replace(articleText, "$1$2${template}");
 
-            // if there have been changes need to call FixReferenceTags in case punctation moved didn't have witespace after it  
+            // if there have been changes need to call FixReferenceTags in case punctation moved didn't have witespace after it
             if (!articleTextOriginal.Equals(articleText))
                 articleText = FixReferenceTags(articleText);
 
             return articleText;
         }
 
+        private static readonly Regex LineStartsSemiColon = new Regex(@"^;.*", RegexOptions.Multiline);
+
         private static string RefsBeforePunctuation(string articleText)
         {
+            bool skip = false;
             // 'quick' regexes are used for runtime performance saving
             if (RefsBeforePunctuationQuick.IsMatch(articleText))
             {
-                while(RefsBeforePunctuationR.IsMatch(articleText))
+                while(!skip && RefsBeforePunctuationR.IsMatch(articleText))
                 {
-                    articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
+                    articleText = RefsBeforePunctuationR.Replace(articleText, m => 
+                        {
+                            // do not move punctuation if colon after ref on line starting with semi colon
+                            if(m.Groups[2].Value.Equals(":") && LineStartsSemiColon.Matches(articleText).Cast<Match>().Any(l => l.Value.Contains(m.Value)))
+                            {
+                                skip = true;
+                                return m.Value;
+                            }
+
+                            return m.Groups[2].Value + m.Groups[1].Value + m.Groups[3].Value;
+                        });
                     articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
                 }
             }
