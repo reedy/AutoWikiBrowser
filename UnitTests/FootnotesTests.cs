@@ -1075,6 +1075,10 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             Assert.AreEqual(Excl, Parsers.RefsAfterPunctuation(Excl), "No change to !! before ref, can be within table");
             Excl = @"Foo{{efn|Jones}}!!";
             Assert.AreEqual(Excl, Parsers.RefsAfterPunctuation(Excl), "No change to !! after {{efn}}, can be within table");
+
+			// colon may serve as wiki markup or as punctuation. We should not affect it in the first case
+            Assert.AreEqual(@"Foo:<ref>something</ref> Bar", Parsers.RefsAfterPunctuation(@"Foo<ref>something</ref>: Bar"),"colon as punctuation");
+            Assert.AreEqual(@";Foo<ref>something</ref>: Bar", Parsers.RefsAfterPunctuation(@";Foo<ref>something</ref>: Bar"),"no changes, colon is not a punctuation");
         }
 
         [Test]
