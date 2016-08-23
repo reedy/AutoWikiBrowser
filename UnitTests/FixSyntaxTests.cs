@@ -47,6 +47,7 @@ namespace UnitTests
             Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN-1245781549"), "removes minus after ISBN");
             Assert.AreEqual(@"ISBN 1045781549", Parsers.FixSyntax(@"ISBN-1045781549"), "removes minus after ISBN");
             Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN–1245781549"), "removes dash after ISBN");
+            Assert.AreEqual(@"ISBN 9781245781549", Parsers.FixSyntax(@"ISBN–13 9781245781549"), "removes dash after ISBN");
             Assert.AreEqual(@"ISBN-10 12345781549", Parsers.FixSyntax(@"ISBN-10 12345781549"), "do nothing");
             Assert.AreEqual(@"ISBN-13 12345781549", Parsers.FixSyntax(@"ISBN-13 12345781549"), "do nothing");
 
