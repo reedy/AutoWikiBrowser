@@ -346,6 +346,10 @@ was", false, false));
             Assert.AreEqual(@"from May 2002 – present was", parser.FixDatesB(@"from May 2002-present was", false, false));
             Assert.AreEqual(@"from May 11, 2002 – present was", parser.FixDatesB(@"from May 11, 2002-present was", false, false));
             Assert.AreEqual(@"from May 11, 2002 – present was", parser.FixDatesB(@"from May 11, 2002 - present was", false, false));
+            Assert.AreEqual(@"from 2002–present was", parser.FixDatesB(@"from 2002 - present was", false, false), "year range, becomes unspaced");
+            Assert.AreEqual(@"from 2002–present was", parser.FixDatesB(@"from 2002-present was", false, false), "year range, unspaced");
+
+            Assert.AreEqual(@"Deputy-leader 2008-11, 2014–present", parser.FixDatesB(@"Deputy-leader 2008-11, 2014-present", false, false), "Endash unspaced when year to present, ignore previous year range");
         }
 
         [Test]
