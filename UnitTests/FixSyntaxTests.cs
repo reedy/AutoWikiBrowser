@@ -43,6 +43,7 @@ namespace UnitTests
             Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN 1245781549"), "no change if already correct");
             Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN:1245781549"), "removes colon after ISBN");
             Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN	1245781549"), "ISBN with tab");
+            Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN 	1245781549"), "ISBN with space and tab");
 
             Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN-1245781549"), "removes minus after ISBN");
             Assert.AreEqual(@"ISBN 1045781549", Parsers.FixSyntax(@"ISBN-1045781549"), "removes minus after ISBN");
