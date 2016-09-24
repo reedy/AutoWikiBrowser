@@ -923,6 +923,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RedRef = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex AllTagsSpace = new Regex(@"<[^<>]+> *");
         private static readonly Regex EmptyRefTags = new Regex(@"<ref>\s*</ref>");
+        private static readonly Regex NamedRefExcessQuotes = new Regex(@"(<ref\s+name\s*=\s*"")([^<>]+?)(""\s*/?\s*>)");
 
         // Covered by TestFixReferenceTags
         /// <summary>
@@ -981,7 +982,12 @@ namespace WikiFunctions.Parse
 
             // Performance: apply ref tag fixes only if have ref tags that might be invalid
             if (AllTagsList.Any(s => !Regex.IsMatch(s, @"(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref name *= *""[^{}""<>]+""( ?/)?>)|</ref>")))
+            {
                 articleText = PossiblyBadRefTags.Replace(articleText, FixReferenceTagsME);
+
+                // remove double quotes inside a ref name in double quotes
+                articleText = NamedRefExcessQuotes.Replace(articleText, m => m.Groups[1].Value + m.Groups[2].Value.Replace(@"""", "") + m.Groups[3].Value);
+            }
 
             return articleText;
         }

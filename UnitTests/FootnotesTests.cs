@@ -124,6 +124,9 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar"""">and"));
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""""foo bar"""">and"));
 
+            Assert.AreEqual(@"now <ref name=""foo bar x"">and", Parsers.FixReferenceTags(@"now <ref name=""""foo ""bar"" x"">and"), "Excess internal quotes removed");
+            Assert.AreEqual(@"now <ref name=""foo bar x"" /> and", Parsers.FixReferenceTags(@"now <ref name=""""foo ""bar"" x"" /> and"), "Excess internal quotes removed, short ref");
+
             nochange = @"now <ref name=""foo bar"">and";
             Assert.AreEqual(nochange, Parsers.FixReferenceTags(nochange));
 
