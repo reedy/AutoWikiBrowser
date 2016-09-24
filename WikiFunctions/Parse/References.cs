@@ -979,7 +979,7 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode.Equals("zh"))
                 articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +", "$1");
 
-            // Performance: apply ref tag fixes only to ref tags that might be invalid
+            // Performance: apply ref tag fixes only if have ref tags that might be invalid
             if (AllTagsList.Any(s => !Regex.IsMatch(s, @"(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref name *= *""[^{}""<>]+""( ?/)?>)|</ref>")))
                 articleText = PossiblyBadRefTags.Replace(articleText, FixReferenceTagsME);
 
