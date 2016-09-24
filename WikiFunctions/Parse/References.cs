@@ -910,7 +910,8 @@ namespace WikiFunctions.Parse
 
             // <ref NAME= --> <ref name=
             // <refname= --> <ref name=
-            new RegexReplacement(new Regex(@"<\s*ref(?:\s+NAME|name|\s+name\s*=\s*name)(\s*=)"), "<ref name$1"),
+            // <ref name="ref name= --> <ref name=
+            new RegexReplacement(new Regex(@"<\s*ref(?:\s+NAME|name|\s+name\s*=\s*name|\s+name\s*=\s*""\s*ref\s+name)(\s*=)"), "<ref name$1"),
 
             // empty ref name: <ref name=> or <ref name = group =>
             new RegexReplacement(new Regex(@"<\s*ref\s+name[\s""]*=[\s""]*(?:group\s*=\s*)?>"), "<ref>")
