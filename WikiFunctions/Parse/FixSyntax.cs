@@ -130,6 +130,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexISBN2a = new Regex(@"ISBN–(1[03]\b)");
         private static readonly Regex SyntaxRegexISBN3 = new Regex(@"\[\[ISBN\]\]\s\[\[Special\:BookSources[^\|]*\|([^\]]*)\]\]", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN4 = new Regex(@"\[\[International Standard Book Number\|ISBN\]\]\:?\s\[\[Special\:BookSources[^\|]*\|([^\]]*)\]\]", RegexOptions.Compiled);
+        private static readonly Regex ISBNEndash = new Regex(@"ISBN ([0-9][0-9–]+[0-9X])\b");
         private static readonly Regex ISBNx =new Regex(@"(ISBN [0-9\-]{9,14})x", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *(\d)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexExternalLinkOnWholeLine = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
@@ -467,6 +468,9 @@ namespace WikiFunctions.Parse
 
             // Capitalise check digit X in ISBN-10 format
             articleText = ISBNx.Replace(articleText, "$1X");
+
+            // Endash to hyphen within ISBN numbers
+            articleText = ISBNEndash.Replace(articleText, m => "ISBN " + m.Groups[1].Value.Replace("–", "-"));
 
             // remove ISBN from start of isbn= parameter in infoboxes
             if(TemplateExists(GetAllTemplates(articleText), WikiRegexes.InfoBox))
