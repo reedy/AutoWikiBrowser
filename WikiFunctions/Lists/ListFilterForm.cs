@@ -281,8 +281,7 @@ namespace WikiFunctions.Lists
                 cbOpType.SelectedIndex = _prefs.opType;
 
                 lbRemove.Items.Clear();
-                foreach (string s in _prefs.remove)
-                    lbRemove.Items.Add(new Article(s));
+                lbRemove.Items.AddRange(_prefs.remove.Select(s => new Article(s)).ToArray()); 
             }
         }
     }
