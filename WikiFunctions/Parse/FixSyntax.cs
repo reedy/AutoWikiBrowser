@@ -56,11 +56,11 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexExternalLinkToImageURL = new Regex("\\[?\\["+Variables.NamespacesCaseInsensitive[Namespace.File]+"(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex ExternalLinksStart = new Regex(@"^\[ *(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://", RegexOptions.IgnoreCase);
 
-        private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"((?:\r\n|^)[#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]? ?>)+ *(?=\r\n|$)", RegexOptions.IgnoreCase);
-        private static readonly Regex SyntaxRegexListRowBrTagMiddle = new Regex(@"^([#\*:;]+.*?)\s*(?:<[/\\]?br ?[/\\]? ?>)+ *\r\n([#\*:;]+)", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-        private static readonly Regex SyntaxRegexBrNewline = new Regex(@"<[/\\]?[Bb][Rr] ?[/\\]? ?> *(\r\n|$)");
+        private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"((?:\r\n|^)[#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]? ?>)+[ \t]*(?=\r\n|$)", RegexOptions.IgnoreCase);
+        private static readonly Regex SyntaxRegexListRowBrTagMiddle = new Regex(@"^([#\*:;]+.*?)\s*(?:<[/\\]?br ?[/\\]? ?>)+[ \t]*\r\n([#\*:;]+)", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        private static readonly Regex SyntaxRegexBrNewline = new Regex(@"<[/\\]?[Bb][Rr] ?[/\\]? ?>[ \t]*(\r\n|$)");
 
-        private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]? ?> *(\r\n[#\*:;]+)", RegexOptions.IgnoreCase);
+        private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]? ?>[ \t]*(\r\n[#\*:;]+)", RegexOptions.IgnoreCase);
 
         private static readonly Regex SyntaxRegexItalicBoldEm = new Regex(@"< *(i|em|b) *>(.*?)< */ *\1 *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 

@@ -62,10 +62,13 @@ namespace UnitTests
             Assert.AreEqual("*a", Parsers.FixSyntax("*a <br/>\r\n"));
             Assert.AreEqual("*a", Parsers.FixSyntax("*a <br/ >\r\n"));
             Assert.AreEqual("*a", Parsers.FixSyntax("*a <br / >\r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br / >\t\r\n"),"Contains trailing tabs");
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br / >\t\t\r\n"),"Contains trailing tabs");
 
             Assert.AreEqual("*:#;a\r\n*b", Parsers.FixSyntax("*:#;a<br>\r\n*b"));
             Assert.AreEqual("###;;;:::***a\r\nb", Parsers.FixSyntax("###;;;:::***a<br />\r\nb"));
             Assert.AreEqual("*&a\r\nb", Parsers.FixSyntax("*&a<br/>\r\nb"));
+            Assert.AreEqual("*&a\r\nb", Parsers.FixSyntax("*&a<br/>\t\r\nb"));
 
             Assert.AreEqual("&*a<br>\r\nb", Parsers.FixSyntax("&*a<br>\r\nb"));
             Assert.AreEqual("*a\r\n<br>\r\nb", Parsers.FixSyntax("*a\r\n<br>\r\nb"));
