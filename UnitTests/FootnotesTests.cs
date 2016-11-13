@@ -129,6 +129,13 @@ namespace UnitTests
             const string grouped = @"<ref name=""Foo"" group=""A"" />";
             Assert.AreEqual(grouped, Parsers.FixReferenceTags(grouped), "No change to valid group ref");
 
+            const string grouped2 = @"<ref name=""Foo"" group=A>test</ref>";
+            Assert.AreEqual(grouped2, Parsers.FixReferenceTags(grouped2), "No change to valid group ref");
+
+            const string grouped3 = @"<ref name=""Foo"" group=""A"">test</ref>";
+            Assert.AreEqual(grouped3, Parsers.FixReferenceTags(grouped3), "No change to valid group ref, quotes");
+
+
             nochange = @"now <ref name=""foo bar"">and";
             Assert.AreEqual(nochange, Parsers.FixReferenceTags(nochange));
 
