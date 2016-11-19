@@ -110,21 +110,21 @@ namespace WikiFunctions.Parse
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-                                    | System.Windows.Forms.AnchorStyles.Left) 
-                                    | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-                                    this.find,
-                                    this.replace,
-                                    this.casesensitive,
-                                    this.regex,
-                                    this.multi,
-                                    this.single,
-                                    this.Minor,
-                                    this.BeforeOrAfter,
-                                    this.enabled,
-                                    this.Comment});
+            this.find,
+            this.replace,
+            this.casesensitive,
+            this.regex,
+            this.multi,
+            this.single,
+            this.Minor,
+            this.BeforeOrAfter,
+            this.enabled,
+            this.Comment});
             this.dataGridView1.ContextMenuStrip = this.FindAndReplaceContextMenu;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataGridView1.Location = new System.Drawing.Point(12, 80);
@@ -222,7 +222,7 @@ namespace WikiFunctions.Parse
             this.BeforeOrAfter.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.BeforeOrAfter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.BeforeOrAfter.ToolTipText = "Run this Find & Replace before (unchecked) or after (checked) general and typo fi" +
-            "xes";
+    "xes";
             this.BeforeOrAfter.TrueValue = true;
             this.BeforeOrAfter.Width = 80;
             // 
@@ -247,32 +247,32 @@ namespace WikiFunctions.Parse
             // FindAndReplaceContextMenu
             // 
             this.FindAndReplaceContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                                    this.addRowToolStripMenuItem,
-                                    this.deleteRowToolStripMenuItem,
-                                    this.toolStripSeparator1,
-                                    this.testRegexToolStripMenuItem,
-                                    this.createRetfRuleToolStripMenuItem,
-                                    this.toolStripSeparator4,
-                                    this.moveToTopToolStripMenuItem,
-                                    this.moveUpToolStripMenuItem,
-                                    this.moveDownToolStripMenuItem,
-                                    this.moveToBottomToolStripMenuItem,
-                                    this.toolStripSeparator3,
-                                    this.allCaseSensitiveToolStripMenuItem,
-                                    this.checkAllMinorToolStripMenuItem,
-                                    this.checkAllMultlineToolStripMenuItem,
-                                    this.checkAllRegularExpressionsToolStripMenuItem,
-                                    this.checkAllSinglelineToolStripMenuItem,
-                                    this.checkAllBeforeOrAfterToolStripMenuItem,
-                                    this.enableAllToolStripMenuItem,
-                                    this.toolStripSeparator2,
-                                    this.uncheckAllCaseSensitiveToolStripMenuItem,
-                                    this.uncheckAllMinorToolStripMenuItem,
-                                    this.uncheckAllMultilineToolStripMenuItem,
-                                    this.uncheckAllRegularExpressionsToolStripMenuItem,
-                                    this.uncheckAllSinglelineToolStripMenuItem,
-                                    this.uncheckAllBeforeOrAfterToolStripMenuItem,
-                                    this.disableAllToolStripMenuItem});
+            this.addRowToolStripMenuItem,
+            this.deleteRowToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.testRegexToolStripMenuItem,
+            this.createRetfRuleToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.moveToTopToolStripMenuItem,
+            this.moveUpToolStripMenuItem,
+            this.moveDownToolStripMenuItem,
+            this.moveToBottomToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.allCaseSensitiveToolStripMenuItem,
+            this.checkAllMinorToolStripMenuItem,
+            this.checkAllMultlineToolStripMenuItem,
+            this.checkAllRegularExpressionsToolStripMenuItem,
+            this.checkAllSinglelineToolStripMenuItem,
+            this.checkAllBeforeOrAfterToolStripMenuItem,
+            this.enableAllToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.uncheckAllCaseSensitiveToolStripMenuItem,
+            this.uncheckAllMinorToolStripMenuItem,
+            this.uncheckAllMultilineToolStripMenuItem,
+            this.uncheckAllRegularExpressionsToolStripMenuItem,
+            this.uncheckAllSinglelineToolStripMenuItem,
+            this.uncheckAllBeforeOrAfterToolStripMenuItem,
+            this.disableAllToolStripMenuItem});
             this.FindAndReplaceContextMenu.Name = "FindAndReplaceContextMenu";
             this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(239, 512);
             this.FindAndReplaceContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FindAndReplaceContextMenu_Opening);
@@ -497,7 +497,7 @@ namespace WikiFunctions.Parse
             this.chkIgnoreLinks.TabIndex = 14;
             this.chkIgnoreLinks.Text = "Ignore &external/interwiki links, images, nowiki, math and <!-- -->";
             this.toolTip1.SetToolTip(this.chkIgnoreLinks, "Find and replacements will not be made in external/interwiki links, images, <nowi" +
-                        "ki>. <math> and <!-- comments -->");
+        "ki>. <math> and <!-- comments -->");
             this.chkIgnoreLinks.UseVisualStyleBackColor = true;
             // 
             // chkAddToSummary
@@ -523,7 +523,7 @@ namespace WikiFunctions.Parse
             this.chkIgnoreMore.TabIndex = 18;
             this.chkIgnoreMore.Text = "Ignore &templates, refs, link targets, and headings";
             this.toolTip1.SetToolTip(this.chkIgnoreMore, "Find and replacements will not be made in templates, <source>, <cite>, quotes and" +
-                        " headings");
+        " headings");
             this.chkIgnoreMore.UseVisualStyleBackColor = true;
             this.chkIgnoreMore.CheckedChanged += new System.EventHandler(this.chkIgnoreMore_CheckedChanged);
             // 
@@ -609,11 +609,9 @@ namespace WikiFunctions.Parse
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lnkWpRE);
             this.Controls.Add(this.btnDone);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MinimumSize = new System.Drawing.Size(757, 250);
             this.Name = "FindandReplace";
             this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Find & Replace";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindandReplace_FormClosing);
@@ -623,6 +621,7 @@ namespace WikiFunctions.Parse
             this.FindAndReplaceContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
