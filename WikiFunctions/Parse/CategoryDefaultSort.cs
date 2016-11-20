@@ -543,6 +543,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
         /// When page is not mainspace, adds [[:Category rather than [[Category
+        /// Removes Date of birth missing/Date of birth missing (living people) category if full DOB in {{birth date and age}}
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
@@ -752,6 +753,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Removes year of birth/death missing categories when xxx births/deaths category also present
+        /// Removes Date of birth missing/Date of birth missing (living people) category if full DOB in {{birth date and age}}
         /// </summary>
         /// <param name="articleText"></param>
         /// <param name="cats"></param>
@@ -774,6 +776,13 @@ namespace WikiFunctions.Parse
             // if there's a year of death and a 'year of death missing', remove the latter
             if (CatYearDeaths.IsMatch(cats) && CategoryMatch(cats, YearofDeathMissing))
                 articleText = RemoveCategory(YearofDeathMissing, articleText);
+
+            // if full DOB in {{birth date and age}} remove Date of birth missing/Date of birth missing (living people) category
+            if(cats.IndexOf(@"Date of birth missing", StringComparison.OrdinalIgnoreCase) > 0 && Regex.IsMatch(WikiRegexes.DateBirthAndAge.Match(articleText).Value, @"(\|\s*[0-9]+\s*){3}"))
+            {
+                articleText = RemoveCategory(@"Date of birth missing", articleText);
+                articleText = RemoveCategory(@"Date of birth missing (living people)", articleText);
+            }
 
             return articleText;
         }

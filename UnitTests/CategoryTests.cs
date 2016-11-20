@@ -90,6 +90,22 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 | birthplace      = [[Motherwell]], [[Scotland]]<br>{{Citation needed|date=September 2010}}
 }}";
             Assert.AreEqual(b12, Parsers.FixPeopleCategories(b12, "foo"));
+
+            // Date of birth missing
+            string m1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}}
+[[Category:Date of birth missing]]";
+            Assert.AreEqual(m1 + "\r\n" + b2, Parsers.FixPeopleCategories(m1, "foo"), "Date of birth missing cat retained when only yob");
+
+            m1 = @"'''Fred Smith''' {{birth date and age|1960||}} is a bloke. {{Persondata}}
+[[Category:Date of birth missing]]";
+            Assert.AreEqual(m1 + "\r\n" + b2, Parsers.FixPeopleCategories(m1, "foo"), "Date of birth missing cat retained when only yob in bda");
+
+            const string DobMCat = @"[[Category:Date of birth missing]]";
+            const string m2 = @"'''Fred Smith''' {{birth date and age|1960|01|9}} is a bloke. {{Persondata}}";
+            Assert.AreEqual(m2 + "\r\n" + b2, Parsers.FixPeopleCategories(m2 + "\r\n" + DobMCat, "foo"), "Date of birth missing cat removed when full date");
+
+            const string DobMCatL = @"[[Category:Date of birth missing (living people)|Foo]]";
+            Assert.AreEqual(m2 + "\r\n" + b2, Parsers.FixPeopleCategories(m2 + "\r\n" + DobMCatL, "foo"), "Date of birth missing (living people) cat removed when full date");
         }
 
         [Test]
