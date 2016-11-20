@@ -1650,9 +1650,11 @@ words2"));
             Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{birth date and age|mf=yes|1980|3|9}}"));
             Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{bda|mf=yes|1980|3|9}}"));
 
-            Assert.AreEqual("1975", WikiRegexes.DateBirthAndAge.Match(@"{{birth-date|1975}}").Groups[1].Value);
-            Assert.AreEqual("1975", WikiRegexes.DateBirthAndAge.Match(@"{{birth-date|   1975}}").Groups[1].Value);
+            Assert.AreEqual("1975", WikiRegexes.DateBirthAndAge.Match(@"{{birth-date|1975}}").Groups[1].Value, "extract year from birth-date");
+            Assert.AreEqual("1975", WikiRegexes.DateBirthAndAge.Match(@"{{birth-date|   1975}}").Groups[1].Value, "spacing");
             Assert.AreEqual("1984", WikiRegexes.DateBirthAndAge.Match(@"{{birth date and age|year=1984|month=2|day=6}}").Groups[1].Value);
+
+            Assert.AreEqual("{{Birth date|1972|02|18}}", WikiRegexes.DateBirthAndAge.Match(@"{{Birth date|1972|02|18}}").Value);
         }
 
         [Test]
