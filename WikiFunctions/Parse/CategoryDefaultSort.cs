@@ -751,7 +751,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CatYearDeaths = new Regex(@"\[\[Category:[0-9]{1,4} deaths\s*(?:\||\]\])");
 
         /// <summary>
-        /// Removes birth/death missing categories when xxx births/deaths category also present
+        /// Removes year of birth/death missing categories when xxx births/deaths category also present
         /// </summary>
         /// <param name="articleText"></param>
         /// <param name="cats"></param>
