@@ -239,6 +239,8 @@ namespace WikiFunctions
 
         private static readonly Regex BadName = new Regex(@"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        private static readonly Regex DirectionMarks = new Regex(@"^(\u200E|\u200F)+", RegexOptions.Multiline);
+
         /// <summary>
         /// Checks log in status, registered and version.
         /// </summary>
@@ -258,6 +260,9 @@ namespace WikiFunctions
                 string url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";
 
                 string checkPageText = Editor.SynchronousEditor.HttpGet(url);
+
+                // remove U+200E LEFT-TO-RIGHT MARK, U+200F RIGHT-TO-LEFT MARK as on RTL wikis these can get typed in by accident
+                checkPageText = DirectionMarks.Replace(checkPageText, "");
 
                 Variables.RTL = Site.IsRightToLeft;
                 Variables.CapitalizeFirstLetter = Site.CapitalizeFirstLetter;
