@@ -377,6 +377,12 @@ Template:foo}}"));
             Assert.AreEqual("", Parsers.FixSyntax(@"<gallery>   </gallery>"));
             Assert.AreEqual("", Parsers.FixSyntax(@"< Gallery >   </gallery>"));
             Assert.AreEqual("", Parsers.FixSyntax(@"< GALLERY >   </gallery>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<gallery mode=a></gallery>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<gallery mode=a foo=b></gallery>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<blockquote mode=a foo=b></blockquote>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<center mode=a foo=b></center>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<sup mode=a foo=b></sup>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<sub mode=a foo=b></sub>"));
 
             const string Gallery = @"<gallery>Image1.jpeg</gallery>";
 
