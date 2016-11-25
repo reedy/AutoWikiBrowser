@@ -123,6 +123,7 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref name=""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"""" >and"));
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar"""">and"));
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""""foo bar"""">and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"".>and"));
 
             Assert.AreEqual(@"now <ref name=""foo bar x"">and", Parsers.FixReferenceTags(@"now <ref name=""""foo ""bar"" x"">and"), "Excess internal quotes removed");
             Assert.AreEqual(@"now <ref name=""foo bar x"" /> and", Parsers.FixReferenceTags(@"now <ref name=""""foo ""bar"" x"" /> and"), "Excess internal quotes removed, short ref");
@@ -184,8 +185,7 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref name=""Fred A""/> was", Parsers.FixReferenceTags(@"now <ref name=""Fred A"" //> was"));
             Assert.AreEqual(@"now <ref name=Fred/> was", Parsers.FixReferenceTags(@"now <ref name=Fred //> was"));
 
-            // <ref name="Fred".> --> <ref name="Fred"/>
-            Assert.AreEqual(@"now <ref name=""Fred"".>was", Parsers.FixReferenceTags(@"now <ref name=""Fred"".>was"));
+            // don't change
             Assert.AreEqual(@"now <ref name=""Fred""?>was", Parsers.FixReferenceTags(@"now <ref name=""Fred""?>was"));
 
             // <ref>...<ref/> --> <ref>...</ref>
