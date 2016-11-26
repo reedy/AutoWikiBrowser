@@ -280,6 +280,10 @@ namespace UnitTests
             // <refname= --> <ref name=
             Assert.AreEqual(@"<ref name=""Fred"" />", Parsers.FixReferenceTags(@"<refname=""Fred"" />"), "refname");
 
+            // <ref name"= --> <ref name="
+            Assert.AreEqual(@"<ref name=""Fred"" />", Parsers.FixReferenceTags(@"<ref name""=Fred"" />"), @"ref name""= 1");
+            Assert.AreEqual(@"<ref name=""Fred"">", Parsers.FixReferenceTags(@"<ref name""=Fred"">"), @"ref name""= 2");
+
             // <ref name=> --> <ref>
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name=>"));
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name =  >"));
