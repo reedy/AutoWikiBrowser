@@ -331,6 +331,10 @@ namespace WikiFunctions.Parse
                     }
                 }
 
+                // [[dog|(dog)]] --> ([[dog]])
+                if(lb.Equals("(" + la + ")"))
+                    articleText = articleText.Replace(pipedlink, "([[" + b.Substring(1, b.Length-2) + "]])");
+
                 if (lb.StartsWith(la, StringComparison.Ordinal)) // target is substring of text e.g. [[Dog|Dogs]] --> [[Dog]]s
                 {
                     bool doBreak = false;
