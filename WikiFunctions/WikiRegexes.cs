@@ -271,8 +271,19 @@ namespace WikiFunctions
                 ReferenceList = Tools.NestedTemplateRegex(new [] { "références", "references", "reflist" });
             else
                 ReferenceList = Tools.NestedTemplateRegex(new [] { "reflist", "references-small", "references-2column"});
+
+            if(Variables.Project == ProjectEnum.wikipedia && Variables.LangCode.Equals("simple"))
+            {
+                SeeAlso = new Regex(@"(==+)\s*(related +pages|see +also)\s*\1", RegexOptions.IgnoreCase);        
+                ExternalLinksHeader = new Regex(@"== *(Other +websites|External +links?) *==", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+            }
+            else
+            {
+                ExternalLinksHeader = new Regex(@"== *External +links? *==", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+                SeeAlso = new Regex(@"(==+)\s*see +also\s*\1", RegexOptions.IgnoreCase);
+            }
         }
-        
+
         private const string UncatTemplatesEN = @"([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]ocats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]ed ?stub)";
         private const string DisambigTemplatesEN = @"([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Cc]hinese title disambig(uation)?|[Gg]enus disambig(uation)?|[Mm]athdab|[Mm]athematics disambiguation|[Mm]athematical disambiguation|[Mm]il-unit-dis|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig(?:uation)?|[Cc]allsigndis|[Cc]all sign disambiguation|[Dd]isambig-cleanup|[Dd]isambig-cleanup|[Dd]isambiguation cleanup|[Mm]olFormDisambig|[Mm]olecular formula disambiguation|[Rr]oad disambiguation|([Ss]pecies|)LatinNameDisambig|[Ss]pecies Latin name disambiguation|[[Ss]pecies Latin name abbreviation disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Ll]etter-Number Combination Disambiguation|[Hh]ndis|[Hh]ndis-cleanup|[Gg]enus disambiguation|[Tt]axonomy disambiguation|[Hh]urricane season disambiguation|[Hh]ospital disambiguation|[Ss]chool disambiguation)";
 
@@ -1328,14 +1339,14 @@ namespace WikiFunctions
         public static readonly Regex NotesHeader = new Regex(@"== *Notes *==", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
         /// <summary>
-        /// Matches the external links level 2 heading
+        /// Matches the external links level 2 heading, also "Other websites" for simple wikipedia
         /// </summary>
-        public static readonly Regex ExternalLinksHeader = new Regex(@"== *External +links? *==", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+        public static Regex ExternalLinksHeader;
 
         /// <summary>
-        /// Matches the 'See also' level 2 heading
+        /// Matches the 'See also' level 2 heading, also "Related pages" for simple en-wiki
         /// </summary>
-        public static readonly Regex SeeAlso = new Regex(@"(==+)\s*see +also\s*\1", RegexOptions.IgnoreCase);
+        public static Regex SeeAlso;
         
         /// <summary>
         /// Matches a number between 1000 and 2999

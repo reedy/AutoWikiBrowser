@@ -1814,6 +1814,27 @@ Bert").Groups[2].Value, "foo bar\r");
         }
 
         [Test]
+        public void SimpleWiki()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("simple");
+            WikiRegexes.MakeLangSpecificRegexes();
+            Assert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==Related pages=="));
+            Assert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==related pages=="));
+            Assert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==See also=="));
+
+            Assert.IsTrue(WikiRegexes.ExternalLinksHeader.IsMatch(@"==Other websites=="));
+            Assert.IsTrue(WikiRegexes.ExternalLinksHeader.IsMatch(@"==External links=="));
+
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            Assert.IsFalse(WikiRegexes.SeeAlso.IsMatch(@"==Related pages=="));
+            Assert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==See also=="));
+            Assert.IsTrue(WikiRegexes.ExternalLinksHeader.IsMatch(@"==External links=="));
+            #endif
+        }
+
+        [Test]
         public void SurnameClarificationTemplates()
         {
             Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay name}}"));
