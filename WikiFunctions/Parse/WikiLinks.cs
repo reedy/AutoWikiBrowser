@@ -233,7 +233,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Converts [[foo|'''foo''']] → '''[[foo|foo]]''' for bold or italics
+        /// Converts [[foo|'''foo''']] → '''[[foo|foo]]''' for bold, italics or bold and italics
         /// only simplify where link & target values are the same without bold/italics (first letter case insensitive)
         /// </summary>
         /// <param name="m"></param>
@@ -248,6 +248,8 @@ namespace WikiFunctions.Parse
                     y = "'''" + y.Replace(theLinkText, WikiRegexes.Bold.Replace(theLinkText, "$1")) + "'''";
                 else if (WikiRegexes.Italics.Match(theLinkText).Value.Equals(theLinkText))
                     y = "''" + y.Replace(theLinkText, WikiRegexes.Italics.Replace(theLinkText, "$1")) + "''";
+                else if (WikiRegexes.BoldItalics.Match(theLinkText).Value.Equals(theLinkText))
+                    y = "'''''" + y.Replace(theLinkText, WikiRegexes.BoldItalics.Replace(theLinkText, "$1")) + "'''''";
             }
 
             return y;
