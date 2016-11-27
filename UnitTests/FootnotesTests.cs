@@ -113,6 +113,8 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar>and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=foo bar /> and"));
             Assert.AreEqual(@"now <ref name = ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name = foo bar >and"));
+            Assert.AreEqual(@"now <ref name=""foo/bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo/bar>and"), "Use of slash needs quotes");
+            Assert.AreEqual(@"now <ref name=""foo/bar"" />", Parsers.FixReferenceTags(@"now <ref name=foo/bar />"), "Use of slash needs quotes, short ref");
 
             string nochange = @"<ref name=VulgarisAerae1
 />";
@@ -123,7 +125,11 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref name=""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"""" >and"));
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar"""">and"));
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""""foo bar"""">and"));
-            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"".>and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"".>and"), "Excess . after ref name");
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""foo bar""=>and"), "Excess = after ref name");
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name""foo bar""=>and"), "= after ref name not before");
+
+            Assert.AreEqual(@"now <ref name=foo>and", Parsers.FixReferenceTags(@"now <ref name=foo=>and"), "Excess = after ref name, no quotes");
 
             Assert.AreEqual(@"now <ref name=""foo bar x"">and", Parsers.FixReferenceTags(@"now <ref name=""""foo ""bar"" x"">and"), "Excess internal quotes removed");
             Assert.AreEqual(@"now <ref name=""foo bar x"" /> and", Parsers.FixReferenceTags(@"now <ref name=""""foo ""bar"" x"" /> and"), "Excess internal quotes removed, short ref");
