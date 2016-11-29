@@ -152,6 +152,7 @@ namespace UnitTests
 
             // <ref name=foo bar"> --> <ref name="foo bar">
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar"">and"));
+            Assert.AreEqual(@"now <ref name =""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name foo bar"">and"), "missing = and first quotes");
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=foo bar"" /> and"));
             Assert.AreEqual(@"now <ref name = ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name = foo bar"" >and"));
 
@@ -289,6 +290,7 @@ namespace UnitTests
             // <ref name"= --> <ref name="
             Assert.AreEqual(@"<ref name=""Fred"" />", Parsers.FixReferenceTags(@"<ref name""=Fred"" />"), @"ref name""= 1");
             Assert.AreEqual(@"<ref name=""Fred"">", Parsers.FixReferenceTags(@"<ref name""=Fred"">"), @"ref name""= 2");
+            Assert.AreEqual(@"<ref name=""Fred"">", Parsers.FixReferenceTags(@"<ref name""=Fred>"), @"ref name""= 3");
 
             // <ref name=> --> <ref>
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name=>"));
@@ -296,6 +298,8 @@ namespace UnitTests
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name = """" >"));
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name """"=>"));
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name = group = >"));
+            Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name"">"));
+            Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name"""">"));
 
             Assert.AreEqual(@"A.<ref>[http://www.site.com a site]</ref>
 Then", Parsers.FixReferenceTags(@"A.<ref>[http://www.site.com a site]</ref
