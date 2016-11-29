@@ -879,7 +879,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"<\s*ref\s+name[\s""]*=?[\s""]*(?:group\s*=\s*)?>"), "<ref>"),
 
             // <ref name="Fred""> or <ref name="Fred".> or <ref name="Fred".> or <ref name="Fred"=> or <ref name=Fred=> --> <ref name="Fred">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""?[^<>=""\/]+?)(?:("")[""\.]|("")?=)(\s*/?)>", RegexOptions.IgnoreCase), "$1$2$3$4>"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""?[^<>=""\/]+?)(?:("")[""\.']|("")?=)(\s*/?)>", RegexOptions.IgnoreCase), "$1$2$3$4>"),
 
             // <ref name=""Fred"> --> <ref name="Fred">
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)""""([^<>=""\/]+?"")""?(\s*/?)>", RegexOptions.IgnoreCase), "$1$2$3>"),
