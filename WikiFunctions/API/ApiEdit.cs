@@ -1259,6 +1259,12 @@ namespace WikiFunctions.API
             }
 
             HtmlHeaders = ExpandRelativeUrls(extracted.ToString());
+
+            /* T117870 .NET WebBrowser shows cite templates in italics as it doesn't seem to render 
+             * <cite id="CITEREF..." class="citation journal"> etc. correctly (mediawiki 
+             * stylsheets should override <cite> default to not be italics)
+             * so override citation class here as workaround */
+            HtmlHeaders += @" <style> .citation { font-style: normal; } </style>";
         }
 
         public string Preview(string title, string text)
