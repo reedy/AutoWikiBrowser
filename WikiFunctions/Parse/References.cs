@@ -882,7 +882,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""?[^<>=""\/]+?)(?:("")[""\.']|("")?=)(\s*/?)>", RegexOptions.IgnoreCase), "$1$2$3$4>"),
 
             // <ref name=""Fred"> --> <ref name="Fred">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)""""([^<>=""\/]+?"")""?(\s*/?)>", RegexOptions.IgnoreCase), "$1$2$3>"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)[“‘”’""]""([^<>=""\/]+?)""*(\s*/?)>", RegexOptions.IgnoreCase), @"$1""$2""$3>"),
 
             // <ref name = ”Fred”> --> <ref name="Fred">
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:[“‘”’]+(?<val>[^<>=""\/]+?)[“‘”’]*|[“‘”’]*(?<val>[^<>=""\/]+?)[“‘”’]+)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""${val}""$2"),
@@ -900,7 +900,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=?\s*)(?:['`”]*(?<val>[^<>=""\/]+?)""|""(?<val>[^<>=""\/]+?)['`”]*)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""${val}""$2"),
 
             // <ref name "foo bar"> or <ref name "foo bar"=> --> <ref name="foo bar">
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)[\+\-]?(\s*""[^<>=""\/]+?""\s*/?)=?>", RegexOptions.IgnoreCase), @"$1=$2>"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)[\+\-""]?(\s*""[^<>=""\/]+?""\s*/?)=?>", RegexOptions.IgnoreCase), @"$1=$2>"),
 
             // <ref "foo bar"> --> <ref name="foo bar">
             new RegexReplacement(new Regex(@"(<\s*ref\s+)=?\s*(""[^<>=""\/]+?""\s*/?>)", RegexOptions.IgnoreCase), "$1name=$2"),
