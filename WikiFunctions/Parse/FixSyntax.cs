@@ -443,6 +443,8 @@ namespace WikiFunctions.Parse
             return articleText.Trim();
         }
 
+        private static readonly Regex ExternalLinkEndsISBN = new Regex(@"(\[http[^[\]]+? +[^[\]]+?)[,;:]? +(ISBN +[0-9-]+X?)\]");
+
         private static string FixSyntaxISBN(string articleText, List<string> ssbISBN)
         {
             //  CHECKWIKI error 69
@@ -479,6 +481,10 @@ namespace WikiFunctions.Parse
                         articleText = articleText.Replace(infobox, Tools.UpdateTemplateParameterValue(infobox, "isbn", Regex.Replace(isbn, @"^ISBN\s*:?\s*", "")));
                 }
             }
+
+            // ISBN out of end of external link
+            while(ExternalLinkEndsISBN.IsMatch(articleText))
+                articleText = ExternalLinkEndsISBN.Replace(articleText, "$1] $2");
 
             return articleText;
         }
