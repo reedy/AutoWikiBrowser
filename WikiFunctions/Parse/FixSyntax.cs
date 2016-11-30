@@ -443,7 +443,7 @@ namespace WikiFunctions.Parse
             return articleText.Trim();
         }
 
-        private static readonly Regex ExternalLinkEndsISBN = new Regex(@"(\[http[^[\]]+? +[^[\]]+?)[,;:]? +(ISBN +[0-9-]+X?)\]");
+        private static readonly Regex ExternalLinkEndsISBN = new Regex(@"(\[http[^[\]]+? +[^[\]]+?)[,;:]? +(ISBN +[0-9-]+X?\.?) ?\]");
 
         private static string FixSyntaxISBN(string articleText, List<string> ssbISBN)
         {

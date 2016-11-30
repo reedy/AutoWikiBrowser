@@ -71,6 +71,8 @@ namespace UnitTests
             Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[International Standard Book Number|ISBN]] [[Special:BookSources/9780881925166|9780881925166]]"), "ISBNT substed");
 
             Assert.AreEqual(@"[http://www.site.com info] ISBN 978-92-0-103709-X", Parsers.FixSyntax(@"[http://www.site.com info ISBN 978-92-0-103709-X]"), "ISBN out of end of http external link");
+            Assert.AreEqual(@"[http://www.site.com info] ISBN 978-92-0-103709-X.", Parsers.FixSyntax(@"[http://www.site.com info ISBN 978-92-0-103709-X.]"), "ISBN out of end of http external link");
+            Assert.AreEqual(@"[http://www.site.com info] ISBN 978-92-0-103709-X.", Parsers.FixSyntax(@"[http://www.site.com info ISBN 978-92-0-103709-X. ]"), "ISBN out of end of http external link");
             Assert.AreEqual(@"[http://www.site.com info] ISBN 978920103709X", Parsers.FixSyntax(@"[http://www.site.com info ISBN 978920103709X]"), "ISBN out of end of http external link, ISBN ends X");
             Assert.AreEqual(@"[http://www.site.com info] ISBN 9789201037091", Parsers.FixSyntax(@"[http://www.site.com info ISBN 9789201037091]"), "ISBN out of end of http external link, ISBN ends number");
             Assert.AreEqual(@"[http://www.site.com info] ISBN 9789201037091", Parsers.FixSyntax(@"[http://www.site.com info, ISBN 9789201037091]"), "ISBN out of end of http external link, comma");
