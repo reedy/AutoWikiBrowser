@@ -1636,6 +1636,19 @@ Text";
 
             Assert.AreEqual(after, parser2.SortMetaData(before, "a"), "Even if RemoveStubs not run on ru-wiki, no excess whitespace left from meta data sorting");
 
+            Variables.SetProjectLangCode("uk");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            string beforeUK = @"Andy
+{{botanist-stub}}
+[[Category:ABC]]", afterUK = @"Andy
+
+
+{{botanist-stub}}
+
+[[Category:ABC]]";
+            Assert.AreEqual(afterUK, parser2.SortMetaData(beforeUK, "a"), "uk sort order: stubs NOT below categories");
+
             Variables.SetProjectLangCode("sl");
             WikiRegexes.MakeLangSpecificRegexes();
 
