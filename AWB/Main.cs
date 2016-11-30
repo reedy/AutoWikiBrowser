@@ -1945,7 +1945,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                                           + sender.HtmlHeaders
                                           + "</head><body style=\"background:white; margin:10px; text-align:left;\">"
                                           + result
-                                          + "</html>"
+                                          + "</body></html>"
                                          );
                 // webBrowser.BringToFront();
             }
