@@ -31,7 +31,7 @@ namespace WikiFunctions.Parse
     public partial class Parsers
     {
         private static readonly Regex LinkWhitespace1 = new Regex(@"(.|^)\[\[ +([^\]]+)\]\]", RegexOptions.Compiled | RegexOptions.Multiline);
-        private static readonly Regex LinkWhitespace3 = new Regex(@"\[\[([^\]]{1,30}?) {2,10}([^\]]{1,30})\]\]", RegexOptions.Compiled);
+        private static readonly Regex LinkWhitespace3 = new Regex(@"\[\[([^\]]{1,50}?) {2,10}([^\]]{1,50})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace4 = new Regex(@"\[\[([^\]\|]{1,30}) \]\](\s)", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace5 = new Regex(@"\[\[([^\]]{1,30}) \]\](?=\w)", RegexOptions.Compiled);
 
@@ -64,7 +64,7 @@ namespace WikiFunctions.Parse
                         });
             }
 
-            //remove undesirable double space from middle of wikilink (up to 61 characters in wikilink)
+            //remove undesirable double space from middle of wikilink (up to 101 characters in wikilink)
             if (allWikiLinks.Any(s => s.Contains("  ")))
                 while(LinkWhitespace3.IsMatch(articleText))
                     articleText = LinkWhitespace3.Replace(articleText, "[[$1 $2]]");

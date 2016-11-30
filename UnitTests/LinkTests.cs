@@ -589,6 +589,7 @@ was [[foo|bar]] too"));
             Assert.AreEqual("[[Foo Bar]]", Parsers.FixLinkWhitespace("[[Foo  Bar]]", "Test"));
             Assert.AreEqual("[[Foo Bar was]]", Parsers.FixLinkWhitespace("[[Foo  Bar  was]]", "Test"), "fixes multiple double spaces in single link");
             Assert.AreEqual("[[Foo Bar|Bar]]", Parsers.FixLinkWhitespace("[[Foo  Bar|Bar]]", "Test"));
+            Assert.AreEqual("[[64th Fighter Aviation Corps|64th Fighter Aviation Corps]]", Parsers.FixLinkWhitespace("[[64th Fighter Aviation Corps|64th  Fighter Aviation Corps]]", "Test"), "long wikilink double space");
 
             Assert.AreEqual(@"[[Foo]] was", Parsers.FixLinkWhitespace(@"[[      Foo    ]] was", "Test"), "multiple spaces, space after");
             Assert.AreEqual(@"[[Foo2]] A", Parsers.FixLinkWhitespace(@"[[      Foo2    ]]A", "Test"), "multiple spaces, word after");
