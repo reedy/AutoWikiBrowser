@@ -952,7 +952,7 @@ namespace WikiFunctions.Lists.Providers
 
             foreach (string page in searchCriteria)
             {
-                string url = string.Format("list=search&srwhat={0}&srsearch={1}'{2}'&srlimit=max",
+                string url = string.Format("list=search&srwhat={0}&srsearch={1}{2}&srlimit=max",
                     SearchType,
                     SearchPrefix,
                     HttpUtility.UrlEncode(page)
