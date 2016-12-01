@@ -845,8 +845,12 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void MakeList()
         {
-            MakeList((IListProvider)cmboSourceSelect.SelectedItem,
-                     UserInputTextBox.Text.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            // Pipe character is a separator for standard searches e.g. foo|bar to search for foo or bar by doing two searches
+            // However in a regular expression like insource:/|\last=Smitherson/ the pipe isn't a search separator, so don't split on | if two or more / and :/
+            if (UserInputTextBox.Text.Contains ("|") && !(Regex.Matches(UserInputTextBox.Text, @"/").Count > 1 && UserInputTextBox.Text.Contains(":/")))
+                MakeList((IListProvider)cmboSourceSelect.SelectedItem, UserInputTextBox.Text.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            else
+                MakeList((IListProvider)cmboSourceSelect.SelectedItem, new[] { UserInputTextBox.Text });
         }
 
         /// <summary>
