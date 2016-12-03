@@ -762,7 +762,7 @@ now stubborn}}");
 
             Variables.SetProjectLangCode("ru");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=февраль 2016}}"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{изолированная статья}}"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Сирота}}"));
 
