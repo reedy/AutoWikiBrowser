@@ -891,7 +891,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)(?:''+(?<val>[^<>=""\/]+?)'+|'+(?<val>[^<>=""\/]+?)''+)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""${val}""$2"),
 
             // <ref name=foo bar> --> <ref name="foo bar">, match when spaces or /
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]+?[\s/]+[^<>=""'\/\s]+?)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""$2""$3"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""']+?[ /][^<>=""'/ ]+?)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
             // <ref name=foo bar> --> <ref name="foo bar">, match when non-ASCII characters ([\x00-\xff]*)
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]*?[^\x00-\xff]+?[^<>=""'\/]*?)(\s*/?>)", RegexOptions.IgnoreCase), @"$1""$2""$3"),

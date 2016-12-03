@@ -116,6 +116,9 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref name=""foo/bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo/bar>and"), "Use of slash needs quotes");
             Assert.AreEqual(@"now <ref name=""foo/bar"" />", Parsers.FixReferenceTags(@"now <ref name=foo/bar />"), "Use of slash needs quotes, short ref");
 
+            Assert.AreEqual(@"now<ref name=""a.com/2014/11/1744"">", Parsers.FixReferenceTags(@"now<ref name=a.com/2014/11/1744>"), "Use of multiple slashes needs quotes");
+            Assert.AreEqual(@"now<ref name=""a.com/2014/11/1744"" />", Parsers.FixReferenceTags(@"now<ref name=a.com/2014/11/1744 />"), "Use of multiple slashes needs quotes");
+
             string nochange = @"<ref name=VulgarisAerae1
 />";
             Assert.AreEqual(nochange, Parsers.FixReferenceTags(nochange));
@@ -144,8 +147,12 @@ namespace UnitTests
             const string grouped3 = @"<ref name=""Foo"" group=""A"">test</ref>";
             Assert.AreEqual(grouped3, Parsers.FixReferenceTags(grouped3), "No change to valid group ref, quotes");
 
-
             nochange = @"now <ref name=""foo bar"">and";
+            Assert.AreEqual(nochange, Parsers.FixReferenceTags(nochange));
+
+            nochange = @"now <ref name=foo/   > and";
+            Assert.AreEqual(nochange, Parsers.FixReferenceTags(nochange));
+            nochange = @"now <ref name=foo / > and";
             Assert.AreEqual(nochange, Parsers.FixReferenceTags(nochange));
 
             // <ref name=""Fred"> --> <ref name="Fred">
