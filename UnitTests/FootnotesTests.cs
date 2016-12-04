@@ -155,6 +155,9 @@ namespace UnitTests
             nochange = @"now <ref name=foo / > and";
             Assert.AreEqual(nochange, Parsers.FixReferenceTags(nochange));
 
+            Assert.AreEqual(@"now<ref name=""WWOS/ref"">Foo</ref>", Parsers.FixReferenceTags(@"now<ref name=WWOS/ref>Foo</ref>"));
+            Assert.AreEqual(@"now<ref name=""WWOS/ref"" />", Parsers.FixReferenceTags(@"now<ref name=WWOS/ref />"));
+
             // <ref name=""Fred"> --> <ref name="Fred">
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""""foo bar"">and"));
             Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""""foo bar>and"));

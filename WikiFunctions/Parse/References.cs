@@ -872,8 +872,8 @@ namespace WikiFunctions.Parse
             // <ref name-"Fred"> or <ref name=="Fred"> or <ref name"=Fred"> --> <ref name="Fred">
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)(?:[-\+\:]|= ?=+|("") *=)"), "$1=$2"),
 
-            // <ref name="Fred" /ref> --> <ref name="Fred"/>, <ref name="Fred" //> --> <ref name="Fred"/>
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""?[^<>=""\/]+?""?)\s*/\s*(?:ref|/)\s*>", RegexOptions.IgnoreCase), "$1/>"),
+            // <ref name="Fred" /ref> --> <ref name="Fred"/>, <ref name="Fred" //> --> <ref name="Fred"/> or <ref name=Fred //> --> <ref name="Fred"/> but leave <ref name=a/ref>
+            new RegexReplacement(new Regex(@"(?:(<\s*ref\s+name\s*=\s*""?[^<>=""\/]+?""?)\s*/\s*/|(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*ref)\s*>", RegexOptions.IgnoreCase), "$1$2/>"),
 
             // empty ref name: <ref name=> or <ref name = group =>
             new RegexReplacement(new Regex(@"<\s*ref\s+name[\s""]*=?[\s""]*(?:group\s*=\s*)?>"), "<ref>"),
