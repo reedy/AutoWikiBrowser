@@ -170,6 +170,11 @@ Some news here.", Parsers.FixHeadings(@"hi.
 ==News place==
 Some news here.", "test"), "space trimmed from end of paragraph when br replaces newline");
 
+        }
+
+        [Test]
+        public void TestFixHeadingsRenaming()
+        {
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
             Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCES==", "a"));
             Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
@@ -235,7 +240,7 @@ Bar", "test"), "External Links capitalization");
         }
 
         [Test]
-        public void TestFixHeadingHeadingEqualTitle()
+        public void TestFixHeadingsHeadingEqualTitle()
         {
             string HeadingEqualTitle = Parsers.FixHeadings(@"
 ==Foo==
