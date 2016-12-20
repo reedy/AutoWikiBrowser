@@ -74,7 +74,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex Anchor2NewlineHeader = new Regex(Tools.NestedTemplateRegex("Anchor") + "\r\n(\r\n)+==", RegexOptions.Multiline);
         private static readonly Regex HeadingsIncorrectWhitespaceBefore = new Regex(@"(?<=\S *(?:(\r\n){3,}|\r\n|\s*< *[Bb][Rr] *\/? *>\s*) *)=");
 
-        private static readonly Regex HeadingSubHeading = new Regex(@"^(==+)(.*)\1\r\n(\1=+.*\1=+\s*\r\n)", RegexOptions.Multiline);
+        private static readonly Regex HeadingSubHeading = new Regex(@"^(==+)(.*)\1((?:\r\n\1=+.*\1=+\s*)+)\r\n", RegexOptions.Multiline);
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>

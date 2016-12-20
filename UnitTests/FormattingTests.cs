@@ -565,6 +565,21 @@ x", "test"), "Excess tab whitespace in second header handled");
  == some code here === and here ==
  Done";
             Assert.AreEqual(indented, Parsers.FixHeadings(indented, "Test"), "No change to indented text with other == in");
+
+            string consecutiveSubHeadings = @"==2==
+===3===
+====4====
+text";
+
+            Assert.AreEqual(consecutiveSubHeadings, Parsers.FixHeadings(consecutiveSubHeadings, "Test"), "Don't add blank line between heading and sub-heading, consecutive");
+
+            consecutiveSubHeadings = @"==2==
+===3===
+====4====
+=====5=====
+text";
+
+            Assert.AreEqual(consecutiveSubHeadings, Parsers.FixHeadings(consecutiveSubHeadings, "Test"), "Don't add blank line between heading and sub-heading, consecutive x2");
         }
 
         [Test]
