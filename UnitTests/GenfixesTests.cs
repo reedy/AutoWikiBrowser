@@ -442,7 +442,6 @@ Minor bug";
 <onlyinclude>
 
 === By place ===
-
 ==== Roman Empire ====
 * Emperor";
 

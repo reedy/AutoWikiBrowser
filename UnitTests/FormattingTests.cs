@@ -169,7 +169,6 @@ Some news here.", Parsers.FixHeadings(@"hi.
 <BR>
 ==News place==
 Some news here.", "test"), "space trimmed from end of paragraph when br replaces newline");
-
         }
 
         [Test]
@@ -236,7 +235,6 @@ Bar", Parsers.FixHeadings(@"Foo
 
 ==External Links==
 Bar", "test"), "External Links capitalization");
-
         }
 
         [Test]
@@ -494,14 +492,13 @@ Bar", "Test"), "inserts blank line if one missing");
 ==2==
 text", Parsers.FixHeadings(@"====4====
 ==2==
-text", "Test"), "fixes excess blank lines");
+text", "Test"), "fixes excess blank lines, sub-heading then heading");
 
             Assert.AreEqual(@"==2==
-
 ====4====
 text", Parsers.FixHeadings(@"==2==
 ====4====
-text", "Test"), "fixes excess blank lines");
+text", "Test"), "Don't add blank line between heading and sub-heading");
 
             Assert.AreEqual(@"x
 
@@ -517,7 +514,6 @@ x", "test"));
             Assert.AreEqual(@"x
 
 ==Major championships==
-
 ====Wins====
 x", Parsers.FixHeadings(@"x
 
@@ -528,7 +524,6 @@ x", "test"));
             Assert.AreEqual(@"x
 
 ==Major championships==
-
 ====Wins====
 x", Parsers.FixHeadings(@"x
 ==Major championships==
@@ -539,7 +534,6 @@ x", "test"));
 x
 
 ===Major championships===
-
 ====Wins====
 x", Parsers.FixHeadings(@"==Foo 1==
 x
@@ -551,7 +545,6 @@ x", "test"));
 x
 
 === By place ===
-
 ==== Roman Empire ====
 x", Parsers.FixHeadings(@"== Events ==
 x
@@ -562,7 +555,6 @@ x", "test"));
             Assert.AreEqual(@"x
 
 ==Major championships==
-
 ====Wins====
 x", Parsers.FixHeadings(@"x
 ==Major championships==

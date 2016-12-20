@@ -74,6 +74,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex Anchor2NewlineHeader = new Regex(Tools.NestedTemplateRegex("Anchor") + "\r\n(\r\n)+==", RegexOptions.Multiline);
         private static readonly Regex HeadingsIncorrectWhitespaceBefore = new Regex(@"(?<=\S *(?:(\r\n){3,}|\r\n|\s*< *[Bb][Rr] *\/? *>\s*) *)=");
 
+        private static readonly Regex HeadingSubHeading = new Regex(@"^(==+)(.*)\1\r\n(\1=+.*\1=+\s*\r\n)", RegexOptions.Multiline);
+
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
         /// Fix ==See also== and similar section common errors. Removes unecessary introductory headings and cleans excess whitespace (but not the optional single space at the start & end of headings).
@@ -86,14 +88,28 @@ namespace WikiFunctions.Parse
             // remove unnecessary general header from start of article
             articleText = RegexBadHeaderStartOfAticle.Replace(articleText, "");
 
-            // one blank line before each heading per MOS:HEAD
-            // avoid special case of indented text that may be code with lost of == that matches a heading
+            // one blank line before each heading per MOS:HEAD, but not between headings
+            // avoid special case of indented text that may be code with lots of == that matches a heading
             if (Variables.IsWikipediaEN)
             {
                 articleText = Anchor2NewlineHeader.Replace(articleText, m => m.Value.Replace("\r\n\r\n==", "\r\n=="));
                 // Check for performance
                 if (HeadingsIncorrectWhitespaceBefore.IsMatch(articleText))
-                    articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, m => m.Groups[2].Value.Contains("==") ? m.Value : "\r\n\r\n" + m.Groups[1].Value);
+                    articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, m => 
+                    {
+                        // avoid special case of indented text that may be code with lots of == that matches a heading
+                        if(m.Groups[2].Value.Contains("=="))
+                            return m.Value;
+
+                        // if a sub-heading directly after a heading don't add blank line
+                        foreach(Match x in HeadingSubHeading.Matches(articleText))
+                        {
+                            if(x.Groups[3].Value.Contains(m.Groups[1].Value))
+                                return m.Value;
+                        }
+                            
+                        return "\r\n\r\n" + m.Groups[1].Value;
+                    });
             }
 
             // Get all the custom headings, ignoring normal References, External links, See also sections with correct capitalization
