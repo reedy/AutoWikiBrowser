@@ -232,7 +232,11 @@ Bar", Parsers.FixHeadings(@"Foo
 ==External Links==
 Bar", "test"), "External Links capitalization");
 
-            
+        }
+
+        [Test]
+        public void TestFixHeadingHeadingEqualTitle()
+        {
             string HeadingEqualTitle = Parsers.FixHeadings(@"
 ==Foo==
 B", "Foo");
