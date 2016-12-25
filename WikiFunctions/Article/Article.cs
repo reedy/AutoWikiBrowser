@@ -1528,9 +1528,13 @@ namespace WikiFunctions
                 
                 AWBChangeArticleText("Refs after punctuation", Parsers.RefsAfterPunctuation(ArticleText), true);
                 Variables.Profiler.Profile("RefsAfterPunctuation");
-                
-                AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
-                Variables.Profiler.Profile("ReorderReferences");
+
+                // ReorderReferences not for en-wp genfixes, T154089
+                if(!Variables.IsWikipediaEN)
+                {
+                    AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
+                    Variables.Profiler.Profile("ReorderReferences");
+                }
 
                 // does significant fixes
                 AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);

@@ -766,6 +766,21 @@ Bar";
 
             Assert.AreEqual(ArticleText, t, "No change to brackets/images, 4");
         }
+
+        [Test]
+        public void ReorderReferencesNotEnWp()
+        {
+            const string t = @"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
+Article started off pretty good,<ref>So says John</ref><ref name = ""Fred1"" /> and finished well.
+End of.
+
+==References
+{{Reflist}}";
+            ArticleText = t;
+            GenFixes();
+
+            Assert.AreEqual(ArticleText, t, "No change: ReorderReferences not applied within en-wp genfixes");
+        }
     }
 
     [TestFixture]
