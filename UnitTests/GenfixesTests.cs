@@ -474,7 +474,7 @@ y";
         public void RefsPunctuationReorder()
         {
             #if DEBUG
-            Variables.SetProjectSimple("fr", ProjectEnum.wikipedia);
+            Variables.SetProjectSimple("en", ProjectEnum.wikisource); // as require en and don't run for en-wp
             ArticleText = @"* Andrew influences.<ref name=HerdFly>{{cite book |last=Herd |first=Andrew Dr |title=The Fly }}</ref>
 
 * Hills  works<ref>{{cite book |last=McDonald }}</ref>,<ref>{{cite book |last=Gingrich }}</ref>,<ref>{{cite book |location=Norwalk, CT }}</ref>,<ref name=HerdFly/> {{Reflist}}";
@@ -529,7 +529,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
         public void ReorderPunctuation()
         {
             #if DEBUG
-            Variables.SetProjectSimple("fr", ProjectEnum.wikipedia);
+            Variables.SetProjectSimple("en", ProjectEnum.wikisource);  // as require en and don't run for en-wp
             string correct = @"FOOBAR decreases.<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/> It catalyses the removal of a phosphate group from fructose (F-2,6-BP):<ref name=""G""/><ref name=""B""/>
 
 ==References==
