@@ -473,7 +473,9 @@ y";
         [Test]
         public void RefsPunctuationReorder()
         {
-          ArticleText = @"* Andrew influences.<ref name=HerdFly>{{cite book |last=Herd |first=Andrew Dr |title=The Fly }}</ref>
+            #if DEBUG
+            Variables.SetProjectSimple("fr", ProjectEnum.wikipedia);
+            ArticleText = @"* Andrew influences.<ref name=HerdFly>{{cite book |last=Herd |first=Andrew Dr |title=The Fly }}</ref>
 
 * Hills  works<ref>{{cite book |last=McDonald }}</ref>,<ref>{{cite book |last=Gingrich }}</ref>,<ref>{{cite book |location=Norwalk, CT }}</ref>,<ref name=HerdFly/> {{Reflist}}";
             string correct = @"* Andrew influences.<ref name=HerdFly>{{cite book |last=Herd |first=Andrew Dr |title=The Fly }}</ref>
@@ -492,6 +494,9 @@ y";
 
 ==References==
 {{reflist}}", ArticleText);
+
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+            #endif
         }
 
         [Test]
@@ -523,6 +528,8 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
         [Test]
         public void ReorderPunctuation()
         {
+            #if DEBUG
+            Variables.SetProjectSimple("fr", ProjectEnum.wikipedia);
             string correct = @"FOOBAR decreases.<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/> It catalyses the removal of a phosphate group from fructose (F-2,6-BP):<ref name=""G""/><ref name=""B""/>
 
 ==References==
@@ -542,6 +549,9 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
             GenFixes("Test");
             
             Assert.AreEqual(correct, ArticleText, "References section does not exist");
+
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+            #endif
         }
 
         [Test]
