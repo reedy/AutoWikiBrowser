@@ -368,6 +368,7 @@ was", false, false));
             Assert.AreEqual(@"from ( 1900–33) there", parser.FixDatesB(@"from ( 1900-33) there", false, false));
 
             Assert.AreEqual(@"from 1950–60,", parser.FixDatesB(@"from 1950-60,", false, false));
+            Assert.AreEqual(@"x the 2010–11, 2011–12 and 2013–14 x", parser.FixDatesB(@"x the 2010-11, 2011-12 and 2013-14 x", false, false));
             Assert.AreEqual(@"(1950–60 and 1963–68)", parser.FixDatesB(@"(1950-60 and 1963-68)", false, false));
 
             // no change – not valid date range
