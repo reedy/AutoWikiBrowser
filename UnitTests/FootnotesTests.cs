@@ -527,7 +527,7 @@ End of.";
             Assert.IsTrue(Parsers.DuplicateNamedReferences(infobox + "\r\n" + rest).Contains(rest), "Ref that was declared in template not condensed");
 
             Assert.AreEqual(@"{{infobox foo | badparam=A<ref name=Fred /> | otherparam = yes}}
-Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=""Fred""/>
+Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=Fred/>
 ==References==
 {{reflist}}", Parsers.DuplicateNamedReferences(@"{{infobox foo | badparam=A<ref name=Fred /> | otherparam = yes}}
 Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=Fred>The Honourable Fred Smith, 2002</ref>
@@ -553,6 +553,15 @@ A<ref name=""Wang"">{{cite journal |authors=Wang X |title=Recurrent |journal=Nat
 
 <ref name=""Wang"">{{cite journal |authors=Wang X |title=Recurrent |journal=Nat Genet |pmid=24859338}}</ref>
 <ref name=""Lewis"">{{cite journal |authors=Lewis JT |title=Low-grade cases |journal=Am J Surg Pathol |pmid=22301502}}</ref>", Parsers.DuplicateNamedReferences(Lewis), "When dupe cite to condense, and another one after reflist, don't condense both");
+        }
+
+        [Test]
+        public void DuplicateNamedReferencesCondenseQuotes()
+        {
+            // duplicate references condense (both named)
+            Assert.AreEqual(@"now<ref name=Fred>The Honourable Fred Smith, 2002</ref>but later than<ref name=Fred/> was", Parsers.DuplicateNamedReferences(@"now<ref name=Fred>The Honourable Fred Smith, 2002</ref>but later than<ref name=Fred>The Honourable Fred Smith, 2002</ref> was"), "Don't add quotes around ref name if none there currently");
+            Assert.AreEqual(@"now<ref name=Fred>The Honourable Fred Smith, 2002</ref>but later than<ref name='Fred'/> was", Parsers.DuplicateNamedReferences(@"now<ref name=Fred>The Honourable Fred Smith, 2002</ref>but later than<ref name='Fred'>The Honourable Fred Smith, 2002</ref> was"), "Retain single quotes around ref name");
+            Assert.AreEqual(@"now<ref name=Fred>The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=Fred>The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred"">The Honourable Fred Smith, 2002</ref> was"), "Retain double quotes around ref name");
         }
 
         [Test]
@@ -610,7 +619,7 @@ A<ref name=""Wang"">{{cite journal |authors=Wang X |title=Recurrent |journal=Nat
         public void DuplicateNamedReferencesReparse()
         {
             Assert.AreEqual(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002 wcK63lPneu8pqiK6bxxYMgRSL7ySo4XaOIl4Kr24XB8Hd</ref>but later<ref name=Fred2>text words random 3b3HmI0viQTbmiLIDiGnjTAIX8mpebT520I1 words</ref> than<ref name=""Fred""/> was<ref name=""Fred2""/>",
-                            Parsers.DuplicateNamedReferences(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002 wcK63lPneu8pqiK6bxxYMgRSL7ySo4XaOIl4Kr24XB8Hd</ref>but later<ref name=Fred2>text words random 3b3HmI0viQTbmiLIDiGnjTAIX8mpebT520I1 words</ref> than<ref name=""Fred"">The Honourable Fred Smith, 2002 wcK63lPneu8pqiK6bxxYMgRSL7ySo4XaOIl4Kr24XB8Hd</ref> was<ref name=Fred2>text words random 3b3HmI0viQTbmiLIDiGnjTAIX8mpebT520I1 words</ref>"), "reparse used to fix all duplicate refs");
+                Parsers.DuplicateNamedReferences(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002 wcK63lPneu8pqiK6bxxYMgRSL7ySo4XaOIl4Kr24XB8Hd</ref>but later<ref name=Fred2>text words random 3b3HmI0viQTbmiLIDiGnjTAIX8mpebT520I1 words</ref> than<ref name=""Fred"">The Honourable Fred Smith, 2002 wcK63lPneu8pqiK6bxxYMgRSL7ySo4XaOIl4Kr24XB8Hd</ref> was<ref name=""Fred2"">text words random 3b3HmI0viQTbmiLIDiGnjTAIX8mpebT520I1 words</ref>"), "reparse used to fix all duplicate refs");
         }
 
         [Test]
@@ -788,7 +797,7 @@ Jones 2005</ref>"));
             string before = @"Foo.<ref>{{cite web | url = http://site.com | title = This is a normal title }}</ref>
 Foo2.<ref name=A>{{cite web | url = http://site.com | title = This is a normal title }}</ref>
 Bar3.<ref name=ABCDEF>{{cite web | url = http://site.com | title = This is a normal title }}</ref>
-Bar4.<ref name=ABCDEFGHI>{{cite web | url = http://site.com | title = This is a normal title }}</ref>
+Bar4.<ref name=""ABCDEFGHI"">{{cite web | url = http://site.com | title = This is a normal title }}</ref>
 
 ==References==
 {{reflist}}";

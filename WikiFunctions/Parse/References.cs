@@ -234,6 +234,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex LongNamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*>\s*([^<>]{30,}?)\s*<\s*/\s*ref>)", RegexOptions.Compiled);
+        private static readonly Regex RefNameStart = new Regex(@"<\s*ref\s+name\s*=\s*(""|')?([^<>=\r\n]+?)(?:""|')?\s*>", RegexOptions.IgnoreCase);
 
         // Covered by: DuplicateNamedReferencesTests()
         /// <summary>
@@ -304,7 +305,9 @@ namespace WikiFunctions.Parse
 
                             if (textaftermatch.Contains(m.Value))
                             {
-                                Tools.ReplaceOnce(ref textaftermatch, m.Value, @"<ref name=""" + refName + @"""/>");
+                                // retain quote format, if any, of existing named ref
+                                string quotesUsed = RefNameStart.Match(m.Value).Groups[1].Value;
+                                Tools.ReplaceOnce(ref textaftermatch, m.Value, @"<ref name=" + quotesUsed + refName + quotesUsed +@"/>");
                                 articleText = texttomatch + textaftermatch;
                             }
                             else
