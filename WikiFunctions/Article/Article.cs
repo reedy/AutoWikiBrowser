@@ -453,7 +453,7 @@ namespace WikiFunctions
                 string[] parseafterbits =
                     parser.ParseApi(
                         new Dictionary<string, string>
-                        {{"title", mPage.Title}, {"text", mArticleText}, {"pst", null}, {"disablepp", null}})
+                        {{"title", mPage.Title}, {"text", mArticleText}, {"pst", null}, {"disablelimitreport", null}})
                         .Split(new[] {"</text>"},
                             StringSplitOptions.None
                         );

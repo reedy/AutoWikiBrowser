@@ -1282,7 +1282,7 @@ namespace WikiFunctions.API
                     {"title", title},
                     {"text", text},
                     {"pst", null},
-                    {"disablepp", null}
+                    {"disablelimitreport", null}
                 });
 
             CheckForErrors(result, "parse");
