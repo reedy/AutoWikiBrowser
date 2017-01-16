@@ -1219,6 +1219,7 @@ ABC");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Shipindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sportindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sport index}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{storm index}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Animal common name}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Fungus common name}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Plant common name}}");
