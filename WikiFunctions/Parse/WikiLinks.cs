@@ -356,6 +356,10 @@ namespace WikiFunctions.Parse
                 {
                     string newlink = "[[" + a + "|" + b + "]]";
 
+                    // fix all pipe whitespace in file/image links
+                    if(WikiRegexes.FileNamespaceLink.IsMatch(newlink))
+                        newlink = Regex.Replace(newlink, @" *\| *", @"|");
+
                     if (newlink != pipedlink)
                         articleText = articleText.Replace(pipedlink, newlink);
                 }
