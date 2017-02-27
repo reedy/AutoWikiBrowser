@@ -885,6 +885,7 @@ namespace WikiFunctions
 
             pagesource = pagesource.Replace("data-meta-updatable", "");
             pagesource = pagesource.Replace(@"data-ephemeral=""true""", "");
+            pagesource = pagesource.Replace(@"data-react-helmet=""true""", "");
             pagesource = Regex.Replace(pagesource, @"< *meta id *= *""[^""]+""", "<meta ");
             pagesource = Regex.Replace(pagesource, @"\bng\-attr\-content *= *""{{[^""]+}}""", "");
 
@@ -1517,7 +1518,7 @@ Message: {2}
         /// <returns>Whether the replacement has been made</returns>
         public static bool ReplaceOnce(ref string text, string oldValue, string newValue)
         {
-            int index = text.IndexOf(oldValue);
+            int index = text.IndexOf(oldValue, StringComparison.Ordinal);
             if (index < 0)
                 return false;
 

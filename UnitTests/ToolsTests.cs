@@ -328,6 +328,9 @@ bar"));
             Assert.AreEqual("", ReplaceOnceString("", "foo", "bar"));
             Assert.AreEqual("test bar!", ReplaceOnceString("test foo!", "foo", "bar"));
             Assert.AreEqual("foobar", ReplaceOnceString("barbar", "bar", "foo"));
+
+            string y = @"Șen";
+            Assert.AreEqual("z", ReplaceOnceString(y, y, "z"), "Handle combining diacritic letter");
         }
 
         [Test]
@@ -2178,6 +2181,9 @@ foo<!--comm-->|title=abc
             Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta id=""og_title"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
             Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta property=""og:title"" content=""Air wasn't x"">", "og:title"));
             Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta data-ephemeral=""true"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
+            Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta data-react-helmet=""true"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
+
+            // <meta data-react-helmet="true" name="citation_doi" content="10.1016/0022-0000(78)90043-0"/
             Assert.AreEqual(@"Air wasn't x", Tools.GetMetaContentValue(@"<meta ng-attr-content=""{{meta.title}}"" property=""og:title"" content=""Air wasn't x""/>", "og:title"));
         }
         
