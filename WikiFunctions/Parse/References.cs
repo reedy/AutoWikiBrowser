@@ -142,10 +142,19 @@ namespace WikiFunctions.Parse
 
             if (hasPunctuationBeforeTheseTemplates)
             {
-                while(PunctuationAfterTemplate.IsMatch(articleText))
+                List<string> allRefs = (from Match m in GetUnnamedRefs(articleText) select m.Value).ToList();
+                allRefs.AddRange((from Match m in GetNamedRefs(articleText)
+                    select m.Value));
+
+                // do not move punctuation after templates if have any matches on these templates and punctuation within <ref> tags
+                // where the punctuation is valid as-is
+                if(!allRefs.Any(PunctuationAfterTemplate.IsMatch))
                 {
-                    articleText = PunctuationAfterTemplate.Replace(articleText, "${punc}${template}");
-                    articleText = RefsBeforePunctuation(articleText);
+                    while(PunctuationAfterTemplate.IsMatch(articleText))
+                    {
+                        articleText = PunctuationAfterTemplate.Replace(articleText, "${punc}${template}");
+                        articleText = RefsBeforePunctuation(articleText);
+                    }
                 }
             }
 
@@ -173,6 +182,11 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex LineStartsSemiColon = new Regex(@"^;.*", RegexOptions.Multiline);
 
+        /// <summary>
+        /// Moves punctuation after &lt;ref&gt; tags to before the tags; cleans dupe punctuation before &lt;ref&gt; tags
+        /// </summary>
+        /// <returns>The updated article text</returns>
+        /// <param name="articleText">Article text.</param>
         private static string RefsBeforePunctuation(string articleText)
         {
             bool skip = false;

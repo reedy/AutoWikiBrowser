@@ -1137,6 +1137,18 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
         }
 
         [Test]
+        public void RefsAfterPunctuationSfnInRef()
+        {
+            const string Correct = @"Now.<ref>{{sfn|Wilcox|2017}}; {{harvnb|Anon.|2007a|p=378}}</ref>";
+
+            Assert.AreEqual(Correct, Parsers.RefsAfterPunctuation(Correct), "No chnage to punct after {{sfn}} etc. when within ref");
+
+            string x = @" thing.{{sfn|Jones|2000}}.<ref>foo</ref>";
+
+            Assert.AreEqual(Correct + x, Parsers.RefsAfterPunctuation(Correct + x), "No change to punctuation around {{sfn}} if also punctuation after {{sfn}} in ref tags");
+        }
+
+        [Test]
         public void RefsAfterPunctuationEnOnly()
         {
 #if DEBUG
