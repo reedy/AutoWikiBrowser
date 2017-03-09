@@ -562,6 +562,7 @@ was [[foo|bar]] too"));
         public void CanonicalizeTitleRawTests()
         {
             Assert.AreEqual(@"foo bar", Parsers.CanonicalizeTitleRaw(@"foo_bar"));
+            Assert.AreEqual(@"foo""bar""", Parsers.CanonicalizeTitleRaw(@"foo%22bar%22"));
             Assert.AreEqual(@"foo+bar", Parsers.CanonicalizeTitleRaw(@"foo+bar"));
             Assert.AreEqual(@"foo bar", Parsers.CanonicalizeTitleRaw(@"foo_bar", false));
             Assert.AreEqual(@"foo bar ", Parsers.CanonicalizeTitleRaw(@"foo_bar ", false));
