@@ -130,7 +130,7 @@ namespace WikiFunctions.ReplaceSpecial
         }
 
         /// <summary>
-        /// 
+        /// Applies logic of rule inside templates: to all template calls including any level of nesting
         /// </summary>
         /// <param name="tn"></param>
         /// <param name="text"></param>
@@ -139,11 +139,11 @@ namespace WikiFunctions.ReplaceSpecial
         private static string ApplyInsideTemplate(TreeNode tn, string text, string title)
         {
             string result = text;
-            foreach (Match m in Parsers.GetTemplates(text))
+            foreach (string m in Parsers.GetAllTemplateDetail(text))
             {
-                if (CheckIf(tn, m.Value))
+                if (CheckIf(tn, m))
                 {
-                    result = result.Replace(m.Value, ApplyOn(tn, m.Value, title));
+                    result = result.Replace(m, ApplyOn(tn, m, title));
                 }
             }
 
