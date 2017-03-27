@@ -596,9 +596,11 @@ namespace WikiFunctions.Parse
         private static readonly List<string> PageFields = new List<string>(new[] {"page", "pages", "p", "pp"});
         private static readonly Regex PageRange = new Regex(@"\b([0-9]{1,8})\s*[-—]+\s*([0-9]{1,8})");
         private static readonly Regex SpacedPageRange = new Regex(@"(\d+) +(–|&ndash;) +(\d)");
+        private static readonly Regex HiddenRegex = new Regex("⌊⌊⌊⌊(\\d*)⌋⌋⌋⌋");
 
         /// <summary>
         /// Converts hyphens in page ranges in citation template fields to endashes
+        /// To avoid false positives, not applied when field value contains hidden text e.g. wiki comment
         /// </summary>
         /// <param name="templateCall">The template call</param>
         /// <param name="Params">Dictionary of template parameters in template call</param>
@@ -608,7 +610,7 @@ namespace WikiFunctions.Parse
             foreach (string pageField in PageFields)
             {
                 string pageRange;
-                if (Params.TryGetValue(pageField, out pageRange) && pageRange.Length > 0)
+                if (Params.TryGetValue(pageField, out pageRange) && pageRange.Length > 0 && !HiddenRegex.IsMatch(pageRange))
                 {
                     string res = FixPageRangesValue(pageRange);
                     if (!res.Equals(pageRange))

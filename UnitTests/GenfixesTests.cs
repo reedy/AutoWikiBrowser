@@ -469,6 +469,12 @@ y";
 
             Assert.AreEqual(@"'''John Smith''' (born 1985) was great.", ArticleText);
         }
+
+        [Test]
+        public void FixCitationTemplates()
+        {
+            AssertNotChanged(@"* {{cite book |editor1-first=T |editor1-last=C |title=A |edition=E |publisher=M |page=7-124<!--HYPHEN PAGE--> }}", "Text", "No change to hyphen in page when comment");
+        }
         
         [Test]
         public void RefsPunctuationReorder()
