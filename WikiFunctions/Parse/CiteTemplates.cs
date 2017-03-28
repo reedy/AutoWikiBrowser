@@ -607,15 +607,12 @@ namespace WikiFunctions.Parse
         /// <returns>The updated template call</returns>
         private static string FixPageRanges(string templateCall, Dictionary<string, string> Params)
         {
-            foreach (string pageField in PageFields)
+            foreach(KeyValuePair<string, string> kvp in Params.Where(x => PageFields.Contains(x.Key) && x.Value.Length > 0
+                && !HiddenRegex.IsMatch(x.Value)))
             {
-                string pageRange;
-                if (Params.TryGetValue(pageField, out pageRange) && pageRange.Length > 0 && !HiddenRegex.IsMatch(pageRange))
-                {
-                    string res = FixPageRangesValue(pageRange);
-                    if (!res.Equals(pageRange))
-                        templateCall = Tools.UpdateTemplateParameterValue(templateCall, pageField, res);
-                }
+                string res = FixPageRangesValue(kvp.Value);
+                if (!res.Equals(kvp.Value))
+                    templateCall = Tools.UpdateTemplateParameterValue(templateCall, kvp.Key, res);
             }
 
             return templateCall;
