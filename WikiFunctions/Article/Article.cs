@@ -524,7 +524,7 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool OnlyGeneralFixesChanged
         {
-            get { return (_generalFixesCausedChange && !FindAndReplaceMadeChanges && !_customModuleMadeChanges && (ArticleText == _afterGeneralFixesArticleText)); }
+            get { return (_generalFixesCausedChange && !FindAndReplaceMadeChanges && !_customModuleMadeChanges && !_categorisationMadeChanges && (ArticleText == _afterGeneralFixesArticleText)); }
         }
 
         /// <summary>
@@ -802,6 +802,8 @@ namespace WikiFunctions
                 AWBChangeArticleText("File replacement applied", strTemp, false);
         }
 
+        private bool _categorisationMadeChanges = false;
+
         /// <summary>
         /// Add, remove or replace a specified category
         /// </summary>
@@ -854,7 +856,10 @@ namespace WikiFunctions
             if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No Category Changed");
             else if (!noChange)
+            {
                 AWBChangeArticleText(action, strTemp, false);
+                _categorisationMadeChanges = true;
+            }
         }
 
         /// <summary>

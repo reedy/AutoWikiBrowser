@@ -579,7 +579,19 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
             Article ar1 = new Article("Hello", " '''Hello''' world text");
             ar1.PerformUniversalGeneralFixes();
             ar1.PerformGeneralFixes(parser, H, S, false, false, false);
-            Assert.IsTrue(ar1.OnlyGeneralFixesChanged);
+            Assert.IsTrue(ar1.OnlyGeneralFixesChanged, "Universal genfixes made change");
+
+            // Categorization and then universal genfix
+            Article ar2 = new Article("Category:Hello", " Text [[Category:Foo]]");
+            ar2.Categorisation((WikiFunctions.Options.CategorisationOptions)
+                1, parser, false,
+                "Foo",
+                "Foo2", false);
+            Assert.AreEqual(ar2.ArticleText, " Text [[Category:Foo2]]", "Category rename operation");
+            ar2.PerformUniversalGeneralFixes();
+            Assert.AreEqual(ar2.ArticleText, "Text [[Category:Foo2]]", "Universal genfix trim");
+            ar2.PerformGeneralFixes(parser, H, S, false, false, false);
+            Assert.IsFalse(ar2.OnlyGeneralFixesChanged, "Categorisation did cause change");
         }
 
         [Test]
