@@ -706,6 +706,20 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
         }
 
         [Test]
+        public void Categorisation()
+        {
+            Article theArticle = new Article("Category:Hello", "Text [[Category:Foo]]");
+            Parsers p = new Parsers(500, true);
+
+            theArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
+                1, p, false,
+                "Foo",
+                "Foo2", false);
+
+            Assert.AreEqual(theArticle.ArticleText, "Text [[Category:Foo2]]", "Category rename operation");
+        }
+
+        [Test]
         public void NamespacelessName()
         {
             Assert.AreEqual("Foo", new Article("Foo").NamespacelessName);
