@@ -572,6 +572,17 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
         }
 
         [Test]
+        public void OnlyGeneralFixesChanged()
+        {
+            HideText H = new HideText();
+            MockSkipOptions S = new MockSkipOptions();
+            Article ar1 = new Article("Hello", " '''Hello''' world text");
+            ar1.PerformUniversalGeneralFixes();
+            ar1.PerformGeneralFixes(parser, H, S, false, false, false);
+            Assert.IsTrue(ar1.OnlyGeneralFixesChanged);
+        }
+
+        [Test]
         public void ExternalLinksBr()
         {
             ArticleText = @"==External links==
