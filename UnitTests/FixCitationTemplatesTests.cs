@@ -578,6 +578,8 @@ Bar}} was"), "newline converted to space, any parameter");
             Assert.AreEqual(@"{{cite book|author=Smith|title=Great|pages=59999990–59999999}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=59999990—59999999}}"));
             const string tooLong = @"{{cite book|author=Smith|title=Great|page=57999999000—59999999000}}";
             Assert.AreEqual(tooLong, Parsers.FixCitationTemplates(tooLong));
+            const string correct4 = @"{{cite book | at = 5-7 }}";
+            Assert.AreEqual(correct4, Parsers.FixCitationTemplates(correct4), "No change within at parameter");
         }
 
         [Test]
@@ -690,11 +692,14 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
             Assert.AreEqual(@"{{harvnb|Smith|2005|pp=55–59}}", Parsers.FixCitationTemplates(@"{{harvnb|Smith|2005|pp=55–59}}"));
             Assert.AreEqual(@"{{harv|Smith|2005|pp=55–59}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|pp=55 – 59}}"));
             Assert.AreEqual(@"{{harv|Smith|2005|pp=55–59, 77–81}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|pp=55–59, 77-81}}"));
+            Assert.AreEqual(@"{{harv|Smith|at=7-8}}", Parsers.FixCitationTemplates(@"{{harv|Smith|at=7-8}}"), "no change within at parameter");
+
 
             Assert.AreEqual(@"{{rp|55–59, 77–81}}", Parsers.FixCitationTemplates(@"{{rp|55–59, 77-81}}"));
             Assert.AreEqual(@"{{rp|77–81}}", Parsers.FixCitationTemplates(@"{{rp|77-81}}"));
             Assert.AreEqual(@"{{rp|77}}", Parsers.FixCitationTemplates(@"{{rp|77}}"));
             Assert.AreEqual(@"{{rp|77, 80}}", Parsers.FixCitationTemplates(@"{{rp|77, 80}}"));
+            Assert.AreEqual(@"{{rp|at=7-8}}", Parsers.FixCitationTemplates(@"{{rp|at=7-8}}"), "rp: no change within at parameter");
         }
 
         [Test]

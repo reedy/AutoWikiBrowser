@@ -137,10 +137,17 @@ namespace WikiFunctions.Parse
                 {
                     string res = rpTemplate.Replace(s, m =>
                     {
-                        string pagerange = Tools.GetTemplateArgument(m.Value, 1);
-                        if (pagerange.Length > 0)
-                            return m.Value.Replace(pagerange, FixPageRangesValue(pagerange));
+                        // rp can be simple {{rp|1-7}} or {{rp|pp=1-7}} so handle both formats
+                        Dictionary<string, string> Params = Tools.GetTemplateParameterValues(m.Value);
 
+                        if(Params.Any())
+                            return FixPageRanges(m.Value, Params);
+                        else
+                        {
+                            string pagerange = Tools.GetTemplateArgument(m.Value, 1);
+                            if (pagerange.Length > 0)
+                                return m.Value.Replace(pagerange, FixPageRangesValue(pagerange));
+                        }
                         return m.Value;
                     });
 
