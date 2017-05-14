@@ -213,8 +213,8 @@ namespace WikiFunctions.Parse
             /* performance: process all templates in bulk, extract template contents and reprocess. This is faster than loop applying template match on individual basis. 
             Extract rough template name then get exact template names later, faster to deduplicate then get exact template names */
             // process all templates, handle nested templates to any level of nesting
-            List<string> TemplateNames = new List<string>();
-            List<string> TemplateDetail = new List<string>();
+            HashSet<string> TemplateNames = new HashSet<string>();
+            HashSet<string> TemplateDetail = new HashSet<string>();
             HashSet<string> innerTemplateContents = new HashSet<string>();
             string originalarticleText = articleText;
 
@@ -225,10 +225,10 @@ namespace WikiFunctions.Parse
                 if (!nt.Any())
                     break;
 
-                TemplateDetail.AddRange(nt.Select(x => x.Value));
+                TemplateDetail.UnionWith(nt.Select(x => x.Value));
 
                 // add raw template names to list
-                TemplateNames.AddRange(nt.Select(m => m.Groups[1].Value).ToList());
+                TemplateNames.UnionWith(nt.Select(m => m.Groups[1].Value).ToList());
 
                 // set text to content of matched templates to process again for any (further) nested templates
                 innerTemplateContents = new HashSet<string>(nt.Select(m => m.Groups[2].Value).ToList());
@@ -236,9 +236,8 @@ namespace WikiFunctions.Parse
             }
 
             // now extract exact template names
-            List<string> FinalTemplateNames = TemplateNames.Distinct().Select(s => Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}"))).Distinct().ToList();
-
-            TemplateDetail = Tools.DeduplicateList(TemplateDetail);
+            TemplateNames = new HashSet<string>(TemplateNames.Select(s => Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}"))));
+            List<string> FinalTemplateNames = TemplateNames.ToList();
 
             lock(GetAllTemplatesNewQueueLock)
             {
@@ -250,7 +249,7 @@ namespace WikiFunctions.Parse
 
             lock(GetAllTemplatesDetailNewQueueLock)
             {
-                GetAllTemplatesDetailNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText, TemplateDetail));
+                GetAllTemplatesDetailNewQueue.Enqueue(new KeyValuePair<string, List<string>>(originalarticleText, TemplateDetail.ToList()));
                 if (GetAllTemplatesDetailNewQueue.Count > 10)
                     GetAllTemplatesDetailNewQueue.Dequeue();
             }
