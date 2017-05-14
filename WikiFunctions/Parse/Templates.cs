@@ -181,7 +181,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex NestedTemplates = new Regex(@"{{\s*([^{}\|]*)((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))}}");
 
         /// <summary>
-        /// Extracts a list of all templates used in the input text, supporting any level of template nesting. Template name given in first letter upper
+        /// Extracts a distinct list of all templates used in the input text, supporting any level of template nesting. Template name given in first letter upper
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns>List of all templates in text</returns>
