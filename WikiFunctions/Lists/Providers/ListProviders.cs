@@ -952,12 +952,22 @@ namespace WikiFunctions.Lists.Providers
 
             foreach (string page in searchCriteria)
             {
-                string url = string.Format("list=search&srwhat={0}&srsearch={1}{2}&srlimit=max",
-                    SearchType,
-                    SearchPrefix,
-                    HttpUtility.UrlEncode(page)
+                string url;
+                if(SearchPrefix.Equals("all:"))
+                {
+                    url = string.Format("list=search&srwhat={0}&srnamespace=*&srsearch={1}&srlimit=max",
+                        SearchType,
+                        HttpUtility.UrlEncode(page)
                     );
-
+                }
+                else
+                {
+                    url = string.Format("list=search&srwhat={0}&srsearch={1}{2}&srlimit=max",
+                        SearchType,
+                        SearchPrefix,
+                        HttpUtility.UrlEncode(page)
+                        );
+                }
                 list.AddRange(ApiMakeList(url, list.Count));
             }
             return list;
