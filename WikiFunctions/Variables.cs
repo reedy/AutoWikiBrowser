@@ -833,6 +833,11 @@ namespace WikiFunctions
                     mSummaryTag = "mit";
                     TypoSummaryTag = "Schreibweise: ";
                     break;
+                    
+                case "es":
+                    mSummaryTag = "(Usando";
+                    WPAWB = "[[:w:WP:AWB|AWB]])";
+                    break;
 
                 case "el":
                     mSummaryTag = "με τη χρήση";
