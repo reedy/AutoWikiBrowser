@@ -51,7 +51,7 @@ namespace UnitTests
 
             #if DEBUG
             // debug only - length affected by revision number being in edit summary for debug builds
-            Assert.AreEqual("clean upclean upclean up, typos fixed: dissapointment → disappointment (2), attatched → attached (2), begining → beginning, Expiditionary → Expeditionary, manuever → maneuver (5), thier → their (7), inde",
+            Assert.AreEqual("clean upclean upclean up, typos fixed: dissapointment → disappointment (2), attatched → attached (2), begining → beginning, Expiditionary → Expeditionary, manuever → maneuver (5), thier → their (7), independa",
                             Summary.Trim(
                                 "clean upclean upclean up, typos fixed: dissapointment → disappointment (2), attatched → attached (2), begining → beginning, Expiditionary → Expeditionary, manuever → maneuver (5), thier → their (7), independant → independent"));
             #endif
