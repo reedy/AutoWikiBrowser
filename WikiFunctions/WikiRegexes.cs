@@ -172,6 +172,12 @@ namespace WikiFunctions
                     InUse = Tools.NestedTemplateRegex(new[] {"Modificant", "Editant-se", "Editant" });
                     DisambigString = "([Dd]esambiguació|[Dd]esambigua|[Dd]isambig)";
                     break;
+                case "ckb":
+                    Orphan = Tools.NestedTemplateRegex(@"داڕێژە:ھەتیو");
+                    uncattemplate = @"داڕێژە:بێ پۆل";
+                    DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|داڕێژە:بنبەست)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
+                    Wikify = new Regex(@"(?:{{\s*(?:داڕێژە:کەمبەستەر)(?:\s*\|\s*(?:" +DateYearMonthParameter +@"|.*?))?}})", RegexOptions.IgnoreCase);
+                    break;
                 case "de":
                     DisambigString = "([Bb]egriffsklärung)";
                     break;
