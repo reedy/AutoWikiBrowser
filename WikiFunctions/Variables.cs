@@ -782,7 +782,10 @@ namespace WikiFunctions
             {
                 case "en":
                     if (projectName == ProjectEnum.wikipedia)
+                    {
                         SetToEnglish();
+                        WPAWB = "[[WP:AWB|AWB]]";
+                    }
                     TypoSummaryTag = @"[[WP:AWB/T|typo(s) fixed]]: ";
                     break;
 
