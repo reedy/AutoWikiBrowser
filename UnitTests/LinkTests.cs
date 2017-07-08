@@ -170,16 +170,21 @@ namespace UnitTests
             Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April14 2009 was"));
             Assert.AreEqual(correct1, parser.FixDatesA(correct1));
 
-            // don't change image names
+            // don't change image/link target names
             string image1 = @"now foo [[Image:Foo July 24 2009.png]] was";
             Assert.AreEqual(image1, parser.FixDatesA(image1));
             string image2 = @"now foo [[File:Foo July 24 2009.png]] was";
             Assert.AreEqual(image2, parser.FixDatesA(image2));
+            string link1 = @"now [[July 29 1966, P.N.E.]] was";
+            Assert.AreEqual(link1, parser.FixDatesA(link1));
 
             const string correct2 = @"Retrieved on 14 April 2009 was";
             Assert.AreEqual(correct2, parser.FixDatesA(@"Retrieved on 14 April, 2009 was"));
             Assert.AreEqual(correct2, parser.FixDatesA(@"Retrieved on 14 April , 2009 was"));
             Assert.AreEqual(correct2, parser.FixDatesA(@"Retrieved on 14 April,  2009 was"));
+
+            const string correct3 = @"[[Now]] on 14 April 2009 was";
+            Assert.AreEqual(correct3, parser.FixDatesA(@"[[Now]] on 14 April, 2009 was"));
 
             const string nochange1 = @"On 14 April, 2590 people", nochange2 = @"Retrieved on April 142009 was";
             Assert.AreEqual(nochange1, parser.FixDatesA(nochange1));

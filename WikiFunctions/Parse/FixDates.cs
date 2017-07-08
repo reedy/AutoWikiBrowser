@@ -190,8 +190,9 @@ namespace WikiFunctions.Parse
 
         private string FixDatesAInternal(string textPortion)
         {
+            string originaltextPortion = textPortion;
             bool hasDash = (textPortion.Contains("-") || textPortion.Contains("–")), hasComma = textPortion.Contains(",");
-            
+
             if (hasComma)
                 textPortion = IncorrectCommaInternationalDates.Replace(textPortion, @"$1 $2");
 
@@ -211,6 +212,16 @@ namespace WikiFunctions.Parse
             // month range
             if (hasDash)
                 textPortion = EnMonthRange.Replace(textPortion, @"$1–$2");
+
+            // don't make changes to any link targets e.g. [[July 29 1966, P.N.E. Garden Aud., Vancouver Canada]]
+            if(!originaltextPortion.Equals(textPortion) && originaltextPortion.Contains("[["))
+            {
+                List<string> wikiLinkTargetsBefore = new List<string>(from Match m in WikiRegexes.WikiLinksOnlyPossiblePipe.Matches(textPortion) select m.Groups[1].Value);
+                List<string> wikiLinkTargetsAfter = new List<string>(from Match m in WikiRegexes.WikiLinksOnlyPossiblePipe.Matches(originaltextPortion) select m.Groups[1].Value);
+
+                if(!wikiLinkTargetsBefore.SequenceEqual(wikiLinkTargetsAfter))
+                    return originaltextPortion;
+            }
         
             return textPortion;
         }
