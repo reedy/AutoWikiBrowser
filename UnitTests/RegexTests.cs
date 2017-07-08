@@ -1287,7 +1287,6 @@ cit"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other persons}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse
 |something}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{2otheruses|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{selfref|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Redirect-distinguish|something}}"));
             
@@ -1318,12 +1317,8 @@ cit"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-distinguish2}}"), @"{{redirect-distinguish2}}");
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-distinguish}}"), @"{{redirect-distinguish}}");
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-several}}"), @"{{redirect-several}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect10}}"), @"{{redirect10}}");
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect2}}"), @"{{redirect2}}");
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect3}}"), @"{{redirect3}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect4}}"), @"{{redirect4}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect5}}"), @"{{redirect5}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect6}}"), @"{{redirect6}}");
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect}}"), @"{{redirect}}");
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{see also}}"), @"{{see also}}");
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{selfref}}"), @"{{selfref}}");
