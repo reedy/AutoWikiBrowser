@@ -535,6 +535,8 @@ Foo}}"));
             Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT: Foo }}"));
             Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Foo
 }}"));
+            Assert.AreEqual(@"{{DEFAULTSORT:Jones, Andy}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Jones,Andy}}"), "Add space after comma");
+            Assert.AreEqual(@"{{DEFAULTSORT:Jones,}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Jones,}}"), "No change: comma at end");
         }
         
         [Test]

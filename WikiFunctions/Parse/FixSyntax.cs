@@ -167,7 +167,7 @@ namespace WikiFunctions.Parse
 
             if (Variables.LangCode.Equals("en"))
             {
-                // DEFAULTSORT whitespace fix - CHECKWIKI error 88
+                // DEFAULTSORT whitespace fix - CHECKWIKI error 88, 89
                 articleText = FixSyntaxDefaultSort(articleText);
 
                 // This category should not be directly added, remove if template present else replace with template
@@ -507,7 +507,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Trims whitespace around DEFAULTSORT value, ensures 'whitespace only' DEFAULTSORT left unchanged, removes trailing square brackets
+        /// Trims whitespace around DEFAULTSORT value, ensures 'whitespace only' DEFAULTSORT left unchanged, removes trailing square brackets, adds missing space after comma
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
@@ -526,6 +526,9 @@ namespace WikiFunctions.Parse
 
             if (!end.TrimStart().Equals(@"}}"))
                 returned += end;
+
+            // space after comma, unless comma is at end of sort key
+            returned = Regex.Replace(returned, @",(\S..)", ", $1");
 
             return returned;
         }
