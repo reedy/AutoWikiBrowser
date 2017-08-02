@@ -580,6 +580,8 @@ Bar}} was"), "newline converted to space, any parameter");
             Assert.AreEqual(tooLong, Parsers.FixCitationTemplates(tooLong));
             const string correct4 = @"{{cite book | at = 5-7 }}";
             Assert.AreEqual(correct4, Parsers.FixCitationTemplates(correct4), "No change within at parameter");
+            const string correct5 = @"{{cite book | page = [https://site.com/a-1990-1994 123] }}";
+            Assert.AreEqual(correct5, Parsers.FixCitationTemplates(correct5), "No change to text within link in pages param");
         }
 
         [Test]

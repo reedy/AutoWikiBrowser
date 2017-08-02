@@ -607,7 +607,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Converts hyphens in page ranges in citation template fields to endashes
-        /// To avoid false positives, not applied when field value contains hidden text e.g. wiki comment
+        /// To avoid false positives, not applied when field value contains hidden text (e.g. wiki comment) or wiki/external links
         /// </summary>
         /// <param name="templateCall">The template call</param>
         /// <param name="Params">Dictionary of template parameters in template call</param>
@@ -615,7 +615,7 @@ namespace WikiFunctions.Parse
         private static string FixPageRanges(string templateCall, Dictionary<string, string> Params)
         {
             foreach(KeyValuePair<string, string> kvp in Params.Where(x => PageFields.Contains(x.Key) && x.Value.Length > 0
-                && !HiddenRegex.IsMatch(x.Value)))
+                && !HiddenRegex.IsMatch(x.Value) && !x.Value.Contains("[")))
             {
                 string res = FixPageRangesValue(kvp.Value);
                 if (!res.Equals(kvp.Value))
