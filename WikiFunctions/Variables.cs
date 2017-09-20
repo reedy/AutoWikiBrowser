@@ -812,6 +812,12 @@ namespace WikiFunctions
                     WPAWB = "AWB";
                     break;
 
+                case "bn":
+                    mSummaryTag = "";
+                    WPAWB = "[[Project:অউব্রা|অউব্রা]] ব্যবহার করে";
+                    TypoSummaryTag = "বানান সংশোধন: ";
+                    break;
+
                 case "ca":
                     mSummaryTag = "";
                     WPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
