@@ -1772,5 +1772,14 @@ Text";
             Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "Number of newlines before spm preserved");
             Assert.AreEqual(B, parser2.SortMetaData(B.Replace("-->", "-->\r\n"), "Test"), "Page trim still done when spm present");
         }
+
+        [Test]
+        public void RedirectsDablinks()
+        {
+            string x = @"#REDIRECT [[Foo]]
+
+{{distinguish|A}}";
+            Assert.AreEqual(x, parser2.SortMetaData(x, "Test"), "No sorting of zeroth section templates for redirects");
+        }
     }
 }

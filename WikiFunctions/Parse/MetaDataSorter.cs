@@ -316,7 +316,7 @@ en, sq, ru
 
             string interwikis = Tools.Newline(Interwikis(ref articleText, TemplateExists(alltemplates, WikiRegexes.LinkFGAs))); 
 
-            if (Namespace.IsMainSpace(articleTitle))
+            if (Namespace.IsMainSpace(articleTitle) && !Tools.IsRedirect(articleText))
             {
                 // maintenance templates above infoboxes etc., zeroth section only
                 if (TemplateExists(alltemplates, WikiRegexes.MaintenanceTemplates))
