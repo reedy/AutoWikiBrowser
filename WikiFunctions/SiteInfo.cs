@@ -238,7 +238,7 @@ namespace WikiFunctions
 
         /// <summary>
         /// Loads the category collation information (value of wgCategoryCollation parameter) from https://noc.wikimedia.org/conf/InitialiseSettings.php.txt
-        // Stores result in object cache
+        /// Stores result in object cache
         /// </summary>
         private void LoadCategoryCollation()
         {
