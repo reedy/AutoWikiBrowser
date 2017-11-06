@@ -802,7 +802,7 @@ namespace WikiFunctions
                     Stub = @"[^{}|]*?(?:[Ss]tub|تقاوى|بذرة)[^{}]*?";
                     TypoSummaryTag = "الأخطاء المصححة: ";
                     break;
-                    
+
                 case "be":
                     mSummaryTag = "з дапамогай";
                     break;
@@ -832,7 +832,7 @@ namespace WikiFunctions
                 case "cy":
                     Stub = @"[^{}|]*?([Ss]tub|[Εe]ginyn[^{}]*?)";
                     break;
-                    
+
                 case "da":
                     mSummaryTag = "ved brug af";
                     WPAWB = "[[en:WP:AWB|AWB]]";
@@ -900,11 +900,11 @@ namespace WikiFunctions
                     mSummaryTag = "";
                     WPAWB = "स्वतःविकी ब्राउजर प्रयोग गर्दै";
                     break;
-                    
+
                 case "nl":
                     mSummaryTag = "met";
                     break;
-                    
+
                 case "pa":
                     mSummaryTag = "ਦੀ ਵਰਤੋਂ ਨਾਲ";
                     break;
@@ -942,7 +942,7 @@ namespace WikiFunctions
                     TypoSummaryTag = @"[[WP:AWB/T|përmirësime tipografike]]: ";
                     Stub = "(?:[^{}]*?[Cc]ung[^{}]*?)";
                     break;
-                    
+
                 case "sv":
                     mSummaryTag = "med";
                     TypoSummaryTag = "rättar stavfel: ";
@@ -958,6 +958,10 @@ namespace WikiFunctions
                 case "uk":
                     Stub = ".*?(?:[Ss]tub|[Дд]оробити)";
                     mSummaryTag = "за допомогою";
+                    break;
+
+                case "ur":
+                    TypoSummaryTag = "درستی املا";
                     break;
 
                 case "zh":
@@ -976,9 +980,9 @@ namespace WikiFunctions
                     WPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]幫手";
                     break;
 
-                    // case "xx:
-                    // strsummarytag = " ";
-                    // strWPAWB = "";
+                    // case "xx":
+                    // mSummaryTag = "";
+                    // WPAWB = "";
                     // break;
             }
         }
