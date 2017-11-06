@@ -1006,7 +1006,7 @@ namespace WikiFunctions
         /// <returns></returns>
         public static string GetArticleHistoryURL(string title)
         {
-            return (NonPrettifiedURL(title) + "&action=history");
+            return NonPrettifiedURL(title) + "&action=history";
         }
 
         /// <summary>
@@ -1016,7 +1016,7 @@ namespace WikiFunctions
         /// <returns></returns>
         public static string GetEditURL(string title)
         {
-            return (NonPrettifiedURL(title) + "&action=edit");
+            return NonPrettifiedURL(title) + "&action=edit";
         }
 
         /// <summary>
