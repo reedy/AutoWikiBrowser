@@ -856,6 +856,11 @@ namespace WikiFunctions
                     TypoSummaryTag = "Skribmaniero: ";
                     break;
 
+                case "es":
+                    mSummaryTag = "(Usando";
+                    WPAWB = "[[:w:WP:AWB|AWB]])";
+                    break;
+
                 case "fa":
                     mSummaryTag = "";
                     WPAWB = "با استفاده از [[Project:AutoWikiBrowser|AWB]]";
