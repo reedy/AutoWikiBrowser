@@ -25,6 +25,7 @@ using System.Xml.Serialization;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using WikiFunctions.API;
+using System.Globalization;
 
 namespace WikiFunctions
 {
@@ -197,7 +198,7 @@ namespace WikiFunctions
 
             foreach (XmlNode xn in query["namespaces"].GetElementsByTagName("ns"))
             {
-                int id = int.Parse(xn.Attributes["id"].Value);
+                int id = int.Parse(xn.Attributes["id"].Value, CultureInfo.InvariantCulture);
 
                 if (id != 0) namespaces[id] = xn.InnerText + ":";
             }
@@ -209,7 +210,7 @@ namespace WikiFunctions
 
             foreach (XmlNode xn in query["namespacealiases"].GetElementsByTagName("ns"))
             {
-                int id = int.Parse(xn.Attributes["id"].Value);
+                int id = int.Parse(xn.Attributes["id"].Value, CultureInfo.InvariantCulture);
 
                 if (id != 0) namespaceAliases[id].Add(xn.InnerText);
             }
