@@ -211,13 +211,14 @@ namespace WikiFunctions
             if (!name.Contains(" ") || Variables.LangCode.Equals("uk") || WikiRegexes.SurnameClarificationTemplates.IsMatch(articletext))
                 return FixupDefaultSort(origName);
 
-            string suffix = "";
+            string suffix = "", presuffix = " ";
             int pos = name.IndexOf(',');
 
             // ruwiki has "Lastname, Firstname Patronymic" convention
             if (pos >= 0 && !Variables.LangCode.Equals("ru"))
             {
                 suffix = name.Substring(pos + 1).Trim();
+                presuffix = ", ";
                 name = name.Substring(0, pos).Trim();
             }
 
@@ -248,7 +249,7 @@ namespace WikiFunctions
             {
                 if (name.Contains(" "))
                 {
-                    suffix += lastName;
+                    suffix += lastName; // and don't want extra comma before suffix so leave presuffix as only a space
                     intLast = name.LastIndexOf(" ") + 1;
                     lastName = name.Substring(intLast);
                     name = name.Remove(intLast).Trim();
@@ -261,7 +262,7 @@ namespace WikiFunctions
                 }
             }
 
-            name = (lastName + ", " + (name.Length > 0 ? name + ", " : "") + suffix).Trim(" ,".ToCharArray());
+            name = (lastName + ", " + (name.Length > 0 ? name + presuffix : "") + suffix).Trim(" ,".ToCharArray());
 
             // set correct casing
             return FixupDefaultSort(name);
