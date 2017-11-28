@@ -463,7 +463,7 @@ namespace WikiFunctions
         /// Returns the domain name from a URL e.g. bbc.co.uk from http://www.bbc.co.uk/1212
         /// </summary>
         /// <param name="url">The source URL</param>
-        /// <returns>The domain name for the URL, or a null string if no domain name can be determined</returns>
+        /// <returns>The domain name for the URL, or an empty string if no domain name can be determined</returns>
         public static string GetDomain(string url)
         {
             url = url.ToLower().Trim();
