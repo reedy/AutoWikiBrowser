@@ -465,7 +465,7 @@ namespace WikiFunctions
                 Array.Sort(beforecatslangs);
                 Array.Sort(aftercatslangs);
                 if (beforecatslangs.Length != aftercatslangs.Length
-                    || string.Compare(string.Join("", beforecatslangs), string.Join("", aftercatslangs)) != 0)
+                    || String.CompareOrdinal(string.Join("", beforecatslangs), string.Join("", aftercatslangs)) != 0)
                     return false;
 
                 // Second half: cosmetic changes to text (such as template redirect bypassing)
@@ -478,7 +478,7 @@ namespace WikiFunctions
                 parseafterbits[0] = parseafterbits[0].Replace(whitespace1, "");
 
                 return
-                    (string.Compare(parsebeforebits[0].Trim(), parseafterbits[0].Trim()) == 0);
+                    (String.CompareOrdinal(parsebeforebits[0].Trim(), parseafterbits[0].Trim()) == 0);
             }
         }
 
@@ -491,7 +491,7 @@ namespace WikiFunctions
             get
             {
                 return
-                    (string.Compare(WikiRegexes.WhiteSpace.Replace(OriginalArticleText, ""),
+                    (String.CompareOrdinal(WikiRegexes.WhiteSpace.Replace(OriginalArticleText, ""),
                                     WikiRegexes.WhiteSpace.Replace(mArticleText, "")) == 0);
             }
         }
@@ -552,7 +552,7 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool NoArticleTextChanged
         {
-            get { return (string.Compare(OriginalArticleText, mArticleText) == 0); }
+            get { return (String.CompareOrdinal(OriginalArticleText, mArticleText) == 0); }
         }
 
         /// <summary>

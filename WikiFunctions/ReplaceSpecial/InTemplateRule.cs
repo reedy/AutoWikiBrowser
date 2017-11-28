@@ -124,7 +124,7 @@ namespace WikiFunctions.ReplaceSpecial
             {
                 for (; ;)
                 {
-                    int i = text_.IndexOf("{{");
+                    int i = text_.IndexOf("{{", StringComparison.Ordinal);
                     if (i < 0)
                     {
                         result_ += text_;
@@ -149,7 +149,7 @@ namespace WikiFunctions.ReplaceSpecial
                        https://en.wikipedia.org/wiki/WT:AutoWikiBrowser/Bugs/Archive_20#Bad_.22in_template.22_handling
                     */
                     string text_2 = Tools.ReplaceWithSpaces(text_, WikiRegexes.NestedTemplates.Matches(text_));
-                    int i = text_2.IndexOf("}}");
+                    int i = text_2.IndexOf("}}", StringComparison.Ordinal);
                     if (i < 0)
                         return; // error: template not closed
 

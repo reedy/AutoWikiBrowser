@@ -1592,7 +1592,7 @@ namespace WikiFunctions.Lists.Providers
 
             foreach (string searchUrl in searchCriteria)
             {
-                int index = searchUrl.IndexOf("://");
+                int index = searchUrl.IndexOf("://", StringComparison.Ordinal);
 
                 string protocol, urlEnd;
 

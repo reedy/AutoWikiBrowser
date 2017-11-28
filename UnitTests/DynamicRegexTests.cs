@@ -1,7 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
-using System.Linq;
 
 namespace UnitTests
 {

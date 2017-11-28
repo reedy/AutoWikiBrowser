@@ -118,7 +118,7 @@ namespace WikiFunctions.Parse
 
                     // ignore brackets
                     if (page.Contains(@"("))
-                        page = page.Substring(0, page.IndexOf(@"("));
+                        page = page.Substring(0, page.IndexOf(@"(", StringComparison.Ordinal));
 
                     if (Regex.IsMatch(page, @"\d+\s*(?:–|&ndash;|, )\s*\d") &&
                         Tools.GetTemplateParameterValue(newValue, "pp").Length == 0)
@@ -1091,7 +1091,7 @@ namespace WikiFunctions.Parse
                 }
 
                 // URL has space in it
-                int urlpos = m.Value.IndexOf("url");
+                int urlpos = m.Value.IndexOf("url", StringComparison.Ordinal);
                 if (urlpos > 0)
                 {
                     string URL = Tools.GetTemplateParameterValue(m.Value, "url");
@@ -1102,7 +1102,7 @@ namespace WikiFunctions.Parse
                     {
                         // value of url may be in another earlier parameter, report correct position
                         string fromURL = m.Value.Substring(urlpos);
-                        found.Add(m.Index + urlpos + fromURL.IndexOf(URL), URL.Length);
+                        found.Add(m.Index + urlpos + fromURL.IndexOf(URL, StringComparison.Ordinal), URL.Length);
                     }
                 }
             }

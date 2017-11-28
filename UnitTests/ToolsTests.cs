@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
@@ -1150,9 +1151,9 @@ John", "*"), "do not add list to blank lines/lines with just whitespace 2");
             Assert.IsTrue(Tools.DateBeforeToday("11 May 2009"));
             Assert.IsTrue(Tools.DateBeforeToday("May 11, 2009"));
             Assert.IsTrue(Tools.DateBeforeToday("2013-12-31"));
-            Assert.IsTrue(Tools.DateBeforeToday(DateTime.Now.AddDays(-1).ToString()));
+            Assert.IsTrue(Tools.DateBeforeToday(DateTime.Now.AddDays(-1).ToString(CultureInfo.InvariantCulture)));
 
-            Assert.IsFalse(Tools.DateBeforeToday(DateTime.Now.AddMonths(1).ToString()));
+            Assert.IsFalse(Tools.DateBeforeToday(DateTime.Now.AddMonths(1).ToString(CultureInfo.InvariantCulture)));
             Assert.IsFalse(Tools.DateBeforeToday("foo"));
         }
 

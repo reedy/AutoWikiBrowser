@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Logging
@@ -91,7 +92,7 @@ namespace WikiFunctions.Logging
 
         public void AddAndDateStamp(ListView listView)
         {
-            var dateStamp = new ListViewSubItem {Text = DateTime.Now.ToString()};
+            var dateStamp = new ListViewSubItem {Text = DateTime.Now.ToString(CultureInfo.InvariantCulture)};
 
             base.SubItems.Insert(1, dateStamp);
 

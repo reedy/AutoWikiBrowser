@@ -1022,7 +1022,7 @@ en, sq, ru
             if (references.Length == 0)
                 references = ReferencesToEnd.Match(articleText).Value;
 
-            if (references.Length > 0 && elm.Index < articleText.IndexOf(references))
+            if (references.Length > 0 && elm.Index < articleText.IndexOf(references, StringComparison.Ordinal))
             {
                 articleText = articleText.Replace(externalLinks, "");
                 articleText = articleText.Replace(references, references + externalLinks);

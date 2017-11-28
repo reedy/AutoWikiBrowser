@@ -16,6 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+using System;
 using Microsoft.Win32;
 
 namespace WikiFunctions
@@ -36,7 +37,7 @@ namespace WikiFunctions
         /// <returns></returns>
         public static string GetValue(string keyNameSuffix, object defaultValue)
         {
-            string wantedKey = keyNameSuffix.Substring(keyNameSuffix.LastIndexOf("\\"));
+            string wantedKey = keyNameSuffix.Substring(keyNameSuffix.LastIndexOf("\\", StringComparison.Ordinal));
             RegistryKey regKey = Registry.CurrentUser.OpenSubKey(BuildKeyName(keyNameSuffix.Replace(wantedKey, "")));
             return (regKey != null) ? regKey.GetValue(wantedKey.Replace("\\", ""), defaultValue).ToString() : "";
         }

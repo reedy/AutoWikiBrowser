@@ -251,13 +251,13 @@ namespace WikiFunctions
                 catCollationInfo = Tools.GetHTML(@"https://noc.wikimedia.org/conf/InitialiseSettings.php.txt");
 
                 // remove text before wgCategoryCollation section
-                catCollationInfo = catCollationInfo.Substring(catCollationInfo.IndexOf("wgCategoryCollation"));
+                catCollationInfo = catCollationInfo.Substring(catCollationInfo.IndexOf("wgCategoryCollation", StringComparison.Ordinal));
 
                 // remove comments
                 catCollationInfo = Regex.Replace(catCollationInfo, @" *//.*", "");
 
                 // remove text after wgCategoryCollation section
-                catCollationInfo = catCollationInfo.Substring(0, catCollationInfo.IndexOf(")"));
+                catCollationInfo = catCollationInfo.Substring(0, catCollationInfo.IndexOf(")", StringComparison.Ordinal));
 
                 // cache successful result
                 if (!string.IsNullOrEmpty(catCollationInfo))

@@ -14,6 +14,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -96,7 +97,7 @@ namespace WikiFunctions
             bool res = true;
 
             // check for unbalanced double brackets
-            int pos = s.IndexOf("[[");
+            int pos = s.IndexOf("[[", StringComparison.Ordinal);
             while (pos >= 0)
             {
                 s = s.Remove(0, pos);
@@ -104,12 +105,18 @@ namespace WikiFunctions
                 if (res)
                 {
                     // if more double brackets opened before current one closed, summary is invalid
-                    if (s.Substring(2, s.IndexOf("]]") >0 ? s.IndexOf("]]") : 0).Contains("[["))
+                    if (s.Substring(2,
+                            s.IndexOf("]]", StringComparison.Ordinal) > 0
+                                ? s.IndexOf("]]", StringComparison.Ordinal)
+                                : 0)
+                        .Contains("[["))
                         return false;
-                    pos = s.IndexOf("]]");
+                    pos = s.IndexOf("]]", StringComparison.Ordinal);
                 }
                 else
-                    pos = s.IndexOf("[[");
+                {
+                    pos = s.IndexOf("[[", StringComparison.Ordinal);
+                }
 
                 res = !res;
             }

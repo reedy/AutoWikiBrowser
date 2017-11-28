@@ -240,7 +240,7 @@ namespace WikiFunctions
                 return FixupDefaultSort(origName);
             }
 
-            int intLast = name.LastIndexOf(" ") + 1;
+            int intLast = name.LastIndexOf(" ", StringComparison.Ordinal) + 1;
             string lastName = name.Substring(intLast).Trim();
             if (name.Length > 0)
                 name = name.Remove(intLast).Trim();
@@ -250,7 +250,7 @@ namespace WikiFunctions
                 if (name.Contains(" "))
                 {
                     suffix += lastName; // and don't want extra comma before suffix so leave presuffix as only a space
-                    intLast = name.LastIndexOf(" ") + 1;
+                    intLast = name.LastIndexOf(" ", StringComparison.Ordinal) + 1;
                     lastName = name.Substring(intLast);
                     name = name.Remove(intLast).Trim();
                 }
@@ -466,15 +466,15 @@ namespace WikiFunctions
         /// <returns>The domain name for the URL, or a null string if no domain name can be determined</returns>
         public static string GetDomain(string url)
         {
-            url=url.ToLower().Trim();
+            url = url.ToLower().Trim();
 
             if (!HTTPWWW.IsMatch(url))
                 return "";
 
-            url=HTTPWWW.Replace(url.ToLower().Trim(), "");
+            url = HTTPWWW.Replace(url.ToLower().Trim(), "");
 
             if (url.Contains("/"))
-                url=url.Substring(0, url.IndexOf("/"));
+                url = url.Substring(0, url.IndexOf("/", StringComparison.Ordinal));
 
             if (DomainEndings.IsMatch(SubDomain.Replace(url, "")) && !SubDomain.Replace(url, "").StartsWith("com."))
                 url = SubDomain.Replace(url, "");
@@ -511,7 +511,7 @@ namespace WikiFunctions
         /// <returns>If the strings are equal</returns>
         public static bool CaseInsensitiveStringCompare(string one, string two)
         {
-            return (string.Compare(one, two, true) == 0);
+            return String.Compare(one, two, StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         // Partially Covered by ToolsTests.CaseInsensitive()
@@ -1469,8 +1469,8 @@ Message: {2}
         /// </summary>
         public static string StringBetween(string source, string start, string end)
         {
-            int startPos = source.IndexOf(start) + start.Length;
-            int endPos = source.IndexOf(end);
+            int startPos = source.IndexOf(start, StringComparison.Ordinal) + start.Length;
+            int endPos = source.IndexOf(end, StringComparison.Ordinal);
 
             if (startPos >= 0 && endPos >= 0 && startPos <= endPos)
                 return source.Substring(startPos, endPos - startPos);
@@ -1502,7 +1502,7 @@ Message: {2}
         /// <returns>Whether the replacement has been made</returns>
         public static bool ReplaceOnce(StringBuilder text, string oldValue, string newValue)
         {
-            int index = text.ToString().IndexOf(oldValue);
+            int index = text.ToString().IndexOf(oldValue, StringComparison.Ordinal);
             if (index < 0)
                 return false;
 

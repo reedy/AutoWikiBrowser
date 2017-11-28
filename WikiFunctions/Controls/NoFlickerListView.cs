@@ -271,7 +271,7 @@ namespace WikiFunctions.Controls
                     {
                         // If neither compared object has a valid int or date format, compare
                         // as a string.
-                        returnVal = String.Compare(sx, sy);
+                        returnVal = String.CompareOrdinal(sx, sy);
                     }
 
                 // Determine whether the sort order is descending.

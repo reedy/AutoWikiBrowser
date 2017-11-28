@@ -1077,7 +1077,7 @@ namespace WikiFunctions.Parse
             templatecall = RemoveTemplateNamespace(templatecall);
 
             // check if template already dated (date= parameter, localised for some wikis)
-            string dateparam = WikiRegexes.DateYearMonthParameter.Substring(0, WikiRegexes.DateYearMonthParameter.IndexOf("="));
+            string dateparam = WikiRegexes.DateYearMonthParameter.Substring(0, WikiRegexes.DateYearMonthParameter.IndexOf("=", StringComparison.Ordinal));
 
             // rename date= if localized
             if (!dateparam.Equals("date"))
@@ -1095,10 +1095,10 @@ namespace WikiFunctions.Parse
                     string firstArg = Tools.GetTemplateArgument(templatecall, 1);
 
                     if (MonthYear.IsMatch(firstArg))
-                        templatecall = templatecall.Insert(templatecall.IndexOf(firstArg), "date=");
+                        templatecall = templatecall.Insert(templatecall.IndexOf(firstArg, StringComparison.Ordinal), "date=");
                     else if (firstArg.Equals(dateparam))
                     {
-                        templatecall = templatecall.Insert(templatecall.IndexOf(firstArg) + firstArg.Length, "=");
+                        templatecall = templatecall.Insert(templatecall.IndexOf(firstArg, StringComparison.Ordinal) + firstArg.Length, "=");
                         templatecall = Tools.RemoveTemplateParameter(templatecall, dateparam);
                     }
                 }
@@ -1127,7 +1127,7 @@ namespace WikiFunctions.Parse
                 // full International date?
                 if (WikiRegexes.InternationalDates.IsMatch(Regex.Replace(dateFieldValue, @"( [a-z])", u => u.Groups[1].Value.ToUpper())))
                 {
-                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue.Substring(dateFieldValue.IndexOf(" ")).Trim());
+                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue.Substring(dateFieldValue.IndexOf(" ", StringComparison.Ordinal)).Trim());
                     dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);
                 }
                 else

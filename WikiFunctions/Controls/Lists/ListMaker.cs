@@ -693,8 +693,8 @@ namespace WikiFunctions.Controls.Lists
             s = s.Replace(url, "").Trim();
 
             // clean section links
-            if (s.IndexOf("#") > 0)
-                s = s.Substring(0, s.IndexOf("#"));
+            if (s.IndexOf("#", StringComparison.Ordinal) > 0)
+                s = s.Substring(0, s.IndexOf("#", StringComparison.Ordinal));
 
             if (!originals.Equals(s))
                 s = Tools.WikiDecode(s);

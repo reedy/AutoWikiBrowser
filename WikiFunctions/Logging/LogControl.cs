@@ -351,8 +351,8 @@ namespace WikiFunctions.Logging
             lvIgnored.BeginUpdate();
             foreach (AWBLogListener item in lvIgnored.Items)
             {
-                if ((compareMatch && string.Compare(item.SkipReason, filterBy, true) == 0 ) // match
-                    || ( !compareMatch && string.Compare(item.SkipReason, filterBy, true) != 0 ) ) // no match
+                if ((compareMatch && String.Compare(item.SkipReason, filterBy, StringComparison.OrdinalIgnoreCase) == 0 ) // match
+                    || ( !compareMatch && String.Compare(item.SkipReason, filterBy, StringComparison.OrdinalIgnoreCase) != 0 ) ) // no match
                 {
                     FilteredItems.Add(item);
                     item.Remove();
@@ -420,7 +420,7 @@ namespace WikiFunctions.Logging
         {
             public int Compare(object x, object y)
             {
-                return String.Compare("", "");
+                return String.CompareOrdinal("", "");
             }
         }
     }

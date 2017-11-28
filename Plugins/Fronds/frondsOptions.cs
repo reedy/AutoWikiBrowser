@@ -44,8 +44,8 @@ namespace Fronds
             // Preserve enabled filenames
             foreach (string item in listOptionsFronds.CheckedItems)
             {
-                Fronds.Settings.EnabledFilenames.Add(item.Substring((item.LastIndexOf("(") + 1),
-                                    (item.Length - item.LastIndexOf("(") - 2)));
+                Fronds.Settings.EnabledFilenames.Add(item.Substring((item.LastIndexOf("(", StringComparison.Ordinal) + 1),
+                                    (item.Length - item.LastIndexOf("(", StringComparison.Ordinal) - 2)));
             }
 
             // Loaded selected fronds

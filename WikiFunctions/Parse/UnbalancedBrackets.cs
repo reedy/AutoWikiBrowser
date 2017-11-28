@@ -454,7 +454,7 @@ namespace WikiFunctions.Parse
             AnyTagList = AnyTagList.FindAll(s => !s.EndsWith("/") && !s.StartsWith("!--"));
 
             // remove any text after first space, so we're left with tag name only
-            AnyTagList = AnyTagList.Select(s => s.Contains(" ") ? s.Substring(0, s.IndexOf(" ")).Trim() : s).ToList();
+            AnyTagList = AnyTagList.Select(s => s.Contains(" ") ? s.Substring(0, s.IndexOf(" ", StringComparison.Ordinal)).Trim() : s).ToList();
 
             // filter to only the tags we're checking
             AnyTagList = AnyTagList.FindAll(s => MathSourceCodeNowikiPreTagList.Contains(s.TrimStart('/')));
@@ -464,7 +464,7 @@ namespace WikiFunctions.Parse
             Dictionary<string, int> tagCounts = AnyTagList.GroupBy(x => x).ToDictionary(x => x.Key, y => y.Count());
             foreach(KeyValuePair<string, int> kvp in tagCounts)
             {
-                int matchedCount = 0;
+                int matchedCount;
                 string othertag = kvp.Key.StartsWith("/") ? kvp.Key.TrimStart('/') : "/" + kvp.Key;
                 if (tagCounts.TryGetValue(othertag, out matchedCount) && matchedCount == kvp.Value)
                     continue;

@@ -172,7 +172,7 @@ namespace WikiFunctions.Lists.Providers
                         string searchres = m.Groups["title"].Value;
                         
                         if (searchres.Contains(@"&amp;"))
-                            searchres = searchres.Substring(0, searchres.IndexOf(@"&amp;"));
+                            searchres = searchres.Substring(0, searchres.IndexOf(@"&amp;", StringComparison.Ordinal));
                         
                         string title = Tools.GetTitleFromURL(searchres);
 

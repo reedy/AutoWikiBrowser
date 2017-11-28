@@ -17,6 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -93,7 +94,7 @@ namespace WikiFunctions.Parse
             {
                 string name = WikiRegexes.Defaultsort.Match(articleText).Groups["key"].Value;
                 if (name.Contains(" ("))
-                    name = name.Substring(0, name.IndexOf(" ("));
+                    name = name.Substring(0, name.IndexOf(" (", StringComparison.Ordinal));
 
                 if (name.Length == 0 && Tools.WordCount(articleTitle) == 1)
                     name = articleTitle;
@@ -122,7 +123,7 @@ namespace WikiFunctions.Parse
                     {
                         string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
                         if (Regex.IsMatch(year, @"^\d{3,4} (?:BC )?births(\|.*)?$"))
-                            newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", year.Substring(0, year.IndexOf(" births")), true);
+                            newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", year.Substring(0, year.IndexOf(" births", StringComparison.Ordinal)), true);
                     }
                 }
             }
@@ -141,7 +142,7 @@ namespace WikiFunctions.Parse
                     {
                         string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
                         if (Regex.IsMatch(year, @"^\d{3,4} deaths(\|.*)?$"))
-                            newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF DEATH", year.Substring(0, year.IndexOf(" deaths")), true);
+                            newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF DEATH", year.Substring(0, year.IndexOf(" deaths", StringComparison.Ordinal)), true);
                     }
                 }
             }

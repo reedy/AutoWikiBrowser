@@ -177,8 +177,8 @@ namespace AutoWikiBrowser
         private void FixupObsoleteRecentSettings()
         {
             RecentList.Remove("Default.xml");
-            RecentList.RemoveAll(x => string.Compare(x, "Default.xml", true) == 0
-                || string.Compare(x, AwbDirs.DefaultSettings, true) == 0);
+            RecentList.RemoveAll(x => String.Compare(x, "Default.xml", StringComparison.OrdinalIgnoreCase) == 0
+                || String.Compare(x, AwbDirs.DefaultSettings, StringComparison.OrdinalIgnoreCase) == 0);
 
             while (RecentList.Count > 5)
                 RecentList.RemoveAt(5);

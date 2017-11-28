@@ -32,6 +32,7 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Globalization;
 using System.Security.Permissions;
 using System.Web;
 using System.Net;
@@ -470,7 +471,7 @@ namespace AutoWikiBrowser
         private decimal AutoSaveEditBoxPeriod
         {
             get { return _asEditPeriod; }
-            set { _asEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
+            set { _asEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString(CultureInfo.InvariantCulture)); }
         }
 
         private string StatusLabelText
@@ -2067,7 +2068,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     string sectionEditText = Summary.ModifiedSection(TheArticle.OriginalArticleText, txtEdit.Text);
 
                     if (sectionEditText.Length == 0 || !txtReviewEditSummary.Text.Contains(@"/* " + sectionEditText + @" */"))
-                        txtReviewEditSummary.Text = txtReviewEditSummary.Text.Substring(txtReviewEditSummary.Text.IndexOf(@"*/")+2);
+                        txtReviewEditSummary.Text = txtReviewEditSummary.Text.Substring(txtReviewEditSummary.Text.IndexOf(@"*/", StringComparison.Ordinal)+2);
                 }
 
                 TheSession.Editor.Save(txtEdit.Text, AppendUsingAWBSummary(txtReviewEditSummary.Text), markAllAsMinorToolStripMenuItem.Checked,
@@ -4906,9 +4907,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 if (selectedtext.EndsWith("|"))
                 {
                     if (selectedtext.Contains("(") && selectedtext.Contains(")"))
-                        selectedtext = selectedtext.Substring(0, selectedtext.IndexOf("("));
+                        selectedtext = selectedtext.Substring(0, selectedtext.IndexOf("(", StringComparison.Ordinal));
                     if (selectedtext.Contains(":"))
-                        selectedtext = selectedtext.Substring(selectedtext.IndexOf(":")).TrimEnd('|');
+                        selectedtext = selectedtext.Substring(selectedtext.IndexOf(":", StringComparison.Ordinal)).TrimEnd('|');
                     if (txtEdit.SelectedText == "[[" + selectedtext + "]]")
                     {
                         MessageBox.Show("The selected link could not be removed.");
@@ -4916,7 +4917,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     }
                 }
                 else if (selectedtext.Contains("|"))
-                    selectedtext = selectedtext.Substring(selectedtext.IndexOf("|") + 1);
+                    selectedtext = selectedtext.Substring(selectedtext.IndexOf("|", StringComparison.Ordinal) + 1);
 
                 txtEdit.SelectedText = selectedtext;
                 txtEdit.ResetFind();

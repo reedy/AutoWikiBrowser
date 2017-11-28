@@ -759,7 +759,7 @@ namespace WikiFunctions.Parse
 
             // if any tag has unnamed param as firt argument, sort tags with longest part before first = to be first, so we retain the unnamed param
             if (tags.Any(t => TemplateArg.IsMatch(t)))
-                tags = tags.OrderByDescending(s => (s.Contains("=") ? s.Substring(0, s.IndexOf("=")).Length : s.Length)).ToList();
+                tags = tags.OrderByDescending(s => (s.Contains("=") ? s.Substring(0, s.IndexOf("=", StringComparison.Ordinal)).Length : s.Length)).ToList();
 
             foreach(string t in tags)
             {

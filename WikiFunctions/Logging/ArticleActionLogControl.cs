@@ -20,6 +20,7 @@ using System;
 using System.Text;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Globalization;
 using WikiFunctions.Controls;
 using WikiFunctions.Controls.Lists;
 
@@ -46,7 +47,7 @@ namespace WikiFunctions.Logging
         {
             ListViewItem item  = new ListViewItem(page);
             item.SubItems.Add(action.ToString());
-            item.SubItems.Add(DateTime.Now.ToString());
+            item.SubItems.Add(DateTime.Now.ToString(CultureInfo.InvariantCulture));
             item.SubItems.Add(message);
 
             if (!succeeded)

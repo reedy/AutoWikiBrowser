@@ -301,7 +301,7 @@ namespace AwbUpdater
                     "{0}?r={1}&ts={2}",
                     source,
                     HttpUtility.UrlEncode(
-                        string.Format("https://sourceforge.net/projects/autowikibrowser/files/autowikibrowser/{0}/", source.Substring(source.LastIndexOf("/") + 1).Replace(".zip", ""))
+                        string.Format("https://sourceforge.net/projects/autowikibrowser/files/autowikibrowser/{0}/", source.Substring(source.LastIndexOf("/", StringComparison.Ordinal) + 1).Replace(".zip", ""))
                         ),
                     unixTime
                     );
