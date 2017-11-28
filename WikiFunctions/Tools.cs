@@ -476,11 +476,13 @@ namespace WikiFunctions
             if (url.Contains("/"))
                 url = url.Substring(0, url.IndexOf("/", StringComparison.Ordinal));
 
-            if (DomainEndings.IsMatch(SubDomain.Replace(url, "")) && !SubDomain.Replace(url, "").StartsWith("com."))
-                url = SubDomain.Replace(url, "");
+            var tmpUrl = SubDomain.Replace(url, "");
+            if (DomainEndings.IsMatch(tmpUrl) && !tmpUrl.StartsWith("com."))
+                url = tmpUrl;
 
-            if (DomainEndings.IsMatch(SubDomain.Replace(url, "")) && !SubDomain.Replace(url, "").StartsWith("com."))
-                url = SubDomain.Replace(url, "");
+            tmpUrl = SubDomain.Replace(url, "");
+            if (DomainEndings.IsMatch(tmpUrl) && !tmpUrl.StartsWith("com."))
+                url = tmpUrl;
 
             return url;
         }
