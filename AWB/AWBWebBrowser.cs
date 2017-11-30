@@ -79,39 +79,39 @@ namespace AutoWikiBrowser
         /// Returns whether there is currently any text selected
         /// Only works if Microsoft.mshtml.dll is available
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Whether any text is currently selected</returns>
         private bool TextSelectedChecked()
         {
-            IHTMLDocument2 htmlDocument = Document.DomDocument as IHTMLDocument2;
-    
-            IHTMLSelectionObject currentSelection = htmlDocument.selection;
-
-            if (currentSelection != null)
-            {
-                IHTMLTxtRange range = currentSelection.createRange() as IHTMLTxtRange;
-
-                if (range != null && !string.IsNullOrEmpty(range.text))
-                    return true;
-            }
-
-            return false;
+            return !string.IsNullOrEmpty(TextRange());
         }
 
         private string SelectedText()
         {
-            IHTMLDocument2 htmlDocument = Document.DomDocument as IHTMLDocument2;
+            var range = TextRange();
+
+            return string.IsNullOrEmpty(range) ? "" : range;
+        }
+
+        private string TextRange()
+        {
+            if (Document == null)
+            {
+                return null;
+            }
+
+            if (!(Document.DomDocument is IHTMLDocument2 htmlDocument))
+            {
+                return null;
+            }
 
             IHTMLSelectionObject currentSelection = htmlDocument.selection;
 
-            if (currentSelection != null)
+            if (currentSelection == null || !(currentSelection.createRange() is IHTMLTxtRange range))
             {
-                IHTMLTxtRange range = currentSelection.createRange() as IHTMLTxtRange;
-
-                if (range != null && !string.IsNullOrEmpty(range.text))
-                    return range.text;
+                return null;
             }
 
-            return "";
+            return range.text;
         }
 
         public override void Refresh()
