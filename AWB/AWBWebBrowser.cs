@@ -46,9 +46,12 @@ namespace AutoWikiBrowser
         /// <summary>
         /// Copies the selected text (if any) to the clipboard
         /// </summary>
-        public void CopySelectedText()
+        private void CopySelectedText()
         {
-            Document.ExecCommand("Copy", false, null);
+            if (Document != null)
+            {
+                Document.ExecCommand("Copy", false, null);
+            }
         }
 
         /// <summary>
@@ -61,7 +64,10 @@ namespace AutoWikiBrowser
         /// <returns></returns>
         public bool TextSelected()
         {
-            if (!Globals.MSHTMLAvailable) return false;
+            if (!Globals.MSHTMLAvailable)
+            {
+                return false;
+            }
 
             try
             {
