@@ -74,7 +74,7 @@ namespace WikiFunctions
         private static readonly bool mSHTMLAvailable;
 
         /// <summary>
-        /// Returns whether Microsoft.mshtml, Version=7.0.3300.0 is loaded
+        /// Returns whether Microsoft.mshtml, Version=7.0.3300.0 is loaded.
         /// So whether IHTMLDocument2 object in AWBWebBrowser can be used
         /// </summary>
         public static bool MSHTMLAvailable

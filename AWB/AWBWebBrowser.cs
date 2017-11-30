@@ -83,7 +83,7 @@ namespace AutoWikiBrowser
         private bool TextSelectedChecked()
         {
             IHTMLDocument2 htmlDocument = Document.DomDocument as IHTMLDocument2;
-
+    
             IHTMLSelectionObject currentSelection = htmlDocument.selection;
 
             if (currentSelection != null)
@@ -125,7 +125,7 @@ namespace AutoWikiBrowser
         {
             // webbrowser Navigate calls fail under Mono so silently ignore for the moment
             if (!Globals.UsingMono)
-                base.Navigate (urlString);
+                base.Navigate(urlString);
         }
     }
 }
