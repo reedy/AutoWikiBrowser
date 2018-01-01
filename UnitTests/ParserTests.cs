@@ -493,6 +493,10 @@ Aikido was", "Aikido", out noChangeBack), "Bold text in infobox ignored");
 
             Section = @"{{bio}} Foo bar.";
             Assert.AreEqual(Section, parser.BoldTitle(Section, "Foo", out noChange), "No change when article text contains {{bio}}");
+
+            string x = @"While remaining upright may be the primary goal of beginning riders";
+            Section = @"{{Terme défini|Foo}} is a bar. Foo while remaining upright may be the primary goal of beginning riders." + x + x + x + x + x + x;
+            Assert.AreEqual(Section, parser.BoldTitle(Section, "Foo", out noChange), "No change when article text contains {{Terme défini}}");
         }
 
         [Test]
