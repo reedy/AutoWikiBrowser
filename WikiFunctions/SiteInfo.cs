@@ -283,7 +283,7 @@ namespace WikiFunctions
                     Editor.HttpGet(ApiPath + "?format=json&action=query&list=tags&tgprop=name&tglimit=max")
                 );
 
-                awbTagDefined = obj["query"]["tags"].Any(t => (string) t["name"] == "AWB");
+                awbTagDefined = obj["query"]["tags"].Any(t => (string) t["name"] == "AWB" && t["active"] != null);
 
                 ObjectCache.Global.Set("AWBTagDefined:" + scriptPath, awbTagDefined);
             }
