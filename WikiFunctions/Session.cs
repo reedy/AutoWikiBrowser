@@ -274,6 +274,8 @@ namespace WikiFunctions
                 if (Variables.IsCustomProject || Variables.IsWikia)
                     Variables.LangCode = Site.Language;
 
+                Variables.TagEdits = Site.IsAWBTagDefined;
+
                 Updater.WaitForCompletion();
                 Updater.AWBEnabledStatus versionStatus = Updater.Result;
                 VersionCheckPage = Updater.GlobalVersionPage;

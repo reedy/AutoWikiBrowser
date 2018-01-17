@@ -128,7 +128,7 @@ namespace WikiFunctions
         /// <param name="url">URL.</param>
         public static string NormalizeURL(string url)
         {
-            return (!url.EndsWith("/")) ? url + "/" : url;
+            return !url.EndsWith("/") ? url + "/" : url;
         }
 
         /// <summary>

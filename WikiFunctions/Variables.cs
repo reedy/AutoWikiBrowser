@@ -271,7 +271,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikipediaEN
         {
-            get { return (Project == ProjectEnum.wikipedia && LangCode.Equals("en")); }
+            get { return Project == ProjectEnum.wikipedia && LangCode.Equals("en"); }
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsCommons
         {
-            get { return (Project == ProjectEnum.commons); }
+            get { return Project == ProjectEnum.commons; }
         }
 
         /// <summary>
@@ -381,6 +381,11 @@ namespace WikiFunctions
             mSummaryTag = "using ";
             WPAWB = "[[Project:AWB|AWB]]";
         }
+
+        /// <summary>
+        /// Whether edits should be tagged with AWB (not edit summary)
+        /// </summary>
+        public static bool TagEdits;
 
         #region Delayed load stuff
 

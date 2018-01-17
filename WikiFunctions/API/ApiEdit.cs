@@ -858,19 +858,26 @@ namespace WikiFunctions.API
             get.AddIfTrue(minor, "minor", null);
             get.AddIfTrue(User.IsBot, "bot", null);
 
+            var post = new Dictionary<string, string>
+            {
+                // order matters here - https://phabricator.wikimedia.org/T16210#183159
+                {"md5", MD5(pageText)},
+                {"summary", summary},
+                {"basetimestamp", Page.Timestamp},
+                {"text", pageText},
+                {"starttimestamp", Page.TokenTimestamp},
+                {"tags", "AWB" },
+            };
+
+            post.AddIfTrue(Variables.TagEdits, "tag", "AWB");
+
+            post.Add("token", Page.EditToken);
+
             string result = HttpPost(
                 get,
-                new Dictionary<string, string>
-                {
-                    // order matters here - https://phabricator.wikimedia.org/T16210#183159
-                    {"md5", MD5(pageText)},
-                    {"summary", summary},
-                    {"basetimestamp", Page.Timestamp},
-                    {"text", pageText},
-                    {"starttimestamp", Page.TokenTimestamp},
-                    {"token", Page.EditToken}
-                },
-                ActionOptions.All);
+                post,
+                ActionOptions.All
+            );
 
             var xml = CheckForErrors(result, "edit");
             Reset();
