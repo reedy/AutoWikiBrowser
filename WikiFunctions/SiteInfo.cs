@@ -193,6 +193,8 @@ namespace WikiFunctions
             CapitalizeFirstLetter = general.GetAttribute("case") == "first-letter";
             MediaWikiVersion = general.GetAttribute("generator").Replace("MediaWiki ", "");
 
+            CategoryCollation = general.GetAttribute("categorycollation");
+
             if (query["namespaces"] == null || query["namespacealiases"] == null)
                 return false;
 
@@ -386,6 +388,11 @@ namespace WikiFunctions
         /// <value>The uca category collation.</value>
         public List<string> UcaCategoryCollation
         { get; private set; }
+        
+        /// <summary>
+        /// Category Collation ($wgCategoryCollation) of the wiki
+        /// </summary>
+        public string CategoryCollation { get; private set; }
 
         /// <summary>
         /// Returns whether an AWB tag has been defined on Special:Tags
