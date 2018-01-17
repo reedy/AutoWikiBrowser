@@ -38,6 +38,7 @@ namespace WikiFunctions
             AddType(typeof(List<string>), DefaultLifespan);
             //AddType(typeof(string[]), DefaultLifespan);
             AddType(typeof(SiteInfo), DefaultLifespan);
+            AddType(typeof(bool), DefaultLifespan);
         }
 
         public ObjectCache(string fileName)

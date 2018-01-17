@@ -866,10 +866,9 @@ namespace WikiFunctions.API
                 {"basetimestamp", Page.Timestamp},
                 {"text", pageText},
                 {"starttimestamp", Page.TokenTimestamp},
-                {"tags", "AWB" },
             };
 
-            post.AddIfTrue(Variables.TagEdits, "tag", "AWB");
+            post.AddIfTrue(Variables.TagEdits, "tags", "AWB");
 
             post.Add("token", Page.EditToken);
 
