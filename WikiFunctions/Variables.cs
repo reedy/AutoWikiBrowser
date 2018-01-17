@@ -350,6 +350,12 @@ namespace WikiFunctions
         {
             get
             {
+                if (TagEdits)
+                {
+                    // If we're applying an Edit Tag, don't append "using AWB" to the Edit Summary
+                    return "";
+                }
+                
                 string text = " " + mSummaryTag + " " + WPAWB;
 #if DEBUG
                 text += " (" + RevisionNumber + ")";
