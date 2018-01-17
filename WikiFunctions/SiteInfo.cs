@@ -281,10 +281,12 @@ namespace WikiFunctions
                     Editor.HttpGet(ApiPath + "?format=json&action=query&list=tags&tgprop=name&tglimit=max")
                 );
 
-                IsAWBTagDefined = obj["query"]["tags"].Any(t => (string) t["name"] == "AWB");
+                awbTagDefined = obj["query"]["tags"].Any(t => (string) t["name"] == "AWB");
 
-                ObjectCache.Global.Set("AWBTagDefined:" + scriptPath, IsAWBTagDefined);
+                ObjectCache.Global.Set("AWBTagDefined:" + scriptPath, awbTagDefined);
             }
+
+            IsAWBTagDefined = (bool)awbTagDefined;
         }
 
         public object ParseErrorFromSiteInfoOutput()
