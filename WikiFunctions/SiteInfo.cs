@@ -281,12 +281,7 @@ namespace WikiFunctions
                     Editor.HttpGet(ApiPath + "?format=json&action=query&list=tags&tgprop=name&tglimit=max")
                 );
 
-                var postTitles =
-                    from t in obj["query"]["tags"]
-                    where (string) t["name"] == "AWB"
-                    select t;
-
-                IsAWBTagDefined = postTitles.Count() == 1;
+                IsAWBTagDefined = obj["query"]["tags"].Any(t => (string) t["name"] == "AWB");
 
                 ObjectCache.Global.Set("AWBTagDefined:" + scriptPath, IsAWBTagDefined);
             }
