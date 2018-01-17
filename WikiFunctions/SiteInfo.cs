@@ -118,7 +118,7 @@ namespace WikiFunctions
         /// <value>The API path.</value>
         private string ApiPath
         {
-            get { return scriptPath + "api.php" + ((Editor.PHP5) ? "5" : ""); }
+            get { return scriptPath + "api.php" + (Editor.PHP5 ? "5" : ""); }
         }
 
         /// <summary>
@@ -234,6 +234,8 @@ namespace WikiFunctions
             LoadCategoryCollation();
             UcaCategoryCollation = (from Match m in UcacatCollation.Matches(catCollationInfo) select m.Groups[1].Value).ToList();
 
+            LoadAWBTag();
+
             return true;
         }
 
@@ -246,7 +248,7 @@ namespace WikiFunctions
             catCollationInfo = (string) ObjectCache.Global.Get<string>("CategoryCollation:");
 
             // web lookup if not in cache
-             if (string.IsNullOrEmpty(catCollationInfo))
+            if (string.IsNullOrEmpty(catCollationInfo))
             {
                 catCollationInfo = Tools.GetHTML(@"https://noc.wikimedia.org/conf/InitialiseSettings.php.txt");
 
@@ -262,6 +264,31 @@ namespace WikiFunctions
                 // cache successful result
                 if (!string.IsNullOrEmpty(catCollationInfo))
                     ObjectCache.Global.Set("CategoryCollation:", catCollationInfo);
+            }
+        }
+
+        /// <summary>
+        /// Looks to see if a tag called AWB has been defined in Special:Tags
+        /// </summary>
+        private void LoadAWBTag()
+        {
+            var awbTagDefined = (bool?) ObjectCache.Global.Get<bool>("AWBTagDefined:" + scriptPath);
+
+            // If it's false, we should look again incase it's been defined...
+            if (awbTagDefined == null || awbTagDefined == false)
+            {
+                var obj = JObject.Parse(
+                    Editor.HttpGet(ApiPath + "?format=json&action=query&list=tags&tgprop=name&tglimit=max")
+                );
+
+                var postTitles =
+                    from t in obj["query"]["tags"]
+                    where (string) t["name"] == "AWB"
+                    select t;
+
+                IsAWBTagDefined = postTitles.Count() == 1;
+
+                ObjectCache.Global.Set("AWBTagDefined:" + scriptPath, IsAWBTagDefined);
             }
         }
 
@@ -362,6 +389,11 @@ namespace WikiFunctions
         /// <value>The uca category collation.</value>
         public List<string> UcaCategoryCollation
         { get; private set; }
+
+        /// <summary>
+        /// Returns whether an AWB tag has been defined on Special:Tags
+        /// </summary>
+        public bool IsAWBTagDefined { get; private set; }
 
         /// <summary>
         /// 
