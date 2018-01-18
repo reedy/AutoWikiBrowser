@@ -280,7 +280,7 @@ namespace WikiFunctions
             if (awbTagDefined == null || awbTagDefined == false)
             {
                 var obj = JObject.Parse(
-                    Editor.HttpGet(ApiPath + "?format=json&action=query&list=tags&tgprop=name&tglimit=max")
+                    Editor.HttpGet(ApiPath + "?format=json&action=query&list=tags&tgprop=active&tglimit=max")
                 );
 
                 awbTagDefined = obj["query"]["tags"].Any(t => (string) t["name"] == "AWB" && t["active"] != null);
