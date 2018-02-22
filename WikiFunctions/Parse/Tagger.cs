@@ -166,7 +166,7 @@ namespace WikiFunctions.Parse
             int length = lengthtext.Length + 1;
             int linkLimit = (int)(0.0025 * length)+1;
             int wikiLinkCount = Tools.LinkCount(forLinkCount, linkLimit);
-            bool underlinked = (wikiLinkCount < 0.0025 * length);
+            bool underlinked = ((wikiLinkCount < 0.0025 * length) && (length > 800));
 
             #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
