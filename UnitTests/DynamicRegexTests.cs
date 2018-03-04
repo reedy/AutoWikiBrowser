@@ -1053,6 +1053,7 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Genus disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{genus disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{hndis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{human name disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Hndis-cleanup}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Mathdab}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Mathematical disambiguation}}");
