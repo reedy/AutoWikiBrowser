@@ -744,7 +744,7 @@ namespace WikiFunctions
             return allWikiLinks.Count(s => SiteMatrix.Languages.Contains(WikiRegexes.PossibleInterwikis.Match(s + "]]").Groups[1].Value.ToLower()));
         }
 
-        private static readonly Regex TemplatesGeneratingWikilinks = NestedTemplateRegex(new [] { "flagIOC", "speciesbox"});
+        private static readonly Regex TemplatesGeneratingWikilinks = NestedTemplateRegex(new [] { "flagIOC", "speciesbox", "automatic taxobox"});
 
         // Covered by ToolsTests.LinkCountTests
         /// <summary>
