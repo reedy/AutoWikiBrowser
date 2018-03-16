@@ -744,7 +744,7 @@ namespace WikiFunctions
             return allWikiLinks.Count(s => SiteMatrix.Languages.Contains(WikiRegexes.PossibleInterwikis.Match(s + "]]").Groups[1].Value.ToLower()));
         }
 
-        private static readonly Regex FlagIOC = NestedTemplateRegex("flagIOC");
+        private static readonly Regex TemplatesGeneratingWikilinks = NestedTemplateRegex(new [] { "flagIOC", "speciesbox"});
 
         // Covered by ToolsTests.LinkCountTests
         /// <summary>
@@ -754,9 +754,9 @@ namespace WikiFunctions
         {
             int res = 0;
 
-            if (Parsers.TemplateExists(Parsers.GetAllTemplates(text), FlagIOC))
+            if (Parsers.TemplateExists(Parsers.GetAllTemplates(text), TemplatesGeneratingWikilinks))
             {
-                res = FlagIOC.Matches(text).Count;
+                res = TemplatesGeneratingWikilinks.Matches(text).Count;
 
                 if (res >= limit)
                     return limit;

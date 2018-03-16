@@ -1032,6 +1032,7 @@ John", "*"), "do not add list to blank lines/lines with just whitespace 2");
             Assert.AreEqual(1, Tools.LinkCount(@"[[Image:foo.png]] and [[foo]]"));
             Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"), "counts piped links");
             Assert.AreEqual(1, Tools.LinkCount(@"{{flagIOC}}"));
+            Assert.AreEqual(1, Tools.LinkCount(@"{{speciesbox}}"));
             Assert.AreEqual(1, Tools.LinkCount(@"now [[Magic: the gathering]] was great"), "handles mainspace wikilink with colon");
             Assert.AreEqual(3, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]] {{flagIOC}}"), "counts flagIOC template as a link");
             
