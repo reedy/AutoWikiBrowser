@@ -746,20 +746,14 @@ namespace WikiFunctions.Parse
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
-            // generic ReferenceA
-            derivedReferenceName = @"ReferenceA";
+            // fallback: generic ReferenceA to ReferenceZ
+            for (char c = 'A'; c <= 'Z'; c++)
+            {
+                derivedReferenceName = @"Reference" + c;
 
-            if (ReferenceNameValid(articleText, derivedReferenceName))
-                return derivedReferenceName;
-
-            // generic ReferenceB
-            derivedReferenceName = @"ReferenceB";
-
-            if (ReferenceNameValid(articleText, derivedReferenceName))
-                return derivedReferenceName;
-
-            // generic ReferenceC
-            derivedReferenceName = @"ReferenceC";
+                if (ReferenceNameValid(articleText, derivedReferenceName))
+                    return derivedReferenceName;
+            }
 
             return ReferenceNameValid(articleText, derivedReferenceName) ? derivedReferenceName : "";
         }
