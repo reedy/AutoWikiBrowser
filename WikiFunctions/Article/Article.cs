@@ -1096,6 +1096,7 @@ namespace WikiFunctions
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]], [[Category:Living people]] etc. to articles about people where available, for en-wiki only
+        /// Removes Date of birth missing/Date of birth missing (living people) category if full DOB in {{birth date and age}}
         /// </summary>
         /// <param name="parsers"></param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
@@ -1518,7 +1519,6 @@ namespace WikiFunctions
                 AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
                 Variables.Profiler.Profile("FixEmptyReferences");
 
-                // run before DuplicateNamedReferences & DuplicateUnnamedReferences
                 AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
                 Variables.Profiler.Profile("FixReferenceTags");
 
