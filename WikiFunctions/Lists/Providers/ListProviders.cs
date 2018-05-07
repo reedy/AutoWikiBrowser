@@ -280,11 +280,13 @@ namespace WikiFunctions.Lists.Providers
                 {
                     url += "&bllimit=max";
                 }
-                if (IncludeWhatLinksToRedirects) {
+                if (IncludeWhatLinksToRedirects)
+                {
                     url += "&blredirect";
                 }
 
-                if (!string.IsNullOrEmpty(Blfilterredir)) {
+                if (!string.IsNullOrEmpty(Blfilterredir))
+                {
                     url += "&blfilterredir=" + Blfilterredir;
                 }
 
@@ -953,7 +955,7 @@ namespace WikiFunctions.Lists.Providers
             foreach (string page in searchCriteria)
             {
                 string url;
-                if(SearchPrefix.Equals("all:"))
+                if (SearchPrefix.Equals("all:"))
                 {
                     url = string.Format("list=search&srwhat={0}&srnamespace=*&srsearch={1}&srlimit=max",
                         SearchType,
@@ -1362,6 +1364,20 @@ namespace WikiFunctions.Lists.Providers
 
         public override string UserInputTextBoxText
         { get { return "Pages:"; } }
+    }
+    
+    /// <summary>
+    /// Returns a list of pages without language links, with no redirects
+    /// </summary>
+    public class PagesWithoutLanguageLinksNoRedirectsSpecialPageProvider : PagesWithoutLanguageLinksSpecialPageProvider
+    {
+        public PagesWithoutLanguageLinksNoRedirectsSpecialPageProvider()
+        {
+            Extra += "&apfilterredir=nonredirects";
+        }
+
+        public override string DisplayText
+        { get { return base.DisplayText + " (no redirects)"; } }
     }
 
     /// <summary>

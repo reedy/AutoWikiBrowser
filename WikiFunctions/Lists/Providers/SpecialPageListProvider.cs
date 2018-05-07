@@ -48,6 +48,7 @@ namespace WikiFunctions.Lists.Providers
                 ListItems.Add(new LinkSearchSpecialPageProvider());
                 ListItems.Add(new RandomRedirectsSpecialPageProvider());
                 ListItems.Add(new PagesWithoutLanguageLinksSpecialPageProvider());
+                ListItems.Add(new PagesWithoutLanguageLinksNoRedirectsSpecialPageProvider());
                 ListItems.Add(new ProtectedPagesSpecialPageProvider());
                 ListItems.Add(new GalleryNewFilesSpecialPageProvider());
                 ListItems.Add(new DisambiguationPagesSpecialPageProvider());
