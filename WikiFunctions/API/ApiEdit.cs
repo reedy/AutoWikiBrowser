@@ -1281,7 +1281,7 @@ namespace WikiFunctions.API
                 new Dictionary<string, string>
                 {
                     {"action", "parse"},
-                    {"prop", "text"}
+                    {"prop", "text|parsewarnings"}
                 },
                 new Dictionary<string, string>
                 {
@@ -1296,7 +1296,21 @@ namespace WikiFunctions.API
             {
                 XmlReader xr = CreateXmlReader(result);
                 if (!xr.ReadToFollowing("text")) throw new Exception("Cannot find <text> element");
-                return ExpandRelativeUrls(xr.ReadString());
+
+                string res = xr.ReadString();
+
+                // look for and extract parsewarnings e.g. duplicate arguments in template call, and put at top in div of right colour (red)
+                string warnings = "";
+
+                if(xr.ReadToFollowing("parsewarnings"))
+                {
+                    while(xr.ReadToFollowing("pw"))
+                        warnings += xr.ReadString() + "<p>";
+
+                    res = @"<div class=""previewnote"" style=""color:#d33"">" + warnings + "</div>" + res;
+                }
+
+                return ExpandRelativeUrls(res);
             }
             catch (Exception ex)
             {
