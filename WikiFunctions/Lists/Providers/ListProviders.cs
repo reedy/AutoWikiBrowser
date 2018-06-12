@@ -925,7 +925,7 @@ namespace WikiFunctions.Lists.Providers
     /// Gets a list of pages which are returned from a wiki search of the Named Pages, in mainspace only
     /// </summary>
     /// <remarks>Slow query!!</remarks>
-    public class WikiSearchListProvider : ApiListProviderBase
+    public class WikiSearchListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         protected string SearchType = "text", SearchPrefix = "";
 
@@ -948,7 +948,13 @@ namespace WikiFunctions.Lists.Providers
             Limit = 1000; // slow query
         }
 
+
         public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            return MakeList(0, searchCriteria);
+        }
+
+        public List<Article> MakeList(int @namespace, params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
@@ -964,8 +970,9 @@ namespace WikiFunctions.Lists.Providers
                 }
                 else
                 {
-                    url = string.Format("list=search&srwhat={0}&srsearch={1}{2}&srlimit=max",
+                    url = string.Format("list=search&srwhat={0}&&srnamespace={1}srsearch={2}{3}&srlimit=max",
                         SearchType,
+                        @namespace.ToString(),
                         SearchPrefix,
                         HttpUtility.UrlEncode(page)
                         );
@@ -983,6 +990,12 @@ namespace WikiFunctions.Lists.Providers
         { get { return "Wiki search:"; } }
 
         public override bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public virtual bool PagesNeeded
+        { get { return true; } }
+
+        public bool NamespacesEnabled
         { get { return true; } }
 
         public override void Selected() { }
