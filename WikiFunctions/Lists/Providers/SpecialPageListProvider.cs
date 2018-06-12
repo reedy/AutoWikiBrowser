@@ -53,7 +53,6 @@ namespace WikiFunctions.Lists.Providers
                 ListItems.Add(new GalleryNewFilesSpecialPageProvider());
                 ListItems.Add(new DisambiguationPagesSpecialPageProvider());
                 ListItems.Add(new AllUsersSpecialPageProvider());
-                ListItems.Add(new WikiSearchListProvider());
             }
 
             cmboSourceSelect.DataSource = ListItems;

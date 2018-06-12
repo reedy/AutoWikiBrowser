@@ -62,8 +62,8 @@
             // 
             // cboNamespace
             // 
-            this.cboNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboNamespace.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboNamespace.FormattingEnabled = true;
             this.cboNamespace.Location = new System.Drawing.Point(98, 65);
@@ -91,8 +91,8 @@
             // 
             // txtPages
             // 
-            this.txtPages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPages.Location = new System.Drawing.Point(98, 39);
             this.txtPages.Name = "txtPages";
             this.txtPages.Size = new System.Drawing.Size(166, 20);
@@ -100,8 +100,8 @@
             // 
             // cmboSourceSelect
             // 
-            this.cmboSourceSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmboSourceSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmboSourceSelect.DropDownHeight = 250;
             this.cmboSourceSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboSourceSelect.FormattingEnabled = true;
@@ -137,7 +137,9 @@
             this.Controls.Add(this.lblNamespace);
             this.Controls.Add(this.txtPages);
             this.Controls.Add(this.lblSource);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.MaximumSize = new System.Drawing.Size(1000, 168);
+            this.MinimumSize = new System.Drawing.Size(292, 168);
             this.Name = "SpecialPageListProvider";
             this.Text = "Special Pages";
             this.Load += new System.EventHandler(this.SpecialPageListProvider_Load);
