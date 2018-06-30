@@ -107,6 +107,7 @@ Bar}} was"), "newline converted to space, any parameter");
             Assert.AreEqual(correct.Replace("www", "www2"), Parsers.FixCitationTemplates(correct.Replace("http://www", "www2")), "Adds http:// when URL begins www2");
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct), "no change if already correct URL");
             Assert.AreEqual(correct.Replace("url=", "archiveurl="), Parsers.FixCitationTemplates(correct.Replace("url=http://", "archiveurl=")), "Adds http:// when archiveurl begins www.");
+            Assert.AreEqual(correct.Replace("url=", "archive-url="), Parsers.FixCitationTemplates(correct.Replace("url=http://", "archive-url=")), "Adds http:// when archive-url begins www.");
             Assert.AreEqual(correct.Replace("url=", "contribution-url="), Parsers.FixCitationTemplates(correct.Replace("url=http://", "contribution-url=")), "Adds http:// when contribution-url begins www.");
             string dash = @"now {{cite web|title=foo | url=www-foo.a.com | date = 1 June 2010 }}";
             Assert.AreEqual(dash.Replace("www", "http://www"), Parsers.FixCitationTemplates(dash), "handles www-");
@@ -779,6 +780,10 @@ publisher=The BBC|date=June 3rd, 2009|accessdate=January 15, 2010}}"));
             Assert.AreEqual(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
 publisher=The BBC|date=3 June 2009|accessdate=15 January 2010}}", Parsers.FixCitationTemplates(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
 publisher=The BBC|date=3rd June 2009|accessdate=15th January 2010}}"));
+
+            Assert.AreEqual(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
+publisher=The BBC|date=3 June 2009|access-date=15 January 2010}}", Parsers.FixCitationTemplates(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
+publisher=The BBC|date=3rd June 2009|access-date=15th January 2010}}"));
 
             // no change - only in title
             string nochange = @"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure at January 15th, 2010}}";

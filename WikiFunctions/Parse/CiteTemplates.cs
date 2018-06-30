@@ -252,7 +252,8 @@ namespace WikiFunctions.Parse
             if (!paramsFound.TryGetValue("origdate", out origdate))
                 origdate = "";
             if (!paramsFound.TryGetValue("archiveurl", out archiveurl))
-                archiveurl = "";
+                if (!paramsFound.TryGetValue("archive-url", out archiveurl))
+                    archiveurl = "";
             if (!paramsFound.TryGetValue("contribution-url", out contributionurl))
                 contributionurl = "";
             if (!paramsFound.TryGetValue("isbn", out ISBN) && !paramsFound.TryGetValue("ISBN", out ISBN))
@@ -426,6 +427,8 @@ namespace WikiFunctions.Parse
                 newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
                 TheDate = Tools.GetTemplateParameterValue(newValue, "date");
                 accessdate = Tools.GetTemplateParameterValue(newValue, "accessdate");
+                if(accessdate.Length == 0)
+                    accessdate = Tools.GetTemplateParameterValue(newValue, "access-date");
             }
 
             if (paramsFound.Any(s => s.Key.Contains("access") && !s.Key.Contains("date")))
@@ -482,11 +485,19 @@ namespace WikiFunctions.Parse
                         OrdinalsInDatesAm.Replace(TheDate, "$1 $2$3"));
 
                 if (OrdinalsInDatesInt.IsMatch(accessdate))
+                {
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate",
                         OrdinalsInDatesInt.Replace(accessdate, "$1$2$3 $4"));
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "access-date",
+                        OrdinalsInDatesInt.Replace(accessdate, "$1$2$3 $4"));
+                }
                 else if (OrdinalsInDatesAm.IsMatch(accessdate))
+                {
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate",
                         OrdinalsInDatesAm.Replace(accessdate, "$1 $2$3"));
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "access-date",
+                        OrdinalsInDatesAm.Replace(accessdate, "$1 $2$3"));
+                }
             }
             // catch after any other fixes
             if(!IncorrectCommaAmericanDates.IsMatch(theURLoriginal))
@@ -497,7 +508,10 @@ namespace WikiFunctions.Parse
                 theURL = "http://" + theURL;
 
             if (archiveurl.StartsWith("www", StringComparison.OrdinalIgnoreCase))
+            {
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "archiveurl", "http://" + archiveurl);
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "archive-url", "http://" + archiveurl);
+            }
             if (contributionurl.StartsWith("www", StringComparison.OrdinalIgnoreCase))
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "contribution-url", "http://" + contributionurl);
 
