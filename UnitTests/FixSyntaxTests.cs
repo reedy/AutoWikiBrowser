@@ -103,6 +103,15 @@ namespace UnitTests
             Assert.AreEqual(@"PMID 1245781549", Parsers.FixSyntax(@"PMID:1245781549"), "removes colon after PMID");
             Assert.AreEqual(@"PMID 1245781549", Parsers.FixSyntax(@"PMID:    1245781549"), "removes colon after PMID");
             Assert.AreEqual(@"PMID 1245781549", Parsers.FixSyntax(@"PMID 1245781549"), "No change if alrady correct");
+
+            #if DEBUG
+            // PMID: as magig word is used on hu-wiki
+            Variables.SetProjectLangCode("hu");
+            Assert.AreEqual(@"PMID:1245781549", Parsers.FixSyntax(@"PMID:1245781549"));
+
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(@"PMID 1245781549", Parsers.FixSyntax(@"PMID: 1245781549"), "removes colon after PMID");
+            #endif
         }
 
         [Test]

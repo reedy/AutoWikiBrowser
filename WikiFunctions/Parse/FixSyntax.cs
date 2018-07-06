@@ -350,7 +350,8 @@ namespace WikiFunctions.Parse
             // apply ISBN fixes
             articleText = FixSyntaxISBN(articleText, ssb.FindAll(s => s.Contains("ISBN]]")));
 
-            if (articleText.Contains("PMID:"))
+            // T198854 not for hu-wiki
+            if (articleText.Contains("PMID:") && !Variables.LangCode.Equals("hu"))
                 articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
 
             // Remove sup tags from ordinals per [[WP:ORDINAL]].
