@@ -77,6 +77,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             },
             new TemplateParameters
             {
+                StorageKey = "Noongar",
+                Group = PlacesGroup,
+                ParamName = "Noongar"
+            },
+            new TemplateParameters
+            {
                 StorageKey = "Perth",
                 Group = PlacesGroup,
                 ParamName = "Perth"
