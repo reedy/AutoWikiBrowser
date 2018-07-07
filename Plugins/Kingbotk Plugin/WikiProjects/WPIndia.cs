@@ -230,6 +230,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             },
             new TemplateParameters
             {
+                StorageKey = "Telangana",
+                Group = GeographyGroup,
+                ParamName = "Telangana"
+            },
+            new TemplateParameters
+            {
                 StorageKey = "Tripura",
                 Group = GeographyGroup,
                 ParamName = "Tripura"
