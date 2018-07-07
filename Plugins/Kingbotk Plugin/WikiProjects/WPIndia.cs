@@ -329,7 +329,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 StorageKey = "Tele",
                 Group = OthersGroup,
                 ParamName = "Television"
-            }
+            },
+            new TemplateParameters
+            {
+                StorageKey = "Udaipur",
+                Group = OthersGroup,
+                ParamName = "Udaipur"
+            },
         };
 
         internal WPIndia() : base("WPIndia|WP India|WPINDIA|WP INDIA")
