@@ -230,6 +230,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             },
             new TemplateParameters
             {
+                StorageKey = "Telangana",
+                Group = GeographyGroup,
+                ParamName = "Telangana"
+            },
+            new TemplateParameters
+            {
                 StorageKey = "Tripura",
                 Group = GeographyGroup,
                 ParamName = "Tripura"
@@ -329,7 +335,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 StorageKey = "Tele",
                 Group = OthersGroup,
                 ParamName = "Television"
-            }
+            },
+            new TemplateParameters
+            {
+                StorageKey = "Udaipur",
+                Group = OthersGroup,
+                ParamName = "Udaipur"
+            },
         };
 
         internal WPIndia() : base("WPIndia|WP India|WPINDIA|WP INDIA")
