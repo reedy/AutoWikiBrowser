@@ -2841,7 +2841,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoDab.Size = new System.Drawing.Size(225, 17);
             this.chkSkipNoDab.TabIndex = 1;
             this.chkSkipNoDab.Text = "Skip page when no disambiguations made";
-            this.ToolTip.SetToolTip(this.chkSkipNoDab, "Automatically skip pages if now disambiguations made");
+            this.ToolTip.SetToolTip(this.chkSkipNoDab, "Automatically skip pages if no disambiguations made");
             this.chkSkipNoDab.UseVisualStyleBackColor = true;
             // 
             // chkAppendMetaDataSort
