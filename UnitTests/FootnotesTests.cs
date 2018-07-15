@@ -315,6 +315,8 @@ namespace UnitTests
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name"">"));
             Assert.AreEqual(@"<ref>", Parsers.FixReferenceTags(@"<ref name"""">"));
 
+            Assert.AreEqual(@"A<ref name="""">Hello</ref>, B<ref name=""""/>", Parsers.FixReferenceTags(@"A<ref name="""">Hello</ref>, B<ref name=""""/>"));
+
             Assert.AreEqual(@"A.<ref>[http://www.site.com a site]</ref>
 Then", Parsers.FixReferenceTags(@"A.<ref>[http://www.site.com a site]</ref
 Then"), "incorrect closing </ref>");

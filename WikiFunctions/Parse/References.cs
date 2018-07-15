@@ -886,9 +886,6 @@ namespace WikiFunctions.Parse
             // <ref name="Fred" /ref> --> <ref name="Fred"/>, <ref name="Fred" //> --> <ref name="Fred"/> or <ref name=Fred //> --> <ref name="Fred"/> but leave <ref name=a/ref>
             new RegexReplacement(new Regex(@"(?:(<\s*ref\s+name\s*=\s*""?[^<>=""\/]+?""?)\s*/\s*/|(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*ref)\s*>", RegexOptions.IgnoreCase), "$1$2/>"),
 
-            // empty ref name: <ref name=> or <ref name = group =>
-            new RegexReplacement(new Regex(@"<\s*ref\s+name[\s""]*=?[\s""]*(?:group\s*=\s*)?>"), "<ref>"),
-
             // <ref name="Fred""> or <ref name="Fred".> or <ref name="Fred".> or <ref name="Fred"=> or <ref name=Fred=> --> <ref name="Fred">
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""?[^<>=""\/]+?)(?:("")[""\.']|("")?=)(\s*/?)>", RegexOptions.IgnoreCase), "$1$2$3$4>"),
 
@@ -994,6 +991,11 @@ namespace WikiFunctions.Parse
             // Performance: apply ref tag fixes only if have ref tags that might be invalid
             if (AllTagsList.Any(s => !Regex.IsMatch(s, @"(?:<ref name *= *[\w0-9\-.]+( ?/)?>|<ref name *= *""[^{}""<>]+""( ?/)?>)|</ref>")))
             {
+                // empty ref name: <ref name=> or <ref name = group =>
+                // T199058: <ref name="">x</ref> then <ref name=""/> is valid, don't remove former if latter also exists
+                if(!AllTagsList.Any(t => Regex.IsMatch(t, @"name *= *"""" */>")))
+                    articleText = Regex.Replace(articleText, @"<\s*ref\s+name[\s""]*=?[\s""]*(?:group\s*=\s*)?>", "<ref>");
+
                 articleText = PossiblyBadRefTags.Replace(articleText, FixReferenceTagsME);
 
                 // remove double quotes inside a ref name in double quotes, ignore group refs
