@@ -72,6 +72,18 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             },
             new TemplateParameters
             {
+                StorageKey = "DahlTF",
+                Group = "",
+                ParamName = "Dahl"
+            },
+            new TemplateParameters
+              {
+                StorageKey = "DOAWK",
+                Group = "",
+                ParamName = "DOAWK"
+            },
+            new TemplateParameters
+            {
                 StorageKey = "NarniaWG",
                 Group = "",
                 ParamName = "Narnia"
@@ -81,6 +93,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 StorageKey = "LemonyWG",
                 Group = "",
                 ParamName = "Lemony Snicket"
+            },
+            new TemplateParameters
+              {
+                StorageKey = "RiordanTF",
+                Group = "",
+                ParamName = "Riordan"
             },
             new TemplateParameters
             {
