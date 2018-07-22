@@ -82,6 +82,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 Group = "",
                 ParamName = "DOAWK"
             },
+            new TemplateParameters
             {
                StorageKey = "HPTF",
                Group = "",
