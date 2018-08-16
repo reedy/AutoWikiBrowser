@@ -2589,7 +2589,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             switch (TheSession.Update())
             {
                 case WikiStatusResult.Error:
-                    MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet is working and that the Wikipedia servers are online.", "User check problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet is working and that the Wiki is online.", "User check problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
 
                 case WikiStatusResult.NotLoggedIn:
