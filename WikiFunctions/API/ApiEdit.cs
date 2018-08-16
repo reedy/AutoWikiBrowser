@@ -374,27 +374,27 @@ namespace WikiFunctions.API
 
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.ServerCertificateValidationCallback += customXertificateValidation;
-            HttpWebRequest res = (HttpWebRequest) WebRequest.Create(url);
-            res.KeepAlive = true;
-            res.ServicePoint.Expect100Continue = false;
-            res.Expect = "";
+            HttpWebRequest req = (HttpWebRequest) WebRequest.Create(url);
+            req.KeepAlive = true;
+            req.ServicePoint.Expect100Continue = false;
+            req.Expect = "";
 
             if (ProxySettings != null)
             {
-                res.Proxy = ProxySettings;
-                res.UseDefaultCredentials = true;
+                req.Proxy = ProxySettings;
+                req.UseDefaultCredentials = true;
             }
             else
             {
-                res.Proxy = null;
+                req.Proxy = null;
             }
-            res.UserAgent = UserAgent;
-            res.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+            req.UserAgent = UserAgent;
+            req.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
             // SECURITY: don't send cookies to third-party sites
-            if (url.StartsWith(URL)) res.CookieContainer = Cookies;
+            if (url.StartsWith(URL)) req.CookieContainer = Cookies;
 
-            return res;
+            return req;
         }
 
         private bool Aborting;
