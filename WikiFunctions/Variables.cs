@@ -473,19 +473,25 @@ namespace WikiFunctions
         /// <returns></returns>
         public static HttpWebRequest PrepareWebRequest(string url, string userAgent)
         {
-            HttpWebRequest r = (HttpWebRequest) WebRequest.Create(url);
+            ServicePointManager.Expect100Continue = false;
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
-            if (SystemProxy != null) r.Proxy = SystemProxy;
+            HttpWebRequest req = (HttpWebRequest) WebRequest.Create(url);
+            req.KeepAlive = true;
+            req.ServicePoint.Expect100Continue = false;
+            req.Expect = "";
 
-            r.UserAgent = string.IsNullOrEmpty(userAgent) ? Tools.DefaultUserAgentString : userAgent;
+            if (SystemProxy != null) req.Proxy = SystemProxy;
 
-            r.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+            req.UserAgent = string.IsNullOrEmpty(userAgent) ? Tools.DefaultUserAgentString : userAgent;
 
-            r.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            r.UseDefaultCredentials = true;
-            r.Timeout = 15000; // override default timeout of 300,000 (= 5 minutes) down to 15 seconds
+            req.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
-            return r;
+            req.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            req.UseDefaultCredentials = true;
+            req.Timeout = 15000; // override default timeout of 300,000 (= 5 minutes) down to 15 seconds
+
+            return req;
         }
 
         /// <summary>
