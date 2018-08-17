@@ -114,6 +114,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             },
             new TemplateParameters
             {
+                StorageKey = "PostCW",
+                Group = PeriodsAndConflictsGroup,
+                ParamName = "Post-Cold-War"
+            },
+            new TemplateParameters
+            {
                 StorageKey = "WWI",
                 Group = PeriodsAndConflictsGroup,
                 ParamName = "WWI"
@@ -135,6 +141,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 StorageKey = "Biography",
                 Group = GeneralGroup,
                 ParamName = "Biography"
+            },
+            {
+                StorageKey = "CultTradHer",
+                Group = GeneralGroup,
+                ParamName = "Culture"
             },
             new TemplateParameters
             {
@@ -166,11 +177,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 Group = GeneralGroup,
                 ParamName = "Land Vehicles"
             },
+            {
+                StorageKey = "Culture",
+                Group = GeneralGroup,
+                ParamName = "Culture"
+            },
             new TemplateParameters
             {
-                StorageKey = "Marit",
+                StorageKey = "Logandmed",
                 Group = GeneralGroup,
-                ParamName = "Martime"
+                ParamName = "Logistics"
             },
             new TemplateParameters
             {
@@ -216,6 +232,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             },
             new TemplateParameters
             {
+                StorageKey = "Asian",
+                Group = NationsGroup,
+                ParamName = "Asian"
+            },
+            new TemplateParameters
+            {
                 StorageKey = "Aus",
                 Group = NationsGroup,
                 ParamName = "Australia"
@@ -240,6 +262,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             },
             new TemplateParameters
             {
+                StorageKey = "Byzan",
+                Group = NationsGroup,
+                ParamName = "Byzantine"
+            },
+            {
                 StorageKey = "Canuck",
                 Group = NationsGroup,
                 ParamName = "Canadian"
@@ -255,6 +282,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 StorageKey = "Dutch",
                 Group = NationsGroup,
                 ParamName = "Dutch"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "European",
+                Group = NationsGroup,
+                ParamName = "European"
             },
             new TemplateParameters
             {
@@ -318,6 +351,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             },
             new TemplateParameters
             {
+                StorageKey = "NorthAm",
+                Group = NationsGroup,
+                ParamName = "North-American"
+            },
+            new TemplateParameters
+            {
                 StorageKey = "Ottoman",
                 Group = NationsGroup,
                 ParamName = "Ottoman"
@@ -366,6 +405,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             },
             new TemplateParameters
             {
+                StorageKey = "ThreeKingdoms",
+                Group = NationsGroup,
+                ParamName = "Three-Kingdoms"
+            },
+            new TemplateParameters
+            {
                 StorageKey = "US",
                 Group = NationsGroup,
                 ParamName = "US"
@@ -394,7 +439,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             {
                 if (lvi.Checked)
                 {
-                    TemplateParameters tp = (TemplateParameters) lvi.Tag;
+                    TemplateParameters tp = (TemplateParameters)lvi.Tag;
                     AddAndLogNewParamWithAYesValue(tp.ParamName.ToLower().Replace(" ", "-"));
                     // Probably needs some reformatting
                 }
