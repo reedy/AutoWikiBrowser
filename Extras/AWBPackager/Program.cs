@@ -52,6 +52,12 @@ Is this SVN (1) or a release (2)? ");
 
                 string awbDir = Directory.GetCurrentDirectory();
                 string tmp = Path.Combine(awbDir, "temp");
+
+                if (Directory.Exists(tmp))
+                {
+                    Directory.Delete(tmp, true);
+                }
+
                 awbDir = awbDir.Remove(awbDir.IndexOf("Extras", StringComparison.Ordinal));
                 Directory.CreateDirectory(tmp);
 
@@ -106,7 +112,7 @@ Is this SVN (1) or a release (2)? ");
                 string kingPath = Path.Combine(tmpPlugins, "Kingbotk");
                 CopyAndCreateDirectory(currFolder, kingPath, "Kingbotk AWB Plugin.dll");
 
-				currFolder = Path.Combine(Path.Combine(awbDir, "Plugins"), "Kingbotk");
+				currFolder = Path.Combine(Path.Combine(awbDir, "Plugins"), "Kingbotk Plugin");
                 Copy(currFolder, kingPath, "COPYING"); 
 
                 Console.WriteLine("Files copied to temporary directory");
