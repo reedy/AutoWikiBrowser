@@ -87,7 +87,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                StorageKey = "HPTF",
                Group = "",
                ParamName = "Harry potter"
-+           },
+            },
             new TemplateParameters
             {
                 StorageKey = "NarniaWG",
