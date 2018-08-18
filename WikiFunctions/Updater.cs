@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2009 Sam Reed
+Copyright (C) 2009-2018 Sam Reed
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -38,7 +38,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Available Enabled status' for AWB
+        /// Available Enabled statuses for AWB
         /// </summary>
         [Flags]
         public enum AWBEnabledStatus
@@ -90,10 +90,12 @@ namespace WikiFunctions
                         FileVersionInfo.GetVersionInfo(AWBDirectory + "AutoWikiBrowser.exe");
                     int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
-                    Result = AWBEnabledStatus.Disabled; //Disabled till proven enabled
+                    Result = AWBEnabledStatus.Disabled; // Disabled till proven enabled
 
                     if (awbFileVersion < awbCurrentVersion)
+                    {
                         return;
+                    }
 
                     foreach (Match m in EnabledVersions.Matches(text))
                     {
@@ -105,7 +107,9 @@ namespace WikiFunctions
                     }
 
                     if (Result == AWBEnabledStatus.Disabled)
+                    {
                         return;
+                    }
 
                     if ((updaterVersion > 1400) &&
                         (updaterVersion >
@@ -135,7 +139,9 @@ namespace WikiFunctions
         {
             int res;
             if (!int.TryParse(version.Replace(".", ""), out res))
+            {
                 res = 0;
+            }
 
             return res;
         }
@@ -159,7 +165,10 @@ namespace WikiFunctions
         /// </summary>
         public static void CheckForUpdates()
         {
-            if (_request != null) return;
+            if (_request != null)
+            {
+                return;
+            }
 
             _request = new BackgroundRequest();
             _request.Execute(UpdateFunc);
@@ -170,7 +179,10 @@ namespace WikiFunctions
         /// </summary>
         public static void WaitForCompletion()
         {
-            if (_request == null) return;
+            if (_request == null)
+            {
+                return;
+            }
             _request.Wait();
             _request = null;
         }
