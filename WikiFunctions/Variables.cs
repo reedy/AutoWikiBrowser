@@ -965,6 +965,11 @@ namespace WikiFunctions
                     Stub = "(?:[^{}]*?[Cc]ung[^{}]*?)";
                     break;
 
+                case "sr":
+                    mSummaryTag = "користећи";
+                    WPAWB = "[[Project:AWB|AWB]]";
+                    break;
+
                 case "sv":
                     mSummaryTag = "med";
                     TypoSummaryTag = "rättar stavfel: ";
