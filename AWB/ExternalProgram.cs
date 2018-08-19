@@ -82,22 +82,27 @@ namespace AutoWikiBrowser
                 // under Wine WaitForExit() does not work and need to use absolute file paths. So under Linux use StandardOutput.ReadToEnd instead
                 if(Globals.UsingLinux)
                 {
-                    System.Diagnostics.Process p = new System.Diagnostics.Process();
-                    p.StartInfo.FileName = txtProgram.Text;
-                    p.StartInfo.Arguments = Tools.ApplyKeyWords(articleTitle, txtParameters.Text.Replace("%%file%%", txtFile.Text));
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.RedirectStandardOutput = true;
+                    using (System.Diagnostics.Process p = new System.Diagnostics.Process())
+                    {
+                        p.StartInfo.FileName = txtProgram.Text;
+                        p.StartInfo.Arguments = Tools.ApplyKeyWords(articleTitle, txtParameters.Text.Replace("%%file%%", txtFile.Text));
+                        p.StartInfo.UseShellExecute = false;
+                        p.StartInfo.RedirectStandardOutput = true;
 
-                    if (radFile.Checked)
-                        Tools.WriteTextFileAbsolutePath(articleText, ioFile, false);
-                    else
-                        p.StartInfo.Arguments = p.StartInfo.Arguments.Replace("%%articletext%%", articleText);
-    
-                    p.Start();
+                        if (radFile.Checked)
+                            Tools.WriteTextFileAbsolutePath(articleText, ioFile, false);
+                        else
+                            p.StartInfo.Arguments = p.StartInfo.Arguments.Replace("%%articletext%%", articleText);
 
-                    string output = p.StandardOutput.ReadToEnd();
-                    // pretend to do something with output just to keep compiler happy
-                    Tools.WriteDebug("Ext Proc", output);
+                        p.Start();
+
+                        string output = p.StandardOutput.ReadToEnd();
+
+                        p.Close();
+
+                        // pretend to do something with output just to keep compiler happy
+                        Tools.WriteDebug("Ext Proc", output);
+                    }
                 }
                 else
                 {
