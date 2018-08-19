@@ -1319,16 +1319,11 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Returns a dediplicated list, using .NET 3.5 Distinct() function if available
+        /// Returns a deduplicated list
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         public static List<string> DeduplicateList(List<string> input)
-        {
-            return DeduplicateListHS(input);
-        }
-
-        private static List<string> DeduplicateListHS(List<string> input)
         {
             return input.Distinct().ToList();
         }
