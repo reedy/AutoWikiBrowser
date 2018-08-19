@@ -970,7 +970,7 @@ namespace WikiFunctions.Lists.Providers
                 }
                 else
                 {
-                    url = string.Format("list=search&srwhat={0}&&srnamespace={1}srsearch={2}{3}&srlimit=max",
+                    url = string.Format("list=search&srwhat={0}&srnamespace={1}&srsearch={2}{3}&srlimit=max",
                         SearchType,
                         @namespace.ToString(),
                         SearchPrefix,
