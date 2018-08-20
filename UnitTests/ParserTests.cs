@@ -1260,11 +1260,13 @@ words";
         [Test]
         public void DablinksMergingDistinguish()
         {
-            const string AB = @"{{Distinguish|a|b}}";
+            string AB = @"{{Distinguish|a|b}}";
             Assert.AreEqual(AB, Parsers.Dablinks(@"{{Distinguish|a}}{{Distinguish|b}}"), "merges when single argument");
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.Dablinks(@"{{Distinguish|a|b}}{{Distinguish|c}}"), "merges multiple arguments");
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.Dablinks(@"{{Distinguish|a}}{{Distinguish|b|c}}"), "merges multiple arguments");
             Assert.AreEqual(AB, Parsers.Dablinks(AB), "no change if already merged");
+            AB = @"{{Distinguish|text=a}}{{Distinguish|text=b}}";
+            Assert.AreEqual(AB, Parsers.Dablinks(AB), "no change if using text= parameter");
         }
 
         [Test]
