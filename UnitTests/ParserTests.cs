@@ -1275,6 +1275,8 @@ words";
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{See also|a|b}}{{See also|c}}"), "merges multiple arguments");
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{See also|a}}{{See also|b|c}}"), "merges multiple arguments");
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{See also|a}}{{see also|b|c}}"), "different capitalition");
+            AB = @"{{See also|a{{!}}b}}";
+            Assert.AreEqual(AB.Replace("b}}", "b|c|d}}"), Parsers.MergeTemplatesBySection(@"{{See also|a{{!}}b}}{{see also|c|d}}"), "With {{!}}");
             Assert.AreEqual(AB, Parsers.MergeTemplatesBySection(AB), "no change if already merged");
 
             AB = @"{{See also2|a|b}}";

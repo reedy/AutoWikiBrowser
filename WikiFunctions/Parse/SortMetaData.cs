@@ -375,7 +375,7 @@ namespace WikiFunctions.Parse
                     mergedTemplates = m.Value;
                 else
                 {
-                    mergedTemplates = mergedTemplates.Replace(@"}}", m.Groups[3].Value);
+                    mergedTemplates = Regex.Replace(mergedTemplates, @"}}$", m.Groups[3].Value);
                     merged++;
                 }
 
