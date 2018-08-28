@@ -142,6 +142,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 Group = GeneralGroup,
                 ParamName = "Biography"
             },
+            new TemplateParameters
             {
                 StorageKey = "CultTradHer",
                 Group = GeneralGroup,
@@ -177,6 +178,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 Group = GeneralGroup,
                 ParamName = "Land Vehicles"
             },
+            new TemplateParameters
             {
                 StorageKey = "Culture",
                 Group = GeneralGroup,
@@ -266,6 +268,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 Group = NationsGroup,
                 ParamName = "Byzantine"
             },
+            new TemplateParameters
             {
                 StorageKey = "Canuck",
                 Group = NationsGroup,
