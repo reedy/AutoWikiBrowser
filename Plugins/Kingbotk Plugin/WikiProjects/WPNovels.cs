@@ -72,6 +72,24 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             },
             new TemplateParameters
             {
+                StorageKey = "DahlTF",
+                Group = "",
+                ParamName = "Dahl"
+            },
+            new TemplateParameters
+              {
+                StorageKey = "DOAWK",
+                Group = "",
+                ParamName = "DOAWK"
+            },
+            new TemplateParameters
+            {
+               StorageKey = "HPTF",
+               Group = "",
+               ParamName = "Harry potter"
+            },
+            new TemplateParameters
+            {
                 StorageKey = "NarniaWG",
                 Group = "",
                 ParamName = "Narnia"
@@ -81,6 +99,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                 StorageKey = "LemonyWG",
                 Group = "",
                 ParamName = "Lemony Snicket"
+            },
+            new TemplateParameters
+              {
+                StorageKey = "RiordanTF",
+                Group = "",
+                ParamName = "Riordan"
             },
             new TemplateParameters
             {
@@ -162,7 +186,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             {
                 if (lvi.Checked)
                 {
-                    TemplateParameters tp = (TemplateParameters) lvi.Tag;
+                    TemplateParameters tp = (TemplateParameters)lvi.Tag;
                     string param = tp.ParamName.ToLower().Replace(" ", "-");
                     AddAndLogNewParamWithAYesValue(param + "-task-force");
                     // Probably needs some reformatting

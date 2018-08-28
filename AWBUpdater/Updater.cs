@@ -213,14 +213,15 @@ namespace AwbUpdater
 
                 HttpWebResponse response = (HttpWebResponse) rq.GetResponse();
 
-                Stream stream = response.GetResponseStream();
-                StreamReader sr = new StreamReader(stream, Encoding.UTF8);
+                using (Stream stream = response.GetResponseStream())
+                using (StreamReader sr = new StreamReader(stream, Encoding.UTF8))
+                {
+                    text = sr.ReadToEnd();
 
-                text = sr.ReadToEnd();
-
-                sr.Close();
-                stream.Close();
-                response.Close();
+                    sr.Close();
+                    stream.Close();
+                    response.Close();
+                }
             }
             catch
             {
@@ -242,12 +243,16 @@ namespace AwbUpdater
                 int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
                 if (awbFileVersion < awbCurrentVersion)
+                {
                     _awbUpdate = true;
+                }
                 else if ((awbFileVersion >= awbCurrentVersion) &&
                          (awbFileVersion < awbNewestVersion) &&
                          MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?",
                              "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
                     _awbUpdate = true;
+                }
 
                 if (_awbUpdate)
                 {
@@ -408,7 +413,7 @@ namespace AwbUpdater
                 {
                     DeleteAbsoluteIfExists(path);
                 }
-                catch (UnauthorizedAccessException) //The exception that is thrown when the operating system denies access because of an I/O error or a specific type of security error.
+                catch (UnauthorizedAccessException) // The exception that is thrown when the operating system denies access because of an I/O error or a specific type of security error.
                 {
                     MessageBox.Show(this,
                         "Access denied for deleting files. Program Files and such are not the best place to run AWB from.\r\n" +
@@ -451,11 +456,13 @@ namespace AwbUpdater
         {
             string updater = Path.Combine(_tempDirectory, "AWBUpdater.exe");
             if (_updaterUpdate || File.Exists(updater))
+            {
                 CopyFile(updater, Path.Combine(_awbDirectory, "AWBUpdater.exe.new"));
+            }
 
             if (_awbUpdate)
             {
-                //Explicit Deletions (Remove these if they exist!!)
+                // Explicit Deletions (Remove these if they exist!!)
                 DeleteIfExists("Wikidiff2.dll");
 
                 DeleteIfExists("Diff.dll");
@@ -465,12 +472,16 @@ namespace AwbUpdater
                 DeleteIfExists("WPAssessmentsCatCreator.dll");
 
                 if (Directory.Exists(Path.Combine(_awbDirectory, "Plugins\\WPAssessmentsCatCreator")))
+                {
                     Directory.Delete(Path.Combine(_awbDirectory, "Plugins\\WPAssessmentsCatCreator"), true);
+                }
 
                 foreach (string file in Directory.GetFiles(_tempDirectory, "*.*", SearchOption.AllDirectories))
                 {
                     if (file.Contains("AWBUpdater"))
+                    {
                         continue;
+                    }
 
                     CopyFile(file,
                              Path.Combine(_awbDirectory, file.Replace(_tempDirectory + "\\", "")));
@@ -565,7 +576,9 @@ namespace AwbUpdater
             {
                 awbOpen = (p.ProcessName == "AutoWikiBrowser");
                 if (awbOpen)
+                {
                     break;
+                }
             }
 
             if (!awbOpen && File.Exists(_awbDirectory + "AutoWikiBrowser.exe")
@@ -583,7 +596,9 @@ namespace AwbUpdater
         private void KillTempDir()
         {
             if (Directory.Exists(_tempDirectory))
+            {
                 Directory.Delete(_tempDirectory, true);
+            }
             progressUpdate.Value = 100;
         }
 
@@ -597,14 +612,19 @@ namespace AwbUpdater
         {
             int res;
             if (!int.TryParse(version.Replace(".", ""), out res))
+            {
                 res = 0;
+            }
 
             return res;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (_updateSucessful) StartAwb();
+            if (_updateSucessful)
+            {
+                StartAwb();
+            }
 
             Close();
         }
