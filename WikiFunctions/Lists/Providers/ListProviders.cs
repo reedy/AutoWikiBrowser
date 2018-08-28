@@ -922,7 +922,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Gets a list of pages which are returned from a wiki search of the Named Pages, in mainspace only
+    /// Gets a list of pages which are returned from a wiki search of the Named Pages
     /// </summary>
     /// <remarks>Slow query!!</remarks>
     public class WikiSearchListProvider : ApiListProviderBase, ISpecialPageProvider
@@ -970,7 +970,7 @@ namespace WikiFunctions.Lists.Providers
                 }
                 else
                 {
-                    url = string.Format("list=search&srwhat={0}&&srnamespace={1}srsearch={2}{3}&srlimit=max",
+                    url = string.Format("list=search&srwhat={0}&srnamespace={1}&srsearch={2}{3}&srlimit=max",
                         SearchType,
                         @namespace.ToString(),
                         SearchPrefix,

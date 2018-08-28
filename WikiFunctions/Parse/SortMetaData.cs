@@ -278,7 +278,7 @@ namespace WikiFunctions.Parse
                     articleText = articleText.Replace(m.Value, aboutcall);
             }
 
-            // multiple {{distinguish}} into one
+            // multiple {{distinguish}} into one, NOT when using text= parameter
             oldArticleText = "";
             while (oldArticleText != articleText)
             {
@@ -288,7 +288,7 @@ namespace WikiFunctions.Parse
                 {
                     foreach (Match m2 in Tools.NestedTemplateRegex("distinguish").Matches(articleText))
                     {
-                        if (m2.Value.Equals(m.Value))
+                        if (m2.Value.Equals(m.Value) || Tools.GetTemplateParameterValue(m.Value, "text").Length > 0)
                             continue;
 
                         articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + m2.Groups[3].Value);
@@ -375,7 +375,7 @@ namespace WikiFunctions.Parse
                     mergedTemplates = m.Value;
                 else
                 {
-                    mergedTemplates = mergedTemplates.Replace(@"}}", m.Groups[3].Value);
+                    mergedTemplates = Regex.Replace(mergedTemplates, @"}}$", m.Groups[3].Value);
                     merged++;
                 }
 
