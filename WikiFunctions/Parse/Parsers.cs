@@ -1158,7 +1158,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex InUniverse = Tools.NestedTemplateRegex(@"In-universe");
         private static readonly Regex CategoryCharacters = new Regex(@"\[\[Category:[^\[\]]*?[Cc]haracters", RegexOptions.Compiled);
         private static readonly Regex SeeAlsoOrMain = Tools.NestedTemplateRegex(new[] { "See also", "Seealso", "Main" });
-        private static readonly Regex RefImproveBLP = Tools.NestedTemplateRegex("RefimproveBLP");
+        private static readonly Regex RefImproveBLP = Tools.NestedTemplateRegex("BLP sources");
 
         private static readonly Regex IMA = Tools.NestedTemplateRegex(new[] { "Infobox musical artist", "Infobox singer" });
 
@@ -1498,7 +1498,7 @@ namespace WikiFunctions.Parse
             if (TemplateExists(alltemplates, NoFootnotes) && (TemplateExists(alltemplates, Footnote) || TotalRefsNotGrouped(articleText) > 0))
                 articleText = NoFootnotes.Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes"));
 
-            // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
+            // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, more sources needed, BLPsources, expand, BLP unsourced
             if (TemplateExists(alltemplates, SectionTemplates))
             {
                 articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
@@ -1541,23 +1541,23 @@ namespace WikiFunctions.Parse
 
                 if(alltemplates.Contains("Refimprove"))
                 {
-                    // {{refimprove}} --> {{BLP sources}} if article has [[Category:Living people]], and no free-text first argument to {{refimprove}}
-                    MatchCollection mc = Tools.NestedTemplateRegex("refimprove").Matches(articleText);
+                    // {{more sources needed}} --> {{BLP sources}} if article has [[Category:Living people]], and no free-text first argument to {{more sources needed}}
+                    MatchCollection mc = Tools.NestedTemplateRegex("More sources needed").Matches(articleText);
                     if (mc.Count == 1)
                     {
                         string refimprove = mc[0].Value;
                         if ((Tools.TurnFirstToLower(Tools.GetTemplateArgument(refimprove, 1)).StartsWith("date")
                              || Tools.GetTemplateArgumentCount(refimprove) == 0))
                         {
-                            // if also have existing BLP sources then remove refimprove
+                            // if also have existing BLP sources then remove more sources needed
                             if (Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
                             {
-                                articleText = Tools.NestedTemplateRegex("refimprove").Replace(articleText, "");
+                                articleText = Tools.NestedTemplateRegex("more sources needed").Replace(articleText, "");
                                 Parsers p = new Parsers();
                                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, p.MultipleIssuesSingleTagME);
                             }
                             else
-                                articleText = Tools.RenameTemplate(articleText, "refimprove", "BLP sources", false);
+                                articleText = Tools.RenameTemplate(articleText, "more sources needed", "BLP sources", false);
                         }
                     }
                 }
@@ -1586,7 +1586,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", "BLP sources", "expand", "BLP unsourced" });
+        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", , "more sources needed", "BLP sources", "expand", "BLP unsourced" });
 
         /// <summary>
         /// Converts templates such as {{foo|section|...}} to {{foo section|...}}
