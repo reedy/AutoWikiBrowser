@@ -24,7 +24,7 @@ using System.Collections.ObjectModel;
 namespace WikiFunctions
 {
     /// <summary>
-    /// Contains constants for canonical namespace numbers
+    /// Contains constants for canonical namespace numbers per Wikipedia:Namespace
     /// </summary>
     public static class Namespace
     {
@@ -51,6 +51,9 @@ namespace WikiFunctions
         public const int FirstCustomTalk = 101; // Portal talk on en-wiki
         public const int Book = 108;
         public const int BookTalk = 109;
+        
+        public const int Draft = 118;
+        public const int DraftTalk = 119;
 
         public const int EducationProgram  = 446;
         public const int EducationProgramTalk = 447;
