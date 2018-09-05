@@ -1111,7 +1111,7 @@ namespace WikiFunctions
         public static readonly Regex InfoBox = new Regex(@"(?:{{[\s_]*)(?:[Tt]emplate[\s_]*:[\s_]*)?([Ii]nfobox(?:[\s_]+[^{}\|\s][^{}\|]+?)?|[^{}\|]+?[Ii]nfobox)\s*\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
         
         /// <summary>
-        /// Matches people infoxboxes from Category:People infobox templates
+        /// Matches people infoxboxes from Category:People and person infobox templates
         /// </summary>
         public static readonly Regex PeopleInfoboxTemplates = Tools.NestedTemplateRegex(new [] { "Infobox college coach", "Infobox American Indian chief", "Infobox Native American leader", "Infobox Calvinist theologian",
                                                                                             "Infobox Chinese-language singer and actor", "Infobox Christian leader", "Infobox FBI Ten Most Wanted", "Infobox Jewish leader",
