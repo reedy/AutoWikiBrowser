@@ -406,7 +406,12 @@ namespace WikiFunctions
             {
                 return (NameSpaceKey == Namespace.Talk
                         || NameSpaceKey == Namespace.BookTalk
-                        || NameSpaceKey == Namespace.CategoryTalk);
+                        || NameSpaceKey == Namespace.CategoryTalk
+                        || NameSpaceKey == Namespace.DraftTalk
+                        || NameSpaceKey == Namespace.FileTalk
+                        || NameSpaceKey == Namespace.PortalTalk
+                        || NameSpaceKey == Namespace.TemplateTalk
+                        || NameSpaceKey == Namespace.WikipediaTalk);
             }
         }
 
