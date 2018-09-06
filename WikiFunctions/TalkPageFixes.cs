@@ -74,7 +74,7 @@ namespace WikiFunctions.TalkPages
             // 2. {{Talk header}}
             // 3. {{GA}} or {{GA nominee}}
             // 4. {{Vital article}}
-            // 5. {{community article probation}}, {{censor}}, {{BLP others}} and other high-priority/importance, warning/attention templates.
+            // 5. {{community article probation}}, {{censor}}, {{BLP others}}. {{Sanctions}} and other high-priority/importance, warning/attention templates.
             // 6. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
             // 7. Language related talk page guideline banners, such as {{American English}}
             // 8. Any "article history" banner
@@ -223,7 +223,7 @@ namespace WikiFunctions.TalkPages
         }
 
         private static readonly Regex GANomineeTemplate = Tools.NestedTemplateRegex(new [] { "GA nominee", "GAnominee", "GA"});
-        private static readonly Regex TalkWarningTemplates = Tools.NestedTemplateRegex(new[] { "Community article probation", "Censor", "Controversial", "BLP others", "COI editnotice", "Notice", "warning", "Austrian economics sanctions"});
+        private static readonly Regex TalkWarningTemplates = Tools.NestedTemplateRegex(new[] { "Community article probation", "Censor", "Controversial", "BLP others", "COI editnotice", "Notice", "Sanctions", "warning", "Austrian economics sanctions"});
         private static readonly Regex TalkGuidelineTemplates = Tools.NestedTemplateRegex(new[] { "Not a forum", "Recurring themes", "FAQ", "Round in circles", "Calm", "Pbneutral"});
         private static readonly Regex EnglishVariationsTemplates = Tools.NestedTemplateRegex(new[] { "American English", "Australian English", "British English", "British English Oxford spelling", "Canadian English", "Hiberno-English", "Indian English", "Malaysian English", "Malawian English", "New Zealand English", "Pakistani English", "Philippine English", "Scottish English", "South African English", "Trinidadian English" });
         private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory" });
