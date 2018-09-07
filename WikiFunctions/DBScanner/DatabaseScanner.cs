@@ -958,7 +958,7 @@ namespace WikiFunctions.DBScanner
 
         private void lnkWikiaDumps_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Tools.OpenURLInBrowser("http://www.wikia.com/wiki/Database_download");
+            Tools.OpenURLInBrowser("https://www.wikia.com/wiki/Database_download");
         }
 
         private void lnkWmfDumps_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
