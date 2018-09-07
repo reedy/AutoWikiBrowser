@@ -43,6 +43,7 @@ namespace WikiFunctions
         mediawiki,
         incubator,
         wikia,
+        fandom,
         custom
     }
 
@@ -70,6 +71,8 @@ namespace WikiFunctions
             CanonicalNamespaces[13] = "Help talk:";
             CanonicalNamespaces[14] = "Category:";
             CanonicalNamespaces[15] = "Category talk:";
+            CanonicalNamespaces[118] = "Draft:";
+            CanonicalNamespaces[119] = "Draft talk:";
 
             CanonicalNamespaceAliases = PrepareAliases(CanonicalNamespaces);
 
@@ -303,7 +306,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikia
         {
-            get { return Project == ProjectEnum.wikia; }
+            get { return Project == ProjectEnum.wikia && ProjectEnum.fandom; }
         }
 
         /// <summary>
@@ -674,7 +677,11 @@ namespace WikiFunctions
                     LangCode = "en";
                     break;
                 case ProjectEnum.wikia:
-                    URL = "http://" + customProject + ".wikia.com";
+                    URL = "https://" + customProject + ".wikia.com";
+                    URLEnd = "/";
+                    break;
+                 case ProjectEnum.fandom:
+                    URL = "https://" + customProject + ".fandom.com";
                     URLEnd = "/";
                     break;
                 case ProjectEnum.custom:
