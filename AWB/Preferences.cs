@@ -99,7 +99,7 @@ namespace AutoWikiBrowser
 
         /// <summary>
         /// Protocol for custom projects
-        /// WMF defaults to HTTPS, Wikia defaults to HTTP
+        /// WMF and Wikia defaults to HTTPS
         /// </summary>
         public string Protocol
         {
