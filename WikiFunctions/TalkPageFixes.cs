@@ -566,15 +566,15 @@ namespace WikiFunctions.TalkPages
                 {
                     newvalue = Tools.SetTemplateParameterValue(newvalue, "military-work-group", "yes");
                     articletext = articletext.Replace(m.Value, newvalue);
-				}
+		}
 				
-		    // If {{WPMilhist}} then add military-priority= to WPbiography
+	    // If {{WPMilhist}} then add military-priority= to WPbiography
                 Match military-priority = WPMilhistR.Match(articletext);
                 if (military-priority.Success)
                 {
                     newvalue = Tools.SetTemplateParameterValue(newvalue, "military-priority", "");
                     articletext = articletext.Replace(m.Value, newvalue);
-				}
+		}
             
             // move above any other WikiProject
             if (!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
