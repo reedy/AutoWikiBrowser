@@ -560,6 +560,22 @@ namespace WikiFunctions.TalkPages
             // remove {{activepol}} if {{WPBiography|activepol=yes}}
             articletext = ActivepolRegex.Replace(articletext, "");
             
+            // If {{WPMilhist}} then add military-work-group=yes to WPbiography
+                Match military-work-group = WPMilhistR.Match(articletext);
+                if (military-work-group.Success)
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "military-work-group", "yes");
+                    articletext = articletext.Replace(m.Value, newvalue);
+				}
+				
+		    // If {{WPMilhist}} then add military-priority= to WPbiography
+                Match military-priority = WPMilhistR.Match(articletext);
+                if (military-priority.Success)
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "military-priority", "");
+                    articletext = articletext.Replace(m.Value, newvalue);
+				}
+            
             // move above any other WikiProject
             if (!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
             {
