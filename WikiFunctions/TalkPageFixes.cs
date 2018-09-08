@@ -140,6 +140,14 @@ namespace WikiFunctions.TalkPages
             articleText = WPSongs(articleText);
 
             articleText = WPJazz(articleText);
+            
+            articleText = WPUS(articleText);
+            
+            articleText = WPMILHIST(articleText);
+            
+            articleText = WPAviation(articleText);
+            
+            articleText = WPFilm(articleText);
 
             // remove redundant Template: in templates in zeroth section
             // clean up excess blank lines after template move
@@ -348,6 +356,10 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex WPJazzR = Tools.NestedTemplateRegex(new[] { "WikiProject Jazz", "WPJAZZ", "WPJazz", "WP Jazz", "Wikiproject Jazz", "WikiProject Jazz music", "Jazz-music-project" });
         private static readonly Regex WPAlbumR = Tools.NestedTemplateRegex(new[] { "WikiProject Albums", "Albums", "WP Albums", "WPAlbums", "Album", "WPALBUMS" });
         private static readonly Regex SirRegex = Tools.NestedTemplateRegex(new[] { "sir", "Single infobox request" });
+        private static readonly Regex WPMilhistR = Tools.NestedTemplateRegex(new[] { "WikiProject Military history", "Mil Hist", "MILHIST", "MilHist", "Milhist", "Military history", "WikiProject Colditz", "WikiProject MILHIST", "WikiProject Military", "WikiProject Military History", "WikiProject War", "WP Mil", "WP MILHIST", "WP Military History", "WP Military history", "WPCAS", "WPMH", "WPMIL", "WPMILHIST", "WPMilhist"});
+        private static readonly Regex WPAviationR = Tools.NestedTemplateRegex(new[] { "WikiProject Aviation", "Aerotagm", "AircraftProject", "WikiProject Aircraft", "WP Airport", "WP Aviation", "WP Flight", "WPAIR", "WPAIRCRAFT", "WPAV", "WPAVIATION", "WPAviation", "WPPLANE"});
+        private static readonly Regex WPFilmR = Tools.NestedTemplateRegex(new[] { "WikiProject Film", "FILM", "Film", "FilmsWikiProject", "FilmWikiProject", "Movies", "WikiProject Cinema", "WikiProject film", "Wikiproject Film", "WikiProject Filmmaking", "WikiProject Films", "WikiProject Movies", "WikiProjectFilm", "WP Film", "WP Films", "WPFILM", "WPMOVIE"}); 
+        private static readonly Regex WPUSR = Tools.NestedTemplateRegex(new[] { "WikiProject United States", "WikiProject US", "WPUS", "WPUSA", "WikiProject U.S.", "WP United States"}); 
 
         /// <summary>
         /// Performs fixes to the WikiProject banner shell template:
@@ -659,6 +671,68 @@ namespace WikiFunctions.TalkPages
 
             return articletext;
         }
+        
+        /// <summary>
+        /// Does various fixes to WikiProject Military history
+        /// en-wiki only
+        /// </summary>
+        /// <param name="articletext">The talk page text</param>
+        /// <returns>The updated talk page text</returns>
+        public static string WPMilhistR(string articletext)
+        {
+            if (!Variables.LangCode.Equals("en"))
+                return articletext;
+            
+            Match m = WPMilhistR.Match(articletext);
+            
+            if (m.Success)
+            {
+                string newvalue = m.Value;
+                   
+                // Remove needs-infobox=no
+                    if (Tools.GetTemplateParameterValue(newvalue, "needs-infobox").Equals("no"))
+                        newvalue = Tools.RemoveTemplateParameter(newvalue, "needs-infobox");
+						
+                // Remove importance. WPMilhist doesn't use importance
+                newvalue = Tools.RemoveTemplateParameter(newvalue, "importance");
+
+                articletext = articletext.Replace(m.Value, newvalue);
+
+		// If {{WPAviation}} then add aviation=yes to WPMilhist
+                Match aviation = WPAviationR.Match(articletext);
+                if (aviation.Success)
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "aviation", "yes");
+                    articletext = articletext.Replace(m.Value, newvalue);
+		}
+                
+		// If {{WPFilm}} then add films=yes to WPMilhist
+                Match films = WPFilmR.Match(articletext);
+                if (films.Success)
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "films", "yes");
+                    articletext = articletext.Replace(m.Value, newvalue);
+		}
+				
+                // If {{WPBio}} then add biography=yes to WPMilhist
+                Match biography = WPBiographyR.Match(articletext);
+                if (biography.Success)
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "biography", "yes");
+                    articletext = articletext.Replace(m.Value, newvalue);
+		}
+                
+		// If {{WPUSA}} then add us=yes to WPMilhist
+                Match us = WPUSR.Match(articletext);
+                if (us.Success)
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "US", "yes");
+                    articletext = articletext.Replace(m.Value, newvalue);
+		}
+            }
+
+            return articletext;
+		}
         
         private const int WikiProjectsWPBS = 2;
         /// <summary>
