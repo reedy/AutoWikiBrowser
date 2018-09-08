@@ -698,37 +698,37 @@ namespace WikiFunctions.TalkPages
 
                 articletext = articletext.Replace(m.Value, newvalue);
 
-				// If {{WPAviation}} then add aviation=yes to WPMilhist
+		// If {{WPAviation}} then add aviation=yes to WPMilhist
                 Match aviation = WPAviationR.Match(articletext);
                 if (aviation.Success)
                 {
                     newvalue = Tools.SetTemplateParameterValue(newvalue, "aviation", "yes");
                     articletext = articletext.Replace(m.Value, newvalue);
-				}
+		}
                 
-				// If {{WPFilm}} then add aviation=yes to WPMilhist
+		// If {{WPFilm}} then add films=yes to WPMilhist
                 Match films = WPFilmR.Match(articletext);
                 if (films.Success)
                 {
                     newvalue = Tools.SetTemplateParameterValue(newvalue, "films", "yes");
                     articletext = articletext.Replace(m.Value, newvalue);
-				}
+		}
 				
-                // If {{WPBio}} then add aviation=yes to WPMilhist
+                // If {{WPBio}} then add biography=yes to WPMilhist
                 Match biography = WPBiographyR.Match(articletext);
                 if (biography.Success)
                 {
                     newvalue = Tools.SetTemplateParameterValue(newvalue, "biography", "yes");
                     articletext = articletext.Replace(m.Value, newvalue);
-				}
+		}
                 
-				// If {{WPUSA}} then add aviation=yes to WPMilhist
+		// If {{WPUSA}} then add us=yes to WPMilhist
                 Match us = WPUSR.Match(articletext);
                 if (us.Success)
                 {
                     newvalue = Tools.SetTemplateParameterValue(newvalue, "US", "yes");
                     articletext = articletext.Replace(m.Value, newvalue);
-				}
+		}
             }
 
             return articletext;
