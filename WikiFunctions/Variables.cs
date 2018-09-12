@@ -678,7 +678,7 @@ namespace WikiFunctions
                     URL = "https://" + customProject + ".wikia.com";
                     URLEnd = "/";
                     break;
-				case ProjectEnum.wikia:
+		case ProjectEnum.fandom:
                     URL = "https://" + customProject + ".fandom.com";
                     URLEnd = "/";
                     break;
