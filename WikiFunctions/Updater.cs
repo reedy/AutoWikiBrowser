@@ -92,10 +92,10 @@ namespace WikiFunctions
 
                     Result = AWBEnabledStatus.Disabled; // Disabled till proven enabled
 
-                    if (awbFileVersion < awbCurrentVersion)
-                    {
-                        return;
-                    }
+                    //if (awbFileVersion < awbCurrentVersion)
+                    //{
+                    //    return;
+                    //}
 
                     foreach (Match m in EnabledVersions.Matches(text))
                     {
