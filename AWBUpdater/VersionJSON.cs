@@ -6,7 +6,7 @@ namespace AWBUpdater
     {
         public string version { get; set; }
         public string dotnetversion { get; set; }
-        public bool svn { get; set; }
+        public bool dev { get; set; }
     }
 
     public class RootObject

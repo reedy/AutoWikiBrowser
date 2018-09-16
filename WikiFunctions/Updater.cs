@@ -79,7 +79,7 @@ namespace WikiFunctions
 
                 Result = AWBEnabledStatus.Disabled; // Disabled till proven enabled
 
-                var definition = new { version = "", dotnetversion = "", svn = false };
+                var definition = new { version = "", dotnetversion = "", dev = false };
                 var enabledVersions = (from v in json["enabledversions"] select JsonConvert.DeserializeAnonymousType(v.ToString(), definition)).ToList();
 
                 string updaterVersion = json["updaterversion"].ToString();
@@ -108,7 +108,7 @@ namespace WikiFunctions
                 var awbVersionParsed = Version.Parse(awbVersionInfo.FileVersion);
 
                 // SVN versions aren't optional updates
-                if (enabledVersions.Any(v => (Version.Parse(v.version) > awbVersionParsed && !v.svn)))
+                if (enabledVersions.Any(v => (Version.Parse(v.version) > awbVersionParsed && !v.dev)))
                 {
                     Result |= AWBEnabledStatus.OptionalUpdate;
                 }

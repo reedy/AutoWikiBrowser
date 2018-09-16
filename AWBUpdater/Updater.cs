@@ -239,7 +239,7 @@ namespace AWBUpdater
                     _awbUpdate = true;
                 }
                 // TODO: Allow the user to select the optional update to update to...
-                else if (updaterPage.enabledversions.Where(x => !x.svn).OrderByDescending(x => x.version).First().version != awbVersionInfo.FileVersion &&
+                else if (updaterPage.enabledversions.Where(x => !x.dev).OrderByDescending(x => x.version).First().version != awbVersionInfo.FileVersion &&
                          MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?",
                              "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
@@ -248,7 +248,7 @@ namespace AWBUpdater
 
                 if (_awbUpdate)
                 {
-                    AWBZipName = "AutoWikiBrowser" + VersionToFileVersion(updaterPage.enabledversions.Where(x => !x.svn).OrderByDescending(x => x.version).First().version) + ".zip";
+                    AWBZipName = "AutoWikiBrowser" + VersionToFileVersion(updaterPage.enabledversions.Where(x => !x.dev).OrderByDescending(x => x.version).First().version) + ".zip";
                     _awbWebAddress = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", AWBZipName.Replace(".zip", ""), AWBZipName);
                 }
                 else if (new Version(updaterPage.updaterversion) > new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()))
