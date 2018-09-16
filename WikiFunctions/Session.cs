@@ -298,11 +298,12 @@ namespace WikiFunctions
                 // check if username is globally blacklisted
                 foreach (string badName in versionJson["badnames"])
                 {
-                    if (!string.IsNullOrEmpty(badName.Trim()) &&
-                        !string.IsNullOrEmpty(User.Name) &&
-                        Regex.IsMatch(User.Name, badName.Trim(),
+                    if (!string.IsNullOrEmpty(User.Name) &&
+                        Regex.IsMatch(User.Name, badName,
                                       RegexOptions.IgnoreCase | RegexOptions.Multiline))
+                    {
                         return WikiStatusResult.NotRegistered;
+                    }
                 }
 
                 // see if there is a message
