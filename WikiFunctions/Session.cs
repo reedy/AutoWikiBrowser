@@ -347,14 +347,9 @@ namespace WikiFunctions
                 }
                 if (us.Count > 0) Variables.LoadUnderscores(us.ToArray());
 
-                // don't require approval if checkpage does not exist.
-                if (checkPageText.Length < 1)
-                {
-                    IsBot = true;
-                    return WikiStatusResult.Registered;
-                }
-
-                if (checkPageText.Contains("<!--All users enabled-->"))
+                // don't require approval if checkpage does not exist
+                // Or it has the special text...
+                if (checkPageText.Length < 1 || checkPageText.Contains("<!--All users enabled-->"))
                 {
                     IsBot = true;
                     return WikiStatusResult.Registered;
@@ -364,14 +359,16 @@ namespace WikiFunctions
                 checkPageText = Tools.StringBetween(checkPageText, "<!--enabledusersbegins-->",
                                                     "<!--enabledusersends-->");
 
-                string strBotUsers = Tools.StringBetween(checkPageText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-
+                // Checkpage option: <!--All users enabled user mode--> will enable all users for user mode,
+                // and enable bots only when in <!--enabledbots--> section
                 if (checkPageText.Contains("<!--All users enabled user mode-->") 
                     || (IsSysop && Variables.Project != ProjectEnum.wikia) 
                     || UserNameInText(User.Name, checkPageText))
                 {
+                    string botUsers = Tools.StringBetween(checkPageText, "<!--enabledbots-->", "<!--enabledbotsends-->");
+
                     // enable bot mode if in bots section
-                    IsBot = UserNameInText(User.Name, strBotUsers);
+                    IsBot = UserNameInText(User.Name, botUsers);
 
                     return WikiStatusResult.Registered;
                 }
