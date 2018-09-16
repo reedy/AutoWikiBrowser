@@ -107,8 +107,8 @@ namespace WikiFunctions
 
                 var awbVersionParsed = Version.Parse(awbVersionInfo.FileVersion);
 
-                // SVN versions aren't optional updates
-                if (enabledVersions.Any(v => (Version.Parse(v.version) > awbVersionParsed && !v.dev)))
+                // Dev versions aren't optional updates
+                if (enabledVersions.Any(v => !v.dev && (Version.Parse(v.version) > awbVersionParsed)))
                 {
                     Result |= AWBEnabledStatus.OptionalUpdate;
                 }
