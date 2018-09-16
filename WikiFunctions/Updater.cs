@@ -21,6 +21,9 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WikiFunctions.Background;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace WikiFunctions
 {
@@ -57,11 +60,9 @@ namespace WikiFunctions
         public static AWBEnabledStatus Result { get; private set; }
 
         /// <summary>
-        /// Text of the Current AWB Global Checkpage (en.wp)
+        /// Text (JSON) of the Current AWB Global Checkpage (en.wp)
         /// </summary>
         public static string GlobalVersionPage { get; private set; }
-
-        private static readonly Regex EnabledVersions = new Regex(@"\*(.*?) enabled", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Do the actual checking for enabledness etc
@@ -72,78 +73,51 @@ namespace WikiFunctions
             {
                 string text =
                     Tools.GetHTML(
-                        "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
+                        "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/VersionJSON&action=raw");
                 GlobalVersionPage = text;
 
-                int awbCurrentVersion =
-                    StringToVersion(Regex.Match(text, @"<!-- Current version: (.*?) -->").Groups[1].Value);
+                var json = JObject.Parse(text);
 
-                int awbNewestVersion =
-                    StringToVersion(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
+                Result = AWBEnabledStatus.Disabled; // Disabled till proven enabled
 
-                if ((awbCurrentVersion > 4000) || (awbNewestVersion > 4000))
+                var definition = new { version = "", dotnetversion = "", svn = false };
+                var enabledVersions = from v in json["enabledversions"] select JsonConvert.DeserializeAnonymousType(v.ToString(), definition);
+
+                string updaterVersion = json["updaterversion"].ToString();
+
+                FileVersionInfo awbVersionInfo =
+                    FileVersionInfo.GetVersionInfo(AWBDirectory + "AutoWikiBrowser.exe");
+
+                if (enabledVersions.Any(v => v.version == awbVersionInfo.ToString()))
                 {
-                    int updaterVersion =
-                        StringToVersion(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
+                    Result = AWBEnabledStatus.Enabled;
+                }
 
-                    FileVersionInfo awbVersionInfo =
-                        FileVersionInfo.GetVersionInfo(AWBDirectory + "AutoWikiBrowser.exe");
-                    int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
+                string updaterFileVersion = FileVersionInfo.GetVersionInfo(AWBDirectory + "AWBUpdater.exe").FileVersion;
 
-                    Result = AWBEnabledStatus.Disabled; // Disabled till proven enabled
+                if (Version.Parse(updaterFileVersion) < Version.Parse(updaterVersion))
+                {
+                    Result |= AWBEnabledStatus.UpdaterUpdate;
+                }
 
-                    //if (awbFileVersion < awbCurrentVersion)
-                    //{
-                    //    return;
-                    //}
+                if ((Result & AWBEnabledStatus.Disabled) == AWBEnabledStatus.Disabled)
+                {
+                    // If it's disabled, updates aren't optional!
+                    return;
+                }
 
-                    foreach (Match m in EnabledVersions.Matches(text))
-                    {
-                        if (StringToVersion(m.Groups[1].Value) == awbFileVersion)
-                        {
-                            Result = AWBEnabledStatus.Enabled;
-                            break;
-                        }
-                    }
+                var awbVersionParsed = Version.Parse(awbVersionInfo.FileVersion);
 
-                    if (Result == AWBEnabledStatus.Disabled)
-                    {
-                        return;
-                    }
-
-                    if ((updaterVersion > 1400) &&
-                        (updaterVersion >
-                         StringToVersion(FileVersionInfo.GetVersionInfo(AWBDirectory + "AWBUpdater.exe").FileVersion)))
-                    {
-                        Result |= AWBEnabledStatus.UpdaterUpdate;
-                    }
-
-                    if ((awbFileVersion >= awbCurrentVersion) && (awbFileVersion < awbNewestVersion))
-                    {
-                        Result |= AWBEnabledStatus.OptionalUpdate;
-                    }
+                // SVN versions aren't optional updates
+                if (enabledVersions.Any(v => (Version.Parse(v.version) > awbVersionParsed && !v.svn)))
+                {
+                    Result |= AWBEnabledStatus.OptionalUpdate;
                 }
             }
             catch
             {
                 Result = AWBEnabledStatus.Error;
             }
-        }
-
-        /// <summary>
-        /// Change a string version (x.x.x.x) to a version number (xxxx)
-        /// </summary>
-        /// <param name="version">Version String</param>
-        /// <returns>Version Number</returns>
-        private static int StringToVersion(string version)
-        {
-            int res;
-            if (!int.TryParse(version.Replace(".", ""), out res))
-            {
-                res = 0;
-            }
-
-            return res;
         }
 
         private static BackgroundRequest _request;

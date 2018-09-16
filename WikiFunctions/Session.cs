@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Security.Authentication;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
 using WikiFunctions.API;
 
 namespace WikiFunctions
@@ -237,8 +238,6 @@ namespace WikiFunctions
         public static string AWBVersion
         { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
 
-        private static readonly Regex BadName = new Regex(@"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
         private static readonly Regex DirectionMarks = new Regex(@"^(\u200E|\u200F)+", RegexOptions.Multiline);
 
         /// <summary>
@@ -295,12 +294,13 @@ namespace WikiFunctions
                 // TODO: assess the impact on servers later
                 Editor.Maxlag = /*User.IsBot ? 5 : 20*/ -1;
 
+                var versionJson = JObject.Parse(Updater.GlobalVersionPage);
                 // check if username is globally blacklisted
-                foreach (Match badName in BadName.Matches(Updater.GlobalVersionPage))
+                foreach (string badName in versionJson["badnames"])
                 {
-                    if (!string.IsNullOrEmpty(badName.Groups[1].Value.Trim()) &&
+                    if (!string.IsNullOrEmpty(badName.Trim()) &&
                         !string.IsNullOrEmpty(User.Name) &&
-                        Regex.IsMatch(User.Name, badName.Groups[1].Value.Trim(),
+                        Regex.IsMatch(User.Name, badName.Trim(),
                                       RegexOptions.IgnoreCase | RegexOptions.Multiline))
                         return WikiStatusResult.NotRegistered;
                 }
@@ -363,11 +363,14 @@ namespace WikiFunctions
 
                 if (Variables.Project != ProjectEnum.custom)
                 {
-                    string globalUsers = Tools.StringBetween(VersionCheckPage, "<!--globalusers-->",
-                                                             "<!--globalusersend-->");
-
-                    if (UserNameInText(User.Name, globalUsers))
-                        return WikiStatusResult.Registered;
+                    var globalUsers = versionJson["globalusers"];
+                    foreach (string s in globalUsers)
+                    {
+                        if (User.Name == s)
+                        {
+                            return WikiStatusResult.Registered;
+                        }
+                    }
                 }
                 return WikiStatusResult.NotRegistered;
             }
