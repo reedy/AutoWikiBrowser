@@ -306,6 +306,20 @@ namespace WikiFunctions
                     }
                 }
 
+                // See if there's any messages on the Version page
+                foreach (var message in versionJson["messages"])
+                {
+                    var version = message["version"].ToString();
+                    // TODO: Semver version checking
+                    if (version == "*" || version == AWBVersion)
+                    {
+                        MessageBox.Show(message["text"].ToString(), "Automated message", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                    }
+                }
+
+                // CheckPage Messages per wiki are still in scary HTML comments.... TBC!
+
                 // see if there is a message
                 Match messages = Message.Match(checkPageText);
                 if (messages.Success && messages.Groups[1].Value.Trim().Length > 0)
