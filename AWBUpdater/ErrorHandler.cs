@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 /* Don't use anything WikiFunctions-specific here, for source-compatibility with Updater  */
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace AwbUpdater
+namespace AWBUpdater
 {
     public delegate string ErrorHandlerAddition();
 

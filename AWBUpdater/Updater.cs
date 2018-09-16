@@ -29,7 +29,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using System.Web;
 
-namespace AwbUpdater
+namespace AWBUpdater
 {
     internal sealed partial class Updater : Form
     {
