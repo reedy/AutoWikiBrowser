@@ -311,7 +311,7 @@ namespace WikiFunctions
                 {
                     var version = message["version"].ToString();
                     // TODO: Semver version checking
-                    if (version == "*" || version == AWBVersion)
+                    if ((version == "*" || version == AWBVersion) && message["text"] != null)
                     {
                         MessageBox.Show(message["text"].ToString(), "Automated message", MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
