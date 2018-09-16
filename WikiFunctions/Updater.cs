@@ -88,7 +88,7 @@ namespace WikiFunctions
                 FileVersionInfo awbVersionInfo =
                     FileVersionInfo.GetVersionInfo(AWBDirectory + "AutoWikiBrowser.exe");
 
-                if (enabledVersions.Any(v => v.version == awbVersionInfo.ToString()))
+                if (enabledVersions.Any(v => v.version == awbVersionInfo.FileVersion))
                 {
                     Result = AWBEnabledStatus.Enabled;
                 }
