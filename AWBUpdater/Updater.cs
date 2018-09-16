@@ -22,12 +22,13 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using ICSharpCode.SharpZipLib.Zip;
 
-using System.Text.RegularExpressions;
 using System.Net;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace AWBUpdater
 {
@@ -51,14 +52,6 @@ namespace AWBUpdater
             _tempDirectory = Path.Combine(_tempDirectory, "$AWB$Updater$Temp$");
         }
 
-        /// <summary>
-        /// Version of the Updater
-        /// </summary>
-        private static int AssemblyVersion
-        {
-            get { return StringToVersion(Application.ProductVersion); }
-        }
-
         private void Updater_Load(object sender, EventArgs e)
         {
             tmrTimer.Enabled = true;
@@ -80,7 +73,7 @@ namespace AWBUpdater
                 UpdateUI("Getting current AWB and Updater versions", true);
                 AWBVersion();
 
-                if ((!_updaterUpdate && !_awbUpdate) && string.IsNullOrEmpty(_awbWebAddress))
+                if (!_updaterUpdate && !_awbUpdate && string.IsNullOrEmpty(_awbWebAddress))
                 {
                     ExitEarly();
                     return;
@@ -195,7 +188,7 @@ namespace AWBUpdater
         /// </summary>
         private void AWBVersion()
         {
-            string text;
+            string json;
 
             UpdateUI("   Retrieving current version...", true);
             try
@@ -216,7 +209,7 @@ namespace AWBUpdater
                 using (Stream stream = response.GetResponseStream())
                 using (StreamReader sr = new StreamReader(stream, Encoding.UTF8))
                 {
-                    text = sr.ReadToEnd();
+                    json = sr.ReadToEnd();
 
                     sr.Close();
                     stream.Close();
@@ -228,26 +221,23 @@ namespace AWBUpdater
                 AppendLine("FAILED");
                 throw new AbortException();
             }
-
-            int awbCurrentVersion =
-                StringToVersion(Regex.Match(text, @"<!-- Current version: (.*?) -->").Groups[1].Value);
-            int awbNewestVersion =
-                StringToVersion(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
-            int updaterVersion = StringToVersion(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
-
+            
             try
             {
-                _awbUpdate = _updaterUpdate = false;
+                _awbUpdate = false;
+                _updaterUpdate = false;
+                
                 FileVersionInfo awbVersionInfo =
                     FileVersionInfo.GetVersionInfo(Path.Combine(_awbDirectory, "AutoWikiBrowser.exe"));
-                int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
-                if (awbFileVersion < awbCurrentVersion)
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                var updaterPage = jss.Deserialize<RootObject>(json);
+
+                if (updaterPage.enabledversions.All(v => v.version != awbVersionInfo.FileVersion))
                 {
                     _awbUpdate = true;
                 }
-                else if ((awbFileVersion >= awbCurrentVersion) &&
-                         (awbFileVersion < awbNewestVersion) &&
+                else if (updaterPage.enabledversions.Max(v => v.version) != awbVersionInfo.FileVersion &&
                          MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?",
                              "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
@@ -256,13 +246,12 @@ namespace AWBUpdater
 
                 if (_awbUpdate)
                 {
-                    AWBZipName = "AutoWikiBrowser" + awbNewestVersion + ".zip";
+                    AWBZipName = "AutoWikiBrowser" + VersionToFileVersion(updaterPage.enabledversions.Max(v => v.version)) + ".zip";
                     _awbWebAddress = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", AWBZipName.Replace(".zip", ""), AWBZipName);
                 }
-                else if ((updaterVersion > 1400) &&
-                         (updaterVersion > AssemblyVersion))
+                else if (new Version(updaterPage.updaterversion) > new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()))
                 {
-                    _updaterZipName = "AWBUpdater" + updaterVersion + ".zip";
+                    _updaterZipName = "AWBUpdater" + VersionToFileVersion(updaterPage.updaterversion) + ".zip";
                     _updaterWebAddress = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", _updaterZipName.Replace(".zip", ""), _updaterZipName);
                     _updaterUpdate = true;
                 }
@@ -306,10 +295,11 @@ namespace AWBUpdater
                     "{0}?r={1}&ts={2}",
                     source,
                     HttpUtility.UrlEncode(
-                        string.Format("https://sourceforge.net/projects/autowikibrowser/files/autowikibrowser/{0}/", source.Substring(source.LastIndexOf("/", StringComparison.Ordinal) + 1).Replace(".zip", ""))
-                        ),
+                        string.Format("https://sourceforge.net/projects/autowikibrowser/files/autowikibrowser/{0}/",
+                            source.Substring(source.LastIndexOf("/", StringComparison.Ordinal) + 1).Replace(".zip", ""))
+                    ),
                     unixTime
-                    );
+                );
                 client.DownloadFile(url, target);
             }
             catch (WebException webEx)
@@ -608,7 +598,7 @@ namespace AWBUpdater
             UpdateAwb();
         }
 
-        static int StringToVersion(string version)
+        static int VersionToFileVersion(string version)
         {
             int res;
             if (!int.TryParse(version.Replace(".", ""), out res))
