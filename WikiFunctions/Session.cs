@@ -280,7 +280,7 @@ namespace WikiFunctions
                 VersionCheckPage = Updater.GlobalVersionPage;
 
                 // see if this version is enabled
-                if (versionStatus == Updater.AWBEnabledStatus.Disabled)
+                if ((versionStatus & Updater.AWBEnabledStatus.Disabled) == Updater.AWBEnabledStatus.Disabled)
                     return WikiStatusResult.OldVersion;
 
                 CheckPageText = checkPageText;
