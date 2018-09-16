@@ -196,7 +196,7 @@ namespace AWBUpdater
                 HttpWebRequest rq =
                     (HttpWebRequest)
                         WebRequest.Create(
-                            "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
+                            "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/VersionJSON&action=raw");
 
                 rq.Proxy = _proxy;
 
