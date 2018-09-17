@@ -52,7 +52,7 @@ namespace WikiFunctions
             Disabled = 2,
             Enabled = 4,
             UpdaterUpdate = 8,
-            OptionalUpdate = 12
+            OptionalUpdate = 16,
         }
 
         /// <summary>
