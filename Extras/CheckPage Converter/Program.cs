@@ -24,7 +24,7 @@ namespace CheckPage_Converter
 
             var botUsers = Tools.StringBetween(enabledUsers, "<!--enabledbots-->", "<!--enabledbotsends-->");
 
-            var normalUsers = enabledUsers.Replace("<!--enabledbots-->\r\n" + enabledUsers + "\r\n<!--enabledbotsends-->", "");
+            var normalUsers = enabledUsers.Replace("<!--enabledbots-->\r\n" + botUsers + "\r\n<!--enabledbotsends-->", "");
 
             Regex username = new Regex(@"^\*\s*(.*?)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
