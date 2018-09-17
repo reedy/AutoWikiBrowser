@@ -695,6 +695,15 @@ died 2002
             Assert.AreEqual(@"[[Category:Pakistani lawyers]]
 [[Category:Attorneys General of Pakistan]]
 [[Category:Living people]]
+[[Category : 1944 births]]", Parsers.FixPeopleCategories(@"[[Category:Pakistani lawyers]]
+[[Category:Attorneys General of Pakistan]]
+[[Category:Year of birth missing (living people)]]
+[[Category:Living people]]
+[[Category : 1944 births]]", "foo"), "category excess whitespace");
+
+            Assert.AreEqual(@"[[Category:Pakistani lawyers]]
+[[Category:Attorneys General of Pakistan]]
+[[Category:Living people]]
 [[Category:1944 births]]", Parsers.FixPeopleCategories(@"[[Category:Pakistani lawyers]]
 [[Category:Attorneys General of Pakistan]]
 [[Category:Year of birth missing]]

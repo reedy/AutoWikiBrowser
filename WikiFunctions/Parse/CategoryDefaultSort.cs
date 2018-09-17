@@ -748,8 +748,8 @@ namespace WikiFunctions.Parse
         YearOfBirthUncertain = "Year of birth uncertain",
         YearofDeathMissing = "Year of death missing";
 
-        private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births\s*(?:\||\]\])");
-        private static readonly Regex CatYearDeaths = new Regex(@"\[\[Category:[0-9]{1,4} deaths\s*(?:\||\]\])");
+        private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category *: *\d{4} births\s*(?:\||\]\])");
+        private static readonly Regex CatYearDeaths = new Regex(@"\[\[Category *: *[0-9]{1,4} deaths\s*(?:\||\]\])");
 
         /// <summary>
         /// Removes year of birth/death missing categories when xxx births/deaths category also present
