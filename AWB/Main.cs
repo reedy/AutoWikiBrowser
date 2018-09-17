@@ -500,8 +500,8 @@ namespace AutoWikiBrowser
         {
             set
             {
-                btnStop.Location = (value) ? new Point(220, 62) : new Point(156, 62);
-                btnStop.Size = (value) ? new Size(51, 23) : new Size(117, 23);
+                btnStop.Location = value ? new Point(220, 62) : new Point(156, 62);
+                btnStop.Size = value ? new Size(51, 23) : new Size(117, 23);
 
                 btnFalsePositive.Visible = btntsFalsePositive.Visible = value;
             }
