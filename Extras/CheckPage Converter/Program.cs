@@ -60,7 +60,7 @@ namespace CheckPage_Converter
             if (typoLink.Success && typoLink.Groups[1].Value.Trim().Length > 0)
             {
                 // TODO: Flatten
-                configOutput.Add("typolink", new List<string>{ typoLink.Groups[1].Value.Trim() });
+                configOutput.Add("typolink", new List<string> { typoLink.Groups[1].Value.Trim() });
             }
 
             // TODO: Flatten
