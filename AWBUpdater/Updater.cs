@@ -73,7 +73,7 @@ namespace AWBUpdater
                 UpdateUI("Getting current AWB and Updater versions", true);
                 AWBVersion();
 
-                if (!_updaterUpdate && !_awbUpdate && string.IsNullOrEmpty(_awbWebAddress))
+                if (!_updaterUpdate && !_awbUpdate)
                 {
                     ExitEarly();
                     return;
@@ -288,10 +288,10 @@ namespace AWBUpdater
 
         private void actuallyDownloadAWB(WebClient client, string file, string target)
         {
+            var fileUrl = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", file.Replace(".zip", ""), file);
+
             try
             {
-                var fileUrl = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", file.Replace(".zip", ""), file);
-
                 TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
                 var unixTime = (int) t.TotalSeconds;
                 var url = string.Format(
@@ -309,7 +309,7 @@ namespace AWBUpdater
             }
             catch (WebException webEx)
             {
-                UpdateUI(string.Format("Download of `{0}` failed: {1}", file, webEx.Message), true);
+                UpdateUI(string.Format("Download of `{0}` failed: {1}", fileUrl, webEx.Message), true);
             }
         }
 
