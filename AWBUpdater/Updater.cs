@@ -35,11 +35,23 @@ namespace AWBUpdater
     internal sealed partial class Updater : Form
     {
         private readonly string _awbDirectory = "", _tempDirectory = "";
-        private string AWBZipName = "", _updaterZipName = "";
+        private string _zipName = "";
 
         private IWebProxy _proxy;
 
-        private bool _updaterUpdate, _awbUpdate, _updateSucessful;
+        private UpdateStatus _updateStatus = UpdateStatus.None;
+
+        [Flags]
+        public enum UpdateStatus
+        {
+            None = 0,
+            Error = 1,
+            RequiredUpdate = 2,
+            OptionalUpdate = 4,
+            OptionalUpdateDeclined = 8,
+            UpdaterUpdate = 16,
+            UpdateSuccessful = 32,
+        }
 
         public Updater()
         {
@@ -73,7 +85,7 @@ namespace AWBUpdater
                 UpdateUI("Getting current AWB and Updater versions", true);
                 AWBVersion();
 
-                if (!_updaterUpdate && !_awbUpdate)
+                if ((_updateStatus & (UpdateStatus.OptionalUpdate | UpdateStatus.RequiredUpdate | UpdateStatus.UpdaterUpdate)) == 0)
                 {
                     ExitEarly();
                     return;
@@ -82,16 +94,19 @@ namespace AWBUpdater
                 UpdateUI("Creating a temporary directory", true);
                 CreateTempDir();
 
-                UpdateUI("Downloading AWB", true);
-                GetAwbFromInternet();
+                UpdateUI("Downloading", true);
+                GetZipFromInternet();
 
-                UpdateUI("Unzipping AWB to the temporary directory", true);
-                UnzipAwb();
+                UpdateUI("Unzipping to the temporary directory", true);
+                UnzipFile();
 
-                UpdateUI("Making sure AWB is closed", true);
-                CloseAwb();
+                if ((_updateStatus & (UpdateStatus.RequiredUpdate | UpdateStatus.OptionalUpdate)) != 0)
+                {
+                    UpdateUI("Making sure AWB is closed", true);
+                    CloseAwb();
+                }
 
-                UpdateUI("Copying AWB files from temp to AWB directory...", true);
+                UpdateUI("Copying files from temp to directory...", true);
                 CopyFiles();
                 UpdateUI("Update successful", true);
 
@@ -99,7 +114,8 @@ namespace AWBUpdater
                 KillTempDir();
 
                 UpdateUI("Update finished. You may close this window (AWB Updater) now.", true);
-                _updateSucessful = true;
+                _updateStatus = UpdateStatus.UpdateSuccessful;
+
                 ReadyToExit();
             }
             catch (AbortException)
@@ -143,8 +159,16 @@ namespace AWBUpdater
         /// </summary>
         private void ExitEarly()
         {
-            // TODO: enum-ify awbUpdate to show no update chosen etc
-            UpdateUI("No update available", true);
+            switch(_updateStatus){
+                case UpdateStatus.None:
+                    UpdateUI("No update available", true);
+                    break;
+
+                case UpdateStatus.OptionalUpdateDeclined:
+                    UpdateUI("Optional update declined", true);
+                    break;
+            }
+
             StartAwb();
             ReadyToExit();
         }
@@ -226,9 +250,6 @@ namespace AWBUpdater
             
             try
             {
-                _awbUpdate = false;
-                _updaterUpdate = false;
-                
                 FileVersionInfo awbVersionInfo =
                     FileVersionInfo.GetVersionInfo(Path.Combine(_awbDirectory, "AutoWikiBrowser.exe"));
 
@@ -240,50 +261,55 @@ namespace AWBUpdater
                 if (updaterData.enabledversions.All(v => v.version != awbVersionInfo.FileVersion))
                 {
                     // The version of AWB in the directory definitely isn't enabled
-                    _awbUpdate = true;
+                    _updateStatus = UpdateStatus.RequiredUpdate;
+
                     versionToUpdateAWBTo = updaterData.enabledversions.Where(x => !x.dev)
                         .OrderByDescending(x => x.version).First().version;
                 }
-                
-                if (!_awbUpdate)
+                else
                 {
                     var newerVersions = updaterData.enabledversions
                         .Where(x => !x.dev && new Version(x.version) > new Version(awbVersionInfo.FileVersion))
                         .OrderByDescending(x => x.version).ToList();
-                    
-                    if (newerVersions.Count == 1 &&
+
+                    if (newerVersions.Any())
+                    {
+                        _updateStatus = UpdateStatus.OptionalUpdateDeclined;
+
+                        if (newerVersions.Count > 1)
+                        {
+                            using (VersionChooser chooser = new VersionChooser(newerVersions))
+                            {
+                                if (chooser.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(chooser.SelectedVersion))
+                                {
+                                    _updateStatus = UpdateStatus.OptionalUpdate;
+                                    versionToUpdateAWBTo = chooser.SelectedVersion;
+                                }
+                            }
+                        } else if (newerVersions.Count == 1 &&
                         MessageBox.Show(
                             string.Format("There is an optional update to AutoWikiBrowser. Would you like to upgrade to {0}?", newerVersions.First().version),
                             "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        _awbUpdate = true;
-                        versionToUpdateAWBTo = newerVersions.First().version;
-                    }
-                    else
-                    {
-                        using (VersionChooser chooser = new VersionChooser(newerVersions))
                         {
-                            if (chooser.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(chooser.SelectedVersion))
-                            {
-                                _awbUpdate = true;
-                                versionToUpdateAWBTo = chooser.SelectedVersion;
-                            }
+                            _updateStatus = UpdateStatus.OptionalUpdate;
+                            versionToUpdateAWBTo = newerVersions.First().version;
                         }
                     }
                 }
 
-                if (_awbUpdate)
+                if ((_updateStatus & (UpdateStatus.RequiredUpdate | UpdateStatus.OptionalUpdate)) != 0)
                 {
-                    AWBZipName = "AutoWikiBrowser" + VersionToFileVersion(versionToUpdateAWBTo) + ".zip";
+                    _zipName = "AutoWikiBrowser" + VersionToFileVersion(versionToUpdateAWBTo) + ".zip";
                 }
                 else if (new Version(updaterData.updaterversion) > new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()))
                 {
-                    _updaterZipName = "AWBUpdater" + VersionToFileVersion(updaterData.updaterversion) + ".zip";
-                    _updaterUpdate = true;
+                    _zipName = "AWBUpdater" + VersionToFileVersion(updaterData.updaterversion) + ".zip";
+                    _updateStatus = UpdateStatus.UpdaterUpdate;
                 }
             }
             catch
             {
+                _updateStatus = UpdateStatus.Error;
                 UpdateUI("   Unable to find AutoWikiBrowser.exe to query its version", true);
             }
 
@@ -293,17 +319,13 @@ namespace AWBUpdater
         /// <summary>
         /// Check the addresses for the files are valid (not null or empty), and downloads the files from the internet
         /// </summary>
-        private void GetAwbFromInternet()
+        private void GetZipFromInternet()
         {
             WebClient client = new WebClient {Proxy = _proxy};
 
-            if (!string.IsNullOrEmpty(AWBZipName))
+            if (!string.IsNullOrEmpty(_zipName))
             {
-                actuallyDownloadAWB(client, AWBZipName, Path.Combine(_tempDirectory, AWBZipName));
-            }
-            else if (!string.IsNullOrEmpty(_updaterZipName))
-            {
-                actuallyDownloadAWB(client, _updaterZipName, Path.Combine(_tempDirectory, _updaterZipName));
+                actuallyDownloadZip(client, _zipName, Path.Combine(_tempDirectory, _zipName));
             }
 
             client.Dispose();
@@ -311,7 +333,7 @@ namespace AWBUpdater
             progressUpdate.Value = 50;
         }
 
-        private void actuallyDownloadAWB(WebClient client, string file, string target)
+        private void actuallyDownloadZip(WebClient client, string file, string target)
         {
             var fileUrl = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", file.Replace(".zip", ""), file);
 
@@ -341,30 +363,17 @@ namespace AWBUpdater
         /// <summary>
         /// Checks the zip files exist and calls the functions to unzip them
         /// </summary>
-        private void UnzipAwb()
+        private void UnzipFile()
         {
-            string zip = Path.Combine(_tempDirectory, AWBZipName);
-            bool awbUpdated = false;
-            if (!string.IsNullOrEmpty(AWBZipName) && File.Exists(zip))
+            string zip = Path.Combine(_tempDirectory, _zipName);
+            if (!string.IsNullOrEmpty(zip) && File.Exists(zip))
             {
                 Extract(zip);
                 DeleteAbsoluteIfExists(zip);
-                awbUpdated = true;
             }
             else
             {
-                UpdateUI("AutoWikiBrowser not updated...", true);
-            }
-
-            zip = Path.Combine(_tempDirectory, _updaterZipName);
-            if (!string.IsNullOrEmpty(_updaterZipName) && File.Exists(zip))
-            {
-                Extract(zip);
-                DeleteAbsoluteIfExists(zip);
-            }
-            else if (!awbUpdated)
-            {
-                UpdateUI("AWB not updated, and neither was the updater...", true);
+                UpdateUI("File not unzipped...", true);
             }
 
             progressUpdate.Value = 70;
@@ -475,12 +484,12 @@ namespace AWBUpdater
         private void CopyFiles()
         {
             string updater = Path.Combine(_tempDirectory, "AWBUpdater.exe");
-            if (_updaterUpdate || File.Exists(updater))
+            if ((_updateStatus & UpdateStatus.UpdaterUpdate) == UpdateStatus.UpdaterUpdate || File.Exists(updater))
             {
                 CopyFile(updater, Path.Combine(_awbDirectory, "AWBUpdater.exe.new"));
             }
 
-            if (_awbUpdate)
+            if ((_updateStatus & (UpdateStatus.OptionalUpdate | UpdateStatus.RequiredUpdate)) != 0)
             {
                 // Explicit Deletions (Remove these if they exist!!)
                 DeleteIfExists("Wikidiff2.dll");
@@ -628,20 +637,14 @@ namespace AWBUpdater
             UpdateAwb();
         }
 
-        static int VersionToFileVersion(string version)
+        private static string VersionToFileVersion(string version)
         {
-            int res;
-            if (!int.TryParse(version.Replace(".", ""), out res))
-            {
-                res = 0;
-            }
-
-            return res;
+            return version.Replace(".", "");
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (_updateSucessful)
+            if ((_updateStatus & (UpdateStatus.OptionalUpdate | UpdateStatus.RequiredUpdate)) != 0)
             {
                 StartAwb();
             }
