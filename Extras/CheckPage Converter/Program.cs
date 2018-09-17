@@ -71,30 +71,29 @@ namespace CheckPage_Converter
             // see if there is a message
             foreach (Match m in Message.Matches(origCheckPageText))
             {
-                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                if (m.Groups[1].Value.Trim().Length == 0)
                 {
-                    awbMessages.Add(new Dictionary<string, string> {
+                    continue;
+                }
+
+                awbMessages.Add(new Dictionary<string, string> {
                     { "version", "*" },
                     { "message", m.Groups[1].Value.Trim() }
                 });
-                }
             }
 
             // see if there is a version-specific message
             foreach (Match m in VersionMessage.Matches(origCheckPageText))
             {
-                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                if (m.Groups[1].Value.Trim().Length == 0 || m.Groups[1].Value == "x.x.x.x")
                 {
-                    if (m.Groups[1].Value == "x.x.x.x")
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    awbMessages.Add(new Dictionary<string, string> {
+                awbMessages.Add(new Dictionary<string, string> {
                     { "version", m.Groups[1].Value },
                     { "message", m.Groups[2].Value.Trim() }
                 });
-                }
             }
 
             configOutput.Add("messages", awbMessages);
