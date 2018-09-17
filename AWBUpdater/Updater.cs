@@ -35,7 +35,7 @@ namespace AWBUpdater
     internal sealed partial class Updater : Form
     {
         private readonly string _awbDirectory = "", _tempDirectory = "";
-        private string AWBZipName = "", _awbWebAddress = "", _updaterZipName = "", _updaterWebAddress = "";
+        private string AWBZipName = "", _updaterZipName = "";
 
         private IWebProxy _proxy;
 
@@ -78,6 +78,7 @@ namespace AWBUpdater
                     ExitEarly();
                     return;
                 }
+
                 UpdateUI("Creating a temporary directory", true);
                 CreateTempDir();
 
@@ -249,12 +250,10 @@ namespace AWBUpdater
                 if (_awbUpdate)
                 {
                     AWBZipName = "AutoWikiBrowser" + VersionToFileVersion(updaterPage.enabledversions.Where(x => !x.dev).OrderByDescending(x => x.version).First().version) + ".zip";
-                    _awbWebAddress = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", AWBZipName.Replace(".zip", ""), AWBZipName);
                 }
                 else if (new Version(updaterPage.updaterversion) > new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()))
                 {
                     _updaterZipName = "AWBUpdater" + VersionToFileVersion(updaterPage.updaterversion) + ".zip";
-                    _updaterWebAddress = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", _updaterZipName.Replace(".zip", ""), _updaterZipName);
                     _updaterUpdate = true;
                 }
             }
@@ -273,13 +272,13 @@ namespace AWBUpdater
         {
             WebClient client = new WebClient {Proxy = _proxy};
 
-            if (!string.IsNullOrEmpty(_awbWebAddress))
+            if (!string.IsNullOrEmpty(AWBZipName))
             {
-                actuallyDownloadAWB(client, _awbWebAddress, Path.Combine(_tempDirectory, AWBZipName));
+                actuallyDownloadAWB(client, AWBZipName, Path.Combine(_tempDirectory, AWBZipName));
             }
-            else if (!string.IsNullOrEmpty(_updaterWebAddress))
+            else if (!string.IsNullOrEmpty(_updaterZipName))
             {
-                actuallyDownloadAWB(client, _updaterWebAddress, Path.Combine(_tempDirectory, _updaterZipName));
+                actuallyDownloadAWB(client, _updaterZipName, Path.Combine(_tempDirectory, _updaterZipName));
             }
 
             client.Dispose();
@@ -287,18 +286,22 @@ namespace AWBUpdater
             progressUpdate.Value = 50;
         }
 
-        private void actuallyDownloadAWB(WebClient client, string source, string target)
+        private void actuallyDownloadAWB(WebClient client, string file, string target)
         {
             try
             {
+                var fileUrl = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", file.Replace(".zip", ""), file);
+
                 TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
                 var unixTime = (int) t.TotalSeconds;
                 var url = string.Format(
                     "{0}?r={1}&ts={2}",
-                    source,
+                    fileUrl,
                     HttpUtility.UrlEncode(
-                        string.Format("https://sourceforge.net/projects/autowikibrowser/files/autowikibrowser/{0}/",
-                            source.Substring(source.LastIndexOf("/", StringComparison.Ordinal) + 1).Replace(".zip", ""))
+                        string.Format(
+                            "https://sourceforge.net/projects/autowikibrowser/files/autowikibrowser/{0}/",
+                            file.Replace(".zip", "")
+                        )
                     ),
                     unixTime
                 );
@@ -306,7 +309,7 @@ namespace AWBUpdater
             }
             catch (WebException webEx)
             {
-                UpdateUI(string.Format("Download of `{0}` failed: {1}", source, webEx.Message), true);
+                UpdateUI(string.Format("Download of `{0}` failed: {1}", file, webEx.Message), true);
             }
         }
 
