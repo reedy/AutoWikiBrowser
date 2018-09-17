@@ -313,6 +313,9 @@ namespace WikiFunctions
                     // TODO: Semver version checking
                     if ((version == "*" || version == AWBVersion) && message["text"] != null)
                     {
+                        if (message["enabled"] != null && !(bool)message["enabled"]) {
+                            continue;
+                        }
                         MessageBox.Show(message["text"].ToString(), "Automated message", MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
                     }
