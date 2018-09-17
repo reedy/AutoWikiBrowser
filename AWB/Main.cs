@@ -367,10 +367,12 @@ namespace AutoWikiBrowser
                         runUpdater = true;
                     }
 
-                    // TODO: List optional versions to tell the user they may want to upgrade, and what versions they can choose...
                     if (!runUpdater &&
                         MessageBox.Show(
-                            "This version has been superceeded by a new version. You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
+                            string.Format(
+                                "This version has been superceeded by new versions of AWB: {0}.\r\n\r\nYou may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
+                                string.Join(", ", Updater.NewerVersions)
+                               ),
                             "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         runUpdater = true;
 
