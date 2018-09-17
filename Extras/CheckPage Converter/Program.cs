@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using WikiFunctions;
 using WikiFunctions.API;
+using WikiFunctions.Profiles;
 
 namespace CheckPage_Converter
 {
@@ -42,7 +43,8 @@ namespace CheckPage_Converter
             string json = JsonConvert.SerializeObject(output, Formatting.Indented);
 
             ApiEdit edit = new ApiEdit("https://en.wikipedia.org/w/");
-            edit.Login("", "");
+            var profile = AWBProfiles.GetProfile(1);
+            edit.Login(profile.Username, profile.Password);
             edit.Open("Project:AutoWikiBrowser/CheckPageJSON");
             edit.Save(json, "Converting from non json page", false, WatchOptions.NoChange);
         }
