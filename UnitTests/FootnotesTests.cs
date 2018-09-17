@@ -909,13 +909,13 @@ Bar4.<ref name=""ABCDEFGHI""/>
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|author=Smith}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|name-list-format=vanc}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|name-list-format=vanc|df=mdy|collaboration=Foo|eissn=1234-5678|hdl=123.456}} was"));
-            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"{{cite web | periodical=, |journal=, |newspaper=, |magazine= |work= |website= |encyclopedia= |encyclopaedia= |dictionary=
-|arxiv=, |ARXIV=, |ASIN=, |ASIN-TLD=
-|publicationplace=, |publication-place=
-|date=, |year=, |publicationdate=, |publication-date=
-|series= |volume= |issue=, |number= |page=, |pages=, |at=
-|edition= |publisher=, |institution=
-|journal=, |jstor=, |agency=, |archive-date=, |others= | vauthors = |translator-last= and |translator-first= }}"));
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"{{cite web | periodical=, |journal=, |newspaper=, |magazine=, |work=, |website=, |encyclopedia=, |encyclopaedia=, |dictionary=,
+|arxiv=, |ARXIV=, |ASIN=, |ASIN-TLD=,
+|publicationplace=, |publication-place=,
+|date=, |year=, |publicationdate=, |publication-date=,
+|series=, |volume=, |issue=, |number=, |page=, |pages=, |at=,
+|edition=, |publisher=, |institution=,
+|journal=, |jstor=, |agency=, |archive-date=, |others=, | vauthors =, |translator-last=, |translator-first=, |time=,}}"));
 
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite arxiv|display-authors=0}} was"));
 
