@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiFunctions", "..\WikiFunctions\WikiFunctions.csproj", "{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWBPackager", "AWBPackager\AWBPackager.csproj", "{690002A9-43DB-4921-951A-BFCC4F8A90AB}"
@@ -10,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Regex Tester", "Regex Tester\Regex Tester.csproj", "{C7D9293D-459E-4E4E-989B-FFE3CE50D3E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Copy", "Copy\Copy.csproj", "{B24F7BE2-C161-4FBA-8FBC-94A0072CA5A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckPage Converter", "CheckPage Converter\CheckPage Converter.csproj", "{3CB3C668-54E6-4B8C-A1EE-EC44724BD442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,8 +41,15 @@ Global
 		{B24F7BE2-C161-4FBA-8FBC-94A0072CA5A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B24F7BE2-C161-4FBA-8FBC-94A0072CA5A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B24F7BE2-C161-4FBA-8FBC-94A0072CA5A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CB3C668-54E6-4B8C-A1EE-EC44724BD442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CB3C668-54E6-4B8C-A1EE-EC44724BD442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CB3C668-54E6-4B8C-A1EE-EC44724BD442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CB3C668-54E6-4B8C-A1EE-EC44724BD442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F592B820-E2F1-4270-82DC-9BEF9BC1BD52}
 	EndGlobalSection
 EndGlobal

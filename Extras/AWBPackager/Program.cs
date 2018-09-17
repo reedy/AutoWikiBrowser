@@ -65,7 +65,6 @@ Is this SVN (1) or a release (2)? ");
 
                 if (selection == 1)
                 {
-
                     using (StreamReader reader = new StreamReader(Path.Combine(Path.Combine(awbDir, "WikiFunctions"), "SvnInfo.cs")))
                     {
                         string text = reader.ReadToEnd();
