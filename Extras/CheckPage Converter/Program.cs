@@ -80,7 +80,7 @@ namespace CheckPage_Converter
 
             // see if there is a version-specific message
             messages = VersionMessage.Match(origCheckPageText);
-            if (messages.Success && messages.Groups[1].Value.Trim().Length > 0
+            if (messages.Success && messages.Groups[1].Value.Trim().Length > 0)
             {
                 awbMessages.Add(new Dictionary<string, string> {
                     { "version", messages.Groups[1].Value },
