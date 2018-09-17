@@ -24,7 +24,7 @@ namespace CheckPage_Converter
 
             var botUsers = Tools.StringBetween(enabledUsers, "<!--enabledbots-->", "<!--enabledbotsends-->");
 
-            var normalUsers = enabledUsers.Replace("<!--enabledbots-->\r\n" + botUsers + "\r\n<!--enabledbotsends-->", "");
+            var normalUsers = enabledUsers.Replace("<!--enabledbots-->" + botUsers + "<!--enabledbotsends-->", "");
 
             Regex username = new Regex(@"^\*\s*(.*?)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
@@ -34,17 +34,20 @@ namespace CheckPage_Converter
                 users.Add(m.Groups[1].Value.Trim());
             }
 
+            users.Sort();
+
             List<string> bots = new List<string>();
             foreach (Match m in username.Matches(botUsers))
             {
                 bots.Add(m.Groups[1].Value.Trim());
             }
 
+            bots.Sort();
+
             Dictionary<string, List<string>> checkPageOutput = new Dictionary<string, List<string>> {
                 { "enabledusers", users },
                 { "enabledbots", bots }
             };
-
 
             ApiEdit edit = new ApiEdit("https://en.wikipedia.org/w/");
             var profile = AWBProfiles.GetProfile(1);
@@ -69,6 +72,8 @@ namespace CheckPage_Converter
                 if (underscore.Success && underscore.Groups[1].Value.Trim().Length > 0)
                     us.Add(underscore.Groups[1].Value.Trim());
             }
+
+            us.Sort();
             configOutput.Add("underscoretitles", us);
 
             List<string> NoParse = new List<string>();
@@ -81,6 +86,8 @@ namespace CheckPage_Converter
                     if (!NoParse.Contains(link.Groups[1].Value))
                         NoParse.Add(link.Groups[1].Value);
             }
+
+            NoParse.Sort();
             configOutput.Add("nogenfixes", NoParse);
 
             List<string> NoRetf = new List<string>();
@@ -92,6 +99,8 @@ namespace CheckPage_Converter
                     if (!NoRetf.Contains(link.Groups[1].Value))
                         NoRetf.Add(link.Groups[1].Value);
             }
+
+            NoRetf.Sort();
             configOutput.Add("noregextypofix", NoRetf);
 
             edit.Open("Project:AutoWikiBrowser/Config");
