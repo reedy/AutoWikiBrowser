@@ -66,6 +66,30 @@ namespace CheckPage_Converter
 
             configOutput.Add("allusersenabledusermode", origCheckPageText.Contains("<!--All users enabled user mode-->"));
 
+            List<Dictionary<string, string>> awbMessages = new List<Dictionary<string, string>>();
+
+            // see if there is a message
+            Match messages = Message.Match(origCheckPageText);
+            if (messages.Success && messages.Groups[1].Value.Trim().Length > 0)
+            {
+                awbMessages.Add(new Dictionary<string, string> {
+                    { "version", "*" },
+                    { "message", messages.Groups[1].Value.Trim() }
+                });
+            }
+
+            // see if there is a version-specific message
+            messages = VersionMessage.Match(origCheckPageText);
+            if (messages.Success && messages.Groups[1].Value.Trim().Length > 0
+            {
+                awbMessages.Add(new Dictionary<string, string> {
+                    { "version", messages.Groups[1].Value },
+                    { "message", messages.Groups[2].Value.Trim() }
+                });
+            }
+
+            configOutput.Add("messages", awbMessages);
+
             List<string> us = new List<string>();
             foreach (Match underscore in Underscores.Matches(origCheckPageText))
             {
