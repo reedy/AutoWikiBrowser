@@ -26,7 +26,7 @@ namespace CheckPage_Converter
 
             List<string> users = new List<string>();
             foreach (Match m in username.Matches(checkPageText)) {
-                users.Add(m.Groups[1].Value.Trim);
+                users.Add(m.Groups[1].Value.Trim());
             }
 
             List<string> bots = new List<string>();
