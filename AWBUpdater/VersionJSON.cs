@@ -5,6 +5,7 @@ namespace AWBUpdater
     public class Enabledversion
     {
         public string version { get; set; }
+        public string releasedate { get; set; }
         public string dotnetversion { get; set; }
         public bool dev { get; set; }
     }

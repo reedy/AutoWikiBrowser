@@ -143,6 +143,7 @@ namespace AWBUpdater
         /// </summary>
         private void ExitEarly()
         {
+            // TODO: enum-ify awbUpdate to show no update chosen etc
             UpdateUI("No update available", true);
             StartAwb();
             ReadyToExit();
@@ -162,7 +163,7 @@ namespace AWBUpdater
         #endregion
 
         /// <summary>
-        /// Creates the temporary folder if it doesnt already exist. If it does exist, delete all the contents
+        /// Creates the temporary folder if it doesn't already exist. If it does exist, delete all the contents
         /// </summary>
         private void CreateTempDir()
         {
@@ -234,10 +235,14 @@ namespace AWBUpdater
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 var updaterData = jss.Deserialize<RootObject>(json);
 
+                string versionToUpdateAWBTo = "";
+
                 if (updaterData.enabledversions.All(v => v.version != awbVersionInfo.FileVersion))
                 {
                     // The version of AWB in the directory definitely isn't enabled
                     _awbUpdate = true;
+                    versionToUpdateAWBTo = updaterData.enabledversions.Where(x => !x.dev)
+                        .OrderByDescending(x => x.version).First().version;
                 }
                 
                 if (!_awbUpdate)
@@ -252,14 +257,24 @@ namespace AWBUpdater
                             "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         _awbUpdate = true;
+                        versionToUpdateAWBTo = newerVersions.First().version;
                     }
-                    
-                    // TODO: Allow the user to select the optional update to update to...
+                    else
+                    {
+                        using (VersionChooser chooser = new VersionChooser(newerVersions))
+                        {
+                            if (chooser.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(chooser.SelectedVersion))
+                            {
+                                _awbUpdate = true;
+                                versionToUpdateAWBTo = chooser.SelectedVersion;
+                            }
+                        }
+                    }
                 }
 
                 if (_awbUpdate)
                 {
-                    AWBZipName = "AutoWikiBrowser" + VersionToFileVersion(updaterData.enabledversions.Where(x => !x.dev).OrderByDescending(x => x.version).First().version) + ".zip";
+                    AWBZipName = "AutoWikiBrowser" + VersionToFileVersion(versionToUpdateAWBTo) + ".zip";
                 }
                 else if (new Version(updaterData.updaterversion) > new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()))
                 {
