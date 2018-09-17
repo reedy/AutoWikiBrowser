@@ -324,19 +324,25 @@ namespace WikiFunctions
                 // CheckPage Messages per wiki are still in scary HTML comments.... TBC!
 
                 // see if there is a message
-                Match messages = Message.Match(checkPageText);
-                if (messages.Success && messages.Groups[1].Value.Trim().Length > 0)
+                foreach (Match m in Message.Matches(checkPageText))
                 {
-                    MessageBox.Show(messages.Groups[1].Value, "Automated message", MessageBoxButtons.OK,
+                    if (m.Groups[1].Value.Trim().Length > 0)
+                    {
+                        continue;
+                    }
+                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
                 }
 
                 // see if there is a version-specific message
-                messages = VersionMessage.Match(checkPageText);
-                if (messages.Success && messages.Groups[1].Value.Trim().Length > 0 &&
-                    messages.Groups[1].Value == AWBVersion)
+                foreach (Match m in VersionMessage.Matches(checkPageText))
                 {
-                    MessageBox.Show(messages.Groups[2].Value, "Automated message", MessageBoxButtons.OK,
+                    if (m.Groups[1].Value.Trim().Length == 0 ||
+                        m.Groups[1].Value != AWBVersion)
+                    {
+                        continue;
+                    }
+                    MessageBox.Show(m.Groups[2].Value, "Automated message", MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
                 }
 

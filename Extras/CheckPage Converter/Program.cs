@@ -85,7 +85,7 @@ namespace CheckPage_Converter
             // see if there is a version-specific message
             foreach (Match m in VersionMessage.Matches(origCheckPageText))
             {
-                if (m.Groups[1].Value.Trim().Length == 0 || m.Groups[1].Value == "x.x.x.x")
+                if (m.Groups[2].Value.Trim().Length == 0 || m.Groups[1].Value == "x.x.x.x")
                 {
                     continue;
                 }
