@@ -97,7 +97,7 @@ namespace AWBUpdater
                 UpdateUI("Downloading", true);
                 GetZipFromInternet();
 
-                UpdateUI("Unzipping to the temporary directory", true);
+                UpdateUI("Unzipping to the temp directory", true);
                 UnzipFile();
 
                 if ((_updateStatus & (UpdateStatus.RequiredUpdate | UpdateStatus.OptionalUpdate)) != 0)
@@ -106,7 +106,7 @@ namespace AWBUpdater
                     CloseAwb();
                 }
 
-                UpdateUI("Copying files from temp to directory...", true);
+                UpdateUI("Copying files from temp directory to the AWB directory...", true);
                 CopyFiles();
                 UpdateUI("Update successful", true);
 
