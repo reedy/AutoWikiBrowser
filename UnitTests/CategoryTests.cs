@@ -405,6 +405,9 @@ died 2002
             const string bd14c = @"'''Asclepigenia''' ({{fl}} 430) was {{persondata}}";
             Assert.AreEqual(bd14c, Parsers.FixPeopleCategories(bd14c, "foo"));
 
+            const string bd14d = @"'''Asclepigenia''' ({{floruit}} 430) was {{persondata}}";
+            Assert.AreEqual(bd14d, Parsers.FixPeopleCategories(bd14d, "foo"));
+
             // no data to use here
             const string no1 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
             Assert.AreEqual(no1, Parsers.FixPeopleCategories(no1, "foo"));
@@ -622,7 +625,22 @@ died 2002
 |occupation      =brickmason, mercha
 
 }} {{persondata}}";
-            Assert.AreEqual(infob3, Parsers.FixPeopleCategories(infob3, "foo"));
+            Assert.AreEqual(infob3, Parsers.FixPeopleCategories(infob3, "foo"), "no change if only decade of birth");
+
+            const string infob4 = @"{{Infobox Officeholder
+|honorific-prefix   =
+|name            = John Foo
+|predecessor      = [[Arthur C. McCall]]
+|successor        = [[Samuel C. Randall]]
+|birth_date      = {{floruit|1444}}
+|birth_place     = [[Free City of Frankfurt]]
+|death_date=
+|death_place=
+|alma_mater      =
+|occupation      =brickmason, mercha
+
+}} {{persondata}}";
+            Assert.AreEqual(infob4, Parsers.FixPeopleCategories(infob4, "foo"), "no change if only floruit");
 
             string unc1 = @"'''Aaron Walden''' (born at [[Warsaw]] about 1835, died 1912) was a Polish Jewish [[Talmudist]], editor, and author.
 {{DEFAULTSORT:Walden, Aaron}}

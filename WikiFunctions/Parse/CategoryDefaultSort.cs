@@ -526,7 +526,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)");
         private static readonly Regex NotCircaTemplate = new Regex(@"{{(?!(?:[Cc]irca|[Ff]l\.?))[^{]*?}}");
         private static readonly Regex AsOfText = new Regex(@"\bas of\b");
-        private static readonly Regex FloruitTemplate = Tools.NestedTemplateRegex(new [] {"fl", "fl."});
+        private static readonly Regex FloruitTemplate = Tools.NestedTemplateRegex(new [] {"fl", "fl.", "floruit"});
         private static readonly Regex BirthDateBasedOnAgeAtDeath = Tools.NestedTemplateRegex("Birth date based on age at death");
 
         /// <summary>
@@ -595,7 +595,7 @@ namespace WikiFunctions.Parse
             if (AsOfText.IsMatch(fromInfoBox))
                 fromInfoBox = fromInfoBox.Substring(0, AsOfText.Match(fromInfoBox).Index);
 
-            if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
+            if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox) && !FloruitTemplate.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
 
             // convert [[:Category to [[Category for non-mainspace Category checking
@@ -626,7 +626,7 @@ namespace WikiFunctions.Parse
                     // remove part beyond dash or died
                     string birthpart = DiedOrBaptised.Replace(m.Value, "$1");
 
-                    if (WikiRegexes.CircaTemplate.IsMatch(birthpart))
+                    if (WikiRegexes.CircaTemplate.IsMatch(birthpart) || FloruitTemplate.IsMatch(birthpart))
                         alreadyUncertain = true;
 
                     birthpart = WikiRegexes.TemplateMultiline.Replace(birthpart, " ");
@@ -635,7 +635,7 @@ namespace WikiFunctions.Parse
                     if (!(m.Index > PersonYearOfDeath.Match(zerothSection).Index) || !PersonYearOfDeath.IsMatch(zerothSection))
                     {
                         // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
-                        if (UncertainWordings.IsMatch(birthpart) || alreadyUncertain || FloruitTemplate.IsMatch(birthpart))
+                        if (UncertainWordings.IsMatch(birthpart) || alreadyUncertain)
                         {
                             if (!CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
                                 articleText += StartCategory + YearOfBirthUncertain + CatEnd(sort);
