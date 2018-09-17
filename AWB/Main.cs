@@ -2620,7 +2620,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     status = true;
                     label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.User.IsBot, TheSession.User.IsSysop);
 
-                    //Get list of articles not to apply general fixes to.
+                    // Get list of articles not to apply general fixes to.
                     Match noGenFix = WikiRegexes.NoGeneralFixes.Match(TheSession.CheckPageText);
                     if (noGenFix.Success)
                     {
@@ -2629,7 +2629,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                                 NoParse.Add(link.Groups[1].Value);
                     }
 
-                    //Get list of articles not to apply RETF to.
+                    // Get list of articles not to apply RETF to.
                     Match noRETF = WikiRegexes.NoRETF.Match(TheSession.CheckPageText);
                     if (noRETF.Success)
                     {
