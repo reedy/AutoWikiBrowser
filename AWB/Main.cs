@@ -345,10 +345,17 @@ namespace AutoWikiBrowser
 
                 SplashScreen.SetProgress(80);
 
-                bool optUpdate = ((Updater.Result & Updater.AWBEnabledStatus.OptionalUpdate) ==
-                                  Updater.AWBEnabledStatus.OptionalUpdate),
-                updaterUpdate = ((Updater.Result & Updater.AWBEnabledStatus.UpdaterUpdate) ==
-                                 Updater.AWBEnabledStatus.UpdaterUpdate);
+                if ((Updater.Result & Updater.AWBEnabledStatus.Disabled) == Updater.AWBEnabledStatus.Disabled)
+                {
+                    OldVersion();
+                    SplashScreen.Close();
+                    return;
+                }
+
+                bool optUpdate = (Updater.Result & Updater.AWBEnabledStatus.OptionalUpdate) ==
+                                  Updater.AWBEnabledStatus.OptionalUpdate,
+                updaterUpdate = (Updater.Result & Updater.AWBEnabledStatus.UpdaterUpdate) ==
+                                 Updater.AWBEnabledStatus.UpdaterUpdate;
 
                 if (optUpdate || updaterUpdate)
                 {
@@ -356,10 +363,11 @@ namespace AutoWikiBrowser
 
                     if (updaterUpdate)
                     {
-                        MessageBox.Show("There is an Update to the AWB updater. Updating Now", "Updater update");
+                        MessageBox.Show("There is an update to the AWB updater. Updating Now", "Updater update");
                         runUpdater = true;
                     }
 
+                    // TODO: List optional versions to tell the user they may want to upgrade, and what versions they can choose...
                     if (!runUpdater &&
                         MessageBox.Show(
                             "This version has been superceeded by a new version. You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
@@ -373,13 +381,6 @@ namespace AutoWikiBrowser
                         CloseAWB();
                         return;
                     }
-                }
-
-                if ((Updater.Result & Updater.AWBEnabledStatus.Disabled) == Updater.AWBEnabledStatus.Disabled)
-                {
-                    OldVersion();
-                    SplashScreen.Close();
-                    return;
                 }
 
                 if ((Updater.Result & Updater.AWBEnabledStatus.Error) == Updater.AWBEnabledStatus.Error)

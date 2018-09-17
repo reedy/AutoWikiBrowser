@@ -23,6 +23,7 @@ using WikiFunctions.Background;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace WikiFunctions
 {
@@ -37,6 +38,7 @@ namespace WikiFunctions
         {
             AWBDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
             Result = AWBEnabledStatus.None;
+            NewerVersions = new List<string>();
         }
 
         /// <summary>
@@ -62,6 +64,12 @@ namespace WikiFunctions
         /// Text (JSON) of the Current AWB Global Checkpage (en.wp)
         /// </summary>
         public static string GlobalVersionPage { get; private set; }
+
+        /// <summary>
+        /// Gets the list of versions of AWB newer than the current version
+        /// </summary>
+        /// <value>The newer versions.</value>
+        public static List<string> NewerVersions { get; private set; }
 
         /// <summary>
         /// Do the actual checking for enabledness etc
@@ -107,9 +115,11 @@ namespace WikiFunctions
 
                 var awbVersionParsed = Version.Parse(awbVersionInfo.FileVersion);
 
+                var newerVersions = enabledVersions.Where(v => !v.dev && (Version.Parse(v.version) > awbVersionParsed)).Select(v => v.version);
                 // Dev versions aren't optional updates
-                if (enabledVersions.Any(v => !v.dev && (Version.Parse(v.version) > awbVersionParsed)))
+                if (newerVersions.Any())
                 {
+                    NewerVersions.AddRange(newerVersions.ToArray());
                     Result |= AWBEnabledStatus.OptionalUpdate;
                 }
             }
