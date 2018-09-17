@@ -19,12 +19,12 @@ namespace CheckPage_Converter
                 Tools.GetHTML(
                     "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage&action=raw");
 
-            var checkPageText = Tools.StringBetween(origCheckPageText, "<!--enabledusersbegins-->",
+            var enabledUsers = Tools.StringBetween(origCheckPageText, "<!--enabledusersbegins-->",
                                                     "<!--enabledusersends-->");
 
-            var botUsers = Tools.StringBetween(checkPageText, "<!--enabledbots-->", "<!--enabledbotsends-->");
+            var botUsers = Tools.StringBetween(enabledUsers, "<!--enabledbots-->", "<!--enabledbotsends-->");
 
-            var normalUsers = checkPageText.Replace("<!--enabledbots-->\r\n" + checkPageText + "\r\n<!--enabledbotsends-->", "");
+            var normalUsers = enabledUsers.Replace("<!--enabledbots-->\r\n" + enabledUsers + "\r\n<!--enabledbotsends-->", "");
 
             Regex username = new Regex(@"^\*\s*(.*?)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
@@ -54,23 +54,17 @@ namespace CheckPage_Converter
             edit.Save(JsonConvert.SerializeObject(checkPageOutput, Formatting.Indented), "Converting from non json page", false, WatchOptions.NoChange);
 
             // Site Config stuff
-            Dictionary<string, List<string>> configOutput = new Dictionary<string, List<string>>();
+            Dictionary<string, object> configOutput = new Dictionary<string, object>();
 
-            Match typoLink = Regex.Match(checkPageText, "<!--[Tt]ypos:(.*?)-->");
-            if (typoLink.Success && typoLink.Groups[1].Value.Trim().Length > 0)
-            {
-                // TODO: Flatten
-                configOutput.Add("typolink", new List<string> { typoLink.Groups[1].Value.Trim() });
-            }
+            Match typoLink = Regex.Match(origCheckPageText, "<!--[Tt]ypos:(.*?)-->");
+            configOutput.Add("typolink", typoLink.Success && typoLink.Groups[1].Value.Trim().Length > 0 ? typoLink.Groups[1].Value.Trim() : "");
 
-            // TODO: Flatten
-            configOutput.Add("allusersenabled", new List<string> { checkPageText.Contains("<!--All users enabled-->").ToString() });
+            configOutput.Add("allusersenabled", origCheckPageText.Contains("<!--All users enabled-->"));
 
-            // TODO: Flatten
-            configOutput.Add("allusersenabledusermode", new List<string> { checkPageText.Contains("<!--All users enabled user mode-->").ToString() });
+            configOutput.Add("allusersenabledusermode", origCheckPageText.Contains("<!--All users enabled user mode-->"));
 
             List<string> us = new List<string>();
-            foreach (Match underscore in Underscores.Matches(checkPageText))
+            foreach (Match underscore in Underscores.Matches(origCheckPageText))
             {
                 if (underscore.Success && underscore.Groups[1].Value.Trim().Length > 0)
                     us.Add(underscore.Groups[1].Value.Trim());
@@ -80,7 +74,7 @@ namespace CheckPage_Converter
             List<string> NoParse = new List<string>();
 
             // Get list of articles not to apply general fixes to.
-            Match noGenFix = WikiRegexes.NoGeneralFixes.Match(checkPageText);
+            Match noGenFix = WikiRegexes.NoGeneralFixes.Match(origCheckPageText);
             if (noGenFix.Success)
             {
                 foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noGenFix.Value))
@@ -91,7 +85,7 @@ namespace CheckPage_Converter
 
             List<string> NoRetf = new List<string>();
             // Get list of articles not to apply RETF to.
-            Match noRETF = WikiRegexes.NoRETF.Match(checkPageText);
+            Match noRETF = WikiRegexes.NoRETF.Match(origCheckPageText);
             if (noRETF.Success)
             {
                 foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noRETF.Value))
