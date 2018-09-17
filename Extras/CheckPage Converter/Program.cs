@@ -26,13 +26,13 @@ namespace CheckPage_Converter
 
             List<string> users = new List<string>();
             foreach (Match m in username.Matches(checkPageText)) {
-                users.Add(m.Groups[0].Value);
+                users.Add(m.Groups[1].Value.Trim);
             }
 
             List<string> bots = new List<string>();
             foreach (Match m in username.Matches(botUsers))
             {
-                bots.Add(m.Groups[0].Value);
+                bots.Add(m.Groups[1].Value.Trim());
             }
 
             Dictionary<string, List<string>> output = new Dictionary<string, List<string>> {
