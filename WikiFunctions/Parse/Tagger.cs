@@ -1286,4 +1286,3 @@ namespace WikiFunctions.Parse
             return articleText;
         }
     }
-}
