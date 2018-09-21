@@ -238,6 +238,8 @@ namespace WikiFunctions.Parse
                         editSummary = "αντικατέστησε: " + ReplacedSummary.Trim();
                     else if (Variables.LangCode.Equals("eo"))
                         editSummary = "anstataŭigis: " + ReplacedSummary.Trim();
+                    else if (Variables.LangCode.Equals("fa"))
+                                                editSummary = "جایگزین شد: " + ReplacedSummary.Trim();
                     else if (Variables.LangCode.Equals("fr"))
                         editSummary = "remplacement: " + ReplacedSummary.Trim();
                     else if (Variables.LangCode.Equals("hy"))
@@ -269,6 +271,8 @@ namespace WikiFunctions.Parse
                         editSummary += "αφαίρεσε: " + RemovedSummary.Trim();
                     else if (Variables.LangCode.Equals("eo"))
                         editSummary += "forigis: " + RemovedSummary.Trim();
+                    else if (Variables.LangCode.Equals("fa"))
+                                                editSummary += "حذف شده: " + RemovedSummary.Trim();
                     else if (Variables.LangCode.Equals("fr"))
                         editSummary += "retrait: " + RemovedSummary.Trim();
                     else if (Variables.LangCode.Equals("hy"))
