@@ -208,6 +208,10 @@ namespace WikiFunctions.Parse
                     {
                         tagsRemoved.Add("نهاية مسدودة");
                     }
+                    else if (Variables.LangCode.Equals("fa"))
+                    {
+                        tagsRemoved.Add("بن‌بست");
+                    }
                     else
                     {
                         tagsRemoved.Add("deadend");
@@ -465,6 +469,17 @@ namespace WikiFunctions.Parse
                             tagsRemoved.Add("ويكى");
                         }
                     }
+                    else if (Variables.LangCode.Equals("fa"))
+                    {
+                        articleText = "{{بن‌بست|" + WikiRegexes.DateYearMonthParameter + "}}\r\n" + articleText;
+                        tagsAdded.Add("بن‌بست");
+                        // if dead end then remove underlinked
+                        if (WikiRegexes.Wikify.IsMatch(articleText))
+                        {
+                            articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
+                            tagsRemoved.Add("کم‌پیوند");
+                        }
+                    }
                     else if (!Variables.LangCode.Equals("sv") && !WikiRegexes.Centuryinbox.IsMatch(articleText)
                              && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b")
                              && !MinorPlanetListFooter.IsMatch(articleText))
@@ -504,6 +519,11 @@ namespace WikiFunctions.Parse
                     articleText = "{{ويكى|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText;
                     tagsAdded.Add("[[قالب:ويكى|ويكى]]");
                 }
+                else if (Variables.LangCode.Equals("fa"))
+                {
+                    articleText = "{{کم‌پیوند|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText;
+                    tagsAdded.Add("کم‌پیوند");
+                }
                 else if (Variables.LangCode.Equals("sv"))
                 {
                     articleText = "{{Ickewiki|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText;
@@ -533,6 +553,10 @@ namespace WikiFunctions.Parse
                     else if (Variables.LangCode.Equals("arz"))
                     {
                         tagsRemoved.Add("ويكى");
+                    }
+                    if (Variables.LangCode.Equals("fa"))
+                    {
+                        tagsRemoved.Add("کم‌پیوند");
                     }
                     else
                     {
