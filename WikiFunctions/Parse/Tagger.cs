@@ -118,6 +118,10 @@ namespace WikiFunctions.Parse
                     {
                         tagsRemoved.Add("Անավարտ");
                     }
+                     else if (Variables.LangCode.Equals("fa"))
+                    {
+                        tagsRemoved.Add("خرد");
+                    }
                     else
                     {
                         tagsRemoved.Add("stub");
@@ -227,6 +231,11 @@ namespace WikiFunctions.Parse
                         articleText += Tools.Newline("{{تقاوى}}", 3);
                         tagsAdded.Add("تقاوى");
                     }
+                    else if (Variables.LangCode.Equals("fa"))
+                    {
+                        articleText += Tools.Newline("{{خرد}}", 3);
+                        tagsAdded.Add("خرد");
+                    }
                     else if (Variables.LangCode.Equals("hy"))
                     {
                         articleText += Tools.Newline("{{Անավարտ}}", 3);
@@ -281,6 +290,11 @@ namespace WikiFunctions.Parse
                             articleText += Tools.Newline("{{تقاوى مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("[[قالب:تقاوى مش متصنفه|تقاوى مش متصنفه]]");
                         }
+                        else if (Variables.LangCode.Equals("fa")) // same template for uncat and uncat stub
+                        {
+                            articleText += Tools.Newline("{{مقاله‌های خرد رده‌بندی‌نشده|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("مقاله‌های رده‌بندی‌نشده");
+                        }
                         else if (Variables.LangCode.Equals("hy")) // same template for uncat and uncat stub
                         {
                             articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
@@ -319,6 +333,11 @@ namespace WikiFunctions.Parse
                             articleText += Tools.Newline("{{Ακατηγοριοποίητο|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                             tagsAdded.Add("[[Πρότυπο:Ακατηγοριοποίητο|ακατηγοριοποίητο]]");
                         }
+                        else if (Variables.LangCode.Equals("fa"))
+                        {
+                            articleText += Tools.Newline("{{رده‌بندی‌نشده|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                            tagsAdded.Add("رده‌بندی‌نشده");
+                        }
                         else if (Variables.LangCode.Equals("hy"))
                         {
                             articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
@@ -354,6 +373,8 @@ namespace WikiFunctions.Parse
                         tagsRemoved.Add("غير مصنفة");
                     else if (Variables.LangCode.Equals("arz"))
                         tagsRemoved.Add("مش متصنفه");
+                    else if (Variables.LangCode.Equals("fa"))
+                        tagsRemoved.Add("رده‌بندی‌نشده");
                     else
                         tagsRemoved.Add("uncategorised");
                     
@@ -379,6 +400,8 @@ namespace WikiFunctions.Parse
                                                                         return Tools.RenameTemplate(u2.Value, "بذرة غير مصنفة");
                                                                     if (Variables.LangCode.Equals("arz"))
                                                                         return Tools.RenameTemplate(u2.Value, "تقاوى مش متصنفه");
+                                                                    if (Variables.LangCode.Equals("fa"))
+                                                                        return Tools.RenameTemplate(u2.Value, "خرد رده‌بندی‌نشده");
                                                                     if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
                                                                         return Tools.RenameTemplate(u2.Value, "Uncategorized stub");
                                                                 }
@@ -390,6 +413,8 @@ namespace WikiFunctions.Parse
                                                                             tagsRemoved.Add("غير مصنفة");
                                                                         else if (Variables.LangCode.Equals("arz"))
                                                                             tagsRemoved.Add("مش متصنفه");
+                                                                        else if (Variables.LangCode.Equals("fa"))
+                                                                            tagsRemoved.Add("رده‌بندی‌نشده");  
                                                                         else
                                                                             tagsRemoved.Add("uncategorised");
                                                                         return "";
@@ -790,6 +815,10 @@ namespace WikiFunctions.Parse
                 else if (Variables.LangCode.Equals("arz"))
                 {
                     tagsRemoved.Add("يتيمه");
+                }                
+                else if (Variables.LangCode.Equals("fa"))
+                {
+                    tagsRemoved.Add("یتیم");
                 }
                 else if (Variables.LangCode.Equals("hy"))
                 {
