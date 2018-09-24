@@ -62,9 +62,24 @@ namespace WikiFunctions
             get { return Editor.User.IsSysop; }
         }
 
+        /// <summary>
+        /// Gets the wikitext check page text.
+        /// </summary>
+        /// <value>The check page text. (may be blank)</value>
         public string CheckPageText
         { get; private set; }
 
+        /// <summary>
+        /// Gets the check page JSON Text.
+        /// </summary>
+        /// <value>The check page JSON Text.</value>
+        public string CheckPageJSONText
+        { get; private set; }
+
+        /// <summary>
+        /// Gets the JSON of version check page.
+        /// </summary>
+        /// <value>The JSON of version check page.</value>
         public string VersionCheckPage
         { get; private set; }
 
@@ -253,15 +268,9 @@ namespace WikiFunctions
 
                 // load version check page if no status set
                 if (Updater.Result == Updater.AWBEnabledStatus.None)
+                {
                     Updater.CheckForUpdates();
-
-                // load check page
-                string url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";
-
-                string checkPageText = Editor.SynchronousEditor.HttpGet(url);
-
-                // remove U+200E LEFT-TO-RIGHT MARK, U+200F RIGHT-TO-LEFT MARK as on RTL wikis these can get typed in by accident
-                checkPageText = DirectionMarks.Replace(checkPageText, "");
+                }
 
                 Variables.RTL = Site.IsRightToLeft;
                 Variables.CapitalizeFirstLetter = Site.CapitalizeFirstLetter;
@@ -271,7 +280,9 @@ namespace WikiFunctions
                 Variables.UnicodeCategoryCollation = !Variables.IsCustomProject && Site.UcaCategoryCollation.Contains(Site.Language + siteName);
 
                 if (Variables.IsCustomProject || Variables.IsWikia)
+                {
                     Variables.LangCode = Site.Language;
+                }
 
                 Variables.TagEdits = Site.IsAWBTagDefined;
 
@@ -281,21 +292,46 @@ namespace WikiFunctions
 
                 // see if this version is enabled
                 if ((versionStatus & Updater.AWBEnabledStatus.Disabled) == Updater.AWBEnabledStatus.Disabled)
+                {
                     return WikiStatusResult.OldVersion;
+                }
 
-                CheckPageText = checkPageText;
+                // Attempt to load the JSON CheckPage from the wiki
+                // TODO: Check for 404 etc
+                string JSONCheckPageText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPageJSON&action=raw");
+
+                bool usingJSON = false;
+
+                if (string.IsNullOrEmpty(JSONCheckPageText))
+                {
+                    // load non JSON check page
+                    // TODO: Check for 404
+                    string nonJSONCheckPageText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw");
+
+                    // remove U+200E LEFT-TO-RIGHT MARK, U+200F RIGHT-TO-LEFT MARK as on RTL wikis these can get typed in by accident
+                    nonJSONCheckPageText = DirectionMarks.Replace(nonJSONCheckPageText, "");
+
+                    CheckPageText = nonJSONCheckPageText;
+                } else {
+                    // usingJSON = true; // Disabled for debug purposes atm
+                    CheckPageJSONText = JSONCheckPageText;
+                }
 
                 if (!User.IsLoggedIn)
+                {
                     return WikiStatusResult.NotLoggedIn;
+                }
 
                 if (!User.HasRight("writeapi"))
+                {
                     return WikiStatusResult.NoRights;
+                }
 
                 // TODO: assess the impact on servers later
                 Editor.Maxlag = /*User.IsBot ? 5 : 20*/ -1;
 
                 var versionJson = JObject.Parse(Updater.GlobalVersionPage);
-                // check if username is globally blacklisted
+                // check if username is globally blacklisted based on the enwiki version page
                 foreach (string badName in versionJson["badnames"])
                 {
                     if (!string.IsNullOrEmpty(User.Name) &&
@@ -306,80 +342,88 @@ namespace WikiFunctions
                     }
                 }
 
-                // See if there's any messages on the Version page
-                foreach (var message in versionJson["messages"])
+                // See if there's any messages on the enwiki version page
+                JSONMessages(versionJson["messages"]);
+
+                if (usingJSON)
                 {
-                    var version = message["version"].ToString();
-                    // TODO: Semver version checking
-                    if ((version == "*" || version == AWBVersion) && message["text"] != null)
+                    var checkPageJson = JObject.Parse(CheckPageJSONText);
+
+                    // See if there's any messages on the local wikis checkpage
+                    JSONMessages(checkPageJson["messages"]);
+
+                    string configJSON = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config&action=raw");
+
+                    // TODO: Other stuff we currently do from wikipage
+                }
+                else
+                {
+                    // THIS IS ALL BASICALLY DEPRECATED... ISH.
+
+                    // CheckPage Messages per wiki are still in scary HTML comments.... TBC!
+                    // see if there is a message
+                    foreach (Match m in Message.Matches(CheckPageText))
                     {
-                        if (message["enabled"] != null && !(bool)message["enabled"]) {
+                        if (m.Groups[1].Value.Trim().Length > 0)
+                        {
                             continue;
                         }
-                        MessageBox.Show(message["text"].ToString(), "Automated message", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
+                        MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
                     }
-                }
 
-                // CheckPage Messages per wiki are still in scary HTML comments.... TBC!
-
-                // see if there is a message
-                foreach (Match m in Message.Matches(checkPageText))
-                {
-                    if (m.Groups[1].Value.Trim().Length > 0)
+                    // see if there is a version-specific message
+                    foreach (Match m in VersionMessage.Matches(CheckPageText))
                     {
-                        continue;
+                        if (m.Groups[1].Value.Trim().Length == 0 ||
+                            m.Groups[1].Value != AWBVersion)
+                        {
+                            continue;
+                        }
+                        MessageBox.Show(m.Groups[2].Value, "Automated message", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
                     }
-                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
-                }
 
-                // see if there is a version-specific message
-                foreach (Match m in VersionMessage.Matches(checkPageText))
-                {
-                    if (m.Groups[1].Value.Trim().Length == 0 ||
-                        m.Groups[1].Value != AWBVersion)
+                    HasTypoLink(CheckPageText);
+
+                    List<string> us = new List<string>();
+                    foreach (Match underscore in Underscores.Matches(CheckPageText))
                     {
-                        continue;
+                        if (underscore.Success && underscore.Groups[1].Value.Trim().Length > 0)
+                        {
+                            us.Add(underscore.Groups[1].Value.Trim());
+                        }
                     }
-                    MessageBox.Show(m.Groups[2].Value, "Automated message", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
-                }
+                    if (us.Count > 0)
+                    {
+                        Variables.LoadUnderscores(us.ToArray());
+                    }
 
-                HasTypoLink(checkPageText);
+                    // don't require approval if checkpage does not exist
+                    // Or it has the special text...
+                    if (CheckPageText.Length < 1 || CheckPageText.Contains("<!--All users enabled-->"))
+                    {
+                        IsBot = true;
+                        return WikiStatusResult.Registered;
+                    }
 
-                List<string> us = new List<string>();
-                foreach (Match underscore in Underscores.Matches(checkPageText))
-                {
-                    if (underscore.Success && underscore.Groups[1].Value.Trim().Length > 0)
-                        us.Add(underscore.Groups[1].Value.Trim());
-                }
-                if (us.Count > 0) Variables.LoadUnderscores(us.ToArray());
+                    // see if we are allowed to use this software
+                    CheckPageText = Tools.StringBetween(CheckPageText, "<!--enabledusersbegins-->",
+                                                        "<!--enabledusersends-->");
 
-                // don't require approval if checkpage does not exist
-                // Or it has the special text...
-                if (checkPageText.Length < 1 || checkPageText.Contains("<!--All users enabled-->"))
-                {
-                    IsBot = true;
-                    return WikiStatusResult.Registered;
-                }
+                    // Checkpage option: <!--All users enabled user mode--> will enable all users for user mode,
+                    // and enable bots only when in <!--enabledbots--> section
+                    if (CheckPageText.Contains("<!--All users enabled user mode-->")
+                        || (IsSysop && Variables.Project != ProjectEnum.wikia)
+                        || UserNameInText(User.Name, CheckPageText))
+                    {
+                        string botUsers = Tools.StringBetween(CheckPageText, "<!--enabledbots-->", "<!--enabledbotsends-->");
 
-                // see if we are allowed to use this software
-                checkPageText = Tools.StringBetween(checkPageText, "<!--enabledusersbegins-->",
-                                                    "<!--enabledusersends-->");
+                        // enable bot mode if in bots section
+                        IsBot = UserNameInText(User.Name, botUsers);
 
-                // Checkpage option: <!--All users enabled user mode--> will enable all users for user mode,
-                // and enable bots only when in <!--enabledbots--> section
-                if (checkPageText.Contains("<!--All users enabled user mode-->") 
-                    || (IsSysop && Variables.Project != ProjectEnum.wikia) 
-                    || UserNameInText(User.Name, checkPageText))
-                {
-                    string botUsers = Tools.StringBetween(checkPageText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-
-                    // enable bot mode if in bots section
-                    IsBot = UserNameInText(User.Name, botUsers);
-
-                    return WikiStatusResult.Registered;
+                        return WikiStatusResult.Registered;
+                    }
                 }
 
                 if (Variables.Project != ProjectEnum.custom)
@@ -432,6 +476,25 @@ namespace WikiFunctions
             if (typoLink.Success && typoLink.Groups[1].Value.Trim().Length > 0)
             {
                 Variables.RetfPath = typoLink.Groups[1].Value.Trim();
+            }
+        }
+
+        private static void JSONMessages(JToken json)
+        {
+            foreach (var message in json)
+            {
+                var version = message["version"].ToString();
+                // TODO: Semver version checking
+                if ((version == "*" || version == AWBVersion) && message["text"] != null)
+                {
+                    if (message["enabled"] != null && !(bool)message["enabled"])
+                    {
+                        continue;
+                    }
+                    // TODO: Stop this depending on MessageBox.Show() add an event/delegate and handle in Main.cs
+                    MessageBox.Show(message["text"].ToString(), "Automated message", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                }
             }
         }
 
