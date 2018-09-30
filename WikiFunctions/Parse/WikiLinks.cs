@@ -168,9 +168,9 @@ namespace WikiFunctions.Parse
                 articleText = Regex.Replace(articleText, @"\[\[\s*(" + Tools.CaseInsensitive(escTitle)
                                             + @")\s*\]\]", "$1");
 
-                // remove piped self links by leaving target
+                // remove piped self links by leaving target, or removing when is a category with self category listed
                 articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.CaseInsensitive(escTitle)
-                                            + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
+                                            + @"\s*\|\s*([^\]]+)\s*\]\]", (Namespace.Determine(articleTitle) == Namespace.Category ? "" : "$1"));
             }
 
             // fix for self interwiki links, not for monolingual projects

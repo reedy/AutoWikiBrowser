@@ -647,6 +647,9 @@ was [[foo|bar]] too"));
             Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[|  foo|bar]]", "a", out nochange), "Fixes excess leading pipe & whitespace");
             Assert.AreEqual(@"[[|thumb|300px]]", Parsers.FixLinks(@"[[|thumb|300px]]", "a", out nochange), "Nochange: thumb");
             Assert.AreEqual(@"[[|thumbnail|300px]]", Parsers.FixLinks(@"[[|thumbnail|300px]]", "a", out nochange), "Nochange: thumbnail");
+
+            Assert.AreEqual(@"A" + "\r\n", Parsers.FixLinks(@"A
+[[Category:Soldiers|XXX]]", "Category:Soldiers", out nochange), "Category self link");
         }
 
         [Test]
