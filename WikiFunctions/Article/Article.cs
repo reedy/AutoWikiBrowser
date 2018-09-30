@@ -1468,8 +1468,11 @@ namespace WikiFunctions
                 }
 
                 // must call EmboldenTitles before calling FixLinks
-                EmboldenTitles(parsers, skip.SkipNoBoldTitle);
-                Variables.Profiler.Profile("EmboldenTitles");
+                if(NameSpaceKey != Namespace.Category)
+                {
+                    EmboldenTitles(parsers, skip.SkipNoBoldTitle);
+                    Variables.Profiler.Profile("EmboldenTitles");
+                }
 
                 bool changesByMF = MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
                 Variables.Profiler.Profile("MinorFixes");
