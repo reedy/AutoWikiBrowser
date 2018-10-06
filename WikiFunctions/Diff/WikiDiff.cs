@@ -437,6 +437,10 @@ namespace WikiFunctions
             get { return DiffColumnClasses; }
         }
 
+        /// <summary>
+        /// Gets the default CSS style. Sets text direction to RTL on RTL wikis
+        /// </summary>
+        /// <value>The default CSS style.</value>
         public static string DefaultStyles
         {
             get { return @"
@@ -475,7 +479,8 @@ td.diff-context {
     vertical-align: top;
     white-space: -moz-pre-wrap;
     white-space: pre-wrap;
-    word-wrap: break-word;
+    word-wrap: break-word;" + (Variables.RTL ? @"
+    direction: rtl;" : "") + @"
 }
 
 td.diff-addedline,
