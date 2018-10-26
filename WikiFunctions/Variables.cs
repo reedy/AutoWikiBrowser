@@ -43,6 +43,7 @@ namespace WikiFunctions
         mediawiki,
         incubator,
         wikia,
+        fandom,
         custom
     }
 
@@ -299,11 +300,11 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Returns true if we are currently editing a Wikia site
+        /// Returns true if we are currently editing a Wikia/Fandom site
         /// </summary>
         public static bool IsWikia
         {
-            get { return Project == ProjectEnum.wikia; }
+            get { return Project == ProjectEnum.wikia || Project == ProjectEnum.fandom; }
         }
 
         /// <summary>
@@ -674,7 +675,11 @@ namespace WikiFunctions
                     LangCode = "en";
                     break;
                 case ProjectEnum.wikia:
-                    URL = "http://" + customProject + ".wikia.com";
+                    URL = "https://" + customProject + ".wikia.com";
+                    URLEnd = "/";
+                    break;
+		case ProjectEnum.fandom:
+                    URL = "https://" + customProject + ".fandom.com";
                     URLEnd = "/";
                     break;
                 case ProjectEnum.custom:
