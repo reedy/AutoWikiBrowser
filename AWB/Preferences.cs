@@ -99,7 +99,7 @@ namespace AutoWikiBrowser
 
         /// <summary>
         /// Protocol for custom projects
-        /// WMF defaults to HTTPS, Wikia defaults to HTTP
+        /// WMF and Wikia/Fandom defaults to HTTPS
         /// </summary>
         public string Protocol
         {
@@ -118,7 +118,7 @@ namespace AutoWikiBrowser
             string proj = CustomProjectRegex.Replace(cmboCustomProject.Text.Trim(), "$1$2");
 
             proj = proj.TrimEnd('/');
-            if (Project.Equals(ProjectEnum.custom)) // we shouldn't screw up Wikia
+            if (Project.Equals(ProjectEnum.custom)) // we shouldn't screw up Wikia/Fandom
             {
                 proj += "/";
             }
@@ -180,7 +180,7 @@ namespace AutoWikiBrowser
             }
 
             chkSupressAWB.Enabled = cmboProtocol.Enabled = DomainEnabled = prj.Equals(ProjectEnum.custom);
-            if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia))
+            if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia) || prj.Equals(ProjectEnum.fandom))
             {
                 cmboProtocol.Visible = true;
 
