@@ -197,6 +197,10 @@ namespace WikiFunctions
                     InUse = Tools.NestedTemplateRegex(new[] {"En uso", "Enuso" });
                     DisambigString = "([Dd]esambiguación|[Dd]esambig|[Dd]es|[Dd]esambiguacion|[Dd]isambig)";
                     break;
+                case "fa":
+                                        Orphan = Tools.NestedTemplateRegex(new[] {@"یتیم"});
+                                        DisambigString = "(ابهام‌زدایی|ابهامزدایی|ابهام زدایی)";
+                    break;
                 case "fr":
                     InUse = Tools.NestedTemplateRegex(new[] {"En cours" });
                     break;
