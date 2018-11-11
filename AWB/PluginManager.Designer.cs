@@ -35,8 +35,10 @@
             System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Previously Loaded ListMaker Plugins", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Loaded Base Plugins", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Previously Loaded Base Plugins", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Obsolete Plugins", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Assemblies that failed to load", System.Windows.Forms.HorizontalAlignment.Left);
             this.lvPlugin = new WikiFunctions.Controls.NoFlickerExtendedListView();
-            this.colName = new System.Windows.Forms.ColumnHeader();
+            this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadPluginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -50,9 +52,9 @@
             // 
             // lvPlugin
             // 
-            this.lvPlugin.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvPlugin.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvPlugin.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colName});
             this.lvPlugin.ComparerFactory = this.lvPlugin;
@@ -69,13 +71,19 @@
             listViewGroup5.Name = "groupBaseLoaded";
             listViewGroup6.Header = "Previously Loaded Base Plugins";
             listViewGroup6.Name = "groupBasePrevious";
+            listViewGroup7.Header = "Obsolete Plugins";
+            listViewGroup7.Name = "groupObsolete";
+            listViewGroup8.Header = "Assemblies that failed to load";
+            listViewGroup8.Name = "groupFailed";
             this.lvPlugin.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2,
             listViewGroup3,
             listViewGroup4,
             listViewGroup5,
-            listViewGroup6});
+            listViewGroup6,
+            listViewGroup7,
+            listViewGroup8});
             this.lvPlugin.Location = new System.Drawing.Point(12, 47);
             this.lvPlugin.Name = "lvPlugin";
             this.lvPlugin.Size = new System.Drawing.Size(384, 231);
@@ -86,7 +94,7 @@
             // colName
             // 
             this.colName.Text = "Plugin Name";
-            this.colName.Width = 357;
+            this.colName.Width = 379;
             // 
             // contextMenuStrip1
             // 

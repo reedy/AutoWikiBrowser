@@ -122,13 +122,25 @@ namespace AutoWikiBrowser
             {
                 lvPlugin.Items.Add(new ListViewItem(pluginName) { Group = lvPlugin.Groups["groupAWBLoaded"] });
             }
+
             foreach (string pluginName in Plugin.GetBasePluginList())
             {
                 lvPlugin.Items.Add(new ListViewItem(pluginName) { Group = lvPlugin.Groups["groupBaseLoaded"] });
             }
+
             foreach (string pluginName in Plugin.GetListMakerPluginList())
             {
                 lvPlugin.Items.Add(new ListViewItem(pluginName) { Group = lvPlugin.Groups["groupLMLoaded"] });
+            }
+
+            foreach (string pluginName in Plugin.FailedPlugins.Keys)
+            {
+                lvPlugin.Items.Add(new ListViewItem(pluginName) { Group = lvPlugin.Groups["groupObsolete"] });
+            }
+
+            foreach (string assemblyName in Plugin.FailedAssemblies)
+            {
+                lvPlugin.Items.Add(new ListViewItem(assemblyName) { Group = lvPlugin.Groups["groupFailed"] });
             }
 
             UpdatePluginCount();
@@ -209,7 +221,9 @@ namespace AutoWikiBrowser
 
             internal static readonly Dictionary<string, IListMakerPlugin> ListMakerPlugins = new Dictionary<string, IListMakerPlugin>();
 
-            public static readonly List<IAWBPlugin> FailedPlugins = new List<IAWBPlugin>();
+            public static readonly Dictionary<string, string> FailedPlugins = new Dictionary<string, string>();
+
+            public static readonly List<string> FailedAssemblies = new List<string>();
 
             /// <summary>
             /// Gets a List of all the plugin names currently loaded
@@ -253,42 +267,13 @@ namespace AutoWikiBrowser
                 splash.SetProgress(50);
             }
 
-            public static void PluginObsolete(IAWBPlugin plugin)
-            {
-                if (!FailedPlugins.Contains(plugin))
-                    FailedPlugins.Add(plugin);
-
-                PluginObsolete(plugin.GetType().Assembly.Location, plugin.GetType().Assembly.GetName().Version.ToString());
-            }
-
             static void PluginObsolete(string name, string version)
             {
-                MessageBox.Show(
-                    "The plugin '" + name + "' " + (!string.IsNullOrEmpty(name) ? "(" + version + ")" : "") +
-                    "is out-of date and needs to be updated.",
-                    "Plugin error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!FailedPlugins.ContainsKey(name))
+                    FailedPlugins.Add(name, version);
             }
 
-            public static void PurgeFailedPlugins()
-            {
-                if (!FailedPlugins.Any())
-                    return;
-
-                foreach (IAWBPlugin p in FailedPlugins)
-                {
-                    foreach (string s in AWBPlugins.Keys)
-                    {
-                        if (AWBPlugins[s] == p)
-                        {
-                            AWBPlugins.Remove(s);
-                            break;
-                        }
-                    }
-                }
-                FailedPlugins.Clear();
-            }
-
-            private static List<string> NotPlugins = new List<string>(new[] {"DotNetWikiBot", "Diff", "WikiFunctions", "Newtonsoft.Json", "Microsoft.mshtml"});
+            private static readonly List<string> NotPlugins = new List<string>(new[] {"DotNetWikiBot", "Diff", "WikiFunctions", "Newtonsoft.Json", "Microsoft.mshtml"});
 
             /// <summary>
             /// Loads all the plugins from the directory where AWB resides
@@ -316,9 +301,9 @@ namespace AutoWikiBrowser
                             // Windows is probably blocking loading of the plugin for "Security" reasons
                             // NotSupportedException
                             // On the file, right click, properties, unblock (check or press button), apply, ok.
-                            // Need to put it in a message box or something
-                            // Else, maybe we want to try https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/dd409252(v=vs.100)
+                            // Maybe we want to try https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/dd409252(v=vs.100)
 
+                            FailedAssemblies.Add(plugin);
                             continue;
                         }
 #if DEBUG
@@ -455,7 +440,9 @@ namespace AutoWikiBrowser
             /// <param name="plugin">IAWBBasePlugin to get Version of</param>
             /// <returns>Version String</returns>
             internal static string GetPluginVersionString(IAWBBasePlugin plugin)
-            { return Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
+            {
+                return Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString();
+            }
 
             /// <summary>
             /// Gets the Version string of a IListMakerPlugin
@@ -463,7 +450,9 @@ namespace AutoWikiBrowser
             /// <param name="plugin">IListMakerPlugin to get Version of</param>
             /// <returns>Version String</returns>
             internal static string GetPluginVersionString(IListMakerPlugin plugin)
-            { return Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
+            {
+                return Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString();
+            }
         }
     }
 }
