@@ -125,6 +125,7 @@
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Plugin.cs" />
     <Compile Include="TalkMessage.cs">
       <SubType>Form</SubType>
     </Compile>
