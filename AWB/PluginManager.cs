@@ -310,6 +310,17 @@ namespace AutoWikiBrowser
                         {
                             asm = Assembly.LoadFile(plugin);
                         }
+                        catch (NotSupportedException)
+                        {
+                            // https://phabricator.wikimedia.org/T208787
+                            // Windows is probably blocking loading of the plugin for "Security" reasons
+                            // NotSupportedException
+                            // On the file, right click, properties, unblock (check or press button), apply, ok.
+                            // Need to put it in a message box or something
+                            // Else, maybe we want to try https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/dd409252(v=vs.100)
+
+                            continue;
+                        }
 #if DEBUG
                         catch (Exception ex)
                         {
@@ -324,7 +335,9 @@ namespace AutoWikiBrowser
 #endif
 
                         if (asm == null)
+                        {
                             continue;
+                        }
 
                         try
                         {
@@ -348,7 +361,10 @@ namespace AutoWikiBrowser
 
                                     AWBPlugins.Add(awbPlugin.Name, awbPlugin);
 
-                                    if (afterStartup) UsageStats.AddedPlugin(awbPlugin);
+                                    if (afterStartup)
+                                    {
+                                        UsageStats.AddedPlugin(awbPlugin);
+                                    }
                                 }
                                 else if (t.GetInterface("IAWBBasePlugin") != null)
                                     //IAWBBasePlugin needs to be checked after IAWBPlugin, as IAWBPlugin extends IAWBBasePlugin
@@ -368,7 +384,10 @@ namespace AutoWikiBrowser
 
                                     AWBBasePlugins.Add(awbBasePlugin.Name, awbBasePlugin);
 
-                                    if (afterStartup) UsageStats.AddedPlugin(awbBasePlugin);
+                                    if (afterStartup)
+                                    {
+                                        UsageStats.AddedPlugin(awbBasePlugin);
+                                    }
                                 }
                                 else if (t.GetInterface("IListMakerPlugin") != null)
                                 {
@@ -388,7 +407,10 @@ namespace AutoWikiBrowser
 
                                     ListMakerPlugins.Add(listMakerPlugin.Name, listMakerPlugin);
 
-                                    if (afterStartup) UsageStats.AddedPlugin(listMakerPlugin);
+                                    if (afterStartup)
+                                    {
+                                        UsageStats.AddedPlugin(listMakerPlugin);
+                                    }
                                 }
                             }
                         }
