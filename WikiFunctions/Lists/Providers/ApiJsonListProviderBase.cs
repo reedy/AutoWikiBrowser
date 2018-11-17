@@ -123,7 +123,7 @@ namespace WikiFunctions.Lists.Providers
         #region ListMaker properties
         public override string DisplayText
         {
-            get { return "(JSON)Pages with a page property"; }
+            get { return "Pages with a page property (JSON)"; }
         }
 
         public override string UserInputTextBoxText
