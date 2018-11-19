@@ -180,7 +180,7 @@ namespace AutoWikiBrowser
             }
 
             chkSupressAWB.Enabled = cmboProtocol.Enabled = DomainEnabled = prj.Equals(ProjectEnum.custom);
-            if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia) || prj.Equals(ProjectEnum.fandom))
+            if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia) || prj.Equals(ProjectEnum.fandom) || prj.Equals(ProjectEnum.gamepedia))
             {
                 cmboProtocol.Visible = true;
 
