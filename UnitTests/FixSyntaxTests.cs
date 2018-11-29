@@ -105,7 +105,7 @@ namespace UnitTests
             Assert.AreEqual(@"PMID 1245781549", Parsers.FixSyntax(@"PMID 1245781549"), "No change if alrady correct");
 
             #if DEBUG
-            // PMID: as magig word is used on hu-wiki
+            // PMID: as magic word is used on hu-wiki
             Variables.SetProjectLangCode("hu");
             Assert.AreEqual(@"PMID:1245781549", Parsers.FixSyntax(@"PMID:1245781549"));
 
