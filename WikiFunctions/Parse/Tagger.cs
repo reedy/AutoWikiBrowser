@@ -693,6 +693,7 @@ namespace WikiFunctions.Parse
                     !name.StartsWith("Proposed deletion") &&
                     !name.Contains("proposed for deletion") &&
                     !name.Contains("proposed deletions") &&
+                    (Variables.LangCode.Equals("ar") ? a.Exists.Equals ("Yes") : true) &&
                     !name.Equals("Articles created via the Article Wizard")
                 select a).ToList();
         }
