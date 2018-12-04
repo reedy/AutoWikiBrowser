@@ -219,7 +219,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
+            if (((Variables.LangCode.Equals("ar") && words <=300) ||(length <= 300)) && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
                 !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(commentsCategoriesStripped))
             {
                 // add stub tag. Exclude pages their title starts with "List of..."
