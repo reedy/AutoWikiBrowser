@@ -62,7 +62,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]? ?>[ \t]*(\r\n[#\*:;]+)", RegexOptions.IgnoreCase);
 
-        private static readonly Regex SyntaxRegexItalicBoldEm = new Regex(@"< *(i|em|b) *>(.*?)< */ *\1 *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexItalicBoldEm = new Regex(@"< *(i|b) *>(.*?)< */ *\1 *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Matches <p> tags only if current line does not start from ! or | (indicator of table cells), plus any spaces after
         private static readonly Regex SyntaxRemoveParagraphs = new Regex(@"(?<!^[!\|].*)</? ?[Pp]> *", RegexOptions.Multiline);
@@ -217,7 +217,7 @@ namespace WikiFunctions.Parse
                 articleText = articleText.Replace("</i><i>", "");
 
             //replace html with wiki syntax - CHECKWIKI error 26 and 38
-            if (SimpleTagsList.Any(s => Regex.IsMatch(s, @"<(i|em|b)\b")))
+            if (SimpleTagsList.Any(s => Regex.IsMatch(s, @"<(i|b)\b")))
             {
                 while(SyntaxRegexItalicBoldEm.IsMatch(articleText))
                     articleText = SyntaxRegexItalicBoldEm.Replace(articleText, BoldItalicME);

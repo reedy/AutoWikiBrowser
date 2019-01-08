@@ -435,7 +435,6 @@ Template:foo}}"));
             Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("<i>foo<i /> bar"));
             Assert.AreEqual("''foo'' bar", Parsers.FixSyntax(@"<i>foo<i\> bar"));
             Assert.AreEqual("<i>foo<i> bar", Parsers.FixSyntax("<i>foo<i> bar"));
-            Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("<em>foo</em> bar"));
             Assert.AreEqual("''foobar''", Parsers.FixSyntax("<i>foo</i><i>bar</i>"));
             Assert.AreEqual("''foobar''", Parsers.FixSyntax("<i>foo<i/><i>bar</i>"));
             Assert.AreEqual("'''''foo''''' bar", Parsers.FixSyntax("<b><i>foo</i></b> bar"));
