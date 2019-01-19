@@ -604,7 +604,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex UrlDomain = new Regex(@"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:https?://www\.|https?://|www\.)([^\[\]<>""\s\/:]+)", RegexOptions.Compiled);
         private static readonly Regex HarvnbTemplate = new Regex(@"\s*{{ *(?:[Hh]arv(?:(?:col)?(?:nb|txt)|ard citation no brackets)?|[Ss]fn)\s*\|\s*([^{}\|]+?)\s*\|(?:[^{}]*?\|)?\s*(\d{4})\s*(?:\|\s*(?:pp?\s*=\s*)?([^{}\|]+?)\s*)?}}\s*", RegexOptions.Compiled);
         private static readonly Regex WholeShortReference = new Regex(@"\s*([^<>{}]{4,35})\s*", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateUrl = new Regex(@"\s*\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*([^\/<>{}\|]{4,35})", RegexOptions.Compiled);
+        private static readonly Regex CiteTemplateTitle = new Regex(@"\s*\{\{\s*cit[^{}<>]*\|\s*(?:title|contribution)\s*=\s*([^\/<>{}\|]{4,35})", RegexOptions.Compiled);
         private static readonly Regex NameYearPage = new Regex(NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", RegexOptions.Compiled);
         private static readonly Regex NamePage = new Regex(NameMask + PageMask + @"\s*", RegexOptions.Compiled);
         private static readonly Regex NameYear = new Regex(NameMask + YearMask + @"\s*", RegexOptions.Compiled);
@@ -720,7 +720,7 @@ namespace WikiFunctions.Parse
                 return derivedReferenceName;
 
             //now try title of a citation
-            derivedReferenceName = ExtractReferenceNameComponents(reference, CiteTemplateUrl, 1);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, CiteTemplateTitle, 1);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
