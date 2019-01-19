@@ -758,6 +758,8 @@ namespace WikiFunctions.Parse
             return ReferenceNameValid(articleText, derivedReferenceName) ? derivedReferenceName : "";
         }
 
+        public static readonly List<string> BadRefNames = new List<string>(new [] {"http", "https"});
+
         /// <summary>
         /// Checks the validity of a new reference name:
         /// Name at least 3 characters and not already used in article, not just 'http'
@@ -768,7 +770,7 @@ namespace WikiFunctions.Parse
         private static bool ReferenceNameValid(string articleText, string derivedReferenceName)
         {
             return !Regex.IsMatch(articleText, RefName + Regex.Escape(derivedReferenceName) + @"(?:""|')?\s*/?\s*>") && derivedReferenceName.Length >= 3
-                && !derivedReferenceName.Equals("http");
+                && !BadRefNames.Contains(derivedReferenceName);
         }
 
         // Covered by: FootnotesTests.TestFixReferenceListTags()
