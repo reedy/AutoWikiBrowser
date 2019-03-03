@@ -51,6 +51,9 @@ namespace WikiFunctions
         public const int FirstCustomTalk = 101; // Portal talk on en-wiki
         public const int Book = 108;
         public const int BookTalk = 109;
+        
+        public const int Draft = 118; // EnWP only
+        public const int DraftTalk = 119; // EnWP only
 
         public const int EducationProgram  = 446;
         public const int EducationProgramTalk = 447;
@@ -211,6 +214,18 @@ namespace WikiFunctions
         public static bool IsUserPage(string articleTitle)
         {
             return Determine(articleTitle) == User;
+        }
+        
+        
+        // Covered by NamespaceTests.IsDraft()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="articleTitle">Title of the Draft article</param>
+        /// <returns></returns>
+        public static bool IsDraft(string articleTitle)
+        {
+            return Determine(articleTitle) == Draft;
         }
 
         // Covered by NamespaceTests.IsSpecial()
