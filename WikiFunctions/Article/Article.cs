@@ -377,7 +377,8 @@ namespace WikiFunctions
         { get { return mAWBLogListener.Skipped; } }
 
         /// <summary>
-        /// Returns true of article general fixes can be applied to the page: article, draft or category namespace, sandbox, template documnetation page or Anexo namespace on es-wiki and pt-wiki
+        /// Returns true of article general fixes can be applied to the page: article, draft or category namespace, sandbox.
+        /// template documenetation page or Anexo namespace on es-wiki and pt-wiki
         /// </summary>
         [XmlIgnore]
         public bool CanDoGeneralFixes
