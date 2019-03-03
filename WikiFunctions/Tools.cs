@@ -106,7 +106,11 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikimediaProject(ProjectEnum p)
         {
-            return (p != ProjectEnum.custom && p != ProjectEnum.wikia);
+            return (p != ProjectEnum.custom &&
+                    p != ProjectEnum.wikia &&
+                    p != ProjectEnum.fandom &&
+                    p != ProjectEnum.gamepedia &&
+                   );
         }
 
         private static readonly char[] InvalidChars = { '[', ']', '{', '}', '|', '<', '>', '#' };
