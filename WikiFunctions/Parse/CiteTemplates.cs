@@ -79,7 +79,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated wiki text</returns>
         public static string FixCitationTemplates(string articleText)
         {
-            if (!Variables.LangCode.Equals("en"))
+            if (!Variables.LangCode.Equals("en") && !Variables.IsWikia.military)
                 return articleText;
 
             List<string> allTemplates = GetAllTemplates(articleText);
