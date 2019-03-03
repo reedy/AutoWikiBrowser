@@ -1303,6 +1303,26 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
+    /// Returns a list of "all drafts"
+    /// </summary>
+    public class AllDraftsSpecialPageProvider : AllPagesSpecialPageProvider
+    {
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            return MakeList(Namespace.Draft, searchCriteria);
+        }
+
+        public override string DisplayText
+        { get { return "All Drafts"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Start Draft:"; } }
+
+        public override bool NamespacesEnabled
+        { get { return false; } }
+}
+
+    /// <summary>
     /// Returns a list of "all redirects"
     /// </summary>
     public class AllRedirectsSpecialPageProvider : AllPagesSpecialPageProvider
