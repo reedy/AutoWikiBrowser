@@ -997,7 +997,7 @@ namespace WikiFunctions
                     break;
 
                 case "zh":
-                    Stub = ".*?(?:作品|[Ss]tub)";
+                    Stub = ".*?(?:小作品|[Ss]tub)";
                     mSummaryTag = "由";
                     WPAWB = "[[维基百科:自动维基浏览器|自动维基浏览器]]协助";
                     break;
