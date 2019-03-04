@@ -1267,6 +1267,8 @@ words";
             Assert.AreEqual(AB, Parsers.Dablinks(AB), "no change if already merged");
             AB = @"{{Distinguish|text=a}}{{Distinguish|text=b}}";
             Assert.AreEqual(AB, Parsers.Dablinks(AB), "no change if using text= parameter");
+            AB = @"{{Distinguish|A}}{{Distinguish|text=b}}";
+            Assert.AreEqual(AB, Parsers.Dablinks(AB), "no change if using text= parameter, second only");
         }
 
         [Test]

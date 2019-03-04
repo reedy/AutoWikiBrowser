@@ -288,7 +288,8 @@ namespace WikiFunctions.Parse
                 {
                     foreach (Match m2 in Tools.NestedTemplateRegex("distinguish").Matches(articleText))
                     {
-                        if (m2.Value.Equals(m.Value) || Tools.GetTemplateParameterValue(m.Value, "text").Length > 0)
+                        if (m2.Value.Equals(m.Value) || Tools.GetTemplateParameterValue(m.Value, "text").Length > 0
+                            || Tools.GetTemplateParameterValue(m2.Value, "text").Length > 0)
                             continue;
 
                         articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + m2.Groups[3].Value);
