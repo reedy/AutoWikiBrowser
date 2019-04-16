@@ -675,7 +675,7 @@ namespace WikiFunctions
                     LangCode = "en";
                     break;
                 case ProjectEnum.wikia:
-                    URL = "https://" + customProject + ".wikia.com";
+                    URL = "https://" + customProject + ".wikia.org";
                     URLEnd = "/";
                     break;
 		case ProjectEnum.fandom:
