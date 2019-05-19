@@ -44,7 +44,6 @@ namespace WikiFunctions
         incubator,
         wikia,
         fandom,
-	gamepedia,
         custom
     }
 
@@ -308,14 +307,6 @@ namespace WikiFunctions
             get { return Project == ProjectEnum.wikia || Project == ProjectEnum.fandom; }
         }
 	    
-        /// <summary>
-        /// Returns true if we are currently editing a Gamepedia site
-        /// </summary>
-        public static bool IsGamepedia
-        {
-            get { return Project == ProjectEnum.gamepedia; }
-        }
-
         /// <summary>
         /// Gets script path of a custom project or empty string if standard project
         /// </summary>
@@ -689,10 +680,6 @@ namespace WikiFunctions
                     break;
 		case ProjectEnum.fandom:
                     URL = "https://" + customProject + ".fandom.com";
-                    URLEnd = "/";
-                    break;
-		case ProjectEnum.gamepedia:
-                    URL = "https://" + customProject + ".gamepedia.com";
                     URLEnd = "/";
                     break;
                 case ProjectEnum.custom:
