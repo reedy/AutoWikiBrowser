@@ -552,6 +552,7 @@ foo {{persondata}}
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox settlement}} {{foo-bio-stub}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{italic title}} {{foo-bio-stub}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox racehorse}} {{foo-bio-stub}}", "foo"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox named horse}} {{foo-bio-stub}}", "foo"));
 
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"", "foo"));
