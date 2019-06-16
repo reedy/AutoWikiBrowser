@@ -528,6 +528,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex AsOfText = new Regex(@"\bas of\b");
         private static readonly Regex FloruitTemplate = Tools.NestedTemplateRegex(new [] {"fl", "fl.", "floruit"});
         private static readonly Regex BirthDateBasedOnAgeAtDeath = Tools.NestedTemplateRegex("Birth date based on age at death");
+        private static readonly Regex FootnoteTemplates = Tools.NestedTemplateRegex(new[] { "Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnb", "Sfnp", "Sfnm", "SfnRef" });
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -576,6 +577,7 @@ namespace WikiFunctions.Parse
 
             // remove references and long wikilinks (but allow an ISO date) that may contain false positives of birth/death date
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
+            zerothSection = FootnoteTemplates.Replace(zerothSection, " ");
             while(LongWikilink.IsMatch(zerothSection))
                 zerothSection = LongWikilink.Replace(zerothSection, " ");
 
@@ -656,7 +658,7 @@ namespace WikiFunctions.Parse
 
             // scrape any infobox
             yearFromInfoBox = "";
-            fromInfoBox = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields);
+            fromInfoBox = GetInfoBoxFieldValue(zerothSection, WikiRegexes.InfoBoxDODFields);
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;

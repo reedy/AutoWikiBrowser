@@ -658,6 +658,17 @@ died 2002
             Assert.AreEqual(infob1Date + @"
 [[Category:1835 births]]
 [[Category:1935 deaths]]", Parsers.FixPeopleCategories(infob1Date, "foo"), "Can use template with date param when date doesn't contain year");
+        
+            // don't take death year out of ref
+            const string infob5 = @"{{Infobox Officeholder
+|honorific-prefix   =
+|name            = John Foo
+|birth_date      = 
+|death_date= XXX{{sfn|Smith|2005}}
+|death_place=
+}} {{persondata}}";
+            Assert.AreEqual(infob5, Parsers.FixPeopleCategories(infob5, "foo"), "ignore ref for death year");
+        
         }
 
         [Test]
