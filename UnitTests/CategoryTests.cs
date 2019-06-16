@@ -668,6 +668,17 @@ died 2002
 |death_place=
 }} {{persondata}}";
             Assert.AreEqual(infob5, Parsers.FixPeopleCategories(infob5, "foo"), "ignore ref for death year");
+
+            // don't take death year out of {{birth date}}
+            const string infob6 = @"{{Infobox Officeholder
+|honorific-prefix   =
+|name            = John Foo
+|birth_date      = 
+|death_date= {{birth date|2005|1|1}}
+|death_place=
+}} {{persondata}}
+[[Category:2005 births]]";
+            Assert.AreEqual(infob6, Parsers.FixPeopleCategories(infob6, "foo"), "ignore ref for death year");
         
         }
 

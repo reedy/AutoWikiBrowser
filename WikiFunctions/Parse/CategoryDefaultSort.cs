@@ -658,7 +658,7 @@ namespace WikiFunctions.Parse
 
             // scrape any infobox
             yearFromInfoBox = "";
-            fromInfoBox = GetInfoBoxFieldValue(zerothSection, WikiRegexes.InfoBoxDODFields);
+            fromInfoBox = GetInfoBoxFieldValue(WikiRegexes.DateBirthAndAge.Replace(zerothSection, ""), WikiRegexes.InfoBoxDODFields);
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
