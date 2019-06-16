@@ -523,7 +523,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex LongWikilink = new Regex(@"\[\[[^\[\]\|]{11,}(?:\|[^\[\]]+)?\]\]");
         private static readonly Regex YearPossiblyWithBC = new Regex(@"\d{3,4}(?![\ds])(?: BC)?");
         private static readonly Regex ThreeOrFourDigitNumber = new Regex(@"[0-9]{3,4}");
-        private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)");
+        private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised|transitioned).*)");
         private static readonly Regex NotCircaTemplate = new Regex(@"{{(?!(?:[Cc]irca|[Ff]l\.?))[^{]*?}}");
         private static readonly Regex AsOfText = new Regex(@"\bas of\b");
         private static readonly Regex FloruitTemplate = Tools.NestedTemplateRegex(new [] {"fl", "fl.", "floruit"});

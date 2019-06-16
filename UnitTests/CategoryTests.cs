@@ -378,6 +378,9 @@ died 2002
             const string bd10 = @"'''King Godfred''' (ruled 804 - 810) {{persondata}}";
             Assert.AreEqual(bd10, Parsers.FixPeopleCategories(bd10, "foo"));
 
+            const string bd10b = @"'''King Godfred''' (born Abe Smith, transitioned 2005) {{persondata}}";
+            Assert.AreEqual(bd10b, Parsers.FixPeopleCategories(bd10b, "foo"));
+
             const string bd11 = @"'''Rabat I''' (1616/7 - 1644/5) {{persondata}}";
 
             Assert.AreEqual(bd11 + u, Parsers.FixPeopleCategories(bd11, "foo"));
