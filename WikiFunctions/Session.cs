@@ -294,26 +294,27 @@ namespace WikiFunctions
                     return WikiStatusResult.OldVersion;
                 }
 
+                bool usingJSON = false;
+
+#if DEBUG
                 // Attempt to load the JSON CheckPage from the wiki
                 // TODO: Check for 404 etc
                 string JSONCheckPageText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPageJSON&action=raw");
 
-                bool usingJSON = false;
-
-                if (string.IsNullOrEmpty(JSONCheckPageText))
+                if (!string.IsNullOrEmpty(JSONCheckPageText))
                 {
-                    // load non JSON check page
-                    // TODO: Check for 404
-                    string nonJSONCheckPageText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw");
-
-                    // remove U+200E LEFT-TO-RIGHT MARK, U+200F RIGHT-TO-LEFT MARK as on RTL wikis these can get typed in by accident
-                    nonJSONCheckPageText = DirectionMarks.Replace(nonJSONCheckPageText, "");
-
-                    CheckPageText = nonJSONCheckPageText;
-                } else {
-                    // usingJSON = true; // Disabled for debug purposes atm
+                    //usingJSON = true;
                     CheckPageJSONText = JSONCheckPageText;
                 }
+#endif
+                // load non JSON check page
+                // TODO: Check for 404
+                string nonJSONCheckPageText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw");
+
+                // remove U+200E LEFT-TO-RIGHT MARK, U+200F RIGHT-TO-LEFT MARK as on RTL wikis these can get typed in by accident
+                nonJSONCheckPageText = DirectionMarks.Replace(nonJSONCheckPageText, "");
+
+                CheckPageText = nonJSONCheckPageText;
 
                 if (!User.IsLoggedIn)
                 {
@@ -340,7 +341,7 @@ namespace WikiFunctions
                     }
                 }
 
-                // See if there's any messages on the enwiki version page
+                // See if there's any messages on the enwiki json version page
                 JSONMessages(versionJson["messages"]);
 
                 if (usingJSON)
