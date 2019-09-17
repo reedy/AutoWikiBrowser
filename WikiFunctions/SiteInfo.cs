@@ -242,7 +242,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Loads the category collation information (value of wgCategoryCollation parameter) from https://noc.wikimedia.org/conf/InitialiseSettings.php.txt
+        /// Loads the category collation information (value of wgCategoryCollation parameter) from https://noc.wikimedia.org/conf/VariantSettings.php.txt
         /// Stores result in object cache
         /// </summary>
         private void LoadCategoryCollation()
@@ -252,7 +252,7 @@ namespace WikiFunctions
             // web lookup if not in cache
             if (string.IsNullOrEmpty(catCollationInfo))
             {
-                catCollationInfo = Tools.GetHTML(@"https://noc.wikimedia.org/conf/InitialiseSettings.php.txt");
+                catCollationInfo = Tools.GetHTML(@"https://noc.wikimedia.org/conf/VariantSettings.php.txt");
 
                 // remove text before wgCategoryCollation section
                 catCollationInfo = catCollationInfo.Substring(catCollationInfo.IndexOf("wgCategoryCollation", StringComparison.Ordinal));
