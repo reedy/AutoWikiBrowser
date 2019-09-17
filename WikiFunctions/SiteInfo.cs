@@ -261,7 +261,7 @@ namespace WikiFunctions
                 catCollationInfo = Regex.Replace(catCollationInfo, @" *//.*", "");
 
                 // remove text after wgCategoryCollation section
-                catCollationInfo = catCollationInfo.Substring(0, catCollationInfo.IndexOf(")", StringComparison.Ordinal));
+                catCollationInfo = catCollationInfo.Substring(0, catCollationInfo.IndexOf("]", StringComparison.Ordinal));
 
                 // cache successful result
                 if (!string.IsNullOrEmpty(catCollationInfo))
