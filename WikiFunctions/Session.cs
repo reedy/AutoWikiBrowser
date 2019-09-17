@@ -363,7 +363,7 @@ namespace WikiFunctions
                     // see if there is a message
                     foreach (Match m in Message.Matches(CheckPageText))
                     {
-                        if (m.Groups[1].Value.Trim().Length > 0)
+                        if (m.Groups[1].Value.Trim().Length == 0)
                         {
                             continue;
                         }
