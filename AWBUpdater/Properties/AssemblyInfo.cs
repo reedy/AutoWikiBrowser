@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AWBUpdater")]
-[assembly: AssemblyCopyright("Copyright © 2007-2018 AutoWikiBrowser Team")]
+[assembly: AssemblyCopyright("Copyright © 2007-2019 AutoWikiBrowser Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
