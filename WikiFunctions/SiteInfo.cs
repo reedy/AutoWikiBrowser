@@ -44,7 +44,7 @@ namespace WikiFunctions
         // private Dictionary<string, string> messageCache = new Dictionary<string, string>();
         private readonly Dictionary<string, List<string>> magicWords = new Dictionary<string, List<string>>();
 
-        private string siteinfoOutput, catCollationInfo;
+        private string siteinfoOutput;
 
         private readonly Uri uri;
         internal SiteInfo()
@@ -159,12 +159,9 @@ namespace WikiFunctions
 
             // cache successful result
             ObjectCache.Global.Set("SiteInfo:" + scriptPath, siteinfoOutput);
-          
+
             return true;
         }
-
-        // matches CategoryCollation detail listings at https://noc.wikimedia.org/conf/InitialiseSettings.php.txt format 'frwiki' => 'uca-fr',
-        private static readonly Regex UcacatCollation = new Regex(@"'([a-z_]+)' *=> * '[a-z-]*uca\-");
 
         /// <summary>
         /// Loads SiteInfo from local cache or API call, processes data returned
@@ -232,41 +229,9 @@ namespace WikiFunctions
                 magicWords.Add(xn.Attributes["name"].Value, alias);
             }
 
-            // CategoryCollation: Unicode sorting in category sort keys
-            LoadCategoryCollation();
-            UcaCategoryCollation = (from Match m in UcacatCollation.Matches(catCollationInfo) select m.Groups[1].Value).ToList();
-
             LoadAWBTag();
 
             return true;
-        }
-
-        /// <summary>
-        /// Loads the category collation information (value of wgCategoryCollation parameter) from https://noc.wikimedia.org/conf/VariantSettings.php.txt
-        /// Stores result in object cache
-        /// </summary>
-        private void LoadCategoryCollation()
-        {
-            catCollationInfo = (string) ObjectCache.Global.Get<string>("CategoryCollation:");
-
-            // web lookup if not in cache
-            if (string.IsNullOrEmpty(catCollationInfo))
-            {
-                catCollationInfo = Tools.GetHTML(@"https://noc.wikimedia.org/conf/VariantSettings.php.txt");
-
-                // remove text before wgCategoryCollation section
-                catCollationInfo = catCollationInfo.Substring(catCollationInfo.IndexOf("wgCategoryCollation", StringComparison.Ordinal));
-
-                // remove comments
-                catCollationInfo = Regex.Replace(catCollationInfo, @" *//.*", "");
-
-                // remove text after wgCategoryCollation section
-                catCollationInfo = catCollationInfo.Substring(0, catCollationInfo.IndexOf("]", StringComparison.Ordinal));
-
-                // cache successful result
-                if (!string.IsNullOrEmpty(catCollationInfo))
-                    ObjectCache.Global.Set("CategoryCollation:", catCollationInfo);
-            }
         }
 
         /// <summary>
@@ -381,14 +346,6 @@ namespace WikiFunctions
         public bool CapitalizeFirstLetter
         { get; private set; }
 
-        /// <summary>
-        /// Lists those wikis using Unicode (uca-) sorting for category sort keys, by checking wgCategoryCollation from https://noc.wikimedia.org/conf/InitialiseSettings.php.txt
-        /// In format frwiki, etwikibooks etc.
-        /// </summary>
-        /// <value>The uca category collation.</value>
-        public List<string> UcaCategoryCollation
-        { get; private set; }
-        
         /// <summary>
         /// Category Collation ($wgCategoryCollation) of the wiki
         /// </summary>
