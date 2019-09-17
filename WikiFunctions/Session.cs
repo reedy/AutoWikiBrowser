@@ -367,7 +367,7 @@ namespace WikiFunctions
                         {
                             continue;
                         }
-                        MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK,
+                        MessageBox.Show(m.Groups[1].Value.Trim(), "Automated message", MessageBoxButtons.OK,
                                         MessageBoxIcon.Information);
                     }
 
@@ -379,7 +379,7 @@ namespace WikiFunctions
                         {
                             continue;
                         }
-                        MessageBox.Show(m.Groups[2].Value, "Automated message", MessageBoxButtons.OK,
+                        MessageBox.Show(m.Groups[2].Value.Trim(), "Automated message", MessageBoxButtons.OK,
                                         MessageBoxIcon.Information);
                     }
 
@@ -491,7 +491,7 @@ namespace WikiFunctions
                         continue;
                     }
                     // TODO: Stop this depending on MessageBox.Show() add an event/delegate and handle in Main.cs
-                    MessageBox.Show(message["text"].ToString(), "Automated message", MessageBoxButtons.OK,
+                    MessageBox.Show(message["text"].ToString().Trim(), "Automated message", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
                 }
             }
