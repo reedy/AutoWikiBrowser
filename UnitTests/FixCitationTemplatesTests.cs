@@ -111,6 +111,8 @@ Bar}} was"), "newline converted to space, any parameter");
             Assert.AreEqual(correct.Replace("url=", "contribution-url="), Parsers.FixCitationTemplates(correct.Replace("url=http://", "contribution-url=")), "Adds http:// when contribution-url begins www.");
             string dash = @"now {{cite web|title=foo | url=www-foo.a.com | date = 1 June 2010 }}";
             Assert.AreEqual(dash.Replace("www", "http://www"), Parsers.FixCitationTemplates(dash), "handles www-");
+
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct.Replace("http://www", "http:www")), "Adds missing http slashes");
         }
 
         [Test]

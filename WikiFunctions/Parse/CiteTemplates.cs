@@ -507,6 +507,11 @@ namespace WikiFunctions.Parse
             if (theURL.StartsWith("www", StringComparison.OrdinalIgnoreCase))
                 theURL = "http://" + theURL;
 
+            // URL http format fix
+            if (theURL.StartsWith("http") && !theURL.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                && !theURL.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                theURL = FixSyntax(" " + theURL).Trim();
+
             if (archiveurl.StartsWith("www", StringComparison.OrdinalIgnoreCase))
             {
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "archiveurl", "http://" + archiveurl);
