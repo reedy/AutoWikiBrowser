@@ -1411,11 +1411,15 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Replaces legacy/deprecated language codes in interwikis with correct ones
+        /// Only runs on wikimedia wikis
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns>Page text</returns>
         public static string InterwikiConversions(string articleText)
         {
+            if(!Variables.IsWikimediaProject)
+                return articleText;
+
             List<string> possibleInterwiki = Tools.DeduplicateList(GetAllWikiLinks(articleText)).FindAll(l => l.Contains(":"));
 
             if (possibleInterwiki.Any(l => l.StartsWith(@"[[zh-tw:")))

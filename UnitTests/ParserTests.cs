@@ -2013,10 +2013,16 @@ Text
         [Test]
         public void ConversionTestsInterwikiMigration()
         {
+            #if DEBUG
+            Variables.SetProjectSimple("en", ProjectEnum.wikia);
+            Assert.AreEqual(@"[[zh-tw:foo]]", Parsers.InterwikiConversions(@"[[zh-tw:foo]]"));
+
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
             Assert.AreEqual(@"{{hello}}", Parsers.Conversions(@"{{msg:hello}}"));
             Assert.AreEqual(@"[[zh:foo]]", Parsers.InterwikiConversions(@"[[zh-tw:foo]]"));
             Assert.AreEqual(@"[[no:foo]]", Parsers.InterwikiConversions(@"[[nb:foo]]"));
             Assert.AreEqual(@"[[da:foo]]", Parsers.InterwikiConversions(@"[[dk:foo]]"));
+            #endif
         }
         [Test]
         public void PageNameTests()
