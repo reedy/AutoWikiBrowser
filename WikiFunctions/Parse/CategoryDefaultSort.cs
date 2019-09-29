@@ -642,8 +642,8 @@ namespace WikiFunctions.Parse
                             if (!CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
                                 articleText += StartCategory + YearOfBirthUncertain + CatEnd(sort);
                         }
-                        else // after removing dashes, birthpart must still contain year
-                            if (!birthpart.Contains(@"?") && Regex.IsMatch(birthpart, @"\d{3,4}"))
+                        else // after removing dashes, birthpart must still contain year and not a year range
+                            if (!birthpart.Contains(@"?") && Regex.IsMatch(birthpart, @"\d{3,4}") && !Regex.IsMatch(m.Value, @"[12]\d\d\d.[12]\d\d\d"))
                                 yearstring = m.Groups[1].Value;
                     }
                 }
@@ -707,7 +707,7 @@ namespace WikiFunctions.Parse
                 int deathyearint = int.Parse(deathyear);
 
                 // logical valdiation of dates
-                if (birthyearint <= deathyearint && (deathyearint - birthyearint) <= 125)
+                if (birthyearint <= (deathyearint-2) && (deathyearint - birthyearint) <= 125)
                 {
                     string birthpart = zerothSection.Substring(m.Index, m.Groups[2].Index - m.Index),
                     deathpart = zerothSection.Substring(m.Groups[2].Index, (m.Value.Length + m.Index) - m.Groups[2].Index);

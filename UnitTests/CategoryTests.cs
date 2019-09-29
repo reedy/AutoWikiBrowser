@@ -385,6 +385,11 @@ died 2002
 
             Assert.AreEqual(bd11 + u, Parsers.FixPeopleCategories(bd11, "foo"));
 
+            const string bd11b = @"'''Rabat I''' (born 1969-1970) {{persondata}}
+[[Category:Year of birth uncertain]]";
+
+            Assert.AreEqual(bd11b, Parsers.FixPeopleCategories(bd11b, "foo"));
+
             const string bd12 = @"'''Lorenzo Monaco''' (born  '''Piero di Giovanni''' [[Circa|c.]]1370-1425) {{persondata}}
 [[Category:1425 deaths]]";
 
