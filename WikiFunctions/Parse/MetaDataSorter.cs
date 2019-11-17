@@ -339,6 +339,10 @@ en, sq, ru
                 if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
                     articleText = MoveTemplate(articleText, WikiRegexes.Dablinks);
 
+                // {{short description}} above dablinks per [[MOS:ORDER]]
+                if (TemplateExists(alltemplates, WikiRegexes.ShortDescriptionTemplate))
+                    articleText = MoveTemplate(articleText, WikiRegexes.ShortDescriptionTemplate);
+
                 if (Variables.LangCode.Equals("en"))
                 {
                     if (TemplateExists(alltemplates, WikiRegexes.PortalTemplate))

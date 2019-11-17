@@ -245,6 +245,9 @@ more words
             Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + "\r\n" + d, WikiRegexes.Dablinks));
             Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks));
             Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks));
+
+            // short description above dablink per MOS:ORDER
+            Assert.AreEqual(@"{{short description|foo}}" + "\r\n" + e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + @"{{short description|foo}}" + "\r\n" + d, WikiRegexes.ShortDescriptionTemplate));
         }
 
         [Test]

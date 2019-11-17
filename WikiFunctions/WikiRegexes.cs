@@ -1179,6 +1179,11 @@ namespace WikiFunctions
                 "otheruses2", "otheruses3", "otheruses4", "other uses of", "otheruse", "outline", "redirect-acronym", "redirect-distinguish", "redirect-distinguish2", "redirect-several", "redirect", "redirect2", "redirect3", "see also", "this", "disambig-acronym", "selfref" }, false);
 
         /// <summary>
+        /// Matches {{short description}} template and its redirects
+        /// </summary>
+        public static readonly Regex ShortDescriptionTemplate = Tools.NestedTemplateRegex(new[] { "Short description", "Brief description", "Short desc", "Short-description", "Shortdescription" }, false);
+
+        /// <summary>
         /// matches speedy deletion templates (from Category:Speedy_deletion_templates), deletion templates (Category:Proposed_deletion-related_templates) and protection templates (Category:Protection_templates)
         /// Plus optional wiki comment(s) before and/or after
         /// </summary>
