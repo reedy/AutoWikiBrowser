@@ -296,25 +296,27 @@ namespace WikiFunctions
 
                 bool usingJSON = false;
 
-#if DEBUG
                 // Attempt to load the JSON CheckPage from the wiki
-                // TODO: Check for 404 etc
                 string JSONCheckPageText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPageJSON&action=raw");
 
+                // HttpGet returns "" for 404
                 if (!string.IsNullOrEmpty(JSONCheckPageText))
                 {
-                    //usingJSON = true;
+                    usingJSON = true;
                     CheckPageJSONText = JSONCheckPageText;
                 }
-#endif
-                // load non JSON check page
-                // TODO: Check for 404
-                string nonJSONCheckPageText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw");
+                else
+                {
+                    // load non JSON check page
+                    string nonJSONCheckPageText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw");
 
-                // remove U+200E LEFT-TO-RIGHT MARK, U+200F RIGHT-TO-LEFT MARK as on RTL wikis these can get typed in by accident
-                nonJSONCheckPageText = DirectionMarks.Replace(nonJSONCheckPageText, "");
+                    // TODO: Some error handling
 
-                CheckPageText = nonJSONCheckPageText;
+                    // remove U+200E LEFT-TO-RIGHT MARK, U+200F RIGHT-TO-LEFT MARK as on RTL wikis these can get typed in by accident
+                    nonJSONCheckPageText = DirectionMarks.Replace(nonJSONCheckPageText, "");
+
+                    CheckPageText = nonJSONCheckPageText;
+                }
 
                 if (!User.IsLoggedIn)
                 {
@@ -330,6 +332,7 @@ namespace WikiFunctions
                 Editor.Maxlag = /*User.IsBot ? 5 : 20*/ -1;
 
                 var versionJson = JObject.Parse(Updater.GlobalVersionPage);
+
                 // check if username is globally blacklisted based on the enwiki version page
                 foreach (string badName in versionJson["badnames"])
                 {
@@ -341,7 +344,7 @@ namespace WikiFunctions
                     }
                 }
 
-                // See if there's any messages on the enwiki json version page
+                // See if there's any global messages on the enwiki json version page
                 JSONMessages(versionJson["messages"]);
 
                 if (usingJSON)
@@ -351,13 +354,64 @@ namespace WikiFunctions
                     // See if there's any messages on the local wikis checkpage
                     JSONMessages(checkPageJson["messages"]);
 
-                    string configJSON = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config&action=raw");
+                    string configJSONText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config&action=raw");
+                    // TODO: 404
 
-                    // TODO: Other stuff we currently do from wikipage
+                    var configJson = JObject.Parse(configJSONText);
+
+                    Variables.RetfPath = !string.IsNullOrEmpty(configJson["typolink"].ToString()) ? configJson["typolink"].ToString() : "";
+
+                    List<string> us = new List<string>();
+                    foreach (var underscore in Underscores.Matches(CheckPageText))
+                    {
+                        if (underscore.ToString().Trim().Length > 0)
+                        {
+                            us.Add(underscore.ToString().Trim());
+                        }
+                    }
+                    if (us.Count > 0)
+                    {
+                        Variables.LoadUnderscores(us.ToArray());
+                    }
+
+                    // don't require approval if checkpage does not exist
+                    // Or it has the special text...
+                    if (CheckPageJSONText.Length < 1 || (bool)configJson["allusersenabled"])
+                    {
+                        IsBot = true;
+                        return WikiStatusResult.Registered;
+                    }
+
+                    var enabledUsers = new List<string>();
+
+                    foreach(var u in configJson["enabledusers"])
+                    {
+                        enabledUsers.Add(u.ToString());
+                    }
+                    // Checkpage option: 'allusersenabledusermode' will enable all users for user mode,
+                    // and enable bots only when in 'enabledbots' section
+                    if (
+                        (bool)configJson["allusersenabledusermode"] ||
+                        (IsSysop && Variables.Project != ProjectEnum.wikia) ||
+                        enabledUsers.Contains(User.Name)
+                        )
+                    {
+                        var enabledBots = new List<string>();
+
+                        foreach (var u in configJson["enabledbots"])
+                        {
+                            enabledBots.Add(u.ToString());
+                        }
+
+                        // enable bot mode if in bots section
+                        IsBot = enabledBots.Contains(User.Name);
+
+                        return WikiStatusResult.Registered;
+                    }
                 }
                 else
                 {
-                    // THIS IS ALL BASICALLY DEPRECATED... ISH.
+                    // THIS IS ALL BASICALLY DEPRECATED...
 
                     // CheckPage Messages per wiki are still in scary HTML comments.... TBC!
                     // see if there is a message
