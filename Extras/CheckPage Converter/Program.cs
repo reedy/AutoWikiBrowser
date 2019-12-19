@@ -115,21 +115,30 @@ namespace CheckPage_Converter
             if (noGenFix.Success)
             {
                 foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noGenFix.Value))
+                {
                     if (!NoParse.Contains(link.Groups[1].Value))
+                    {
                         NoParse.Add(link.Groups[1].Value);
+                    }
+                }
             }
 
             NoParse.Sort();
             configOutput.Add("nogenfixes", NoParse);
 
             List<string> NoRetf = new List<string>();
+
             // Get list of articles not to apply RETF to.
             Match noRETF = WikiRegexes.NoRETF.Match(origCheckPageText);
             if (noRETF.Success)
             {
                 foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noRETF.Value))
+                {
                     if (!NoRetf.Contains(link.Groups[1].Value))
+                    {
                         NoRetf.Add(link.Groups[1].Value);
+                    }
+                }
             }
 
             NoRetf.Sort();
