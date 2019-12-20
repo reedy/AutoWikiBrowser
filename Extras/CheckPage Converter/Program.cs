@@ -102,7 +102,9 @@ namespace CheckPage_Converter
             foreach (Match underscore in Underscores.Matches(origCheckPageText))
             {
                 if (underscore.Success && underscore.Groups[1].Value.Trim().Length > 0)
+                {
                     us.Add(underscore.Groups[1].Value.Trim());
+                }
             }
 
             us.Sort();
