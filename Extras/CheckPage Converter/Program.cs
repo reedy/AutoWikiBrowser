@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WikiFunctions;
 using WikiFunctions.API;
 using WikiFunctions.Profiles;
@@ -33,19 +35,27 @@ namespace CheckPage_Converter
                 Console.WriteLine("{0}) {1}", p.ID, p.Username);
             }
 
-            int id = -1;
+            string input;
+            int id;
             do
             {
                 Console.WriteLine();
                 Console.Write("Enter number of profile to use: ");
-                string input = Console.ReadLine().Trim();
-                int.TryParse(input, out id);
+                input = Console.ReadLine().Trim();
 
-            } while (id < 0);
+            } while (!int.TryParse(input, out id));
 
             var profile = AWBProfiles.GetProfile(id);
 
-            string[] wikis = { "https://en.wikipedia.org/w/" };
+            var sitematrix = JObject.Parse(Tools.GetHTML(
+                "https://meta.wikimedia.org/w/api.php?action=sitematrix&smsiteprop=url&smlimit=max&format=json"));
+
+            var wikis = sitematrix.Descendants()
+                .Where(x => x is JObject)
+                .Where(x => x["site"] != null || x["url"] != null)
+                .Select(x => x["url"])
+                .Where(x => x != null)
+                .ToList();
 
             foreach (string wiki in wikis) {
                 Console.WriteLine("Converting checkpage format using User:{0} on {1}", profile.Username, wiki);
