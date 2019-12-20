@@ -47,8 +47,12 @@ namespace CheckPage_Converter
 
             var profile = AWBProfiles.GetProfile(id);
 
-            Console.WriteLine("Converting checkpage format using User:{0}", profile.Username);
-            UpdateWiki("https://en.wikipedia.org/w/", profile.Username, profile.Password);
+            string[] wikis = { "https://en.wikipedia.org/w/" };
+
+            foreach (string wiki in wikis) {
+                Console.WriteLine("Converting checkpage format using User:{0} on {1}", profile.Username, wiki);
+                UpdateWiki(wiki, profile.Username, profile.Password);
+            }
             Console.WriteLine("Done!");
             Console.ReadLine();
         }
