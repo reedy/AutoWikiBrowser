@@ -17,6 +17,7 @@ namespace CheckPage_Converter
         static void Main(string[] args)
         {
             Console.WriteLine("AutoWikiBrowser CheckPage migration to structured JSON pages");
+            Console.WriteLine();
             var profiles = AWBProfiles.GetProfiles();
 
             if (profiles.Count == 0)
@@ -26,7 +27,7 @@ namespace CheckPage_Converter
                 return;
             }
 
-            Console.WriteLine("Profiles:");
+            Console.WriteLine("Profiles that can be used for migration:");
             foreach (var p in profiles)
             {
                 Console.WriteLine("{0}) {1}", p.ID, p.Username);
@@ -36,7 +37,7 @@ namespace CheckPage_Converter
             do
             {
                 Console.WriteLine();
-                Console.Write("Enter number: ");
+                Console.Write("Enter number of profile to use: ");
                 string input = Console.ReadLine().Trim();
                 if (!int.TryParse(input, out id))
                 {
