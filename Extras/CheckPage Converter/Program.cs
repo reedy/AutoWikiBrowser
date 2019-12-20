@@ -15,9 +15,15 @@ namespace CheckPage_Converter
 
         static void Main(string[] args)
         {
+            var profile = AWBProfiles.GetProfile(1);
+            UpdateWiki("https://en.wikipedia.org/w/", profile.Username, profile.Password);
+        }
+
+        static void UpdateWiki(string url, string username, string password)
+        {
             var origCheckPageText =
                 Tools.GetHTML(
-                    "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage&action=raw");
+                    url + "index.php?title=Wikipedia:AutoWikiBrowser/CheckPage&action=raw");
 
             var enabledUsers = Tools.StringBetween(origCheckPageText, "<!--enabledusersbegins-->",
                                                     "<!--enabledusersends-->");
@@ -26,10 +32,10 @@ namespace CheckPage_Converter
 
             var normalUsers = enabledUsers.Replace("<!--enabledbots-->" + botUsers + "<!--enabledbotsends-->", "");
 
-            Regex username = new Regex(@"^\*\s*(.*?)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
+            Regex usernameRegex = new Regex(@"^\*\s*(.*?)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
             List<string> users = new List<string>();
-            foreach (Match m in username.Matches(normalUsers))
+            foreach (Match m in usernameRegex.Matches(normalUsers))
             {
                 users.Add(m.Groups[1].Value.Trim());
             }
@@ -37,7 +43,7 @@ namespace CheckPage_Converter
             users.Sort();
 
             List<string> bots = new List<string>();
-            foreach (Match m in username.Matches(botUsers))
+            foreach (Match m in usernameRegex.Matches(botUsers))
             {
                 bots.Add(m.Groups[1].Value.Trim());
             }
@@ -49,9 +55,10 @@ namespace CheckPage_Converter
                 { "enabledbots", bots }
             };
 
-            ApiEdit edit = new ApiEdit("https://en.wikipedia.org/w/");
-            var profile = AWBProfiles.GetProfile(1);
-            edit.Login(profile.Username, profile.Password);
+            ApiEdit edit = new ApiEdit(url);
+
+            
+            edit.Login(username, uassword);
 
             edit.Open("Project:AutoWikiBrowser/CheckPageJSON");
             edit.Save(JsonConvert.SerializeObject(checkPageOutput, Formatting.Indented), "Converting from non json page", false, WatchOptions.NoChange);
