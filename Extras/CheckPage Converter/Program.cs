@@ -60,18 +60,23 @@ namespace CheckPage_Converter
                 .ToList();
 
             foreach (string wiki in wikis) {
-                Console.WriteLine("Converting checkpage format using User:{0} on {1}", profile.Username, wiki);
-                UpdateWiki(wiki, profile.Username, profile.Password);
+                Console.Write("Converting checkpage format using User:{0} on {1}:", profile.Username, wiki);
+                Console.WriteLine(UpdateWiki(wiki, profile.Username, profile.Password));
             }
             Console.WriteLine("Done!");
             Console.ReadLine();
         }
 
-        static void UpdateWiki(string url, string username, string password)
+        private static string UpdateWiki(string url, string username, string password)
         {
             var origCheckPageText =
                 Tools.GetHTML(
                     $"{url}/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage&action=raw");
+
+            if (string.IsNullOrEmpty(origCheckPageText))
+            {
+                return "No check page";
+            }
 
             var enabledUsers = Tools.StringBetween(origCheckPageText, "<!--enabledusersbegins-->",
                 "<!--enabledusersends-->");
@@ -228,6 +233,8 @@ namespace CheckPage_Converter
                 edit.Protect(title, $"Copying protection from [[{title}]] - {PHAB_TASK}", "infinite",
                     edit.Page.EditProtection, edit.Page.MoveProtection);
             }
+
+            return "Done!";
         }
     }
 }
