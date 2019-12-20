@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using WikiFunctions;
@@ -15,7 +16,36 @@ namespace CheckPage_Converter
 
         static void Main(string[] args)
         {
-            var profile = AWBProfiles.GetProfile(1);
+            Console.WriteLine("AutoWikiBrowser CheckPage migration to structured JSON pages");
+            var profiles = AWBProfiles.GetProfiles();
+
+            if (profiles.Count == 0)
+            {
+                Console.WriteLine("No profiles to use, open AutoWikiBrowser and create one!");
+                Console.ReadLine();
+                return;
+            }
+
+            Console.WriteLine("Profiles:");
+            foreach (var p in profiles)
+            {
+                Console.WriteLine("{0}) {1}", p.ID, p.Username);
+            }
+
+            int id = -1;
+            do
+            {
+                Console.WriteLine();
+                Console.Write("Enter number: ");
+                string input = Console.ReadLine().Trim();
+                if (!int.TryParse(input, out id))
+                {
+                    continue;
+                }
+
+            } while (id < 0);
+
+            var profile = AWBProfiles.GetProfile(id);
             UpdateWiki("https://en.wikipedia.org/w/", profile.Username, profile.Password);
         }
 
@@ -58,7 +88,7 @@ namespace CheckPage_Converter
             ApiEdit edit = new ApiEdit(url);
 
             
-            edit.Login(username, uassword);
+            edit.Login(username, password);
 
             edit.Open("Project:AutoWikiBrowser/CheckPageJSON");
             edit.Save(JsonConvert.SerializeObject(checkPageOutput, Formatting.Indented), "Converting from non json page", false, WatchOptions.NoChange);
