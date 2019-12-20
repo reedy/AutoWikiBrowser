@@ -60,9 +60,11 @@ namespace CheckPage_Converter
                 .ToList();
 
             foreach (string wiki in wikis) {
-                Console.Write("Converting checkpage format using User:{0} on {1}:", profile.Username, wiki);
+                Console.Write("Converting checkpage format using User:{0} on {1}... ", profile.Username, wiki);
                 Console.WriteLine(UpdateWiki(wiki, profile.Username, profile.Password));
             }
+
+            Console.WriteLine();
             Console.WriteLine("Done!");
             Console.ReadLine();
         }
@@ -90,7 +92,10 @@ namespace CheckPage_Converter
             List<string> users = new List<string>();
             foreach (Match m in usernameRegex.Matches(normalUsers))
             {
-                users.Add(m.Groups[1].Value.Trim());
+                if (!string.IsNullOrEmpty(m.Groups[1].Value.Trim()))
+                {
+                    users.Add(m.Groups[1].Value.Trim());
+                }
             }
 
             users.Sort();
@@ -98,19 +103,21 @@ namespace CheckPage_Converter
             List<string> bots = new List<string>();
             foreach (Match m in usernameRegex.Matches(botUsers))
             {
-                bots.Add(m.Groups[1].Value.Trim());
+                if (!string.IsNullOrEmpty(m.Groups[1].Value.Trim()))
+                {
+                    bots.Add(m.Groups[1].Value.Trim());
+                }
             }
 
             bots.Sort();
 
             Dictionary<string, List<string>> checkPageOutput = new Dictionary<string, List<string>>
             {
-                {"enabledusers", users},
-                {"enabledbots", bots}
+                {"enabledusers", users.Distinct().ToList()},
+                {"enabledbots", bots.Distinct().ToList()}
             };
 
-            ApiEdit edit = new ApiEdit(url);
-
+            ApiEdit edit = new ApiEdit($"{url}/w/" );
 
             edit.Login(username, password);
 
