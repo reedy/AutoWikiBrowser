@@ -349,7 +349,10 @@ namespace WikiFunctions
                 JSONMessages(versionJson["messages"]);
 
                 if (usingJSON)
-                { 
+                {
+                    string configJSONText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config&action=raw");
+                    // TODO: 404
+
                     var configJson = JObject.Parse(configJSONText);
 
                     // See if there's any messages on the local wikis config page
@@ -358,7 +361,7 @@ namespace WikiFunctions
                     Variables.RetfPath = !string.IsNullOrEmpty(configJson["typolink"].ToString()) ? configJson["typolink"].ToString() : "";
 
                     List<string> us = new List<string>();
-                    foreach (var underscore in Underscores.Matches(CheckPageText))
+                    foreach (var underscore in configJson["underscoretitles"])
                     {
                         if (underscore.ToString().Trim().Length > 0)
                         {
@@ -378,11 +381,9 @@ namespace WikiFunctions
                         return WikiStatusResult.Registered;
                     }
 
-                    string configJSONText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config&action=raw");
-                    // TODO: 404
                     var checkPageJson = JObject.Parse(CheckPageJSONText);
 
-                    var enabledUsers = v["enabledusers"].Select(u => u.ToString()).ToList();
+                    var enabledUsers = configJson["enabledusers"].Select(u => u.ToString()).ToList();
 
                     // CheckPage option: 'allusersenabledusermode' will enable all users for user mode,
                     // and enable bots only when in 'enabledbots' section
