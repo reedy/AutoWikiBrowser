@@ -39,10 +39,7 @@ namespace CheckPage_Converter
                 Console.WriteLine();
                 Console.Write("Enter number of profile to use: ");
                 string input = Console.ReadLine().Trim();
-                if (!int.TryParse(input, out id))
-                {
-                    continue;
-                }
+                int.TryParse(input, out id);
 
             } while (id < 0);
 
