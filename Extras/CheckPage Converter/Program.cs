@@ -16,6 +16,8 @@ namespace CheckPage_Converter
         private static readonly Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
         private static readonly Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
 
+        private const string PHAB_TASK = "https://phabricator.wikimedia.org/T241196";
+
         static void Main(string[] args)
         {
             Console.WriteLine("AutoWikiBrowser CheckPage migration to structured JSON pages");
@@ -69,10 +71,10 @@ namespace CheckPage_Converter
         {
             var origCheckPageText =
                 Tools.GetHTML(
-                    url + "index.php?title=Wikipedia:AutoWikiBrowser/CheckPage&action=raw");
+                    $"{url}/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage&action=raw");
 
             var enabledUsers = Tools.StringBetween(origCheckPageText, "<!--enabledusersbegins-->",
-                                                    "<!--enabledusersends-->");
+                "<!--enabledusersends-->");
 
             var botUsers = Tools.StringBetween(enabledUsers, "<!--enabledbots-->", "<!--enabledbotsends-->");
 
@@ -96,28 +98,42 @@ namespace CheckPage_Converter
 
             bots.Sort();
 
-            Dictionary<string, List<string>> checkPageOutput = new Dictionary<string, List<string>> {
-                { "enabledusers", users },
-                { "enabledbots", bots }
+            Dictionary<string, List<string>> checkPageOutput = new Dictionary<string, List<string>>
+            {
+                {"enabledusers", users},
+                {"enabledbots", bots}
             };
 
             ApiEdit edit = new ApiEdit(url);
 
-            
+
             edit.Login(username, password);
 
-            edit.Open("Project:AutoWikiBrowser/CheckPageJSON");
-            edit.Save(JsonConvert.SerializeObject(checkPageOutput, Formatting.Indented), "Converting from non json page", false, WatchOptions.NoChange);
+            var title = "Project:AutoWikiBrowser/CheckPageJSON";
+
+            edit.Open(title);
+
+            edit.Save(JsonConvert.SerializeObject(checkPageOutput, Formatting.Indented),
+                $"Converting AutoWikiBrowser CheckPage to json - {PHAB_TASK}", false,
+                WatchOptions.NoChange, "json");
+
+            if (!string.IsNullOrEmpty(edit.Page.EditProtection) || !string.IsNullOrEmpty(edit.Page.MoveProtection))
+            {
+                edit.Protect(title, $"Copying protection from [[{title}]] - {PHAB_TASK}", "infinite",
+                    edit.Page.EditProtection, edit.Page.MoveProtection);
+            }
 
             // Site Config stuff
             Dictionary<string, object> configOutput = new Dictionary<string, object>();
 
             Match typoLink = Regex.Match(origCheckPageText, "<!--[Tt]ypos:(.*?)-->");
-            configOutput.Add("typolink", typoLink.Success && typoLink.Groups[1].Value.Trim().Length > 0 ? typoLink.Groups[1].Value.Trim() : "");
+            configOutput.Add("typolink",
+                typoLink.Success && typoLink.Groups[1].Value.Trim().Length > 0 ? typoLink.Groups[1].Value.Trim() : "");
 
             configOutput.Add("allusersenabled", origCheckPageText.Contains("<!--All users enabled-->"));
 
-            configOutput.Add("allusersenabledusermode", origCheckPageText.Contains("<!--All users enabled user mode-->"));
+            configOutput.Add("allusersenabledusermode",
+                origCheckPageText.Contains("<!--All users enabled user mode-->"));
 
             List<Dictionary<string, string>> awbMessages = new List<Dictionary<string, string>>();
 
@@ -129,9 +145,10 @@ namespace CheckPage_Converter
                     continue;
                 }
 
-                awbMessages.Add(new Dictionary<string, string> {
-                    { "version", "*" },
-                    { "message", m.Groups[1].Value.Trim() }
+                awbMessages.Add(new Dictionary<string, string>
+                {
+                    {"version", "*"},
+                    {"message", m.Groups[1].Value.Trim()}
                 });
             }
 
@@ -143,9 +160,10 @@ namespace CheckPage_Converter
                     continue;
                 }
 
-                awbMessages.Add(new Dictionary<string, string> {
-                    { "version", m.Groups[1].Value },
-                    { "message", m.Groups[2].Value.Trim() }
+                awbMessages.Add(new Dictionary<string, string>
+                {
+                    {"version", m.Groups[1].Value},
+                    {"message", m.Groups[2].Value.Trim()}
                 });
             }
 
@@ -199,8 +217,17 @@ namespace CheckPage_Converter
             NoRetf.Sort();
             configOutput.Add("noregextypofix", NoRetf);
 
-            edit.Open("Project:AutoWikiBrowser/Config");
-            edit.Save(JsonConvert.SerializeObject(configOutput, Formatting.Indented), "Converting from non json page", false, WatchOptions.NoChange);
+            title = "Project:AutoWikiBrowser/Config";
+            edit.Open(title);
+            edit.Save(JsonConvert.SerializeObject(configOutput, Formatting.Indented),
+                $"Converting AutoWikiBrowser wiki config to json - {PHAB_TASK}", false,
+                WatchOptions.NoChange, "json");
+
+            if (!string.IsNullOrEmpty(edit.Page.EditProtection) || !string.IsNullOrEmpty(edit.Page.MoveProtection))
+            {
+                edit.Protect(title, $"Copying protection from [[{title}]] - {PHAB_TASK}", "infinite",
+                    edit.Page.EditProtection, edit.Page.MoveProtection);
+            }
         }
     }
 }
