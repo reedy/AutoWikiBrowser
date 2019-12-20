@@ -78,6 +78,11 @@ namespace WikiFunctions
         { get; private set; }
 
         /// <summary>
+        /// Config Page JSON text
+        /// </summary>
+        private string ConfigJSONText { get; set; }
+
+        /// <summary>
         /// Gets the JSON of version check page.
         /// </summary>
         /// <value>The JSON of version check page.</value>
@@ -353,6 +358,8 @@ namespace WikiFunctions
                     string configJSONText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config&action=raw");
                     // TODO: 404
 
+                    ConfigJSONText = configJSONText;
+
                     var configJson = JObject.Parse(configJSONText);
 
                     // See if there's any messages on the local wikis config page
@@ -491,6 +498,22 @@ namespace WikiFunctions
                 IsBot = false;
                 return WikiStatusResult.Error;
             }
+        }
+
+        public List<string> NoGenfixes()
+        {
+            return JObject.Parse(ConfigJSONText)["nogenfixes"]
+                .Select(page => page.ToString())
+                .Distinct()
+                .ToList();
+        }
+
+        public List<string> NoRETF()
+        {
+            return JObject.Parse(ConfigJSONText)["noregextypofix"]
+                .Select(page => page.ToString())
+                .Distinct()
+                .ToList();
         }
 
         /// <summary>

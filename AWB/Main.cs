@@ -2620,13 +2620,25 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     status = true;
                     label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.User.IsBot, TheSession.User.IsSysop);
 
+                    if (!string.IsNullOrEmpty(TheSession.CheckPageJSONText))
+                    {
+                        NoParse.AddRange(TheSession.NoGenfixes());
+                        NoRetf.AddRange(TheSession.NoRETF());
+
+                        break;
+                    }
+
                     // Get list of articles not to apply general fixes to.
                     Match noGenFix = WikiRegexes.NoGeneralFixes.Match(TheSession.CheckPageText);
                     if (noGenFix.Success)
                     {
                         foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noGenFix.Value))
+                        {
                             if (!NoParse.Contains(link.Groups[1].Value))
+                            {
                                 NoParse.Add(link.Groups[1].Value);
+                            }
+                        }
                     }
 
                     // Get list of articles not to apply RETF to.
@@ -2634,9 +2646,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     if (noRETF.Success)
                     {
                         foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noRETF.Value))
+                        {
                             if (!NoRetf.Contains(link.Groups[1].Value))
+                            {
                                 NoRetf.Add(link.Groups[1].Value);
+                            }
+                        }
                     }
+
                     break;
 
                 default:
