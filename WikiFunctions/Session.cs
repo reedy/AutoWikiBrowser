@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Security.Authentication;
@@ -348,16 +349,11 @@ namespace WikiFunctions
                 JSONMessages(versionJson["messages"]);
 
                 if (usingJSON)
-                {
-                    var checkPageJson = JObject.Parse(CheckPageJSONText);
-
-                    // See if there's any messages on the local wikis checkpage
-                    JSONMessages(checkPageJson["messages"]);
-
-                    string configJSONText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config&action=raw");
-                    // TODO: 404
-
+                { 
                     var configJson = JObject.Parse(configJSONText);
+
+                    // See if there's any messages on the local wikis config page
+                    JSONMessages(configJson["messages"]);
 
                     Variables.RetfPath = !string.IsNullOrEmpty(configJson["typolink"].ToString()) ? configJson["typolink"].ToString() : "";
 
@@ -374,34 +370,29 @@ namespace WikiFunctions
                         Variables.LoadUnderscores(us.ToArray());
                     }
 
-                    // don't require approval if checkpage does not exist
-                    // Or it has the special text...
+                    // don't require approval if CheckPage does not exist
+                    // Or it has the special config option...
                     if (CheckPageJSONText.Length < 1 || (bool)configJson["allusersenabled"])
                     {
                         IsBot = true;
                         return WikiStatusResult.Registered;
                     }
 
-                    var enabledUsers = new List<string>();
+                    string configJSONText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config&action=raw");
+                    // TODO: 404
+                    var checkPageJson = JObject.Parse(CheckPageJSONText);
 
-                    foreach(var u in configJson["enabledusers"])
-                    {
-                        enabledUsers.Add(u.ToString());
-                    }
-                    // Checkpage option: 'allusersenabledusermode' will enable all users for user mode,
+                    var enabledUsers = v["enabledusers"].Select(u => u.ToString()).ToList();
+
+                    // CheckPage option: 'allusersenabledusermode' will enable all users for user mode,
                     // and enable bots only when in 'enabledbots' section
                     if (
-                        (bool)configJson["allusersenabledusermode"] ||
+                        (bool)checkPageJson["allusersenabledusermode"] ||
                         (IsSysop && Variables.Project != ProjectEnum.wikia) ||
                         enabledUsers.Contains(User.Name)
-                        )
+                    )
                     {
-                        var enabledBots = new List<string>();
-
-                        foreach (var u in configJson["enabledbots"])
-                        {
-                            enabledBots.Add(u.ToString());
-                        }
+                        var enabledBots = checkPageJson["enabledbots"].Select(u => u.ToString()).ToList();
 
                         // enable bot mode if in bots section
                         IsBot = enabledBots.Contains(User.Name);
