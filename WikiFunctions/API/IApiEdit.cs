@@ -128,7 +128,8 @@ namespace WikiFunctions.API
         /// <param name="summary">Edit summary. Must not be empty.</param>
         /// <param name="minor">Whether the edit should be marked as minor</param>
         /// <param name="watch">Whether the page should be watchlisted</param>
-        SaveInfo Save(string pageText, string summary, bool minor, WatchOptions watch);
+        /// <param name="contentModel">Content model to set the page to</param>
+        SaveInfo Save(string pageText, string summary, bool minor, WatchOptions watch, string contentModel);
 
         /// <summary>
         /// Adds the given page to current user's watchlist

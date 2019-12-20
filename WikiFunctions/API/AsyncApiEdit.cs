@@ -378,9 +378,9 @@ namespace WikiFunctions.API
             InvokeFunction("Open", title, resolveRedirects);
         }
 
-        public void Save(string pageText, string summary, bool minor, WatchOptions watch)
+        public void Save(string pageText, string summary, bool minor, WatchOptions watch, string contentModel = "wikitext")
         {
-            InvokeFunction("Save", pageText, summary, minor, watch);
+            InvokeFunction("Save", pageText, summary, minor, watch, contentModel);
         }
 
         public void Watch(string title)

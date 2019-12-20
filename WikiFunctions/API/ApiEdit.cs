@@ -830,7 +830,7 @@ namespace WikiFunctions.API
             return Page.Text;
         }
 
-        public SaveInfo Save(string pageText, string summary, bool minor, WatchOptions watch)
+        public SaveInfo Save(string pageText, string summary, bool minor, WatchOptions watch, string contentModel = "wikitext")
         {
             if (string.IsNullOrEmpty(pageText) && !Page.Exists)
             {
@@ -871,6 +871,7 @@ namespace WikiFunctions.API
             };
 
             post.AddIfTrue(Variables.TagEdits, "tags", "AWB");
+            post.AddIfTrue(contentModel != "wikitext", "contentmodel", contentModel);
 
             post.Add("token", Page.EditToken);
 
