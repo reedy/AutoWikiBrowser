@@ -71,9 +71,14 @@ namespace CheckPage_Converter
 
         private static string UpdateWiki(string url, string username, string password)
         {
-            var origCheckPageText =
-                Tools.GetHTML(
-                    $"{url}/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage&action=raw");
+            ApiEdit edit = new ApiEdit($"{url}/w/");
+
+            edit.Login(username, password);
+
+            var origCheckPageText = edit.Open("Project:AutoWikiBrowser/CheckPage");
+
+            var editProtection = edit.Page.EditProtection;
+            var moveProtection = edit.Page.MoveProtection;
 
             if (string.IsNullOrEmpty(origCheckPageText))
             {
@@ -117,10 +122,6 @@ namespace CheckPage_Converter
                 {"enabledbots", bots.Distinct().ToList()}
             };
 
-            ApiEdit edit = new ApiEdit($"{url}/w/" );
-
-            edit.Login(username, password);
-
             var title = "Project:AutoWikiBrowser/CheckPageJSON";
 
             edit.Open(title);
@@ -129,10 +130,12 @@ namespace CheckPage_Converter
                 $"Converting AutoWikiBrowser CheckPage to json - {PHAB_TASK}", false,
                 WatchOptions.NoChange, "json");
 
-            if (!string.IsNullOrEmpty(edit.Page.EditProtection) || !string.IsNullOrEmpty(edit.Page.MoveProtection))
+            if (!string.IsNullOrEmpty(editProtection) || !string.IsNullOrEmpty(moveProtection))
             {
+                edit.Open(title);
+
                 edit.Protect(title, $"Copying protection from [[{title}]] - {PHAB_TASK}", "infinite",
-                    edit.Page.EditProtection, edit.Page.MoveProtection);
+                    editProtection, moveProtection);
             }
 
             // Site Config stuff
@@ -235,10 +238,12 @@ namespace CheckPage_Converter
                 $"Converting AutoWikiBrowser wiki config to json - {PHAB_TASK}", false,
                 WatchOptions.NoChange, "json");
 
-            if (!string.IsNullOrEmpty(edit.Page.EditProtection) || !string.IsNullOrEmpty(edit.Page.MoveProtection))
+            if (!string.IsNullOrEmpty(editProtection) || !string.IsNullOrEmpty(moveProtection))
             {
+                edit.Open(title);
+
                 edit.Protect(title, $"Copying protection from [[{title}]] - {PHAB_TASK}", "infinite",
-                    edit.Page.EditProtection, edit.Page.MoveProtection);
+                    editProtection, moveProtection);
             }
 
             return "Done!";
