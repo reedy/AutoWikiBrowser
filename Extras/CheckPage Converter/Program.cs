@@ -80,7 +80,7 @@ namespace CheckPage_Converter
             var editProtection = edit.Page.EditProtection;
             var moveProtection = edit.Page.MoveProtection;
 
-            if (string.IsNullOrEmpty(origCheckPageText))
+            if (!edit.Page.Exists || string.IsNullOrEmpty(origCheckPageText))
             {
                 return "No check page";
             }
