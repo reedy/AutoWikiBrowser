@@ -383,7 +383,7 @@ namespace WikiFunctions
 
                     var checkPageJson = JObject.Parse(CheckPageJSONText);
 
-                    var enabledUsers = configJson["enabledusers"].Select(u => u.ToString()).ToList();
+                    var enabledUsers = checkPageJson["enabledusers"].Select(u => u.ToString()).ToList();
 
                     // CheckPage option: 'allusersenabledusermode' will enable all users for user mode,
                     // and enable bots only when in 'enabledbots' section
