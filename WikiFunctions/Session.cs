@@ -395,7 +395,7 @@ namespace WikiFunctions
                     // CheckPage option: 'allusersenabledusermode' will enable all users for user mode,
                     // and enable bots only when in 'enabledbots' section
                     if (
-                        (bool)checkPageJson["allusersenabledusermode"] ||
+                        (bool)configJson["allusersenabledusermode"] ||
                         (IsSysop && Variables.Project != ProjectEnum.wikia) ||
                         enabledUsers.Contains(User.Name)
                     )
