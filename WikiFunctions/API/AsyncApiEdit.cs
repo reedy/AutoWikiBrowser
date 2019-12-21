@@ -32,7 +32,7 @@ namespace WikiFunctions.API
 
     public delegate void AsyncExceptionEventHandler(AsyncApiEdit sender, Exception ex);
 
-    public delegate void AsyncMaxlagEventHandler(AsyncApiEdit sender, int maxlag, int retryAfter);
+    public delegate void AsyncMaxlagEventHandler(AsyncApiEdit sender, double maxlag, int retryAfter);
 
     /// <summary>
     /// Multithreaded API editor class

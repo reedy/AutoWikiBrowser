@@ -152,7 +152,7 @@ namespace WikiFunctions
             if (ExceptionCaught != null) ExceptionCaught(sender, ex);
         }
 
-        void OnMaxlagExceeded(AsyncApiEdit sender, int maxlag, int retryAfter)
+        void OnMaxlagExceeded(AsyncApiEdit sender, double maxlag, int retryAfter)
         {
             if (MaxlagExceeded != null) MaxlagExceeded(sender, maxlag, retryAfter);
         }

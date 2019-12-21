@@ -216,11 +216,11 @@ namespace WikiFunctions.API
     /// <remarks>https://www.mediawiki.org/wiki/Manual:Maxlag_parameter</remarks>
     public class MaxlagException : ApiErrorException
     {
-        public int Maxlag { get; private set; }
+        public double Maxlag { get; private set; }
 
         public int RetryAfter { get; private set; }
 
-        public MaxlagException(ApiEdit editor, int maxlag, int retryAfter)
+        public MaxlagException(ApiEdit editor, double maxlag, int retryAfter)
             : base(editor, "maxlag", "Maxlag exceeded by " + maxlag + " seconds, retry in " + retryAfter + " seconds")
         {
             Maxlag = maxlag;

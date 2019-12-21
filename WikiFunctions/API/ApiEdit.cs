@@ -1402,7 +1402,7 @@ namespace WikiFunctions.API
             CheckForErrors(xml, null);
         }
 
-        private static readonly Regex MaxLag = new Regex(@": (\d+) seconds lagged",
+        private static readonly Regex MaxLag = new Regex(@": (\d+(?:\.\d+)?) seconds lagged",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
@@ -1462,8 +1462,8 @@ namespace WikiFunctions.API
                 switch (errorCode.ToLower())
                 {
                     case "maxlag": // guessing
-                        int maxlag;
-                        int.TryParse(MaxLag.Match(xml).Groups[1].Value, out maxlag);
+                        double maxlag;
+                        double.TryParse(MaxLag.Match(xml).Groups[1].Value, out maxlag);
                         throw new MaxlagException(this, maxlag, 10);
                     case "wrnotloggedin":
                         throw new LoggedOffException(this);
