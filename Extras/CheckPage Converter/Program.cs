@@ -66,7 +66,7 @@ namespace CheckPage_Converter
                     var res = UpdateWiki(wiki, profile.Username, profile.Password);
                     Console.WriteLine(res);
                 }
-                catch (LoginException)
+                catch (LoginException le)
                 {
                     Console.WriteLine("Unable to login with credentials provided.");
                 }
@@ -87,7 +87,8 @@ namespace CheckPage_Converter
 
             edit.Login(username, password);
 
-            var origCheckPageText = edit.Open("Project:AutoWikiBrowser/CheckPage");
+            var origCheckPageTitle = "Project:AutoWikiBrowser/CheckPage";
+            var origCheckPageText = edit.Open(origCheckPageTitle);
 
             var editProtection = edit.Page.EditProtection;
             var moveProtection = edit.Page.MoveProtection;
@@ -146,7 +147,7 @@ namespace CheckPage_Converter
             {
                 edit.Open(title);
 
-                edit.Protect(title, $"Copying protection from [[{title}]] - {PHAB_TASK}", "infinite",
+                edit.Protect(title, $"Copying protection from [[{origCheckPageTitle}]] - {PHAB_TASK}", "infinite",
                     editProtection, moveProtection);
             }
 
@@ -254,7 +255,7 @@ namespace CheckPage_Converter
             {
                 edit.Open(title);
 
-                edit.Protect(title, $"Copying protection from [[{title}]] - {PHAB_TASK}", "infinite",
+                edit.Protect(title, $"Copying protection from [[{origCheckPageTitle}]] - {PHAB_TASK}", "infinite",
                     editProtection, moveProtection);
             }
 
