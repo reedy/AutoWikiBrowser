@@ -60,8 +60,20 @@ namespace CheckPage_Converter
                 .ToList();
 
             foreach (string wiki in wikis) {
-                Console.Write("Converting checkpage format using User:{0} on {1}... ", profile.Username, wiki);
-                Console.WriteLine(UpdateWiki(wiki, profile.Username, profile.Password));
+                try
+                {
+                    Console.Write("Converting checkpage format using User:{0} on {1}... ", profile.Username, wiki);
+                    var res = UpdateWiki(wiki, profile.Username, profile.Password);
+                    Console.WriteLine(res);
+                }
+                catch (LoginException)
+                {
+                    Console.WriteLine("Unable to login with credentials provided.");
+                }
+                catch (MaxlagException)
+                {
+                    Console.WriteLine("lag :(");
+                }
             }
 
             Console.WriteLine();
