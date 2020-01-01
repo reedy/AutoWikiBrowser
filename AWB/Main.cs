@@ -572,7 +572,7 @@ namespace AutoWikiBrowser
             PageLoaded(page);
         }
 
-        private void MaxlagExceeded(AsyncApiEdit sender, int maxlag, int retryAfter)
+        private void MaxlagExceeded(AsyncApiEdit sender, double maxlag, int retryAfter)
         {
             Retries++;
 
