@@ -1188,20 +1188,20 @@ John", "*"), "do not add list to blank lines/lines with just whitespace 2");
 
             Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London"));
             Assert.AreEqual(@"{{cite|title=abc | location=}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", ""));
-            Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc }}", "location", "London"));
-            Assert.AreEqual(@"{{cite|title=abc|last=a|first=b|date=2009-12-12|location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc|last=a|first=b|date=2009-12-12 }}", "location", "London"), "no newlines/excess spaces in template");
-            Assert.AreEqual(@"{{cite | title=abc | last=a | first=b | date=2009-12-12 | location=London}}", Tools.AppendParameterToTemplate(@"{{cite | title=abc | last=a | first=b | date=2009-12-12 }}", "location", "London"), "spaced parameters in template");
+            Assert.AreEqual(@"{{cite|title=abc | location=London }}", Tools.AppendParameterToTemplate(@"{{cite|title=abc }}", "location", "London"));
+            Assert.AreEqual(@"{{cite|title=abc|last=a|first=b|date=2009-12-12|location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc|last=a|first=b|date=2009-12-12}}", "location", "London"), "no newlines/excess spaces in template");
+            Assert.AreEqual(@"{{cite | title=abc | last=a | first=b | date=2009-12-12 | location=London }}", Tools.AppendParameterToTemplate(@"{{cite | title=abc | last=a | first=b | date=2009-12-12 }}", "location", "London"), "spaced parameters in template");
 
             Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London", false));
             Assert.AreEqual(@"{{cite|title=abc|location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London", true));
 
             Assert.AreEqual(@"{{cite
-|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite
+|title=abc | location=London }}", Tools.AppendParameterToTemplate(@"{{cite
 |title=abc }}", "location", "London"), "insufficient newlines – space used");
 
             Assert.AreEqual(@"{{cite
 |title=abc
-|date=2009-12-12 | location=London}}", Tools.AppendParameterToTemplate(@"{{cite
+|date=2009-12-12 | location=London }}", Tools.AppendParameterToTemplate(@"{{cite
 |title=abc
 |date=2009-12-12 }}", "location", "London"), "insufficient newlines – space used");
 
@@ -1214,18 +1214,18 @@ John", "*"), "do not add list to blank lines/lines with just whitespace 2");
 |title=abc
 |last=a
 |first=b
-|date=2009-12-12 }}", "location", "London"), "newline set when > 2 existing");
+|date=2009-12-12}}", "location", "London"), "newline set when > 2 existing");
 
             Assert.AreEqual(@"{{cite
 |title=abc
 |last=a
 |first=b
 |date=2009-12-12
-|location=London}}", Tools.AppendParameterToTemplate(@"{{cite
+|location=London }}", Tools.AppendParameterToTemplate(@"{{cite
 |title=abc
 |last=a
 |first=b
-|date=2009-12-12        }}", "location", "London"), "existing template end spaces removed");
+|date=2009-12-12        }}", "location", "London"), "existing template end spaces cleaned");
 
             Assert.AreEqual(@"{{cite
 |title=abc
@@ -1923,6 +1923,8 @@ before}}", "param1", "valueafter"), "newline before populated parameter kept");
             // parameter not used – set
             Assert.AreEqual(@"{{foo|param1=before | param2=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=before}}", "param2", "valueafter"));
             Assert.AreEqual(@"{{foo|param1=before|param3=a | param2=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=before|param3=a}}", "param2", "valueafter"));
+            Assert.AreEqual(@"{{foo|param1=w|param2=x|param3=y|param4=z|param5=a}}", Tools.SetTemplateParameterValue(@"{{foo|param1=w|param2=x|param3=y|param4=z}}", "param5", "a"));
+            Assert.AreEqual(@"{{foo| param1=w | param2=x | param3=y | param4=z | param5=a }}", Tools.SetTemplateParameterValue(@"{{foo| param1=w | param2=x | param3=y | param4=z }}", "param5", "a"), "retain template call end space");
 
             // old value null – updated correctly
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=}}", "param1", "valueafter"));

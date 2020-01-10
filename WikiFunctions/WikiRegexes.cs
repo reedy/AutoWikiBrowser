@@ -495,7 +495,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the end of a template call including trailing whitespace
         /// </summary>
-        public static readonly Regex TemplateEnd = new Regex(@" *((?:\r\n)* *)}}$");
+        public static readonly Regex TemplateEnd = new Regex(@"( ?(?:\r\n ?)*) *}}$");
 
         /// <summary>
         /// Matches single and multiline templates, NOT nested templates
