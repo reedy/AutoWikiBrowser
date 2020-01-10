@@ -2380,7 +2380,7 @@ Message: {2}
             if (!templateCall.StartsWith(@"{{"))
                 return templateCall;
 
-            string separatorBefore = "", separatorAfter = "";
+            string separatorBefore = "", separatorAfter = "", equalsFormat = "=";
 
             if (!unspaced)
             {
@@ -2420,9 +2420,15 @@ Message: {2}
                     separatorAfter = "";
                 else
                     separatorAfter = " ";
+
+                // spacing around equals?
+                if (Regex.Matches(templatecopy, " = ").Count >= 3 && Regex.Matches(templatecopy, " = ").Count > Regex.Matches(templatecopy, @"\S=\S").Count)
+                    equalsFormat = " = ";
+                else if (Regex.Matches(templatecopy, "= ").Count >= 3 && Regex.Matches(templatecopy, "= ").Count > Regex.Matches(templatecopy, @"\S=\S").Count)
+                    equalsFormat = "= ";
             }
 
-            return WikiRegexes.TemplateEnd.Replace(templateCall, separatorBefore + @"|" + separatorAfter + parameter + "=" + newValue + @"$1}}");
+            return WikiRegexes.TemplateEnd.Replace(templateCall, separatorBefore + @"|" + separatorAfter + parameter + equalsFormat + newValue + @"$1}}");
         }
 
         /// <summary>

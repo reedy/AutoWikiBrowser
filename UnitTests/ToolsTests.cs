@@ -1191,6 +1191,8 @@ John", "*"), "do not add list to blank lines/lines with just whitespace 2");
             Assert.AreEqual(@"{{cite|title=abc | location=London }}", Tools.AppendParameterToTemplate(@"{{cite|title=abc }}", "location", "London"));
             Assert.AreEqual(@"{{cite|title=abc|last=a|first=b|date=2009-12-12|location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc|last=a|first=b|date=2009-12-12}}", "location", "London"), "no newlines/excess spaces in template");
             Assert.AreEqual(@"{{cite | title=abc | last=a | first=b | date=2009-12-12 | location=London }}", Tools.AppendParameterToTemplate(@"{{cite | title=abc | last=a | first=b | date=2009-12-12 }}", "location", "London"), "spaced parameters in template");
+            Assert.AreEqual(@"{{cite | title = abc | last = a | first = b | date = 2009-11-11 | location = London }}", Tools.AppendParameterToTemplate(@"{{cite | title = abc | last = a | first = b | date = 2009-11-11 }}", "location", "London"), "=spaced parameters in template");
+            Assert.AreEqual(@"{{cite | title= abc | last= a | first= b | date= 2009-11-11 | location= London }}", Tools.AppendParameterToTemplate(@"{{cite | title= abc | last= a | first= b | date= 2009-11-11 }}", "location", "London"), "= half spaced parameters in template");
 
             Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London", false));
             Assert.AreEqual(@"{{cite|title=abc|location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London", true));
@@ -1272,7 +1274,7 @@ John", "*"), "do not add list to blank lines/lines with just whitespace 2");
  | id =
  | url = http://links.jstor.org/sici?sici=0027-4666(19060101)47%3A755%3C27%3AMSIC(J%3E2.0.CO%3B2-N
  | publisher = The Musical Times, Vol. 47, No. 755
- | jstor=904183
+ | jstor = 904183
  }}", Tools.AppendParameterToTemplate(@"{{cite journal
  | quotes =
  | doi = 10.2307/904183
