@@ -659,7 +659,7 @@ namespace AutoWikiBrowser
                     case "readonly":
                         MessageBox.Show(((ApiErrorException)ex).ApiErrorMessage,
                             "Wiki read-only", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        Stop();
+                        StartDelayedRestartTimer();
                         break;
 
                     case "tpt-target-page":
