@@ -55,14 +55,14 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex AccessDateYear =
             new Regex(@"(?<=\|\s*access\-?date\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" +
-                      WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})");
+                      WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[012]\d)\s*(\||}})");
 
         private static readonly Regex AccessDayMonthDay =
             new Regex(@"\|\s*access(?:daymonth|month(?:day)?|year)\s*=\s*(?=\||}})");
 
         private static readonly Regex DateLeadingZero =
             new Regex(@"(?<=\|\s*(?:access|archive)?\-?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup +
-                      @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+(?:20[01]|1[89]\d)\d)?(\s*(?:\||}}))");
+                      @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+(?:20[012]|1[89]\d)\d)?(\s*(?:\||}}))");
 
         private static readonly Regex LangTemplate = new Regex(@"(\|\s*language\s*=\s*)({{(\w{2}) icon}}\s*)(?=\||}})");
 
@@ -770,25 +770,25 @@ namespace WikiFunctions.Parse
             new RegexReplacement(
                 CitAccessdate + @")(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))",
                 "${1}20$4-0$3-$2"),
-            new RegexReplacement(CitAccessdate + @")(20[01]\d)0?([01]\d)[/_\-\.]([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4"),
-            new RegexReplacement(CitAccessdate + @")(20[01]\d)[/_\-\.]([01]\d)0?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4"),
-            new RegexReplacement(CitAccessdate + @")(20[01]\d)[/_\-\.]?([01]\d)[/_\-\.]?([1-9]\s*(?:\||}}))",
+            new RegexReplacement(CitAccessdate + @")(20[012]\d)0?([01]\d)[/_\-\.]([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4"),
+            new RegexReplacement(CitAccessdate + @")(20[012]\d)[/_\-\.]([01]\d)0?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4"),
+            new RegexReplacement(CitAccessdate + @")(20[012]\d)[/_\-\.]?([01]\d)[/_\-\.]?([1-9]\s*(?:\||}}))",
                 "$1$2-$3-0$4"),
-            new RegexReplacement(CitAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d\s*(?:\||}}))",
+            new RegexReplacement(CitAccessdate + @")(20[012]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d\s*(?:\||}}))",
                 "$1$2-0$3-$4"),
-            new RegexReplacement(CitAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]0?([1-9]\s*(?:\||}}))",
+            new RegexReplacement(CitAccessdate + @")(20[012]\d)[/_\-\.]?([1-9])[/_\-\.]0?([1-9]\s*(?:\||}}))",
                 "$1$2-0$3-0$4"),
-            new RegexReplacement(CitAccessdate + @")(20[01]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9]\s*(?:\||}}))",
+            new RegexReplacement(CitAccessdate + @")(20[012]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9]\s*(?:\||}}))",
                 "$1$2-0$3-0$4"),
-            new RegexReplacement(CitAccessdate + @")(20[01]\d)[/_\.]?([01]\d)[/_\.]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4"),
-            new RegexReplacement(CitAccessdate + @")([23]\d)[/_\-\.](1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))",
+            new RegexReplacement(CitAccessdate + @")(20[012]\d)[/_\.]?([01]\d)[/_\.]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4"),
+            new RegexReplacement(CitAccessdate + @")([23]\d)[/_\-\.](1[0-2])[/_\-\.]?(?:20)?([012]\d)(?=\s*(?:\||}}))",
                 "${1}20$4-$3-$2"),
-            new RegexReplacement(CitAccessdate + @")([23]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))",
+            new RegexReplacement(CitAccessdate + @")([23]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([012]\d)(?=\s*(?:\||}}))",
                 "${1}20$4-0$3-$2"),
             new RegexReplacement(
-                CitAccessdate + @")0?([1-9])[/_\-\.]?(1[3-9]|[23]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))",
+                CitAccessdate + @")0?([1-9])[/_\-\.]?(1[3-9]|[23]\d)[/_\-\.]?(?:20)?([012]\d)(?=\s*(?:\||}}))",
                 "${1}20$4-0$2-$3"),
-            new RegexReplacement(CitAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))",
+            new RegexReplacement(CitAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([012]\d)(?=\s*(?:\||}}))",
                 "${1}20$3-0$2-0$2") // n-n-2004 and n-n-04 to ISO format (both n the same)
         };
 

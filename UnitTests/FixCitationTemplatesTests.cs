@@ -359,6 +359,9 @@ Bar}} was"), "newline converted to space, any parameter");
             Assert.AreEqual(b, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b | date=May 01, 2008}}"));
             Assert.AreEqual(b, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b | date=May 01 2008}}"));
 
+            b = @"{{cite book|url=a |title=b | date=May 1, 2020}}";
+            Assert.AreEqual(b, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b | date=May 01, 2020}}"));
+
             string c = @"{{cite book|url=a |title=b | date=May 1, 2008|author=Lee}}";
             Assert.AreEqual(c, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b | date=May 01, 2008|author=Lee}}"));
 
