@@ -78,11 +78,12 @@ namespace WikiFunctions.TalkPages
             // 6. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
             // 7. Language related talk page guideline banners, such as {{American English}}
             // 8. Any "article history" banner or "article milestone" banner (e.g., {{DYK talk}}, {{On this day}}, {{ITN talk}})
-            // 10. WikiProject banner shell - Any WikiProject banners
-            // 11. {{Image requested}}
-            // 12. {{Press}} and {{Connected contributor}}
-            // 13. {{To do}}
-            // 14. {{Find sources notice}}, {{Reliable sources for medical articles}}
+            // 9. WikiProject banner shell - Any WikiProject banners
+            // 10. {{Image requested}}
+            // 11. {{Press}} and {{Connected contributor}}
+            // 12. {{To do}}
+            // 13. {{Find sources notice}}, {{Reliable sources for medical articles}}
+            // 14. {{Copied}}
             // 15. {{Split from}}, {{Split to}}
             // 16. {{Merge from}}, {{Merge-to}}
 
@@ -91,6 +92,7 @@ namespace WikiFunctions.TalkPages
 
             articleText = MoveTalkTemplates(articleText, MergeTemplates);
             articleText = MoveTalkTemplates(articleText, SplitTemplates);
+            articleText = MoveTalkTemplates(articleText, Copied);
             articleText = MoveTalkTemplates(articleText, FindSource);
             articleText = MoveTalkTemplate(articleText, TodoTemplate);
             articleText = MoveTalkTemplates(articleText, PressConnected);
@@ -226,13 +228,14 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex TalkGuidelineTemplates = Tools.NestedTemplateRegex(new[] { "Not a forum", "Recurring themes", "FAQ", "Round in circles", "Calm", "Pbneutral"});
         private static readonly Regex EnglishVariationsTemplates = Tools.NestedTemplateRegex(new[] { "American English", "Australian English", "British English", "British English Oxford spelling", "Canadian English", "Hiberno-English", "Indian English", "Malaysian English", "Malawian English", "New Zealand English", "Pakistani English", "Philippine English", "Scottish English", "South African English", "Trinidadian English" });
         private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory" });
-        private static readonly Regex TalkHistoryBTemplates = Tools.NestedTemplateRegex(new[] { "FailedGA", "Old prod", "Old prod full", "Oldprodfull", "Afd-merged-from", "Old AfD multi", "Old AfD", "Oldafdfull ", "Old peer review", "Copied", "Old CfD", "Old RfD" });
+        private static readonly Regex TalkHistoryBTemplates = Tools.NestedTemplateRegex(new[] { "FailedGA", "Old prod", "Old prod full", "Oldprodfull", "Afd-merged-from", "Old AfD multi", "Old AfD", "Oldafdfull ", "Old peer review", "Old CfD", "Old RfD" });
         private static readonly Regex MilestoneTemplates = Tools.NestedTemplateRegex(new[] { "DYK talk", "ITN talk", "On this day" });
         private static readonly Regex VitalArticle = Tools.NestedTemplateRegex(new[] { "Vital article" });
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested", "Reqphoto" });
         private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
         private static readonly Regex TodoTemplate = Tools.NestedTemplateRegex(new[] { "To do", "Todo", "To-do" });
-        private static readonly Regex FindSource = Tools.NestedTemplateRegex(new[] { "Find sources notice", "Reliable sources for medical articles" });
+        private static readonly Regex FindSource = Tools.NestedTemplateRegex(new[] { "Find sources notice", "Reliable sources for medical articles", "Friendly search suggestions" });
+        private static readonly Regex Copied = Tools.NestedTemplateRegex(new[] { "Copied" });
         private static readonly Regex SplitTemplates = Tools.NestedTemplateRegex(new[] { "Split from", "Split to" });
         private static readonly Regex MergeTemplates = Tools.NestedTemplateRegex(new[] { "Merge from", "Merge-to" });
         private static readonly Regex WikiProjects = new Regex(Tools.NestedTemplateRegex("foo").ToString().Replace(@"[Ff]oo", @"[Ww]ikiProject\b[^{}\|]+"));

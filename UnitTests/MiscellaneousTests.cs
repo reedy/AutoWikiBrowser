@@ -1204,6 +1204,11 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "abcdefghijk");
 
+            string cop = correct + @"{{Copied}}" + "\r\n";
+            articleText = cop;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(cop, articleText, "Templates including {{Copied}}");
+
             articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + k + "\r\n" + g + "\r\n" + j + "\r\n" + i + "\r\n" + h;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "bacdefkgjih");
@@ -1247,7 +1252,7 @@ http://www.site.com
 
 {{some random template}}";
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText, "article milestone templates above wikiproject banners; contains WPBS");
+            Assert.AreEqual(articleText2, articleText, "articleilestonene templates above wikiproject banners; contains WPBS");
 
             articleText = @"{{GA|21:12, 11 May 2013 (UTC)|topic=Geography|page=1|oldid=554646767}}
 {{WikiProject Canada|geography=yes|class=Start|importance=Mid|bc=yes}}
