@@ -1652,6 +1652,19 @@ Text";
 [[Category:ABC]]";
             Assert.AreEqual(afterUK, parser2.SortMetaData(beforeUK, "a"), "uk sort order: stubs NOT below categories");
 
+            Variables.SetProjectLangCode("uk");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            string beforeDK = @"Andy
+{{botanist-dk-stub}}
+[[Category:ABC]]", afterDK = @"Andy
+
+
+{{botanist-dk-stub}}
+
+[[Category:ABC]]";
+            Assert.AreEqual(afterDK, parser2.SortMetaData(beforeDK, "a"), "dk sort order: stubs NOT below categories");
+
             Variables.SetProjectLangCode("sl");
             WikiRegexes.MakeLangSpecificRegexes();
 

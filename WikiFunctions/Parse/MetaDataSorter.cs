@@ -396,6 +396,7 @@ en, sq, ru
                 case "arz":
                 case "cs":
                 case "el":
+                case "dk":
                 case "pl":
                 case "ru":
                 case "uk":
