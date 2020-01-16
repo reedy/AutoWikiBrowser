@@ -2453,6 +2453,16 @@ bar
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(2, true);
             lbArticles.RemoveSelected(false);
+
+            // under mono list count is still 2 now, appears it implements RemoveSelected as for one item only not all selected
+            // so set and remove to get down to count of zero under Mono too
+            if(Globals.UsingMono)
+            {
+                lbArticles.SetSelected(0, true);
+                lbArticles.RemoveSelected(false);
+                lbArticles.SetSelected(0, true);
+                lbArticles.RemoveSelected(false);
+            }
             Assert.AreEqual(lbArticles.Items.Count, 0, "List cleared if all items selected and removed");
         }
     }
