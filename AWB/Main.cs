@@ -3566,7 +3566,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void FalsePositiveClick(object sender, EventArgs e)
         {
             if (TheArticle != null && TheArticle.Name.Length > 0)
-                Tools.WriteTextFile("#[[" + TheArticle.Name + "]]\r\n", @"False positives.txt", true);
+                Tools.WriteTextFileAbsolutePath("#[[" + TheArticle.Name + "]]\r\n", Path.Combine(AwbDirs.UserData, @"False positives.txt"), true);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
