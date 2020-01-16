@@ -77,10 +77,9 @@ namespace WikiFunctions.TalkPages
             // 5. {{community article probation}}, {{censor}}, {{BLP others}} and other high-priority/importance, warning/attention templates.
             // 6. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
             // 7. Language related talk page guideline banners, such as {{American English}}
-            // 8. Any "article history" banner
+            // 8. Any "article history" banner or "article milestone" banner (e.g., {{DYK talk}}, {{On this day}}, {{ITN talk}})
             // 10. WikiProject banner shell - Any WikiProject banners
             // 11. {{Image requested}}
-            // 12. Any "article milestone" banner (e.g., {{DYK talk}}, {{On this day}}, {{ITN talk}})
             // 12. {{Press}} and {{Connected contributor}}
             // 13. {{To do}}
             // 14. {{Find sources notice}}, {{Reliable sources for medical articles}}
@@ -95,7 +94,6 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplates(articleText, FindSource);
             articleText = MoveTalkTemplate(articleText, TodoTemplate);
             articleText = MoveTalkTemplates(articleText, PressConnected);
-            articleText = MoveTalkTemplates(articleText, MilestoneTemplates);
             articleText = MoveTalkTemplate(articleText, ImageRequested);
 
             // if template moving leaves blank lines in WPBS then clean this up
@@ -107,6 +105,7 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplate(articleText, WikiRegexes.WikiProjectBannerShellTemplate);
             if (!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articleText))
                 articleText = MoveTalkTemplates(articleText, WikiProjects);
+            articleText = MoveTalkTemplates(articleText, MilestoneTemplates);
             articleText = MoveTalkTemplates(articleText, TalkHistoryBTemplates);
             articleText = MoveTalkTemplates(articleText, TalkHistoryTemplates);
             articleText = MoveTalkTemplate(articleText, EnglishVariationsTemplates);
