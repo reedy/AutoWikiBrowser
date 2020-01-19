@@ -1702,28 +1702,27 @@ Text";
             Variables.SetProjectLangCode("it");
             WikiRegexes.MakeLangSpecificRegexes();
 
-            string beforeIt = @"Andy
-{{botanist-stub}}
+            string beforeIt = @"{{S|foo}}
+
+Andy
 {{Persondata}}
 [[Category:ABC]]
-[[en:Test]]", afterIt = @"Andy
+[[en:Test]]", afterIt = @"{{S|foo}}
+
+Andy
 
 {{Persondata}}
 [[Category:ABC]]
-
-
-{{botanist-stub}}
 
 [[en:Test]]";
             Assert.AreEqual(afterIt, parser2.SortMetaData(beforeIt, "a"), "It sort order");
 
             Variables.SetProjectSimple("it", ProjectEnum.wikiquote);
-            string afterIt2 = @"Andy
+            string afterIt2 = @"{{S|foo}}
+
+Andy
 
 {{Persondata}}
-
-{{botanist-stub}}
-
 [[Category:ABC]]
 
 [[en:Test]]";

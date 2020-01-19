@@ -914,6 +914,11 @@ namespace WikiFunctions
                     Stub = @"[^{}|]*?([Ss]tub|Անավարտ|Զարգացնել[^{}]*?)";
                     break;
 
+                case "it":
+                    mSummaryTag = "";
+                    Stub = @"(DUMMYTEMPLATE)";
+                    break;
+
                 case "ku":
                     mSummaryTag = "";
                     WPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
