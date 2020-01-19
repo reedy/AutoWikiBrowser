@@ -1512,6 +1512,9 @@ Text
             // Characters above hex 10000 not changed
             Assert.AreEqual("A &#x10A80; B", parser.Unicodify("A &#x10A80; B"));
             Assert.AreEqual("A &#x20A80; B", parser.Unicodify("A &#x20A80; B"));
+
+            // &apos can be necessary to avoid affecting italics/bold
+            Assert.AreEqual(@"''Foo''&apos;s work was the best since ''bar''&apos;s", parser.Unicodify(@"''Foo''&apos;s work was the best since ''bar''&apos;s"));
         }
 
         [Test]
