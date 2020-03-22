@@ -915,8 +915,8 @@ Bar4.<ref name=""ABCDEFGHI""/>
 |publicationplace=, |publication-place=,
 |date=, |year=, |publicationdate=, |publication-date=,
 |series=, |volume=, |issue=, |number=, |page=, |pages=, |at=,
-|edition=, |publisher=, |institution=,|interviewer=,
-|journal=, |jstor=, |agency=, |archive-date=, |others=, | vauthors =, |translator-last=, |translator-first=, |translator-link=, |time=,|citeseerx=,}}"));
+|edition=, |publisher=, |institution=,|interviewer=,|script-website=,
+|journal=, |jstor=, |agency=, |archive-date=, |others=, | vauthors =, |translator =, |translator-last=, |translator-first=, |translator-link=, |time=,|citeseerx=,}}"));
 
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite arxiv|display-authors=0}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite arxiv|vauthors=0|mode=cs2}} was"));
