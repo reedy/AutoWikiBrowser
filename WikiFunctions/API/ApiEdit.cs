@@ -1469,6 +1469,8 @@ namespace WikiFunctions.API
                         throw new LoggedOffException(this);
                     case "spamdetected":
                         throw new SpamlistException(this, errorMessage);
+                    case "spamblacklist":
+                        throw new SpamlistException(this, errorMessage);
                     case "spamprotectiontext":
                         throw new SpamlistException(this, errorMessage);
                     case "fileexists-sharedrepo-perm":
