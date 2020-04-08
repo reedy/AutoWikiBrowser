@@ -68,7 +68,9 @@ namespace UnitTests
 
             Assert.AreEqual(@"ISBN 9711005522", Parsers.FixSyntax(@"[[ISBN]] [[Special:BookSources/9711005522|9711005522]]"), "ISBNT substed");
             Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[ISBN]] [[Special:BookSources/9780881925166|9780881925166]]"), "ISBNT substed");
+            Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[ISBN]] [[Special:BookSources/9780881925166|<bdi>9780881925166</bdi>]]"), "ISBNT substed bdi tags");
             Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[International Standard Book Number|ISBN]] [[Special:BookSources/9780881925166|9780881925166]]"), "ISBNT substed");
+            Assert.AreEqual(@"ISBN 9780881925166", Parsers.FixSyntax(@"[[International Standard Book Number|ISBN]] [[Special:BookSources/9780881925166|<bdi>9780881925166</bdi>]]"), "ISBNT substed bdi tags");
 
             Assert.AreEqual(@"[http://www.site.com info] ISBN 978-92-0-103709-X", Parsers.FixSyntax(@"[http://www.site.com info ISBN 978-92-0-103709-X]"), "ISBN out of end of http external link");
             Assert.AreEqual(@"[http://www.site.com info] ISBN 978-92-0-103709-X.", Parsers.FixSyntax(@"[http://www.site.com info ISBN 978-92-0-103709-X.]"), "ISBN out of end of http external link");

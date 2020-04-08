@@ -128,8 +128,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexISBN = new Regex(@"(?<!:)(?:ISBN(?:[\-–]1[03])?:|\[\[ISBN\]\]|ISBN ?\t)\s*(\d)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN2 = new Regex(@"ISBN[\-–](?!1[03]\b)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN2a = new Regex(@"ISBN–(1[03]\b)");
-        private static readonly Regex SyntaxRegexISBN3 = new Regex(@"\[\[ISBN\]\]\s\[\[Special\:BookSources[^\|]*\|([^\]]*)\]\]", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexISBN4 = new Regex(@"\[\[International Standard Book Number\|ISBN\]\]\:?\s\[\[Special\:BookSources[^\|]*\|([^\]]*)\]\]", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexISBN3 = new Regex(@"\[\[ISBN\]\]\s\[\[Special\:BookSources[^\|]*\|(?:<bdi>)?([^\]]*?)(?:</?bdi>)?\]\]", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexISBN4 = new Regex(@"\[\[International Standard Book Number\|ISBN\]\]\:?\s\[\[Special\:BookSources[^\|]*\|(?:<bdi>)?([^\]]*?)(?:</?bdi>)?\]\]", RegexOptions.Compiled);
         private static readonly Regex ISBNEndash = new Regex(@"ISBN ([0-9][0-9–]+[0-9X])\b");
         private static readonly Regex ISBNx =new Regex(@"(ISBN [0-9\-]{9,14})x", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *(\d)", RegexOptions.Compiled);
