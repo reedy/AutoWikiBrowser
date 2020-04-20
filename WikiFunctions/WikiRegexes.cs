@@ -294,7 +294,7 @@ namespace WikiFunctions
             }
         }
 
-        private const string UncatTemplatesEN = @"([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]ocats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]ed ?stub)";
+        private const string UncatTemplatesEN = @"([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]o ?cats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]ed ?stub)";
         private const string DisambigTemplatesEN = @"([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Cc]hinese title disambig(uation)?|[Gg]enus disambig(uation)?|[Mm]athdab|[Mm]athematics disambiguation|[Mm]athematical disambiguation|[Mm]il-unit-dis|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Hh]uman name disambiguation|[Ll]etter-disambig|[[Aa]irport disambig(?:uation)?|[Cc]allsigndis|[Cc]all sign disambiguation|[Dd]isambig-cleanup|[Dd]isambig-cleanup|[Dd]isambiguation cleanup|[Mm]olFormDisambig|[Mm]olecular formula disambiguation|[Pp]lace name disambiguation|[Rr]oad disambiguation|([Ss]pecies|)LatinNameDisambig|[Ss]pecies Latin name disambiguation|[[Ss]pecies Latin name abbreviation disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Ll]etter-Number Combination Disambiguation|[Hh]ndis|[Hh]ndis-cleanup|[Gg]enus disambiguation|[Tt]axonomy disambiguation|[Hh]urricane season disambiguation|[Hh]ospital disambiguation|[Ss]chool disambiguation|[Ss]tation disambiguation)";
 
         /// <summary>
