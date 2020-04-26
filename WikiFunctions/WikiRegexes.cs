@@ -901,7 +901,7 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex BLPSources = new Regex(@"{{\s*([Bb](LP|lp) ?(sources|[Uu]n(sourced|ref(?:erenced)?))|[Uu]n(sourced|referenced) ?[Bb](LP|lp))\b");
 
-        public const string ReferencesTemplates = @"(\{\{\s*(?:[Rr]ef(?:-?li(?:st|nk)|erence)|[Ll]istaref|[Ll]ist of botanists by author abbreviation footer|[Aa]irline codes page/bottom|[Ss]COTUS-justice-listframe|[Mm]inorPlanetNameMeaningsFooter00|[Mm]inorPlanetNameMeaningsFooter|[Mm]inorPlanetNameMeaningsFooter10k)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))\}\}|<\s*[Rr]eferences\s*(?:responsive\s*)?/>|\{\{refs|<\s*references\s*(?:responsive\s*)?>.*</\s*references\s*>)";
+        public const string ReferencesTemplates = @"(\{\{\s*(?:[Rr]ef(?:-?li(?:st|nk)|erence)|[Ll]istaref|[Ll]ist of botanists by author abbreviation footer|[Aa]irline codes page/bottom|[Ss]COTUS-justice-listframe|[Mm]inorPlanetNameMeaningsFooter00|[Mm]inorPlanetNameMeaningsFooter|[Mm]inorPlanetNameMeaningsFooter10k)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))\}\}|<\s*[Rr]eferences\s*(?:responsive\s*(?:= *"" *\d *"" *)?)?/>|\{\{refs|<\s*references\s*(?:responsive\s*(?:= *"" *\d *"" *)?)?>.*</\s*references\s*>)";
         
         /// <summary>
         /// Matches a closing &lt;/ref&gt; tag
