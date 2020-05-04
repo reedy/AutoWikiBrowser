@@ -919,7 +919,7 @@ Bar4.<ref name=""ABCDEFGHI""/>
 |journal=, |jstor=, |agency=, |archive-date=, |others=, | vauthors =, | veditors =, |translator =, |translator-last=, |translator-first=, |translator-link=, |time=,|citeseerx=,}}"));
 
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite arxiv|display-authors=0}} was"));
-            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite arxiv|vauthors=0|mode=cs2}} was"));
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite arxiv|vauthors=0|mode=cs2|page=0}} was"));
 
             // multiple errors
             Found.Add(15, 6);

@@ -1043,7 +1043,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex citeArXivParameters =
             new Regex(
-                @"\b(arxiv|asin|ASIN|author\d*|authorlink\d*|author\d*-link|bibcode|class|coauthors?|date|day|display\-authors|doi|DOI|doi brokendate|doi inactivedate|eprint|first\d*|format|given\d*|id|in|isbn|ISBN|issn|ISSN|jfm|JFM|jstor|JSTOR|language|last\d*|laydate|laysource|laysummary|lccn|LCCN|mode|month|mr|MR|oclc|OCLC|ol|OL|osti|OSTI|pmc|PMC|pmid|PMID|postscript|publication-date|quote|ref|rfc|RFC|separator|seperator|ssrn|SSRN|surname\d*|title|vauthors|version|year|zbl)\b",
+                @"\b(arxiv|asin|ASIN|author\d*|authorlink\d*|author\d*-link|bibcode|class|coauthors?|date|day|display\-authors|doi|DOI|doi brokendate|doi inactivedate|eprint|first\d*|format|given\d*|id|in|isbn|ISBN|issn|ISSN|jfm|JFM|jstor|JSTOR|language|last\d*|laydate|laysource|laysummary|lccn|LCCN|mode|month|mr|MR|oclc|OCLC|ol|OL|osti|OSTI|page|pmc|PMC|pmid|PMID|postscript|publication-date|quote|ref|rfc|RFC|separator|seperator|ssrn|SSRN|surname\d*|title|vauthors|version|year|zbl)\b",
                 RegexOptions.Compiled);
 
         private static readonly Regex NoEqualsTwoBars = new Regex(@"\|[^=\|]+\|");
