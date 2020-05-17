@@ -803,7 +803,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches "50m (170&amp;nbsp;ft)"
         /// </summary>
-        public static readonly Regex MetresFeetConversionNonBreakingSpaces = new Regex(@"(\d+(?:\.\d+)?)[\s\u00a0]?m(?= \(\d+(?:\.\d+)?&nbsp;ft\.?\))");
+        public static readonly Regex MetresFeetConversionNonBreakingSpaces = new Regex(@"(\d+(?:\.\d+)?)[\s\u00a0]?m(?= \(\d+(?:[\.,]\d+)?&nbsp;ft\.?\))");
 
         /// <summary>
         /// Matches abbreviated in, oz, feet when in brackets e.g. (3 in); avoids false positives such as "3 in 4..."
