@@ -248,6 +248,12 @@ namespace WikiFunctions
                     Editor.HttpGet(ApiPath + "?format=json&action=query&list=tags&tgprop=active&tglimit=max")
                 );
 
+                if (obj["error"] != null)
+                {
+                    // We probably got "code": "readapidenied", due to a "private" wiki
+                    return;
+                }
+
                 awbTagDefined = obj["query"]["tags"].Any(t => (string) t["name"] == "AWB" && t["active"] != null);
 
                 ObjectCache.Global.Set("AWBTagDefined:" + scriptPath, awbTagDefined);
