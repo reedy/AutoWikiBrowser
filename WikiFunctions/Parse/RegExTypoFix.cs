@@ -79,6 +79,7 @@ namespace WikiFunctions.Parse
                 string text = "";
                 try
                 {
+                    // TODO: This doesn't work against authenticated wikis, need to load via Editor.HttpGet() for auth'd request
                     text = Tools.GetHTML(Url, Encoding.UTF8);
                 }
                 catch
