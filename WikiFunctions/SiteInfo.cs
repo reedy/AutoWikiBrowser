@@ -251,6 +251,11 @@ namespace WikiFunctions
                 if (obj["error"] != null)
                 {
                     // We probably got "code": "readapidenied", due to a "private" wiki
+                    //if (obj["error"]["code"].ToString() == "readapidenied")
+                    //{
+                    //    Variables.TryLoadingAgainAfterLogin ???
+                    //    throw new ReadApiDeniedException();
+                    //}
                     return;
                 }
 
@@ -370,11 +375,25 @@ namespace WikiFunctions
         /// <remarks>Only called if language != en</remarks>
         public Dictionary<string, string> GetMessages(params string[] names)
         {
-            return JObject.Parse(
+            var json = JObject.Parse(
                 Editor.HttpGet(ApiPath + "?format=json&action=query&meta=allmessages&continue=&ammessages=" +
-                               string.Join("|", names)))["query"]["allmessages"].ToDictionary(
-                                   k => k.Value<string>("name"),
-                                   v => v.Value<string>("*"));
+                    string.Join("|", names)));
+
+            if (json["error"] != null)
+            {
+                // We probably got "code": "readapidenied", due to a "private" wiki
+                //if (obj["error"]["code"].ToString() == "readapidenied")
+                //{
+                //    Variables.TryLoadingAgainAfterLogin ???
+                //    throw new ReadApiDeniedException();
+                //}
+                // HACK
+                return new Dictionary<string, string>();
+            }
+
+            return json["query"]["allmessages"].ToDictionary(
+                    k => k.Value<string>("name"),
+                    v => v.Value<string>("*"));
         }
 
         #region Helpers
