@@ -1002,7 +1002,7 @@ namespace WikiFunctions.Parse
 
                 // remove double quotes inside a ref name in double quotes, ignore group refs
                 articleText = NamedRefExcessQuotes.Replace(articleText, m => {
-                    if(WikiRegexes.RefsGrouped.IsMatch(m.Value.Contains("/") ? m.Value : m.Value + "a</ref>"))
+                    if(WikiRegexes.RefsGrouped.IsMatch(m.Groups[3].Value.Contains("/") ? m.Value : m.Value + "a</ref>"))
                         return m.Value;
 
                     return m.Groups[1].Value + m.Groups[2].Value.Replace(@"""", "") + m.Groups[3].Value;
