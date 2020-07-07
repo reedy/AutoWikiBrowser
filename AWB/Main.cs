@@ -2178,6 +2178,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 GetDiff();
 
+                if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
+                    HighlightSyntax();
+
                 // scroll back to where user was
                 object[] ob = {"window.scrollTo(0, " + webBrowserYScroll + @")"};
                 webBrowser.Document.InvokeScript("eval", ob);
