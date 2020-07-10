@@ -1228,6 +1228,7 @@ ABC");
             
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surname}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surnames}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Nickname}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{given name}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{SIA}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sia}}");
