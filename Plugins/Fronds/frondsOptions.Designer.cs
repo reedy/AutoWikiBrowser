@@ -91,7 +91,7 @@
             this.linkToolserver.Size = new System.Drawing.Size(144, 14);
             this.linkToolserver.TabIndex = 2;
             this.linkToolserver.TabStop = true;
-            this.linkToolserver.Text = "tools.wmflabs.org/fronds/";
+            this.linkToolserver.Text = "fronds.toolforge.org/";
             this.linkToolserver.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkToolserver_LinkClicked);
             // 
             // linkWikipedia

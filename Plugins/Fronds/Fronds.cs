@@ -24,7 +24,7 @@ namespace Fronds
 
         internal static readonly List<Frond> Replacements = new List<Frond>();
 
-        internal const string BaseURL = "http://tools.wmflabs.org/fronds/";
+        internal const string BaseURL = "http://fronds.toolforge.org/";
 
         public void Initialise(IAutoWikiBrowser sender)
         {
