@@ -430,7 +430,7 @@ namespace WikiFunctions.Parse
                 articleText = ExternalLinkWordSpacingAfter.Replace(articleText, "$1 $2");
             }
 
-            // CHECKWIKI error 65: Image description ends with break – https://checkwiki.toolforge.org/checkwiki/cgi-bin/checkwiki.cgi?project=enwiki&view=only&id=65
+            // CHECKWIKI error 65: Image description ends with break – https://checkwiki.toolforge.org/cgi-bin/checkwiki.cgi?project=enwiki&view=only&id=65
             if (ssb.Any(s => s.Contains("<")))
                 articleText = WikiRegexes.FileNamespaceLink.Replace(articleText, m=> WikilinkEndsBr.Replace(m.Value, @"]]"));
 

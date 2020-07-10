@@ -129,7 +129,7 @@ namespace WikiFunctions.Lists.Providers
 
             foreach (string errornumber in searchCriteria)
             {
-                string title = "https://checkwiki.toolforge.org/checkwiki/cgi-bin/checkwiki.cgi?project=" + Variables.LangCode +
+                string title = "https://checkwiki.toolforge.org/cgi-bin/checkwiki.cgi?project=" + Variables.LangCode +
                                "wiki&view=bots&id=" + errornumber + "&offset=0";
                 list.AddRange(base.MakeList(title));
             }
