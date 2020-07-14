@@ -4062,8 +4062,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (WikiRegexes.UrlValidator.IsMatch(txtEdit.SelectedText))
-                Tools.OpenURLInBrowser(txtEdit.SelectedText);
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#Open_text_selection_in_browser
+            // user feedback is better to (try to) open invalid HTTP link as HTTP link than open as wiki page
+            if (WikiRegexes.UrlValidator.IsMatch(txtEdit.SelectedText.Trim()) || txtEdit.SelectedText.Trim().StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                Tools.OpenURLInBrowser(txtEdit.SelectedText.Trim());
             else
                 TheSession.Site.OpenPageInBrowser(txtEdit.SelectedText);
         }
