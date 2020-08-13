@@ -2545,7 +2545,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void UpdateAdminStatus()
         {
             // allow protection of non-existent page (salting)
-            btnProtect.Enabled = TheSession.IsSysop && btnSave.Enabled && (TheArticle != null);
+            btnProtect.Enabled = TheSession.User.CanProtectPage(TheSession.Page) && btnSave.Enabled && (TheArticle != null);
             btnMove.Enabled = btnProtect.Enabled && TheSession.Page.Exists;
             btnDelete.Enabled = btntsDelete.Enabled = TheSession.User.CanDeletePage(TheSession.Page) && btnSave.Enabled && (TheArticle != null) && TheSession.Page.Exists;
             bypassAllRedirectsToolStripMenuItem.Enabled = TheSession.User.IsSysop;
@@ -3404,7 +3404,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             btnSave.Enabled = enabled && TheArticle != null && !string.IsNullOrEmpty(TheSession.Page.Title);
 
             // allow protection of non-existent page (salting)
-            btnProtect.Enabled = (enabled && TheSession.User.IsSysop && TheArticle != null);
+            btnProtect.Enabled = (enabled && TheSession.User.CanProtectPage(TheSession.Page) && TheArticle != null);
             btnMove.Enabled = btnProtect.Enabled && TheSession.Page.Exists;
             btnDelete.Enabled = btntsDelete.Enabled = enabled && TheSession.User.CanDeletePage(TheSession.Page) && TheArticle != null && TheSession.Page.Exists;
             btnFind.Enabled = txtFind.TextLength > 0;

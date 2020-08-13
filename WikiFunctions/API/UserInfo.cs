@@ -62,7 +62,7 @@ namespace WikiFunctions.API
         public bool HasApiHighLimit
         { get { return HasRight("apihighlimits"); } }
 
-            /// <summary>
+        /// <summary>
         /// Whether the current user is blocked from editing
         /// </summary>
         public bool IsBlocked
@@ -107,7 +107,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         public bool CanEditPage(PageInfo page)
         {
-            return (IsInGroup(page.EditProtection) || HasRight(page.EditProtection)) 
+            return (IsInGroup(page.EditProtection) || HasRight(page.EditProtection))
                 && !(page.NamespaceID == Namespace.MediaWiki && !HasRight("editinterface"));
         }
 
@@ -119,7 +119,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         public bool CanDeletePage(PageInfo page)
         {
-            return (HasRight("delete"));
+            return HasRight("delete");
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         public bool CanCreatePage(PageInfo page)
         {
-            return (IsInGroup(page.CreateProtection) || HasRight(page.CreateProtection));
+            return IsInGroup(page.CreateProtection) || HasRight(page.CreateProtection);
         }
 
         /// <summary>
@@ -139,8 +139,18 @@ namespace WikiFunctions.API
         /// <returns></returns>
         public bool CanMovePage(PageInfo page)
         {
-            return page.NamespaceID != Namespace.MediaWiki 
+            return page.NamespaceID != Namespace.MediaWiki
                 && (IsInGroup(page.MoveProtection) || HasRight(page.MoveProtection));
+        }
+
+        /// <summary>
+        /// Returns whether a user can protect the page (based on whether they have the protect right; slightly naieve)
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public bool CanProtectPage(PageInfo page)
+        {
+            return HasRight("protect");
         }
 
         /// <summary>
