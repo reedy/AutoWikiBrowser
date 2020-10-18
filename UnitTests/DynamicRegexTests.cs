@@ -1058,6 +1058,7 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Mathdab}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Mathematical disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Numberdis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Number disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{numberdis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Letter-NumberCombdisambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Letter-NumberCombDisambig}}");
