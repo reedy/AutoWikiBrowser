@@ -197,31 +197,31 @@ namespace UnitTests
             Assert.IsTrue(text.Contains("unreferenced"), "Unref when no refs 2");
 
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when no refs 3");
-            Assert.IsTrue(text.Contains("refimprove"), "Unref when no refs 4");
-            Assert.AreEqual(Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex("refimprove").Match(text).Value, "date"), "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", "Date updated on change of template name");
+            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to more citations needed when no refs 3");
+            Assert.IsTrue(text.Contains("more citations needed"), "Unref when no refs 4");
+            Assert.AreEqual(Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex("more citations needed").Match(text).Value, "date"), "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", "Date updated on change of template name");
 
             text = parser.Tagger(@"{{Multiple issues|{{COI|date= February 2009}}{{unreferenced|date= April 2007}}}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when has refs");
-            Assert.IsTrue(text.Contains("refimprove"), "Renames unreferenced to refimprove in MI when existing refs");
+            Assert.IsTrue(text.Contains("more citations needed"), "Renames unreferenced to more citations needed in MI when existing refs");
 
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <ref group=X>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(text), "Unref remains when only grouped footnote refs");
 
             text = parser.Tagger(@"{{Multiple issues|{{COI|date= February 2009}}{{unreferenced|date= April 2007}}}} {{sfn|Smith|2004}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when has sfn refs");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("refimprove"), "Renames unreferenced to refimprove in MIwhen existing refs");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("more citations needed"), "Renames unreferenced to more citations needed in MIwhen existing refs");
 
             text = parser.Tagger(@"{{Multiple issues|{{COI|date= February 2009}}{{unreferenced|date= April 2007}}}} {{efn|A clarification.<ref name=Smith2009/>}}", "Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when has efn refs");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("refimprove"), "Renames unreferenced to refimprove in MI when existing refs");
+            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to more citations needed when has efn refs");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("more citations needed"), "Renames unreferenced to more citations needed in MI when existing refs");
 
-            text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} {{refimprove|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref removed when refimprove");
-            Assert.AreEqual(1, Tools.NestedTemplateRegex("refimprove").Matches(text).Count);
+            text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} {{more citations needed|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref removed when more citations needed");
+            Assert.AreEqual(1, Tools.NestedTemplateRegex("more citations needed").Matches(text).Count);
 
             text = parser.Tagger(ShortText + @"==Sec==
-{{unreferenced|section=yes|date=May 2010}} {{refimprove|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
+{{unreferenced|section=yes|date=May 2010}} {{more citations needed|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(text), "Unref retained when section template");
 
             text = parser.Tagger(ShortText + @"{{BLP unsourced|date=May 2010}} {{BLP sources|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
@@ -234,10 +234,10 @@ namespace UnitTests
 
             text = parser.Tagger(ShortText + @"{{multiple issues|
 {{unreferenced|date=May 2010}}
-{{refimprove|date=May 2010}}
+{{more citations needed|date=May 2010}}
 }} <ref>foo[[bar]]</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref removed when refimprove");
-            Assert.AreEqual(1, Tools.NestedTemplateRegex("refimprove").Matches(text).Count);
+            Assert.AreEqual(1, Tools.NestedTemplateRegex("more citations needed").Matches(text).Count);
             Assert.AreEqual(0, Tools.NestedTemplateRegex("multiple issues").Matches(text).Count, "Multiple issues removed if unref removed ant MI no longer needed");
         }
 

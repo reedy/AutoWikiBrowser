@@ -567,8 +567,8 @@ namespace WikiFunctions.Parse
 
             bool PageHasReferences = TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(commentsCategoriesStripped).Count > 0;
             
-            // rename unreferenced --> refimprove if has existing refs, update date
-            // if have both unreferenced and refimprove, and have some refs then just remove unreferenced provided not section template
+            // rename unreferenced --> More citations needed if has existing refs, update date
+            // if have both unreferenced and More citations needed, and have some refs then just remove unreferenced provided not section template
             if (WikiRegexes.Unreferenced.IsMatch(templates) && PageHasReferences)
             {
                 articleText = Unreferenced.Replace(articleText, m2 => 
@@ -577,14 +577,14 @@ namespace WikiFunctions.Parse
                        if(m2.Value.Contains("section"))
                           return m2.Value;
 
-                       if (Tools.NestedTemplateRegex("Refimprove").IsMatch(articleText))
+                       if (Tools.NestedTemplateRegex("More citations needed").IsMatch(articleText))
                        {
                            tagsRemoved.Add("unreferenced");
                            return "";
                        }
 
                        tagsrenamed++;
-                       return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "refimprove"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+                       return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "more citations needed"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
                    });
             }
 
