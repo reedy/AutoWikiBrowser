@@ -1380,6 +1380,11 @@ There}}"), "handles parameters with newlines");
             Back.Clear();
             Back.Add("name", "<timeline>abc</timeline>X");
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|name = <timeline>abc</timeline>X}}"), "handles parameters including unformatted text");
+
+            Back.Clear();
+            Back.Add("name", "X [http://site.com A | B]");
+            Back.Add("other", "Y");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|name = X [http://site.com A | B]|other=Y}}"), "handles parameters including external link with pipe");
         }
 
         [Test]

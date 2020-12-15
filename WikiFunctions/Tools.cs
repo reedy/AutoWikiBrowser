@@ -2941,6 +2941,8 @@ Message: {2}
         }
 
         private const char RepWith = '#';
+        private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+
         /// <summary>
         /// Removes pipes that are not the pipe indicating the end of the parameter's value
         /// </summary>
@@ -2959,6 +2961,8 @@ Message: {2}
                 restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, RepWith);
             if (restoftemplate.Contains(@"[["))
                 restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, RepWith);
+            if (restoftemplate.Contains(@"["))
+                restoftemplate = ReplaceWith(restoftemplate, SingleSquareBrackets, RepWith);
             if (restoftemplate.Contains(@"<"))
             {
                 restoftemplate = commentsastilde
