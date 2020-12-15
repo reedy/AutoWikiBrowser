@@ -365,7 +365,12 @@ namespace WikiFunctions
                     // See if there's any messages on the local wikis config page
                     JSONMessages(configJson["messages"]);
 
-                    Variables.RetfPath = !string.IsNullOrEmpty(configJson["typolink"].ToString()) ? configJson["typolink"].ToString() : "";
+                    // don't update Variables.RetfPath if typolink is empty
+                    if(!string.IsNullOrEmpty(configJson["typolink"].ToString()))
+                    {
+                        Variables.RetfPath = configJson["typolink"].ToString();
+                        Tools.WriteDebug("UpdateWikiStatus", "RETF Path set from typolink as " + Variables.RetfPath);
+                    }
 
                     List<string> us = new List<string>();
                     foreach (var underscore in configJson["underscoretitles"])
