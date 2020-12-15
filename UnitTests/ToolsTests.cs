@@ -2387,6 +2387,8 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"{{cite journal|title=A ############## }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A [[here|there]] }}", true));
             Assert.AreEqual(@"{{cite journal|title=A ######## }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A [[here]] }}", true));
             Assert.AreEqual(@"{{cite journal|title=A ######## }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A {{here}} }}", true));
+            Assert.AreEqual(@"{{cite journal|title=A ############ }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A <pre>a</pre> }}", true));
+            Assert.AreEqual(@"{{cite journal|title=A ############## }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A <code>a</code> }}", true));
         }
 
         [Test]
