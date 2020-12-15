@@ -124,15 +124,17 @@ namespace WikiFunctions.Parse
         private static readonly Regex PunctuationAfterTemplate = new Regex(@"(?<template>" + PunctuationBeforeTheseTemplates + @")(?<punc>[,\.;:\?])");
         private static readonly Regex TemplateAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation + @"\2 *(?<template>" + PunctuationBeforeTheseTemplates + @")");
 
+        private static readonly List<string> RefsAfterPunctuationAllowedLangs = new List<string>(new[] { "en", "simple", "ar", "ary", "arz" });
+
         /// <summary>
         /// Puts &lt;ref&gt; and {{sfn}} references after punctuation (comma, full stop) per WP:REFPUNC
-        /// Applies to en/el wiki only
+        /// Applies to en wiki and specific languages only
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>The updated article text</returns>
         public static string RefsAfterPunctuation(string articleText)
         {
-            if (!Variables.LangCode.Equals("en") && !Variables.LangCode.Equals("simple"))
+            if (!RefsAfterPunctuationAllowedLangs.Contains(Variables.LangCode))
                 return articleText;
 
             string articleTextOriginal = articleText;

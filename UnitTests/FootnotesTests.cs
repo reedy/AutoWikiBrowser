@@ -1158,14 +1158,17 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
         }
 
         [Test]
-        public void RefsAfterPunctuationEnOnly()
+        public void RefsAfterPunctuationSpecificLanguages()
         {
 #if DEBUG
             string AllAfter = @"Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next";
             string R1 = @"Foo<ref>bar</ref>. The next";
 
             Variables.SetProjectLangCode("fr");
-            Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "ref moved after reflist when majority are after");
+            Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "No change: disallowed language");
+
+            Variables.SetProjectLangCode("ar");
+            Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "ref moved after reflist when majority are after");
 
             Variables.SetProjectLangCode("en");
             Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "ref moved after reflist when majority are after");
