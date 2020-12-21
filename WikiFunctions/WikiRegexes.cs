@@ -109,7 +109,7 @@ namespace WikiFunctions
             //Regex contains extra opening/closing brackets and double bot, equal sign so that we fix with FixSyntaxRedirects
             Redirect = new Regex(@"#(?:" + RedirectString + @")\s*[:|=]?\s*\[?\[?\[\[\s*:?\s*([^\|\[\]]*?)\s*(\|.*?)?\]\]\]?\]?", RegexOptions.IgnoreCase);
 
-            string SiaTemplate = "([Ss]urnames?|SIA|[Ss]ia|[Ss]et index article|[Ss]et ?index|[Ss]hip ?index|[Mm]ountain ?index|[[Rr]oad ?index|[Ss]port ?index|[[Ss]torm ? index|[Gg]iven name|[Mm]olForm ?Index|[Mm]olecular formula index|[Cc]hemistry index|[Ee]nzyme index|[Mm]edia set index|[Ll]ake ?index|[Aa]nimal common name|[Ff]ungus common name|[Pp]lant common name|[Nn]ickname)";
+            string SiaTemplate = "([Ss]urnames?|SIA|[Ss]ia|[Ss]et index article|[Ss]et ?index|[Ss]hip ?index|[Ll]ocomotive ?index|[Mm]ountain ?index|[[Rr]oad ?index|[Ss]port ?index|[[Ss]torm ? index|[Gg]iven name|[Mm]olForm ?Index|[Mm]olecular formula index|[Cc]hemistry index|[Ee]nzyme index|[Mm]edia set index|[Ll]ake ?index|[Aa]nimal common name|[Ff]ungus common name|[Pp]lant common name|[Nn]ickname)";
             SIAs = new Regex(TemplateStart + SiaTemplate + @"\s*(?:\|[^{}]*?)?}}");
             
             string s;
