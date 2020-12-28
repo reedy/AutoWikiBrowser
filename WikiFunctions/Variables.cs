@@ -815,7 +815,6 @@ namespace WikiFunctions
                     mSummaryTag = "";
                     WPAWB = "باستخدام [[Project:أوب|أوب]]";
                     Stub = @"[^{}|]*?(?:[Ss]tub|بذرة|بذور)[^{}]*?";
-                    StubTWO = @"[^{}|]*?(?:الاسم الشائع للحيوان)[^{}]*?";
                     TypoSummaryTag = "الأخطاء المصححة: ";
                     break;
 
