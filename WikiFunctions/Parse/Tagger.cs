@@ -227,8 +227,11 @@ namespace WikiFunctions.Parse
                 {
                     if (Variables.LangCode.Equals("ar"))
                     {
-                        articleText += Tools.Newline("{{بذرة}}", 3);
-                        tagsAdded.Add("بذرة");
+                        if (!WikiRegexes.StubTWO.IsMatch(commentsCategoriesStripped))
+                        {
+                            articleText += Tools.Newline("{{بذرة}}", 3);
+                            tagsAdded.Add("بذرة");
+                        }
                     }
                     else if (Variables.LangCode.Equals("arz"))
                     {
