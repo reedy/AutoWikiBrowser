@@ -175,7 +175,8 @@ namespace WikiFunctions.Parse
                             // argument 2 length > 0
                             if (Tools.GetTemplateArgument(m.Value, 2).Length > 0 && Tools.GetTemplateArgument(m2.Value, 2).Length > 0)
                             {
-                                articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
+                                articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + 
+                                                                  (Tools.GetTemplateArgument(m2.Value, 4).Length > 0 ? @"|" + Tools.GetTemplateArgument(m2.Value, 4) + @"|" + Tools.GetTemplateArgument(m2.Value, 5) : "") + @"}}");
                                 doneAboutMerge = true;
                             }
 

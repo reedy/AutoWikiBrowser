@@ -1204,6 +1204,8 @@ words";
             Assert.AreEqual(@"{{about|foo|a|b|c|d|other uses|e}}", Parsers.Dablinks(@"{{about|foo|a|b|c|d}}{{for||e}}"), "for with first argument empty");
 
             Assert.AreEqual(@"{{about|1|2|3|4|5|6|7|8|9}}{{for|a|b}}", Parsers.Dablinks(@"{{about|1|2|3|4|5|6|7|8|9}}{{for|a|b}}"), "don't do anything if about has 9 arguments");
+
+            Assert.AreEqual(@"{{about||ended|List of ended|original|Lists of original|specials|List of specials|exclusive|List of exclusive}}", Parsers.Dablinks(@"{{about||ended|List of ended}}{{about||original|Lists of original|specials|List of specials}}{{about||exclusive|List of exclusive}}"), "Combine multiple in || mode");
         }
 
         [Test]
