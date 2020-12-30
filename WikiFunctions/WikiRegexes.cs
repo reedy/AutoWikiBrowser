@@ -159,6 +159,7 @@ namespace WikiFunctions
                     Wikify =Tools.NestedTemplateRegex(@"وصلات قليلة");
                     InUse = Tools.NestedTemplateRegex(new[] {"إنشاء", "تحرر", "Underconstruction", "تحت الإنشاء", "تحت الأنشاء", "يحرر", "إنشاء مقالة", "انشاء مقالة", "Inuse", "تحرير كثيف", "يحرر المقالة", "تحت التحرير", "قيد الاستخدام" });
                     DisambigString = "([Dd]isambig|توضيح|صفحة توضيح|أسمياء)";
+                    SIAs = Tools.NestedTemplateRegex(@"الاسم الشائع للحيوان");
                     break;
                 case "arz":
                     Orphan = Tools.NestedTemplateRegex(@"يتيمه");

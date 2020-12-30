@@ -1239,6 +1239,24 @@ ABC");
             RegexAssert.NoMatch(WikiRegexes.SIAs, @"{{surname-stub}}");
 
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{set index article|param}}");
+
+            #if DEBUG
+            Variables.SetProjectLangCode("en");
+            System.Collections.Generic.List<string> ds = new System.Collections.Generic.List<string>(new[] { "DEFAULTSORT", "dsort" });
+            Variables.MagicWords.Add("defaultsort", ds);
+            WikiRegexes.MakeLangSpecificRegexes();
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{DEFAULTSORT:foo}}");
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{dsort:foo}}");
+            Variables.MagicWords.Remove("defaultsort");
+            Assert.AreEqual("{{DEFAULTSORT:foo}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}<!--comm-->").Value, "comment after DEFAULTSORT not extracted");
+
+            Variables.SetProjectLangCode("ar");
+            WikiRegexes.MakeLangSpecificRegexes();
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{الاسم الشائع للحيوان}}");
+
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
         }
 
         [Test]
