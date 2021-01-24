@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WikiFunctions;
@@ -92,6 +93,9 @@ namespace CheckPage_Converter
                         results.Add("loginfailed", new List<string>());
                     }
                     results["loginfailed"].Add(wiki);
+
+                    // Sleep for two minutes
+                    Thread.Sleep(2 * 60 * 1000);
                 }
                 catch (MaxlagException)
                 {
