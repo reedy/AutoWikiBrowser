@@ -111,6 +111,30 @@ namespace CheckPage_Converter
             Console.WriteLine();
             Console.WriteLine("Done!");
             Console.ReadLine();
+
+            do
+            {
+                Console.WriteLine();
+                Console.Write("Output results Y/N? ");
+                input = Console.ReadLine().Trim().ToLower();
+            } while (input != "y" || input != "n");
+
+            if (input == "y")
+            {
+                foreach(string key in results.Keys)
+                {
+                    Console.WriteLine(key + ":");
+                    foreach (string w in wikis)
+                    {
+                        Console.WriteLine(w);
+                    }
+
+                    Console.WriteLine();
+                }
+
+                Console.ReadLine();
+            }
+
         }
 
         private static string UpdateWiki(string url, string username, string password)
