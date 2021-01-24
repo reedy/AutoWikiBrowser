@@ -59,7 +59,8 @@ namespace CheckPage_Converter
                 .Where(x => x != null)
                 .ToList();
 
-            foreach (string wiki in wikis) {
+            foreach (string wiki in wikis)
+            {
                 try
                 {
                     Console.Write("Converting checkpage format using User:{0} on {1}... ", profile.Username, wiki);
@@ -73,6 +74,10 @@ namespace CheckPage_Converter
                 catch (MaxlagException)
                 {
                     Console.WriteLine("lag :(");
+                }
+                catch (ApiErrorException ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
             }
 
