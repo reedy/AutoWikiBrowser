@@ -171,14 +171,14 @@ namespace CheckPage_Converter
                     List<string> urls = new List<string>();
                     foreach(string key in wikis.Keys)
                     {
-                        if (key == "Done!")
+                        if (key == "Done!" || key == "No check page")
                         {
                             continue;
                         }
 
                         urls.AddRange(wikis[key]);
                     }
-
+                    urls.Sort();
                     return urls;
                 }
             }
