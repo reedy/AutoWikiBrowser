@@ -154,13 +154,16 @@ namespace CheckPage_Converter
             {
                 var sitematrix = JObject.Parse(Tools.GetHTML("https://meta.wikimedia.org/w/api.php?action=sitematrix&smsiteprop=url&smlimit=max&format=json"));
 
-                return sitematrix.Descendants()
+                var wikis = sitematrix.Descendants()
                     .Where(x => x is JObject)
                     .Where(x => x["site"] != null || x["url"] != null)
                     .Select(x => x["url"])
                     .Where(x => x != null)
                     .Values<string>()
                     .ToList();
+
+                wikis.Sort();
+                return wikis;
             } else
             {
                 using (var reader = new StreamReader("output.json"))
