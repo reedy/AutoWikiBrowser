@@ -51,17 +51,21 @@ namespace CheckPage_Converter
 
             } while (!int.TryParse(input, out id));
 
+            bool load = true;
+            if (File.Exists("output.json"))
+            {
+                do
+                {
+                    Console.WriteLine();
+                    Console.Write("Re-do failed wikis from last run Y/N? ");
+                    input = Console.ReadLine().Trim().ToLower();
+                } while (input != "y" && input != "n");
+
+                load = input != "y";
+            }
+
             var profile = AWBProfiles.GetProfile(id);
-
-            var sitematrix = JObject.Parse(Tools.GetHTML(
-                "https://meta.wikimedia.org/w/api.php?action=sitematrix&smsiteprop=url&smlimit=max&format=json"));
-
-            var wikis = sitematrix.Descendants()
-                .Where(x => x is JObject)
-                .Where(x => x["site"] != null || x["url"] != null)
-                .Select(x => x["url"])
-                .Where(x => x != null)
-                .ToList();
+            var wikis = GetWikiList(load);
 
             Dictionary<string, List<string>> results = new Dictionary<string, List<string>>();
 
@@ -122,7 +126,7 @@ namespace CheckPage_Converter
 
             if (input == "y")
             {
-                foreach(string key in results.Keys)
+                foreach (string key in results.Keys)
                 {
                     Console.WriteLine(key + ":");
                     foreach (string w in wikis)
@@ -142,6 +146,45 @@ namespace CheckPage_Converter
                 Console.ReadLine();
             }
 
+        }
+
+        private static IEnumerable<string> GetWikiList(bool load)
+        {
+            if (load)
+            {
+                var sitematrix = JObject.Parse(Tools.GetHTML("https://meta.wikimedia.org/w/api.php?action=sitematrix&smsiteprop=url&smlimit=max&format=json"));
+
+                return sitematrix.Descendants()
+                    .Where(x => x is JObject)
+                    .Where(x => x["site"] != null || x["url"] != null)
+                    .Select(x => x["url"])
+                    .Where(x => x != null)
+                    .Values<string>()
+                    .ToList();
+            } else
+            {
+                using (var reader = new StreamReader("output.json"))
+                {
+                    var json = reader.ReadToEnd();
+                    var wikis = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(json);
+
+                    List<string> urls = new List<string>();
+                    foreach(string key in wikis.Keys)
+                    {
+                        if (key == "Done!")
+                        {
+                            continue;
+                        }
+
+                        foreach(string url in wikis[key])
+                        {
+                            urls.Add(url);
+                        }
+                    }
+
+                    return urls;
+                }
+            }
         }
 
         private static string UpdateWiki(string url, string username, string password)
