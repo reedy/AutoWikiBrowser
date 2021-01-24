@@ -20,6 +20,9 @@ namespace CheckPage_Converter
 
         static void Main(string[] args)
         {
+            Console.SetBufferSize(140, 2000);
+            Console.SetWindowSize(140, 25);
+
             Console.WriteLine("AutoWikiBrowser CheckPage migration to structured JSON pages");
             Console.WriteLine();
             var profiles = AWBProfiles.GetProfiles();
