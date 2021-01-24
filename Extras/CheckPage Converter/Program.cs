@@ -176,10 +176,7 @@ namespace CheckPage_Converter
                             continue;
                         }
 
-                        foreach(string url in wikis[key])
-                        {
-                            urls.Add(url);
-                        }
+                        urls.AddRange(wikis[key]);
                     }
 
                     return urls;
