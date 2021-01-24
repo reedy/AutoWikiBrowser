@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -117,7 +118,7 @@ namespace CheckPage_Converter
                 Console.WriteLine();
                 Console.Write("Output results Y/N? ");
                 input = Console.ReadLine().Trim().ToLower();
-            } while (input != "y" || input != "n");
+            } while (input != "y" && input != "n");
 
             if (input == "y")
             {
@@ -130,6 +131,12 @@ namespace CheckPage_Converter
                     }
 
                     Console.WriteLine();
+                }
+
+                using (StreamWriter sw = new StreamWriter("output.json"))
+                {
+                    sw.Write(JsonConvert.SerializeObject(results, Formatting.Indented));
+                    sw.Close();
                 }
 
                 Console.ReadLine();
