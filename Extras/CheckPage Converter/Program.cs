@@ -115,6 +115,13 @@ namespace CheckPage_Converter
 
             Console.WriteLine();
             Console.WriteLine("Done!");
+            Console.WriteLine();
+
+            foreach (string key in results.Keys)
+            {
+                Console.WriteLine("{0}: {1}", key, results[key].Count);
+            }
+
             Console.ReadLine();
 
             do
