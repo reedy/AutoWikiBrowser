@@ -62,25 +62,49 @@ namespace CheckPage_Converter
                 .Where(x => x != null)
                 .ToList();
 
+            Dictionary<string, List<string>> results = new Dictionary<string, List<string>>();
+
             foreach (string wiki in wikis)
             {
                 try
                 {
                     Console.Write("Converting checkpage format using User:{0} on {1}... ", profile.Username, wiki);
                     var res = UpdateWiki(wiki, profile.Username, profile.Password);
+
+                    if (!results.ContainsKey(res))
+                    {
+                        results.Add(res, new List<string>());
+                    }
+                    results[res].Add(wiki);
+
                     Console.WriteLine(res);
                 }
-                catch (LoginException le)
+                catch (LoginException)
                 {
                     Console.WriteLine("Unable to login with credentials provided.");
+                    if (!results.ContainsKey("loginfailed"))
+                    {
+                        results.Add("loginfailed", new List<string>());
+                    }
+                    results["loginfailed"].Add(wiki);
                 }
                 catch (MaxlagException)
                 {
                     Console.WriteLine("lag :(");
+                    if (!results.ContainsKey("maxlag"))
+                    {
+                        results.Add("maxlag", new List<string>());
+                    }
+                    results["maxlag"].Add(wiki);
                 }
                 catch (ApiErrorException ex)
                 {
                     Console.WriteLine(ex.Message);
+                    if (!results.ContainsKey(ex.ErrorCode))
+                    {
+                        results.Add(ex.ErrorCode, new List<string>());
+                    }
+                    results[ex.ErrorCode].Add(wiki);
                 }
             }
 
