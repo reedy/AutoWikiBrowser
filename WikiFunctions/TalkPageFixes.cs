@@ -136,12 +136,9 @@ namespace WikiFunctions.TalkPages
             if (moveDefaultsort != DEFAULTSORT.NoChange)
             {
                 articleText = WikiRegexes.Defaultsort.Replace(articleText, pr.DefaultSortMatchEvaluator, 1);
-                if (pr.FoundDefaultSort)
+                if (pr.FoundDefaultSort && !string.IsNullOrEmpty(pr.DefaultSortKey))
                 {
-                    if (!string.IsNullOrEmpty(pr.DefaultSortKey))
-                    {
-                        articleText = SetDefaultSort(pr.DefaultSortKey, moveDefaultsort, articleText);
-                    }
+                    articleText = SetDefaultSort(pr.DefaultSortKey, moveDefaultsort, articleText);
                 }
             }
 
