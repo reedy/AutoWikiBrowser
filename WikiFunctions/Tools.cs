@@ -2866,7 +2866,7 @@ Message: {2}
         /// Checks template calls using named parameters for unknown parameters
         /// </summary>
         /// <param name="templatecall">The template call to check</param>
-        /// <param name="knownParameters">List of known template parameters</param>
+        /// <param name="knownParameters">List of known template parameters (should be all lowercase)</param>
         /// <returns>List of any unknown parameters</returns>
         public static List<string> UnknownTemplateParameters(string templatecall, List<string> knownParameters)
         {
@@ -2878,7 +2878,7 @@ Message: {2}
             {
                 string paramName = m.Groups[1].Value.Trim();
 
-                if (!knownParameters.Contains(paramName) && !knownParameters.Contains(paramName.ToLower()))
+                if (!knownParameters.Contains(paramName.ToLower()))
                     Unknowns.Add(paramName);
             }
             return Unknowns;

@@ -691,7 +691,7 @@ namespace WikiFunctions
             return Unknowns;
         }
 
-        private static readonly List<string> MultipleIssuesKnowns = new List<string>(new[] { "section", "collapsed"});
+        private static readonly List<string> MultipleIssuesKnowns = new List<string>(new[] { "section", "collapsed" });
         
         /// <summary>
         /// Returns a list of any unknown parameters in any Multiple issues template

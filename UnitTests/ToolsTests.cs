@@ -1832,6 +1832,8 @@ def
             List<string> Knowns = new List<string>(new[] { "title", "date", "url" });
 
             Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010}}", Knowns));
+            // Confirm other casing work too
+            Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|TITLE=a|DATE=2010}}", Knowns));
 
             Unknowns.Add("foo");
             Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010|foo=}}", Knowns), "reported even if blank");
