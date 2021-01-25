@@ -1,4 +1,0 @@
-language: csharp
-solution: "AutoWikiBrowser-travis.sln"
-mono:
-  - 3.12.0
