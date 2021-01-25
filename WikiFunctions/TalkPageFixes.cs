@@ -359,8 +359,9 @@ namespace WikiFunctions.TalkPages
             "WPB," "Wpb",
             "WP banner shell", "WP Banner Shell",
             "WPBannerShell",
-            "WikiProject Banner Shell", "Wikiprojectbannershell",
+            "WikiProject Banner Shell", "WikiProjectBannerShell", "Wikiprojectbannershell",
             "WikiProject Banners", "WikiProjectBanners",
+            "WPBannerShell"
             "Bannershell", "banner shell"
             "Shell",
         });

@@ -887,10 +887,21 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex WikiProjectBannerShellTemplate =
             Tools.NestedTemplateRegex(new[]
-                                      {
-                                          "WikiProject Banners", "WikiProjectBanners", "WikiProjectBannerShell", "WPBS"
-                                              , "WPB", "Wpb", "Wpbs", "Wikiprojectbannershell", "Shell", "Bannershell", "WPBannerShell", "WikiProject banner shell", "WikiProject Banner Shell"
-                                      }, true);
+                {
+                    // Canonical
+                    "WikiProject banner shell"
+                    // Redirects
+                    "WPBS", "Wpbs",
+                    "WPB," "Wpb",
+                    "WP banner shell", "WP Banner Shell",
+                    "WPBannerShell",
+                    "WikiProject Banner Shell", "WikiProjectBannerShell", "Wikiprojectbannershell",
+                    "WikiProject Banners", "WikiProjectBanners",
+                    "WPBannerShell"
+                    "Bannershell", "banner shell"
+                    "Shell",
+                },
+                true);
         
         /// <summary>
         /// Matches {{no footnotes}} OR {{more footnotes}} templates
