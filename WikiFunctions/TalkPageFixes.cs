@@ -87,6 +87,8 @@ namespace WikiFunctions.TalkPages
             // 15. {{Split from}}, {{Split to}}
             // 16. {{Merge from}}, {{Merge-to}}
 
+            // The article text below is reordered from last (on the list above) to first.
+
             string wpbsBefore = WikiRegexes.WikiProjectBannerShellTemplate.Match(articleText).Value;
             bool blanklinesinwpbsBefore = wpbsBefore.Contains("\r\n\r\n");
 
@@ -119,15 +121,16 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplates(articleText, TalkWarningTemplates);
             articleText = MoveTalkTemplate(articleText, VitalArticle);
 
+            // 3. {{Talk header}}
             articleText = MoveTalkTemplate(articleText, WikiRegexes.TalkHeaderTemplate);
 
+            // 2. {{Skip to talk}}
             if (pr.FoundSkipToTalk)
             {
                 WriteHeaderTemplate("Skip to talk", ref articleText);
             }
 
-            // move {{GA Nominee}} above {{Talk header}} as per
-            // https://en.wikipedia.org/w/index.php?title=Wikipedia:Talk_page_layout&oldid=998119817#Lead_(bannerspace)
+            // 1. {{GA nominee}}
             articleText = MoveTalkTemplate(articleText, GANomineeTemplate);
 
             if (moveDefaultsort != DEFAULTSORT.NoChange)
