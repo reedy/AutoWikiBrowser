@@ -68,11 +68,11 @@ namespace WikiFunctions.TalkPages
             string zerothSectionOriginal = WikiRegexes.ZerothSection.Match(articleText).Value,
             articleTextOriginal = articleText;
 
-            // https://en.wikipedia.org/wiki/Wikipedia:TPL
-            // Correct order per WP:TPL is
-            // 1. {{Skip to talk}}
-            // 2. {{Talk header}}
-            // 3. {{GA}} or {{GA nominee}}
+            // https://en.wikipedia.org/w/index.php?title=Wikipedia:Talk_page_layout&oldid=998119817#Lead_(bannerspace)
+            // Correct order (though, not completely up to date!) per WP:TPL is
+            // 1. {{GA nominee}}, {{Featured article candidates}}, or {{Peer review}}
+            // 2. {{Skip to talk}}
+            // 3. {{Talk header}}
             // 4. {{Vital article}}
             // 5. {{community article probation}}, {{censor}}, {{BLP others}} and other high-priority/importance, warning/attention templates.
             // 6. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
@@ -100,13 +100,17 @@ namespace WikiFunctions.TalkPages
 
             // if template moving leaves blank lines in WPBS then clean this up
             if (wpbsBefore.Length > 0 && !blanklinesinwpbsBefore)
+            {
                 articleText = WikiRegexes.WikiProjectBannerShellTemplate.Replace(articleText, m => m.Value.Replace("\r\n\r\n", "\r\n"));
+            }
  
             articleText = WikiProjectBannerShell(articleText);
 
             articleText = MoveTalkTemplate(articleText, WikiRegexes.WikiProjectBannerShellTemplate);
             if (!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articleText))
+            {
                 articleText = MoveTalkTemplates(articleText, WikiProjects);
+            }
             articleText = MoveTalkTemplates(articleText, MilestoneTemplates);
             articleText = MoveTalkTemplates(articleText, TalkHistoryBTemplates);
             articleText = MoveTalkTemplates(articleText, TalkHistoryTemplates);
@@ -114,13 +118,17 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplates(articleText, TalkGuidelineTemplates);
             articleText = MoveTalkTemplates(articleText, TalkWarningTemplates);
             articleText = MoveTalkTemplate(articleText, VitalArticle);
-            articleText = MoveTalkTemplate(articleText, GANomineeTemplate);
 
-            // move talk page header to the top
             articleText = MoveTalkTemplate(articleText, WikiRegexes.TalkHeaderTemplate);
 
             if (pr.FoundSkipToTalk)
+            {
                 WriteHeaderTemplate("Skip to talk", ref articleText);
+            }
+
+            // move {{GA Nominee}} above {{Talk header}} as per
+            // https://en.wikipedia.org/w/index.php?title=Wikipedia:Talk_page_layout&oldid=998119817#Lead_(bannerspace)
+            articleText = MoveTalkTemplate(articleText, GANomineeTemplate);
 
             if (moveDefaultsort != DEFAULTSORT.NoChange)
             {
@@ -150,7 +158,9 @@ namespace WikiFunctions.TalkPages
                 // have we only added whitespace? then reset articletext
                 if (zerothSection.Length > zerothSectionOriginal.Length && 
                    WikiRegexes.WhiteSpace.Replace(zerothSection, "").Equals(WikiRegexes.WhiteSpace.Replace(zerothSectionOriginal, "")))
+                {
                     articleText = articleTextOriginal;
+                }
                 else 
                 {
                     string zerothbefore = zerothSection;
@@ -158,11 +168,13 @@ namespace WikiFunctions.TalkPages
                     // not when later sections: would remove blank line before heading
                     if (zerothSection.Length == articleText.Length &&
                        (zerothSection.Length - zerothSection.Trim().Length) > 2)
+                    {
                         zerothSection = zerothSection.Trim() + "\r\n";
+                    }
 
-                zerothSection = WikiRegexes.ThreeOrMoreNewlines.Replace(zerothSection, "\r\n\r\n");
-                zerothSection = Parse.Parsers.RemoveTemplateNamespace(zerothSection);
-                articleText = articleText.Replace(zerothbefore, zerothSection);
+                    zerothSection = WikiRegexes.ThreeOrMoreNewlines.Replace(zerothSection, "\r\n\r\n");
+                    zerothSection = Parse.Parsers.RemoveTemplateNamespace(zerothSection);
+                    articleText = articleText.Replace(zerothbefore, zerothSection);
                 }
             }
 
