@@ -2878,7 +2878,7 @@ Message: {2}
             {
                 string paramName = m.Groups[1].Value.Trim();
 
-                if (!knownParameters.Contains(paramName))
+                if (!knownParameters.Contains(paramName) && !knownParameters.Contains(paramName.ToLower()))
                     Unknowns.Add(paramName);
             }
             return Unknowns;
