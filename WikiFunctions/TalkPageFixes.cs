@@ -618,8 +618,8 @@ namespace WikiFunctions.TalkPages
                 string newvalue = m.Value;
                    
                 // Remove needs-infobox=no
-                    if (Tools.GetTemplateParameterValue(newvalue, "needs-infobox").Equals("no"))
-                        newvalue = Tools.RemoveTemplateParameter(newvalue, "needs-infobox");
+                if (Tools.GetTemplateParameterValue(newvalue, "needs-infobox").Equals("no"))
+                    newvalue = Tools.RemoveTemplateParameter(newvalue, "needs-infobox");
                 // Remove importance. WPSongs doesn't do importance
                 newvalue = Tools.RemoveTemplateParameter(newvalue, "importance");
 
