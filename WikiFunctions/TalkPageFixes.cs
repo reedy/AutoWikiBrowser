@@ -353,13 +353,13 @@ namespace WikiFunctions.TalkPages
 
         private static readonly List<string> BannerShellRedirects = new List<string>(new[] {
             "WPBS", "Wpbs",
-            "WPB," "Wpb",
+            "WPB", "Wpb",
             "WP banner shell", "WP Banner Shell",
             "WPBannerShell",
             "WikiProject Banner Shell", "WikiProjectBannerShell", "Wikiprojectbannershell",
             "WikiProject Banners", "WikiProjectBanners",
-            "WPBannerShell"
-            "Bannershell", "banner shell"
+            "WPBannerShell",
+            "Bannershell", "banner shell",
             "Shell",
         });
         private static readonly List<string> Nos = new List<string>(new[] { "blp", "blpo", "activepol" });

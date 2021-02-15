@@ -590,10 +590,10 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
             a = new Article("A", "{{multiple issues|foo=bar}}");
             Assert.AreEqual(1, a.UnknownMultipleIssuesParameters().Count);
             
-            a = new Article("Talk:A", "{{WikiProjectBannerShell|foo=bar}}");
+            a = new Article("Talk:A", "{{WikiProject banner shell|foo=bar}}");
             Assert.AreEqual(1, a.UnknownWikiProjectBannerShellParameters().Count);
             
-            a = new Article("Talk:A", "{{WikiProjectBannerShell|foo=bar|foo=bar}}");
+            a = new Article("Talk:A", "{{WikiProject banner shell|foo=bar|foo=bar}}");
             Assert.AreEqual(1, a.DuplicateWikiProjectBannerShellParameters().Count);
 
             a = new Article("A", "{{multiple issues|section=bar|collapsed=yes}}");
@@ -1123,7 +1123,7 @@ http://www.site.com
         public void MoveBanners()
         {
             string a = @"{{Skip to talk}}", b = @"{{Talk header}}", c = @"{{GA nominee}}", d = @"{{Controversial}}", e = @"{{Not a forum}}", f = @"{{British English}}", g = @"{{FailedGA}}";
-            string correct = a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + g + "\r\n";
+            string correct = c + "\r\n" + a + "\r\n" + b + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + g + "\r\n";
             string articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "bacdefg with newlines");
@@ -1164,7 +1164,7 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "fedcbag");
 
-            string h = @"{{WikiProjectBannerShell|1={{WikiProject Greece|class=}}}}", i = @"{{Image requested}}", j = @"{{Connected contributor|John Doe}}";
+            string h = @"{{WikiProject banner shell|1={{WikiProject Greece|class=}}}}", i = @"{{Image requested}}", j = @"{{Connected contributor|John Doe}}";
 
             correct = correct + h + "\r\n";
             articleText = correct;
@@ -1235,7 +1235,7 @@ http://www.site.com
             Assert.AreEqual(articleText2, articleText, "no changes if nothing is detected; starts with template");
 
             articleText = @"{{GA|21:12, 11 May 2013 (UTC)|topic=Geography|page=1|oldid=554646767}}
-{{WikiProjectBannerShell|1=
+{{WikiProject banner shell|1=
 {{WikiProject Canada|geography=yes|class=Start|importance=Mid|bc=yes}}
 {{WikiProject Protected areas|class=Start|importance=Mid}}
 {{WikiProject Greece|class=Start}}
@@ -1244,7 +1244,7 @@ http://www.site.com
 {{some random template}}";
             articleText2 = @"{{GA|21:12, 11 May 2013 (UTC)|topic=Geography|page=1|oldid=554646767}}
 {{DYK talk|17 April|2013|entry=... that Canada}}
-{{WikiProjectBannerShell|1=
+{{WikiProject banner shell|1=
 {{WikiProject Canada|geography=yes|class=Start|importance=Mid|bc=yes}}
 {{WikiProject Protected areas|class=Start|importance=Mid}}
 {{WikiProject Greece|class=Start}}
@@ -1267,7 +1267,7 @@ http://www.site.com
         public void MoveBannersAndWikiProjects()
         {
             string a = @"{{Skip to talk}}", b = @"{{Talk header}}", c = @"{{GA nominee}}", d = @"{{Controversial}}", e = @"{{Not a forum}}", f = @"{{British English}}", g = @"{{FailedGA}}", h = @"{{WikiProject Greece|class=}}", i = @"{{Image requested}}", j = @"{{Connected contributor|John Doe}}";
-            string correct = a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + g + "\r\n" + h + "\r\n" + i + "\r\n";
+            string correct = c + "\r\n" + a + "\r\n" + b + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + g + "\r\n" + h + "\r\n" + i + "\r\n";
             string articleText = correct;
 
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
@@ -1332,7 +1332,7 @@ http://www.site.com
 
 |currentstatus=GA
 |topic=Everydaylife}}
-{{WikiProjectBannerShell|1=
+{{WikiProject banner shell|1=
 {{WikiProject Rugby league|class=GA|importance=High}}
 }}
 
@@ -1345,7 +1345,7 @@ The";
 |currentstatus=GA
 |topic=Everydaylife}}
 {{afd-merged-from|George Piggins Medal|George Piggins Medal|10 June 2012}}
-{{WikiProjectBannerShell|1=
+{{WikiProject banner shell|1=
 {{WikiProject Rugby league|class=GA|importance=High}}
 }}
 
@@ -1357,14 +1357,14 @@ The";
             Assert.AreEqual(articleText2, articleText, "unknown templates get below known ones");
 
             articleText = @"{{Talk header}}
-{{WikiProjectBannerShell|1=
+{{WikiProject banner shell|1=
 {{WikiProject Architecture|class=Start |importance=Low }}
 {{WikiProject Virginia|class=Start |importance=Low }}
 {{WikiProject National Register of Historic Places|class=start|importance=low}}
 {{Image requested|in=Virginia}}
 }}";
             articleText2 = @"{{Talk header}}
-{{WikiProjectBannerShell|1=
+{{WikiProject banner shell|1=
 {{WikiProject Architecture|class=Start |importance=Low }}
 {{WikiProject Virginia|class=Start |importance=Low }}
 {{WikiProject National Register of Historic Places|class=start|importance=low}}
@@ -1453,7 +1453,7 @@ Some text";
             Assert.AreEqual(articleText2, articleText, "moves skip to talk on the top 2");
 
             articleText = @"{{Talk header}}
-{{WikiProjectBannerShell|1=
+{{WikiProject banner shell|1=
 {{WikiProject Iraq|class=C|importance=mid}}
 {{WikiProject Crime|class=C|importance=low}}
 {{WikiProject Terrorism|class=C|importance=low}}
@@ -1478,7 +1478,7 @@ hello talk";
             Assert.AreEqual(talkheader.Replace("{{talk", @"{{Talk") + "\r\n" + talkrest + "\r\n", articleText, "move talk header");
             
             // handles {{talk header}} on same line as other template
-            string WPBS = @"{{WikiProjectBannerShell|blp=yes|1=
+            string WPBS = @"{{WikiProject banner shell|blp=yes|1=
 {{OH-Project|class=B|importance=Low|nested=yes}}
 {{WPBiography|living=yes|class=B|priority=Low|filmbio-work-group=yes|nested=yes|listas=Parker, Sarah Jessica}}
 {{WikiProject Cincinnati|class=B|importance=mid|nested=yes}}
@@ -1509,7 +1509,7 @@ hello talk";
 
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
 
-            Assert.AreEqual(talkheader + "\r\n" + "{{GA nominee}}\r\n" + talkrest + "\r\n", articleText, "GA nominee involved");
+            Assert.AreEqual("{{GA nominee}}\r\n" + talkheader + "\r\n" + talkrest + "\r\n", articleText, "GA nominee involved");
         }
         
         [Test]
@@ -1798,11 +1798,9 @@ bar
             Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(red1));
             Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(red2));
             Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(WikiProjectBannerShell));
-            Assert.AreNotEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(red3));
-            Assert.AreEqual(WikiProjectBanners, TalkPageFixes.WikiProjectBannerShell(red3));
-            Assert.AreEqual(WikiProjectBanners, TalkPageFixes.WikiProjectBannerShell(red4));
-            Assert.AreEqual(WikiProjectBanners, TalkPageFixes.WikiProjectBannerShell(WikiProjectBanners));
-            Assert.AreNotEqual(WikiProjectBanners, TalkPageFixes.WikiProjectBannerShell(WikiProjectBannerShell));
+            Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(red3));
+            Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(red4));
+            Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(WikiProjectBanners));
         }
         
         [Test]
@@ -1810,100 +1808,100 @@ bar
         {
             #if DEBUG
             Variables.SetProjectLangCode("fr");
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|blp=yes|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=yes|blp=yes}}"));
             Variables.SetProjectLangCode("en");
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=yes|blp=yes}}"));
             #endif
         }
         
         [Test]
         public void WikiProjectBannerShellDupeParameters()
         {
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=yes|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=yes|blpo=yes|blp=yes|blp=yes}}"));
-            Assert.AreEqual(@"{{WikiProjectBannerShell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|collapsed=yes|collapsed=yes|collapsed=yes}}"));
-            Assert.AreEqual(@"{{WikiProjectBannerShell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell||collapsed=yes}}"), "excess pipes cleaned");
+            Assert.AreEqual(@"{{WikiProject banner shell|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=yes|blp=yes}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|blpo=yes|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blpo=yes|blpo=yes|blp=yes|blp=yes}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|collapsed=yes|collapsed=yes|collapsed=yes}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell||collapsed=yes}}"), "excess pipes cleaned");
         }
         
         [Test]
         public void WikiProjectBannerShellUnneededParams()
         {
-            Assert.AreEqual(@"{{WikiProjectBannerShell}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=no|activepol=no|collapsed=no|blpo=no}}"));
-            Assert.AreEqual(@"{{WikiProjectBannerShell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=no|activepol=no|collapsed=yes|blpo=no}}"));
-            Assert.AreEqual(@"{{WikiProjectBanners|collapsed=no}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBanners|blp=no|activepol=no|collapsed=no|blpo=no}}"));
-            Assert.AreEqual(@"{{WikiProjectBanners}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBanners|blp=no|activepol=no|collapsed=yes|blpo=no}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=no|activepol=no|collapsed=no|blpo=no}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=no|activepol=no|collapsed=yes|blpo=no}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBanners|blp=no|activepol=no|collapsed=no|blpo=no}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBanners|blp=no|activepol=no|collapsed=yes|blpo=no}}"));
         }
         
         [Test]
         public void WikiProjectBannerShellWPBiography()
         {
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|1={{WPBiography|foo=bar}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|1={{WPBiography|foo=bar}}}}"));
             
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=|1={{WPBiography|foo=bar|living=yes}}}}"), "appends blp=yes to WPBS");
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes|1={{WikiProject Biography|foo=bar|living=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=|1={{WikiProject Biography|foo=bar|living=yes}}}}"), "appends blp=yes to WPBS");
-            Assert.AreEqual(@"{{WikiProjectBannerShell|activepol=yes|1={{WPBiography|foo=bar|activepol=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|activepol=abc|1={{WPBiography|foo=bar|activepol=yes}}}}"), "ignores invalid values");
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=yes|1={{WPBiography|foo=bar|blpo=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=yes}}}}"), "appends blpo=yes to WPBS");
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=|1={{WPBiography|foo=bar|living=yes}}}}"), "appends blp=yes to WPBS");
+            Assert.AreEqual(@"{{WikiProject banner shell|blp=yes|1={{WikiProject Biography|foo=bar|living=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=|1={{WikiProject Biography|foo=bar|living=yes}}}}"), "appends blp=yes to WPBS");
+            Assert.AreEqual(@"{{WikiProject banner shell|activepol=yes|1={{WPBiography|foo=bar|activepol=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|activepol=abc|1={{WPBiography|foo=bar|activepol=yes}}}}"), "ignores invalid values");
+            Assert.AreEqual(@"{{WikiProject banner shell|blpo=yes|1={{WPBiography|foo=bar|blpo=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blpo=|1={{WPBiography|foo=bar|blpo=yes}}}}"), "appends blpo=yes to WPBS");
+            Assert.AreEqual(@"{{WikiProject banner shell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}"));
             
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar|living=no}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=no}}}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|1={{WPBiography|foo=bar|living=no}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=yes|1={{WPBiography|foo=bar|living=no}}}}"));
         }
         
         [Test]
         public void WikiProjectBannerShellAddingWikiProjects()
         {
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
+            Assert.AreEqual(@"{{WikiProject banner shell|1={{WPBiography|foo=bar}}
 {{WikiProject foo}}}}
-", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
+", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|1={{WPBiography|foo=bar}}}}
 {{WikiProject foo}}"), "WikiProjects pulled into WPBS");
 
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
+            Assert.AreEqual(@"{{WikiProject banner shell|1={{WPBiography|foo=bar}}
 {{WikiProject foo}}
 {{WikiProject bar}}}}
 
-", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
+", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|1={{WPBiography|foo=bar}}}}
 {{WikiProject foo}}
 {{WikiProject bar}}"), "WikiProjects pulled into WPBS");
 
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
+            Assert.AreEqual(@"{{WikiProject banner shell|1={{WikiProject foo}}
 {{WikiProject bar}}
-{{WikiProject Biography|living=yes|foo=bar}} | blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|living=yes|foo=bar}}{{WikiProjectBannerShell|1={{WikiProject foo}}
+{{WikiProject Biography|living=yes|foo=bar}} | blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|living=yes|foo=bar}}{{WikiProject banner shell|1={{WikiProject foo}}
 {{WikiProject bar}}}}"), "WikiProjects pulled into WPBS, WPBIO contains living=yes");
 
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
+            Assert.AreEqual(@"{{WikiProject banner shell|1={{WikiProject foo}}
 {{WikiProject bar}}
-{{WikiProject Biography|activepol=yes|foo=bar}} | activepol=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|activepol=yes|foo=bar}}{{WikiProjectBannerShell|1={{WikiProject foo}}
+{{WikiProject Biography|activepol=yes|foo=bar}} | activepol=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|activepol=yes|foo=bar}}{{WikiProject banner shell|1={{WikiProject foo}}
 {{WikiProject bar}}}}"), "WikiProjects pulled into WPBS, WPBIO contains activepol=yes");
 
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
+            Assert.AreEqual(@"{{WikiProject banner shell|1={{WikiProject foo}}
 {{WikiProject bar}}
-{{WikiProject Biography|living=yes|activepol=yes|foo=bar}} | blp=yes | activepol=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|living=yes|activepol=yes|foo=bar}}{{WikiProjectBannerShell|1={{WikiProject foo}}
+{{WikiProject Biography|living=yes|activepol=yes|foo=bar}} | blp=yes | activepol=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|living=yes|activepol=yes|foo=bar}}{{WikiProject banner shell|1={{WikiProject foo}}
 {{WikiProject bar}}}}"), "WikiProjects pulled into WPBS, WPBIO contains living, activepol=yes");
 
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
+            Assert.AreEqual(@"{{WikiProject banner shell|1={{WPBiography|foo=bar}}
 {{WikiProject bar}}
 {{WikiProject foo}}}}
 ", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject bar}}
 
-{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
+{{WikiProject banner shell|1={{WPBiography|foo=bar}}}}
 {{WikiProject foo}}"), "WikiProjects pulled into WPBS, no excess whitespace left");
         }
         
         [Test]
         public void WikiProjectBannerShellUnnamedParam()
         {
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|{{WPBiography|foo=bar}}}}"), "1= added when missing");
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1=
-{{WPBiography|foo=bar}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|
+            Assert.AreEqual(@"{{WikiProject banner shell|1={{WPBiography|foo=bar}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|{{WPBiography|foo=bar}}}}"), "1= added when missing");
+            Assert.AreEqual(@"{{WikiProject banner shell|1=
+{{WPBiography|foo=bar}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|
 {{WPBiography|foo=bar}}}}"));
             
-            const string otherUnnamed = @"{{WikiProjectBannerShell|random}}";
+            const string otherUnnamed = @"{{WikiProject banner shell|random}}";
             Assert.AreEqual(otherUnnamed, TalkPageFixes.WikiProjectBannerShell(otherUnnamed), "other unknown parameter not named 1=");
         }
         
         [Test]
         public void WikiProjectBannerShellBLP()
         {
-            const string a = @"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}";
+            const string a = @"{{WikiProject banner shell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}";
             
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blp}}"), "removes redundant banner");
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"), "empty parameter in WPBS");
@@ -1913,7 +1911,7 @@ bar
         [Test]
         public void WikiProjectBannerShellBLPO()
         {
-            const string a = @"{{WikiProjectBannerShell|blpo=yes|1={{WPBiography|foo=bar}}}}";
+            const string a = @"{{WikiProject banner shell|blpo=yes|1={{WPBiography|foo=bar}}}}";
             
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blpo}}"), "removes redundant banner");
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{BLPO}}"), "removes redundant banner");
@@ -1925,7 +1923,7 @@ bar
         [Test]
         public void WikiProjectBannerShellActivepol()
         {
-            const string a = @"{{WikiProjectBannerShell|activepol=yes|1={{WPBiography|foo=bar|activepol=yes}}}}";
+            const string a = @"{{WikiProject banner shell|activepol=yes|1={{WPBiography|foo=bar|activepol=yes}}}}";
             
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Activepol}}"), "removes redundant banner");
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("activepol=yes|", "activepol=|") + "{{activepol}}"), "empty parameter in WPBS");
@@ -1995,7 +1993,7 @@ bar
         {
             string a = @"{{WPBiography|foo=yes|living=yes}}
 {{WikiProject London}}
-",  b = @"{{WikiProjectBannerShell|banner collapsed=no|1=
+",  b = @"{{WikiProject banner shell|banner collapsed=no|1=
 {{WPBiography|living=yes|class=Start|priority=|listas=Hill, A}}
 {{WikiProject Gender Studies}}
 {{WikiProject Oklahoma}}

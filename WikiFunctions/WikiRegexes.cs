@@ -889,16 +889,16 @@ namespace WikiFunctions
             Tools.NestedTemplateRegex(new[]
                 {
                     // Canonical
-                    "WikiProject banner shell"
+                    "WikiProject banner shell",
                     // Redirects
                     "WPBS", "Wpbs",
-                    "WPB," "Wpb",
+                    "WPB", "Wpb",
                     "WP banner shell", "WP Banner Shell",
                     "WPBannerShell",
                     "WikiProject Banner Shell", "WikiProjectBannerShell", "Wikiprojectbannershell",
                     "WikiProject Banners", "WikiProjectBanners",
-                    "WPBannerShell"
-                    "Bannershell", "banner shell"
+                    "WPBannerShell",
+                    "Bannershell", "banner shell",
                     "Shell",
                 },
                 true);
