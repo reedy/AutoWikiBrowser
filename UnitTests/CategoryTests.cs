@@ -820,6 +820,9 @@ died 2002
             const string b = @"'''Fred Smith''' is a bloke.
 [[Category:1960 births]]
 [[Category:1990 deaths]]";
+            const string b2 = @"'''Fred Smith''' is a bloke.
+[[Category:1960 births]]
+[[Category:1990 suicides]]";
             const string c = @"'''Fred Smith''' is a bloke.
 [[Category:1960 births|Smith, Fred]]
 [[Category:1990 deaths|Smith, Fred]]";
@@ -838,6 +841,7 @@ died 2002
 
             Assert.AreEqual(a, Parsers.LivingPeople(a, "A"));
             Assert.AreEqual(b, Parsers.LivingPeople(b, "A"));
+            Assert.AreEqual(b2, Parsers.LivingPeople(b2, "A"));
             Assert.AreEqual(c, Parsers.LivingPeople(c, "A"));
             Assert.AreEqual(d, Parsers.LivingPeople(d, "A"));
             Assert.AreEqual(e, Parsers.LivingPeople(e, "A"));
