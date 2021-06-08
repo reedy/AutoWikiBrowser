@@ -1,0 +1,25 @@
+name: awb
+
+on: [push, pull_request]
+
+jobs:
+  build-windows:
+    name: Windows
+    runs-on: ${{ matrix.windows-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        windows-version: ['windows-latest', 'windows-2016']
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Build
+        run: |
+            MSBuild.exe $Env:GITHUB_WORKSPACE\'AutoWikiBrowser no plugins.sln' /p:Configuration=Release
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.windows-version }}
+          path: AWB/bin/Release
