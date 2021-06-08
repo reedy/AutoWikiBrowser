@@ -830,6 +830,32 @@ namespace WikiFunctions.API
             return Page.Text;
         }
 
+        public bool PageExists(string title)
+        {
+            if (string.IsNullOrEmpty(title))
+                throw new ArgumentException("Page name required", "title");
+
+            var query = new Dictionary<string, string>
+            {
+                {"action", "query"},
+                {"prop", "info"},
+                {"titles", title}
+            };
+
+            string result = HttpGet(query, ActionOptions.None);
+
+            CheckForErrors(result, "query");
+
+            try
+            {
+                return new PageInfo(result).Exists;
+            }
+            catch (Exception ex)
+            {
+                throw new BrokenXmlException(this, ex);
+            }
+        }
+
         public SaveInfo Save(string pageText, string summary, bool minor, WatchOptions watch, string contentModel = "wikitext")
         {
             if (string.IsNullOrEmpty(pageText) && !Page.Exists)
@@ -910,7 +936,6 @@ namespace WikiFunctions.API
                         {"type", "csrf"},
                         {"intoken", "delete"}, // Pre 1.24 compat
                         {"titles", title}
-
                     },
                     ActionOptions.All);
 

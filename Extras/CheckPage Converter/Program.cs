@@ -175,26 +175,25 @@ namespace CheckPage_Converter
 
                 wikis.Sort();
                 return wikis;
-            } else
+            }
+
+            using (var reader = new StreamReader("output.json"))
             {
-                using (var reader = new StreamReader("output.json"))
+                var json = reader.ReadToEnd();
+                var wikis = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(json);
+
+                List<string> urls = new List<string>();
+                foreach(string key in wikis.Keys)
                 {
-                    var json = reader.ReadToEnd();
-                    var wikis = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(json);
-
-                    List<string> urls = new List<string>();
-                    foreach(string key in wikis.Keys)
+                    if (key == "Done!" || key == "No check page")
                     {
-                        if (key == "Done!" || key == "No check page")
-                        {
-                            continue;
-                        }
-
-                        urls.AddRange(wikis[key]);
+                        continue;
                     }
-                    urls.Sort();
-                    return urls;
+
+                    urls.AddRange(wikis[key]);
                 }
+                urls.Sort();
+                return urls;
             }
         }
 
@@ -202,18 +201,25 @@ namespace CheckPage_Converter
         {
             ApiEdit edit = new ApiEdit($"{url}/w/");
 
+            var origCheckPageTitle = "Project:AutoWikiBrowser/CheckPage";
+
+            // Cheap, non logged in check for page existence
+            if (!edit.PageExists(origCheckPageTitle))
+            {
+                return "No check page";
+            }
+
             edit.Login(username, password);
 
-            var origCheckPageTitle = "Project:AutoWikiBrowser/CheckPage";
             var origCheckPageText = edit.Open(origCheckPageTitle);
-
-            var editProtection = edit.Page.EditProtection;
-            var moveProtection = edit.Page.MoveProtection;
 
             if (!edit.Page.Exists || string.IsNullOrEmpty(origCheckPageText))
             {
                 return "No check page";
             }
+
+            var editProtection = edit.Page.EditProtection;
+            var moveProtection = edit.Page.MoveProtection;
 
             var enabledUsers = Tools.StringBetween(origCheckPageText, "<!--enabledusersbegins-->",
                 "<!--enabledusersends-->");
