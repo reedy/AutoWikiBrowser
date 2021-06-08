@@ -203,10 +203,22 @@ namespace CheckPage_Converter
 
             var origCheckPageTitle = "Project:AutoWikiBrowser/CheckPage";
 
-            // Cheap, non logged in check for page existence
-            if (!edit.PageExists(origCheckPageTitle))
+            try
             {
-                return "No check page";
+                // Cheap, non logged in check for page existence
+                if (!edit.PageExists(origCheckPageTitle))
+                {
+                    return "No check page";
+                }
+            }
+            catch (ApiErrorException ape)
+            {
+                // Cheap, non logged in check failed. Try and login anyway
+                // If it wasn't readapidenied, fail
+                if (ape.ErrorCode != "readapidenied")
+                {
+                    throw;
+                }
             }
 
             edit.Login(username, password);
