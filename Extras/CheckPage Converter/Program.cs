@@ -17,6 +17,7 @@ namespace CheckPage_Converter
         private static readonly Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
         private static readonly Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
         private static readonly Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
+        private static readonly Regex UsernameRegex = new Regex(@"^\*\s*(.*?)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
         private const string PHAB_TASK = "https://phabricator.wikimedia.org/T241196";
 
@@ -240,10 +241,8 @@ namespace CheckPage_Converter
 
             var normalUsers = enabledUsers.Replace("<!--enabledbots-->" + botUsers + "<!--enabledbotsends-->", "");
 
-            Regex usernameRegex = new Regex(@"^\*\s*(.*?)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
-
             List<string> users = new List<string>();
-            foreach (Match m in usernameRegex.Matches(normalUsers))
+            foreach (Match m in UsernameRegex.Matches(normalUsers))
             {
                 if (!string.IsNullOrEmpty(m.Groups[1].Value.Trim()))
                 {
@@ -254,7 +253,7 @@ namespace CheckPage_Converter
             users.Sort();
 
             List<string> bots = new List<string>();
-            foreach (Match m in usernameRegex.Matches(botUsers))
+            foreach (Match m in UsernameRegex.Matches(botUsers))
             {
                 if (!string.IsNullOrEmpty(m.Groups[1].Value.Trim()))
                 {
