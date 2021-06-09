@@ -42,19 +42,15 @@ namespace UnitTests
         {
             Assert.AreEqual("test", Summary.Trim("test"));
 
-            const string bug1 = @"replaced category 'Actual event ballads' → 'Songs based on actual events' per [[Wikipedia:Categories for discussion/Log/2009 November 6|CfD 2009 Nov 6]]";
+            const string bug1 =
+                @"replaced category 'Actual event ballads' → 'Songs based on actual events' per [[Wikipedia:Categories for discussion/Log/2009 November 6|CfD 2009 Nov 6]]";
             const string waffle = @"some waffle here to make the edit summary too long";
 
             Assert.AreEqual(bug1, Summary.Trim(bug1));
             Assert.AreEqual(waffle + bug1, Summary.Trim(waffle + bug1));
-            Assert.AreEqual(waffle + waffle + @"replaced category 'Actual event ballads' → 'Songs based on actual events' per...", Summary.Trim(waffle + waffle + bug1));
-
-            #if DEBUG
-            // debug only - length affected by revision number being in edit summary for debug builds
-            Assert.AreEqual("clean upclean upclean up, typos fixed: dissapointment → disappointment (2), attatched → attached (2), begining → beginning, Expiditionary → Expeditionary, manuever → maneuver (5), thier → their (7), independa",
-                            Summary.Trim(
-                                "clean upclean upclean up, typos fixed: dissapointment → disappointment (2), attatched → attached (2), begining → beginning, Expiditionary → Expeditionary, manuever → maneuver (5), thier → their (7), independant → independent"));
-            #endif
+            Assert.AreEqual(
+                waffle + waffle + @"replaced category 'Actual event ballads' → 'Songs based on actual events' per...",
+                Summary.Trim(waffle + waffle + bug1));
         }
 
         [Test]
