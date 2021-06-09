@@ -103,7 +103,7 @@ namespace WikiFunctions
         {
             get // see SvnInfo.template.cs for details
             {
-                return (!m_Revision.Contains("$")) ? m_Revision.Replace("/", "-") : "?";
+                return !m_Revision.Contains("$") ? m_Revision.Replace("/", "-") : "?";
             }
         }
 
@@ -115,8 +115,8 @@ namespace WikiFunctions
             get
             {
                 return !m_Revision.Contains("$")
-                           ? int.Parse(m_Revision.Substring(0, m_Revision.IndexOf(' ')))
-                           : 0;
+                    ? int.Parse(m_Revision.Substring(0, m_Revision.IndexOf(' ')))
+                    : 0;
             }
         }
 

@@ -71,21 +71,23 @@ namespace WikiFunctions
         /// <summary>
         /// Truncates an edit summary that's over the maximum supported length
         /// </summary>
-        /// <param name="summary">input long edit summary</param>
-        /// <returns>shortened edit summary</returns>
+        /// <param name="summary">Edit summary</param>
+        /// <returns>Shortened edit summary if the input summary was too long</returns>
         public static string Trim(string summary)
         {
-            int maxAvailableSummaryLength = ((MaxLength - 5) - (Variables.SummaryTag.Length + 1));
+            int maxAvailableSummaryLength = MaxLength - 5 - (Variables.SummaryTag.Length + 1);
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Edit_summary_issue
             // replace last wikilink with dots as an attempt to prevent broken wikilinks in edit summary
             if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength && summary.EndsWith(@"]]"))
+            {
                 summary = SummaryTrim.Replace(summary, "...");
+            }
 
-            return (Encoding.UTF8.GetByteCount(summary) > maxAvailableSummaryLength)
-                       ? LimitByteLength(summary, maxAvailableSummaryLength)
+            return Encoding.UTF8.GetByteCount(summary) > maxAvailableSummaryLength
+                ? LimitByteLength(summary, maxAvailableSummaryLength)
                 : summary;
         }
-        
+
         /// <summary>
         /// returns true if given string has matching double square brackets and is within the maximum permitted length
         /// </summary>
