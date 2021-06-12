@@ -208,6 +208,8 @@ namespace WikiFunctions
 
         /// <summary>
         /// Whether the wiki capitalizes first letter of page names (usually yes, e.g. English Wikipedia) or not (e.g. Wiktionary)
+        ///
+        /// This is based on the value of $wgCapitalLinks
         /// </summary>
         public static bool CapitalizeFirstLetter { get; set; }
 
@@ -222,12 +224,20 @@ namespace WikiFunctions
         public static string[] MonthNames;
 
         public static readonly string[] ENLangMonthNames =
-                                                               {
-                                                                   "January", "February", "March", "April", "May",
-                                                                   "June",
-                                                                   "July", "August", "September", "October", "November",
-                                                                   "December"
-                                                               };
+        {
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        };
 
         private static string URLEnd = "/w/";
 

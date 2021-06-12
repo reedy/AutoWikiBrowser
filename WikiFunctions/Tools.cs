@@ -611,11 +611,11 @@ namespace WikiFunctions
 
         // Covered by ToolsTests.TurnFirstToUpper()
         /// <summary>
-        /// Returns version of the string with first character in upper case but not on wiktionary
+        /// Returns version of the string with first character in upper case but not on wikis that have $wgCapitalLinks = false
         /// </summary>
         public static string TurnFirstToUpper(string input)
         {
-            if (!Variables.CapitalizeFirstLetter|| string.IsNullOrEmpty(input))
+            if (!Variables.CapitalizeFirstLetter)
                 return input;
 
             return TurnFirstToUpperNoProjectCheck(input);
@@ -627,7 +627,9 @@ namespace WikiFunctions
         /// </summary>
         public static string TurnFirstToUpperNoProjectCheck(string input)
         {
-            return (string.IsNullOrEmpty(input)) ? "" : (char.ToUpper(input[0]) + input.Remove(0, 1));
+            return string.IsNullOrEmpty(input)
+                ? ""
+                : char.ToUpper(input[0]) + input.Remove(0, 1);
         }
 
         // Covered by ToolsTests.TurnFirstToLower()
