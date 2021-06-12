@@ -246,7 +246,7 @@ namespace CheckPage_Converter
             {
                 if (!string.IsNullOrEmpty(m.Groups[1].Value.Trim()))
                 {
-                    users.Add(m.Groups[1].Value.Trim());
+                    users.Add(Tools.TurnFirstToUpper(m.Groups[1].Value.Trim()));
                 }
             }
 
@@ -257,7 +257,7 @@ namespace CheckPage_Converter
             {
                 if (!string.IsNullOrEmpty(m.Groups[1].Value.Trim()))
                 {
-                    bots.Add(m.Groups[1].Value.Trim());
+                    bots.Add(Tools.TurnFirstToUpper(m.Groups[1].Value.Trim()));
                 }
             }
 
