@@ -361,6 +361,7 @@
     <Compile Include="Logging\LogControl.Designer.cs">
       <DependentUpon>LogControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UsernameComparer.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Variables.cs" />
     <Compile Include="Resources.Designer.cs">

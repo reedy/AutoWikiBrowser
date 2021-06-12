@@ -400,15 +400,20 @@ namespace WikiFunctions
 
                     // CheckPage option: 'allusersenabledusermode' will enable all users for user mode,
                     // and enable bots only when in 'enabledbots' section
+
+                    var usernameComparer = new UsernameComparer();
+                    // Optimisation, saves running the check multiple times
+                    bool isBotEnabled = enabledBots.Contains(User.Name, usernameComparer);
+
                     if (
-                        (bool)configJson["allusersenabledusermode"] ||
+                        (bool) configJson["allusersenabledusermode"] ||
                         (IsSysop && Variables.Project != ProjectEnum.wikia) ||
-                        enabledUsers.Contains(User.Name) ||
-                        enabledBots.Contains(User.Name)
+                        isBotEnabled ||
+                        enabledUsers.Contains(User.Name, usernameComparer)
                     )
                     {
                         // enable bot mode if in bots section
-                        IsBot = enabledBots.Contains(User.Name);
+                        IsBot = isBotEnabled;
 
                         return WikiStatusResult.Registered;
                     }
