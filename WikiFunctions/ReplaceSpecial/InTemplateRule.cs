@@ -188,7 +188,7 @@ namespace WikiFunctions.ReplaceSpecial
                 return true;
 
             // allow match on spaces or underscores
-            string pattern = @"^\s*" + Tools.CaseInsensitive(template).Replace(" ", "[ _]+") + @"\s*(?:}}|\|)";
+            string pattern = @"^\s*" + Tools.FirstLetterCaseInsensitive(template).Replace(" ", "[ _]+") + @"\s*(?:}}|\|)";
 
             // don't match on comments
             text = WikiRegexes.Comments.Replace(text, "");
@@ -212,7 +212,7 @@ namespace WikiFunctions.ReplaceSpecial
                     return text;
 
                 string pattern =
-                  @"^([\s]*)" + Tools.CaseInsensitive(template) + @"([\s]*(?:<!--.*-->)?[\s]*(\}\}|\|))";
+                  @"^([\s]*)" + Tools.FirstLetterCaseInsensitive(template) + @"([\s]*(?:<!--.*-->)?[\s]*(\}\}|\|))";
 
                 pattern = pattern.Replace(" ", "[ _]+");
 

@@ -78,36 +78,36 @@ namespace UnitTests
         }
 
         [Test]
-        public void CaseInsensitive()
+        public void FirstLetterCaseInsensitive()
         {
             // standard cases
-            Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive("Abc"));
-            Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive("abc"));
-            Assert.AreEqual(@"[Aa]BC", Tools.CaseInsensitive("aBC"));
-            Assert.AreEqual(@"[Aa]bc[de]", Tools.CaseInsensitive("abc[de]"));
-            Assert.AreEqual(@"[Σσ]bc", Tools.CaseInsensitive("Σbc"));
+            Assert.AreEqual(@"[Aa]bc", Tools.FirstLetterCaseInsensitive("Abc"));
+            Assert.AreEqual(@"[Aa]bc", Tools.FirstLetterCaseInsensitive("abc"));
+            Assert.AreEqual(@"[Aa]BC", Tools.FirstLetterCaseInsensitive("aBC"));
+            Assert.AreEqual(@"[Aa]bc[de]", Tools.FirstLetterCaseInsensitive("abc[de]"));
+            Assert.AreEqual(@"[Σσ]bc", Tools.FirstLetterCaseInsensitive("Σbc"));
 
             // trimming
-            Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive("abc "));
+            Assert.AreEqual(@"[Aa]bc", Tools.FirstLetterCaseInsensitive("abc "));
 
             // no changes
-            Assert.AreEqual(@" abc", Tools.CaseInsensitive(" abc"));
-            Assert.AreEqual("", Tools.CaseInsensitive(""));
-            Assert.AreEqual("123", Tools.CaseInsensitive("123"));
-            Assert.AreEqual("-", Tools.CaseInsensitive("-"));
-            Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive(@"[Aa]bc"));
+            Assert.AreEqual(@" abc", Tools.FirstLetterCaseInsensitive(" abc"));
+            Assert.AreEqual("", Tools.FirstLetterCaseInsensitive(""));
+            Assert.AreEqual("123", Tools.FirstLetterCaseInsensitive("123"));
+            Assert.AreEqual("-", Tools.FirstLetterCaseInsensitive("-"));
+            Assert.AreEqual(@"[Aa]bc", Tools.FirstLetterCaseInsensitive(@"[Aa]bc"));
 
-            Regex r = new Regex(Tools.CaseInsensitive("test"));
+            Regex r = new Regex(Tools.FirstLetterCaseInsensitive("test"));
             Assert.IsTrue(r.IsMatch("test 123"));
             Assert.AreEqual("Test", r.Match("Test").Value);
             Assert.IsFalse(r.IsMatch("tEst"));
 
-            r = new Regex(Tools.CaseInsensitive("Test"));
+            r = new Regex(Tools.FirstLetterCaseInsensitive("Test"));
             Assert.IsTrue(r.IsMatch("test 123"));
             Assert.AreEqual("Test", r.Match("Test").Value);
             Assert.IsFalse(r.IsMatch("TEst"));
 
-            r = new Regex(Tools.CaseInsensitive("#test#"));
+            r = new Regex(Tools.FirstLetterCaseInsensitive("#test#"));
             Assert.IsTrue(r.IsMatch("#test#"));
             Assert.IsFalse(r.IsMatch("#Test#"));
             Assert.IsFalse(r.IsMatch("test"));

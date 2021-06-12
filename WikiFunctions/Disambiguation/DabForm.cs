@@ -91,7 +91,7 @@ namespace WikiFunctions.Disambiguation
             {
                 string sum = dabLink.Split(new[] {'|'})
                     .Where(s => s.Trim().Length != 0)
-                    .Aggregate("", (current, s) => current + ("|" + Tools.CaseInsensitive(Regex.Escape(s.Trim()))));
+                    .Aggregate("", (current, s) => current + ("|" + Tools.FirstLetterCaseInsensitive(Regex.Escape(s.Trim()))));
                 if (sum.Length > 0 && sum[0] == '|')
                     sum = sum.Remove(0, 1);
                 if (sum.Contains("|"))
@@ -99,7 +99,7 @@ namespace WikiFunctions.Disambiguation
                 dabLink = sum;
             }
             else
-                dabLink = Tools.CaseInsensitive(Regex.Escape(dabLink.Trim()));
+                dabLink = Tools.FirstLetterCaseInsensitive(Regex.Escape(dabLink.Trim()));
 
             string newText = articleText;
             ArticleTitle = articleTitle;

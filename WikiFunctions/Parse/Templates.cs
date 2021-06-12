@@ -410,7 +410,7 @@ namespace WikiFunctions.Parse
         /// <returns>Template with all params, enclosed in curly brackets</returns>
         public static string GetTemplate(string articleText, string template)
         {
-            Regex search = new Regex(@"(\{\{\s*" + Tools.CaseInsensitive(template) + @"\s*)(?:\||\}|<)", RegexOptions.Singleline);
+            Regex search = new Regex(@"(\{\{\s*" + Tools.FirstLetterCaseInsensitive(template) + @"\s*)(?:\||\}|<)", RegexOptions.Singleline);
 
             // remove commented out templates etc. before searching
             string articleTextCleaned = WikiRegexes.UnformattedText.Replace(articleText, "");

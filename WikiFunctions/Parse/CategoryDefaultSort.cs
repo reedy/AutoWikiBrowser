@@ -118,7 +118,7 @@ namespace WikiFunctions.Parse
 
             if (Regex.IsMatch(articleText, "\\[\\["
                               + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                              + Tools.CaseInsensitive(Regex.Escape(newCategory)) + @"\s*(\||\]\])"))
+                              + Tools.FirstLetterCaseInsensitive(Regex.Escape(newCategory)) + @"\s*(\||\]\])"))
             {
                 bool tmp;
                 articleText = RemoveCategory(oldCategory, articleText, out tmp);
@@ -126,7 +126,7 @@ namespace WikiFunctions.Parse
             else
             {
                 oldCategory = Regex.Escape(oldCategory);
-                oldCategory = Tools.CaseInsensitive(oldCategory);
+                oldCategory = Tools.FirstLetterCaseInsensitive(oldCategory);
 
                 oldCategory = Variables.Namespaces[Namespace.Category] + oldCategory + @"\s*(\|[^\|\[\]]+\]\]|\]\])";
 
@@ -172,7 +172,7 @@ namespace WikiFunctions.Parse
         /// <returns>The article text without the old category.</returns>
         public static string RemoveCategory(string strOldCat, string articleText)
         {
-            strOldCat = Tools.CaseInsensitive(Regex.Escape(strOldCat));
+            strOldCat = Tools.FirstLetterCaseInsensitive(Regex.Escape(strOldCat));
 
             if (!articleText.Contains("<includeonly>"))
                 articleText = Regex.Replace(articleText, "\\[\\["

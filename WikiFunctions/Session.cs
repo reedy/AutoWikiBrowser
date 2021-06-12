@@ -543,7 +543,7 @@ namespace WikiFunctions
         {
             return new Regex(
                 @"^\*\s*" +
-                Tools.CaseInsensitive(
+                Tools.FirstLetterCaseInsensitive(
                     Regex.Escape(
                         userText.Replace("_", " ")
                     ).Replace(@"\ ", @"[ _]")

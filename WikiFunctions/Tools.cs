@@ -516,11 +516,11 @@ namespace WikiFunctions
             return String.Compare(one, two, StringComparison.OrdinalIgnoreCase) == 0;
         }
 
-        // Partially Covered by ToolsTests.CaseInsensitive()
+        // Partially Covered by ToolsTests.FirstLetterCaseInsensitive()
         /// <summary>
         /// Returns a regex case insensitive version of a string for the first letter only e.g. "Category" returns "[Cc]ategory"
         /// </summary>
-        public static string CaseInsensitive(string input)
+        public static string FirstLetterCaseInsensitive(string input)
         {
             if (!string.IsNullOrEmpty(input) && char.IsLetter(input[0]) &&
                 (char.ToUpper(input[0]) != char.ToLower(input[0])))
@@ -3197,7 +3197,7 @@ Message: {2}
             foreach (string templatename in templatenames)
             {
                 string templatename2 = Regex.Escape(templatename.Trim().Replace('_', ' ')).Replace(@"\ ", @"[_ ]+");
-                theRegex.Append(CaseInsensitive(templatename2));
+                theRegex.Append(FirstLetterCaseInsensitive(templatename2));
                 theRegex.Append("|");
             }
 

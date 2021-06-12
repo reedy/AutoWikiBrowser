@@ -159,17 +159,17 @@ namespace WikiFunctions.Parse
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // TODO, better to not apply to text within imagemaps
-            if (Regex.IsMatch(articleText, @"\[\[\s*(" + Tools.CaseInsensitive(escTitle) + @")\s*(?:\]|\|)")
+            if (Regex.IsMatch(articleText, @"\[\[\s*(" + Tools.FirstLetterCaseInsensitive(escTitle) + @")\s*(?:\]|\|)")
                 && !WikiRegexes.ImageMap.IsMatch(articleText)
                 && !WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText)
                 && !TaxoboxColour.IsMatch(articleText))
             {
                 // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
-                articleText = Regex.Replace(articleText, @"\[\[\s*(" + Tools.CaseInsensitive(escTitle)
+                articleText = Regex.Replace(articleText, @"\[\[\s*(" + Tools.FirstLetterCaseInsensitive(escTitle)
                                             + @")\s*\]\]", "$1");
 
                 // remove piped self links by leaving target, or removing when is a category with self category listed
-                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.CaseInsensitive(escTitle)
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.FirstLetterCaseInsensitive(escTitle)
                                             + @"\s*\|\s*([^\]]+)\s*\]\]", (Namespace.Determine(articleTitle) == Namespace.Category ? "" : "$1"));
             }
 

@@ -1585,7 +1585,7 @@ Text
             Assert.IsFalse(noChange);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
-            // addresses special case in Tools.CaseInsensitive
+            // addresses special case in Tools.FirstLetterCaseInsensitive
             Assert.AreEqual("[[Category:Bar]]", Parsers.ReCategoriser("-Foo bar-", "Bar", "[[Category:-Foo bar-]]", out noChange));
             Assert.IsFalse(noChange);
             Assert.AreEqual("[[Category:-Bar II-]]", Parsers.ReCategoriser("Foo", "-Bar II-", "[[Category:Foo]]", out noChange));
@@ -1652,7 +1652,7 @@ Text
             Assert.IsFalse(noChange);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
-            // addresses special case in Tools.CaseInsensitive
+            // addresses special case in Tools.FirstLetterCaseInsensitive
             Assert.AreEqual("", Parsers.RemoveCategory("-Foo bar-", "[[Category:-Foo bar-]]", out noChange));
             Assert.IsFalse(noChange);
 

@@ -1097,7 +1097,7 @@ namespace WikiFunctions.Parse
             oldImage = Regex.Escape(oldImage).Replace("\\ ", "[ _]");
 
             oldImage = "((?i:" + WikiRegexes.GenerateNamespaceRegex(Namespace.File, Namespace.Media)
-                + @"))\s*:\s*" + Tools.CaseInsensitive(oldImage);
+                + @"))\s*:\s*" + Tools.FirstLetterCaseInsensitive(oldImage);
             newImage = "$1:" + newImage;
 
             return Regex.Replace(articleText, oldImage, newImage);
@@ -1121,7 +1121,7 @@ namespace WikiFunctions.Parse
                                                    + Variables.NamespacesCaseInsensitive[Namespace.File], "", RegexOptions.IgnoreCase));
 
             // make image name first-letter case insensitive
-            image = Tools.CaseInsensitive(HttpUtility.UrlDecode(Regex.Escape(image).Replace("\\ ", "[ _]")));
+            image = Tools.FirstLetterCaseInsensitive(HttpUtility.UrlDecode(Regex.Escape(image).Replace("\\ ", "[ _]")));
 
             articleText = FixImages(articleText);
 
