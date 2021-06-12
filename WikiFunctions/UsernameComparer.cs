@@ -3,7 +3,7 @@
 namespace WikiFunctions
 {
     /// <summary>
-    /// 
+    /// First letter case insensitive comparison; used for username equality checks
     /// </summary>
     class UsernameComparer : IEqualityComparer<string>
     {
