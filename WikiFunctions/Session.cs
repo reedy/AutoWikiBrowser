@@ -532,20 +532,25 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Checks text for a user ID
+        /// Checks text for a username
         /// User ID must be on its own line started with an asterisk (*), any whitespace around it
         /// Matching is first letter case insensitive, and treats underscores and spaces as the same
         /// </summary>
-        /// <param name="userID">User ID to look for</param>
-        /// <param name="text">Text to check</param>
-        /// <returns>Whether the User ID is found within the given text</returns>
-        public static bool UserNameInText(string userID, string text)
+        /// <param name="userText">User text to look for</param>
+        /// <param name="text">Text to look for the userText in</param>
+        /// <returns>Whether the userText is found within the given text</returns>
+        public static bool UserNameInText(string userText, string text)
         {
-            userID = userID.Replace("_", " ");
-            Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(userID).Replace(@"\ ", @"[ _]"))
-                                           + @"\s*$", RegexOptions.Multiline);
-
-            return username.IsMatch(text);
+            return new Regex(
+                @"^\*\s*" +
+                Tools.CaseInsensitive(
+                    Regex.Escape(
+                        userText.Replace("_", " ")
+                    ).Replace(@"\ ", @"[ _]")
+                )
+                + @"\s*$",
+                RegexOptions.Multiline
+            ).IsMatch(text);
         }
 
         /// <summary>
