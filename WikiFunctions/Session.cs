@@ -527,7 +527,7 @@ namespace WikiFunctions
         /// <summary>
         /// Gets a list of pages that shouldn't have genfixes run on them
         /// </summary>
-        /// <returns>List of pages that shouldn't recieve genfixes</returns>
+        /// <returns>List of pages that shouldn't receive genfixes</returns>
         public List<string> NoGenfixes()
         {
             // TODO: Bring this upto LoadUnderscores, don't reparse json
@@ -540,7 +540,7 @@ namespace WikiFunctions
         /// <summary>
         /// Gets a list of pages that shouldn't be processed for typofixing
         /// </summary>
-        /// <returns>List of pages that shouldn't recieve typo fixing</returns>
+        /// <returns>List of pages that shouldn't receive typo fixing</returns>
         public List<string> NoRETF()
         {
             // TODO: Bring this upto LoadUnderscores, don't reparse json

@@ -4393,7 +4393,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     string s = Variables.RetfPath;
 
                     if (!s.StartsWith("http"))
+                    {
+                        // TODO: Try to use TheSession.Site.ArticleUrl for prettier URL
                         s = Variables.NonPrettifiedURL(s);
+                    }
 
                     message += "\r\n\r\nThe newest typos will now be downloaded from " + s + " when you press OK.";
                 }
