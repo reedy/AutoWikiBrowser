@@ -400,6 +400,7 @@ namespace WikiFunctions
 
                     // don't require approval if CheckPage does not exist
                     // Or it has the special config option...
+                    // TODO: Make sure this works as expected when code for non JSON stuff is removed
                     if (CheckPageJSONText.Length < 1 || (bool)configJson["allusersenabled"])
                     {
                         IsBot = true;
