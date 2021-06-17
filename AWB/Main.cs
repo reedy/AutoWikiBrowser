@@ -4367,23 +4367,25 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 // if not logged in will be using default Typos page location so look up any custom page from CheckPage info
                 // if no checkpage then fall back to using default ReftPath
-                if (!TheSession.User.IsLoggedIn && !Variables.IsWikipediaEN && Variables.RetfPath.EndsWith("AutoWikiBrowser/Typos"))
+                if (!TheSession.User.IsLoggedIn && !Variables.IsWikipediaEN &&
+                    Variables.RetfPath.EndsWith("AutoWikiBrowser/Typos"))
                 {
                     string checkPageText;
                     try
                     {
-                        string url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";    
+                        // TODO: check/load JSON
+                        string url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";
                         checkPageText = Tools.GetHTML(url);
                     }
                     catch
                     {
                         checkPageText = "";
                     }
-                    
+
                     Session.HasTypoLink(checkPageText);
                 }
 
-                #if !DEBUG
+#if !DEBUG
                 string message = @"Check each edit before you make it. Although this has been built to be very accurate there will be errors.";
 
                 if (RegexTypos == null)
@@ -4397,7 +4399,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 }
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                #endif
+#endif
 
                 RegexTypos = new RegExTypoFix();
                 RegexTypos.Complete += RegexTyposComplete;
