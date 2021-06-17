@@ -360,9 +360,18 @@ namespace WikiFunctions
 
                 if (usingJSON)
                 {
-                    string configJSONText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config2&action=raw");
+                    string configUrl = Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config&action=raw";
+                    string configJSONText = Editor.SynchronousEditor.HttpGet(configUrl);
 
-                    ConfigJSONText = !string.IsNullOrEmpty(configJSONText) ? configJSONText : DefaultWikiConfig;
+                    if (!string.IsNullOrEmpty(configJSONText))
+                    {
+                        ConfigJSONText = configJSONText;
+                    }
+                    else
+                    {
+                        Tools.WriteDebug("UpdateWikiStatus", "No JSON config page at " + configUrl + "; falling back to default");
+                        ConfigJSONText = DefaultWikiConfig;
+                    }
 
                     var configJson = JObject.Parse(ConfigJSONText);
 
