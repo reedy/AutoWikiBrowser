@@ -178,6 +178,11 @@ namespace WikiFunctions
         private static readonly Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
         private static readonly Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
 
+        /// <summary>
+        /// Default template of what would exist at Project:AutoWikiBrowser/Config, to be used in case of it not existing
+        /// </summary>
+        private const string DefaultWikiConfig = "{ 'typolink': '', 'allusersenabled': false, 'allusersenabledusermode': false, 'messages': [], 'underscoretitles': [], 'nogenfixes': [], 'noregextypofix': [] }";
+
         WikiStatusResult status;
         public WikiStatusResult Status
         {
@@ -355,12 +360,11 @@ namespace WikiFunctions
 
                 if (usingJSON)
                 {
-                    string configJSONText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config&action=raw");
-                    // TODO: 404
+                    string configJSONText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/Config2&action=raw");
 
-                    ConfigJSONText = configJSONText;
+                    ConfigJSONText = !string.IsNullOrEmpty(configJSONText) ? configJSONText : DefaultWikiConfig;
 
-                    var configJson = JObject.Parse(configJSONText);
+                    var configJson = JObject.Parse(ConfigJSONText);
 
                     // See if there's any messages on the local wikis config page
                     JSONMessages(configJson["messages"]);
