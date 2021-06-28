@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Copy", "Copy\Copy.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckPage Converter", "CheckPage Converter\CheckPage Converter.csproj", "{3CB3C668-54E6-4B8C-A1EE-EC44724BD442}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{9E91AA9B-56DD-4F50-AE59-001CC488659D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{3CB3C668-54E6-4B8C-A1EE-EC44724BD442}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CB3C668-54E6-4B8C-A1EE-EC44724BD442}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CB3C668-54E6-4B8C-A1EE-EC44724BD442}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E91AA9B-56DD-4F50-AE59-001CC488659D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E91AA9B-56DD-4F50-AE59-001CC488659D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E91AA9B-56DD-4F50-AE59-001CC488659D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E91AA9B-56DD-4F50-AE59-001CC488659D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
