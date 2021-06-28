@@ -2991,9 +2991,9 @@ Message: {2}
         /// <returns>The updated template call</returns>
         public static string AddTemplateParameterValue(string templateCall, string parameter, string value, bool prependSpace)
         {
-            // TODO: This isn't very good at distinguishing between the parameter not existing at all, and the value being ""...
-            var existingValue = GetTemplateParameterValue(templateCall, parameter);
-            if (!string.IsNullOrEmpty(existingValue))
+            var existingValues = GetTemplateParameterValues(templateCall);
+            // If there's an existing value, don't override it.
+            if (existingValues.ContainsKey(parameter))
                 return templateCall;
 
             return SetTemplateParameterValue(templateCall, parameter, value, prependSpace);
