@@ -2439,7 +2439,7 @@ Message: {2}
         /// <param name="templateCall">the input template call</param>
         /// <param name="parameter">the input parameter to find</param>
         /// <param name="caseInsensitiveParameterName">Whether to match case insensitively on parameter name</param>
-        /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
+        /// <returns>The trimmed parameter value, or an empty string ("") if the parameter is not found</returns>
         public static string GetTemplateParameterValue(string templateCall, string parameter, bool caseInsensitiveParameterName)
         {
             RegexOptions ro = RegexOptions.Singleline;
@@ -2492,7 +2492,7 @@ Message: {2}
         /// </summary>
         /// <param name="templateCall">the input template call</param>
         /// <param name="parameter">the input parameter to find</param>
-        /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
+        /// <returns>The trimmed parameter value, or an empty string ("") if the parameter is not found</returns>
         public static string GetTemplateParameterValue(string templateCall, string parameter)
         {
             return GetTemplateParameterValue(templateCall, parameter, false);
@@ -2982,29 +2982,21 @@ Message: {2}
         }
 
         /// <summary>
-        /// Sets the template parameter value to the new value input: if the template already has the parameter then its value is updated, otherwise the new value is appended
+        /// Adds a parameter of value to templateCall if one doesn't already exist
         /// </summary>
         /// <param name="templateCall">The template call to update</param>
         /// <param name="parameter">The template parameter</param>
-        /// <param name="newvalue">The new value for the parameter</param>
+        /// <param name="value">The value for the parameter if one doesn't already exist</param>
         /// <param name="prependSpace">Whether to include a space before the new value</param>
         /// <returns>The updated template call</returns>
-        public static string SetTemplateParameterValue(string templateCall, string parameter, string newvalue, bool prependSpace)
+        public static string AddTemplateParameterValue(string templateCall, string parameter, string value, bool prependSpace)
         {
-            if (GetTemplateParameterValue(templateCall, parameter).Equals(newvalue))
+            // TODO: This isn't very good at distinguishing between the parameter not existing at all, and the value being ""...
+            var existingValue = GetTemplateParameterValue(templateCall, parameter);
+            if (!string.IsNullOrEmpty(existingValue))
                 return templateCall;
 
-            if (prependSpace)
-                newvalue = " " + newvalue;
-
-            // first try to update existing field's value
-            string updatedtemplate = UpdateTemplateParameterValue(templateCall, parameter, newvalue);
-
-            // if no update then append value in new field
-            if (updatedtemplate.Equals(templateCall))
-                updatedtemplate = AppendParameterToTemplate(templateCall, parameter, newvalue);
-
-            return updatedtemplate;
+            return SetTemplateParameterValue(templateCall, parameter, value, prependSpace);
         }
 
         /// <summary>
@@ -3012,11 +3004,37 @@ Message: {2}
         /// </summary>
         /// <param name="templateCall">The template call to update</param>
         /// <param name="parameter">The template parameter</param>
-        /// <param name="newvalue">The new value for the parameter</param>
+        /// <param name="newValue">The new value for the parameter</param>
+        /// <param name="prependSpace">Whether to include a space before the new value</param>
         /// <returns>The updated template call</returns>
-        public static string SetTemplateParameterValue(string templateCall, string parameter, string newvalue)
+        public static string SetTemplateParameterValue(string templateCall, string parameter, string newValue, bool prependSpace)
         {
-            return SetTemplateParameterValue(templateCall, parameter, newvalue, false);
+            if (GetTemplateParameterValue(templateCall, parameter).Equals(newValue))
+                return templateCall;
+
+            if (prependSpace)
+                newValue = " " + newValue;
+
+            // first try to update existing field's value
+            string updatedTemplate = UpdateTemplateParameterValue(templateCall, parameter, newValue);
+
+            // if no update then append value in new field
+            if (updatedTemplate.Equals(templateCall))
+                updatedTemplate = AppendParameterToTemplate(templateCall, parameter, newValue);
+
+            return updatedTemplate;
+        }
+
+        /// <summary>
+        /// Sets the template parameter value to the new value input: if the template already has the parameter then its value is updated, otherwise the new value is appended
+        /// </summary>
+        /// <param name="templateCall">The template call to update</param>
+        /// <param name="parameter">The template parameter</param>
+        /// <param name="newValue">The new value for the parameter</param>
+        /// <returns>The updated template call</returns>
+        public static string SetTemplateParameterValue(string templateCall, string parameter, string newValue)
+        {
+            return SetTemplateParameterValue(templateCall, parameter, newValue, false);
         }
 
         /// <summary>
