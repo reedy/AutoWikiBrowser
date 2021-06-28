@@ -1919,6 +1919,19 @@ before}}", "param1", "valueafter"), "newline before populated parameter kept");
         }
 
         [Test]
+        public void AddTemplateParameterValue()
+        {
+            Assert.AreEqual(@"{{foo|param1=oldvalue}}",
+                Tools.AddTemplateParameterValue(@"{{foo|param1=oldvalue}}", "param1", "newvalue", false));
+
+            Assert.AreEqual(@"{{foo | param1=newvalue}}",
+                Tools.AddTemplateParameterValue(@"{{foo}}", "param1", "newvalue", false));
+
+            Assert.AreEqual(@"{{foo | param1= newvalue}}",
+                Tools.AddTemplateParameterValue(@"{{foo}}", "param1", "newvalue", true));
+        }
+
+        [Test]
         public void SetTemplateParameterValue()
         {
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=before}}", "param1", "valueafter"));
