@@ -916,6 +916,7 @@ died 2002
             Assert.AreEqual("[[Category:Foo bar|{{boz_quux}}]]", Parsers.FixCategories("[[Category: foo_bar|{{boz_quux}}]]"));
             StringAssert.Contains("{{{boz_quux}}}", Parsers.FixCategories("[[CategorY : foo_bar{{{boz_quux}}}]]"));
             Assert.AreEqual("[[Category:Foo bar|{{{boz_quux}}}]]", Parsers.FixCategories("[[CategorY : foo_bar|{{{boz_quux}}}]]"));
+            Assert.AreEqual("[[Category:Date computing template|{{<noinclude>BASE</noinclude>PAGENAME}}]]", Parsers.FixCategories("[[Category:Date computing template|{{<noinclude>BASE</noinclude>PAGENAME}}]]"));
 
             // diacritics removed from sortkeys
             Assert.AreEqual(@"[[Category:World Scout Committee members|Laine, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"));

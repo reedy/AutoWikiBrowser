@@ -2591,6 +2591,8 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"1-2-3", Tools.CleanSortKey(@"1–2–3"), "endash");
             Assert.AreEqual(@"1-2-3", Tools.CleanSortKey(@"1–2&ndash;3"), "&ndash;");
             Assert.AreEqual(@"A ", Tools.CleanSortKey(@"A       "), "Excess whitespace");
+            Assert.AreEqual(@"A B", Tools.CleanSortKey(@"A/B"), "Forward slash");
+            Assert.AreEqual("{{<noinclude>BASE</noinclude>PAGENAME}}", Tools.CleanSortKey("{{<noinclude>BASE</noinclude>PAGENAME}}"), "noinclude tags, no change");
         }
 
         [Test]

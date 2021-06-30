@@ -1312,9 +1312,13 @@ namespace WikiFunctions
             while(defaultsort.Contains("  "))
                 defaultsort = defaultsort.Replace("  ", " ");
 
-            foreach (var p in SortKeyChars)
-            {
-                defaultsort = defaultsort.Replace(p[0], p[1]);
+            // tags check to avoid e.g. removing forward slash in tag close
+            if(!WikiRegexes.AllTags.IsMatch(defaultsort))
+            {              
+                foreach (var p in SortKeyChars)
+                {
+                    defaultsort = defaultsort.Replace(p[0], p[1]);
+                }
             }
 
             return defaultsort;
