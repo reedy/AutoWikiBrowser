@@ -317,7 +317,7 @@ namespace WikiFunctions.Parse
                         else
                         {
                             articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                            tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
+                            tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
                         }
                     }
                     else
