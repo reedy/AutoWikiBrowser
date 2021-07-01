@@ -911,8 +911,7 @@ Bar4.<ref name=""ABCDEFGHI""/>
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|authorlink1=Smith}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|authorlink20=Bill}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|author=Smith}} was"));
-            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|name-list-format=vanc}} was"));
-            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|name-list-format=vanc|df=mdy|collaboration=Foo|eissn=1234-5678|hdl=123.456}} was"));
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|df=mdy|collaboration=Foo|eissn=1234-5678|hdl=123.456}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"{{cite web | periodical=, |journal=, |newspaper=, |magazine=, |work=, |website=, |encyclopedia=, |encyclopaedia=, |dictionary=,
 |arxiv=, |ARXIV=, |ASIN=, |ASIN-TLD=,
 |publicationplace=, |publication-place=,
