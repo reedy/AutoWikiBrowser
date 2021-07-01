@@ -121,6 +121,8 @@ namespace UnitTests
             Assert.AreEqual(@"[[File:T and E.jpg|right|thumbnail|With [[dog]]s in 2004]]", Parsers.SimplifyLinks(@"[[File:T and E.jpg|right|thumbnail|With [[dog|dogs]] in 2004]]"), "nested link handling");
 
             Assert.AreEqual(@"[[File:Lego cathedral.JPG|right|thumb|Lego cathedral]]", Parsers.SimplifyLinks(@"[[File:Lego cathedral.JPG | right | thumb | Lego cathedral]]"), "Multiple whitespace cleanup around pipes");
+
+            Assert.AreEqual("[[İstanbul Cup|Istanbul Cup]]", Parsers.SimplifyLinks("[[İstanbul Cup|Istanbul Cup]]"), "No change when diacritics on first letter of page mean lowercase happens to match");
         }
 
         [Test]

@@ -313,13 +313,13 @@ namespace WikiFunctions.Parse
                         continue;
                  }
 
-                string lb = Tools.TurnFirstToLower(b), la = Tools.TurnFirstToLower(a);
+                string lb = Tools.TurnFirstToUpperNoProjectCheck(b), la = Tools.TurnFirstToUpperNoProjectCheck(a);
                 
                 if (pipedlink.IndexOfAny("&%_".ToCharArray()) > -1) // check for performance
                 {
-                    string cb = CanonicalizeTitle(b), ca = CanonicalizeTitle(a);
+                    string cb = Tools.TurnFirstToUpperNoProjectCheck(CanonicalizeTitle(b)), ca = Tools.TurnFirstToUpperNoProjectCheck(CanonicalizeTitle(a));
 
-                    if (cb.Equals(a) || cb.Equals(la) || ca.Equals(b) || ca.Equals(lb)) // target and text the same after cleanup and case conversion e.g. [[A|a]] or [[Foo_bar|Foo bar]] etc.
+                    if (ca.Equals(cb)) // target and text the same after cleanup and case conversion e.g. [[A|a]] or [[Foo_bar|Foo bar]] etc.
                     {
                         articleText = articleText.Replace(pipedlink, "[[" + b.Replace("_", " ") + "]]");
                     }
@@ -334,7 +334,7 @@ namespace WikiFunctions.Parse
                 }
 
                 // [[dog|(dog)]] --> ([[dog]])
-                if(lb.Equals("(" + la + ")"))
+                if(lb.StartsWith("(") && ("(" + Tools.TurnFirstToUpperNoProjectCheck(lb.Trim("()".ToCharArray())) + ")").Equals("(" + Tools.TurnFirstToUpperNoProjectCheck(la) + ")"))
                     articleText = articleText.Replace(pipedlink, "([[" + b.Substring(1, b.Length-2) + "]])");
 
                 if (lb.StartsWith(la, StringComparison.Ordinal)) // target is substring of text e.g. [[Dog|Dogs]] --> [[Dog]]s
