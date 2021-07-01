@@ -540,10 +540,6 @@ namespace WikiFunctions.TalkPages
             {
                 string newvalue = m.Value;
                 
-                // remove diacritics from listas
-                string listas = Tools.GetTemplateParameterValue(newvalue, "listas");                
-                newvalue = Tools.SetTemplateParameterValue(newvalue, "listas", Tools.RemoveDiacritics(listas));
-                
                 // If {{activepol}} then add living=yes, activepol=yes, politician-work-group=yes to WPBiography and remove {{activepol}}
                 Match activepolm = ActivepolRegex.Match(articletext);
                 if (activepolm.Success)

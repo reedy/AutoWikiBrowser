@@ -2011,15 +2011,6 @@ bar
         }
         
         [Test]
-        public void WPBiographyListasDiacritics()
-        {
-            string a = @"{{WPBiography|foo=yes|living=yes|listas=Foé}}";
-            
-            Assert.AreEqual(a.Replace(@"é", "e"), TalkPageFixes.WPBiography(a), "diacritics removed from WPBiography listas");
-            Assert.AreEqual(a.Replace(@"é", "e"), TalkPageFixes.WPBiography(a.Replace(@"é", "e")), "no change when no diacritics in WPBiography listas");
-        }
-        
-        [Test]
         public void WPBiographyBLPActivepol()
         {
             string a = @"{{WPBiography}}";
