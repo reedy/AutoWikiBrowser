@@ -1873,6 +1873,7 @@ namespace AutoWikiBrowser
                 }
 
                 webBrowser.Document.OpenNew(false);
+                webBrowser.Document.MouseMove -= Document_MouseMove;
                 if (TheArticle.OriginalArticleText.Equals(txtEdit.Text))
                 {
                     webBrowser.Document.Write(
@@ -1919,6 +1920,43 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             }
         }
 
+        private string webBrowserMouseOverUrl = "";
+        /// <summary>
+        /// WebBrowser Document mouse move event: if mouse is over a link, store the URL
+        /// Enables use of system browser for right-click Open in New Window option
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
+        private void Document_MouseMove(object sender, HtmlElementEventArgs e)
+        {
+            HtmlDocument thisDoc = (HtmlDocument)sender;
+            if (thisDoc != null)
+            {
+                HtmlElement curElement = thisDoc.GetElementFromPoint(e.ClientMousePosition);
+                if (curElement != null && curElement.TagName == "A")
+                {
+                    webBrowserMouseOverUrl = curElement.GetAttribute("href");
+                }
+            }
+        }
+
+        /// <summary>
+        /// WebBrowser NewWindow event (preview): open URL in default browser
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
+        private void webBrowser_NewWindow(System.Object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            if (webBrowserMouseOverUrl.Length > 0)
+            {
+                Tools.WriteDebug("webBrowser_NewWindow", webBrowserMouseOverUrl);
+                Tools.OpenURLInBrowser(webBrowserMouseOverUrl);
+            }
+            else
+                Tools.WriteDebug("webBrowser_NewWindow", "webBrowserMouseOverUrl length zero");
+        }
+
         private void GetPreview()
         {
             if (TheArticle == null)
@@ -1951,7 +1989,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                                           + result
                                           + "</body></html>"
                                          );
-                // webBrowser.BringToFront();
+
+                webBrowser.Document.MouseMove += Document_MouseMove;
             }
 
             StatusLabelText = "";

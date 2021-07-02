@@ -4201,6 +4201,7 @@ namespace AutoWikiBrowser
             this.webBrowser.Size = new System.Drawing.Size(907, 251);
             this.webBrowser.TabIndex = 2;
             this.webBrowser.WebBrowserShortcutsEnabled = false;
+            this.webBrowser.NewWindow += webBrowser_NewWindow;
             // 
             // NudgeTimer
             // 
