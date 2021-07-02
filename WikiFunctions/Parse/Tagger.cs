@@ -172,13 +172,11 @@ namespace WikiFunctions.Parse
             int wikiLinkCount = Tools.LinkCount(forLinkCount, linkLimit);
             bool underlinked = (wikiLinkCount < 0.0025 * length);
 
-            #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
             {
                 totalCategories = Globals.UnitTestIntValue;
             }
             else
-            #endif
             {
                 // stubs add non-hidden stub categories, don't count these in categories count
                 // also don't count "Proposed deletion..." cats
@@ -753,13 +751,11 @@ namespace WikiFunctions.Parse
             // check if not orphaned
             bool orphaned, orphaned2;
             int incomingLinks = 0;
-            #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
             {
                 orphaned = orphaned2 = Globals.UnitTestBoolValue;
             }
             else
-                #endif
             {
                 try
                 {
