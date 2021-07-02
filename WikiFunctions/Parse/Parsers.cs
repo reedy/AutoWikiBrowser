@@ -1481,14 +1481,7 @@ namespace WikiFunctions.Parse
 
             if (TemplateExists(alltemplates, WikiRegexes.BASEPAGENAMETemplates))
             {
-                foreach (Match m in WikiRegexes.Refs.Matches(articleText))
-                {
-                    if (WikiRegexes.BASEPAGENAMETemplates.IsMatch(m.Value))
-                    {
-                        BASEPAGENAMEInRefs = true;
-                        break;
-                    }
-                }
+                BASEPAGENAMEInRefs = WikiRegexes.Refs.Matches(articleText).OfType<Match>().Any(m => WikiRegexes.BASEPAGENAMETemplates.IsMatch(m.Value));
 
                 if (!BASEPAGENAMEInRefs)
                 {
