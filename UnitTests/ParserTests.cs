@@ -2043,6 +2043,9 @@ Text
 
             Assert.AreEqual(RefPAGENAME, Parsers.Conversions(RefPAGENAME), "No subst: within ref tags");
             Assert.AreEqual(@"<ref>a</ref> {{subst:BASEPAGENAME}}", Parsers.Conversions(@"<ref>a</ref> {{BASEPAGENAME}}"), "Subst oustide ref tags");
+
+            const string IfEqPageName = @"{{#ifeq:{{PAGENAME}}|Thing 1|Thing 2}}";
+            Assert.AreEqual(IfEqPageName, Parsers.Conversions(IfEqPageName), "No subst: #ifeq template");
         }
 
         [Test]

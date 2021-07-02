@@ -1483,7 +1483,7 @@ namespace WikiFunctions.Parse
             {
                 BASEPAGENAMEInRefs = WikiRegexes.Refs.Matches(articleText).OfType<Match>().Any(m => WikiRegexes.BASEPAGENAMETemplates.IsMatch(m.Value));
 
-                if (!BASEPAGENAMEInRefs)
+                if (!BASEPAGENAMEInRefs && !articleText.Contains("{{#ifeq:{"))
                 {
                     foreach (string T in WikiRegexes.BASEPAGENAMETemplatesL)
                         articleText = Tools.RenameTemplate(articleText, T, "subst:" + T);
