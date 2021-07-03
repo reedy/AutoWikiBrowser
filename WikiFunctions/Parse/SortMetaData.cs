@@ -254,14 +254,16 @@ namespace WikiFunctions.Parse
                 }
 
                 // if for with blank first argument copied over then now need to put "other uses" as the argment
-                articleText = Tools.NestedTemplateRegex("about").Replace(articleText, m2 => {
-                                                                             string res = m2.Value;
-                                                                             if (Tools.GetTemplateArgument(res, 7).Length > 0 && Tools.GetTemplateArgument(res, 6).Length == 0)
-                                                                             {
-                                                                                 res = res.Insert(Tools.GetTemplateArgumentIndex(res, 6), "other uses");
-                                                                             }
-                                                                             return res;
-                                                                         });
+                articleText = Tools.NestedTemplateRegex("about").Replace(articleText, m2 =>
+                {
+                    string res = m2.Value;
+                    if (Tools.GetTemplateArgument(res, 7).Length > 0 && Tools.GetTemplateArgument(res, 6).Length == 0)
+                    {
+                        res = res.Insert(Tools.GetTemplateArgumentIndex(res, 6), "other uses");
+                    }
+
+                    return res;
+                });
             }
 
             // non-mainspace links need escaping in {{about}}
@@ -387,7 +389,7 @@ namespace WikiFunctions.Parse
 
             // recompose section: only if a merge has happened
             if (merged > 0)
-                return ((heading.Length > 0 ? heading + "\r\n" : "") + mergedTemplates + "\r\n" + sectionText);
+                return (heading.Length > 0 ? heading + "\r\n" : "") + mergedTemplates + "\r\n" + sectionText;
 
             return sectionTextOriginal;
         }
