@@ -42,9 +42,10 @@ namespace WikiFunctions
         static Tools()
         {
             DefaultUserAgentString = string.Format("WikiFunctions/{0} ({1}; .NET CLR {2})",
-                                                   VersionString,
-                                                   Environment.OSVersion.VersionString,
-                                                   Environment.Version);
+                VersionString,
+                Environment.OSVersion.VersionString,
+                Environment.Version
+            );
         }
 
         public delegate void SetProgress(int percent);
@@ -71,10 +72,10 @@ namespace WikiFunctions
         /// <summary>
         /// Tests article to see if it is a redirect
         /// </summary>
-        /// <param name="articletext">The article text</param>
-        public static bool IsRedirect(string articletext)
+        /// <param name="articleText">The article text</param>
+        public static bool IsRedirect(string articleText)
         {
-            return (RedirectTarget(articletext).Length > 0);
+            return RedirectTarget(articleText).Length > 0;
         }
 
         // see Category:Templates_for_soft_redirects
@@ -83,10 +84,10 @@ namespace WikiFunctions
         /// <summary>
         /// Tests article to see if it is a redirect OR a soft redirect using {{soft redirect}}
         /// </summary>
-        /// <param name="articletext">The article text</param>
-        public static bool IsRedirectOrSoftRedirect(string articletext)
+        /// <param name="articleText">The article text</param>
+        public static bool IsRedirectOrSoftRedirect(string articleText)
         {
-            return (RedirectTarget(articletext).Length > 0 || SoftRedirect.IsMatch(articletext));
+            return RedirectTarget(articleText).Length > 0 || SoftRedirect.IsMatch(articleText);
         }
 
         // Covered by ToolsTests.RedirectTarget()
@@ -119,9 +120,8 @@ namespace WikiFunctions
         public static bool IsValidTitle(string articleTitle)
         {
             articleTitle = WikiDecode(articleTitle).Trim();
-            if (articleTitle.Length == 0) return false;
 
-            if (articleTitle.IndexOfAny(InvalidChars) >= 0)
+            if (articleTitle.Length == 0 || articleTitle.IndexOfAny(InvalidChars) >= 0)
                 return false;
 
             articleTitle = Parsers.CanonicalizeTitleAggressively(articleTitle);
@@ -236,7 +236,8 @@ namespace WikiFunctions
                     m =>
                         m.Groups["person"].Value +
                         (m.Groups["ordinal"].Length > 0 ? " " + RomanToInt(m.Groups["ordinal"].Value) : "") + " of " +
-                        m.Groups["place"].Value);
+                        m.Groups["place"].Value
+                );
                 return FixupDefaultSort(origName);
             }
 
@@ -382,10 +383,12 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsRomanNumber(string s)
         {
-            if (string.IsNullOrEmpty(s) || s.Length > 9) return false;
+            if (string.IsNullOrEmpty(s) || s.Length > 9)
+                return false;
             foreach (char c in s)
             {
-                if (c != 'I' && c != 'V' && c != 'X' && c != 'L' && c != 'C') return false;
+                if (c != 'I' && c != 'V' && c != 'X' && c != 'L' && c != 'C')
+                    return false;
             }
             return true;
         }
@@ -548,7 +551,8 @@ namespace WikiFunctions
             {
                 if (char.IsLetter(input[i]))
                     builder.Append("[" + char.ToUpper(input[i]) + char.ToLower(input[i]) + "]");
-                else builder.Append(input[i]);
+                else
+                    builder.Append(input[i]);
             }
             return builder.ToString();
         }
@@ -724,8 +728,9 @@ namespace WikiFunctions
                 {
                     words++;
                     do
+                    {
                         i++;
-                    while (i < text.Length && char.IsLetterOrDigit(text[i]));
+                    } while (i < text.Length && char.IsLetterOrDigit(text[i]));
 
                     if (words == limit)
                         return words;
@@ -827,23 +832,29 @@ namespace WikiFunctions
             // If any links in commented out text etc. need to ignore these
             // For performance, extract all unformatted text, then extract links from these and remove from list of all links
             List<string> allUnformattedText = (from Match m in WikiRegexes.UnformattedText.Matches(text)
-                                        select m.Value).ToList();
-
-            List<string> linksInUnformattedText = (from Match m in WikiRegexes.SimpleWikiLink.Matches(string.Join(" ", allUnformattedText.ToArray()))
                 select m.Value).ToList();
+
+            List<string> linksInUnformattedText =
+                (from Match m in WikiRegexes.SimpleWikiLink.Matches(string.Join(" ", allUnformattedText.ToArray()))
+                    select m.Value).ToList();
 
             foreach (string l in linksInUnformattedText)
                 allWikiLinks.Remove(l);
 
             // Make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
-            allWikiLinks = allWikiLinks.Select(l => Tools.TurnFirstToUpper((l.Contains('|') ? l.Substring(0, l.IndexOf('|')) : l).Trim("[] ".ToCharArray()))).ToList();
+            allWikiLinks = allWikiLinks.Select(l =>
+                Tools.TurnFirstToUpper(
+                    (l.Contains('|') ? l.Substring(0, l.IndexOf('|')) : l).Trim("[] ".ToCharArray()))).ToList();
 
             // Take all links found and generate dictionary of link name and count for those with more than one link
-            Dictionary<string, int> dupeLinks = allWikiLinks.GroupBy(x => x).Where(g => g.Count() > 1).ToDictionary(x => x.Key, y => y.Count());
+            Dictionary<string, int> dupeLinks = allWikiLinks.GroupBy(x => x).Where(g => g.Count() > 1)
+                .ToDictionary(x => x.Key, y => y.Count());
 
             // create list of "Name (count)" from Dictionary
             // don't count wikilinked dates or targetless links as duplicate links
-            List<string> dupeWikiLinks = dupeLinks.Where(x => x.Key.Length > 0 && !WikiRegexes.Dates.IsMatch(x.Key) && !WikiRegexes.Dates2.IsMatch(x.Key)).Select(x => x.Key + @" (" + x.Value + @")").ToList();
+            List<string> dupeWikiLinks = dupeLinks
+                .Where(x => x.Key.Length > 0 && !WikiRegexes.Dates.IsMatch(x.Key) && !WikiRegexes.Dates2.IsMatch(x.Key))
+                .Select(x => x.Key + @" (" + x.Value + @")").ToList();
 
             // ensure list is sorted
             dupeWikiLinks.Sort();
@@ -947,10 +958,10 @@ namespace WikiFunctions
         /// E.g. whether a portion of text starts only with one or more wiki templates
         /// </summary>
         /// <param name="text">Article text or section to check</param>
-        /// <param name="Items">Regex to match one or more items e.g. wiki templates</param>
+        /// <param name="items">Regex to match one or more items e.g. wiki templates</param>
         /// <param name="allowHeading">Whether to also allow text to start with a heading then only the matched items</param>
         /// <returns>Length</returns>
-        public static int HowMuchStartsWith(string text, Regex Items, bool allowHeading)
+        public static int HowMuchStartsWith(string text, Regex items, bool allowHeading)
         {
             int heading = 0;
 
@@ -965,7 +976,7 @@ namespace WikiFunctions
                 }
             }
 
-            MatchCollection mc = Items.Matches(text);
+            MatchCollection mc = items.Matches(text);
 
             if (mc.Count == 0)
                 return 0;
@@ -1246,13 +1257,14 @@ namespace WikiFunctions
             {
                 s = s.Replace(p[0], p[1]);
             }
-            s = new string(
+
+            return new string(
                 s
                     .Normalize(NormalizationForm.FormD)
                     .ToCharArray()
                     .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                    .ToArray());
-            return s;
+                    .ToArray()
+            );
         }
 
         // Covered by HumanCatKeyTests.HasDiacritics
@@ -1325,7 +1337,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Returns a deduplicated list
+        /// Returns a de-duplicated list
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -1905,7 +1917,7 @@ Message: {2}
             List<string> before = (from Match m in WikiRegexes.UnformattedText.Matches(originalArticleText)
                 select m.Value).ToList();
 
-            foreach(string s in before)
+            foreach (string s in before)
             {
                 after.Remove(s);
             }
@@ -2390,8 +2402,7 @@ Message: {2}
 
             if (!unspaced)
             {
-                string templatecopy = templateCall;
-                templatecopy = @"{{" + ReplaceWithSpaces(templatecopy.Substring(2), WikiRegexes.NestedTemplates);
+                string templatecopy = @"{{" + ReplaceWithSpaces(templateCall.Substring(2), WikiRegexes.NestedTemplates);
                 templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.SimpleWikiLink);
                 templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.UnformattedText);
 
@@ -2453,9 +2464,7 @@ Message: {2}
 
             Regex paramRegex = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=([^|]*?)(?=\||}}$)", ro);
 
-            string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
-
-            Match m = paramRegex.Match(pipecleanedtemplate);
+            Match m = paramRegex.Match(PipeCleanedTemplate(templateCall));
 
             if (m.Success)
             {
@@ -2480,9 +2489,7 @@ Message: {2}
         {
             Dictionary<string, string> paramsFound = new Dictionary<string, string>();
 
-            string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
-
-            foreach(Match m in param.Matches(pipecleanedtemplate))
+            foreach(Match m in param.Matches(PipeCleanedTemplate(templateCall)))
             {
                 if (!paramsFound.ContainsKey(m.Groups[1].Value))
                     paramsFound.Add(m.Groups[1].Value, templateCall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim());
@@ -2542,10 +2549,9 @@ Message: {2}
         /// <returns>The argument value (trimmed)</returns>
         public static string GetTemplateArgument(string templateCall, int argument)
         {
-            string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
             int count = 1;
 
-            foreach (Match m in arg.Matches(pipecleanedtemplate))
+            foreach (Match m in arg.Matches(PipeCleanedTemplate(templateCall)))
             {
                 if (count.Equals(argument))
                     return templateCall.Substring(m.Groups[1].Index, m.Groups[1].Length);
@@ -2564,10 +2570,9 @@ Message: {2}
         /// <returns>The index of the argument</returns>
         public static int GetTemplateArgumentIndex(string templateCall, int argument)
         {
-            string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
             int count = 1;
 
-            foreach (Match m in TemplateArgument.Matches(pipecleanedtemplate))
+            foreach (Match m in TemplateArgument.Matches(PipeCleanedTemplate(templateCall)))
             {
                 if (count.Equals(argument))
                     return m.Index+1;
@@ -2588,11 +2593,9 @@ Message: {2}
         /// <returns>The argument count</returns>
         public static int GetTemplateArgumentCount(string template, bool populatedparametersonly)
         {
-            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            int i = 0;
 
-            int i=0;
-
-            foreach (Match m in (TemplateArgument.Matches(pipecleanedtemplate)))
+            foreach (Match m in (TemplateArgument.Matches(PipeCleanedTemplate(template))))
             {
                 if (!populatedparametersonly)
                     i++;
@@ -2821,9 +2824,8 @@ Message: {2}
             Dictionary<int, int> Dupes = new Dictionary<int, int>();
 
             Dictionary<string, string> Params = new Dictionary<string, string>();
-            string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
 
-            foreach(Match m in anyParam.Matches(pipecleanedtemplate))
+            foreach(Match m in anyParam.Matches(PipeCleanedTemplate(templatecall)))
             {
                 string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
                 paramName = m.Groups[1].Value.Trim();
@@ -3054,21 +3056,15 @@ Message: {2}
 
         public static Regex TemplateNameRegex()
         {
-            string TemplateNamespace;
-
-            try
-            {
-                TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template];
-            }
-            catch
-            {
-                TemplateNamespace = "[Tt]emplate:";
-            }
+            string templateNamespace = Variables.NamespacesCaseInsensitive.ContainsKey(Namespace.Template)
+                ? Variables.NamespacesCaseInsensitive[Namespace.Template]
+                : "[Tt]emplate:";
 
             // allow whitespace before semicolon
-            TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+            templateNamespace = Regex.Replace(templateNamespace, @":$", @"[\s_]*:");
 
-            return (new Regex(@"{{\s*(?::?[\s_]*" + TemplateNamespace + @"[\s_]*)?([^\|{}]+?)(?:\s*(?:<!--.*?-->|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)\s*)?\s*(?:\||}})"));
+            return new Regex(@"{{\s*(?::?[\s_]*" + templateNamespace +
+                             @"[\s_]*)?([^\|{}]+?)(?:\s*(?:<!--.*?-->|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)\s*)?\s*(?:\||}})");
         }
 
         /// <summary>
