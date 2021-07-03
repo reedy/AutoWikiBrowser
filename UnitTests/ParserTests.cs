@@ -2181,6 +2181,21 @@ Text
 {{unreferenced}}
 {{POV}}
 ==hello=="), "takes tags from separate lines, takes tags without dates");
+
+            Assert.AreEqual(@"{{Multiple issues|
+{{wikify}}
+{{unreferenced}}
+{{POV}}
+}}
+
+
+Article starts.
+
+==hello==", parser.MultipleIssues(@"{{wikify}}
+{{unreferenced}}
+{{POV}} Article starts.
+
+==hello=="), "Tag trailing whitespace handling");
         }
         
         [Test]
