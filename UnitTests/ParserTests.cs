@@ -1517,6 +1517,10 @@ Text
 
             // &apos can be necessary to avoid affecting italics/bold
             Assert.AreEqual(@"''Foo''&apos;s work was the best since ''bar''&apos;s", parser.Unicodify(@"''Foo''&apos;s work was the best since ''bar''&apos;s"));
+
+            const string ColonLine = @"; Heading&#58;
+Text";
+            Assert.AreEqual(ColonLine, parser.Unicodify(ColonLine));
         }
 
         [Test]

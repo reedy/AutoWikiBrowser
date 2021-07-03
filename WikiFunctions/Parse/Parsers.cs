@@ -1052,6 +1052,10 @@ namespace WikiFunctions.Parse
             articleText = articleText.Replace("&amp;", "&amp;amp;");
             articleText = articleText.Replace("&#153;", "™");
             articleText = articleText.Replace("&#149;", "•");
+            // line starting ; ending : uses : as indent, so &#58; at end of line can't safely be converted
+            articleText = articleText.Replace(@"&#58;
+", @"&amp;#58;
+");
 
             articleText = RegexUnicode.Aggregate(articleText, (current, k) => k.Key.Replace(current, k.Value));
 
