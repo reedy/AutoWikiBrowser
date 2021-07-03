@@ -512,6 +512,11 @@ namespace UnitTests
         {
             Globals.UnitTestIntValue = 1;
             Globals.UnitTestBoolValue = false;
+
+#if DEBUG
+            Variables.SetProjectLangCode("simple");
+            WikiRegexes.MakeLangSpecificRegexes();
+
             string t1 = @"{{temp}}'''Ae0bgz2CNta0Qib4dK3''' VcnyafUE0bqIUdr5e 9zggyDHmIye [[PoPUJrqLG 3a8vnqpgy]].<ref>EdOkQE5gA 7u9P9ZZtd dFw0g9Fsf 99924876231</ref>
 
 ==References==
@@ -558,7 +563,14 @@ namespace UnitTests
             Assert.IsFalse(text.Contains(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "SIA pages not tagged as underlinked");
 
             text = parser.Tagger(@"{{disambiguation}} [[a]]" + LongText, "Test", false, out noChange, ref summary);
-            Assert.IsFalse(text.Contains(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "disambig pages with 1 link not tagged as underlinked");       
+            Assert.IsFalse(text.Contains(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "disambig pages with 1 link not tagged as underlinked");
+
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            text = parser.Tagger(t1 + LongText, "Test", false, out noChange, ref summary);
+            Assert.IsFalse(text.StartsWith(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+{{temp}}"), "Don't add underlinked for en-wiki");
+#endif
         }
 
         [Test]

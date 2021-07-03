@@ -172,6 +172,10 @@ namespace WikiFunctions.Parse
             int wikiLinkCount = Tools.LinkCount(forLinkCount, linkLimit);
             bool underlinked = (wikiLinkCount < 0.0025 * length);
 
+            // disable addition of {{underlinked}} for en-wiki
+            if (Variables.IsWikipediaEN)
+                underlinked = false;
+
             if (Globals.UnitTestMode)
             {
                 totalCategories = Globals.UnitTestIntValue;
