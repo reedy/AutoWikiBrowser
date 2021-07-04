@@ -2439,16 +2439,16 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             CollectionAssert.AreEqual(
                 new Dictionary<string, string>
                 {
-                    {"InfoC", "Baz"},
-                    {"InfoA", "foo"},
-                    {"InfoB", "Bar"}
+                    ["InfoC"] = "Baz",
+                    ["InfoA"] = "foo",
+                    ["InfoB"] = "Bar"
                 },
                 Tools.SortDictionaryPairs(
-                    new SortedDictionary<string, string>
+                    new Dictionary<string, string>
                     {
-                        {"InfoA", "Foo"},
-                        {"InfoB", "Bar"},
-                        {"InfoC", "Baz"}
+                        ["InfoA"] = "foo",
+                        ["InfoB"] = "Bar",
+                        ["InfoC"] = "Baz"
                     },
                     new List<string>
                     {
@@ -2459,32 +2459,32 @@ hello", Tools.NestedTemplateRegex("foo"), true));
                 )
             );
 
-            //CollectionAssert.AreEqual(
-            //    new Dictionary<string, string>
-            //    {
-            //        {"InfoC", "Baz"},
-            //        {"InfoA", "foo"},
-            //        {"InfoB", "Bar"},
-            //        {"InfoZ", "Zed"},
-            //        {"InfoY", "Why"}
-            //    },
-            //    Tools.SortDictionaryPairs(
-            //        new SortedDictionary<string, string>
-            //        {
-            //            {"InfoA", "Foo"},
-            //            {"InfoB", "Bar"},
-            //            {"InfoC", "Baz"},
-            //            {"InfoZ", "Zed"},
-            //            {"InfoY", "Why"}
-            //        },
-            //        new List<string>
-            //        {
-            //            "InfoC",
-            //            "InfoA",
-            //            "InfoB"
-            //        }
-            //    )
-            //);
+            CollectionAssert.AreEqual(
+                new Dictionary<string, string>
+                {
+                    ["InfoC"] = "Baz",
+                    ["InfoA"] = "foo",
+                    ["InfoB"] = "Bar",
+                    ["InfoZ"] = "Zed",
+                    ["InfoY"] = "Why"
+                },
+                Tools.SortDictionaryPairs(
+                    new Dictionary<string, string>
+                    {
+                        ["InfoA"] = "foo",
+                        ["InfoB"] = "Bar",
+                        ["InfoC"] = "Baz",
+                        ["InfoZ"] = "Zed",
+                        ["InfoY"] = "Why"
+                    },
+                    new List<string>
+                    {
+                        "InfoC",
+                        "InfoA",
+                        "InfoB"
+                    }
+                )
+            );
         }
 
         [Test]
