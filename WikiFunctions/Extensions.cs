@@ -59,5 +59,14 @@ namespace WikiFunctions
             rtb.Text = a;
             rtb.Select(i, 0);
         }
+
+        public static IDictionary<TKey, TValue> SortBy<TKey, TValue>(
+            this IDictionary<TKey, TValue> dictionary,
+            IEnumerable<TKey> keys
+        )
+        {
+            var sorter = new KeyComparer<TKey>(keys);
+            return new SortedDictionary<TKey, TValue>(dictionary, sorter);
+        }
     }
 }

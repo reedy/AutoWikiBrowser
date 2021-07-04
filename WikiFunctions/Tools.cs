@@ -3251,6 +3251,33 @@ Message: {2}
                     || GetTemplateParameterValue(templateCall, "reason", true).Length > 0);
         }
 
+        public static string SortTemplateCall(string templateCall, List<string> order, bool prependSpace)
+        {
+            var existingValues = GetTemplateParameterValues(templateCall);
+            var sorted = SortDictionaryPairs(new SortedDictionary<string, string>(existingValues), order);
+
+            // TODO: There's gotta be a better way to reconstruct the template...
+            string newTemplate = "{{" + GetTemplateName(templateCall) + @"
+}}";
+            foreach (KeyValuePair<string, string> kvp in sorted)
+            {
+                newTemplate = AddTemplateParameterValue(newTemplate, kvp.Key, kvp.Value, prependSpace);
+            }
+
+            return newTemplate;
+        }
+
+        /// <summary>
+        /// Sorts a dictionary <paramref name="pairs"/> based on <paramref name="order"/>
+        /// </summary>
+        /// <param name="pairs"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public static IDictionary<string, string> SortDictionaryPairs(SortedDictionary<string, string> pairs, List<string> order)
+        {
+            return pairs.SortBy(order);
+        }
+
         /// <summary>
         /// returns true if testnode is the same or a subnode of refnode
         /// </summary>

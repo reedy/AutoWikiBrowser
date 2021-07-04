@@ -2723,6 +2723,56 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual("26", Tools.RomanToInt("XXVI"));
             Assert.AreEqual("76", Tools.RomanToInt("LXXVI"));
         }
+
+        [Test]
+        public void SortDictionaryPairs()
+        {
+            Assert.AreEqual(
+                new Dictionary<string, string>
+                {
+                    {"InfoC", "Baz"},
+                    {"InfoA", "foo"},
+                    {"InfoB", "Bar"}
+                },
+                Tools.SortDictionaryPairs(
+                    new SortedDictionary<string, string>
+                    {
+                        {"InfoA", "Foo"},
+                        {"InfoB", "Bar"},
+                        {"InfoC", "Baz"}
+                    },
+                    new List<string>
+                    {
+                        "InfoC",
+                        "InfoA",
+                        "InfoB"
+                    }
+                )
+            );
+        }
+
+        [Test]
+        public void SortTemplateCall()
+        {
+            Assert.AreEqual(
+                @"{{MyTemplate | InfoC= Baz | InfoA= foo | InfoB= Bar
+}}",
+                Tools.SortTemplateCall(
+                    @"{{MyTemplate
+| InfoA = foo
+| InfoB = Bar
+| InfoC = Baz
+}}",
+                    new List<string>
+                    {
+                        "InfoC",
+                        "InfoA",
+                        "InfoB"
+                    },
+                    true
+                )
+            );
+        }
     }
 
     [TestFixture]

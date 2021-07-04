@@ -114,6 +114,7 @@
     <Compile Include="Diff\UnifiedDiff.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="KeyComparer.cs" />
     <Compile Include="Lists\Providers\AdvancedRegexHtmlScraper.cs">
       <SubType>Form</SubType>
     </Compile>
