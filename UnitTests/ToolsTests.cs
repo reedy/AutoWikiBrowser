@@ -2769,7 +2769,10 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             {
                 string name = "";
 
-                for (int j = 0; j < rnd.Next(45); j++) name += allowedChars[rnd.Next(allowedChars.Length)];
+                for (int j = 0; j < rnd.Next(45); j++)
+                {
+                    name += allowedChars[rnd.Next(allowedChars.Length)];
+                }
                 name = Regex.Replace(name, @"\s{2,}", " ").Trim(new[] { ' ', ',' });
 
                 name = Tools.MakeHumanCatKey(name, "");
