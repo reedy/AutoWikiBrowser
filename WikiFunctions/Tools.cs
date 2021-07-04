@@ -3256,9 +3256,8 @@ Message: {2}
         /// </summary>
         /// <param name="templateCall">The current template invocation</param>
         /// <param name="order">Order of template parameters to be used. Any others will be put to the end</param>
-        /// <param name="prependSpace"></param>
         /// <returns></returns>
-        public static string SortTemplateCallParameters(string templateCall, List<string> order, bool prependSpace)
+        public static string SortTemplateCallParameters(string templateCall, List<string> order)
         {
             var existingValues = GetTemplateParameterValues(templateCall);
             var sorted = SortDictionaryPairs(new SortedDictionary<string, string>(existingValues), order);
@@ -3268,7 +3267,7 @@ Message: {2}
 
             foreach (KeyValuePair<string, string> kvp in sorted)
             {
-                newTemplate = AddTemplateParameterValue(newTemplate, kvp.Key, kvp.Value, prependSpace);
+                newTemplate = AppendParameterToTemplate(newTemplate, kvp.Key, kvp.Value);
             }
 
             return newTemplate;
