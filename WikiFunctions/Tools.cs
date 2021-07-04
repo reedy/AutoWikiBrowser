@@ -2940,7 +2940,7 @@ Message: {2}
 
             foreach (string p in parameters)
             {
-                combined +=(GetTemplateParameterValue(templateCall, p) + " ");
+                combined += GetTemplateParameterValue(templateCall, p) + " ";
                 templateCall = RemoveTemplateParameter(templateCall, p, false);
             }
 
