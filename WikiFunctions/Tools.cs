@@ -3254,8 +3254,8 @@ Message: {2}
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="templateCall"></param>
-        /// <param name="order"></param>
+        /// <param name="templateCall">The current template invocation</param>
+        /// <param name="order">Order of template parameters to be used. Any others will be put to the end</param>
         /// <param name="prependSpace"></param>
         /// <returns></returns>
         public static string SortTemplateCallParameters(string templateCall, List<string> order, bool prependSpace)
@@ -3330,17 +3330,17 @@ Message: {2}
 
         /// <summary>
         /// Creates a string from a list with the following additions:
-        /// Specify a separator to be used between all elements in the list
-        /// Specify a suffix to be added to each element in the list
-        /// Specify a lastseparator that will be used between the last two elements in the list
+        /// Specify a <paramref name="separator"/> to be used between all elements in the list
+        /// Specify a <paramref name="suffix"/> to be added to each element in the list
+        /// Specify a <paramref name="lastSeparator"/> that will be used between the last two elements in the list
         /// </summary>
-        public static string ListToStringWithSeparatorAndWordSuffix(List<string> items, string separator, string suffix, string lastseparator)
+        public static string ListToStringWithSeparatorAndWordSuffix(List<string> items, string separator, string suffix, string lastSeparator)
         {
             string ret = "";
             for(int i = 0; i < items.Count; i++)
             {
                 if (i + 1 == items.Count)
-                    ret += items[i] + suffix + lastseparator;
+                    ret += items[i] + suffix + lastSeparator;
                 else if (i == items.Count)
                     ret += items[i] + suffix;
                 else
@@ -3356,25 +3356,31 @@ Message: {2}
         /// <returns></returns>
         public static string UnescapeXML(string s)
         {
-            if (string.IsNullOrEmpty(s)) return s;
+            if (string.IsNullOrEmpty(s))
+            {
+                return s;
+            }
 
-            string returnString = s;
-            returnString = returnString.Replace("&apos;", "'");
-            returnString = returnString.Replace("&quot;", "\"");
-            returnString = returnString.Replace("&gt;", ">");
-            returnString = returnString.Replace("&lt;", "<");
-            return returnString.Replace("&amp;", "&");
+            return s.Replace("&apos;", "'")
+                .Replace("&quot;", "\"")
+                .Replace("&gt;", ">")
+                .Replace("&lt;", "<")
+                .Replace("&amp;", "&");
         }
 
         public static string ReAddDiacritics(string WithDiacritics, string WithoutDiacritics)
         {
-            foreach(Match m in WikiRegexes.RegexWordApostrophes.Matches(WithDiacritics))
+            foreach (Match m in WikiRegexes.RegexWordApostrophes.Matches(WithDiacritics))
             {
                 string withoutWord = RemoveDiacritics(m.Value);
 
                 // don't replace if multiple matches, cannot be sure which word translates
                 if (Regex.Matches(WithoutDiacritics, @"\b" + Regex.Escape(withoutWord) + @"\b").Count == 1)
-                    WithoutDiacritics = Regex.Replace(WithoutDiacritics, @"\b" + Regex.Escape(withoutWord) + @"\b", m.Value);
+                    WithoutDiacritics = Regex.Replace(
+                        WithoutDiacritics,
+                        @"\b" + Regex.Escape(withoutWord) + @"\b",
+                        m.Value
+                    );
             }
 
             return WithoutDiacritics;
