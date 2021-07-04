@@ -387,9 +387,9 @@ namespace WikiFunctions.Parse
                 }
                 else if (totalCategories == 0 && WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
-                   // rename uncat to uncat stub if no uncat stub. If uncat and uncat stub, remove uncat.
+                    // rename uncat to uncat stub if no uncat stub. If uncat and uncat stub, remove uncat.
                     bool uncatstub = false;
-                    foreach(Match u in WikiRegexes.Uncat.Matches(articleText))
+                    foreach (Match u in WikiRegexes.Uncat.Matches(articleText))
                     {
                         if (WikiRegexes.Stub.IsMatch(u.Value))
                         {
@@ -398,36 +398,38 @@ namespace WikiFunctions.Parse
                         }
                     }
 
-                    articleText = WikiRegexes.Uncat.Replace(articleText, u2 => {
-                                                                if (!uncatstub) // rename
-                                                                {
-                                                                    tagsrenamed++;
-                                                                    if (Variables.LangCode.Equals("ar"))
-                                                                        return Tools.RenameTemplate(u2.Value, "بذرة غير مصنفة");
-                                                                    if (Variables.LangCode.Equals("arz"))
-                                                                        return Tools.RenameTemplate(u2.Value, "تقاوى مش متصنفه");
-                                                                    if (Variables.LangCode.Equals("fa"))
-                                                                        return Tools.RenameTemplate(u2.Value, "خرد رده‌بندی‌نشده");
-                                                                    if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
-                                                                        return Tools.RenameTemplate(u2.Value, "Uncategorized stub");
-                                                                }
-                                                                else // already uncat stub so remove plain uncat
-                                                                {
-                                                                    if (!WikiRegexes.Stub.IsMatch(u2.Value))
-                                                                    {
-                                                                        if (Variables.LangCode.Equals("ar"))
-                                                                            tagsRemoved.Add("غير مصنفة");
-                                                                        else if (Variables.LangCode.Equals("arz"))
-                                                                            tagsRemoved.Add("مش متصنفه");
-                                                                        else if (Variables.LangCode.Equals("fa"))
-                                                                            tagsRemoved.Add("رده‌بندی‌نشده");  
-                                                                        else
-                                                                            tagsRemoved.Add("uncategorised");
-                                                                        return "";
-                                                                    }
-                                                                }
-                                                                return u2.Value;
-                                                            });
+                    articleText = WikiRegexes.Uncat.Replace(articleText, u2 =>
+                    {
+                        if (!uncatstub) // rename
+                        {
+                            tagsrenamed++;
+                            if (Variables.LangCode.Equals("ar"))
+                                return Tools.RenameTemplate(u2.Value, "بذرة غير مصنفة");
+                            if (Variables.LangCode.Equals("arz"))
+                                return Tools.RenameTemplate(u2.Value, "تقاوى مش متصنفه");
+                            if (Variables.LangCode.Equals("fa"))
+                                return Tools.RenameTemplate(u2.Value, "خرد رده‌بندی‌نشده");
+                            if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
+                                return Tools.RenameTemplate(u2.Value, "Uncategorized stub");
+                        }
+                        else // already uncat stub so remove plain uncat
+                        {
+                            if (!WikiRegexes.Stub.IsMatch(u2.Value))
+                            {
+                                if (Variables.LangCode.Equals("ar"))
+                                    tagsRemoved.Add("غير مصنفة");
+                                else if (Variables.LangCode.Equals("arz"))
+                                    tagsRemoved.Add("مش متصنفه");
+                                else if (Variables.LangCode.Equals("fa"))
+                                    tagsRemoved.Add("رده‌بندی‌نشده");
+                                else
+                                    tagsRemoved.Add("uncategorised");
+                                return "";
+                            }
+                        }
+
+                        return u2.Value;
+                    });
                 }
             }
             
@@ -594,17 +596,18 @@ namespace WikiFunctions.Parse
             // if have both BLP unsourced and BLP sources, and have some refs then just remove unreferenced
             if (WikiRegexes.BLPSources.IsMatch(templates) && PageHasReferences)
             {
-                articleText = BLPUnsourced.Replace(articleText, m2 => 
-                                                   {
-                                                       if (Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
-                                                       {
-                                                           tagsRemoved.Add("BLP unsourced");
-                                                           return "";
-                                                       }
+                articleText = BLPUnsourced.Replace(articleText, m2 =>
+                {
+                    if (Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
+                    {
+                        tagsRemoved.Add("BLP unsourced");
+                        return "";
+                    }
 
-                                                       tagsrenamed++;
-                                                       return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "BLP sources"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
-                                                   });
+                    tagsrenamed++;
+                    return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "BLP sources"), "date",
+                        "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+                });
             }
 
             if (tagsAdded.Any() || tagsRemoved.Any() || tagsrenamed > 0)
@@ -946,32 +949,32 @@ namespace WikiFunctions.Parse
                 {
                      if (tagsRemoved.Count == 1)
                         summary = "αφαιρέθηκε η ετικέτα:" + Tools.ListToStringCommaSeparator(tagsRemoved);
-                    else 
+                     else 
                         summary = "αφαιρέθηκαν οι ετικέτες:" + Tools.ListToStringCommaSeparator(tagsRemoved);
                 }
                 else if (Variables.LangCode.Equals("eo"))
                     summary = "forigis " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etikedo" +
-                    (tagsRemoved.Count == 1 ? "" : "j");
+                        (tagsRemoved.Count == 1 ? "" : "j");
                 else if (Variables.LangCode.Equals("fa"))
                     summary = " برچسب" + Tools.ListToStringCommaSeparator(tagsRemoved) + " حذف شد ";
                 else if (Variables.LangCode.Equals("fr"))
                     summary = "retrait " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
-                    (tagsRemoved.Count == 1 ? "" : "s");
+                        (tagsRemoved.Count == 1 ? "" : "s");
                 else if (Variables.LangCode.Equals("hy"))
                     summary = "ջնջվեց " + Tools.ListToStringCommaSeparator(tagsRemoved) + " կաղապար" +
-                    (tagsRemoved.Count == 1 ? "" : "ներ");
+                        (tagsRemoved.Count == 1 ? "" : "ներ");
                 else if (Variables.LangCode.Equals("sq"))
                 {
                      if (tagsRemoved.Count == 1)
                         summary = "hoqa etiketën:" + Tools.ListToStringCommaSeparator(tagsRemoved);
-                    else 
+                     else 
                         summary = "hoqa etiketat:" + Tools.ListToStringCommaSeparator(tagsRemoved);
                 }
                 else if (Variables.LangCode.Equals("sv"))
                 {
                      if (tagsRemoved.Count == 1)
                         tags = Tools.ListToStringCommaSeparator(tagsRemoved) + "-mall";
-                    else 
+                     else 
                         tags = Tools.ListToStringWithSeparatorAndWordSuffix(tagsRemoved, "-", ", ", " och ") + "mallar";
                     summary = "tog bort " + tags;
                 }
@@ -980,7 +983,7 @@ namespace WikiFunctions.Parse
                 {
                      if (tagsRemoved.Count == 1)
                         summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etiketi";
-                    else 
+                     else 
                         summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etiketleri";
                 }
                 else
@@ -1026,17 +1029,17 @@ namespace WikiFunctions.Parse
                     else 
                         summary += "προστέθηκαν οι ετικέτες: " + Tools.ListToStringCommaSeparator(tagsAdded);
                 }
-                    else if (Variables.LangCode.Equals("eo"))
+                else if (Variables.LangCode.Equals("eo"))
                     summary += "aldonis " + Tools.ListToStringCommaSeparator(tagsAdded) + " etikedo" +
-                    (tagsRemoved.Count == 1 ? "" : "j");
+                        (tagsRemoved.Count == 1 ? "" : "j");
                 else if (Variables.LangCode.Equals("fa"))
                     summary += "برچسب " + Tools.ListToStringCommaSeparator(tagsAdded) + " اضافه شد ";
                 else if (Variables.LangCode.Equals("fr"))
                     summary += "ajout " + Tools.ListToStringCommaSeparator(tagsAdded) + " balise" +
-                    (tagsAdded.Count == 1 ? "" : "s");
+                        (tagsAdded.Count == 1 ? "" : "s");
                 else if (Variables.LangCode.Equals("hy"))
-                    summary += "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsAdded) + " կաղապար" +
-                    (tagsAdded.Count == 1 ? "" : "ներ");
+                    summary += "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsAdded) + " կաղապար" + 
+                        (tagsAdded.Count == 1 ? "" : "ներ");
                 else if (Variables.LangCode.Equals("sq"))
                 {
                     if (tagsAdded.Count == 1)
