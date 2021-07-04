@@ -3260,7 +3260,7 @@ Message: {2}
         public static string SortTemplateCallParameters(string templateCall, List<string> order)
         {
             var existingValues = GetTemplateParameterValues(templateCall);
-            var sorted = SortDictionaryPairs(new SortedDictionary<string, string>(existingValues), order);
+            var sorted = SortDictionaryPairs(existingValues, order);
 
             // TODO: There's gotta be a better way to reconstruct the template...
             string newTemplate = RemoveTemplateParameters(templateCall, existingValues.Keys.ToList());
@@ -3274,14 +3274,14 @@ Message: {2}
         }
 
         /// <summary>
-        /// Sorts a dictionary <paramref name="pairs"/> based on <paramref name="order"/>
+        /// Sorts a dictionary <paramref name="pairs"/> using <paramref name="order"/> as the sorting order
         /// </summary>
         /// <param name="pairs"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        public static IDictionary<string, string> SortDictionaryPairs(SortedDictionary<string, string> pairs, List<string> order)
+        public static IDictionary<string, string> SortDictionaryPairs(Dictionary<string, string> pairs, List<string> order)
         {
-            return pairs.SortBy(order);
+            return new Dictionary<string, string>(pairs.SortBy(order));
         }
 
         /// <summary>
