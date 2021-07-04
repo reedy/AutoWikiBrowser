@@ -1064,7 +1064,7 @@ namespace WikiFunctions.Parse
                 }
                 else
                     summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
-                    (tagsAdded.Count == 1 ? "" : "s");
+                        (tagsAdded.Count == 1 ? "" : "s");
             }
             return summary;
         }
