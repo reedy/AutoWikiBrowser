@@ -3070,29 +3070,29 @@ Message: {2}
         /// <summary>
         /// Renames all matches of the given template name in the input text to the new name given
         /// </summary>
-        /// <param name="articletext">the page text</param>
-        /// <param name="templatename">the old template name</param>
-        /// <param name="newtemplatename">the new template name</param>
+        /// <param name="articleText">the page text</param>
+        /// <param name="templateName">the old template name</param>
+        /// <param name="newTemplateName">the new template name</param>
         /// <returns>The updated article text</returns>
-        public static string RenameTemplate(string articletext, string templatename, string newtemplatename)
+        public static string RenameTemplate(string articleText, string templateName, string newTemplateName)
         {
-            return RenameTemplate(articletext, templatename, newtemplatename, true);
+            return RenameTemplate(articleText, templateName, newTemplateName, true);
         }
 
         /// <summary>
         /// Renames all matches of the given template name in the input text to the new name given
         /// </summary>
-        /// <param name="articletext">the page text</param>
-        /// <param name="templatename">the old template name</param>
-        /// <param name="newtemplatename">the new template name</param>
+        /// <param name="articleText">the page text</param>
+        /// <param name="templateName">the old template name</param>
+        /// <param name="newTemplateName">the new template name</param>
         /// <param name="keepFirstLetterCase">Whether to keep the first letter casing of the existing template</param>
         /// <returns>The updated article text</returns>
-        public static string RenameTemplate(string articletext, string templatename, string newtemplatename, bool keepFirstLetterCase)
+        public static string RenameTemplate(string articleText, string templateName, string newTemplateName, bool keepFirstLetterCase)
         {
-            if (templatename.Equals(newtemplatename))
-                return articletext;
+            if (templateName.Equals(newTemplateName))
+                return articleText;
 
-            return NestedTemplateRegex(templatename).Replace(articletext, m => RenameTemplateME(m, newtemplatename, keepFirstLetterCase));
+            return NestedTemplateRegex(templateName).Replace(articleText, m => RenameTemplateME(m, newTemplateName, keepFirstLetterCase));
         }
 
         /// <summary>
@@ -3163,7 +3163,7 @@ Message: {2}
         /// Returns a regex to match the input template
         /// Supports nested templates and comments at end of template call
         /// </summary>
-        /// <param name="templatename">The template name</param>
+        /// <param name="templateName">The template name</param>
         /// <param name="compiled">Whether to return a compiled regex</param>
         /// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 is template arguments from bar to end, group 4 is arguments from bar without final }}</returns>
         public static Regex NestedTemplateRegex(string templateName, bool compiled)
@@ -3189,32 +3189,32 @@ Message: {2}
         /// Returns a regex to match the input templates
         /// Supports nested templates and comments at end of template name
         /// </summary>
-        /// <param name="templatenames">The list of template names</param>
+        /// <param name="templateNames">The list of template names</param>
         /// <param name="compiled">Whether to return a compiled regex</param>
         /// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 is template arguments from bar to end, group 4 is arguments from bar without final }}</returns>
-        public static Regex NestedTemplateRegex(ICollection<string> templatenames, bool compiled)
+        public static Regex NestedTemplateRegex(ICollection<string> templateNames, bool compiled)
         {
-            if (!templatenames.Any())
+            if (!templateNames.Any())
                 return null;
 
-            string TemplateNamespace;
+            string templateNamespace;
 
-            if (!Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out TemplateNamespace))
-                TemplateNamespace = "[Tt]emplate:";
+            if (!Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out templateNamespace))
+                templateNamespace = "[Tt]emplate:";
 
             // support (deprecated) {{msg:Foo}} syntax
             if (string.IsNullOrEmpty(Variables.LangCode) || Variables.LangCode.Equals("en"))
-                TemplateNamespace = Regex.Replace(TemplateNamespace, @"(.+?):$", @"(?:$1|[Mm]sg):");
+                templateNamespace = Regex.Replace(templateNamespace, @"(.+?):$", @"(?:$1|[Mm]sg):");
 
             // allow whitespace before semicolon
-            TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+            templateNamespace = Regex.Replace(templateNamespace, @":$", @"[\s_]*:");
 
-            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*" + TemplateNamespace + @"[\s_]*\s*)?(");
+            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*" + templateNamespace + @"[\s_]*\s*)?(");
 
-            foreach (string templatename in templatenames)
+            foreach (string name in templateNames)
             {
-                string templatename2 = Regex.Escape(templatename.Trim().Replace('_', ' ')).Replace(@"\ ", @"[_ ]+");
-                theRegex.Append(FirstLetterCaseInsensitive(templatename2));
+                string name2 = Regex.Escape(name.Trim().Replace('_', ' ')).Replace(@"\ ", @"[_ ]+");
+                theRegex.Append(FirstLetterCaseInsensitive(name2));
                 theRegex.Append("|");
             }
 
@@ -3228,7 +3228,7 @@ Message: {2}
         }
 
         /// <summary>
-        /// Returns whether template call is a section template or has reason parameter
+        /// Returns whether <paramref name="templateCall"/> is a section template or has reason parameter
         /// </summary>
         /// <param name="templateCall"></param>
         /// <returns></returns>
@@ -3239,7 +3239,7 @@ Message: {2}
 
         /// <summary>
         /// Returns whether template call is a section template or has reason parameter
-        /// Checks articletext for any {{multiple issues}} section templates
+        /// Checks <paramref name="articletext"/> for any {{multiple issues}} section templates
         /// </summary>
         /// <param name="templateCall"></param>
         /// <param name="articletext"></param>
@@ -3251,14 +3251,21 @@ Message: {2}
                     || GetTemplateParameterValue(templateCall, "reason", true).Length > 0);
         }
 
-        public static string SortTemplateCall(string templateCall, List<string> order, bool prependSpace)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="templateCall"></param>
+        /// <param name="order"></param>
+        /// <param name="prependSpace"></param>
+        /// <returns></returns>
+        public static string SortTemplateCallParameters(string templateCall, List<string> order, bool prependSpace)
         {
             var existingValues = GetTemplateParameterValues(templateCall);
             var sorted = SortDictionaryPairs(new SortedDictionary<string, string>(existingValues), order);
 
             // TODO: There's gotta be a better way to reconstruct the template...
-            string newTemplate = "{{" + GetTemplateName(templateCall) + @"
-}}";
+            string newTemplate = RemoveTemplateParameters(templateCall, existingValues.Keys.ToList());
+
             foreach (KeyValuePair<string, string> kvp in sorted)
             {
                 newTemplate = AddTemplateParameterValue(newTemplate, kvp.Key, kvp.Value, prependSpace);

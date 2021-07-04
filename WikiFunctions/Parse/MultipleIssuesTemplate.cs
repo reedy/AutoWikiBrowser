@@ -282,9 +282,9 @@ namespace WikiFunctions.Parse
             string res = m.Value;
             string newValue = Tools.RemoveTemplateParameter(Tools.RemoveExcessTemplatePipes(m.Value), "section");
 
-            if (Tools.GetTemplateArgumentCount (newValue) == 1 && WikiRegexes.NestedTemplates.Matches (Tools.GetTemplateArgument (newValue, 1)).Count == 1)
+            if (Tools.GetTemplateArgumentCount(newValue) == 1 && WikiRegexes.NestedTemplates.Matches (Tools.GetTemplateArgument (newValue, 1)).Count == 1)
             {
-                res = Tools.GetTemplateArgument (newValue, 1);
+                res = Tools.GetTemplateArgument(newValue, 1);
 
                 // template may have 1= parameter, remove
                 if(res.StartsWith("1"))

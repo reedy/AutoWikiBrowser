@@ -2752,12 +2752,12 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         }
 
         [Test]
-        public void SortTemplateCall()
+        public void SortTemplateCallParameters()
         {
             Assert.AreEqual(
                 @"{{MyTemplate | InfoC= Baz | InfoA= foo | InfoB= Bar
 }}",
-                Tools.SortTemplateCall(
+                Tools.SortTemplateCallParameters(
                     @"{{MyTemplate
 | InfoA = foo
 | InfoB = Bar
