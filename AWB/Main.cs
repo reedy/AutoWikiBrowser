@@ -2647,7 +2647,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 case WikiStatusResult.NotRegistered:
                     MessageBox.Show(TheSession.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    Tools.OpenURLInBrowser(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage");
+                    if (!string.IsNullOrEmpty(TheSession.CheckPageJSONText))
+                    {
+                        Tools.OpenURLInBrowser(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPageJSON");
+                    }
+                    else
+                    {
+                        Tools.OpenURLInBrowser(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage");
+                    }
                     break;
 
                 case WikiStatusResult.OldVersion:
