@@ -949,7 +949,7 @@ namespace AutoWikiBrowser
 
             /* check for normalized page: since we canonicalize title before API read is requested,
              this shouldn't normally be the case: will be the case for female user page normalization
-             example https://de.wikipedia.org/w/api.php?action=query&prop=info|revisions&intoken=edit&titles=Benutzer%20Diskussion:MarianneBirkholz&rvprop=timestamp|user|comment|content
+             example https://de.wikipedia.org/w/api.php?action=query&prop=info|revisions&titles=Benutzer%20Diskussion:MarianneBirkholz&rvprop=timestamp|user|comment|content
              see the <normalized> block */
             if (page.TitleChangedStatus == PageTitleStatus.Normalised)
             {
