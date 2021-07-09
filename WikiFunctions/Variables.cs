@@ -739,9 +739,6 @@ namespace WikiFunctions
             }
             System.Diagnostics.Trace.Assert(!Namespaces.ContainsKey(0), "Internal error: key exists for namespace 0.",
                                             "Please contact a developer.");
-
-            if (projectName.Equals(ProjectEnum.wiktionary))
-                CapitalizeFirstLetter = false;
         }
 
         /// <summary>
