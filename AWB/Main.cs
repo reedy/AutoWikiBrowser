@@ -4905,10 +4905,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 {
                     uint i;
                     // exclude years
-                    if (uint.TryParse(a.Name, out i) && (i < 2100)) continue;
-
-                    // disambigs typically link to pages in the same namespace only
-                    if (Namespace.Determine(name) != a.NameSpaceKey) continue;
+                    if (uint.TryParse(a.Name, out i) && (i < 2100))
+                    {
+                        continue;
+                    }
 
                     builder.AppendLine(a.Name);
                 }
