@@ -59,7 +59,7 @@ namespace WikiFunctions.Controls.Lists
             listMaker1.MakeListEnabled = true;
         }
 
-        private readonly Regex _characterBlacklist = new Regex(@"[""/:*?<>|.]",
+        private readonly Regex _badCharacters = new Regex(@"[""/:*?<>|.]",
                                                                RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private void UpdateButtons(object sender, EventArgs e)
@@ -88,7 +88,7 @@ namespace WikiFunctions.Controls.Lists
         private string RemoveBadChars()
         {
             string text = listMaker1.SourceText;
-            foreach (Match m in _characterBlacklist.Matches(listMaker1.SourceText))
+            foreach (Match m in _badCharacters.Matches(listMaker1.SourceText))
             {
                 text = text.Replace(m.Value, "");
             }
