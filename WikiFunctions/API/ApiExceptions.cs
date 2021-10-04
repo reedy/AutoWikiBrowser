@@ -275,12 +275,12 @@ namespace WikiFunctions.API
     public class SpamlistException : ApiException
     {
         /// <summary>
-        /// URL which triggered the blacklist
+        /// URL which triggered the extension to reject the edit
         /// </summary>
         public string URL { get; private set; }
 
         public SpamlistException(ApiEdit editor, string url)
-            : base(editor, "The link '" + url + "' is blocked by spam blacklist")
+            : base(editor, "The link '" + url + "' is blocked by the SpamBlacklist extension")
         {
             URL = url;
         }
