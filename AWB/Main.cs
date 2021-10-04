@@ -596,13 +596,13 @@ namespace AutoWikiBrowser
             }
             else if (ex is SpamlistException)
             {
-                string message = "Text '" + (ex as SpamlistException).URL + "' is blocked by spam blacklist";
+                string message = "Text '" + (ex as SpamlistException).URL + "' is blocked by SpamBlacklist extension";
 
                 if (!BotMode)
                 {
                     if (!chkSkipSpamFilter.Checked
                         && MessageBox.Show(message + ".\r\nTry and edit again?",
-                                           "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                                           "Spam Blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                     {
                         Start();
                         return;
