@@ -753,6 +753,9 @@ x
             uct = Parsers.UnclosedTags(@"<math>bar</math>");
             Assert.AreEqual(uct.Count, 0);
 
+            uct = Parsers.UnclosedTags(@"<math chem>bar</math>");
+            Assert.AreEqual(uct.Count, 0);
+
             uct = Parsers.UnclosedTags(@"<source>bar</source> <ref name=Foo>boo</ref>");
             Assert.AreEqual(uct.Count, 0);
 

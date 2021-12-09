@@ -249,6 +249,8 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
         {
             Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<pre>{{abc}}</pre>"));
             Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<math>{{abc}}</math>"));
+            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<math chem>{{abc}}</math>"));
+            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<chem>{{abc}}</chem>"));
             Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
             Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
             Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<!--{{abc}}-->"));
@@ -285,7 +287,9 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math>{{abc}}</math>"));
-            
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<chem>{{abc}}</chem>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math chem>{{abc}}</math>"));
+
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>now <br> now </pre>"));
             
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre >{{abc}}< / pre >"));
@@ -329,6 +333,8 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<math>{{abc}}</math>"));
+            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<chem>{{abc}}</chem>"));
+            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<math chem>{{abc}}</math>"));
             Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<tt>{{abc}}</tt>"));
 
             Assert.IsFalse(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<nowiki>{{abc}}</nowiki>"));

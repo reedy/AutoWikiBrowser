@@ -497,7 +497,7 @@ namespace WikiFunctions.Parse
             this.chkIgnoreLinks.TabIndex = 14;
             this.chkIgnoreLinks.Text = "Ignore &external/interwiki links, images, nowiki, math and <!-- -->";
             this.toolTip1.SetToolTip(this.chkIgnoreLinks, "Find and replacements will not be made in external/interwiki links, images, <nowi" +
-        "ki>. <math> and <!-- comments -->");
+        "ki>. <math>, <chem> and <!-- comments -->");
             this.chkIgnoreLinks.UseVisualStyleBackColor = true;
             // 
             // chkAddToSummary

@@ -1032,7 +1032,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex NDash = new Regex("&#150;|&#8211;|&#x2013;", RegexOptions.Compiled);
         private static readonly Regex MDash = new Regex("&#151;|&#8212;|&#x2014;", RegexOptions.Compiled);
-        private static readonly Regex MathTagStart = new Regex("<[Mm]ath>", RegexOptions.Compiled);
+        private static readonly Regex MathTagStart = new Regex("<[Mm]ath|[Cc]hem>", RegexOptions.Compiled);
 
         // Covered by: UnicodifyTests
         /// <summary>

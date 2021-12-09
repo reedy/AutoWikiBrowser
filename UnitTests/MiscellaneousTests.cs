@@ -494,6 +494,8 @@ quux.JPEG|text
             AssertHidden("<pre>foo\r\nbar</pre>");
             AssertHidden("<pre style=quux>foo\r\nbar</pre>");
             AssertHidden("<math>foo\r\nbar</math>");
+            AssertHidden("<chem>foo\r\nbar</chem>");
+            AssertHidden("<math chem>foo\r\nbar</math>");
             AssertHidden("{{math|foo\r\nbar}}");
             AssertHidden("{{code|foo\r\nbar}}");
             AssertHidden("<timeline>foo\r\nbar</timeline>");

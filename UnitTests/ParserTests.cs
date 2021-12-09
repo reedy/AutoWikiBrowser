@@ -1527,6 +1527,8 @@ Text";
         public void IgnoreMath()
         {
             Assert.AreEqual("<math>&laquo;</math>", parser.Unicodify("<math>&laquo;</math>"));
+            Assert.AreEqual("<math chem>&laquo;</math>", parser.Unicodify("<math chem>&laquo;</math>"));
+            Assert.AreEqual("<chem>&laquo;</chem>", parser.Unicodify("<chem>&laquo;</chem>"));
         }
         
         [Test]

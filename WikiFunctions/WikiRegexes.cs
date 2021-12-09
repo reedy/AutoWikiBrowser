@@ -540,9 +540,9 @@ namespace WikiFunctions
         public static readonly Regex PossibleInterwikis = new Regex(@"\[\[\s*([-a-zA-Z]{2,12})(?<!File|Image|Media)\s*:+\s*([^\]\[]*?)\s*\]\]( *<!--.*?-->)?", RegexOptions.Singleline);
 
         /// <summary>
-        /// Matches unformatted text regions: nowiki, pre, math, html comments, timelines
+        /// Matches unformatted text regions: nowiki, pre, math, chem, html comments, timelines
         /// </summary>
-        public static readonly Regex UnformattedText = new Regex(@"<nowiki>.*?</\s*nowiki>|<(pre|math|timeline)\b.*?>.*?</\s*\1>|<!--.*?-->", RegexOptions.Singleline);
+        public static readonly Regex UnformattedText = new Regex(@"<nowiki>.*?</\s*nowiki>|<(pre|math|chem|timeline)\b.*?>.*?</\s*\1>|<!--.*?-->", RegexOptions.Singleline);
 
         /// <summary>
         /// Matches &lt;blockquote> tags
@@ -558,11 +558,11 @@ namespace WikiFunctions
         /// Matches &lt;imagemap&gt; tags
         /// </summary>
         public static readonly Regex ImageMap = new Regex(@"<\s*imagemap\b[^<>]*>(.*?)<\s*/\s*imagemap\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        
+
         /// <summary>
-        /// Matches all tags: &lt;nowiki>, &lt;pre>, &lt;math>, &lt;timeline>, &lt;code>, &lt;source>, &lt;cite>, &lt;syntaxhighlight>, &lt;blockquote>, &lt;poem>, &lt;imagemap>, &lt;includeonly>, &lt;onlyinclude>, &lt;noinclude>, &lt;hiero>, &lt;score>
+        /// Matches all tags: &lt;nowiki>, &lt;pre>, &lt;math>, &lt;chem>,&lt;timeline>, &lt;code>, &lt;source>, &lt;cite>, &lt;syntaxhighlight>, &lt;blockquote>, &lt;poem>, &lt;imagemap>, &lt;includeonly>, &lt;onlyinclude>, &lt;noinclude>, &lt;hiero>, &lt;score>
         /// </summary>
-        public static readonly Regex AllTags = new Regex(@"<\s*(nowiki|pre|math|timeline|code|source|cite|syntaxhighlight|blockquote|poem|imagemap|includeonly|onlyinclude|noinclude|hiero|score)[^<>]*>(?>(?!<\s*\1[^<>]*>|<\s*/\s*\1\b[^<>]*>).|<\s*\1[^<>]*>(?<Depth>)|<\s*/\s*\1\b[^<>]*>(?<-Depth>))*(?(Depth)(?!))<\s*/\s*\1\b[^<>]*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        public static readonly Regex AllTags = new Regex(@"<\s*(nowiki|pre|math|chem|timeline|code|source|cite|syntaxhighlight|blockquote|poem|imagemap|includeonly|onlyinclude|noinclude|hiero|score)[^<>]*>(?>(?!<\s*\1[^<>]*>|<\s*/\s*\1\b[^<>]*>).|<\s*\1[^<>]*>(?<Depth>)|<\s*/\s*\1\b[^<>]*>(?<-Depth>))*(?(Depth)(?!))<\s*/\s*\1\b[^<>]*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches &lt;gallery&gt; tags, group 1 is any tag parameters, group 2 is the tag contents
@@ -671,7 +671,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches math, pre, source, code, syntaxhighlight tags or comments
         /// </summary>
-        public static readonly Regex MathPreSourceCodeComments = new Regex(@"<pre>.*?</pre>|<!--.*?-->|<math>.*?</math>|" + SourceCode, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex MathPreSourceCodeComments = new Regex(@"<pre>.*?</pre>|<!--.*?-->|<math(?: chem)?>.*?</math>|<chem>.*?</chem>|" + SourceCode, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches anything starting with Meanings of minor planet names
