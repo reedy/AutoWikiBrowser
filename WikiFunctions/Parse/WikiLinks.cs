@@ -311,7 +311,7 @@ namespace WikiFunctions.Parse
 
                     if (b.Length == 0)
                         continue;
-                 }
+                }
 
                 string lb = Tools.TurnFirstToUpperNoProjectCheck(b), la = Tools.TurnFirstToUpperNoProjectCheck(a);
                 
