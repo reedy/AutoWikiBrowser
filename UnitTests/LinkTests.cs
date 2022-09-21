@@ -123,6 +123,17 @@ namespace UnitTests
             Assert.AreEqual(@"[[File:Lego cathedral.JPG|right|thumb|Lego cathedral]]", Parsers.SimplifyLinks(@"[[File:Lego cathedral.JPG | right | thumb | Lego cathedral]]"), "Multiple whitespace cleanup around pipes");
 
             Assert.AreEqual("[[İstanbul Cup|Istanbul Cup]]", Parsers.SimplifyLinks("[[İstanbul Cup|Istanbul Cup]]"), "No change when diacritics on first letter of page mean lowercase happens to match");
+
+            // https://phabricator.wikimedia.org/T317207
+            // Has opening ( in link display text, but no closing )
+            Assert.AreEqual("([[Нью-Мексико]])", Parsers.SimplifyLinks("[[Нью-Мексико|(Нью-Мексико]]"));
+
+            // Trailing ) is outside the link, so the regex doesn't pick it up
+            // Currently:
+            Assert.AreEqual("([[Ермітаж]]))", Parsers.SimplifyLinks("[[Ермітаж|(Ермітаж]])"));
+            // Ideally:
+            // Assert.AreEqual("([[Ермітаж]])", Parsers.SimplifyLinks("[[Ермітаж|(Ермітаж]])"));
+
         }
 
         [Test]

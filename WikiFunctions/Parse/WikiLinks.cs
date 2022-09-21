@@ -334,8 +334,13 @@ namespace WikiFunctions.Parse
                 }
 
                 // [[dog|(dog)]] --> ([[dog]])
-                if(lb.StartsWith("(") && ("(" + Tools.TurnFirstToUpperNoProjectCheck(lb.Trim("()".ToCharArray())) + ")").Equals("(" + Tools.TurnFirstToUpperNoProjectCheck(la) + ")"))
-                    articleText = articleText.Replace(pipedlink, "([[" + b.Substring(1, b.Length-2) + "]])");
+                if (lb.StartsWith("(") && (
+                        "(" + Tools.TurnFirstToUpperNoProjectCheck(lb.Trim("()".ToCharArray())) + ")").Equals(
+                        "(" + Tools.TurnFirstToUpperNoProjectCheck(la) + ")"
+                    ))
+                {
+                    articleText = articleText.Replace(pipedlink, "([[" + b.Trim("()".ToCharArray()) + "]])");
+                }
 
                 if (lb.StartsWith(la, StringComparison.Ordinal)) // target is substring of text e.g. [[Dog|Dogs]] --> [[Dog]]s
                 {
