@@ -128,11 +128,8 @@ namespace UnitTests
             // Has opening ( in link display text, but no closing )
             Assert.AreEqual("([[Нью-Мексико]])", Parsers.SimplifyLinks("[[Нью-Мексико|(Нью-Мексико]]"));
 
-            // Trailing ) is outside the link, so the regex doesn't pick it up
-            // Currently:
-            Assert.AreEqual("([[Ермітаж]]))", Parsers.SimplifyLinks("[[Ермітаж|(Ермітаж]])"));
-            // Ideally:
-            // Assert.AreEqual("([[Ермітаж]])", Parsers.SimplifyLinks("[[Ермітаж|(Ермітаж]])"));
+            // Trailing ) is outside the link, so the link regex doesn't pick it up; it's now handled seperately
+            Assert.AreEqual("([[Ермітаж]])", Parsers.SimplifyLinks("[[Ермітаж|(Ермітаж]])"));
 
         }
 

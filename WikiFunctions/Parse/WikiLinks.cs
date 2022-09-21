@@ -339,6 +339,14 @@ namespace WikiFunctions.Parse
                         "(" + Tools.TurnFirstToUpperNoProjectCheck(la) + ")"
                     ))
                 {
+                    // https://phabricator.wikimedia.org/T317207
+                    // Catch links that have trailing ) outside the piped link; ie [[Ермітаж|(Ермітаж]])
+                    if (articleText.Contains(pipedlink + ")"))
+                    {
+                        articleText = articleText.Replace(pipedlink + ")", pipedlink);
+                    }
+
+                    // Trim any and all leading and trailing () inside the link
                     articleText = articleText.Replace(pipedlink, "([[" + b.Trim("()".ToCharArray()) + "]])");
                 }
 
