@@ -281,7 +281,7 @@ namespace WikiFunctions.Controls
 
         private static void RegexTesterHelpRequested()
         {
-            Tools.OpenURLInBrowser("http://msdn2.microsoft.com/en-us/library/az24scfc.aspx");
+            Tools.OpenURLInBrowser("https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference");
         }
 
         private void RegexTester_FormClosing(object sender, FormClosingEventArgs e)
