@@ -2348,6 +2348,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             if (TheSession.Status == WikiStatusResult.Registered)
             {
                 lblUserName.BackColor = Color.Green;
+                lblUserName.ForeColor = Color.White;
                 btnStart.Enabled = true;
             }
             else
