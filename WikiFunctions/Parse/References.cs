@@ -656,10 +656,12 @@ namespace WikiFunctions.Parse
 
                     derivedReferenceName = CleanDerivedReferenceName(derivedReferenceName);
                 }
-                // otherwise try title
+                // otherwise try title - trans-title first to prefer local language
                 else
                 {
-                    string title = Tools.GetTemplateParameterValue(reference, "title");
+                    string title = Tools.GetTemplateParameterValue(reference, "trans-title");
+                    if(title.Length == 0)
+                        title = Tools.GetTemplateParameterValue(reference, "title");
 
                     if (title.Length > 3 && title.Length < 35)
                         derivedReferenceName = title;
