@@ -604,18 +604,39 @@ namespace WikiFunctions
             "R from alternate punctuation"
         };
         
-        public const string RFromTitleWithoutDiacriticsString = @"{{R from title without diacritics}}";
+        public const string RFromTitleWithoutDiacriticsString = @"{{R to diacritic}}";
 
         public static readonly string[] RFromTitleWithoutDiacriticsList =
         {
+            "R to diacritic",
+            "R to accents",
+            "Redirects from title without diacritics",
+            "RDiacr",
+            "R to unicode name",
+            "R to unicode",
+            "R to title with diacritics",
             "R from name without diacritics",
             "R from original name without diacritics",
+            "R without diacritics",
+            "R diacritics",
+            "Redirect from title without diacritics",
+            "Redirect to Unicode",
+            "R to Unicode",
+            "Redirect without diacritics",
+            "R to Unicode name",
+            "Redirect to Unicode name",
+            "Redirect from name without diacritics",
             "R from title without diacritics",
-            "R to accents", "R to diacritics",
-            "R to title with diacritics",
-            "R to unicode", "R to unicode name",
-            "R without diacritics", "RDiacr",
-            "Redirects from title without diacritics"
+            "R to diacritical marks",
+            "R to diacritical mark",
+            "R without accents",
+            "Redirect to diacritics",
+            "R to diacritics",
+            "Redirect to diacritic",
+            "R to accent",
+            "Redirects from titles without diacritics",
+            "R from name without diacritic",
+            "R without diacritic"
         };
         
         public const string RFromOtherCapitalisationString = @"{{R from other capitalisation}}";

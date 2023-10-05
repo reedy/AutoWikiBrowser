@@ -1487,7 +1487,7 @@ Chris.";
         [Test]
         public void RedirectTaggerDiacr()
         {
-            const string correct = @"#REDIRECT:[[Fiancée]] {{R from title without diacritics}}", redirectaccent = @"#REDIRECT:[[Fiancée]]";
+            const string correct = @"#REDIRECT:[[Fiancée]] {{R to diacritic}}", redirectaccent = @"#REDIRECT:[[Fiancée]]";
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectaccent, "Fiancee"));
 
             // already tagged

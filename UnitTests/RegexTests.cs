@@ -1117,6 +1117,7 @@ fast„ "));
             Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to unicode  }}"));
             Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to title with diacritics}}"));
             Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to diacritics}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to diacritic}}"));
             Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from name without diacritics}}"));
             Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from title without diacritics}}"));
             Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from original name without diacritics}}"));
