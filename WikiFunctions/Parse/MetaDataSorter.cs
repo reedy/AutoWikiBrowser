@@ -272,6 +272,8 @@ en, sq, ru
             return Sort(articleText, articleTitle, true);
         }
 
+        private static readonly Regex HatnoteGroup = Tools.NestedTemplateRegex("hatnote group");
+
         /// <summary>
         /// Sorts article meta data
         /// </summary>
@@ -334,9 +336,12 @@ en, sq, ru
                 // deletion/protection templates above maintenance tags, below dablinks per [[WP:LAYOUT]]
                 if (TemplateExists(alltemplates, WikiRegexes.DeletionProtectionTags))
                     articleText = MoveTemplate(articleText, WikiRegexes.DeletionProtectionTags);
-    
+
                 // Dablinks above maintance tags per [[WP:LAYOUT]]
-                if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
+                // if have {{hatnote group}} then move that not the individual dablinks
+                if (TemplateExists(alltemplates, HatnoteGroup))
+                    articleText = MoveTemplate(articleText, HatnoteGroup);
+                else if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
                     articleText = MoveTemplate(articleText, WikiRegexes.Dablinks);
 
                 // {{short description}} above dablinks per [[MOS:ORDER]]

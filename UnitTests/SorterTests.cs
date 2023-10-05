@@ -248,6 +248,17 @@ more words
 
             // short description above dablink per MOS:ORDER
             Assert.AreEqual(@"{{short description|foo}}" + "\r\n" + e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + @"{{short description|foo}}" + "\r\n" + d, WikiRegexes.ShortDescriptionTemplate));
+
+            // don't pull dablinks out of {{hatnote group}}
+            const string i = @"{{Short description|American character encoding standard}}
+{{hatnote group|
+{{other uses}}
+{{Distinguish|text=MS [[Windows-1252]] or other types of [[Extended ASCII]]}}
+}}
+{{Use mdy dates|date=June 2013|cs1-dates=y}}
+Article";
+
+            Assert.AreEqual(i, parser2.SortMetaData(i, "Don't pull hatnotes out of hatnote group"));
         }
 
         [Test]
