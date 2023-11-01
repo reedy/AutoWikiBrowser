@@ -73,7 +73,7 @@ namespace WikiFunctions.TalkPages
             // 1. {{GA nominee}}, {{Featured article candidates}}, or {{Peer review}}
             // 2. {{Skip to talk}}
             // 3. {{Talk header}}
-            // 4. {{Vital article}}
+            // 4. 
             // 5. {{community article probation}}, {{censor}}, {{BLP others}} and other high-priority/importance, warning/attention templates.
             // 6. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
             // 7. Language related talk page guideline banners, such as {{American English}}
@@ -119,7 +119,6 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplate(articleText, EnglishVariationsTemplates);
             articleText = MoveTalkTemplates(articleText, TalkGuidelineTemplates);
             articleText = MoveTalkTemplates(articleText, TalkWarningTemplates);
-            articleText = MoveTalkTemplate(articleText, VitalArticle);
 
             // 3. {{Talk header}}
             articleText = MoveTalkTemplate(articleText, WikiRegexes.TalkHeaderTemplate);
@@ -242,7 +241,6 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory" });
         private static readonly Regex TalkHistoryBTemplates = Tools.NestedTemplateRegex(new[] { "FailedGA", "Old prod", "Old prod full", "Oldprodfull", "Afd-merged-from", "Old AfD multi", "Old AfD", "Oldafdfull ", "Old peer review", "Old CfD", "Old RfD", "Old XfD multi", "Old XfD" });
         private static readonly Regex MilestoneTemplates = Tools.NestedTemplateRegex(new[] { "DYK talk", "ITN talk", "On this day" });
-        private static readonly Regex VitalArticle = Tools.NestedTemplateRegex(new[] { "Vital article" });
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested", "Reqphoto" });
         private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
         private static readonly Regex TodoTemplate = Tools.NestedTemplateRegex(new[] { "To do", "Todo", "To-do" });
@@ -470,7 +468,8 @@ namespace WikiFunctions.TalkPages
                 
                 foreach (Match m in WikiRegexes.NestedTemplates.Matches(articletext))
                 {
-                    if (Tools.GetTemplateName(m.Value).StartsWith("WikiProject ") && !WPBS.Contains(m.Value))
+                    string templateName = Tools.TurnFirstToUpper(Tools.GetTemplateName(m.Value));
+                    if ((templateName.StartsWith("WikiProject ") || templateName == "Vital article") && !WPBS.Contains(m.Value))
                     {
                         articletext = articletext.Replace(m.Value, "");
                         newParams += Tools.Newline(m.Value);

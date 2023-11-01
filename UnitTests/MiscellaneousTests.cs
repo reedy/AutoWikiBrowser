@@ -1889,6 +1889,19 @@ bar
 
 {{WikiProject banner shell|1={{WPBiography|foo=bar}}}}
 {{WikiProject foo}}"), "WikiProjects pulled into WPBS, no excess whitespace left");
+
+            const string VitalArticle = @"{{WikiProject banner shell|1={{WPBiography|foo=bar}}
+{{WikiProject foo}}
+{{Vital article|level=4|topic=Biology|class=FA}}}}
+";
+
+            Assert.AreEqual(VitalArticle, TalkPageFixes.WikiProjectBannerShell(VitalArticle), "Support Vital article - already inside");
+
+            Assert.AreEqual(VitalArticle, TalkPageFixes.WikiProjectBannerShell(@"{{Vital article|level=4|topic=Biology|class=FA}}
+{{WikiProject banner shell|1={{WPBiography|foo=bar}}
+{{WikiProject foo}}}}
+"), "Support Vital article - put inside");
+
         }
         
         [Test]
