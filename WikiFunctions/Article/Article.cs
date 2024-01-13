@@ -676,7 +676,7 @@ namespace WikiFunctions
             return Dupes;
         }
 
-        private static readonly List<string> WikiProjectBannerShellKnowns = new List<string>(new[] { "blp", "blpo", "activepol", "collapsed", "banner collapsed", "1", "living", "class" });
+        private static readonly List<string> WikiProjectBannerShellKnowns = new List<string>(new[] { "blp", "blpo", "activepol", "collapsed", "demo_page", "1", "living", "class", "listas", "vital" });
 
         /// <summary>
         /// Returns a list of any unknown parameters in any WikiProject banner shell template

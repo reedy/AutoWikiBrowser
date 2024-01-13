@@ -595,7 +595,7 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
             a = new Article("Talk:A", "{{WikiProject banner shell|foo=bar}}");
             Assert.AreEqual(1, a.UnknownWikiProjectBannerShellParameters().Count);
 
-            a = new Article("Talk:A", "{{WikiProject banner shell|collapsed=true|living=a|class=a}}");
+            a = new Article("Talk:A", "{{WikiProject banner shell|collapsed=true|living=a|class=a|listas=a|demo_page=a|vital=a}}");
             Assert.AreEqual(0, a.UnknownWikiProjectBannerShellParameters().Count);
 
             a = new Article("Talk:A", "{{WikiProject banner shell|foo=bar|foo=bar}}");
