@@ -885,7 +885,7 @@ namespace WikiFunctions
             text = text.Replace(@"&quot;", @"""");
             text = text.Replace(@"�", "");
 
-            return text.TrimStart(':');
+            return text.TrimStart(':').Trim();
         }
 
         /// <summary>
