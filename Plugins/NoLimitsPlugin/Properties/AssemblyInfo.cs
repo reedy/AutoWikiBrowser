@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NoLimitsForAdminAndBots")]
-[assembly: AssemblyCopyright("Copyright © 2009-2012")]
+[assembly: AssemblyCopyright("Copyright © 2009-2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

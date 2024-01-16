@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AutoWikiBrowser")]
-[assembly: AssemblyCopyright("Copyright © 2006-2021 AutoWikiBrowser Team")]
+[assembly: AssemblyCopyright("Copyright © 2006-2024 AutoWikiBrowser Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 
-[assembly: AssemblyVersion("6.2.1.1")]
-[assembly: AssemblyFileVersion("6.2.1.1")]
+[assembly: AssemblyVersion("6.3.0.0")]
+[assembly: AssemblyFileVersion("6.3.0.0")]
 
 [assembly: CLSCompliant(true)]
