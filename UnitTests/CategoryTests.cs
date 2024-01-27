@@ -503,6 +503,19 @@ died 2002
 [[Category:Year of birth missing]]";
 
             Assert.AreEqual(bug4, Parsers.FixPeopleCategories(bug4, "foo"), "No birth year available in {{Birth date based on age at death}}");
+
+            const string bug5 = @"
+{{infobox person | birth_date = {{Birth based on age at death|49 |1994|02|25}}
+}}
+{{DEFAULTSORT:Goldberg, Robert P.}}
+[[Category:American computer businesspeople]]
+[[Category:American computer scientists]]
+[[Category:Harvard University faculty]]
+[[Category:1994 deaths]]
+[[Category:Harvard University alumni]]
+[[Category:Year of birth missing]]";
+
+            Assert.AreEqual(bug5, Parsers.FixPeopleCategories(bug5, "foo"), "No birth year available in {{Birth based on age at death}}");
         }
 
         [Test]
