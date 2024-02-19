@@ -73,7 +73,7 @@ namespace AutoWikiBrowser
                 chkFlash.Enabled = false;
                 chkFlash.Checked = false;
             }
-            cmboProtocol.SelectedIndex = (protocol == "http://") ? 0 : 1;
+            cmboProtocol.SelectedIndex = (protocol == "http://") ? 1 : 0;
         }
 
         #region Language and project

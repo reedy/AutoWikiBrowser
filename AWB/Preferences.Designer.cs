@@ -545,8 +545,8 @@ namespace AutoWikiBrowser
             this.cmboProtocol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboProtocol.FormattingEnabled = true;
             this.cmboProtocol.Items.AddRange(new object[] {
-            "http://",
-            "https://"});
+            "https://",
+            "http://"});
             this.cmboProtocol.Location = new System.Drawing.Point(6, 33);
             this.cmboProtocol.Name = "cmboProtocol";
             this.cmboProtocol.Size = new System.Drawing.Size(60, 21);
