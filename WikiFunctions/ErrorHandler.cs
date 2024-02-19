@@ -461,5 +461,19 @@ namespace WikiFunctions
             {
             }
         }
+
+        private void btnPhab_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(
+                    "https://phabricator.wikimedia.org/maniphest/task/create/?projects=AutoWikiBrowser&description=" +
+                    Uri.EscapeDataString(txtDetails.Text)
+                );
+            }
+            catch
+            {
+            }
+        }
     }
 }

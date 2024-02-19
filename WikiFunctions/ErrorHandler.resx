@@ -117,4 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>AWB is constantly being improved by a group of dedicated developers. If you are able to, please visit Phabricator to file a new task. You will need to login using your Wikimedia or Wikitech account. If you're already logged in to Phabricator, the "Create task" button will preload the description for you.</value>
+  </data>
 </root>
