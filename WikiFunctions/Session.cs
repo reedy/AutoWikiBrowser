@@ -221,6 +221,17 @@ namespace WikiFunctions
             {
                 throw;
             }
+            catch (UriChangedException ex)
+            {
+                // TODO: We should offer to try changing the protocol to the response Uri scheme and attempt to load again
+                MessageBox.Show(
+                    ex.Message,
+                    ex.Header,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return false;
+            }
             catch (WebException ex)
             {
                 // Check for HTTP 401 error.                
@@ -228,7 +239,8 @@ namespace WikiFunctions
                 if (resp == null) throw;
                 switch (resp.StatusCode)
                 {
-                    case HttpStatusCode.Unauthorized /*401*/:
+                    // 401
+                    case HttpStatusCode.Unauthorized:
                         throw;
                 }
                 return false;
@@ -632,6 +644,7 @@ namespace WikiFunctions
                         {
                             months[i] = messages[months[i]];
                         }
+
                         Variables.MonthNames = months;
                     }
                 }
@@ -647,7 +660,7 @@ namespace WikiFunctions
             catch (WebException ex)
             {
                 string message = "";
-                
+
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException is AuthenticationException)
@@ -674,7 +687,7 @@ namespace WikiFunctions
                 }
                 else
                 {
-                    var resp = (HttpWebResponse)ex.Response;
+                    var resp = (HttpWebResponse) ex.Response;
                     if (resp == null) throw;
 
                     // Check for HTTP 401 error.
@@ -683,12 +696,12 @@ namespace WikiFunctions
                         case HttpStatusCode.Unauthorized: // 401
                             throw;
                     }
-                    
+
                     message = ex.Message;
                 }
 
                 MessageBox.Show(message, "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
+
                 throw;
             }
             catch (Exception ex)
@@ -709,11 +722,12 @@ namespace WikiFunctions
                     message = ex.Message;
                 }
 
-                MessageBox.Show("An error occured while connecting to the server or loading project information from it. " +
-                        "Please make sure that your internet connection works and such combination of project/language exist." +
-                        "\r\nEnter the URL in the format \"en.wikipedia.org/w/\" (including path where index.php and api.php reside)." +
-                        "\r\nError description: " + message,
-                        "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "An error occured while connecting to the server or loading project information from it. " +
+                    "Please make sure that your internet connection works and such combination of project/language exist." +
+                    "\r\nEnter the URL in the format \"en.wikipedia.org/w/\" (including path where index.php and api.php reside)." +
+                    "\r\nError description: " + message,
+                    "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 throw;
             }

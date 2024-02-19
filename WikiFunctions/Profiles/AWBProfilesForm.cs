@@ -256,6 +256,16 @@ namespace WikiFunctions.Profiles
                 TheSession.Editor.SynchronousEditor.Login(username, password, Variables.LoginDomain);
                 needsUpdate = true;
             }
+            catch (UriChangedException ex)
+            {
+                // TODO: We should offer to try changing the protocol to the response Uri scheme and attempt to load again
+                MessageBox.Show(
+                    ex.Message,
+                    ex.Header,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
             catch (LoginException ex)
             {
                 MessageBox.Show(this, ex.Message, "Login failed", MessageBoxButtons.OK, MessageBoxIcon.Error);

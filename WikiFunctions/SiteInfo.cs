@@ -63,10 +63,11 @@ namespace WikiFunctions
                 if (!LoadSiteInfo())
                 {
                     var ret = ParseErrorFromSiteInfoOutput();
-                    if (ret is bool && !(bool)ret)
+                    if (ret is bool && !(bool) ret)
                     {
                         throw new WikiUrlException();
                     }
+
                     var ex = ret as Exception;
                     if (ex != null)
                     {
@@ -79,6 +80,10 @@ namespace WikiFunctions
                 throw;
             }
             catch (WebException)
+            {
+                throw;
+            }
+            catch (UriChangedException)
             {
                 throw;
             }

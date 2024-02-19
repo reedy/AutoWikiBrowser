@@ -433,6 +433,13 @@ namespace WikiFunctions.API
             {
                 using (WebResponse resp = req.GetResponse())
                 {
+                    // T357908: Check if the uri has changed. If it has, it likely will cause problems down the line...
+                    // And we should tell the user to check it!
+                    if (req.RequestUri.Scheme != resp.ResponseUri.Scheme)
+                    {
+                        throw new UriChangedException(req.RequestUri.Scheme, resp.ResponseUri.Scheme);
+                    }
+
                     using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
                     {
                         return sr.ReadToEnd();
