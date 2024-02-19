@@ -136,7 +136,9 @@ namespace WikiFunctions.Parse
                 // handle case of wiki not having a name value in sitematrix data
                 try
                 {
-                    langName = lang.Attributes["name"].Value;
+                    langName = lang.Attributes["name"] != null
+                        ? lang.Attributes["name"].Value
+                        : langCode;
                 }
                 catch
                 {
