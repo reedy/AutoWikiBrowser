@@ -92,7 +92,7 @@ namespace WikiFunctions.AWBSettings
         public ProjectEnum Project = ProjectEnum.wikipedia;
         public string LanguageCode = "en";
         public string CustomProject = "";
-        public string Protocol = "http://";
+        public string Protocol = "https://";
         public string LoginDomain = "";
 
         public ListPrefs List;
