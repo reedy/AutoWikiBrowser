@@ -4,10 +4,7 @@ namespace WikiFunctions
 {
     class UriChangedException : Exception
     {
-        public string Header
-        {
-            get { return "Incorrect Request Scheme?"; }
-        }
+        public string Header => "Incorrect Request Scheme?";
 
         public UriChangedException(string reqUri, string resUri)
             : base(ReadableMessage(reqUri, resUri))
