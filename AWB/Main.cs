@@ -2498,7 +2498,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 string sectionEditText = Summary.ModifiedSection(TheArticle.OriginalArticleText, txtEdit.Text);
 
                 if (sectionEditText.Length > 0)
-                    summary = @"/* " + sectionEditText + @" */" + summary;
+                    summary = @"/* " + sectionEditText + @" */ " + summary.TrimStart();
             }
             
             #if DEBUG
