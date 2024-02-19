@@ -62,7 +62,7 @@ namespace WikiFunctions
 
             // so SectionsChanged == 1, get heading name from regex, or return "top" if zeroth section
             string heading = WikiRegexes.Headings.Match(sectionsAfter[sectionChangeNumber]).Groups[1].Value.Trim();
-            return (heading.Length == 0 ? "top" : heading);
+            return string.IsNullOrEmpty(heading) ? "top" : heading;
         }
 
         private static readonly Regex SummaryTrim = new Regex(@"\s*\[\[[^\[\]\r\n]+?\]\]$", RegexOptions.Compiled);

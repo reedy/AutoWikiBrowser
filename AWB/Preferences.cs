@@ -463,10 +463,12 @@ namespace AutoWikiBrowser
             }
 
             string tmp = customs.ToString();
-            Properties.Settings.Default.CustomWikis = (tmp.Length == 0) ? "" : tmp.Substring(0, tmp.LastIndexOf('|'));
+            Properties.Settings.Default.CustomWikis = string.IsNullOrEmpty(tmp) ? "" : tmp.Substring(0, tmp.LastIndexOf('|'));
 
-            if (Properties.Settings.Default.CustomWikis.Length > 0)
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.CustomWikis))
+            {
                 save = true;
+            }
 
             if (Properties.Settings.Default.AskForTerminate != chkAlwaysConfirmExit.Checked)
             {

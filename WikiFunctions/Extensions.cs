@@ -68,5 +68,10 @@ namespace WikiFunctions
             var sorter = new KeyComparer<TKey>(keys);
             return new SortedDictionary<TKey, TValue>(dictionary, sorter);
         }
+
+        public static bool IsNullOrEmpty(this string str)
+        {
+            return string.IsNullOrEmpty(str);
+        }
     }
 }

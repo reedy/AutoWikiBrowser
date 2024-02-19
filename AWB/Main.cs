@@ -1948,7 +1948,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void webBrowser_NewWindow(System.Object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            if (webBrowserMouseOverUrl.Length > 0)
+            if (!string.IsNullOrEmpty(webBrowserMouseOverUrl))
             {
                 Tools.WriteDebug("webBrowser_NewWindow", webBrowserMouseOverUrl);
                 Tools.OpenURLInBrowser(webBrowserMouseOverUrl);
@@ -2045,13 +2045,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             #if DEBUG
             string extext2 = @"Extra validation for debug builds (don't use a debug build if you want to save blank pages): ";
             // further attempts to track down blank page saving issue
-            if (TheArticle.ArticleText.Length.Equals(0))
+            if (string.IsNullOrEmpty(TheArticle.ArticleText))
             {
                 extext2 += @"Attempted to save page with zero length ArticleText";
                 throw new Exception(extext2);
             }
 
-            if (txtEdit.Text.Length.Equals(0))
+            if (string.IsNullOrEmpty(txtEdit.Text))
             {
                 extext2 += @"Attempted to save page with zero length txtEditText";
                 throw new Exception(extext2);
@@ -2060,10 +2060,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             DisableButtons();
             StartProgressBar();
-            if (txtEdit.Text.Length > 0 ||
+            if (!string.IsNullOrEmpty(txtEdit.Text) ||
                 (TheArticle.Exists == Exists.Yes && MessageBox.Show("Do you really want to save a blank page?", "Save?",
-                                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-                 DialogResult.Yes))
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+                    DialogResult.Yes))
             {
                 SaveArticle();
             }
@@ -2497,8 +2497,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             {
                 string sectionEditText = Summary.ModifiedSection(TheArticle.OriginalArticleText, txtEdit.Text);
 
-                if (sectionEditText.Length > 0)
+                if (!string.IsNullOrEmpty(sectionEditText))
+                {
                     summary = @"/* " + sectionEditText + @" */ " + summary.TrimStart();
+                }
             }
             
             #if DEBUG

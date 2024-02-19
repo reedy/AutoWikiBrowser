@@ -329,7 +329,7 @@ For more detailed information, click Help -> Manual on the Custom Module window.
             if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8)
                 e.Handled = true;
 
-            if (e.KeyChar == '\r' && toolStripTextBox1.Text.Length > 0)
+            if (e.KeyChar == '\r' && !string.IsNullOrEmpty(toolStripTextBox1.Text))
             {
                 e.Handled = true;
                 txtCode.GoToLine(int.Parse(toolStripTextBox1.Text));
