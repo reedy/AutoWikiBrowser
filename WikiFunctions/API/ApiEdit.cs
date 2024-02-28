@@ -435,6 +435,7 @@ namespace WikiFunctions.API
                 {
                     // T357908: Check if the uri has changed. If it has, it likely will cause problems down the line...
                     // And we should tell the user to check it!
+                    // TODO: Probably should do this somewhere else/earlier... At first request to the API/wiki?
                     if (req.RequestUri.Scheme != resp.ResponseUri.Scheme)
                     {
                         throw new UriChangedException(req.RequestUri.Scheme, resp.ResponseUri.Scheme);
