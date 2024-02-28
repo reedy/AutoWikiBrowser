@@ -455,8 +455,9 @@ namespace WikiFunctions
                         {
                             continue;
                         }
+
                         MessageBox.Show(m.Groups[1].Value.Trim(), "Automated message", MessageBoxButtons.OK,
-                                        MessageBoxIcon.Information);
+                            MessageBoxIcon.Information);
                     }
 
                     // see if there is a version-specific message
@@ -467,8 +468,9 @@ namespace WikiFunctions
                         {
                             continue;
                         }
+
                         MessageBox.Show(m.Groups[2].Value.Trim(), "Automated message", MessageBoxButtons.OK,
-                                        MessageBoxIcon.Information);
+                            MessageBoxIcon.Information);
                     }
 
                     HasTypoLink(CheckPageText);
@@ -481,6 +483,7 @@ namespace WikiFunctions
                             us.Add(underscore.Groups[1].Value.Trim());
                         }
                     }
+
                     if (us.Count > 0)
                     {
                         Variables.LoadUnderscores(us.ToArray());
@@ -496,7 +499,7 @@ namespace WikiFunctions
 
                     // see if we are allowed to use this software
                     CheckPageText = Tools.StringBetween(CheckPageText, "<!--enabledusersbegins-->",
-                                                        "<!--enabledusersends-->");
+                        "<!--enabledusersends-->");
 
                     // Checkpage option: <!--All users enabled user mode--> will enable all users for user mode,
                     // and enable bots only when in <!--enabledbots--> section
@@ -504,7 +507,8 @@ namespace WikiFunctions
                         || (IsSysop && Variables.Project != ProjectEnum.wikia)
                         || UserNameInText(User.Name, CheckPageText))
                     {
-                        string botUsers = Tools.StringBetween(CheckPageText, "<!--enabledbots-->", "<!--enabledbotsends-->");
+                        string botUsers = Tools.StringBetween(CheckPageText, "<!--enabledbots-->",
+                            "<!--enabledbotsends-->");
 
                         // enable bot mode if in bots section
                         IsBot = UserNameInText(User.Name, botUsers);
