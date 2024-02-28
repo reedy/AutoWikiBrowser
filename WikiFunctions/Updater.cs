@@ -87,8 +87,9 @@ namespace WikiFunctions
 
                 Result = AWBEnabledStatus.Disabled; // Disabled till proven enabled
 
-                var definition = new { version = "", releasedate = "", dotnetversion = "", dev = false };
-                var enabledVersions = (from v in json["enabledversions"] select JsonConvert.DeserializeAnonymousType(v.ToString(), definition)).ToList();
+                var definition = new {version = "", releasedate = "", dotnetversion = "", dev = false};
+                var enabledVersions = (from v in json["enabledversions"]
+                    select JsonConvert.DeserializeAnonymousType(v.ToString(), definition)).ToList();
 
                 string updaterVersion = json["updaterversion"].ToString();
 
@@ -115,7 +116,8 @@ namespace WikiFunctions
 
                 var awbVersionParsed = Version.Parse(awbVersionInfo.FileVersion);
 
-                var newerVersions = enabledVersions.Where(v => !v.dev && (Version.Parse(v.version) > awbVersionParsed)).Select(v => v.version);
+                var newerVersions = enabledVersions.Where(v => !v.dev && (Version.Parse(v.version) > awbVersionParsed))
+                    .Select(v => v.version);
                 // Dev versions aren't optional updates
                 if (newerVersions.Any())
                 {
@@ -166,6 +168,7 @@ namespace WikiFunctions
             {
                 return;
             }
+
             _request.Wait();
             _request = null;
         }
