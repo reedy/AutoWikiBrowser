@@ -576,7 +576,7 @@ namespace WikiFunctions
         /// <summary>
         /// Extracts the typo link URL from the &lt;!--Typos--&gt; check page comment and updates Variables.RetfPath if found
         /// </summary>
-        /// <returns><c>true</c> if has typo link the specified text; otherwise, <c>false</c>.</returns>
+        /// <returns>Returns <c>true</c> if has typo link the specified text; otherwise, <c>false</c>.</returns>
         /// <param name="text">Text.</param>
         public static void HasTypoLink(string text)
         {

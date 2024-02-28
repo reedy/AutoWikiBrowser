@@ -2682,6 +2682,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                         break;
                     }
 
+                    // THE REST OF THIS IS ALL BASICALLY DEPRECATED...
+
                     // Get list of articles not to apply general fixes to.
                     Match noGenFix = WikiRegexes.NoGeneralFixes.Match(TheSession.CheckPageText);
                     if (noGenFix.Success)
