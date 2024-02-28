@@ -392,9 +392,10 @@ namespace WikiFunctions
                     JSONMessages(configJson["messages"]);
 
                     // don't update Variables.RetfPath if typolink is empty
-                    if (!string.IsNullOrEmpty(configJson["typolink"].ToString()))
+                    var typoLink = configJson["typolink"].ToString();
+                    if (!string.IsNullOrEmpty(typoLink))
                     {
-                        Variables.RetfPath = configJson["typolink"].ToString();
+                        Variables.RetfPath = typoLink;
                         Tools.WriteDebug("UpdateWikiStatus", "RETF Path set from typolink as " + Variables.RetfPath);
                     }
 
