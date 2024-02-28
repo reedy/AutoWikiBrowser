@@ -602,6 +602,7 @@ namespace WikiFunctions
         {
             foreach (var message in json)
             {
+                // TODO: Allow array of message versions, and/or semver
                 var version = message["version"].ToString();
                 // TODO: Semver version checking
                 if ((version == "*" || version == AWBVersion) && message["text"] != null)
