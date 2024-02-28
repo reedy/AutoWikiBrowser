@@ -346,6 +346,7 @@ namespace WikiFunctions
                     return WikiStatusResult.NotLoggedIn;
                 }
 
+                // TODO: T294397 is eventually going to remove writeapi
                 if (!User.HasRight("writeapi"))
                 {
                     return WikiStatusResult.NoRights;
