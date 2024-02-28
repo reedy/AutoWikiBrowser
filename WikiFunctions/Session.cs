@@ -102,9 +102,9 @@ namespace WikiFunctions
         private AsyncApiEdit CreateEditor(string url)
         {
             AsyncApiEdit edit = new AsyncApiEdit(url, parentControl)
-                                    {
-                                        NewMessageThrows = false
-                                    };
+            {
+                NewMessageThrows = false
+            };
 
             edit.OpenComplete += OnOpenComplete;
             edit.SaveComplete += OnSaveComplete;
@@ -448,7 +448,6 @@ namespace WikiFunctions
                 {
                     // THIS IS ALL BASICALLY DEPRECATED...
 
-                    // CheckPage Messages per wiki are still in scary HTML comments.... TBC!
                     // see if there is a message
                     foreach (Match m in Message.Matches(CheckPageText))
                     {
