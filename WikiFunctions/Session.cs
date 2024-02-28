@@ -381,7 +381,8 @@ namespace WikiFunctions
                     }
                     else
                     {
-                        Tools.WriteDebug("UpdateWikiStatus", "No JSON config page at " + configUrl + "; falling back to default");
+                        Tools.WriteDebug("UpdateWikiStatus",
+                            "No JSON config page at " + configUrl + "; falling back to default");
                         ConfigJSONText = DefaultWikiConfig;
                     }
 
@@ -391,26 +392,18 @@ namespace WikiFunctions
                     JSONMessages(configJson["messages"]);
 
                     // don't update Variables.RetfPath if typolink is empty
-                    if(!string.IsNullOrEmpty(configJson["typolink"].ToString()))
+                    if (!string.IsNullOrEmpty(configJson["typolink"].ToString()))
                     {
                         Variables.RetfPath = configJson["typolink"].ToString();
                         Tools.WriteDebug("UpdateWikiStatus", "RETF Path set from typolink as " + Variables.RetfPath);
                     }
 
-                    List<string> us = new List<string>();
-                    foreach (var underscore in configJson["underscoretitles"])
-                    {
-                        var trimmed = underscore.ToString().Trim();
-                        if (!string.IsNullOrEmpty(trimmed))
-                        {
-                            us.Add(trimmed);
-                        }
-                    }
-
-                    if (us.Count > 0)
-                    {
-                        Variables.LoadUnderscores(us.ToArray());
-                    }
+                    Variables.LoadUnderscores(
+                        configJson["underscoretitles"]
+                            .Select(underscore => underscore.ToString().Trim())
+                            .Where(trimmed => !string.IsNullOrEmpty(trimmed))
+                            .ToArray()
+                    );
 
                     NoGenfixes = configJson["nogenfixes"].DistinctList();
 
@@ -419,7 +412,7 @@ namespace WikiFunctions
                     // don't require approval if CheckPage does not exist
                     // Or it has the special config option...
                     // TODO: Make sure this works as expected when code for non JSON stuff is removed
-                    if (CheckPageJSONText.Length < 1 || (bool)configJson["allusersenabled"])
+                    if (CheckPageJSONText.Length < 1 || (bool) configJson["allusersenabled"])
                     {
                         IsBot = true;
                         return WikiStatusResult.Registered;

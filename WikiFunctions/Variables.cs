@@ -449,6 +449,11 @@ namespace WikiFunctions
 
         internal static void LoadUnderscores(params string[] cats)
         {
+            if (cats.Length == 0)
+            {
+                return;
+            }
+
             BackgroundRequest r = new BackgroundRequest(UnderscoresLoaded) {HasUI = false};
             lock (DelayedRequests)
             {
