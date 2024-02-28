@@ -356,7 +356,7 @@ namespace WikiFunctions
 
                 var versionJson = JObject.Parse(Updater.GlobalVersionPage);
 
-                // check if username is globally blacklisted based on the enwiki version page
+                // check if username is listed globally as a badname, based on the enwiki version page
                 foreach (string badName in versionJson["badnames"])
                 {
                     if (!string.IsNullOrEmpty(User.Name) &&
