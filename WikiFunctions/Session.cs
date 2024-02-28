@@ -520,8 +520,7 @@ namespace WikiFunctions
 
                 if (Variables.Project != ProjectEnum.custom)
                 {
-                    var globalUsers = versionJson["globalusers"];
-                    foreach (string s in globalUsers)
+                    foreach (string s in versionJson["globalusers"])
                     {
                         if (User.Name == s)
                         {
