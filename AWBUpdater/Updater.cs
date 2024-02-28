@@ -41,6 +41,12 @@ namespace AWBUpdater
 
         private UpdateStatus _updateStatus = UpdateStatus.None;
 
+        private const string CHECKPAGE_URL =
+            "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/VersionJSON&action=raw";
+
+        private const string SOURCEFORGE_URL =
+            "http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser";
+
         [Flags]
         public enum UpdateStatus
         {
@@ -226,10 +232,7 @@ namespace AWBUpdater
             {
                 ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
-                HttpWebRequest rq =
-                    (HttpWebRequest)
-                    WebRequest.Create(
-                        "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/VersionJSON&action=raw");
+                HttpWebRequest rq = (HttpWebRequest) WebRequest.Create(CHECKPAGE_URL);
 
                 rq.Proxy = _proxy;
 
@@ -347,9 +350,8 @@ namespace AWBUpdater
 
         private void actuallyDownloadZip(WebClient client, string file, string target)
         {
-            var fileUrl =
-                string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}",
-                    file.Replace(".zip", ""), file);
+            var fileWithoutExt = file.Replace(".zip", "");
+            var fileUrl = SOURCEFORGE_URL + $"/{fileWithoutExt}/{file}";
 
             try
             {
@@ -358,12 +360,7 @@ namespace AWBUpdater
                 var url = string.Format(
                     "{0}?r={1}&ts={2}",
                     fileUrl,
-                    HttpUtility.UrlEncode(
-                        string.Format(
-                            "https://sourceforge.net/projects/autowikibrowser/files/autowikibrowser/{0}/",
-                            file.Replace(".zip", "")
-                        )
-                    ),
+                    HttpUtility.UrlEncode(SOURCEFORGE_URL + $"/{fileWithoutExt}/"),
                     unixTime
                 );
                 client.DownloadFile(url, target);

@@ -71,6 +71,9 @@ namespace WikiFunctions
         /// <value>The newer versions.</value>
         public static List<string> NewerVersions { get; private set; }
 
+        private const string CHECKPAGE_URL =
+            "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/VersionJSON&action=raw";
+
         /// <summary>
         /// Do the actual checking for enabledness etc
         /// </summary>
@@ -78,9 +81,7 @@ namespace WikiFunctions
         {
             try
             {
-                string text =
-                    Tools.GetHTML(
-                        "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/VersionJSON&action=raw");
+                string text = Tools.GetHTML(CHECKPAGE_URL);
                 GlobalVersionPage = text;
 
                 var json = JObject.Parse(text);
