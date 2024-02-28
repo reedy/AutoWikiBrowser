@@ -400,15 +400,21 @@ namespace WikiFunctions
                     List<string> us = new List<string>();
                     foreach (var underscore in configJson["underscoretitles"])
                     {
-                        if (underscore.ToString().Trim().Length > 0)
+                        var trimmed = underscore.ToString().Trim();
+                        if (!string.IsNullOrEmpty(trimmed))
                         {
-                            us.Add(underscore.ToString().Trim());
+                            us.Add(trimmed);
                         }
                     }
+
                     if (us.Count > 0)
                     {
                         Variables.LoadUnderscores(us.ToArray());
                     }
+
+                    NoGenfixes = configJson["nogenfixes"].DistinctList();
+
+                    NoRETF = configJson["noregextypofix"].DistinctList();
 
                     // don't require approval if CheckPage does not exist
                     // Or it has the special config option...
@@ -543,27 +549,13 @@ namespace WikiFunctions
         /// Gets a list of pages that shouldn't have genfixes run on them
         /// </summary>
         /// <returns>List of pages that shouldn't receive genfixes</returns>
-        public List<string> NoGenfixes()
-        {
-            // TODO: Bring this upto LoadUnderscores, don't reparse json
-            return JObject.Parse(ConfigJSONText)["nogenfixes"]
-                .Select(page => page.ToString())
-                .Distinct()
-                .ToList();
-        }
+        public List<string> NoGenfixes { get; private set; }
 
         /// <summary>
         /// Gets a list of pages that shouldn't be processed for typofixing
         /// </summary>
         /// <returns>List of pages that shouldn't receive typo fixing</returns>
-        public List<string> NoRETF()
-        {
-            // TODO: Bring this upto LoadUnderscores, don't reparse json
-            return JObject.Parse(ConfigJSONText)["noregextypofix"]
-                .Select(page => page.ToString())
-                .Distinct()
-                .ToList();
-        }
+        public List<string> NoRETF { get; private set; }
 
         /// <summary>
         /// Checks text for a username

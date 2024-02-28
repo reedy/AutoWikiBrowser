@@ -2676,8 +2676,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                     if (!string.IsNullOrEmpty(TheSession.CheckPageJSONText))
                     {
-                        NoParse.AddRange(TheSession.NoGenfixes());
-                        NoRetf.AddRange(TheSession.NoRETF());
+                        NoParse.AddRange(TheSession.NoGenfixes);
+                        NoRetf.AddRange(TheSession.NoRETF);
 
                         break;
                     }

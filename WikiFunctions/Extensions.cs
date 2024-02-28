@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
 
 namespace WikiFunctions
 {
@@ -39,6 +41,7 @@ namespace WikiFunctions
                     intEnd = intStart + m.Length;
                     break;
                 }
+
                 i++;
             }
 
@@ -72,6 +75,11 @@ namespace WikiFunctions
         public static bool IsNullOrEmpty(this string str)
         {
             return string.IsNullOrEmpty(str);
+        }
+
+        public static List<string> DistinctList(this JToken token)
+        {
+            return token.Select(item => item.ToString()).Distinct().ToList();
         }
     }
 }
