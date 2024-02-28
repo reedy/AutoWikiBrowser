@@ -602,20 +602,39 @@ namespace WikiFunctions
         {
             foreach (var message in json)
             {
-                // TODO: Allow array of message versions, and/or semver
-                var version = message["version"].ToString();
-                // TODO: Semver version checking
-                if ((version == "*" || version == AWBVersion) && message["text"] != null)
+                var version = message["version"];
+
+                // One message could apply to many versions
+                if (version is JArray)
                 {
-                    if (message["enabled"] != null && !(bool)message["enabled"])
+                    foreach (var v in version)
                     {
-                        continue;
+                        JSONMessage(v.ToString(), message);
                     }
-                    // TODO: Stop this depending on MessageBox.Show() add an event/delegate and handle in Main.cs
-                    MessageBox.Show(message["text"].ToString().Trim(), "Automated message", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+                }
+                else
+                {
+                    JSONMessage(version.ToString(), message);
                 }
             }
+        }
+
+        private static void JSONMessage(string versionString, JToken message)
+        {
+            // TODO: Proper semver version checking
+            if ((versionString != "*" && versionString != AWBVersion) || message["text"] == null)
+            {
+                return;
+            }
+
+            if (message["enabled"] != null && !(bool) message["enabled"])
+            {
+                return;
+            }
+
+            // TODO: Stop this depending on MessageBox.Show() add an event/delegate and handle in Main.cs
+            MessageBox.Show(message["text"].ToString().Trim(), "Automated message", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
 
         /// <summary>
