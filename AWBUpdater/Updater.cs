@@ -85,7 +85,8 @@ namespace AWBUpdater
                 UpdateUI("Getting current AWB and Updater versions", true);
                 AWBVersion();
 
-                if ((_updateStatus & (UpdateStatus.OptionalUpdate | UpdateStatus.RequiredUpdate | UpdateStatus.UpdaterUpdate)) == 0)
+                if ((_updateStatus & (UpdateStatus.OptionalUpdate | UpdateStatus.RequiredUpdate |
+                                      UpdateStatus.UpdaterUpdate)) == 0)
                 {
                     ExitEarly();
                     return;
@@ -145,6 +146,7 @@ namespace AWBUpdater
             {
                 lstLog.Items[lstLog.Items.Count - 1] = currentStatus;
             }
+
             lstLog.SelectedIndex = lstLog.Items.Count - 1;
             Application.DoEvents();
         }
@@ -159,7 +161,8 @@ namespace AWBUpdater
         /// </summary>
         private void ExitEarly()
         {
-            switch(_updateStatus){
+            switch (_updateStatus)
+            {
                 case UpdateStatus.None:
                     UpdateUI("No update available", true);
                     break;
@@ -201,11 +204,13 @@ namespace AWBUpdater
             {
                 Directory.CreateDirectory(_tempDirectory);
             }
-            catch (Exception) // UnauthorizedAccessException and IOEXception
+            catch (Exception)
             {
+                // UnauthorizedAccessException and IOException
                 UpdateUI("Unable to create temporary directory: " + _tempDirectory, true);
                 throw new AbortException();
             }
+
             progressUpdate.Value = 10;
         }
 
@@ -223,8 +228,8 @@ namespace AWBUpdater
 
                 HttpWebRequest rq =
                     (HttpWebRequest)
-                        WebRequest.Create(
-                            "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/VersionJSON&action=raw");
+                    WebRequest.Create(
+                        "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/VersionJSON&action=raw");
 
                 rq.Proxy = _proxy;
 
@@ -249,7 +254,7 @@ namespace AWBUpdater
                 AppendLine("FAILED");
                 throw new AbortException();
             }
-            
+
             try
             {
                 FileVersionInfo awbVersionInfo =
@@ -282,16 +287,20 @@ namespace AWBUpdater
                         {
                             using (VersionChooser chooser = new VersionChooser(newerVersions))
                             {
-                                if (chooser.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(chooser.SelectedVersion))
+                                if (chooser.ShowDialog() == DialogResult.OK &&
+                                    !string.IsNullOrEmpty(chooser.SelectedVersion))
                                 {
                                     _updateStatus = UpdateStatus.OptionalUpdate;
                                     versionToUpdateAWBTo = chooser.SelectedVersion;
                                 }
                             }
-                        } else if (newerVersions.Count == 1 &&
-                        MessageBox.Show(
-                            string.Format("There is an optional update to AutoWikiBrowser. Would you like to upgrade to {0}?", newerVersions.First().version),
-                            "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        }
+                        else if (newerVersions.Count == 1 &&
+                                 MessageBox.Show(
+                                     string.Format(
+                                         "There is an optional update to AutoWikiBrowser. Would you like to upgrade to {0}?",
+                                         newerVersions.First().version),
+                                     "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             _updateStatus = UpdateStatus.OptionalUpdate;
                             versionToUpdateAWBTo = newerVersions.First().version;
@@ -303,7 +312,8 @@ namespace AWBUpdater
                 {
                     _zipName = "AutoWikiBrowser" + VersionToFileVersion(versionToUpdateAWBTo) + ".zip";
                 }
-                else if (new Version(updaterData.updaterversion) > new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()))
+                else if (new Version(updaterData.updaterversion) >
+                         new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()))
                 {
                     _zipName = "AWBUpdater" + VersionToFileVersion(updaterData.updaterversion) + ".zip";
                     _updateStatus = UpdateStatus.UpdaterUpdate;
@@ -337,7 +347,9 @@ namespace AWBUpdater
 
         private void actuallyDownloadZip(WebClient client, string file, string target)
         {
-            var fileUrl = string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}", file.Replace(".zip", ""), file);
+            var fileUrl =
+                string.Format("http://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/{0}/{1}",
+                    file.Replace(".zip", ""), file);
 
             try
             {
@@ -419,12 +431,12 @@ namespace AWBUpdater
                     awbOpen = p.ProcessName == "AutoWikiBrowser";
                     if (awbOpen)
                     {
-                        MessageBox.Show("Please save your settings (if you wish) and close " + p.ProcessName + " completely before pressing OK.");
+                        MessageBox.Show("Please save your settings (if you wish) and close " + p.ProcessName +
+                                        " completely before pressing OK.");
                         break;
                     }
                 }
-            }
-            while (awbOpen);
+            } while (awbOpen);
 
             progressUpdate.Value = 75;
         }
@@ -444,8 +456,10 @@ namespace AWBUpdater
                 {
                     DeleteAbsoluteIfExists(path);
                 }
-                catch (UnauthorizedAccessException) // The exception that is thrown when the operating system denies access because of an I/O error or a specific type of security error.
+                catch
+                    (UnauthorizedAccessException)
                 {
+                    // The exception that is thrown when the operating system denies access because of an I/O error or a specific type of security error.
                     MessageBox.Show(this,
                         "Access denied for deleting files. Program Files and such are not the best place to run AWB from.\r\n" +
                         "Please run the updater with Administrator rights.");
@@ -454,12 +468,12 @@ namespace AWBUpdater
                 catch (Exception ex)
                 {
                     if (MessageBox.Show(
-                        this,
-                        "Problem deleting file:\r\n   " + ex.Message + "\r\n\r\n" +
-                        "Please close all applications that may use it and press 'Retry' to try again " +
-                        "or 'Cancel' to cancel the upgrade.",
-                        "Error",
-                        MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
+                            this,
+                            "Problem deleting file:\r\n   " + ex.Message + "\r\n\r\n" +
+                            "Please close all applications that may use it and press 'Retry' to try again " +
+                            "or 'Cancel' to cancel the upgrade.",
+                            "Error",
+                            MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
                     {
                         continue;
                     }
@@ -515,10 +529,11 @@ namespace AWBUpdater
                     }
 
                     CopyFile(file,
-                             Path.Combine(_awbDirectory, file.Replace(_tempDirectory + "\\", "")));
+                        Path.Combine(_awbDirectory, file.Replace(_tempDirectory + "\\", "")));
                 }
 
-                string[] pluginFiles = Directory.GetFiles(Path.Combine(_awbDirectory, "Plugins"), "*.*", SearchOption.AllDirectories);
+                string[] pluginFiles = Directory.GetFiles(Path.Combine(_awbDirectory, "Plugins"), "*.*",
+                    SearchOption.AllDirectories);
 
                 foreach (string file in Directory.GetFiles(_awbDirectory, "*.*", SearchOption.TopDirectoryOnly))
                 {
@@ -533,6 +548,7 @@ namespace AWBUpdater
                     }
                 }
             }
+
             progressUpdate.Value = 95;
         }
 
@@ -548,8 +564,9 @@ namespace AWBUpdater
                 {
                     File.Copy(source, destination, true);
                 }
-                catch (UnauthorizedAccessException) //The exception that is thrown when the operating system denies access because of an I/O error or a specific type of security error.
+                catch (UnauthorizedAccessException)
                 {
+                    //The exception that is thrown when the operating system denies access because of an I/O error or a specific type of security error.
                     MessageBox.Show(this,
                         "Access denied for copying files. Program Files and such are not the best place to run AWB from.\r\n" +
                         "Please run the updater with Administrator rights.");
@@ -613,7 +630,8 @@ namespace AWBUpdater
             }
 
             if (!awbOpen && File.Exists(_awbDirectory + "AutoWikiBrowser.exe")
-                && MessageBox.Show("Would you like to start AWB?", "Start AWB?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                         && MessageBox.Show("Would you like to start AWB?", "Start AWB?", MessageBoxButtons.YesNo) ==
+                         DialogResult.Yes)
             {
                 Process.Start(_awbDirectory + "AutoWikiBrowser.exe");
             }
@@ -630,6 +648,7 @@ namespace AWBUpdater
             {
                 Directory.Delete(_tempDirectory, true);
             }
+
             progressUpdate.Value = 100;
         }
 
@@ -662,19 +681,23 @@ namespace AWBUpdater
     public class AbortException : Exception
     {
         public AbortException()
-        { }
+        {
+        }
 
         public AbortException(string message)
             : base(message)
-        { }
+        {
+        }
 
         public AbortException(string message, Exception innerException) :
             base(message, innerException)
-        { }
+        {
+        }
 
         protected AbortException(System.Runtime.Serialization.SerializationInfo info,
-           System.Runtime.Serialization.StreamingContext context)
+            System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
-        { }
+        {
+        }
     }
 }
