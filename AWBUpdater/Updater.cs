@@ -221,7 +221,7 @@ namespace AWBUpdater
         }
 
         /// <summary>
-        /// Checks and compares the current AWB version with the version listed on the JSON checkpage
+        /// Checks and compares the current AWB version with the version listed on the enwiki VersionJSON page
         /// </summary>
         private void AWBVersion()
         {
