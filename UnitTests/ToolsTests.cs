@@ -931,35 +931,6 @@ John", "*"), "do not add list to blank lines/lines with just whitespace 2");
         }
 
         [Test]
-        public void GetDomain()
-        {
-            Assert.AreEqual("bbc.co.uk", Tools.GetDomain("http://www.bbc.co.uk/08890890"));
-            Assert.AreEqual("bbc.co.uk", Tools.GetDomain("HTTP://WWW.BBC.CO.UK/08890890"));
-            Assert.AreEqual("bbc.co.uk", Tools.GetDomain("http://www.bbc.co.uk/08890890 "));
-            Assert.AreEqual("bbc.co.uk", Tools.GetDomain(" http://www.bbc.co.uk/08890890 "));
-            Assert.AreEqual("bbc.co.uk", Tools.GetDomain("http://bbc.co.uk/08890890"));
-            Assert.AreEqual("bbc.co.uk", Tools.GetDomain("http:/bbc.co.uk/08890890"));
-            Assert.AreEqual("bbc.co.uk", Tools.GetDomain("http//bbc.co.uk/08890890"));
-
-            Assert.AreEqual("washingtonpost.com", Tools.GetDomain("http://www.washingtonpost.com"));
-            Assert.AreEqual("washingtonpost.com", Tools.GetDomain("https://www.washingtonpost.com"));
-            Assert.AreEqual("wsj.com", Tools.GetDomain("http://www.wsj.com"));
-            Assert.AreEqual("washingtonpost.com", Tools.GetDomain("http://www99.washingtonpost.com"));
-            Assert.AreEqual("washingtonpost.com", Tools.GetDomain("http://www3.washingtonpost.com"));
-            Assert.AreEqual("washingtonpost.com", Tools.GetDomain("http://www.washingtonpost.com/asdkjlaskdjflasdfj"));
-            Assert.AreEqual("washingtonpost.com", Tools.GetDomain("http://special.washingtonpost.com/asdkjlaskdjflasdfj"));
-            Assert.AreEqual("washingtonpost.com", Tools.GetDomain("http://special.other.washingtonpost.com/asdkjlaskdjflasdfj"));
-            Assert.AreEqual("washingtonpost.com", Tools.GetDomain("http://special-here.washingtonpost.com/asdkjlaskdjflasdfj"));
-            Assert.AreEqual("news.com.au", Tools.GetDomain("http://news.com.au/asdkjlaskdjflasdfj"));
-            Assert.AreEqual("news.com.au", Tools.GetDomain("http://special.news.com.au/asdkjlaskdjflasdfj"));
-            Assert.AreEqual("news.com.au", Tools.GetDomain("http://www.news.com.au/asdkjlaskdjflasdfj"));
-
-            Assert.AreEqual("", Tools.GetDomain("bbc.co.uk/08890890"));
-            Assert.AreEqual("", Tools.GetDomain("08890890"));
-            Assert.AreEqual("", Tools.GetDomain(""));
-        }
-
-        [Test]
         public void RemoveSyntax()
         {
             Assert.AreEqual(@"", Tools.RemoveSyntax(@""));

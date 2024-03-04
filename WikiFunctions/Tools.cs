@@ -478,38 +478,6 @@ namespace WikiFunctions
             return JObject.Parse(text);
         }
 
-        private static readonly Regex HTTPWWW = new Regex(@"^https?:?/+(?:www\d*\.)?", RegexOptions.Compiled);
-        private static readonly Regex SubDomain = new Regex(@"^[a-z0-9\-]{4,}\.", RegexOptions.Compiled);
-        private static readonly Regex DomainEndings = new Regex(@"\.[a-z]{2,3}(?:\.[a-z]{2,3})?$", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Returns the domain name from a URL e.g. bbc.co.uk from http://www.bbc.co.uk/1212
-        /// </summary>
-        /// <param name="url">The source URL</param>
-        /// <returns>The domain name for the URL, or an empty string if no domain name can be determined</returns>
-        public static string GetDomain(string url)
-        {
-            url = url.ToLower().Trim();
-
-            if (!HTTPWWW.IsMatch(url))
-                return "";
-
-            url = HTTPWWW.Replace(url.ToLower().Trim(), "");
-
-            if (url.Contains("/"))
-                url = url.Substring(0, url.IndexOf("/", StringComparison.Ordinal));
-
-            var tmpUrl = SubDomain.Replace(url, "");
-            if (DomainEndings.IsMatch(tmpUrl) && !tmpUrl.StartsWith("com."))
-                url = tmpUrl;
-
-            tmpUrl = SubDomain.Replace(url, "");
-            if (DomainEndings.IsMatch(tmpUrl) && !tmpUrl.StartsWith("com."))
-                url = tmpUrl;
-
-            return url;
-        }
-
         #if !MONO
         [DllImport("user32.dll")]
         private static extern void FlashWindow(IntPtr hwnd, bool bInvert);
