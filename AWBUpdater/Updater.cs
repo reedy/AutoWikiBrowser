@@ -41,7 +41,7 @@ namespace AWBUpdater
 
         private UpdateStatus _updateStatus = UpdateStatus.None;
 
-        private const string CHECKPAGE_URL =
+        private const string VERSION_URL =
             "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/VersionJSON&action=raw";
 
         private const string SOURCEFORGE_URL =
@@ -221,7 +221,7 @@ namespace AWBUpdater
         }
 
         /// <summary>
-        /// Checks and compares the current AWB version with the version listed on the checkpage
+        /// Checks and compares the current AWB version with the version listed on the JSON checkpage
         /// </summary>
         private void AWBVersion()
         {
@@ -232,7 +232,7 @@ namespace AWBUpdater
             {
                 ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
-                HttpWebRequest rq = (HttpWebRequest) WebRequest.Create(CHECKPAGE_URL);
+                HttpWebRequest rq = (HttpWebRequest) WebRequest.Create(VERSION_URL);
 
                 rq.Proxy = _proxy;
 

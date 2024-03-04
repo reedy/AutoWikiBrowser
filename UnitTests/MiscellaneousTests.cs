@@ -2657,38 +2657,4 @@ bar
             Assert.AreEqual("Now {{subst:foo (bar)}}", st.SubstituteTemplates("Now {{Foo (bar)}}", "test"), "template name is escaped, casing handling");
         }
     }
-
-    [TestFixture]
-    public class SessionTests
-    {
-        [Test]
-        public void SessionUser()
-        {
-            Assert.IsTrue(Session.UserNameInText("ABC", @"* ABC "));
-            Assert.IsTrue(Session.UserNameInText("abc", @"* abc "));
-            Assert.IsTrue(Session.UserNameInText("Abc", @"* abc "));
-            Assert.IsTrue(Session.UserNameInText("abc", @"* Abc "));
-            Assert.IsTrue(Session.UserNameInText("ABC", @"*ABC"));
-            Assert.IsTrue(Session.UserNameInText("ABC", @"*          ABC"));
-
-            Assert.IsTrue(Session.UserNameInText("ABC", @"
-* HELLO
-* ABC
-* DEF"));
-
-            Assert.IsTrue(Session.UserNameInText("aBC", @"* ABC "));
-            Assert.IsTrue(Session.UserNameInText("ABC", @"* aBC "));
-
-            Assert.IsTrue(Session.UserNameInText("ABC*", @"* ABC* "));
-            Assert.IsTrue(Session.UserNameInText("ABC[D]", @"* ABC[D]"));
-
-            Assert.IsTrue(Session.UserNameInText("ABC D", @"* ABC D"));
-            Assert.IsTrue(Session.UserNameInText("ABC D", @"* ABC_D"));
-            Assert.IsTrue(Session.UserNameInText("ABC_D", @"* ABC D"));
-
-            Assert.IsFalse(Session.UserNameInText("ABC", @"* ABCD "));
-            Assert.IsFalse(Session.UserNameInText("Abc", @"* ABC "));
-            Assert.IsFalse(Session.UserNameInText("ABC", @"* X"));
-        }
-    }
 }

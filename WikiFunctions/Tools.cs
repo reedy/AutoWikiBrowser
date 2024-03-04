@@ -458,6 +458,26 @@ namespace WikiFunctions
             return text;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url">The URL of the webpage.</param>
+        /// <returns></returns>
+        public static JObject GetJObjectFromUrl(string url)
+        {
+            return JObject.Parse(GetHTML(url));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static JObject GetJObjectFromText(string text)
+        {
+            return JObject.Parse(text);
+        }
+
         private static readonly Regex HTTPWWW = new Regex(@"^https?:?/+(?:www\d*\.)?", RegexOptions.Compiled);
         private static readonly Regex SubDomain = new Regex(@"^[a-z0-9\-]{4,}\.", RegexOptions.Compiled);
         private static readonly Regex DomainEndings = new Regex(@"\.[a-z]{2,3}(?:\.[a-z]{2,3})?$", RegexOptions.Compiled);

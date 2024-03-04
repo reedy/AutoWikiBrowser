@@ -47,6 +47,7 @@ using WikiFunctions.Controls;
 using WikiFunctions.Background;
 using WikiFunctions.Controls.Lists;
 using AutoWikiBrowser.Plugins;
+using Newtonsoft.Json.Linq;
 using ThreadState = System.Threading.ThreadState;
 
 namespace AutoWikiBrowser
@@ -2637,27 +2638,27 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             switch (TheSession.Update())
             {
                 case WikiStatusResult.Error:
-                    MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet is working and that the Wiki is online.", "User check problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        "Check page failed to load.\r\n\r\nCheck your Internet is working and that the Wiki is online.",
+                        "User check problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
 
                 case WikiStatusResult.NotLoggedIn:
                     if (!login)
                     {
-                        MessageBox.Show("You are not logged in. The profile screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(
+                            "You are not logged in. The profile screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.",
+                            "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Profiles.ShowDialog();
                     }
+
                     break;
 
                 case WikiStatusResult.NotRegistered:
-                    MessageBox.Show(TheSession.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    if (!string.IsNullOrEmpty(TheSession.CheckPageJSONText))
-                    {
-                        Tools.OpenURLInBrowser(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPageJSON");
-                    }
-                    else
-                    {
-                        Tools.OpenURLInBrowser(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage");
-                    }
+                    MessageBox.Show(TheSession.User.Name + " is not enabled to use this.", "Not enabled",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Tools.OpenURLInBrowser(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPageJSON");
+
                     break;
 
                 case WikiStatusResult.OldVersion:
@@ -2672,43 +2673,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     NoParse.Clear();
                     NoRetf.Clear();
                     status = true;
-                    label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.User.IsBot, TheSession.User.IsSysop);
+                    label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}",
+                        TheSession.User.IsBot, TheSession.User.IsSysop);
 
-                    if (!string.IsNullOrEmpty(TheSession.CheckPageJSONText))
-                    {
-                        NoParse.AddRange(TheSession.NoGenfixes);
-                        NoRetf.AddRange(TheSession.NoRETF);
-
-                        break;
-                    }
-
-                    // THE REST OF THIS IS ALL BASICALLY DEPRECATED...
-
-                    // Get list of articles not to apply general fixes to.
-                    Match noGenFix = WikiRegexes.NoGeneralFixes.Match(TheSession.CheckPageText);
-                    if (noGenFix.Success)
-                    {
-                        foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noGenFix.Value))
-                        {
-                            if (!NoParse.Contains(link.Groups[1].Value))
-                            {
-                                NoParse.Add(link.Groups[1].Value);
-                            }
-                        }
-                    }
-
-                    // Get list of articles not to apply RETF to.
-                    Match noRETF = WikiRegexes.NoRETF.Match(TheSession.CheckPageText);
-                    if (noRETF.Success)
-                    {
-                        foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noRETF.Value))
-                        {
-                            if (!NoRetf.Contains(link.Groups[1].Value))
-                            {
-                                NoRetf.Add(link.Groups[1].Value);
-                            }
-                        }
-                    }
+                    NoParse.AddRange(TheSession.NoGenfixes);
+                    NoRetf.AddRange(TheSession.NoRETF);
 
                     break;
 
@@ -4409,7 +4378,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             // so set RegexTypos to null if reload, even if RETF not enabled at the time
             // This logic is needed to support use of SetProject in other scenarios
             if (reload)
+            {
                 RegexTypos = null;
+            }
 
             if (chkRegExTypo.Checked && RegexTypos == null)
             {
@@ -4418,26 +4389,31 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 StatusLabelText = "Loading typos";
 
-                // if not logged in will be using default Typos page location so look up any custom page from CheckPage info
+                // if not logged in will be using default Typos page location, so look up any custom page from CheckPage info
                 // if no checkpage then fall back to using default ReftPath
                 if (!TheSession.User.IsLoggedIn && !Variables.IsWikipediaEN &&
                     Variables.RetfPath.EndsWith("AutoWikiBrowser/Typos"))
                 {
-                    string checkPageText;
                     try
                     {
-                        // TODO: check/load JSON
-                        string url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";
-                        checkPageText = Tools.GetHTML(url);
+                        // Try and use the config json text if it's not empty... Is this actually going to work as expected?
+                        // Or should we just unconditionally do the else?
+                        if (!string.IsNullOrEmpty(TheSession.ConfigJSONText))
+                        {
+                            Session.TypoLink(Tools.GetJObjectFromText(TheSession.ConfigJSONText));
+                        }
+                        else
+                        {
+                            Session.TypoLink(Tools.GetJObjectFromUrl(Session.ConfigUrl));
+                        }
                     }
                     catch
                     {
-                        checkPageText = "";
+                        // TODO: Should we be setting a default?
+                        // Variables.RetfPath = "Project:AutoWikiBrowser/Typos";
                     }
-
-                    Session.HasTypoLink(checkPageText);
+                    
                 }
-
 #if !DEBUG
                 string message = @"Check each edit before you make it. Although this has been built to be very accurate there will be errors.";
 
