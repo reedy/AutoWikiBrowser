@@ -47,7 +47,6 @@ using WikiFunctions.Controls;
 using WikiFunctions.Background;
 using WikiFunctions.Controls.Lists;
 using AutoWikiBrowser.Plugins;
-using Newtonsoft.Json.Linq;
 using ThreadState = System.Threading.ThreadState;
 
 namespace AutoWikiBrowser
