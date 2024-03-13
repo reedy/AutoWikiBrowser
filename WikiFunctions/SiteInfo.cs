@@ -460,23 +460,26 @@ namespace WikiFunctions
 
     public class WikiUrlException : WikiException
     {
+        private const string ExceptionMessage = "Can't connect to given wiki site.";
         public WikiUrlException()
-            : base("Can't connect to given wiki site.")
+            : base(ExceptionMessage)
         { }
 
         public WikiUrlException(Exception innerException)
-            : base("Can't connect to given wiki site.", innerException)
+            : base(ExceptionMessage, innerException)
         { }
     }
 
     public class ReadApiDeniedException : WikiException
     {
+        private const string ExceptionMessage = "You need read permission to use this module";
+
         public ReadApiDeniedException()
-            : base("You need read permission to use this module")
+            : base(ExceptionMessage)
         { }
 
         public ReadApiDeniedException(Exception innerException)
-            : base("You need read permission to use this module", innerException)
+            : base(ExceptionMessage, innerException)
         { }
     }
 }
