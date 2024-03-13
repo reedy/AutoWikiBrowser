@@ -56,14 +56,16 @@ namespace AutoWikiBrowser
             cmboLang.SelectedItem = lang.ToLower();
 
             cmboCustomProject.Items.Clear();
-            foreach (string s in Properties.Settings.Default.CustomWikis.Split('|').Where(s => !cmboCustomProject.Items.Contains(s)))
+            foreach (string s in Properties.Settings.Default.CustomWikis.Split('|')
+                         .Where(s => !cmboCustomProject.Items.Contains(s)))
             {
                 cmboCustomProject.Items.Add(s);
             }
 
             cmboCustomProject.Text = customproj;
 
-            chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia" || cmboProject.Text == "fandom");
+            chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia" ||
+                                     cmboProject.Text == "fandom");
 
             chkAlwaysConfirmExit.Checked = Properties.Settings.Default.AskForTerminate;
             chkPrivacy.Checked = !Properties.Settings.Default.Privacy;
@@ -73,6 +75,7 @@ namespace AutoWikiBrowser
                 chkFlash.Enabled = false;
                 chkFlash.Checked = false;
             }
+
             cmboProtocol.SelectedIndex = (protocol == "http://") ? 1 : 0;
         }
 
@@ -85,7 +88,7 @@ namespace AutoWikiBrowser
 
         public ProjectEnum Project
         {
-            get { return (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()); }
+            get { return (ProjectEnum) Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()); }
         }
 
         public string CustomProject
@@ -111,7 +114,9 @@ namespace AutoWikiBrowser
             FixCustomProject();
         }
 
-        private static readonly Regex CustomProjectRegex = new Regex(@"^.*?://(?:([\w/\.-]+?)/(?:index|api).php|([\w/\.-]+)).*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex CustomProjectRegex =
+            new Regex(@"^.*?://(?:([\w/\.-]+?)/(?:index|api).php|([\w/\.-]+)).*$",
+                RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private void FixCustomProject()
         {
@@ -172,6 +177,7 @@ namespace AutoWikiBrowser
                     langs = SiteMatrix.Languages;
                     break;
             }
+
             cmboLang.Items.AddRange(langs.ToArray());
 
             if (!string.IsNullOrEmpty(temp))
@@ -219,7 +225,7 @@ namespace AutoWikiBrowser
 
         private void cmboCustomProjectChanged(object sender, EventArgs e)
         {
-            ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof (ProjectEnum), cmboProject.SelectedItem.ToString());
+            ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
             if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia) || prj.Equals(ProjectEnum.fandom))
                 btnOK.Enabled = !string.IsNullOrEmpty(cmboCustomProject.Text);
             else
@@ -248,7 +254,7 @@ namespace AutoWikiBrowser
             set
             {
                 txtDomain.Text = value;
-                ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof (ProjectEnum), cmboProject.SelectedItem.ToString());
+                ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
                 DomainEnabled = !string.IsNullOrEmpty(value) && prj.Equals(ProjectEnum.custom);
             }
         }
@@ -305,7 +311,11 @@ namespace AutoWikiBrowser
         public bool PrefAutoSaveEditBoxEnabled
         {
             get { return chkAutoSaveEdit.Checked; }
-            set { chkAutoSaveEdit.Checked = btnSetFile.Enabled = nudEditBoxAutosave.Enabled = txtAutosave.Enabled = lblAutosaveFile.Enabled = value; }
+            set
+            {
+                chkAutoSaveEdit.Checked = btnSetFile.Enabled =
+                    nudEditBoxAutosave.Enabled = txtAutosave.Enabled = lblAutosaveFile.Enabled = value;
+            }
         }
 
         public decimal PrefAutoSaveEditBoxPeriod
@@ -377,7 +387,7 @@ namespace AutoWikiBrowser
         {
             // show edit page no longer available as an option
             get { return (cmboOnLoad.SelectedIndex == 2 ? 0 : cmboOnLoad.SelectedIndex); }
-            
+
             set { cmboOnLoad.SelectedIndex = value; }
         }
 
@@ -415,10 +425,11 @@ namespace AutoWikiBrowser
                 {
                     if (alertListBox.GetItemChecked(i) || !anyChecked)
                     {
-                        CheckedBoxItem cbi = (CheckedBoxItem)alertListBox.Items[i];
+                        CheckedBoxItem cbi = (CheckedBoxItem) alertListBox.Items[i];
                         alerts.Add(cbi.ID);
                     }
                 }
+
                 return alerts;
             }
             set
@@ -428,11 +439,12 @@ namespace AutoWikiBrowser
                 foreach (KeyValuePair<int, string> kvp in alertDescriptions)
                 {
                     alertListBox.Items.Add(new CheckedBoxItem
-                                               {
-                                                   ID = kvp.Key,
-                                                   Description = kvp.Value,
-                                           }, (value.Contains(kvp.Key) || !value.Any()));
+                    {
+                        ID = kvp.Key,
+                        Description = kvp.Value,
+                    }, (value.Contains(kvp.Key) || !value.Any()));
                 }
+
                 alertListBox.EndUpdate();
             }
         }
@@ -470,13 +482,16 @@ namespace AutoWikiBrowser
             }
 
             StringBuilder customs = new StringBuilder();
-            foreach (string s in from string s in cmboCustomProject.Items where !string.IsNullOrEmpty(s.Trim()) select s)
+            foreach (string s in from string s in cmboCustomProject.Items
+                     where !string.IsNullOrEmpty(s.Trim())
+                     select s)
             {
                 customs.Append(s + "|");
             }
 
             string tmp = customs.ToString();
-            Properties.Settings.Default.CustomWikis = string.IsNullOrEmpty(tmp) ? "" : tmp.Substring(0, tmp.LastIndexOf('|'));
+            Properties.Settings.Default.CustomWikis =
+                string.IsNullOrEmpty(tmp) ? "" : tmp.Substring(0, tmp.LastIndexOf('|'));
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.CustomWikis))
             {
@@ -488,6 +503,7 @@ namespace AutoWikiBrowser
                 Properties.Settings.Default.AskForTerminate = chkAlwaysConfirmExit.Checked;
                 save = true;
             }
+
             if (Properties.Settings.Default.Privacy.Equals(chkPrivacy.Checked))
             {
                 Properties.Settings.Default.Privacy = !chkPrivacy.Checked;
@@ -506,7 +522,8 @@ namespace AutoWikiBrowser
         }
 
         public bool FocusSiteTab = false;
-        protected override void OnActivated(EventArgs e) 
+
+        protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
             if (FocusSiteTab)
@@ -519,29 +536,29 @@ namespace AutoWikiBrowser
         }
 
         private readonly Dictionary<int, string> alertDescriptions = new Dictionary<int, string>
-                                                                {
-                                                                    {1, "Ambiguous citation dates"},
-                                                                    {2, "Contains 'sic' tag"},
-                                                                    {3, "DAB page with <ref>s"},
-                                                                    {4, "Dead links"},
-                                                                    {5, "Duplicate parameters in WPBannerShell"},
-                                                                    {6, "Has <ref> after </references>"},
-                                                                    {7, "Has 'No/More footnotes' template yet many references"},
-                                                                    {8, "Headers with wikilinks"},
-                                                                    {9, "Invalid citation parameters"},
-                                                                    {10, "Links with double pipes"},
-                                                                    {11, "Links with no target"},
-                                                                    {12, "Long article with stub tag"},
-                                                                    {13, "Multiple DEFAULTSORT"},
-                                                                    {14, "No category (may be one in a template)"},
-                                                                    {15, "See also section out of place"},
-                                                                    {16, "Starts with heading"},
-                                                                    {17, "Unbalanced brackets"},
-                                                                    {18, "Unclosed tags"},
-                                                                    {19, "Unformatted references"},
-                                                                    {20, "Unknown parameters in multiple issues"},
-                                                                    {21, "Unknown parameters in WPBannerShell"},
-                                                                    {22, "Editor's signature or link to user space"}
-                                                                };
+        {
+            {1, "Ambiguous citation dates"},
+            {2, "Contains 'sic' tag"},
+            {3, "DAB page with <ref>s"},
+            {4, "Dead links"},
+            {5, "Duplicate parameters in WPBannerShell"},
+            {6, "Has <ref> after </references>"},
+            {7, "Has 'No/More footnotes' template yet many references"},
+            {8, "Headers with wikilinks"},
+            {9, "Invalid citation parameters"},
+            {10, "Links with double pipes"},
+            {11, "Links with no target"},
+            {12, "Long article with stub tag"},
+            {13, "Multiple DEFAULTSORT"},
+            {14, "No category (may be one in a template)"},
+            {15, "See also section out of place"},
+            {16, "Starts with heading"},
+            {17, "Unbalanced brackets"},
+            {18, "Unclosed tags"},
+            {19, "Unformatted references"},
+            {20, "Unknown parameters in multiple issues"},
+            {21, "Unknown parameters in WPBannerShell"},
+            {22, "Editor's signature or link to user space"}
+        };
     }
 }
