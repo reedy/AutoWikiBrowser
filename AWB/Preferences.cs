@@ -192,7 +192,7 @@ namespace AutoWikiBrowser
 
                 cmboCustomProject.Visible = true;
                 cmboLang.Visible = false;
-                if (prj.Equals(ProjectEnum.wikia))
+                if (prj.Equals(ProjectEnum.wikia) || prj.Equals(ProjectEnum.fandom))
                 {
                     cmboProtocol.SelectedIndex = 0;
                 }
