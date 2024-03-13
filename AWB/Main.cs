@@ -3288,7 +3288,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             catch (WebException ex)
             {
                 // Check for HTTP 401 error.
-                var resp = (HttpWebResponse)ex.Response;
+                var resp = (HttpWebResponse) ex.Response;
                 if (resp == null) throw;
                 switch (resp.StatusCode)
                 {
@@ -3301,9 +3301,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                         break;
                 }
             }
+            catch (UriFormatException)
+            {
+                MessageBox.Show("Check the site url you entered is valid, and try again!");
+            }
             catch (ArgumentNullException)
             {
-                MessageBox.Show("The interwiki list didn't load correctly. Please check your internet connection, and then restart AWB");
+                MessageBox.Show("The interwiki list didn't load correctly. Please check your internet connection, and then restart AWB.");
             }
 
             if (Variables.TryLoadingAgainAfterLogin)
