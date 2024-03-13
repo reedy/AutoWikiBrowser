@@ -63,7 +63,7 @@ namespace AutoWikiBrowser
 
             cmboCustomProject.Text = customproj;
 
-            chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
+            chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia" || cmboProject.Text == "fandom");
 
             chkAlwaysConfirmExit.Checked = Properties.Settings.Default.AskForTerminate;
             chkPrivacy.Checked = !Properties.Settings.Default.Privacy;
@@ -190,7 +190,20 @@ namespace AutoWikiBrowser
                 {
                     cmboProtocol.SelectedIndex = 0;
                 }
-                lblPostfix.Text = prj.Equals(ProjectEnum.wikia) ? ".wikia.com" : "";
+
+                if (prj.Equals(ProjectEnum.wikia))
+                {
+                    lblPostfix.Text = ".wikia.com";
+                }
+                else if (prj.Equals(ProjectEnum.fandom))
+                {
+                    lblPostfix.Text = ".fandom.com";
+                }
+                else
+                {
+                    lblPostfix.Text = "";
+                }
+
                 cmboCustomProjectChanged(null, null);
 
                 return;
@@ -207,7 +220,7 @@ namespace AutoWikiBrowser
         private void cmboCustomProjectChanged(object sender, EventArgs e)
         {
             ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof (ProjectEnum), cmboProject.SelectedItem.ToString());
-            if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia))
+            if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia) || prj.Equals(ProjectEnum.fandom))
                 btnOK.Enabled = !string.IsNullOrEmpty(cmboCustomProject.Text);
             else
                 btnOK.Enabled = true;
