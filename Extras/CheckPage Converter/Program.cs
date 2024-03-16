@@ -19,6 +19,16 @@ namespace CheckPage_Converter
         private static readonly Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
         private static readonly Regex UsernameRegex = new Regex(@"^\*\s*(.*?)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
+        /// <summary>
+        /// No General Fixes regex for checkpage parsing
+        /// </summary>
+        private static readonly Regex NoGeneralFixes = new Regex("<!--No general fixes:.*?-->", RegexOptions.Singleline);
+
+        /// <summary>
+        /// No RegexTypoFix regex for checkpage parsing
+        /// </summary>
+        private static readonly Regex NoRETF = new Regex("<!--No RETF:.*?-->", RegexOptions.Singleline);
+
         private const string PHAB_TASK = "https://phabricator.wikimedia.org/T241196";
 
         static void Main(string[] args)
@@ -346,7 +356,7 @@ namespace CheckPage_Converter
             List<string> NoParse = new List<string>();
 
             // Get list of articles not to apply general fixes to.
-            Match noGenFix = WikiRegexes.NoGeneralFixes.Match(origCheckPageText);
+            Match noGenFix = NoGeneralFixes.Match(origCheckPageText);
             if (noGenFix.Success)
             {
                 foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noGenFix.Value))
@@ -364,7 +374,7 @@ namespace CheckPage_Converter
             List<string> NoRetf = new List<string>();
 
             // Get list of articles not to apply RETF to.
-            Match noRETF = WikiRegexes.NoRETF.Match(origCheckPageText);
+            Match noRETF = NoRETF.Match(origCheckPageText);
             if (noRETF.Success)
             {
                 foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noRETF.Value))
