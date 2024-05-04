@@ -17,6 +17,15 @@ namespace WikiFunctions
             }
         }
 
+        public static void AddRangeIfNotNull<T>(this List<T> list, IEnumerable<T> collection)
+        {
+            if (collection != null)
+            {
+                list.AddRange(collection);
+            }
+
+        }
+
         public static bool IsIn<T>(this T @this, params T[] possibles)
         {
             return ((IList) possibles).Contains(@this);

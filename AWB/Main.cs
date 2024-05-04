@@ -2675,8 +2675,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}",
                         TheSession.User.IsBot, TheSession.User.IsSysop);
 
-                    NoParse.AddRange(TheSession.NoGenfixes);
-                    NoRetf.AddRange(TheSession.NoRETF);
+                    NoParse.AddRangeIfNotNull(TheSession.NoGenfixes);
+                    NoRetf.AddRangeIfNotNull(TheSession.NoRETF);
 
                     break;
 
