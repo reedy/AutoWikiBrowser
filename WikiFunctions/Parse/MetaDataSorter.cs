@@ -262,7 +262,7 @@ en, sq, ru
         private static readonly Regex CommentedOutEnInterwiki = new Regex("<!-- ?\\[\\[en:.*?\\]\\] ?-->");
 
         /// <summary>
-        /// Sorts article meta data, including optional whitespace fixing
+        /// Sorts article metadata, including optional whitespace fixing
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
@@ -476,16 +476,17 @@ en, sq, ru
             {
                 int cutoff = Math.Max(0, cq.Index - 500);
                 string cut = articleText.Substring(cutoff);
-                cut = WikiRegexes.RemoveCatsAllCats.Replace(cut, m => {
-                                                                       if (!CatsForDeletion.IsMatch(m.Value))
-                                                                           categoryList.Add(m.Value.Trim());
-                                                                       
-                                                                       // if category not at start of line, leave newline, otherwise text on next line moved up
-                                                                       if (m.Index > 2 && !cut.Substring(m.Index - 2, 2).Trim().Equals(""))
-                                                                           return "\r\n";
+                cut = WikiRegexes.RemoveCatsAllCats.Replace(cut, m =>
+                {
+                    if (!CatsForDeletion.IsMatch(m.Value))
+                        categoryList.Add(m.Value.Trim());
 
-                                                                       return "";
-                                                                      });
+                    // if category not at start of line, leave newline, otherwise text on next line moved up
+                    if (m.Index > 2 && !cut.Substring(m.Index - 2, 2).Trim().Equals(""))
+                        return "\r\n";
+
+                    return "";
+                });
 
                 // if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
                 if (!Tools.UnformattedTextNotChanged(originalArticleText.Substring(cutoff), cut))
@@ -512,10 +513,10 @@ en, sq, ru
 
                 if (CatCommentRegex.IsMatch(cut))
                     articleText = CatCommentRegex.Replace(articleText, m =>
-                                                          {
-                                                              categoryList.Insert(0, m.Value);
-                                                              return "";
-                                                          }, 1);
+                    {
+                        categoryList.Insert(0, m.Value);
+                        return "";
+                    }, 1);
 
             }
 
@@ -543,16 +544,16 @@ en, sq, ru
             if (TemplateExists(Parsers.GetAllTemplates(originalArticleText), WikiRegexes.Uncat) && WikiRegexes.Uncat.IsMatch(articleTextNoComments))
             {
                 articleText = WikiRegexes.Uncat.Replace(articleText, uncatm =>
-                                                        {
-                                                            if (WikiRegexes.PossiblyCommentedStub.IsMatch(uncatm.Value))
-                                                                return uncatm.Value;
+                {
+                    if (WikiRegexes.PossiblyCommentedStub.IsMatch(uncatm.Value))
+                        return uncatm.Value;
 
-                                                            // remove exact duplicates
-                                                            if (!uncat.Contains(uncatm.Value))
-                                                                uncat += uncatm.Value + "\r\n";
+                    // remove exact duplicates
+                    if (!uncat.Contains(uncatm.Value))
+                        uncat += uncatm.Value + "\r\n";
 
-                                                            return "";
-                                                        });
+                    return "";
+                });
             }
 
             return uncat + defaultSort + ListToString(categoryList);
@@ -567,11 +568,11 @@ en, sq, ru
         {
             string strPersonData = "", originalArticleText = articleText;
 
-            articleText = WikiRegexes.Persondata.Replace(articleText, m=>
-                                                         {
-                                                             strPersonData += (strPersonData.Length == 0 ? m.Value : Tools.Newline(m.Value));
-                                                             return "";
-                                                         });
+            articleText = WikiRegexes.Persondata.Replace(articleText, m =>
+            {
+                strPersonData += (strPersonData.Length == 0 ? m.Value : Tools.Newline(m.Value));
+                return "";
+            });
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Persondata_comments
             // catch the persondata comment the line before it so that the comment and template aren't separated
@@ -651,10 +652,10 @@ en, sq, ru
             if (WikiRegexes.Disambigs.IsMatch(WikiRegexes.Comments.Replace(articleText, "")))
             {
                 articleText = WikiRegexes.Disambigs.Replace(articleText, m =>
-                                                            {
-                                                                strDisambig = m.Value;
-                                                                return "";
-                                                            }, 1);
+                {
+                    strDisambig = m.Value;
+                    return "";
+                }, 1);
             }
 
             return strDisambig;
@@ -782,13 +783,14 @@ en, sq, ru
             List<string> mt = new List<string>();
 
             // extract maintenance tags, not section ones
-            articleText = WikiRegexes.MaintenanceTemplates.Replace(articleText, m => {
-                                    if (m.Value.Contains("section"))
-                                        return m.Value;
+            articleText = WikiRegexes.MaintenanceTemplates.Replace(articleText, m =>
+            {
+                if (m.Value.Contains("section"))
+                    return m.Value;
 
-                                    mt.Add(m.Value);                                    
-                                    return ""; 
-                                });
+                mt.Add(m.Value);
+                return "";
+            });
 
             if (mt.Any())
             {
@@ -1100,10 +1102,10 @@ en, sq, ru
             string interWikiComment = "";
             if (articleText.Contains("<!--"))
                 articleText = InterLangRegex.Replace(articleText, m =>
-                                                     {
-                                                         interWikiComment = m.Value;
-                                                         return "";
-                                                     }, 1);
+                {
+                    interWikiComment = m.Value;
+                    return "";
+                }, 1);
 
             string interWikis = "";
 

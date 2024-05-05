@@ -369,7 +369,7 @@ namespace WikiFunctions.Parse
             {
                 string templatename = Tools.TurnFirstToLower(Tools.GetTemplateArgument(m.Value, 1)),
                     oldparam = Tools.GetTemplateArgument(m.Value, 2),
-                newparam = Tools.GetTemplateArgument(m.Value, 3);
+                    newparam = Tools.GetTemplateArgument(m.Value, 3);
 
                 WikiRegexes.TemplateParameters Params;
                 Params.TemplateName = templatename;

@@ -54,14 +54,15 @@ namespace WikiFunctions.Parse
             if (allWikiLinks.Any(s => s.StartsWith("[[ ")))
             {
                 //remove undesirable space from beginning of wikilink: put space before if word character immediately before wikilink
-                articleText = LinkWhitespace1.Replace(articleText, m => {
-                        string before = m.Groups[1].Value;
-                        
-                        if (Regex.IsMatch(before, @"\w"))
-                            before += " ";
-                        
-                        return before + @"[[" + m.Groups[2].Value + "]]";
-                        });
+                articleText = LinkWhitespace1.Replace(articleText, m =>
+                {
+                    string before = m.Groups[1].Value;
+
+                    if (Regex.IsMatch(before, @"\w"))
+                        before += " ";
+
+                    return before + @"[[" + m.Groups[2].Value + "]]";
+                });
             }
 
             //remove undesirable double space from middle of wikilink (up to 101 characters in wikilink)

@@ -42,7 +42,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadingsLifeCareer = new Regex("(== *)Life and Career( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase);
 
-        private static readonly Regex RegexBadHeaderStartOfAticle = new Regex("^={1,4} ?'*(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?)'* ?={1,4}", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexBadHeaderStartOfArticle = new Regex("^={1,4} ?'*(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?)'* ?={1,4}", RegexOptions.IgnoreCase);
 
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline);
         private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks|[Ss]ee +[Aa]lso) *==\s");
@@ -86,7 +86,7 @@ namespace WikiFunctions.Parse
         public static string FixHeadings(string articleText, string articleTitle)
         {
             // remove unnecessary general header from start of article
-            articleText = RegexBadHeaderStartOfAticle.Replace(articleText, "");
+            articleText = RegexBadHeaderStartOfArticle.Replace(articleText, "");
 
             // one blank line before each heading per MOS:HEAD, but not between headings
             // avoid special case of indented text that may be code with lots of == that matches a heading

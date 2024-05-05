@@ -393,27 +393,27 @@ namespace WikiFunctions.Parse
                 articleText = IncorrectBr.Replace(articleText, "<br />");
 
             articleText = IncorrectBr2.Replace(articleText, m =>
-                                                {
-                                                    if (m.Groups[1].Value == "left")
-                                                        return "{{clear|left}}";
-                                                    if (m.Groups[1].Value == "right")
-                                                        return "{{clear|right}}";
+                {
+                    if (m.Groups[1].Value == "left")
+                        return "{{clear|left}}";
+                    if (m.Groups[1].Value == "right")
+                        return "{{clear|right}}";
 
-                                                    return "{{clear}}";
-                                                }
-                                              );
+                    return "{{clear}}";
+                }
+            );
             //<br style="clear:both;" clear="all" />
             //<br style="clear:both;" />
             articleText = IncorrectBr3.Replace(articleText, m =>
-                                                {
-                                                    if (m.Groups[1].Value == "left")
-                                                        return "{{clear|left}}";
-                                                    if (m.Groups[1].Value == "right")
-                                                        return "{{clear|right}}";
+                {
+                    if (m.Groups[1].Value == "left")
+                        return "{{clear|left}}";
+                    if (m.Groups[1].Value == "right")
+                        return "{{clear|right}}";
 
-                                                    return "{{clear}}";
-                                                }
-                                               );
+                    return "{{clear}}";
+                }
+            );
 
             // CHECKWIKI errors 55, 63, 66, 77
             if (SimpleTagsList.Any(s => s.Contains("small")))

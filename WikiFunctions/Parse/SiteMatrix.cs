@@ -248,7 +248,7 @@ namespace WikiFunctions.Parse
         {
             languages = new List<string>(languages); // make a copy
             List<string> unordered = new List<string>(),
-                         output = new List<string>();
+                output = new List<string>();
 
             // remove unneeded languages from order
             for (int i = 0; i < order.Count; )
@@ -302,8 +302,8 @@ namespace WikiFunctions.Parse
 
         public int Compare(string x, string y)
         {
-            //should NOT be enclosed into try ... catch - I'd like to see exceptions if something goes wrong,
-            //not quiet missorting --MaxSem
+            // should NOT be enclosed into try ... catch - I'd like to see exceptions if something goes wrong,
+            // not quiet missorting --MaxSem
             int ix = Order[RawCode(x)], iy = Order[RawCode(y)];
 
             if (ix < iy) return -1;

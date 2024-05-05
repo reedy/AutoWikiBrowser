@@ -277,7 +277,7 @@ namespace WikiFunctions.Parse
             textPortion = DateRangeToPresent.Replace(textPortion, @"$1 $2 – $3");
             textPortion = YearRangeToPresent.Replace(textPortion, @"$1–$2");
 
-            // 1965–1968 fixes: only appy year range fix if two years are in order
+            // 1965–1968 fixes: only apply year range fix if two years are in order
             if (!CircaLink)
             {
                 textPortion = FullYearRange.Replace(textPortion, FullYearRangeME);

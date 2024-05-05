@@ -175,7 +175,7 @@ namespace WikiFunctions.Parse
             if (hasPunctuationBeforeTheseTemplates && dupePunctuationFound)
                 articleText = TemplateAfterDupePunctuation.Replace(articleText, "$1$2${template}");
 
-            // if there have been changes need to call FixReferenceTags in case punctation moved didn't have witespace after it
+            // if there have been changes need to call FixReferenceTags in case punctuation moved didn't have whitespace after it
             if (!articleTextOriginal.Equals(articleText))
                 articleText = FixReferenceTags(articleText);
 
@@ -199,7 +199,7 @@ namespace WikiFunctions.Parse
                 {
                     articleText = RefsBeforePunctuationR.Replace(articleText, m => 
                         {
-                            // do not move punctuation if colon after ref on line starting with semi colon
+                            // do not move punctuation if colon after ref on a line starting with semi colon
                             if(m.Groups[2].Value.Equals(":") && LineStartsSemiColon.Matches(articleText).Cast<Match>().Any(l => l.Value.Contains(m.Value)))
                             {
                                 skip = true;
@@ -949,9 +949,9 @@ namespace WikiFunctions.Parse
         {
             // Performance strategy: get all tags in article, filter down to tags that look like ref tags, ignore valid tags, only apply regexes where relevant tags are found
             List<string> AllTagsList = Tools.DeduplicateList((from Match m in AllTagsSpace.Matches(articleText)
-                where m.Value.IndexOf("re", StringComparison.OrdinalIgnoreCase) > 0 
-                && !m.Value.Equals("<ref>") && !m.Value.Equals("</ref>") && !m.Value.StartsWith(@"<references")
-                                                                          select m.Value).ToList());
+                where m.Value.IndexOf("re", StringComparison.OrdinalIgnoreCase) > 0
+                      && !m.Value.Equals("<ref>") && !m.Value.Equals("</ref>") && !m.Value.StartsWith(@"<references")
+                select m.Value).ToList());
 
             // fix incorrect closing </ref>
             articleText = Regex.Replace(articleText, "</ref ?\r\n", "</ref>\r\n");
