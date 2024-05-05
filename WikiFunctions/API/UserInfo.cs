@@ -144,7 +144,7 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// Returns whether a user can protect the page (based on whether they have the protect right; slightly naieve)
+        /// Returns whether a user can protect the page (based on whether they have the protect right; slightly naive)
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
