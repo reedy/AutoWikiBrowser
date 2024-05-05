@@ -3972,12 +3972,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             txtEdit.SelectedText = text;
         }
 
-        private void metadataTemplateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            txtEdit.SelectedText = WikiRegexes.PersonDataDefault;
-            txtEdit.Text = Parsers.PersonData(txtEdit.Text, TheArticle.Name);
-        }
-
         private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (TheArticle != null)
@@ -5313,9 +5307,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             if (TheSession.IsBusy)
                 TheSession.Editor.Abort();
 
-            // English Wikipedia does not use {{Wikify}} // {{Persondata}}
+            // English Wikipedia does not use {{Wikify}}
             wikifyToolStripMenuItem.Visible = !Variables.IsWikipediaEN;
-            metadataTemplateToolStripMenuItem.Visible = !Variables.IsWikipediaEN;
 
             TheArticle = null;
             txtEdit.Text = "";

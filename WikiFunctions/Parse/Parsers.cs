@@ -327,6 +327,17 @@ namespace WikiFunctions.Parse
         private static readonly Regex SentenceClauseIncorrectMdash = new Regex(@"(?!xn--)(\w{2}|⌊⌊⌊⌊M\d+⌋⌋⌋⌋)\s*--\s*(\w)");
         private static readonly Regex SuperscriptMinus = new Regex(@"(<sup>)(?:-|–|—)(?=\d+</sup>)");
 
+        /// <summary>
+        /// Matches the {{birth date}} family of templates
+        /// </summary>
+        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new[] { "birth date", "birth-date", "dob", "bda", "birth date and age", "birthdate and age", "Date of birth and age", "BDA", "Birthdateandage",
+            "Birth Date and age", "birthdate" }, true);
+
+        /// <summary>
+        /// Matches the {{death  date}} family of templates
+        /// </summary>
+        private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new[] { "death date", "death-date", "dda", "death date and age", "deathdateandage", "deathdate" }, true);
+
         // Covered by: FormattingTests.TestMdashes()
         /// <summary>
         /// Replaces hyphens and em-dashes with en-dashes, per [[WP:DASH]]
@@ -1265,14 +1276,17 @@ namespace WikiFunctions.Parse
             if (WikiRegexes.DeathsOrLivingCategory.Matches(cats).Count > 1)
                 return false;
 
-            if (WikiRegexes.Persondata.Matches(articleText).Count == 1
-                || articleText.Contains(@"-bio-stub}}")
+            if (
+                articleText.Contains(@"-bio-stub}}")
                 || articleText.Contains(@"-politician-stub}}")
                 || articleText.Contains(@"-writer-stub}}")
                 || cats.Contains(CategoryLivingPeople)
                 || WikiRegexes.PeopleInfoboxTemplates.Matches(zerothSection).Count == 1
-                || CategoryMatch(cats, YearOfBirthMissingLivingPeople))
+                || CategoryMatch(cats, YearOfBirthMissingLivingPeople)
+            )
+            {
                 return true;
+            }
 
             // articles with bold linking to another article may be linking to the main article on the person the article is about
             // e.g. '''military career of [[Napoleon Bonaparte]]'''

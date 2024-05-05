@@ -69,7 +69,6 @@
     <Compile Include="UtilityFunctionTests.cs" />
     <Compile Include="FootnotesTests.cs" />
     <Compile Include="CategoryTests.cs" />
-    <Compile Include="PersonDataTests.cs" />
     <Compile Include="FixSyntaxTests.cs" />
     <Compile Include="FixNonBreakingSpacesTests.cs" />
     <Compile Include="CiteTemplateDatesTests.cs" />

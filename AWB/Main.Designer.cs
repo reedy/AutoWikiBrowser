@@ -78,7 +78,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.birthdeathCatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.metadataTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
             this.categoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -728,7 +727,6 @@ namespace AutoWikiBrowser
             // 
             this.insertToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.birthdeathCatsToolStripMenuItem,
-            this.metadataTemplateToolStripMenuItem,
             this.toolStripSeparator24,
             this.categoryToolStripMenuItem});
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
@@ -741,13 +739,6 @@ namespace AutoWikiBrowser
             this.birthdeathCatsToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.birthdeathCatsToolStripMenuItem.Text = "Guess birth/death cats";
             this.birthdeathCatsToolStripMenuItem.Click += new System.EventHandler(this.birthdeathCatsToolStripMenuItem_Click);
-            // 
-            // metadataTemplateToolStripMenuItem
-            // 
-            this.metadataTemplateToolStripMenuItem.Name = "metadataTemplateToolStripMenuItem";
-            this.metadataTemplateToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.metadataTemplateToolStripMenuItem.Text = "Meta-data template";
-            this.metadataTemplateToolStripMenuItem.Click += new System.EventHandler(this.metadataTemplateToolStripMenuItem_Click);
             // 
             // toolStripSeparator24
             // 
@@ -4363,7 +4354,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem loadSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem birthdeathCatsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem metadataTemplateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uncategorisedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem alphaSortInterwikiLinksToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
