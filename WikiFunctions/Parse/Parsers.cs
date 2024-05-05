@@ -356,14 +356,14 @@ namespace WikiFunctions.Parse
 
             // replace hyphen with dash and convert Pp. to pp.
             if (dashed.Any(s => PageRangeIncorrectMdash.IsMatch(s)))
-                articleText = PageRangeIncorrectMdash.Replace(articleText, m=>
-                                                              {
-                                                                  string pagespart = m.Groups[1].Value;
-                                                                  if (pagespart.Contains(@"Pp"))
-                                                                      pagespart = pagespart.ToLower();
+                articleText = PageRangeIncorrectMdash.Replace(articleText, m =>
+                {
+                    string pagespart = m.Groups[1].Value;
+                    if (pagespart.Contains(@"Pp"))
+                        pagespart = pagespart.ToLower();
 
-                                                                  return pagespart + m.Groups[2].Value + @"–" + m.Groups[3].Value;
-                                                              });
+                    return pagespart + m.Groups[2].Value + @"–" + m.Groups[3].Value;
+                });
 
             if (dashed.Any(s => UnitTimeRangeIncorrectMdash.IsMatch(s)))
                 articleText = UnitTimeRangeIncorrectMdash.Replace(articleText, @"$1–$2$3$4");
@@ -476,7 +476,7 @@ namespace WikiFunctions.Parse
 
         // covered by RemoveAllWhiteSpaceTests
         /// <summary>
-        /// Applies removes all excess whitespace from the article
+        /// Removes all excess whitespace from the article
         /// Not called by general fixes
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
@@ -718,15 +718,16 @@ namespace WikiFunctions.Parse
             if (articleTextLines.Any(s => SeeAlsoMainArticleQuick.IsMatch(s)))
             {
                 articleText = SeeAlsoLink.Replace(articleText,
-                                                  m => m.Groups[2].Value.Length == 0
-                                                  ? "{{See also|" + m.Groups[1].Value + "}}"
-                                                  : "{{See also|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
+                    m => m.Groups[2].Value.Length == 0
+                        ? "{{See also|" + m.Groups[1].Value + "}}"
+                        : "{{See also|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
 
                 articleText = RegexMainArticle.Replace(articleText,
-                                                       m => m.Groups[2].Value.Length == 0
-                                                       ? "{{Main|" + m.Groups[1].Value + "}}"
-                                                       : "{{Main|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
+                    m => m.Groups[2].Value.Length == 0
+                        ? "{{Main|" + m.Groups[1].Value + "}}"
+                        : "{{Main|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
             }
+
             return articleText;
         }
 
@@ -768,7 +769,7 @@ namespace WikiFunctions.Parse
             List<string> newtags = new List<string>();
             List<string> originalTags = tags;
 
-            // if any tag has unnamed param as firt argument, sort tags with longest part before first = to be first, so we retain the unnamed param
+            // if any tag has unnamed param as firt argument, sort tags with the longest part before first = to be first, so we retain the unnamed param
             if (tags.Any(t => TemplateArg.IsMatch(t)))
                 tags = tags.OrderByDescending(s => (s.Contains("=") ? s.Substring(0, s.IndexOf("=", StringComparison.Ordinal)).Length : s.Length)).ToList();
 
@@ -809,11 +810,11 @@ namespace WikiFunctions.Parse
                             // if param is date, take earlier date
                             try
                             {
-                            DateTime existingDate = Convert.ToDateTime("1 " + existingParamValue);
-                            DateTime tagDate = Convert.ToDateTime("1 " + kvp.Value);
+                                DateTime existingDate = Convert.ToDateTime("1 " + existingParamValue);
+                                DateTime tagDate = Convert.ToDateTime("1 " + kvp.Value);
 
-                            if (tagDate < existingDate)
-                                existingTag = Tools.SetTemplateParameterValue(existingTag, kvp.Key, kvp.Value);
+                                if (tagDate < existingDate)
+                                    existingTag = Tools.SetTemplateParameterValue(existingTag, kvp.Key, kvp.Value);
                             }
                             catch
                             {
@@ -889,7 +890,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex WordWhitespaceEndofline = new Regex(@"(\w+)\s+$", RegexOptions.Compiled);
         private static string CategoryStart;
 
-
         private static readonly Regex TripleBraceNum = new Regex(@"{{{\d}}}", RegexOptions.Compiled);
 
         /// <summary>
@@ -918,9 +918,9 @@ namespace WikiFunctions.Parse
             string imageName = m.Groups[2].Value;
             // only apply underscore/URL encoding fixes to image name (group 2)
             // don't convert %27%27 -- https://phabricator.wikimedia.org/T10932
-            string x = "[[" + Namespace.Normalize(m.Groups[1].Value, 6) + (imageName.Contains("%27%27") ? imageName : CanonicalizeTitle(imageName).Trim()) + m.Groups[3].Value.Trim() + "]]";
-
-            return x;
+            return "[[" + Namespace.Normalize(m.Groups[1].Value, 6) +
+                   (imageName.Contains("%27%27") ? imageName : CanonicalizeTitle(imageName).Trim()) +
+                   m.Groups[3].Value.Trim() + "]]";
         }
 
         private static readonly Regex Temperature = new Regex(@"(?:&deg;|&ordm;|º|°)(?:&nbsp;)?\s*([CcFf])(?![A-Za-z])", RegexOptions.Compiled);
@@ -1022,7 +1022,7 @@ namespace WikiFunctions.Parse
             return articleText.Replace('\x2028', ' ');
             
             //MOS:NBSP states that "A literal hard space, such as one of the Unicode non-breaking space characters, should not be used"
-            //In an ideal situation we should remove unicode nbsp with space and then readd html nbsp using FixSyntax where really needed
+            //In an ideal situation we should remove unicode nbsp with space and then re-add html nbsp using FixSyntax where really needed
             //return articleText.Replace('\x00a0', ' ');
         }
 
@@ -1133,7 +1133,7 @@ namespace WikiFunctions.Parse
 
             //remove image prefix
             image = Tools.WikiDecode(Regex.Replace(image, "^"
-                                                   + Variables.NamespacesCaseInsensitive[Namespace.File], "", RegexOptions.IgnoreCase));
+                        + Variables.NamespacesCaseInsensitive[Namespace.File], "", RegexOptions.IgnoreCase));
 
             // make image name first-letter case insensitive
             image = Tools.FirstLetterCaseInsensitive(HttpUtility.UrlDecode(Regex.Escape(image).Replace("\\ ", "[ _]")));
@@ -1207,7 +1207,8 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle, bool parseTalkPage)
         {
-            if (!Variables.LangCode.Equals("en")
+            if (
+                !Variables.LangCode.Equals("en")
                 || Namespace.Determine(articleTitle).Equals(Namespace.Category)
                 || NotPersonArticles.IsMatch(articleTitle)
                 || ListOf.IsMatch(articleTitle)
@@ -1221,8 +1222,10 @@ namespace WikiFunctions.Parse
                 || NotPersonInfoboxes.IsMatch(articleText)
                 || WikiRegexes.SIAs.IsMatch(articleText)
                 || WikiRegexes.PeopleInfoboxTemplates.Matches(articleText).Count > 1
-               )
+            )
+            {
                 return false;
+            }
 
             Match m2 = IMA.Match(articleText);
 
@@ -1561,8 +1564,8 @@ namespace WikiFunctions.Parse
                     if (mc.Count == 1)
                     {
                         string refimprove = mc[0].Value;
-                        if ((Tools.TurnFirstToLower(Tools.GetTemplateArgument(refimprove, 1)).StartsWith("date")
-                             || Tools.GetTemplateArgumentCount(refimprove) == 0))
+                        if (Tools.TurnFirstToLower(Tools.GetTemplateArgument(refimprove, 1)).StartsWith("date")
+                             || Tools.GetTemplateArgumentCount(refimprove) == 0)
                         {
                             // if also have existing BLP sources then remove refimprove
                             if (Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
@@ -1590,10 +1593,10 @@ namespace WikiFunctions.Parse
             // clean up Template:/underscores in infobox names
             if (TemplateExists(alltemplates, WikiRegexes.InfoBox))
                 articleText = WikiRegexes.InfoBox.Replace(articleText, m =>
-                                                      {
-                                                          string newName = CanonicalizeTitle(m.Groups[1].Value);
-                                                          return (newName.Equals(m.Groups[1].Value) ? m.Value : Tools.RenameTemplate(m.Value, newName));
-                                                      });
+                {
+                    string newName = CanonicalizeTitle(m.Groups[1].Value);
+                    return (newName.Equals(m.Groups[1].Value) ? m.Value : Tools.RenameTemplate(m.Value, newName));
+                });
 
             if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
                 articleText = Dablinks(articleText);
@@ -1689,7 +1692,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string ExternalURLToInternalLink(string articleText)
         {
-            // TODO wikitravel support?
+            // TODO: wikitravel support?
             articleText = ExtToIn.Replace(articleText, "[[$2$3$4$5$6$7$8:$1:$9|$10]]");
             articleText = MetaCommonsIncubatorQualityExternalLink.Replace(articleText, "[[$1$2$3$4:$5|$6]]");
             articleText = WikiaExternalLink.Replace(articleText, "[[wikia:$1:$2|$3]]");

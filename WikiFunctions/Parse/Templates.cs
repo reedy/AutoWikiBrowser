@@ -65,7 +65,6 @@ namespace WikiFunctions.Parse
 
             SetAllTemplateRedirectsHashSet(AllRedirectsList);
 
-
             return TRs;
         }
         
@@ -368,7 +367,8 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in Tools.NestedTemplateRegex("AWB rename template parameter").Matches(text))
             {
-                string templatename = Tools.TurnFirstToLower(Tools.GetTemplateArgument(m.Value, 1)), oldparam = Tools.GetTemplateArgument(m.Value, 2),
+                string templatename = Tools.TurnFirstToLower(Tools.GetTemplateArgument(m.Value, 1)),
+                    oldparam = Tools.GetTemplateArgument(m.Value, 2),
                 newparam = Tools.GetTemplateArgument(m.Value, 3);
 
                 WikiRegexes.TemplateParameters Params;

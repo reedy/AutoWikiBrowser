@@ -559,7 +559,7 @@ namespace WikiFunctions.Parse
             string cats = GetCats(articleText);
 
             bool dolmatch = WikiRegexes.DeathsOrLivingCategory.IsMatch(cats),
-            bimatch = WikiRegexes.BirthsCategory.IsMatch(cats);
+                bimatch = WikiRegexes.BirthsCategory.IsMatch(cats);
 
             // no work to do if already has a birth and a death/living cat
             if (dolmatch && bimatch)
@@ -707,7 +707,7 @@ namespace WikiFunctions.Parse
                 int deathyearint = int.Parse(deathyear);
 
                 // logical valdiation of dates
-                if (birthyearint <= (deathyearint-2) && (deathyearint - birthyearint) <= 125)
+                if (birthyearint <= (deathyearint - 2) && (deathyearint - birthyearint) <= 125)
                 {
                     string birthpart = zerothSection.Substring(m.Index, m.Groups[2].Index - m.Index),
                     deathpart = zerothSection.Substring(m.Groups[2].Index, (m.Value.Length + m.Index) - m.Groups[2].Index);
@@ -746,9 +746,9 @@ namespace WikiFunctions.Parse
         }
 
         private const string YearOfBirthMissingLivingPeople = "Year of birth missing (living people)",
-        YearOfBirthMissing = "Year of birth missing",
-        YearOfBirthUncertain = "Year of birth uncertain",
-        YearofDeathMissing = "Year of death missing";
+            YearOfBirthMissing = "Year of birth missing",
+            YearOfBirthUncertain = "Year of birth uncertain",
+            YearofDeathMissing = "Year of death missing";
 
         private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category *: *\d{4} births\s*(?:\||\]\])");
         private static readonly Regex CatYearDeaths = new Regex(@"\[\[Category *: *[0-9]{1,4} (deaths|suicides)\s*(?:\||\]\])");
