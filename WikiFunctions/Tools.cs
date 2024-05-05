@@ -1368,7 +1368,7 @@ namespace WikiFunctions
         /// <param name="append"></param>
         public static void WriteTextFile(string message, string file, bool append)
         {
-            if (file.Contains(":")) //If another drive, dont append startup path
+            if (file.Contains(":")) //If another drive, don't append startup path
                 WriteTextFileAbsolutePath(message, file, append);
             else
                 WriteTextFileAbsolutePath(message, Application.StartupPath + DirectoryDelimiter() + file, append);
@@ -1419,7 +1419,8 @@ namespace WikiFunctions
         /// Beeps
         /// </summary>
         public static void Beep()
-        {//public domain sounds from http://www.partnersinrhyme.com/soundfx/PDsoundfx/beep.shtml
+        {
+            // public domain sounds from http://www.partnersinrhyme.com/soundfx/PDsoundfx/beep.shtml
             Sound.Stream = Properties.Resources.beep1;
             Sound.Play();
         }
