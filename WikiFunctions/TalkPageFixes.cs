@@ -358,7 +358,7 @@ namespace WikiFunctions.TalkPages
             "WikiProject Banners", "WikiProjectBanners",
             "WPBannerShell",
             "Bannershell", "banner shell",
-            "Shell",
+            "Shell","asffss"
         });
         private static readonly List<string> Nos = new List<string>(new[] { "blp", "blpo", "activepol" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
