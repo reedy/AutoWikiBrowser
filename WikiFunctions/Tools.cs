@@ -1649,7 +1649,8 @@ Message: {2}
         public static void OpenArticleLogInBrowser(string page)
         {
             OpenURLInBrowser(Variables.URLLong +
-                             "index.php?title=Special:Log&type=&user=&page=" + page + "&year=&month=-1&tagfilter=&hide_patrol_log=1");
+                             "index.php?title=Special:Log&type=&user=&page=" + page +
+                             "&year=&month=-1&tagfilter=&hide_patrol_log=1");
         }
 
         /// <summary>
@@ -1940,7 +1941,7 @@ Message: {2}
 
         // Covered by NamespaceFunctions.ToTalkOnList()
         /// <summary>
-        /// Turns a list of articles into an list of the associated talk pages.
+        /// Turns a list of articles into  list of the associated talk pages.
         /// </summary>
         /// <param name="list">The list of articles.</param>
         /// <returns>The list of the talk pages.</returns>
