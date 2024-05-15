@@ -50,7 +50,7 @@ now foo
         public void FixPeopleCategoriesBirth()
         {
             // birth
-            const string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}}";
+            const string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Infobox actor}}";
             const string b2 = @"[[Category:1960 births]]";
             Assert.AreEqual(a1 + "\r\n" + b2, Parsers.FixPeopleCategories(a1, "foo"));
 
@@ -92,16 +92,16 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(b12, Parsers.FixPeopleCategories(b12, "foo"));
 
             // Date of birth missing
-            string m1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}}
+            string m1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Infobox actor}}
 [[Category:Date of birth missing]]";
             Assert.AreEqual(m1 + "\r\n" + b2, Parsers.FixPeopleCategories(m1, "foo"), "Date of birth missing cat retained when only yob");
 
-            m1 = @"'''Fred Smith''' {{birth date and age|1960||}} is a bloke. {{Persondata}}
+            m1 = @"'''Fred Smith''' {{birth date and age|1960||}} is a bloke. {{Infobox actor}}
 [[Category:Date of birth missing]]";
             Assert.AreEqual(m1 + "\r\n" + b2, Parsers.FixPeopleCategories(m1, "foo"), "Date of birth missing cat retained when only yob in bda");
 
             const string DobMCat = @"[[Category:Date of birth missing]]";
-            const string m2 = @"'''Fred Smith''' {{birth date and age|1960|01|9}} is a bloke. {{Persondata}}";
+            const string m2 = @"'''Fred Smith''' {{birth date and age|1960|01|9}} is a bloke. {{Infobox actor}}";
             Assert.AreEqual(m2 + "\r\n" + b2, Parsers.FixPeopleCategories(m2 + "\r\n" + DobMCat, "foo"), "Date of birth missing cat removed when full date");
 
             const string DobMCatL = @"[[Category:Date of birth missing (living people)|Foo]]";
@@ -111,7 +111,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
         [Test]
         public void FixPeopleCategoriesUncat()
         {
-            const string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}} {{Uncat|date=May 2010}}";
+            const string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Infobox actor}} {{Uncat|date=May 2010}}";
             const string b2 = @"[[Category:1960 births]]";
             Assert.AreEqual(a1.Replace("Uncat", "Improve categories") + "\r\n" + b2, Parsers.FixPeopleCategories(a1, "foo"), "renames uncat to cat improve when cats added");
 
@@ -125,7 +125,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             const string b2 = @"[[Category:1960 births]]";
 
             // death
-            const string a3 = @"'''Fred Smith''' (died 1960) is a bloke. {{Persondata}}";
+            const string a3 = @"'''Fred Smith''' (died 1960) is a bloke. {{Infobox actor}}";
             const string b3 = @"[[Category:1960 deaths]]";
             Assert.AreEqual(a3 + "\r\n" + b3, Parsers.FixPeopleCategories(a3, "foo"));
 
@@ -136,11 +136,11 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 [[Category:1960 births|Smith, Fred]]";
             Assert.AreEqual(d + "\r\n" + @"[[Category:1990 deaths|Smith, Fred]]", Parsers.FixPeopleCategories(d, "foo"));
 
-            const string d2 = @"'''Johnny Sandon''' (originally named '''Billy Beck''') (born in 1960, in Lıverpool, Lancashire died 23 December 1990) was {{Persondata}}";
+            const string d2 = @"'''Johnny Sandon''' (originally named '''Billy Beck''') (born in 1960, in Lıverpool, Lancashire died 23 December 1990) was {{Infobox actor}}";
             Assert.AreEqual(d2 + "\r\n" + b2 + "\r\n" + @"[[Category:1990 deaths]]", Parsers.FixPeopleCategories(d2, "foo"));
 
             // BC death
-            const string d3 = @"'''Aeacides''' ({{lang-el|Aἰακίδης}}; died 313 BC), king {{persondata}}";
+            const string d3 = @"'''Aeacides''' ({{lang-el|Aἰακίδης}}; died 313 BC), king {{Infobox actor}}";
             Assert.AreEqual(d3 + "\r\n" + @"[[Category:313 BC deaths]]", Parsers.FixPeopleCategories(d3, "foo"));
 
             const string d4 = @"Some words {{death date and age|1960|01|9}}";
@@ -153,7 +153,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             const string d5 = @"Some words {{death date and age|1960|01|9}}";
             Assert.AreEqual(d5 + @"[[Category:1960 deaths]]", Parsers.FixPeopleCategories(d4 + @"[[Category:Year of death missing]]", "foo"));
 
-            const string d6 = @"'''Foo''' (died 960) was {{persondata}}";
+            const string d6 = @"'''Foo''' (died 960) was {{Infobox actor}}";
             Assert.AreEqual(d6 + @"[[Category:960 deaths]]", Parsers.FixPeopleCategories(d6 + @"[[Category:Year of death missing]]", "Foo"));
         }
 
@@ -188,7 +188,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(g, Parsers.FixPeopleCategories(g, "foo"));
 
             const string h = @"'''Fred Smith''' (born 1950) is a bloke.
-{{Persondata}}
+{{}}
 [[:Category:1950 births|Smith, Fred]]";
             Assert.AreEqual(h, Parsers.FixPeopleCategories(h, "User:Foo"));
         }
@@ -199,47 +199,47 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             // year of birth uncertain
             const string u = "\r\n" + @"[[Category:Year of birth uncertain]]";
 
-            const string u2 = @"'''Charles Meik''' (born around 1330 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
+            const string u2 = @"'''Charles Meik''' (born around 1330 in [[Ghent]] - [[22 July]] [[1387]]) {{Infobox actor}}";
             Assert.AreEqual(u2 + u + @"
 [[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2, "foo"));
 
-            const string u2a = @"'''Charles Meik''' (born either 1330 or 1331 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
+            const string u2a = @"'''Charles Meik''' (born either 1330 or 1331 in [[Ghent]] - [[22 July]] [[1387]]) {{Infobox actor}}";
             Assert.AreEqual(u2a + u + @"
 [[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2a, "foo"));
 
-            const string u2b = @"'''Charles Meik''' (born ~1330 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
+            const string u2b = @"'''Charles Meik''' (born ~1330 in [[Ghent]] - [[22 July]] [[1387]]) {{Infobox actor}}";
             Assert.AreEqual(u2b + u + @"
 [[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2b, "foo"));
 
-            const string u3 = @"'''Yusuf Ibn Muhammad Ibn Yusuf al-Fasi''' ([[1530]]/[[1531|31]]{{Fact|date=February 2007}} in [[Ksar-el-Kebir]], [[Morocco]] – 14 August [[1604]] in [[Fes, Morocco]]) {{persondata}}";
+            const string u3 = @"'''Yusuf Ibn Muhammad Ibn Yusuf al-Fasi''' ([[1530]]/[[1531|31]]{{Fact|date=February 2007}} in [[Ksar-el-Kebir]], [[Morocco]] – 14 August [[1604]] in [[Fes, Morocco]]) {{Infobox actor}}";
             Assert.AreEqual(u3 + u + @"
 [[Category:1604 deaths]]", Parsers.FixPeopleCategories(u3, "foo"));
 
             // no matches when approximate year of birth
-            const string b12 = @"'''Judith Victor Grabiner''' (born about 1938) is {{Persondata}}";
+            const string b12 = @"'''Judith Victor Grabiner''' (born about 1938) is {{Infobox actor}}";
             Assert.AreEqual(b12 + u, Parsers.FixPeopleCategories(b12, "foo"));
 
-            const string b13 = @"'''Judith Victor Grabiner''' (born circa 1938) is {{Persondata}}";
+            const string b13 = @"'''Judith Victor Grabiner''' (born circa 1938) is {{Infobox actor}}";
             Assert.AreEqual(b13 + u, Parsers.FixPeopleCategories(b13, "foo"));
 
-            const string b14 = @"'''Judith Victor Grabiner''' (born before 1938) is {{Persondata}}";
+            const string b14 = @"'''Judith Victor Grabiner''' (born before 1938) is {{Infobox actor}}";
             Assert.AreEqual(b14 + u, Parsers.FixPeopleCategories(b14, "foo"));
 
-            const string b15 = @"'''Judith Victor Grabiner''' (born 1938 or 1939) is {{Persondata}}";
+            const string b15 = @"'''Judith Victor Grabiner''' (born 1938 or 1939) is {{Infobox actor}}";
             Assert.AreEqual(b15 + u, Parsers.FixPeopleCategories(b15, "foo"));
 
             // born BC
-            const string b16 = @"'''Phillipus Rhodicus''' (born 220 BC) was a {{Persondata}}";
+            const string b16 = @"'''Phillipus Rhodicus''' (born 220 BC) was a {{Infobox actor}}";
             Assert.AreEqual(b16 + "\r\n" + @"[[Category:220 BC births]]", Parsers.FixPeopleCategories(b16, "foo"));
 
             // no change: birth date not present so not 'uncertain'
             const string n1 = @"'''Thomas F. Goreau''' (born in [[Germany]], died 1970 in [[Jamaica]]) was [[Category:1970 deaths]]";
             Assert.AreEqual(n1, Parsers.FixPeopleCategories(n1, "foo"));
 
-            const string n2 = @"'''Charles Meik''' (born? - 1923) was an {{Persondata}}";
+            const string n2 = @"'''Charles Meik''' (born? - 1923) was an {{Infobox actor}}";
             Assert.AreEqual(n2, Parsers.FixPeopleCategories(n2, "foo"));
 
-            const string n2a = @"'''Anatoly Rasskazov''' (born 1960(?)) was {{persondata}}";
+            const string n2a = @"'''Anatoly Rasskazov''' (born 1960(?)) was {{Infobox actor}}";
             Assert.AreEqual(n2a, Parsers.FixPeopleCategories(n2a, "foo"));
 
             // no changes
@@ -276,18 +276,18 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 [[Category:1510 deaths]]", "foo"));
 
             // don't pick up outside of zeroth section
-            const string n6 = @"foo {{persondata}}
+            const string n6 = @"foo {{Infobox actor}}
 == hello ==
 {{birth date and age|1960|01|9}}";
             Assert.AreEqual(n6, Parsers.FixPeopleCategories(n6, "foo"));
 
             // don't grab a number out of a reference
-            const string n7 = @"'''Buck Peterson''' (born in [[Minnesota, United States]]<ref name=extreme_1970/>) {{persondata}}";
+            const string n7 = @"'''Buck Peterson''' (born in [[Minnesota, United States]]<ref name=extreme_1970/>) {{Infobox actor}}";
 
             Assert.AreEqual(n7, Parsers.FixPeopleCategories(n7, "foo"));
 
             // don't accept if dash before year: could be death date
-            const string n8 = @"'''Wilhem Heinrich Kramer''' (born [[Dresden]] – 1765) {{persondata}}";
+            const string n8 = @"'''Wilhem Heinrich Kramer''' (born [[Dresden]] – 1765) {{Infobox actor}}";
 
             Assert.AreEqual(n8, Parsers.FixPeopleCategories(n8, "foo"));
 
@@ -303,17 +303,17 @@ It is suggested that Æthelstan was probably the king who defeated and killed th
 
             const string n10 = @"'''Fred''' blah
 died 2002
-{{persondata}}";
+{{Infobox actor}}";
 
             Assert.AreEqual(n10, Parsers.FixPeopleCategories(n10, "foo"));
 
             // don't grab numbers out of long wikilinks
-            const string n11 = @"'''Marcus Caecilius Metellus''' was a son of [[Lucius Caecilius Metellus (died 221 BC)|Lucius Caecilius Metellus]]. Deported {{persondata}}";
+            const string n11 = @"'''Marcus Caecilius Metellus''' was a son of [[Lucius Caecilius Metellus (died 221 BC)|Lucius Caecilius Metellus]]. Deported {{Infobox actor}}";
 
             Assert.AreEqual(n11, Parsers.FixPeopleCategories(n11, "foo"));
 
             // birth and death
-            const string bd1 = @"''Foo''' (8 May 1920 - 11 June 2004) was {{persondata}}";
+            const string bd1 = @"''Foo''' (8 May 1920 - 11 June 2004) was {{Infobox actor}}";
 
             const string bd1a = @"
 [[Category:1920 births]]", bd1b = @"
@@ -329,68 +329,68 @@ died 2002
 ";
             Assert.AreEqual(image + bd1 + bd1a + bd1b, Parsers.FixPeopleCategories(image + bd1, "foo"), "Ignore File link at start of page");
 
-            const string bd2 = @"''Foo''' (8 May 1920 – 11 June 2004) was {{persondata}}";
+            const string bd2 = @"''Foo''' (8 May 1920 – 11 June 2004) was {{Infobox actor}}";
             Assert.AreEqual(bd2 + bd1a + bd1b, Parsers.FixPeopleCategories(bd2, "foo"));
 
-            const string bd3 = @"'''Foo''' (8 May 1920 somewhere &ndash;11 June 2004) was {{persondata}}";
+            const string bd3 = @"'''Foo''' (8 May 1920 somewhere &ndash;11 June 2004) was {{Infobox actor}}";
             Assert.AreEqual(bd3 + bd1a + bd1b, Parsers.FixPeopleCategories(bd3, "foo"));
 
             // approximate date check still applied
-            string bd4 = @"''Foo''' (Circa 8 May 1920 – 11 June 2004) was {{persondata}}";
+            string bd4 = @"''Foo''' (Circa 8 May 1920 – 11 June 2004) was {{Infobox actor}}";
             Assert.AreEqual(bd4 + u + @"
 [[Category:2004 deaths]]", Parsers.FixPeopleCategories(bd4, "foo"));
 
-            const string bd5 = @"'''Autpert Ambrose (Ambroise)''' (ca. 730 – 784) {{persondata}}
+            const string bd5 = @"'''Autpert Ambrose (Ambroise)''' (ca. 730 – 784) {{Infobox actor}}
 [[Category:778 deaths]]";
 
             Assert.AreEqual(bd5 + u, Parsers.FixPeopleCategories(bd5, "foo"));
 
-            const string bd6 = @"'''Saint Bruno of Querfurt''' (c. 970 – February 14 1009) (also known as ''Brun'' and ''Boniface''  {{persondata}}
+            const string bd6 = @"'''Saint Bruno of Querfurt''' (c. 970 – February 14 1009) (also known as ''Brun'' and ''Boniface''  {{Infobox actor}}
 [[Category:1009 deaths]]";
 
             Assert.AreEqual(bd6 + u, Parsers.FixPeopleCategories(bd6, "foo"));
 
             // all correct already
-            const string bd7 = @"'''Agapetus II''' (born in [[Rome]]; died October, 955) was {{persondata}}
+            const string bd7 = @"'''Agapetus II''' (born in [[Rome]]; died October, 955) was {{Infobox actor}}
 [[Category:955 deaths]]";
 
             Assert.AreEqual(bd7, Parsers.FixPeopleCategories(bd7, "foo"));
 
             // no change
-            const string bd8 = @"'''Husain''' (d. April or May 1382) was a [[Jalayirids|Jalayirid]] ruler (1374-1382). He was the son of [[Shaikh Uvais]]. {{persondata}}
+            const string bd8 = @"'''Husain''' (d. April or May 1382) was a [[Jalayirids|Jalayirid]] ruler (1374-1382). He was the son of [[Shaikh Uvais]]. {{Infobox actor}}
 [[Category:1382 deaths]]";
 
             // add death and uncertain birth
             Assert.AreEqual(bd8, Parsers.FixPeopleCategories(bd8, "foo"));
 
-            const string bd9 = @"'''Mannalargenna''' (ca. 1770-1835), a [[Tasmanian Aborigine]], was the chief of the Ben Lomond tribe (Plangermaireener). {{persondata}}";
+            const string bd9 = @"'''Mannalargenna''' (ca. 1770-1835), a [[Tasmanian Aborigine]], was the chief of the Ben Lomond tribe (Plangermaireener). {{Infobox actor}}";
 
             Assert.AreEqual(bd9 + @"
 [[Category:Year of birth uncertain]]
 [[Category:1835 deaths]]", Parsers.FixPeopleCategories(bd9, "foo"));
 
-            const string bd9b = @"'''Mannalargenna''' (c 1770-1835), a [[Tasmanian Aborigine]], was the chief of the Ben Lomond tribe (Plangermaireener). {{persondata}}";
+            const string bd9b = @"'''Mannalargenna''' (c 1770-1835), a [[Tasmanian Aborigine]], was the chief of the Ben Lomond tribe (Plangermaireener). {{Infobox actor}}";
 
             Assert.AreEqual(bd9b + @"
 [[Category:Year of birth uncertain]]
 [[Category:1835 deaths]]", Parsers.FixPeopleCategories(bd9b, "foo"));
 
-            const string bd10 = @"'''King Godfred''' (ruled 804 - 810) {{persondata}}";
+            const string bd10 = @"'''King Godfred''' (ruled 804 - 810) {{Infobox actor}}";
             Assert.AreEqual(bd10, Parsers.FixPeopleCategories(bd10, "foo"));
 
-            const string bd10b = @"'''King Godfred''' (born Abe Smith, transitioned 2005) {{persondata}}";
+            const string bd10b = @"'''King Godfred''' (born Abe Smith, transitioned 2005) {{Infobox actor}}";
             Assert.AreEqual(bd10b, Parsers.FixPeopleCategories(bd10b, "foo"));
 
-            const string bd11 = @"'''Rabat I''' (1616/7 - 1644/5) {{persondata}}";
+            const string bd11 = @"'''Rabat I''' (1616/7 - 1644/5) {{Infobox actor}}";
 
             Assert.AreEqual(bd11 + u, Parsers.FixPeopleCategories(bd11, "foo"));
 
-            const string bd11b = @"'''Rabat I''' (born 1969-1970) {{persondata}}
+            const string bd11b = @"'''Rabat I''' (born 1969-1970) {{Infobox actor}}
 [[Category:Year of birth uncertain]]";
 
             Assert.AreEqual(bd11b, Parsers.FixPeopleCategories(bd11b, "foo"));
 
-            const string bd12 = @"'''Lorenzo Monaco''' (born  '''Piero di Giovanni''' [[Circa|c.]]1370-1425) {{persondata}}
+            const string bd12 = @"'''Lorenzo Monaco''' (born  '''Piero di Giovanni''' [[Circa|c.]]1370-1425) {{Infobox actor}}
 [[Category:1425 deaths]]";
 
             Assert.AreEqual(bd12 + u, Parsers.FixPeopleCategories(bd12, "foo"));
@@ -401,53 +401,53 @@ died 2002
             Assert.AreEqual(bd13, Parsers.FixPeopleCategories(bd13, "foo"));
 
             // with flourit both dates are uncertain
-            const string bd14 = @"'''Asclepigenia''' (fl. 430  – 485 AD) was {{persondata}}";
+            const string bd14 = @"'''Asclepigenia''' (fl. 430  – 485 AD) was {{Infobox actor}}";
             Assert.AreEqual(bd14, Parsers.FixPeopleCategories(bd14, "foo"));
 
-            const string bd14a = @"'''Asclepigenia''' ([[floruit|fl]]. 430  – 485 AD) was {{persondata}}";
+            const string bd14a = @"'''Asclepigenia''' ([[floruit|fl]]. 430  – 485 AD) was {{Infobox actor}}";
             Assert.AreEqual(bd14a, Parsers.FixPeopleCategories(bd14a, "foo"));
 
-            const string bd14b = @"'''Asclepigenia''' (flourished 430  – 485 AD) was {{persondata}}";
+            const string bd14b = @"'''Asclepigenia''' (flourished 430  – 485 AD) was {{Infobox actor}}";
             Assert.AreEqual(bd14b, Parsers.FixPeopleCategories(bd14b, "foo"));
 
-            const string bd14c = @"'''Asclepigenia''' ({{fl}} 430) was {{persondata}}";
+            const string bd14c = @"'''Asclepigenia''' ({{fl}} 430) was {{Infobox actor}}";
             Assert.AreEqual(bd14c, Parsers.FixPeopleCategories(bd14c, "foo"));
 
-            const string bd14d = @"'''Asclepigenia''' ({{floruit}} 430) was {{persondata}}";
+            const string bd14d = @"'''Asclepigenia''' ({{floruit}} 430) was {{Infobox actor}}";
             Assert.AreEqual(bd14d, Parsers.FixPeopleCategories(bd14d, "foo"));
 
             // no data to use here
-            const string no1 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
+            const string no1 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{Infobox actor}}";
             Assert.AreEqual(no1, Parsers.FixPeopleCategories(no1, "foo"));
 
-            const string no2 = @"'''Trebellianus''' (d. 260-268), also {{persondata}}";
+            const string no2 = @"'''Trebellianus''' (d. 260-268), also {{Infobox actor}}";
             Assert.AreEqual(no2, Parsers.FixPeopleCategories(no2, "foo"));
 
             const string no3 = @"'''[[Grand Ayatollah]] {{unicode|Muhammad Sādiq as-Sadr}}''' ([[Arabic]] محمّد صادق الصدر ) is an [[Iraq]]i [[Twelver]] [[Shi'a]] cleric of high rank. He is the father of [[Muqtada al-Sadr]] (born 1973). Sometimes the son is called by his father's name. He is the cousin of Grand Ayatollah [[Muhammad Baqir al-Sadr]] (died 1980). The al-Sadr family are considered [[Sayyid]], which is used among the Shia to denote persons descending directly from [[Muhammad]]. The family's lineage is traced through Imam [[Jafar al-Sadiq]] and his son Imam [[Musa al-Kazim]] the sixth and seventh Shia Imams respectively.";
             Assert.AreEqual(no3, Parsers.FixPeopleCategories(no3, "foo"));
 
-            const string no4 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
+            const string no4 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{Infobox actor}}";
             Assert.AreEqual(no4, Parsers.FixPeopleCategories(no4, "foo"));
 
             const string no5 = @"'''John Coggeshall''' (chr. December 9, 1601) Charles
 [[Category:1835 deaths]]";
             Assert.AreEqual(no5, Parsers.FixPeopleCategories(no5, "foo"));
 
-            const string ISO1 = @"'''Ben Moon''' (born [[1960-06-13]]) is a {{persondata}}";
+            const string ISO1 = @"'''Ben Moon''' (born [[1960-06-13]]) is a {{Infobox actor}}";
             Assert.AreEqual(ISO1 + "\r\n" + b2, Parsers.FixPeopleCategories(ISO1, "foo"));
 
-            const string bd15 = @"'''Kristina of Norway''' (born in [[1234]] in [[Bergen]] &ndash; circa [[1262]]), sometimes {{persondata}}";
+            const string bd15 = @"'''Kristina of Norway''' (born in [[1234]] in [[Bergen]] &ndash; circa [[1262]]), sometimes {{Infobox actor}}";
             Assert.AreEqual(bd15 + @"
 [[Category:1234 births]]", Parsers.FixPeopleCategories(bd15, "foo"));
 
             // sortkey usage
-            const string s1 = @"'''Claire Hazel Weekes''' (1903&mdash;1990) was {{persondata}}
+            const string s1 = @"'''Claire Hazel Weekes''' (1903&mdash;1990) was {{Infobox actor}}
 [[Category:1990 deaths|Weekes, Claire]]";
 
             Assert.AreEqual(s1 + @"
 [[Category:1903 births|Weekes, Claire]]", Parsers.FixPeopleCategories(s1, "foo"));
 
-            const string m1 = @"'''Hans G Helms''' (born [[8 June]] [[1960]] in [[Teterow]]; full name: ''Hans Günter Helms''; the bearer of the name does not use a full stop after the initial for his middle name) is a [[Germany|German]] experimental writer, composer, and social and economic analyst and critic. {{persondata}}";
+            const string m1 = @"'''Hans G Helms''' (born [[8 June]] [[1960]] in [[Teterow]]; full name: ''Hans Günter Helms''; the bearer of the name does not use a full stop after the initial for his middle name) is a [[Germany|German]] experimental writer, composer, and social and economic analyst and critic. {{Infobox actor}}";
 
             Assert.AreEqual(m1 + "\r\n" + b2, Parsers.FixPeopleCategories(m1, "foo"));
 
@@ -457,29 +457,29 @@ died 2002
 
             Assert.AreEqual(m2, Parsers.FixPeopleCategories(m2, "foo"));
 
-            const string m3 = @"Foo {{death date and age|2008|8|21|1942|7|13|mf=y}} {{persondata}}";
+            const string m3 = @"Foo {{death date and age|2008|8|21|1942|7|13|mf=y}} {{Infobox actor}}";
             const string m3a = @"
 [[Category:1942 births]]
 [[Category:2008 deaths]]";
 
             Assert.AreEqual(m3 + m3a, Parsers.FixPeopleCategories(m3, "foo"));
 
-            const string bug1 = @"'''Jane Borghesi''' (born 17 June{{Fact|date=January 2009}}, [[Melbourne]]) {{persondata}}";
+            const string bug1 = @"'''Jane Borghesi''' (born 17 June{{Fact|date=January 2009}}, [[Melbourne]]) {{Infobox actor}}";
             Assert.AreEqual(bug1, Parsers.FixPeopleCategories(bug1, "foo"), "Don't take year from date param of template e.g. maintenance tag");
 
-            const string miss1 = @"'''Alonza J. White''' (ca 1836 &ndash; [[August 29]] [[1912]]) {{persondata}}
+            const string miss1 = @"'''Alonza J. White''' (ca 1836 &ndash; [[August 29]] [[1912]]) {{Infobox actor}}
 {{DEFAULTSORT:White, Alonza J}}
 [[Category:1912 deaths]]
 [[Category:People from St. John's, Newfoundland and Labrador]]", miss2 = @"[[Category:Year of birth missing]]";
 
             Assert.AreEqual(miss1 + u, Parsers.FixPeopleCategories(miss1 + "\r\n" + miss2, "foo"));
 
-            const string both1 = @"'''Mary Ellen Wilson''' (1864–1956)<ref name=""amhum"">{{foo}}</ref> {{persondata}}", both2 = @"[[Category:1864 births]]
+            const string both1 = @"'''Mary Ellen Wilson''' (1864–1956)<ref name=""amhum"">{{foo}}</ref> {{Infobox actor}}", both2 = @"[[Category:1864 births]]
 [[Category:1956 deaths]]";
 
             Assert.AreEqual(both1 + "\r\n" + both2, Parsers.FixPeopleCategories(both1, "foo"));
 
-            const string bug2 = @"'''Foo''' (born {{circa}} 1925) was {{persondata}}";
+            const string bug2 = @"'''Foo''' (born {{circa}} 1925) was {{Infobox actor}}";
             Assert.AreEqual(bug2 + u, Parsers.FixPeopleCategories(bug2, "foo"));
 
             const string bug3 = @"'''Joshua William Allen, 6th Viscount Allen''' [[Master of Arts (Oxbridge)|MA]] ({{circa}} [[1782]]–[[21 September]] [[1845]]) was an [[Irish peerage|Irish peer]].
@@ -542,7 +542,7 @@ died 2002
         [Test]
         public void FixPeopleCategoriesFromInfobox()
         {
-            const string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}}";
+            const string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Infobox actor}}";
             // infobox scraping
             const string infob1 = @"{{Infobox Officeholder
 |honorific-prefix   =
@@ -560,7 +560,7 @@ died 2002
 |alma_mater      =
 |occupation      =brickmason, mercha
 
-}} {{persondata}}", infob2 = @"{{Infobox Officeholder
+}}", infob2 = @"{{Infobox Officeholder
 |honorific-prefix   =
 |name            = John Footus
 |term_start       = 144 BCE
@@ -574,7 +574,7 @@ died 2002
 |alma_mater      =
 |occupation      =brickmason, mercha
 
-}} {{persondata}}", infob1a = @"{{Infobox Officeholder
+}}", infob1a = @"{{Infobox Officeholder
 |honorific-prefix   =
 |name            = John C. Zimmerman, Sr.
 |term_start       = 1895
@@ -590,7 +590,7 @@ died 2002
 |alma_mater      =
 |occupation      =brickmason, mercha
 
-}} {{persondata}}", infob1b = @"{{Infobox Officeholder
+}}", infob1b = @"{{Infobox Officeholder
 |honorific-prefix   =
 |name            = John C. Zimmerman, Sr.
 |term_start       = 1895
@@ -606,7 +606,7 @@ died 2002
 |alma_mater      =
 |occupation      =brickmason, mercha
 
-}} {{persondata}}";
+}}";
 
             // scraped from infobox
             Assert.AreEqual(infob1 + @"
@@ -645,7 +645,7 @@ died 2002
 |alma_mater      =
 |occupation      =brickmason, mercha
 
-}} {{persondata}}";
+}}";
             Assert.AreEqual(infob3, Parsers.FixPeopleCategories(infob3, "foo"), "no change if only decade of birth");
 
             const string infob4 = @"{{Infobox Officeholder
@@ -660,7 +660,7 @@ died 2002
 |alma_mater      =
 |occupation      =brickmason, mercha
 
-}} {{persondata}}";
+}}";
             Assert.AreEqual(infob4, Parsers.FixPeopleCategories(infob4, "foo"), "no change if only floruit");
 
             string unc1 = @"'''Aaron Walden''' (born at [[Warsaw]] about 1835, died 1912) was a Polish Jewish [[Talmudist]], editor, and author.
@@ -687,7 +687,7 @@ died 2002
 |birth_date      = 
 |death_date= XXX{{sfn|Smith|2005}}
 |death_place=
-}} {{persondata}}";
+}}";
             Assert.AreEqual(infob5, Parsers.FixPeopleCategories(infob5, "foo"), "ignore ref for death year");
 
             // don't take death year out of {{birth date}}
@@ -697,7 +697,7 @@ died 2002
 |birth_date      = 
 |death_date= {{birth date|2005|1|1}}
 |death_place=
-}} {{persondata}}
+}}
 [[Category:2005 births]]";
             Assert.AreEqual(infob6, Parsers.FixPeopleCategories(infob6, "foo"), "ignore ref for death year");
         
@@ -708,7 +708,7 @@ died 2002
         {
             string refs = @"<ref>foo</ref> and <ref>foo</ref> and <ref>foo</ref> and <ref>foo</ref> and <ref>foo</ref> and <ref>foo</ref> ";
 
-            string Over20Refs = refs + refs + refs + refs + @"'''Fred Smith''' (born 1980) is a bloke. {{Persondata}}";
+            string Over20Refs = refs + refs + refs + refs + @"'''Fred Smith''' (born 1980) is a bloke. {{Infobox actor}}";
 
             Assert.AreEqual(Over20Refs, Parsers.FixPeopleCategories(Over20Refs, "test"), "no change when over 20 refs and no exiting birth/death/living cat");
 
@@ -719,7 +719,7 @@ died 2002
         public void FixPeopleCategoriesFutureTest()
         {
             // birth
-            const string a1 = @"'''Fred Smith''' (born 2060) is a bloke. {{Persondata}}";
+            const string a1 = @"'''Fred Smith''' (born 2060) is a bloke. {{Infobox actor}}";
             Assert.AreEqual(a1, Parsers.FixPeopleCategories(a1, "foo"));
         }
 
@@ -762,7 +762,7 @@ died 2002
 [[Category:Living people]]
 [[Category:1944 births]]", "foo"));
 
-            const string a = @"Mr foo {{persondata}} was great
+            const string a = @"Mr foo {{Infobox actor}} was great
 [[Category:1960 deaths]]";
             Assert.AreEqual(a + "\r\n", Parsers.FixPeopleCategories(a + "\r\n" + @"[[Category:Year of death missing]]", "test"));
         }
@@ -770,19 +770,19 @@ died 2002
         [Test]
         public void GetCategorySortTests()
         {
-            Assert.AreEqual(@"", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{persondata}}
+            Assert.AreEqual(@"", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{Infobox actor}}
 {{DEFAULTSORT:Sothcott, Jonathan}}
 [[Category:British television producers|Sothcott, Jonathon]]"));
 
-            Assert.AreEqual(@"Sothcott, Jonathan", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{persondata}}
+            Assert.AreEqual(@"Sothcott, Jonathan", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{Infobox actor}}
 [[Category:British television producers|Sothcott, Jonathan]]
 [[Category:Living people|Sothcott, Jonathan]]"));
 
-            Assert.AreEqual(@"Sothcott, Jonathan", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{persondata}}
+            Assert.AreEqual(@"Sothcott, Jonathan", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{Infobox actor}}
 [[Category:Living people|Sothcott, Jonathan]]"));
 
             // not all same – null return
-            Assert.AreEqual(@"", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{persondata}}
+            Assert.AreEqual(@"", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{Infobox actor}}
 [[Category:British television producers|Sothcott, Jonathan]]
 [[Category:Living people|Sothcott, Jonathan]]
 [[Category:1944 births]]"));
