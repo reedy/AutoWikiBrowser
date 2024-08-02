@@ -35,7 +35,7 @@ namespace CSharpEvaluator {
 }
 ";
 
-            CSharpCodeProvider c = new CSharpCodeProvider(new Dictionary<string, string> { { "CompilerVersion", "v3.5" } });
+            CSharpCodeProvider c = new CSharpCodeProvider(new Dictionary<string, string> { { "CompilerVersion", "v4.0" } });
 
             CompilerParameters cp = new CompilerParameters
             {
