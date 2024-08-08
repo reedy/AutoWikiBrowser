@@ -38,7 +38,7 @@ namespace WikiFunctions.API
     /// MediaWiki API manual: https://www.mediawiki.org/wiki/API
     /// Site prerequisites: MediaWiki 1.13+ with the following settings:
     /// * $wgEnableAPI = true; (enabled by default in DefaultSettings.php)
-    /// * $wgEnableWriteAPI = true;
+    /// * $wgEnableWriteAPI = true; (removed in 1.32.0)
     /// * AssertEdit extension installed (https://www.mediawiki.org/wiki/Extension:Assert_Edit)
     /// </remarks>
     public class ApiEdit : IApiEdit
