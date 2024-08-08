@@ -330,11 +330,11 @@ namespace WikiFunctions
                     return WikiStatusResult.NotLoggedIn;
                 }
 
-                // TODO: T294397 is eventually going to remove writeapi
-                if (!User.HasRight("writeapi"))
-                {
-                    return WikiStatusResult.NoRights;
-                }
+                // TODO: T294397 removed writeapi userright. T202192 to add some version checking (because of MW LTS at least)
+                //if (!User.HasRight("writeapi"))
+                //{
+                //    return WikiStatusResult.NoRights;
+                //}
 
                 // TODO: assess the impact on servers later
                 Editor.Maxlag = /*User.IsBot ? 5 : 20*/ -1;
