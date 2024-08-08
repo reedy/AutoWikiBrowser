@@ -88,7 +88,7 @@ namespace WikiFunctions
 
                 Result = AWBEnabledStatus.Disabled; // Disabled till proven enabled
 
-                var definition = new {version = "", releasedate = "", dotnetversion = "", dev = false};
+                var definition = new {version = "", releasedate = "", dotnetversion = "", dev = false, released = false};
                 var enabledVersions = (from v in json["enabledversions"]
                     select JsonConvert.DeserializeAnonymousType(v.ToString(), definition)).ToList();
 

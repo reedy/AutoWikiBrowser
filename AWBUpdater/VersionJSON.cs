@@ -7,7 +7,8 @@ namespace AWBUpdater
         public string version { get; set; }
         public string releasedate { get; set; }
         public string dotnetversion { get; set; }
-        public bool dev { get; set; }
+        public bool dev { get; set; } = false;
+        public bool released { get; set; } = false;
     }
 
     public class RootObject
