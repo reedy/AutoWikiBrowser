@@ -39,8 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -346,6 +345,7 @@
       <DependentUpon>SubstTemplates.cs</DependentUpon>
     </Compile>
     <Compile Include="Lists\Providers\ApiJsonListProviderBase.cs" />
+    <None Include="packages.config" />
     <None Include="SvnInfo.template.cs" />
     <Compile Include="Summary.cs" />
     <Compile Include="SvnInfo.cs" />
