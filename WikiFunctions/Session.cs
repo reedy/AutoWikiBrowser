@@ -170,7 +170,7 @@ namespace WikiFunctions
         /// <summary>
         /// Default template of what would exist at Project:AutoWikiBrowser/Config, to be used in case of it not existing
         /// </summary>
-        private const string DefaultWikiConfig = "{ 'typolink': '', 'allusersenabled': false, 'allusersenabledusermode': false, 'messages': [], 'underscoretitles': [], 'nogenfixes': [], 'noregextypofix': [] }";
+        private const string DefaultWikiConfig = "{ 'typolink': '', 'allusersenabled': true, 'allusersenabledusermode': true, 'messages': [], 'underscoretitles': [], 'nogenfixes': [], 'noregextypofix': [] }";
 
         WikiStatusResult status;
         public WikiStatusResult Status
