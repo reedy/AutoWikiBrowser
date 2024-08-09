@@ -309,21 +309,8 @@ namespace WikiFunctions
                     return WikiStatusResult.OldVersion;
                 }
 
-                bool usingJSON = false;
-
                 // Attempt to load the JSON CheckPage from the wiki
-                string JSONCheckPageText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPageJSON&action=raw");
-
-                // HttpGet returns "" for 404
-                if (!string.IsNullOrEmpty(JSONCheckPageText))
-                {
-                    usingJSON = true;
-                    CheckPageJSONText = JSONCheckPageText;
-                }
-                else
-                {
-                    // TODO: throw an exception; check pages should've been migrated by now
-                }
+                CheckPageJSONText = Editor.SynchronousEditor.HttpGet(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPageJSON&action=raw");
 
                 if (!User.IsLoggedIn)
                 {
@@ -355,72 +342,70 @@ namespace WikiFunctions
                 // See if there's any global messages on the enwiki json version page
                 JSONMessages(versionJson["messages"]);
 
-                if (usingJSON)
+                string configJSONText = Editor.SynchronousEditor.HttpGet(ConfigUrl);
+
+                bool usingDefaultJSONText = false;
+                if (!string.IsNullOrEmpty(configJSONText))
                 {
-                    string configJSONText = Editor.SynchronousEditor.HttpGet(ConfigUrl);
+                    ConfigJSONText = configJSONText;
+                }
+                else
+                {
+                    Tools.WriteDebug("UpdateWikiStatus",
+                        "No JSON config page at " + ConfigUrl + "; falling back to default");
+                    ConfigJSONText = DefaultWikiConfig;
+                    usingDefaultJSONText = true;
+                }
 
-                    if (!string.IsNullOrEmpty(configJSONText))
-                    {
-                        ConfigJSONText = configJSONText;
-                    }
-                    else
-                    {
-                        Tools.WriteDebug("UpdateWikiStatus",
-                            "No JSON config page at " + ConfigUrl + "; falling back to default");
-                        ConfigJSONText = DefaultWikiConfig;
-                    }
+                var configJson = JObject.Parse(ConfigJSONText);
 
-                    var configJson = JObject.Parse(ConfigJSONText);
+                // See if there's any messages on the local wikis config page
+                JSONMessages(configJson["messages"]);
 
-                    // See if there's any messages on the local wikis config page
-                    JSONMessages(configJson["messages"]);
+                TypoLink(configJson);
 
-                    TypoLink(configJson);
+                Variables.LoadUnderscores(
+                    configJson["underscoretitles"]
+                        .Select(underscore => underscore.ToString().Trim())
+                        .Where(trimmed => !string.IsNullOrEmpty(trimmed))
+                        .ToArray()
+                );
 
-                    Variables.LoadUnderscores(
-                        configJson["underscoretitles"]
-                            .Select(underscore => underscore.ToString().Trim())
-                            .Where(trimmed => !string.IsNullOrEmpty(trimmed))
-                            .ToArray()
-                    );
+                NoGenfixes = configJson["nogenfixes"].DistinctList();
 
-                    NoGenfixes = configJson["nogenfixes"].DistinctList();
+                NoRETF = configJson["noregextypofix"].DistinctList();
 
-                    NoRETF = configJson["noregextypofix"].DistinctList();
+                // don't require approval if CheckPage does not exist
+                // Or it has the special config option...
+                if (CheckPageJSONText.Length < 1 || (bool) configJson["allusersenabled"])
+                {
+                    IsBot = true;
+                    return WikiStatusResult.Registered;
+                }
 
-                    // don't require approval if CheckPage does not exist
-                    // Or it has the special config option...
-                    // TODO: Make sure this works as expected when code for non JSON stuff is removed
-                    if (CheckPageJSONText.Length < 1 || (bool) configJson["allusersenabled"])
-                    {
-                        IsBot = true;
-                        return WikiStatusResult.Registered;
-                    }
+                var checkPageJson = JObject.Parse(CheckPageJSONText);
 
-                    var checkPageJson = JObject.Parse(CheckPageJSONText);
+                var enabledUsers = checkPageJson["enabledusers"].Select(u => u.ToString()).ToList();
+                var enabledBots = checkPageJson["enabledbots"].Select(u => u.ToString()).ToList();
 
-                    var enabledUsers = checkPageJson["enabledusers"].Select(u => u.ToString()).ToList();
-                    var enabledBots = checkPageJson["enabledbots"].Select(u => u.ToString()).ToList();
+                // CheckPage option: 'allusersenabledusermode' will enable all users for user mode,
+                // and enable bots only when in 'enabledbots' section
 
-                    // CheckPage option: 'allusersenabledusermode' will enable all users for user mode,
-                    // and enable bots only when in 'enabledbots' section
+                var usernameComparer = new UsernameComparer();
+                // Optimisation, saves running the check multiple times
+                bool isBotEnabled = enabledBots.Contains(User.Name, usernameComparer);
 
-                    var usernameComparer = new UsernameComparer();
-                    // Optimisation, saves running the check multiple times
-                    bool isBotEnabled = enabledBots.Contains(User.Name, usernameComparer);
+                if (
+                    (bool) configJson["allusersenabledusermode"] ||
+                    (IsSysop && Variables.Project != ProjectEnum.wikia) ||
+                    isBotEnabled ||
+                    enabledUsers.Contains(User.Name, usernameComparer)
+                )
+                {
+                    // enable bot mode if in bots section
+                    IsBot = isBotEnabled;
 
-                    if (
-                        (bool) configJson["allusersenabledusermode"] ||
-                        (IsSysop && Variables.Project != ProjectEnum.wikia) ||
-                        isBotEnabled ||
-                        enabledUsers.Contains(User.Name, usernameComparer)
-                    )
-                    {
-                        // enable bot mode if in bots section
-                        IsBot = isBotEnabled;
-
-                        return WikiStatusResult.Registered;
-                    }
+                    return WikiStatusResult.Registered;
                 }
 
                 if (Variables.Project != ProjectEnum.custom)
