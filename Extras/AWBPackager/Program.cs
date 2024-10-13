@@ -29,7 +29,7 @@ namespace AWBPackager
     {
         private static readonly Regex SvnVersion = new Regex(@"""(\d+).*?""", RegexOptions.Compiled);
 
-        static void Main()
+        private static void Main()
         {
             try
             {
@@ -93,9 +93,6 @@ Is this SVN (1) or a release (2)? ");
                 Copy(currFolder, tmp, "AWBUpdater.exe");
                 Copy(currFolder, tmp, "Newtonsoft.Json.dll");
 
-                CreateTextFile(tmp + "Diff.dll", "This file is not used anymore, but is preserved for compatibility "
-                    + "with older versions of AWBUpdater.");
-
                 string tmpPlugins = Path.Combine(tmp, "Plugins");
 
                 Directory.CreateDirectory(tmp);
@@ -111,7 +108,7 @@ Is this SVN (1) or a release (2)? ");
                 string kingPath = Path.Combine(tmpPlugins, "Kingbotk");
                 CopyAndCreateDirectory(currFolder, kingPath, "Kingbotk AWB Plugin.dll");
 
-				currFolder = Path.Combine(Path.Combine(awbDir, "Plugins"), "Kingbotk Plugin");
+                currFolder = Path.Combine(Path.Combine(awbDir, "Plugins"), "Kingbotk Plugin");
                 Copy(currFolder, kingPath, "COPYING"); 
 
                 Console.WriteLine("Files copied to temporary directory");
@@ -136,32 +133,24 @@ Is this SVN (1) or a release (2)? ");
             }
         }
 
-        static void Copy(string fromPath, string toPath, string filename)
+        private static void Copy(string fromPath, string toPath, string filename)
         {
             File.Copy(Path.Combine(fromPath, filename), Path.Combine(toPath, filename), true);
         }
 
-        static void CopyAndCreateDirectory(string fromPath, string toPath, string filename)
+        private static void CopyAndCreateDirectory(string fromPath, string toPath, string filename)
         {
             Directory.CreateDirectory(toPath);
             Copy(fromPath, toPath, filename);
         }
 
-        static int StringToVersion(string version)
+        private static int StringToVersion(string version)
         {
             int res;
             if (!int.TryParse(version.Replace(".", ""), out res))
                 res = 0;
 
             return res;
-        }
-
-        static void CreateTextFile(string fileName, string content)
-        {
-            using (TextWriter tw = new StreamWriter(fileName))
-            {
-                tw.WriteLine(content);
-            }
         }
     }
 }
