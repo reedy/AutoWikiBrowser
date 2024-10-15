@@ -1005,7 +1005,7 @@ namespace WikiFunctions
                     break;
 
                 case "uk":
-                    Stub = ".*?(?:[Ss]tub|[Дд]оробити)";
+                    Stub = "[^{}|]*?(?:[Ss]tub|[Дд]оробити)";
                     mSummaryTag = "за допомогою";
                     break;
 
