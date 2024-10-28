@@ -360,7 +360,7 @@ namespace WikiFunctions.TalkPages
             "Bannershell", "banner shell",
             "Shell",
         });
-        private static readonly List<string> Nos = new List<string>(new[] { "blp", "blpo", "activepol" });
+        private static readonly List<string> Nos = new List<string>(new[] { "blpo", "activepol" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
         private static readonly Regex BLPORegex = Tools.NestedTemplateRegex(new[] { "blpo", "BLPO", "BLP others" });
         private static readonly Regex ActivepolRegex = Tools.NestedTemplateRegex(new[] { "activepol", "active politician", "activepolitician" });

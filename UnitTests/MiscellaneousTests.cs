@@ -1831,10 +1831,10 @@ bar
         [Test]
         public void WikiProjectBannerShellUnneededParams()
         {
-            Assert.AreEqual(@"{{WikiProject banner shell}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=no|activepol=no|collapsed=no|blpo=no}}"));
-            Assert.AreEqual(@"{{WikiProject banner shell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=no|activepol=no|collapsed=yes|blpo=no}}"));
-            Assert.AreEqual(@"{{WikiProject banner shell}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBanners|blp=no|activepol=no|collapsed=no|blpo=no}}"));
-            Assert.AreEqual(@"{{WikiProject banner shell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBanners|blp=no|activepol=no|collapsed=yes|blpo=no}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|blp=no}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=no|activepol=no|collapsed=no|blpo=no}}"), "Retain blp=no");
+            Assert.AreEqual(@"{{WikiProject banner shell|blp=no|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=no|activepol=no|collapsed=yes|blpo=no}}"), "Retain blp=no");
+            Assert.AreEqual(@"{{WikiProject banner shell}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBanners|activepol=no|collapsed=no|blpo=no}}"));
+            Assert.AreEqual(@"{{WikiProject banner shell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBanners|activepol=no|collapsed=yes|blpo=no}}"));
         }
         
         [Test]
