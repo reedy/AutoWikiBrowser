@@ -419,6 +419,10 @@ namespace UnitTests
             text = parser.Tagger(ShortText + @" {{surname|Smith, John}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
+            // soft redirects are not stubs
+            text = parser.Tagger(ShortText + @" {{wikispecies redirect}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+
             // Pages with Events by year for decade are not stubs
             text = parser.Tagger(ShortText + @" {{Events by year for decade|79}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));

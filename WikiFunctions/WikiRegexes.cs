@@ -783,6 +783,11 @@ namespace WikiFunctions
         public static readonly Regex NonDeadEndPageTemplates = Tools.NestedTemplateRegex(new [] { "Events by year for decade", "Events by year for decade BC", "SCOTUSRow", "ATC codes lead", "Portal:Current events/Month Inclusion", "Ukrsrow", "PBB"});
 
         /// <summary>
+        /// Matches soft redirect templates - https://en.wikipedia.org/wiki/Category:Soft_redirect_templates
+        /// </summary>
+        public static readonly Regex SoftRedirectTemplates = Tools.NestedTemplateRegex(new[] { "Wikibooks redirect", "Wikimedia Commons redirect", "Wikinews redirect", "Wikiquote redirect", "Wikisource redirect", "Wikispecies redirect", "Wikivoyage redirect", "Wiktionary redirect" });
+
+        /// <summary>
         /// Matches stubs
         /// </summary>
         public static Regex Stub;
