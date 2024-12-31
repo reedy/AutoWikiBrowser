@@ -1229,7 +1229,7 @@ namespace WikiFunctions.Parse
                     dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);
                 }
                 // ISO date?
-                else if (WikiRegexes.ISODates.IsMatch(dateFieldValue))
+                else if (WikiRegexes.ISODates.Match(dateFieldValue).Value == dateFieldValue)
                 {
                     DateTime dt = Convert.ToDateTime(dateFieldValue, BritishEnglish);
                     dateFieldValue = dt.ToString("MMMM yyyy", BritishEnglish);

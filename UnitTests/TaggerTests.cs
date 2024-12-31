@@ -1329,6 +1329,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             const string notSubst = @"{{wikify|date={{CURRENTMONTHNAME}} {{CURRENTYEAR}}}}";
             Assert.AreEqual(notSubst, Parsers.TagUpdater(notSubst), "no change when value is non-subst month/year keywords");
+
+            Assert.AreEqual(@"{{wikify|date=December 2024<!-- primarily from edits on 2024-03-21 by User: -->}}", Parsers.TagUpdater(@"{{wikify|date=December 2024<!-- primarily from edits on 2024-03-21 by User: -->}}"), "Handles comment");
         }
 
         [Test]
