@@ -248,6 +248,8 @@ more words
 
             // short description above dablink per MOS:ORDER
             Assert.AreEqual(@"{{short description|foo}}" + "\r\n" + e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + @"{{short description|foo}}" + "\r\n" + d, WikiRegexes.ShortDescriptionTemplate));
+            const string shortDescNone = @"{{Short description|none}} <!-- ""none"" is preferred when the title is sufficiently descriptive; see [[WP:SDNONE]] -->";
+            Assert.AreEqual(shortDescNone + "\r\n" + e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + shortDescNone + "\r\n" + d, WikiRegexes.ShortDescriptionTemplate));
 
             // don't pull dablinks out of {{hatnote group}}
             const string i = @"{{Short description|American character encoding standard}}

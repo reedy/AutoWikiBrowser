@@ -1219,8 +1219,9 @@ namespace WikiFunctions
 
         /// <summary>
         /// Matches {{short description}} template and its redirects
+        /// Plus optional wiki comment(s) after
         /// </summary>
-        public static readonly Regex ShortDescriptionTemplate = Tools.NestedTemplateRegex(new[] { "Short description", "Brief description", "Short desc", "Short-description", "Shortdescription" }, false);
+        public static readonly Regex ShortDescriptionTemplate = new Regex(Tools.NestedTemplateRegex(new[] { "Short description", "Brief description", "Short desc", "Short-description", "Shortdescription" }, false).ToString() + @"(?:\s*<!--[^<>\r\n]+-->\s*?)*");
 
         /// <summary>
         /// matches speedy deletion templates (from Category:Speedy_deletion_templates), deletion templates (Category:Proposed_deletion-related_templates) and protection templates (Category:Protection_templates)
