@@ -1215,7 +1215,7 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex Dablinks = Tools.NestedTemplateRegex(new [] { "about", "about2", "about-distinguish", "about-distinguish2", "ambiguous link", "for", "for2", "dablink", "distinguish", "distinguish2", "distinguish-otheruses", "distinguish-otheruses2", "further", "further2", "hatnote", "otherpeople", "otherpeople1", "otherpeople2", "otherpeople3", 
                 "other hurricanes", "other people", "other people2", "other people3", "other persons", "otherpersons", "otherpersons2", "otherplaces", "other places", "otherplaces3", "other places3", "otherships", "other ships", "other uses", "other uses2", "otheruses", 
-                "otheruses2", "otheruses3", "otheruses4", "other uses of", "otheruse", "outline", "redirect-acronym", "redirect-distinguish", "redirect-distinguish2", "redirect-several", "redirect", "redirect2", "redirect3", "see also", "this", "disambig-acronym", "selfref" }, false);
+                "otheruses2", "otheruses3", "otheruses4", "other uses of", "otheruse", "outline", "redirect-acronym", "redirect-distinguish", "redirect-distinguish2", "redirect-multi", "redirect-several", "redirect", "redirect2", "redirect3", "see also", "this", "disambig-acronym", "selfref" }, false);
 
         /// <summary>
         /// Matches {{short description}} template and its redirects
