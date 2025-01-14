@@ -311,8 +311,9 @@ namespace WikiFunctions.Parse
             string comma = @", ";
             if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
                 comma = @"، ";
-            
-            Regex findRegex = new Regex(findThis, rep.RegularExpressionOptions);
+
+            // T350636 1-minute timeout to guard against regex backtracking
+            Regex findRegex = new Regex(findThis, rep.RegularExpressionOptions, TimeSpan.FromSeconds(60));
 
             int Repcount = 0, Remcount = 0;
 
