@@ -297,9 +297,20 @@ Article";
 
             deletiontag = @"<!-- foo -->
 {{Article for deletion/dated}} <!-- foo2 -->
-<!-- foo3 -->";
+<!-- 
+foo3 
+-->";
             Assert.AreEqual(dablink + "\r\n" + deletiontag + "\r\n" + maintenancetemp + "\r\n" + foo, 
                 parser2.SortMetaData(dablink + "\r\n" + maintenancetemp + "\r\n" + deletiontag + "\r\n" + foo, "Foo"), "deletion above maintenance, dated prod with multiple comments");
+
+            maintenancetemp = @"{{unreferenced|date=March 2024}}";
+            deletiontag = @"<!-- Please do not remove or change this AfD message until the discussion has been closed. -->
+<!-- The nomination page for this article already...
+-->{{Article for deletion/dated|page=Foo|timestamp=20240331140235|year=2024|month=March|day=31|substed=yes}}
+<!-- Once discussion is closed, please place on talk page: {{Old AfD multi|page=Foo|date=31 March 2024|result='''keep'''}} -->
+<!-- End of AfD message, feel free to edit beyond this point -->";
+            Assert.AreEqual(dablink + "\r\n" + deletiontag + "\r\n" + maintenancetemp + "\r\n" + foo,
+                parser2.SortMetaData(dablink + "\r\n" + deletiontag + maintenancetemp + "\r\n" + foo, "Foo"), "deletion then maintenance, dated prod with multiple comments inc newlines");
         }
 
         [Test]
