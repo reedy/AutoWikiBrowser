@@ -1955,6 +1955,23 @@ Text";
         }
 
         [Test]
+        public void ConversionTestsBLPOneSource()
+        {
+            string correct = @"Foo
+{{BLP one source}}
+[[Category:Living people]]", nochange = @"Foo
+{{One source}}";
+
+            Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"));
+            Assert.AreEqual(correct, Parsers.Conversions(@"Foo
+{{One source}}" + "\r\n" + @"[[Category:Living people]]"));
+
+            Assert.AreEqual(correct, Parsers.Conversions(correct));
+
+            Assert.AreEqual(nochange, Parsers.Conversions(nochange));
+        }
+
+        [Test]
         public void ConversionTestsSelfPublished()
         {
             string correct = @"Foo
