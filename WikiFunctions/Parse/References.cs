@@ -582,6 +582,10 @@ namespace WikiFunctions.Parse
         {
             derivedName = WikiRegexes.PipedWikiLink.Replace(derivedName, "$2"); // piped wikilinks -> text value
 
+            // remove templates, but not if whole derivedName is a template
+            if(derivedName != WikiRegexes.Template.Match(derivedName).Value)
+                derivedName = WikiRegexes.Template.Replace(derivedName, "");
+
             derivedName = CommentOrFloorNumber.Replace(derivedName, "");
             // rm comments from ref name, might be masked
             derivedName = derivedName.Trim(CharsToTrim.ToCharArray());
