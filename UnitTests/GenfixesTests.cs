@@ -806,6 +806,13 @@ Bar";
             GenFixes();
 
             Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets from nowiki");
+
+            t = @"A <nowiki>[</nowiki>[[sub-creation]]] story.";
+
+            ArticleText = t;
+            GenFixes();
+
+            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets from nowiki, 2");
         }
 
         [Test]

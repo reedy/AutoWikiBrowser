@@ -155,7 +155,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex HiddenRegex = new Regex("⌊⌊⌊⌊(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
+        public static readonly Regex HiddenRegex = new Regex("⌊⌊⌊⌊(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
 
         /// <summary>
         /// Adds stuff removed by Hide back

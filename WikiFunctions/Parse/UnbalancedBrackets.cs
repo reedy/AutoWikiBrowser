@@ -271,7 +271,9 @@ namespace WikiFunctions.Parse
                     && articleTextTemp[unbalancedBracket - 2] == ']'
                    )
                 {
-                    articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
+                    // in scenario of ⌊⌊⌊⌊0⌋⌋⌋⌋[[link]]] the real value may be <nowiki>[</nowiki>[[link]]], which is fine as-is, so we cannot safely make a change
+                    if (!(Parse.HideText.HiddenRegex.IsMatch(articleTextTemp) && articleTextTemp.Contains("⌋⌋⌋⌋[[")))
+                        articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
                 }
 
                 else if (bracketLength == 1)
