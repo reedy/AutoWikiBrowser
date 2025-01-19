@@ -377,7 +377,7 @@ namespace WikiFunctions.Parse
 
             if (nobrackets.Contains("[") || nobrackets.Contains("]"))
             {
-                articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
+                articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, m => m.Value.Contains("\r\n") ? m.Value : m.Groups[1].Value);
                 articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
             
                 articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");

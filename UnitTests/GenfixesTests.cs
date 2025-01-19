@@ -797,6 +797,18 @@ Bar";
         }
 
         [Test]
+        public void FixSyntaxBrackets()
+        {
+            string t = @"*[https://www.site.com [XXX<nowiki>]</nowiki> XXX]
+
+{{s | title=[[Party (1931)|XXX]] | before=}}";
+            ArticleText = t;
+            GenFixes();
+
+            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets from nowiki");
+        }
+
+        [Test]
         public void ReorderReferencesNotEnWp()
         {
             const string t = @"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
