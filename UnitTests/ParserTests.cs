@@ -2103,6 +2103,13 @@ Text";
             Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "exact dupes with param");
 
             tags.Clear();
+            tags.Add("{{orphan}}");
+            tags.Add("{{orphan|date=May 2012}}");
+            tags2.Clear();
+            tags2.Add("{{orphan | date=May 2012}}");
+            Assert.AreEqual(tags2, Parsers.DeduplicateMaintenanceTags(tags), "only one with param");
+
+            tags.Clear();
             tags.Add("{{orphan|date=May 2012}}");
             tags.Add("{{orphan|date=May 2012}}");
             tags.Add("{{cleanup|date=May 2012}}");
