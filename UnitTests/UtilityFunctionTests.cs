@@ -281,6 +281,14 @@ foo {{persondata}}
                             Parsers.ChangeToDefaultSort(NoInclude, "Bar",
                                                         out noChange));
             Assert.IsTrue(noChange);
+
+            // retain diacritics when generating a key if uca collation is on
+            Variables.UnicodeCategoryCollation = true;
+            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooô}}",
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar",
+                                                        out noChange));
+            Assert.IsFalse(noChange);
+            Variables.UnicodeCategoryCollation = false;
         }
 
         [Test]
