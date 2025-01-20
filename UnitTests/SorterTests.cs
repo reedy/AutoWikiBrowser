@@ -203,16 +203,18 @@ Fred has a dog.
             string e = @"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
 
-            e = @"{{For|Fred the dancer|Fred Smith (dancer)}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e + e, WikiRegexes.Dablinks), "Deduplication of identical tags");
 
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + " " + d, WikiRegexes.Dablinks));
+            e = @"{{For|Fred the dancer|Fred Smith (dancer)}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks), "odering plus add newline");
+
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + " " + d, WikiRegexes.Dablinks), "whitepsace handling");
 
             e = @"{{redirect2|Fred the dancer|Fred Smith (dancer)}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks), "odering plus add newline, redirect2");
 
             e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.Dablinks), "odering plus add newline, redirect2, nested");
 
             e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}
 ";
@@ -236,15 +238,15 @@ more words
 
             Assert.AreEqual(e + "\r\n" + g + "\r\n" + h, MetaDataSorter.MoveTemplate(g + "\r\n" + e + "\r\n" + h, WikiRegexes.Dablinks));
 
-            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e + e0, WikiRegexes.Dablinks));
-            Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e + e0, WikiRegexes.Dablinks), "multi tag ordering");
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks), "Don't affect whitespace after tags");
 
             // check spacing
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + d, WikiRegexes.Dablinks));
             Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + d, WikiRegexes.Dablinks));
             Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + "\r\n" + d, WikiRegexes.Dablinks));
             Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks));
-            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e0 + e0 + "\r\n\r\n" + d, WikiRegexes.Dablinks), "Dupe tag removal");
 
             // short description above dablink per MOS:ORDER
             Assert.AreEqual(@"{{short description|foo}}" + "\r\n" + e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + @"{{short description|foo}}" + "\r\n" + d, WikiRegexes.ShortDescriptionTemplate));

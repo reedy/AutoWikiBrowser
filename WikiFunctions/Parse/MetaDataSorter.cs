@@ -685,7 +685,9 @@ en, sq, ru
 
             foreach (Match m in templateRegex.Matches(zerothSection))
             {
-                strTemplates += m.Value + "\r\n";
+                // remove exact duplicate tags
+                if(!strTemplates.Contains(m.Value))
+                    strTemplates += m.Value + "\r\n";
 
                 // remove colons before template
                 zerothSection = zerothSection.Replace(":" + m.Value + "\r\n", "");
