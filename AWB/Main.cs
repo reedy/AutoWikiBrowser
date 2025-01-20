@@ -1208,14 +1208,6 @@ namespace AutoWikiBrowser
                 {
                     case 0:
                         GetDiff();
-
-                        if (diffInBotMode)
-                        {
-                            txtReviewEditSummary.Text = MakeDefaultEditSummary();
-                            StopProgressBar();
-                            return;
-                        }
-
                         break;
                     case 1:
                         GetPreview();
