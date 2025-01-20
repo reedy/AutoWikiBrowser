@@ -380,7 +380,7 @@ namespace WikiFunctions.Parse
                         // set the defaultsort to the existing unique category sort value
                         // do not add a defaultsort if cat sort was the same as article title, now not case sensitive
                         if ((sort != articleTitle && Tools.FixupDefaultSort(sort).ToLower() != articleTitle.ToLower())
-                            || (Tools.RemoveDiacritics(sort) != sort && !IsArticleAboutAPerson(articleText, articleTitle, false)))
+                            || (!Variables.UnicodeCategoryCollation && Tools.RemoveDiacritics(sort) != sort && !IsArticleAboutAPerson(articleText, articleTitle, false)))
                             articleText += Tools.Newline("{{DEFAULTSORT:") + Tools.FixupDefaultSort(sort) + "}}";
                     }
 
@@ -470,7 +470,7 @@ namespace WikiFunctions.Parse
                 string sortkey = articleAboutAPerson ? Tools.MakeHumanCatKey(articleTitle, articleText) : Tools.FixupDefaultSort(articleTitle);
 
                 // sortkeys now not case sensitive
-                if (!sortkey.ToLower().Equals(articleTitle.ToLower()) || Tools.RemoveDiacritics(articleTitle) != articleTitle)
+                if (!sortkey.ToLower().Equals(articleTitle.ToLower()) || (!Variables.UnicodeCategoryCollation && Tools.RemoveDiacritics(articleTitle) != articleTitle))
                 {
                     articleText += Tools.Newline("{{DEFAULTSORT:") + sortkey + "}}";
 
