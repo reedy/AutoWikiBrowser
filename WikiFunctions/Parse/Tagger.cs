@@ -859,7 +859,8 @@ namespace WikiFunctions.Parse
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText)
                      && Tools.GetTemplateParameterValue(WikiRegexes.Orphan.Match(articleText).Value, "few").Length == 0)
             {
-                articleText = WikiRegexes.Orphan.Replace(articleText, m => m.Groups["MI"].Value).TrimStart();
+                // remove newline after tag if present
+                articleText = Regex.Replace(articleText, Regex.Escape(WikiRegexes.Orphan.Match(articleText).Value) + @"\r?\n?", "").TrimStart();
                 if (Variables.LangCode.Equals("ar"))
                 {
                     tagsRemoved.Add("يتيمة");

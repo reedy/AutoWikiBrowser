@@ -945,7 +945,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             
             // Test if orphan tag is removed properly. Use wikilink and List of to prevent tagging for wikify, deadend and stub
-            text = parser.Tagger("{{orphan}}[[foo]]", "List of Tests", false, out noChange, ref summary);
+            text = parser.Tagger(@"{{orphan}}
+
+[[foo]]", "List of Tests", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.AreEqual(text, "[[foo]]");
 
