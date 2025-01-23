@@ -1989,6 +1989,23 @@ Text";
         }
 
         [Test]
+        public void ConversionTestsNoFootnotes()
+        {
+            string correct = @"Foo
+{{BLP no footnotes}}
+[[Category:Living people]]", nochange = @"Foo
+{{No footnotes}}";
+
+            Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"), "BLP conv 1");
+            Assert.AreEqual(correct, Parsers.Conversions(@"Foo
+{{No footnotes}}" + "\r\n" + @"[[Category:Living people]]"), "BLP conv 2");
+
+            Assert.AreEqual(correct, Parsers.Conversions(correct), "No change already correct");
+
+            Assert.AreEqual(nochange, Parsers.Conversions(nochange), "no change not BLP");
+        }
+
+        [Test]
         public void ConversionTestsBLPSources()
         {
             string correct = @"Foo

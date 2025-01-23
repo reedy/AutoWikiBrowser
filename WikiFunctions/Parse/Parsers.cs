@@ -1558,8 +1558,10 @@ namespace WikiFunctions.Parse
 
                 if (alltemplates.Contains("Self-published"))
                     articleText = Tools.RenameTemplate(articleText, "self-published", "BLP self-published", false);
+                if (alltemplates.Contains("No footnotes"))
+                    articleText = Tools.RenameTemplate(articleText, "No footnotes", "BLP no footnotes", false);
 
-                if(alltemplates.Contains("Refimprove"))
+                if (alltemplates.Contains("Refimprove"))
                 {
                     // {{refimprove}} --> {{BLP sources}} if article has [[Category:Living people]], and no free-text first argument to {{refimprove}}
                     MatchCollection mc = Tools.NestedTemplateRegex("refimprove").Matches(articleText);
