@@ -1271,6 +1271,7 @@ ABC");
             RegexAssert.IsMatch(WikiRegexes.Wi, @"{{Seewiktionary}}");
             
             RegexAssert.IsMatch(WikiRegexes.Wi, @"{{Wikiquote redirect}}");
+            RegexAssert.IsMatch(WikiRegexes.Wi, @"{{Wikivoyage redirect}}");
         }
 
         [Test]

@@ -770,7 +770,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches Wiktionary redirect and Wikiquote redirect templates (en only)
         /// </summary>
-        public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wiktionary redirect", "Wi", "Widirect", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary", "Wikiquote redirect"});
+        public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wiktionary redirect", "Wi", "Widirect", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary", "Wikiquote redirect", "Wikivoyage redirect"});
 
         /// <summary>
         /// Matches Current events header in arwiki
