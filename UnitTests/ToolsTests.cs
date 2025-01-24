@@ -2690,6 +2690,9 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Peewee's Playhouse", Tools.FixupDefaultSort(@"Peewee's Playhouse"));
             Assert.AreEqual(@"Peewee's Playhouse", Tools.FixupDefaultSort(@"Peewee’s Playhouse"));
             Assert.AreEqual(@"2010 ITF Women's Circuit (July-September)", Tools.FixupDefaultSort(@"2010 ITF Women's Circuit (July–September)"));
+
+            Assert.AreEqual(@"Foo", Tools.FixupDefaultSort(@"List of Foo"));
+            Assert.AreEqual(@"Foos", Tools.FixupDefaultSort(@"List of foos"));
         }
 
         [Test]

@@ -1290,6 +1290,9 @@ namespace WikiFunctions
                 defaultsort = Regex.Replace(defaultsort, @"(\w) *,(\w)", "$1, $2"); // ensure space after comma between names
             }
 
+            if (Variables.IsWikipediaEN && defaultsort.StartsWith("List of "))
+                defaultsort = TurnFirstToUpperNoProjectCheck(defaultsort.Replace("List of ", ""));
+
             return defaultsort.Trim();
         }
 
