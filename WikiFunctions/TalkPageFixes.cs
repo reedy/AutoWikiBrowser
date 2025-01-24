@@ -349,17 +349,7 @@ namespace WikiFunctions.TalkPages
             return articleText;
         }
 
-        private static readonly List<string> BannerShellRedirects = new List<string>(new[] {
-            "WPBS", "Wpbs",
-            "WPB", "Wpb",
-            "WP banner shell", "WP Banner Shell",
-            "WPBannerShell",
-            "WikiProject Banner Shell", "WikiProjectBannerShell", "Wikiprojectbannershell",
-            "WikiProject Banners", "WikiProjectBanners",
-            "WPBannerShell",
-            "Bannershell", "banner shell",
-            "Shell",
-        });
+        private static readonly List<string> BannerShellRedirects = new List<string>(new[] { "Article assessment", "banner shell", "Bannershell", "Coopshell", "Multiple wikiprojects", "Project banner holder", "Project shell", "Scope shell", "WikiProject banner", "Wikiproject banner holder", "Wikiprojectbanners", "WikiProject Banners", "WikiProjectBanners", "Wikiprojectbannershell", "WikiprojectBannerShell", "WikiProject bannershell", "WikiProject Banner Shell", "WikiProject BannerShell", "WikiProjectBanner Shell", "WikiProjectBannerShell", "WikiProject Banners Shell", "WikiProject cooperation shell", "WikiProject shell", "WikiProject Shell", "Wpb", "WPB", "Wpbannershell", "WP banner shell", "WP Banner Shell", "WPBannerShell", "Wpbs", "WPBS" });
         private static readonly List<string> Nos = new List<string>(new[] { "blpo", "activepol" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
         private static readonly Regex BLPORegex = Tools.NestedTemplateRegex(new[] { "blpo", "BLPO", "BLP others" });
