@@ -768,6 +768,7 @@ namespace WikiFunctions.Parse
 
         private const int MinIncomingLinksToBeConsideredAnOrphan = 3;
         private static readonly Regex Rq = Tools.NestedTemplateRegex("Rq");
+        private static readonly Regex OtherNonOrphanPageTemplates = Tools.NestedTemplateRegex("List of lists");
 
         /// <summary>
         /// Tags pages with insufficient incoming page links with the orphan template (localised for ru-wiki).
@@ -816,7 +817,8 @@ namespace WikiFunctions.Parse
 
             // add orphan tag if applicable, and no disambig nor SIA
             if (!Variables.LangCode.Equals("sv") && orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articleText).Value, "orphan").Length == 0
-                && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.Wi.IsMatch(articleText) && !articleText.Contains(@"[[Category:Disambiguation pages]]"))
+                && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.Wi.IsMatch(articleText) && !articleText.Contains(@"[[Category:Disambiguation pages]]")
+                && !OtherNonOrphanPageTemplates.IsMatch(articleText))
             {
                 if (Variables.LangCode.Equals("ar"))
                 {

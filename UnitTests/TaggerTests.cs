@@ -748,6 +748,9 @@ namespace UnitTests
             text = parser.Tagger(ShortText + @"{{Widirect}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "pages using {{wi}} not tagged as orphan");
 
+            text = parser.Tagger(ShortText + @"{{List of lists}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "pages using {{List of lists}} not tagged as orphan");
+
             text = parser.Tagger(ShortText + @"{{Wi}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "pages using {{wi}} not tagged as orphan");
 
