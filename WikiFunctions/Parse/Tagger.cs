@@ -210,7 +210,7 @@ namespace WikiFunctions.Parse
                     articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
                 else
                     articleText = WikiRegexes.DeadEnd.Replace(articleText,
-                            m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value)
+                            m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : "")
                         .TrimStart();
 
                 if (!WikiRegexes.DeadEnd.IsMatch(articleText))

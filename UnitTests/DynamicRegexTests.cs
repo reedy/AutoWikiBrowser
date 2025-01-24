@@ -847,8 +847,6 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep|date=May 2008|Foobar}}"));
 
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|}}"));
-
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
             #if DEBUG
