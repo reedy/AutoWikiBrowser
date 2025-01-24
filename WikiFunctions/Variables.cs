@@ -72,6 +72,8 @@ namespace WikiFunctions
             CanonicalNamespaces[13] = "Help talk:";
             CanonicalNamespaces[14] = "Category:";
             CanonicalNamespaces[15] = "Category talk:";
+            CanonicalNamespaces[828] = "Module:";
+            CanonicalNamespaces[829] = "Module talk:";
 
             CanonicalNamespaceAliases = PrepareAliases(CanonicalNamespaces);
 

@@ -283,7 +283,7 @@ en, sq, ru
         /// <returns>The updated article text</returns>
         internal string Sort(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
-            if (Namespace.Determine(articleTitle) == Namespace.Template) // Don't sort on templates
+            if (Namespace.Determine(articleTitle) == Namespace.Template || Namespace.Determine(articleTitle) == Namespace.Module) // Don't sort on templates/modules
                 return articleText;
 
             // Performance: get all the templates so "move template" functions below only called when template(s) present in article

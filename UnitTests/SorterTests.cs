@@ -1595,6 +1595,7 @@ second comment <!-- [[it:CN]] -->";
 
             Assert.AreEqual(cat, parser2.SortMetaData(cat, "Category:Bar"), "Full trim on category namespace");
             Assert.AreEqual(cat, parser2.SortMetaData(cat, "Template:Bar"), "no sorting on template namespace");
+            Assert.AreEqual(cat, parser2.SortMetaData(cat, "Module:Bar"), "no sorting on Module namespace");
             Assert.AreEqual("\r\n\r\n" + cat, parser2.SortMetaData(cat, "Bar"), "sorting applied on mainspace");
 
             const string CatPopStub = @"Text

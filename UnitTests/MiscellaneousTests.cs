@@ -943,6 +943,8 @@ http://www.site.com
             Assert.AreEqual(Namespace.Project, Namespace.Determine("Project:Foo"));
             
             Assert.AreEqual(Namespace.Talk, Namespace.Determine(@"Talk:ʿAyn"), "handles pages with spacing modifier Unicode characters at start of name");
+            Assert.AreEqual(Namespace.Module, Namespace.Determine("Module:foo"));
+            Assert.AreEqual(Namespace.ModuleTalk, Namespace.Determine("Module talk:foo"));
         }
 
         [Test]
