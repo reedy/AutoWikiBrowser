@@ -1087,6 +1087,7 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{geodis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{geo-dis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{dis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{WoO number disambiguation}}");
 
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{now disambig}}");
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{dablink|foo}}");
