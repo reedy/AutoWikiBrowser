@@ -1188,8 +1188,8 @@ namespace WikiFunctions.Parse
             return IsArticleAboutAPerson(articleText, articleTitle, false);
         }
 
-        private static readonly Regex BLPUnsourced = Tools.NestedTemplateRegex(new [] { "BLP unsourced" });
-        private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex(new [] { "BLP unsourced section","BLP sources section" });
+        private static readonly Regex BLPUnsourced = Tools.NestedTemplateRegex(new [] { "BLP unsourced", "BLP unreferenced" });
+        private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex(new [] { "BLP unsourced section","BLP sources section", "BLP unreferenced section" });
         private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency|Governor|Mayoralty)|Murder|Atlanta murders|Disappearance|Suicide|Adoption) of|Deaths|The |Second |Brothers |Attack on|[12]\d{3}\b|\d{2,} )|Assembly of|(Birth|Death) rates|(discography|(?:film|bibli)ography| deaths| rebellion| haunting| native| children| campaign(?:, \d+)?| groups| (?:families|boom|case|syndrome|family|murders|people|sisters|brothers|quartet|team|twins|martyrs|mystery|center|\((?:artists|publisher|\w* ?(team|family))\)))(?: \(|$)|[^\(]*\w+,? (and|&|from) \w+|.* (in |Service))", RegexOptions.IgnoreCase);
         private static readonly MetaDataSorter MDS = new MetaDataSorter();
         private static readonly Regex NobleFamilies = new Regex(@"\[\[Category:[^\[\]\|]*(([nN]oble|[Rr]oyal) families| families(\||\]\]))");
@@ -1514,7 +1514,7 @@ namespace WikiFunctions.Parse
             // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> or {{sfn}} references in article, uses regex from WikiRegexes.Refs
             // does not change templates with section / reason tags
             if (TemplateExists(alltemplates, NoFootnotes) && (TemplateExists(alltemplates, Footnote) || TotalRefsNotGrouped(articleText) > 0))
-                articleText = NoFootnotes.Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes"));
+                articleText = NoFootnotes.Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes needed"));
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
             if (TemplateExists(alltemplates, SectionTemplates))
@@ -1529,7 +1529,7 @@ namespace WikiFunctions.Parse
             {
                 if(alltemplates.Contains("Unreferenced"))
                 {
-                    // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
+                    // {{unreferenced}} --> {{BLP unreferenced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
                     MatchCollection unrefm = Tools.NestedTemplateRegex("unreferenced").Matches(articleText);
                     if (unrefm.Count == 1)
                     {
@@ -1537,20 +1537,20 @@ namespace WikiFunctions.Parse
                             || Tools.GetTemplateArgumentCount(unrefm[0].Value) == 0)
                         {
                             // if also have existing BLP unsourced then remove unreferenced
-                            if (Tools.NestedTemplateRegex("BLP unsourced").IsMatch(articleText))
+                            if (BLPUnsourced.IsMatch(articleText))
                             {
                                 articleText = Tools.NestedTemplateRegex("unreferenced").Replace(articleText, "");
                                 Parsers p = new Parsers();
                                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, p.MultipleIssuesSingleTagME);
                             }
                             else
-                                articleText = Tools.RenameTemplate(articleText, "unreferenced", "BLP unsourced", false);
+                                articleText = Tools.RenameTemplate(articleText, "unreferenced", "BLP unreferenced", false);
                         }
                     }
                 }
 
                 if(alltemplates.Contains("Unreferenced section"))
-                    articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
+                    articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unreferenced section", false);
                 if(alltemplates.Contains("Primary sources"))
                     articleText = Tools.RenameTemplate(articleText, "primary sources", "BLP primary sources", false);
                 if (alltemplates.Contains("One source"))
@@ -1608,7 +1608,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", "BLP sources", "expand", "BLP unsourced" });
+        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", "BLP sources", "expand", "BLP unsourced", "BLP unreferenced" });
 
         /// <summary>
         /// Converts templates such as {{foo|section|...}} to {{foo section|...}}
@@ -1810,7 +1810,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Check if the article contains a {{no footnotes}} or {{more footnotes}} template but has 5+ &lt;ref>...&lt;/ref> references
+        /// Check if the article contains a {{no footnotes}} or {{more footnotes needed}} template but has 5+ &lt;ref>...&lt;/ref> references
         /// </summary>
         public static bool HasMorefootnotesAndManyReferences(string articleText)
         {

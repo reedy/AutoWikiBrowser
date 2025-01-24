@@ -1801,7 +1801,7 @@ Text";
             // no footnotes --> more footnotes
             Assert.AreEqual(@"Article <ref>A</ref>
             ==References==
-            {{more footnotes}}
+            {{more footnotes needed}}
             {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref>
             ==References==
             {{no footnotes}}
@@ -1809,7 +1809,7 @@ Text";
 
             Assert.AreEqual(@"Article <ref>A</ref>
             ==References==
-            {{more footnotes}}
+            {{more footnotes needed}}
             {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref>
             ==References==
             {{no footnotes}}
@@ -1817,7 +1817,7 @@ Text";
 
             Assert.AreEqual(@"Article {{sfn|Smith|2004}}
             ==References==
-            {{more footnotes}}
+            {{more footnotes needed}}
             {{reflist}}", Parsers.Conversions(@"Article {{sfn|Smith|2004}}
             ==References==
             {{no footnotes}}
@@ -1825,7 +1825,7 @@ Text";
 
             Assert.AreEqual(@"Article {{efn|Converting at a rate of Kr 20 = £1}}
             ==References==
-            {{more footnotes}}
+            {{more footnotes needed}}
             {{reflist}}", Parsers.Conversions(@"Article {{efn|Converting at a rate of Kr 20 = £1}}
             ==References==
             {{no footnotes}}
@@ -1833,7 +1833,7 @@ Text";
 
             Assert.AreEqual(@"Article {{sfn|Smith|2004}}
             ==References==
-            {{more footnotes|date=May 2012}}
+            {{more footnotes needed|date=May 2012}}
             {{reflist}}", Parsers.Conversions(@"Article {{sfn|Smith|2004}}
             ==References==
             {{no footnotes|date=May 2012}}
@@ -1841,7 +1841,7 @@ Text";
 
             Assert.AreEqual(@"Article {{sfn|Smith|2004}}
             ==References==
-            {{more footnotes|BLP=yes|date=May 2012}}
+            {{more footnotes needed|BLP=yes|date=May 2012}}
             {{reflist}}", Parsers.Conversions(@"Article {{sfn|Smith|2004}}
             ==References==
             {{no footnotes|BLP=yes|date=May 2012}}
@@ -1849,7 +1849,7 @@ Text";
 
             Assert.AreEqual(@"Article {{sfn|Smith|2004}}
             ==References==
-            {{more footnotes|article=yes|date=May 2012}}
+            {{more footnotes needed|article=yes|date=May 2012}}
             {{reflist}}", Parsers.Conversions(@"Article {{sfn|Smith|2004}}
             ==References==
             {{no footnotes|article=yes|date=May 2012}}
@@ -1886,7 +1886,7 @@ Text";
         public void ConversionTestsBLPUnsourced()
         {
             string correct = @"Foo
-{{BLP unsourced}}
+{{BLP unreferenced}}
 [[Category:Living people]]", nochange = @"Foo
 {{unreferenced}}";
 
@@ -1900,13 +1900,13 @@ Text";
             Assert.AreEqual(nochange, Parsers.Conversions(nochange), "no change when free-format text in unreferenced first argument");
 
             Assert.AreEqual(@"Foo
-{{BLP unsourced|date=May 2010}}
+{{BLP unreferenced|date=May 2010}}
 [[Category:Living people]]", Parsers.Conversions(@"Foo
 {{unreferenced|date=May 2010}}
 [[Category:Living people]]"));
 
             Assert.AreEqual(@"Foo
-{{BLP unsourced|Date=May 2010}}
+{{BLP unreferenced|Date=May 2010}}
 [[Category:Living people]]", Parsers.Conversions(@"Foo
 {{unreferenced|Date=May 2010}}
 [[Category:Living people]]"));
@@ -1918,13 +1918,20 @@ Text";
 {{BLP unsourced|date=May 2010}}
 {{unreferenced|date=May 2010}}
 [[Category:Living people]]"));
+            Assert.AreEqual(@"Foo
+{{BLP unreferenced|date=May 2010}}
+
+[[Category:Living people]]", Parsers.Conversions(@"Foo
+{{BLP unreferenced|date=May 2010}}
+{{unreferenced|date=May 2010}}
+[[Category:Living people]]"));
         }
 
         [Test]
         public void ConversionTestsBLPUnsourcedSection()
         {
             string correct = @"Foo
-{{BLP unsourced section}}
+{{BLP unreferenced section}}
 [[Category:Living people]]", nochange = @"Foo
 {{unreferenced section}}";
 
