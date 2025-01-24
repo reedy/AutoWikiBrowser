@@ -3626,7 +3626,7 @@ namespace AutoWikiBrowser
             this.cmboEditSummary.FormattingEnabled = true;
             this.cmboEditSummary.IntegralHeight = false;
             this.cmboEditSummary.Location = new System.Drawing.Point(87, 6);
-            this.cmboEditSummary.MaxLength = 155;
+            this.cmboEditSummary.MaxLength = 500;
             this.cmboEditSummary.Name = "cmboEditSummary";
             this.cmboEditSummary.Size = new System.Drawing.Size(185, 21);
             this.cmboEditSummary.TabIndex = 1;
