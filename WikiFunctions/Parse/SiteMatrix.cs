@@ -215,6 +215,7 @@ namespace WikiFunctions.Parse
                 case ProjectEnum.species:
                 case ProjectEnum.incubator:
                 case ProjectEnum.wikivoyage:
+                case ProjectEnum.wikidata:
                     return WikipediaLanguages;
 
                 case ProjectEnum.wiktionary:

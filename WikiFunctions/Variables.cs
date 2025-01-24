@@ -31,6 +31,7 @@ namespace WikiFunctions
     {
         wikipedia,
         wiktionary,
+        wikidata,
         wikisource,
         wikiquote,
         wikiversity,
@@ -687,6 +688,10 @@ namespace WikiFunctions
                     break;
                 case ProjectEnum.species:
                     URL = "https://species.wikimedia.org";
+                    LangCode = "en";
+                    break;
+                case ProjectEnum.wikidata:
+                    URL = "https://www.wikidata.org";
                     LangCode = "en";
                     break;
                 case ProjectEnum.wikia:
