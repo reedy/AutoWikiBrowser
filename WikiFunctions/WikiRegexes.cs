@@ -199,8 +199,8 @@ namespace WikiFunctions
                     DisambigString = "([Dd]esambiguación|[Dd]esambig|[Dd]es|[Dd]esambiguacion|[Dd]isambig)";
                     break;
                 case "fa":
-                                        Orphan = Tools.NestedTemplateRegex(new[] {@"یتیم"});
-                                        DisambigString = "(ابهام‌زدایی|ابهامزدایی|ابهام زدایی)";
+                    Orphan = Tools.NestedTemplateRegex(new[] {@"یتیم"});
+                    DisambigString = "(ابهام‌زدایی|ابهامزدایی|ابهام زدایی)";
                     break;
                 case "fr":
                     InUse = Tools.NestedTemplateRegex(new[] {"En cours" });
@@ -229,7 +229,7 @@ namespace WikiFunctions
                     break;
                 case "ru":
                     uncattemplate = "([Нн]ет категорий|[Uu]ncategorized|[Uu]ncategorized stub|[Nn]ocat)";
-                Orphan = Tools.NestedTemplateRegex(new[] {@"изолированная статья", @"Сирота", @"Orphan"});
+                    Orphan = Tools.NestedTemplateRegex(new[] {@"изолированная статья", @"Сирота", @"Orphan"});
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     DeadEnd = new Regex(@"(?:{{\s*(?:[Tt]упиковая статья|[Dd]ead ?end)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
                     Wikify = new Regex(@"({{\s*(?:Wikify|Викифицировать|Тупиковая статья|Underlinked)(?:\s*\|\s*(" +DateYearMonthParameter +@"|.*?))?}})", RegexOptions.IgnoreCase);
@@ -296,7 +296,7 @@ namespace WikiFunctions
         }
 
         private const string UncatTemplatesEN = @"([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]o ?cats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]ed ?stub)";
-        private const string DisambigTemplatesEN = @"((?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)(?:-)?dis|([Ss]pecies|)LatinNameDisambig|[[Aa]irport disambig(?:uation)?|[Cc]all sign disambiguation|[Cc]allsigndis|[Cc]hinese title disambig(uation)?|[Dd]ab|[Dd]isamb(?:ig(?:uation)?)?||[Dd]isambig-cleanup|[Dd]isambiguation cleanup|[Gg]enus disambig(uation)?|[Hh]ndis|[Hh]ndis(?:-cleanup)?|[Hh]ospital disambiguation|[Hh]uman name disambiguation|[Hh]urricane season disambiguation|[Ll]etter-disambig|[Ll]etter-Number Combination Disambiguation|[Ll]etter–number combination disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Mm]athdab|[Mm]athematic(?:al|s) disambiguation|[Mm]il-unit-dis|[Mm]ilitary unit disambiguation|[Mm]olecular formula disambiguation|[Mm]olFormDisambig|[Nn]umber disambiguation|[Pp]lace name disambiguation|[Rr]oad disambiguation|[Ss]chool disambiguation|[Ss]pecies Latin name(?: abbreviation)? disambiguation|[Ss]tation disambiguation|[Tt]axonomy disambiguation)";
+        private const string DisambigTemplatesEN = @"((?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)(?:-)?dis|([Ss]pecies|)LatinNameDisambig|[[Aa]irport disambig(?:uation)?|[Cc]all sign disambiguation|[Cc]allsigndis|[Cc]hinese title disambig(uation)?|[Dd]ab|[Dd]isamb(?:ig(?:uation)?)?||[Dd]isambig-cleanup|[Dd]is|[Dd]isambiguation cleanup|[Gg]enus disambig(uation)?|[Hh]ndis|[Hh]ndis(?:-cleanup)?|[Hh]ospital disambiguation|[Hh]uman name disambiguation|[Hh]urricane season disambiguation|[Ll]etter-disambig|[Ll]etter-Number Combination Disambiguation|[Ll]etter–number combination disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Mm]athdab|[Mm]athematic(?:al|s) disambiguation|[Mm]il-unit-dis|[Mm]ilitary unit disambiguation|[Mm]olecular formula disambiguation|[Mm]olFormDisambig|[Nn]umber disambiguation|[Pp]lace name disambiguation|[Rr]oad disambiguation|[Ss]chool disambiguation|[Ss]pecies Latin name(?: abbreviation)? disambiguation|[Ss]tation disambiguation|[Tt]axonomy disambiguation)";
 
         /// <summary>
         /// Matches the month names and provides a capturing group when used in a regular expression
