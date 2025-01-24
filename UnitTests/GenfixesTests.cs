@@ -724,7 +724,7 @@ God.<ref name=""Smith63""/>
         [Test]
         public void LivingPeople()
         {
-            ArticleText = @"{{Multiple issues|{{refimprove|date=July 2015}}{{BLP sources|date=July 2015}}}}
+            ArticleText = @"{{Multiple issues|{{More citations needed|date=July 2015}}{{BLP sources|date=July 2015}}}}
 
 {{Infobox football biography
 | name = Am

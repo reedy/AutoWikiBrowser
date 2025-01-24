@@ -1141,7 +1141,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the cleanup templates that can be moved into the {{multiple issues}} section-level template
         /// </summary>
-        public static readonly Regex MultipleIssuesSectionMaintenanceTemplates = Tools.NestedTemplateRegex(new [] { "BLP sources section", "BLP unsourced section", "BLP unreferenced section", "Cleanup section", "Confusing section", "Copy edit-section", "Criticism section", "Disputed-section", "Expand section", "Importance-section", "POV-section", "Refimprove section", "Rewrite section", "Unreferenced section", "Update section", "Wikify section" } );
+        public static readonly Regex MultipleIssuesSectionMaintenanceTemplates = Tools.NestedTemplateRegex(new [] { "BLP sources section", "BLP unsourced section", "BLP unreferenced section", "Cleanup section", "Confusing section", "Copy edit-section", "Criticism section", "Disputed-section", "Expand section", "Importance-section", "POV-section", "Refimprove section", "More citations needed section", "Rewrite section", "Unreferenced section", "Update section", "Wikify section" } );
 
         /// <summary>
         /// Matches the "reflist", "references-small", "references-2column" references display templates

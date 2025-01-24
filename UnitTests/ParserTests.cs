@@ -1742,6 +1742,9 @@ Text";
             correct = @"{{refimprove section|date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(@"{{refimprove|section|date=May 2010}}"));
 
+            correct = @"{{More citations needed section|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{More citations needed|section|date=May 2010}}"));
+
             correct = @"{{BLP sources section|date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(@"{{BLP sources|section|date=May 2010}}"));
 
@@ -2018,24 +2021,24 @@ Text";
             string correct = @"Foo
 {{BLP sources}}
 [[Category:Living people]]", nochange = @"Foo
-{{refimprove}}";
+{{More citations needed}}";
 
             Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"));
             Assert.AreEqual(correct.Replace(":", " : "), Parsers.Conversions(nochange + "\r\n" + @"[[Category : Living people]]"));
             Assert.AreEqual(correct, Parsers.Conversions(@"Foo
-{{refimprove}}" + "\r\n" + @"[[Category:Living people]]"));
+{{More citations needed}}" + "\r\n" + @"[[Category:Living people]]"));
 
             Assert.AreEqual(correct, Parsers.Conversions(correct));
 
             Assert.AreEqual(nochange, Parsers.Conversions(nochange));
 
-            nochange = @"Foo {{refimprove|blah}}" + @"[[Category:Living people]]";
-            Assert.AreEqual(nochange, Parsers.Conversions(nochange), "no change when free-format text in refimprove first argument");
+            nochange = @"Foo {{More citations needed|blah}}" + @"[[Category:Living people]]";
+            Assert.AreEqual(nochange, Parsers.Conversions(nochange), "no change when free-format text in More citations needed first argument");
 
             Assert.AreEqual(@"Foo
 {{BLP sources|date=May 2010}}
 [[Category:Living people]]", Parsers.Conversions(@"Foo
-{{refimprove|date=May 2010}}
+{{More citations needed|date=May 2010}}
 [[Category:Living people]]"), "do conversion");
 
             Assert.AreEqual(@"Foo
@@ -2043,22 +2046,22 @@ Text";
 
 [[Category:Living people]]", Parsers.Conversions(@"Foo
 {{BLP sources|Date=May 2010}}
-{{refimprove|Date=May 2010}}
-[[Category:Living people]]"), "when have existing BLP sources then remove refimprove");
+{{More citations needed|Date=May 2010}}
+[[Category:Living people]]"), "when have existing BLP sources then remove More citations needed");
 
             Assert.AreEqual(@"Foo
 {{BLP sources|Date=May 2010}}
 [[Category:Living people]]", Parsers.Conversions(@"Foo
 {{multiple issues|
 {{BLP sources|Date=May 2010}}
-{{refimprove|Date=May 2010}}
+{{More citations needed|Date=May 2010}}
 }}
-[[Category:Living people]]"), "when have existing BLP sources then remove refimprove");
+[[Category:Living people]]"), "when have existing BLP sources then remove More citations needed");
 
             Assert.AreEqual(@"Foo
 {{BLP sources section|date=May 2010}}
 [[Category:Living people]]", Parsers.Conversions(@"Foo
-{{refimprove|section|date=May 2010}}
+{{More citations needed|section|date=May 2010}}
 [[Category:Living people]]"));
         }
 

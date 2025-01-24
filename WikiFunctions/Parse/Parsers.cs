@@ -1561,10 +1561,10 @@ namespace WikiFunctions.Parse
                 if (alltemplates.Contains("No footnotes"))
                     articleText = Tools.RenameTemplate(articleText, "No footnotes", "BLP no footnotes", false);
 
-                if (alltemplates.Contains("Refimprove"))
+                if (alltemplates.Contains("More citations needed"))
                 {
-                    // {{refimprove}} --> {{BLP sources}} if article has [[Category:Living people]], and no free-text first argument to {{refimprove}}
-                    MatchCollection mc = Tools.NestedTemplateRegex("refimprove").Matches(articleText);
+                    // {{More citations needed}} --> {{BLP sources}} if article has [[Category:Living people]], and no free-text first argument to {{More citations needed}}
+                    MatchCollection mc = Tools.NestedTemplateRegex("More citations needed").Matches(articleText);
                     if (mc.Count == 1)
                     {
                         string refimprove = mc[0].Value;
@@ -1574,18 +1574,18 @@ namespace WikiFunctions.Parse
                             // if also have existing BLP sources then remove refimprove
                             if (Tools.NestedTemplateRegex("BLP sources").IsMatch(articleText))
                             {
-                                articleText = Tools.NestedTemplateRegex("refimprove").Replace(articleText, "");
+                                articleText = Tools.NestedTemplateRegex("More citations needed").Replace(articleText, "");
                                 Parsers p = new Parsers();
                                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, p.MultipleIssuesSingleTagME);
                             }
                             else
-                                articleText = Tools.RenameTemplate(articleText, "refimprove", "BLP sources", false);
+                                articleText = Tools.RenameTemplate(articleText, "More citations needed", "BLP sources", false);
                         }
                     }
                 }
 
-                if(alltemplates.Contains("Refimprove section"))
-                    articleText = Tools.RenameTemplate(articleText, "refimprove section", "BLP sources section", false);
+                if(alltemplates.Contains("More citations needed section"))
+                    articleText = Tools.RenameTemplate(articleText, "More citations needed section", "BLP sources section", false);
             }
 
             if (TemplateExists(alltemplates, WikiRegexes.PortalTemplate))
@@ -1608,7 +1608,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", "BLP sources", "expand", "BLP unsourced", "BLP unreferenced" });
+        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", "BLP sources", "expand", "BLP unsourced", "BLP unreferenced", "More citations needed" });
 
         /// <summary>
         /// Converts templates such as {{foo|section|...}} to {{foo section|...}}

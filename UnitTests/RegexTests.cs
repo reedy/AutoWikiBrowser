@@ -194,6 +194,7 @@ namespace UnitTests
             TestMatches(WikiRegexes.BLPSources, @"{{ BLP Unreferenced | foo}}", 1);
             TestMatches(WikiRegexes.BLPSources, @"{{ BLP unsourced section| foo}}", 1);
             TestMatches(WikiRegexes.BLPSources, @"{{bLP Unreferenced}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{BLP unreferenced section| foo}}", 1);
         }
 
         [Test]

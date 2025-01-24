@@ -1449,7 +1449,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             const string LaterInSection = @"Bats.
 
 ==Con==
-{{Refimprove section|date=January 2009}}
+{{More citations needed section|date=January 2009}}
 The.
 
 {{multiple issues|section = yes|
