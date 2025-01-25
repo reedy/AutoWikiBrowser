@@ -1101,28 +1101,28 @@ was"));
         [Test]
         public void TemplateRedirects()
         {
-            Dictionary<Regex, string> TemplateRedirects = new Dictionary<Regex, string>();
+            Dictionary<Regex, string> TemplateRedirs = new Dictionary<Regex, string>();
             WikiRegexes.AllTemplateRedirects = null;
-            Assert.AreEqual("now {{Cn}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirects), "no change when redirects dictionary not built");
-            TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|Citation needed}}");
+            Assert.AreEqual("now {{Cn}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirs), "no change when redirects dictionary not built");
+            TemplateRedirs = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|Citation needed}}");
 
-            Assert.AreEqual("now was", Parsers.TemplateRedirects("now was", TemplateRedirects), "no change when no templates in text");
-            Assert.AreEqual("now {{Citation needed}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirects));
-            Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirects));
-            Assert.AreEqual("now {{citation needed}} was{{citation needed}} or", Parsers.TemplateRedirects("now {{cn}} was{{fact}} or", TemplateRedirects), "renames multiple different redirects");
-            Assert.AreEqual("now {{citation needed}} was{{citation needed}} or", Parsers.TemplateRedirects("now {{cn}} was{{cn}} or", TemplateRedirects), "renames multiple redirects");
+            Assert.AreEqual("now was", Parsers.TemplateRedirects("now was", TemplateRedirs), "no change when no templates in text");
+            Assert.AreEqual("now {{Citation needed}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirs));
+            Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirs));
+            Assert.AreEqual("now {{citation needed}} was{{citation needed}} or", Parsers.TemplateRedirects("now {{cn}} was{{fact}} or", TemplateRedirs), "renames multiple different redirects");
+            Assert.AreEqual("now {{citation needed}} was{{citation needed}} or", Parsers.TemplateRedirects("now {{cn}} was{{cn}} or", TemplateRedirs), "renames multiple redirects");
 
             Assert.AreEqual(@"now {{one|
 {{citation needed}} 
 }}", Parsers.TemplateRedirects(@"now {{one|
 {{cn}} 
-}}", TemplateRedirects), "renames when template nested");
+}}", TemplateRedirs), "renames when template nested");
 
             Assert.AreEqual(@"now {{citation needed|
 {{citation needed}} 
 }}", Parsers.TemplateRedirects(@"now {{fact|
 {{cn}} 
-}}", TemplateRedirects), "renames nested templates, both levels");
+}}", TemplateRedirs), "renames nested templates, both levels");
 
             Assert.AreEqual(@"now {{one|
 {{two|
@@ -1130,17 +1130,17 @@ was"));
 }}}}", Parsers.TemplateRedirects(@"now {{one|
 {{two|
 {{cn}} 
-}}}}", TemplateRedirects), "renames when template double nested");
+}}}}", TemplateRedirs), "renames when template double nested");
 
-            TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}");
-            Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirects), "follows case of new template name");
-            Assert.AreEqual("now {{Citation needed}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirects), "follows case of new template name");
+            TemplateRedirs = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}");
+            Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirs), "follows case of new template name");
+            Assert.AreEqual("now {{Citation needed}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirs), "follows case of new template name");
             
-            TemplateRedirects = Parsers.LoadTemplateRedirects(@"{{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}
+            TemplateRedirs = Parsers.LoadTemplateRedirects(@"{{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}
 {{tl|foo}} → {{tl|bar}}");
-            Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirects), "follows case of new template name");
+            Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirs), "follows case of new template name");
 
-            TemplateRedirects = Parsers.LoadTemplateRedirects(@"{{tl|Articleissues}} → {{tl|multiple issues}}
+            TemplateRedirs = Parsers.LoadTemplateRedirects(@"{{tl|Articleissues}} → {{tl|multiple issues}}
 {{tl|Rewrite}} → {{tl|cleanup-rewrite}}
 {{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}");
 
@@ -1152,7 +1152,7 @@ was"));
 {{Refimprove|date=July 2012}}
 {{Citation style|date=July 2012}}
 {{Rewrite|date=July 2012}}
-}} was", TemplateRedirects), "nested template example");
+}} was", TemplateRedirs), "nested template example");
 
             const string A = @"{{Infobox musical artist
 | name       = A
@@ -1162,21 +1162,21 @@ was"));
 | website        = {{URL|a.com}}
 }}";
 
-            Assert.AreEqual(A.Replace(@"{{Cn", @"{{Citation needed"), Parsers.TemplateRedirects(A, TemplateRedirects));
+            Assert.AreEqual(A.Replace(@"{{Cn", @"{{Citation needed"), Parsers.TemplateRedirects(A, TemplateRedirs));
             
             string B = @"{{ONE | {{TWO | {{THREE | {{Cn}} }} }} }}";
             
-            Assert.AreEqual(B.Replace(@"{{Cn", @"{{Citation needed"), Parsers.TemplateRedirects(B, TemplateRedirects));
+            Assert.AreEqual(B.Replace(@"{{Cn", @"{{Citation needed"), Parsers.TemplateRedirects(B, TemplateRedirs));
 
-            TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Infobox Play}} → {{tl|Infobox play}}");
-            Assert.AreEqual("{{Infobox play}}", Parsers.TemplateRedirects("{{Infobox_Play}}", TemplateRedirects), "");
+            TemplateRedirs = Parsers.LoadTemplateRedirects("{{tl|Infobox Play}} → {{tl|Infobox play}}");
+            Assert.AreEqual("{{Infobox play}}", Parsers.TemplateRedirects("{{Infobox_Play}}", TemplateRedirs), "");
 
             // when magic word
-            TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Display title}}, {{tl|Displaytitle}} → {{tl|DISPLAYTITLE}}");
+            TemplateRedirs = Parsers.LoadTemplateRedirects("{{tl|Display title}}, {{tl|Displaytitle}} → {{tl|DISPLAYTITLE}}");
 
-            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{display title|Foo}} was", TemplateRedirects), "Magic word template redirected and formatted");
-            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{displaytitle|Foo}} was", TemplateRedirects), "Magic word template redirected and formatted");
-            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{Displaytitle|Foo}} was", TemplateRedirects), "Magic word template redirected and formatted");
+            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{display title|Foo}} was", TemplateRedirs), "Magic word template redirected and formatted");
+            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{displaytitle|Foo}} was", TemplateRedirs), "Magic word template redirected and formatted");
+            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{Displaytitle|Foo}} was", TemplateRedirs), "Magic word template redirected and formatted");
         }
 
         [Test]
