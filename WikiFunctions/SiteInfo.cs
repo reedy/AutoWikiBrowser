@@ -215,7 +215,7 @@ namespace WikiFunctions
             {
                 int id = int.Parse(xn.Attributes["id"].Value, CultureInfo.InvariantCulture);
 
-                if (id != 0) namespaceAliases[id].Add(xn.InnerText);
+                if (id != 0 && Variables.Namespaces.ContainsKey(id)) namespaceAliases[id].Add(xn.InnerText);
             }
 
             if (query["magicwords"] == null)
