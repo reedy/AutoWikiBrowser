@@ -1650,7 +1650,28 @@ Hello world comment.", "don't add blank line when header is on the top");
 Hello world comment.", "add header between template and text");
 
         }
-        
+
+        [Test]
+        public void AddMissingFirstCommentHeaderLocalization()
+        {
+#if DEBUG
+            Variables.SetProjectLangCode("zh");
+            Assert.AreEqual(@"{{WikiProject banner shell|blp=yes|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject banner shell|blp=yes|blp=yes}}"));
+
+            const string comment = @"
+Hello world comment.";
+            string articleTextIn = articleTextHeader + comment;
+
+            // plain comment
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+
+            Assert.AreEqual(articleTextIn, articleTextHeader + "\r\n" + @"
+==無標題==
+Hello world comment.");
+            Variables.SetProjectLangCode("en");
+#endif
+        }
+
         [Test]
         public void AddMissingFirstCommentHeaderNoChanges()
         {

@@ -341,8 +341,8 @@ namespace WikiFunctions.TalkPages
                     // is there a heading level 3? If yes, change to level 2
                     string articletexttofirstcomment = articleText.Substring(0, firstCommentIndex);
 
-                    articleText = WikiRegexes.HeadingLevelThree.IsMatch(articletexttofirstcomment) ? WikiRegexes.HeadingLevelThree.Replace(articleText, @"==$1==", 1) : articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n").TrimStart();
-                    articleText = articleText.Replace("\r\n\r\n\r\n==Untitled", "\r\n\r\n==Untitled");
+                    articleText = WikiRegexes.HeadingLevelThree.IsMatch(articletexttofirstcomment) ? WikiRegexes.HeadingLevelThree.Replace(articleText, @"==$1==", 1) : articleText.Insert(firstCommentIndex, "\r\n==" + Variables.UntitledHeading + "==\r\n").TrimStart();
+                    articleText = articleText.Replace("\r\n\r\n\r\n==" + Variables.UntitledHeading, "\r\n\r\n==" + Variables.UntitledHeading);
                 }
             }
 

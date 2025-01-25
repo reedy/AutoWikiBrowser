@@ -358,6 +358,11 @@ namespace WikiFunctions
         private static string mSummaryTag;
 
         /// <summary>
+        /// ==Untitled== heading word
+        /// </summary>
+        public static string UntitledHeading { get; private set; }
+
+        /// <summary>
         /// Gets the tag to add to the edit summary, e.g. " using [[Project:AWB]]".
         /// </summary>
         public static string SummaryTag
@@ -1026,6 +1031,7 @@ namespace WikiFunctions
                     Stub = ".*?(?:小作品|[Ss]tub)";
                     mSummaryTag = "由";
                     WPAWB = "[[维基百科:自动维基浏览器|自动维基浏览器]]协助";
+                    UntitledHeading = "無標題";
                     break;
 
                 case "zh-classical":
@@ -1036,6 +1042,10 @@ namespace WikiFunctions
                 case "zh-yue":
                     mSummaryTag = "用";
                     WPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]幫手";
+                    break;
+
+                default:
+                    UntitledHeading = "Untitled";
                     break;
 
                     // case "xx":
