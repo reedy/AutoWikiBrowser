@@ -100,7 +100,9 @@ namespace WikiFunctions.Logging
             // TODO resolve exception by prevention rather than simply catching
             try
             {
+                listView.BeginUpdate();
                 listView.Items.Insert(0, this);
+                listView.EndUpdate();
             }
 
             catch { }
