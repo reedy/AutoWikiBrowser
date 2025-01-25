@@ -763,7 +763,7 @@ namespace WikiFunctions
         public static Regex DisambigsCleanup;
 
         /// <summary>
-        /// Matches SIA templates (en only; WP:SIA)
+        /// Matches SIA/Set index articles templates (en only; WP:SIA)
         /// </summary>
         public static Regex SIAs;
 
