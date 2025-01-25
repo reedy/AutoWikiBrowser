@@ -596,7 +596,7 @@ namespace AutoWikiBrowser
             }
             else if (ex is SpamlistException)
             {
-                string message = "Text '" + (ex as SpamlistException).URL + "' is blocked by SpamBlacklist extension";
+                string message = (ex as SpamlistException).URL;
 
                 if (!BotMode)
                 {
