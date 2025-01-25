@@ -583,6 +583,35 @@ text";
         }
 
         [Test]
+        public void TestFixHeadingsAnchor()
+        {
+            string correct = @"Foo
+{{Anchor|Nineteentwenties}}
+==1920s==
+Bar";
+            Assert.AreEqual(correct, Parsers.FixHeadings(correct, "Test"), "no change to anchor just before L2 heading");
+
+            correct = @"Foo
+
+==Some heading==
+Some text.
+{{Anchors|Nineteentwenties}}
+===1920s===
+Bar";
+            Assert.AreEqual(correct, Parsers.FixHeadings(correct, "Test"), "no change to anchor just before L3 heading");
+
+            correct = @"Foo
+
+==Some heading==
+Some text.
+{{Anchors|Nineteentwenties}}
+===1920s===
+
+Bar";
+            Assert.AreEqual(correct, Parsers.FixHeadings(correct, "Test"), "no change to anchor just before L3 heading - newline after");
+        }
+
+        [Test]
         public void TestFixHeadingsBlankLineBeforeEnOnly()
         {
 #if DEBUG
