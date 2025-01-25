@@ -435,6 +435,7 @@ en, sq, ru
         }
         
         private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");
+        private static readonly Regex NF = Tools.NestedTemplateRegex("NF");
         private static readonly Regex CatsForDeletion = new Regex(@"\[\[Category:(Pages|Categories|Articles) for deletion\]\]");
 
         /// <summary>
@@ -523,6 +524,10 @@ en, sq, ru
             if (Variables.LangCode.Equals("sl") && LifeTime.IsMatch(articleText))
             {
                 defaultSort = LifeTime.Match(articleText).Value;
+            }
+            if (Variables.LangCode.Equals("es") && NF.IsMatch(articleText))
+            {
+                defaultSort = NF.Match(articleText).Value;
             }
             else if (mc.Count > 0)
                     defaultSort = mc[0].Value;

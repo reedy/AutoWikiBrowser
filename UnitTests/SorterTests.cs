@@ -1321,9 +1321,16 @@ b = @"A
             // http://sl.wikipedia.org/wiki/Predloga:Lifetime
             Assert.AreEqual(l + "\r\n" + c + "\r\n", parser2.Sorter.RemoveCats(ref articleText, "test"), "lifetime treated like DEFAULTSORT on sl-wiki");
 
+            Variables.SetProjectLangCode("es");
+            l = @"{{NF|1980||Nieto, Pablo}}";
+            articleText = waffle + c + "\r\n" + l;
+
+            // https://es.wikipedia.org/wiki/Plantilla:NF#Ubicaci%C3%B3n%20en%20los%20art%C3%ADculos
+            Assert.AreEqual(l + "\r\n" + c + "\r\n", parser2.Sorter.RemoveCats(ref articleText, "test"), "NF treated like DEFAULTSORT on es-wiki");
+
             Variables.SetProjectLangCode("en");
             articleText = waffle + c + "\r\n" + l;
-            Assert.AreEqual(c + "\r\n", parser2.Sorter.RemoveCats(ref articleText, "test"), "lifetime is just another template on en-wiki");
+            Assert.AreEqual(c + "\r\n", parser2.Sorter.RemoveCats(ref articleText, "test"), "lifetime/NF is just another template on en-wiki");
             #endif
         }
 
