@@ -2975,9 +2975,14 @@ Message: {2}
             return (templateCall.Substring(0, 3) + restoftemplate);
         }
 
-        private static string PipeCleanedTemplate(string template)
+        /// <summary>
+        /// Removes pipes that are not the pipe indicating the end of the parameter's value
+        /// </summary>
+        /// <param name="templateCall">The template call to clean</param>
+        /// <returns>The pipe cleaned template call</returns>
+        private static string PipeCleanedTemplate(string templateCall)
         {
-            return PipeCleanedTemplate(template, false);
+            return PipeCleanedTemplate(templateCall, false);
         }
 
         /// <summary>
