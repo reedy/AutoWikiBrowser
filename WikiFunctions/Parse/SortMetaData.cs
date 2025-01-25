@@ -379,6 +379,9 @@ namespace WikiFunctions.Parse
                     mergedTemplates = m.Value;
                 else
                 {
+                    // named parameters in second template can't be handled e.g. could be l1 in {{main}} that would refer to wrong template arg if merged
+                    if(Tools.GetTemplateParameterValues(m.Value).Any())
+                        break;
                     mergedTemplates = Regex.Replace(mergedTemplates, @"}}$", m.Groups[3].Value);
                     merged++;
                 }

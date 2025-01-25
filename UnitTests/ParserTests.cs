@@ -1300,7 +1300,10 @@ words";
             Assert.AreEqual(AB.Replace("}}", "|[[c]]}}"), Parsers.MergeTemplatesBySection(@"{{Main|a}}{{Main|b|[[c]]}}"), "merges multiple arguments, one with link");
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{Main|a}}{{main|b|c}}"), "different capitalition");
             Assert.AreEqual(AB, Parsers.MergeTemplatesBySection(AB), "no change if already merged");
-            
+
+            AB = @"{{Main|a}}{{Main|b|l1=d}}";
+            Assert.AreEqual(AB, Parsers.MergeTemplatesBySection(AB), "no change when link params used");
+
             const string SeparateSections = @"==One==
 {{see also|A}}
 ==Two==
