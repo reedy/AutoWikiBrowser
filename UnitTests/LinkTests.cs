@@ -735,6 +735,8 @@ x
 x
 ", references = @"== References==
 x
+", notes4 = @"==== Notes ====
+x
 ";
             Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(""), "Empty string check");
             Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + seeAlso), "Only see also");
@@ -744,6 +746,7 @@ x
             Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + notes + seeAlso), "notes then see also");
             Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + references + seeAlso), "refs then see also");
             Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + references + seeAlso + notes), "refs then see also then notes");
+            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + notes4 + seeAlso), "L4 notes ignored");
         }
 
         [Test]

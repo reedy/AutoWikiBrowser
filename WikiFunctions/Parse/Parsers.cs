@@ -287,14 +287,14 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Checks position of See also section relative to Notes, references, external links sections
+        /// Checks position of See also section relative to level 2 Notes, references, external links sections
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>Whether 'see also' is after any of the sections</returns>
         public static bool HasSeeAlsoAfterNotesReferencesOrExternalLinks(string articleText)
         {
-            // Performance: filter articleText down to just the headings
-            List<string> allHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText) select m.Value).ToList();
+            // Performance: filter articleText down to just the level 2 headings
+            List<string> allHeadings = (from Match m in WikiRegexes.Headings.Matches(articleText) select m.Value).Where(h => !h.StartsWith("===")).ToList();
 
             articleText = "\r\n" + string.Join("\r\n", allHeadings.ToArray());
 
