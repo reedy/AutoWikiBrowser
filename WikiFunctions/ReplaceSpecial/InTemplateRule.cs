@@ -122,48 +122,18 @@ namespace WikiFunctions.ReplaceSpecial
 
             public void Parse(TreeNode tn)
             {
-                for (; ;)
-                {
-                    int i = text_.IndexOf("{{", StringComparison.Ordinal);
-                    if (i < 0)
-                    {
-                        result_ += text_;
-                        return;
-                    }
+                // get all template calls in text, including nested
+                List<string> allT = WikiFunctions.Parse.Parsers.GetAllTemplateDetail(text_);
 
-                    i += 2;
-                    result_ += text_.Substring(0, i);
+                // only need to process template calls that match the input template name
+                allT.RemoveAll(t => Tools.TurnFirstToUpperNoProjectCheck(Tools.GetTemplateName(t)) != Tools.TurnFirstToUpperNoProjectCheck(template_));
 
-                    text_ = text_.Substring(i);
-                    Inside(tn);
-                }
-            }
+                allT.ForEach(t => {
+                    string res = ReplaceOn(template_, tn, t, title_);
+                    text_ = text_.Replace(t, res);
+                });
 
-            private void Inside(TreeNode tn)
-            {
-                for (; ;)
-                {
-                   /* 
-                       This function used to have slightly different logic;
-                       it was changed in r8062 following a discussion at
-                       https://en.wikipedia.org/wiki/WT:AutoWikiBrowser/Bugs/Archive_20#Bad_.22in_template.22_handling
-                    */
-                    string text_2 = Tools.ReplaceWithSpaces(text_, WikiRegexes.NestedTemplates.Matches(text_));
-                    int i = text_2.IndexOf("}}", StringComparison.Ordinal);
-                    if (i < 0)
-                        return; // error: template not closed
-
-                    string t = text_.Substring(0, i);
-                    i += 2;
-                    text_ = text_.Substring(i);
-
-                    result_ += ApplyOn(template_, tn, t, title_);
-
-                    result_ += "}}";
-
-                    return;
-
-                }
+                result_ = text_;
             }
         }
 
@@ -222,11 +192,6 @@ namespace WikiFunctions.ReplaceSpecial
             }
 
             return text;
-        }
-
-        private static string ApplyOn(string template, TreeNode tn, string text, string title)
-        {
-            return !TemplateUsedInText(template, text) ? text : ReplaceOn(template, tn, text, title);
         }
     }
 }
