@@ -76,7 +76,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex MultipleHttpInLink = new Regex(@"(?<=[\s\[>=])(https?(?::?/+|:/*)) *(\1)+", RegexOptions.IgnoreCase);
         private static readonly Regex MultipleFtpInLink = new Regex(@"(?<=[\s\[>=])(ftp(?::?/+|:/*))(\1)+", RegexOptions.IgnoreCase);
         private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^\]\[<>\""\s]*?\s*)(?: +\||\|([ ']))(?=[^\[\]\|]*\])");
-        private static readonly Regex HttpLinks = new Regex(@"http[htps:/ ]+");
+        private static readonly Regex HttpLinks = new Regex(@"http[htps:/ %]+");
 
         private static readonly Regex MissingColonInHttpLink = new Regex(@"(?<=[\s\[>=](?:ht|f))(tps?)(?://?:?|:(?::+//)?)(\w+)", RegexOptions.Compiled);
         private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"(?<=[\s\[>=](?:ht|f))(tps?):(?:/|////?)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -258,6 +258,10 @@ namespace WikiFunctions.Parse
                 articleText = MissingColonInHttpLink.Replace(articleText, "$1://$2");
                 articleText = SingleTripleSlashInHttpLink.Replace(articleText, "$1://$2");
                 articleText = articleText.Replace("https://http://", "https://");
+                articleText = articleText.Replace("https:// www.", "https://www.");
+                articleText = articleText.Replace("http:// www.", "http://www.");
+                articleText = articleText.Replace("[http%3A//", "[http://");
+                articleText = articleText.Replace("[https%3A//", "[https://");
             }
 
             if (CellpaddingTypoQuick.IsMatch(articleText))
