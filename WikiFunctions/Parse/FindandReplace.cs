@@ -674,25 +674,58 @@ namespace WikiFunctions.Parse
             btnSearch.Enabled = txtSearch.Text.Length > 0;
         }
 
+        // performs a search for next match after current cell, or first match if no matches after current cell (last match found)
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 2; i++)
-                for (int j = 0; j < dataGridView1.Rows.Count; j++)
+            // row index of currently highlighted cell (if any)
+            int a = dataGridView1.CurrentCell.RowIndex;
+
+            // get list of all cells with text match
+            List<DataGridViewCell> cells = new List<DataGridViewCell>();
+
+            // search by row then column
+            for (int j = 0; j < dataGridView1.Rows.Count; j++)
+            {
+                for (int i = 0; i < 2; i++)
                 {
                     DataGridViewCell c = dataGridView1.Rows[j].Cells[i];
                     if (c.Value != null && c.Value.ToString().Contains(txtSearch.Text))
-                    {
-                        dataGridView1.ClearSelection();
-                        dataGridView1.EndEdit();
-                        dataGridView1.CurrentCell = c;
-                        if (!c.Displayed)
-                        {
-                            dataGridView1.FirstDisplayedScrollingRowIndex = c.RowIndex;
-                        }
-                        dataGridView1.Focus();
-                        dataGridView1.BeginEdit(false);
-                    }
+                        cells.Add(c);
                 }
+            }
+
+            // nothing to do if no matches
+            if (cells.Count == 0)
+                return;
+
+            DataGridViewCell c2;
+
+            // if no current grid focus, pick first match
+            if (a < 0)
+            {
+                c2 = cells[0];
+            }
+            else
+            {
+                // look for a match on a row after current grid focus
+                // if no match, go back to start of grid i.e. first match
+                List<DataGridViewCell> cells2 = cells.FindAll(x => x.RowIndex > a);
+                if (cells2.Count > 0)
+                    c2 = cells2[0];
+                else
+                    c2 = cells[0];
+            }
+
+            // select / focus / scroll to selected match
+            dataGridView1.ClearSelection();
+            dataGridView1.EndEdit();
+            dataGridView1.CurrentCell = c2;
+            if (!c2.Displayed)
+            {
+                dataGridView1.FirstDisplayedScrollingRowIndex = c2.RowIndex;
+            }
+            dataGridView1.Focus();
+            dataGridView1.BeginEdit(false);
         }
 
         private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
