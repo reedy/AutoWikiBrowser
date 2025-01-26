@@ -647,6 +647,7 @@ was [[foo|bar]] too"));
 
             Assert.AreEqual(@"[[Foo bar]]", Parsers.FixLinks(@"[[Foo_bar]]", "a", out nochange), "Fixes underscore");
             Assert.AreEqual(@"[[Foo bar#ab c]]", Parsers.FixLinks(@"[[Foo_bar#ab_c]]", "a", out nochange), "Fixes underscore");
+            Assert.AreEqual(@"[[Mercedes-Benz C-Class#W202 (1993–2000)|Mercedes-Benz C-Class]]", Parsers.FixLinks(@"[[Mercedes-Benz C-Class#W202 %281993%E2%80%932000%29|Mercedes-Benz C-Class]]", "a", out nochange), "Fixes percent encoding");
 
             Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[foo{{!}}bar]]", "a", out nochange), "Fixes pipe");
             Assert.AreEqual(@"[[foo|]]", Parsers.FixLinks(@"[[foo{{!}}]]", "a", out nochange), "Fixes pipe");
@@ -983,6 +984,7 @@ http://example.com }}");
             Assert.AreEqual(@"foo+bar", Parsers.CanonicalizeTitle(@"foo%2Bbar"));
             Assert.AreEqual("foo (bar)", Parsers.CanonicalizeTitle("foo_(bar)"));
             Assert.AreEqual("Template:foo bar", Parsers.CanonicalizeTitle("Template:foo_bar"));
+            Assert.AreEqual("W202 (1993–2000)", Parsers.CanonicalizeTitle("W202 %281993%E2%80%932000%29"));
 
             Assert.AreEqual("foo_bar}}", Parsers.CanonicalizeTitle("foo_bar}}"), "no change to invalid title");
 
