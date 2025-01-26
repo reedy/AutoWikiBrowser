@@ -218,9 +218,14 @@ namespace WikiFunctions.Controls
                 txtInput.Text = CRNewLineRegex.Replace(txtInput.Text, "\n");
                 Busy = true;
 
+                // do ApplyKeyWords if editor has a page open, so that %%pagename%% etc. from a rule being tested work as expected
+                string txtReplace_Text = txtReplace.Text;
+                if (Variables.MainForm.TheSession.Editor.Page != null)
+                    txtReplace_Text = Tools.ApplyKeyWords(Variables.MainForm.TheSession.Editor.Page.Title, txtReplace_Text);
+
                 Regex r = new Regex(txtFind.Text, Options);
 
-                Runner = new RegexRunner(this, txtInput.Text, CRNewLineRegex.Replace(txtReplace.Text, "\n"), r);
+                Runner = new RegexRunner(this, txtInput.Text, CRNewLineRegex.Replace(txtReplace_Text, "\n"), r);
             }
             catch (Exception ex)
             {
