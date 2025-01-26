@@ -1417,6 +1417,8 @@ namespace AutoWikiBrowser
             if (_dlgTalk.ShowDialog() == DialogResult.Yes)
             {
                 Tools.OpenUserTalkInBrowser(TheSession.User.Name);
+                // In case the browser is logged in as a different user
+                TheSession.Editor.SynchronousEditor.ClearNewMessages();
             }
         }
 

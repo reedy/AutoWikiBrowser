@@ -766,6 +766,11 @@ namespace WikiFunctions.API
             User = new UserInfo(xml);
         }
 
+        public void ClearNewMessages()
+        {
+            HttpPost(new Dictionary<string, string> { { "action", "clearhasmsg" } },
+                     new Dictionary<string, string>());
+        }
         #endregion
 
         #region Page modification
