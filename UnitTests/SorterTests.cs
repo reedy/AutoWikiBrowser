@@ -332,6 +332,94 @@ Hello";
 Hello";
 
             Assert.AreEqual(correct3, parser2.SortMetaData(correct3, "Title"), "Already correctly ordered with use mdy, use American and single maintenance template");
+
+            const string correct4 = @"{{Short description|American character with section word}}
+{{other uses}}
+{{featured article}}
+{{Prod blp}}
+{{Cleanup}}
+{{Use mdy dates}}
+{{Use American English}}
+{{Infobox actor|fiddles with articletitle}}
+{{lowercase title}}
+Hello";
+
+            Assert.AreEqual(correct4, parser2.SortMetaData(correct4, "Title"), "Already correct - {{lowercase title}} after infobox");
+
+            const string correct5 = @"{{Short description|American character with section word}}
+{{other uses}}
+{{featured article}}
+{{Prod blp}}
+{{Cleanup}}
+{{Use mdy dates}}
+{{Use American English}}
+{{lowercase title}}
+{{Infobox actor|doesn't fiddle with articletitle}}
+Hello";
+
+            Assert.AreEqual(correct5, parser2.SortMetaData(correct5, "Title"), "Already correct - {{lowercase title}} just before infobox");
+
+            const string correct6 = @"{{Short description|Operating system for Apple computers}}
+{{Lowercase title}}
+{{Redirect2|OSX|OS X}}
+{{About|macOS version 10.0 and later|Mac OS 9 and earlier}}
+{{pp-semi-indef}}
+{{Use mdy dates|date=August 2019}}
+{{Infobox OS
+| name = macOS
+| support_status = Supported
+}}
+{{macOS sidebar}}
+
+'''macOS''', originally.";
+
+            Assert.AreEqual(correct6, parser2.SortMetaData(correct6, "MacOS"), "Already correct - {{lowercase title}} after {{short description}}");
+
+            Assert.AreEqual(correct6, parser2.SortMetaData(@"{{Short description|Operating system for Apple computers}}
+{{Redirect2|OSX|OS X}}
+{{Lowercase title}}
+{{About|macOS version 10.0 and later|Mac OS 9 and earlier}}
+{{pp-semi-indef}}
+{{Use mdy dates|date=August 2019}}
+{{Infobox OS
+| name = macOS
+| support_status = Supported
+}}
+{{macOS sidebar}}
+
+'''macOS''', originally.", "MacOS"), "Move {{lowercase title}} - incorrectly placed, not attached to infobox");
+
+            const string correct7 = @"{{Short description|Operating system for Apple computers}}
+{{Redirect2|OSX|OS X}}
+{{About|macOS version 10.0 and later|Mac OS 9 and earlier}}
+{{pp-semi-indef}}
+{{Use mdy dates|date=August 2019}}
+{{Lowercase title}}
+{{Infobox OS
+| name = macOS
+| support_status = Supported
+}}
+{{macOS sidebar}}
+
+'''macOS''', originally.";
+
+            Assert.AreEqual(correct7, parser2.SortMetaData(correct7, "MacOS"), "Already correct - {{lowercase title}} just before infobox");
+
+            const string correct8 = @"{{Short description|Operating system for Apple computers}}
+{{Redirect2|OSX|OS X}}
+{{About|macOS version 10.0 and later|Mac OS 9 and earlier}}
+{{pp-semi-indef}}
+{{Use mdy dates|date=August 2019}}
+{{Infobox OS
+| name = macOS
+| support_status = Supported
+}}
+{{Lowercase title}}
+{{macOS sidebar}}
+
+'''macOS''', originally.";
+
+            Assert.AreEqual(correct8, parser2.SortMetaData(correct8, "MacOS"), "Already correct - {{lowercase title}} after infobox");
         }
 
         [Test]

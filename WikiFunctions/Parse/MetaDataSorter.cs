@@ -316,10 +316,12 @@ en, sq, ru
 
             string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
 
-            string interwikis = Tools.Newline(Interwikis(ref articleText, TemplateExists(alltemplates, WikiRegexes.LinkFGAs))); 
+            string interwikis = Tools.Newline(Interwikis(ref articleText, TemplateExists(alltemplates, WikiRegexes.LinkFGAs)));
 
             if (Namespace.IsMainSpace(articleTitle) && !Tools.IsRedirect(articleText))
             {
+                bool moveDisplayLowerCaseItalicTitle = DisplayLowerCaseItalicTitleNeedsMoving(articleText);
+
                 // Templates relating to English variety and date format after maintenance templates, per [[WP:LAYOUT]]
                 if (TemplateExists(alltemplates, WikiRegexes.UseDatesEnglishTemplates))
                     articleText = MoveTemplate(articleText, WikiRegexes.UseDatesEnglishTemplates);
@@ -344,6 +346,10 @@ en, sq, ru
                     articleText = MoveTemplate(articleText, HatnoteGroup);
                 else if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
                     articleText = MoveTemplate(articleText, WikiRegexes.Dablinks);
+
+                // {{DISPLAYTITLE}}, {{Lowercase title}}, {{Italic title}} above hatnotes per [[MOS:ORDER]] if not being kept directly above, or after an infobox
+                if(moveDisplayLowerCaseItalicTitle)
+                    articleText = MoveTemplate(articleText, WikiRegexes.DisplayLowerCaseItalicTitle);
 
                 // {{short description}} above dablinks per [[MOS:ORDER]]
                 if (TemplateExists(alltemplates, WikiRegexes.ShortDescriptionTemplate))
@@ -426,7 +432,38 @@ en, sq, ru
             // Only trim start on Category namespace, restore any saved short page monitor text
             return (Namespace.Determine(articleTitle) == Namespace.Category ?  articleText.Trim() : articleText.TrimEnd()) + shortPagesMonitor;
         }
-        
+
+        /// <summary>
+        /// Returns whether DISPLAYTITLE/italic title/lowercase title templates need to be processed by MetaDataSorter
+        /// </summary>
+        /// <param name="articleText">Article text.</param>
+        private static bool DisplayLowerCaseItalicTitleNeedsMoving(string articleText)
+        {
+            List<string> alltemplatesZ = WikiRegexes.NestedTemplates.Matches(Tools.GetZerothSection(articleText)).Cast<Match>().Select(m => m.Value).ToList();
+
+            // determine relative position of DISPLAYTITLE/italic title/lowercase title template and any infobox
+            int displaytitle = alltemplatesZ.FindIndex(t => WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(t));
+            int infobox = alltemplatesZ.FindIndex(t => WikiRegexes.InfoBox.IsMatch(t));
+
+            if (displaytitle > -1)
+            {
+                /* If no infobox then template should be sorted per MOS:ORDER in 2nd position (after short description)
+                 * If have infobox, but there are other templates inbetween, then again template should be sorted in 2nd position               
+                 * If template just before infobox, or anywhere after infobox, don't sort it, as MOS:ORDER allows those positions too
+                 * */
+                if (infobox == -1)
+                    return true;
+                else if (displaytitle > infobox)
+                    return false;
+                else if (infobox - displaytitle == 1)
+                    return false;
+                else
+                    return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Returns whether the given regex matches any of the (first name upper) templates in the given list
         /// </summary>
