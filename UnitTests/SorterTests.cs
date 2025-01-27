@@ -279,14 +279,32 @@ Hello";
 
             Assert.AreEqual(correct, parser2.SortMetaData(correct, "Title"), "Use mdy dates - already correctly ordered");
 
-            Assert.AreEqual(correct, parser2.SortMetaData(@"{{Short description|American character}}
-{{Use mdy dates}}
+            Assert.AreEqual(correct, parser2.SortMetaData(@"{{Use mdy dates}}
+{{Short description|American character}}
 {{other uses}}
 {{featured article}}
 {{Prod blp}}
 {{Use American English}}
 {{Infobox actor}}
 Hello", "Title"), "Use mdy dates starting at top");
+
+            Assert.AreEqual(correct, parser2.SortMetaData(@"{{Use mdy dates}}
+{{Use American English}}
+{{Short description|American character}}
+{{other uses}}
+{{featured article}}
+{{Prod blp}}
+{{Infobox actor}}
+Hello", "Title"), "Use mdy dates and American English starting at top");
+
+            Assert.AreEqual(correct, parser2.SortMetaData(@"{{featured article}}
+{{Short description|American character}}
+{{other uses}}
+{{Use mdy dates}}
+{{Use American English}}
+{{Prod blp}}
+{{Infobox actor}}
+Hello", "Title"), "featured article starting at top");
         }
 
         [Test]
