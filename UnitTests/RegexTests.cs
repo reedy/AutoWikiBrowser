@@ -257,7 +257,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<!--{{abc}}-->"));
             Assert.IsFalse(WikiRegexes.UnformattedText.IsMatch(@"<pre>{{abc}}</nowiki>"), "Does not match unbalanced tags");
         }
-        
+
         [Test]
         public void AllTags()
         {
@@ -275,11 +275,11 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<onlyinclude>{{abc}}</onlyinclude>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<hiero>abc</hiero>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<score>{a,, c, e, a, c e a c' e' a' c'' e'' a'' c''' e''' g''' \bar</score>"));
-            
+
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
             Assert.IsFalse(WikiRegexes.AllTags.IsMatch(@"<!--{{abc}}-->"));
             Assert.IsFalse(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</nowiki>"), "Does not match unbalanced tags");
-            
+
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</pre>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<code>{{abc}}</code>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<source lang=xml>{{abc}}</source>"));
@@ -292,7 +292,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math chem>{{abc}}</math>"));
 
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>now <br> now </pre>"));
-            
+
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre >{{abc}}< / pre >"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre > {{abc}} < / pre >"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre >
@@ -309,7 +309,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
         {
             Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<code>{{abc}}</code>"));
             Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<source lang=xml>{{abc}}</source>"));
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));            
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""xml"">{{abc}}</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""javascript"">\r\n var x; //defines the variable x</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<source>{{abc}}</source>"));
@@ -319,7 +319,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsFalse(WikiRegexes.SourceCode.IsMatch(@"<math>{{abc}}</math>"));
             Assert.IsFalse(WikiRegexes.SourceCode.IsMatch(@"<pre>{{abc}}</pre>"));
         }
-        
+
         [Test]
         public void MathPreSourceCodeTests()
         {
@@ -327,7 +327,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<!--{{abc}}-->"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<code>{{abc}}</code>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<source lang=xml>{{abc}}</source>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));            
+            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=""xml"">{{abc}}</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""javascript"">\r\n var x; //defines the variable x</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<source>{{abc}}</source>"));
@@ -454,7 +454,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.DoublePipeLink, "[[Foo (1971–1985)|Victor + Victoria|Bairns, dale]]", "[[Foo (1971–1985)|Victor + Victoria|Bairns, dale]]");
             TestMatch(WikiRegexes.DoublePipeLink, "[[test's test|test1|test2]]", "[[test's test|test1|test2]]");
             TestMatch(WikiRegexes.DoublePipeLink, @"[[Vlach ""Roman Legion""|The Roman Legion|The so called ""Roman Legion""]]");
-            
+
             TestMatch(WikiRegexes.DoublePipeLink, "[[text|foo bar]]", false);
             TestMatch(WikiRegexes.DoublePipeLink, "[[|linktext]]", false);
             TestMatch(WikiRegexes.DoublePipeLink, "[[foo|bar]]", false);
@@ -599,7 +599,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
 bar</ IMAGEMAP>", @"< imagemap >foo
 bar</ IMAGEMAP>");
         }
-        
+
         [Test]
         public void GalleryTagTests()
         {
@@ -904,7 +904,7 @@ foo
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk", "http://www.google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "//google.co.uk", "//google.co.uk");
-            
+
             // protocol coverage
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "https://www.foo.com/asdfasdf/asdf.htm", "https://www.foo.com/asdfasdf/asdf.htm");
@@ -966,7 +966,7 @@ foo
             RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "svn://www.foo.com/asdfasdf/asdf.htm", "svn://www.foo.com/asdfasdf/asdf.htm");
             RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "SVN://www.foo.com/asdfasdf/asdf.htm", "SVN://www.foo.com/asdfasdf/asdf.htm");
         }
-        
+
         [Test]
         public void ExternalLinksHTTPOnly()
         {
@@ -975,7 +975,7 @@ foo
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "https://google.co.uk", "https://google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://www.google.co.uk", "http://www.google.co.uk");
-            
+
             // protocol coverage
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "https://www.foo.com/asdfasdf/asdf.htm", "https://www.foo.com/asdfasdf/asdf.htm");
@@ -1189,7 +1189,7 @@ fast„ "));
             Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{vcite2 journal}}"));
             Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite magazine|url=a|title=b}}"));
             Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite report|url=a|title=b}}"));
-            
+
             // name derivation
             Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{cite web|url=a|title=b}}").Groups[2].Value, "cite web");
             Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{ cite web |url=a|title=b}}").Groups[2].Value, "cite web");
@@ -1299,7 +1299,7 @@ cit"));
 |something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{selfref|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Redirect-distinguish|something}}"));
-            
+
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{About-distinguish2}}"), @"{{About-distinguish2}}");
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{About-distinguish}}"), @"{{About-distinguish}}");
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{about2}}"), @"{{about2}}");
@@ -1824,7 +1824,7 @@ Bert").Groups[2].Value, "foo bar\r");
         [Test]
         public void SimpleWiki()
         {
-            #if DEBUG
+#if DEBUG
             Variables.SetProjectLangCode("simple");
             WikiRegexes.MakeLangSpecificRegexes();
             Assert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==Related pages=="));
@@ -1839,7 +1839,7 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsFalse(WikiRegexes.SeeAlso.IsMatch(@"==Related pages=="));
             Assert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==See also=="));
             Assert.IsTrue(WikiRegexes.ExternalLinksHeader.IsMatch(@"==External links=="));
-            #endif
+#endif
         }
 
         [Test]
@@ -1850,7 +1850,7 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Chinese name}}"));
             Assert.IsFalse(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Eastern name order}}"));
         }
-        
+
         [Test]
         public void ReversedItalics()
         {
@@ -1858,7 +1858,7 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"</i>foo< i >"));
             Assert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"< /i >foo<i>"));
             Assert.AreEqual("foo", WikiRegexes.ReversedItalics.Match(@"</i>foo<i>").Groups[1].Value);
-            
+
             Assert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo</i>"));
             Assert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo<i>"));
             Assert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo</i> and <i>foo</i>"));
@@ -1872,6 +1872,51 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(LC));
             Assert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(LC.Replace("{{S", "{{s")), "handles template name first letter case insensitive");
             Assert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(@"{{Short pages monitor}}<!-- any old comment-->"));
+        }
+
+        [Test]
+        public void GoodFeaturedArticleTemplates()
+        {
+            Assert.IsTrue(WikiRegexes.GoodFeaturedArticleTemplates.IsMatch(@"{{Featured list}}"));
+            Assert.IsTrue(WikiRegexes.GoodFeaturedArticleTemplates.IsMatch(@"{{Featured article}}"));
+            Assert.IsTrue(WikiRegexes.GoodFeaturedArticleTemplates.IsMatch(@"{{Good article}}"));
+        }
+
+        [Test]
+        public void UseDatesTemplates()
+        {
+            Assert.IsTrue(WikiRegexes.UseDatesTemplates.IsMatch(@"{{Use mdy dates}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesTemplates.IsMatch(@"{{Use dmy dates}}"));
+        }
+
+        [Test]
+        public void UseEnglishTemplates()
+        {
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use American English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Antiguan and Barbudan English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Australian English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Bangladeshi English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use British English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Oxford spelling}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Canadian English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Ghanaian English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Hiberno-English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Hong Kong English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Indian English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Jamaican English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Kenyan English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Liberian English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Malaysian English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use New Zealand English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Nigerian English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Pakistani English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Philippine English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Singapore English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use South African English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Sri Lankan English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Tanzanian English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Trinidad and Tobago English}}"));
+            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Ugandan English}}"));
         }
     }
 }
