@@ -661,6 +661,9 @@ was [[foo|bar]] too"));
 
             Assert.AreEqual(@"A" + "\r\n", Parsers.FixLinks(@"A
 [[Category:Soldiers|XXX]]", "Category:Soldiers", out nochange), "Category self link");
+
+            const string iarchive = @"[[iarchive:a0000camp_y0p5/page/82/mode/2up|Foo]]";
+            Assert.AreEqual(iarchive, Parsers.FixLinks(iarchive, "A", out nochange), "iarchive");
         }
 
         [Test]

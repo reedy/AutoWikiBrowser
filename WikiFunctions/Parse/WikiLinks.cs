@@ -136,7 +136,9 @@ namespace WikiFunctions.Parse
             bool hasAnySelfInterwikis = wikiLinks.Any(l => l.Contains(Variables.LangCode + ":"));
 
             // Performance: on articles with lots of links better to filter down to those that could be changed by canonicalization, rather than running regex replace against all links
-            foreach(string l in wikiLinks.Where(link => link.IndexOfAny("&%_".ToCharArray()) > -1))
+            // exclude interwiki links that can be e.g. part of a URL to internet archive ([[iarchive:foo]]), so should not be changed
+            // see https://www.mediawiki.org/wiki/Manual:Interwiki#Interwiki_links_to_other_projects for full list
+            foreach (string l in wikiLinks.Where(link => link.IndexOfAny("&%_".ToCharArray()) > -1 && !Regex.IsMatch(link, @"\[\[[a-z0-9_-]{2,}:")))
             {
                 string res = WikiRegexes.WikiLink.Replace(l, FixLinksWikilinkCanonicalizeME);
                 if (res != l)
