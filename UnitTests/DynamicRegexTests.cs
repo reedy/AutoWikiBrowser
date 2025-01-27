@@ -1315,6 +1315,7 @@ ABC");
             RegexAssert.NoMatch(WikiRegexes.EmptyTemplate, "{{Test|}}");
 
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{Template:}}");
+            RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{Template: }}");
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{template:}}");
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{}}");
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{|}}");
