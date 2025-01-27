@@ -320,6 +320,10 @@ en, sq, ru
 
             if (Namespace.IsMainSpace(articleTitle) && !Tools.IsRedirect(articleText))
             {
+                // Templates relating to English variety and date format after maintenance templates, per [[WP:LAYOUT]]
+                if (TemplateExists(alltemplates, WikiRegexes.UseDatesEnglishTemplates))
+                    articleText = MoveTemplate(articleText, WikiRegexes.UseDatesEnglishTemplates);
+
                 // maintenance templates above infoboxes etc., zeroth section only
                 if (TemplateExists(alltemplates, WikiRegexes.MaintenanceTemplates))
                 {
@@ -337,7 +341,11 @@ en, sq, ru
                 if (TemplateExists(alltemplates, WikiRegexes.DeletionProtectionTags))
                     articleText = MoveTemplate(articleText, WikiRegexes.DeletionProtectionTags);
 
-                // Dablinks above maintance tags per [[WP:LAYOUT]]
+                // featured article templates above deletion/protection templates [[WP:LAYOUT]]
+                if (TemplateExists(alltemplates, WikiRegexes.GoodFeaturedArticleTemplates))
+                    articleText = MoveTemplate(articleText, WikiRegexes.GoodFeaturedArticleTemplates);
+
+                // Hatnotes/Dablinks above maintance tags per [[WP:LAYOUT]]
                 // if have {{hatnote group}} then move that not the individual dablinks
                 if (TemplateExists(alltemplates, HatnoteGroup))
                     articleText = MoveTemplate(articleText, HatnoteGroup);

@@ -1883,40 +1883,33 @@ Bert").Groups[2].Value, "foo bar\r");
         }
 
         [Test]
-        public void UseDatesTemplates()
+        public void UseDatesEnglishTemplates()
         {
-            Assert.IsTrue(WikiRegexes.UseDatesTemplates.IsMatch(@"{{Use mdy dates}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesTemplates.IsMatch(@"{{Use dmy dates}}"));
-        }
-
-        [Test]
-        public void UseEnglishTemplates()
-        {
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use American English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Antiguan and Barbudan English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Australian English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Bangladeshi English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use British English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Oxford spelling}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Canadian English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Ghanaian English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Hiberno-English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Hong Kong English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Indian English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Jamaican English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Kenyan English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Liberian English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Malaysian English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use New Zealand English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Nigerian English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Pakistani English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Philippine English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Singapore English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use South African English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Sri Lankan English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Tanzanian English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Trinidad and Tobago English}}"));
-            Assert.IsTrue(WikiRegexes.UseEnglishTemplates.IsMatch("{{Use Ugandan English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use American English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Antiguan and Barbudan English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Australian English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Bangladeshi English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use British English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Oxford spelling}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Canadian English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Ghanaian English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Hiberno-English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Hong Kong English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Indian English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Jamaican English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Kenyan English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Liberian English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Malaysian English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use New Zealand English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Nigerian English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Pakistani English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Philippine English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Singapore English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use South African English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Sri Lankan English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Tanzanian English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Trinidad and Tobago English}}"));
+            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Ugandan English}}"));
         }
     }
 }

@@ -1247,14 +1247,9 @@ namespace WikiFunctions
         public static readonly Regex GoodFeaturedArticleTemplates = Tools.NestedTemplateRegex(new[] { "Featured list", "Featured article", "Good article" });
 
         /// <summary>
-        /// Matches "Use mdy dates", "Use dmy dates" templates
+        /// Matches "Use mdy dates", "Use dmy dates" and "Use xxx English" templates
         /// </summary>
-        public static readonly Regex UseDatesTemplates = Tools.NestedTemplateRegex(new[] { "Use mdy dates", "Use dmy dates" });
-
-        /// <summary>
-        /// Matches "Use mdy dates", "Use dmy dates" templates
-        /// </summary>
-        public static readonly Regex UseEnglishTemplates = Tools.NestedTemplateRegex(new[] { "Use American English", "Use Antiguan and Barbudan English", "Use Australian English", "Use Bangladeshi English", "Use British English", "Use Oxford spelling", "Use Canadian English", "Use Ghanaian English", "Use Hiberno-English", "Use Hong Kong English", "Use Indian English", "Use Jamaican English", "Use Kenyan English", "Use Liberian English", "Use Malaysian English", "Use New Zealand English", "Use Nigerian English", "Use Pakistani English", "Use Philippine English", "Use Singapore English", "Use South African English", "Use Sri Lankan English", "Use Tanzanian English", "Use Trinidad and Tobago English", "Use Ugandan English" });
+        public static readonly Regex UseDatesEnglishTemplates = Tools.NestedTemplateRegex(new[] { "Use mdy dates", "Use dmy dates", "Use American English", "Use Antiguan and Barbudan English", "Use Australian English", "Use Bangladeshi English", "Use British English", "Use Oxford spelling", "Use Canadian English", "Use Ghanaian English", "Use Hiberno-English", "Use Hong Kong English", "Use Indian English", "Use Jamaican English", "Use Kenyan English", "Use Liberian English", "Use Malaysian English", "Use New Zealand English", "Use Nigerian English", "Use Pakistani English", "Use Philippine English", "Use Singapore English", "Use South African English", "Use Sri Lankan English", "Use Tanzanian English", "Use Trinidad and Tobago English", "Use Ugandan English" });
 
         /// <summary>
         /// Matches the sister links templates such as {{wiktionary}}

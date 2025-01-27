@@ -266,6 +266,30 @@ Article";
         }
 
         [Test]
+        public void UseDatesTemplates()
+        {
+            const string correct = @"{{Short description|American character}}
+{{other uses}}
+{{featured article}}
+{{Prod blp}}
+{{Use mdy dates}}
+{{Use American English}}
+{{Infobox actor}}
+Hello";
+
+            Assert.AreEqual(correct, parser2.SortMetaData(correct, "Title"), "Use mdy dates - already correctly ordered");
+
+            Assert.AreEqual(correct, parser2.SortMetaData(@"{{Short description|American character}}
+{{Use mdy dates}}
+{{other uses}}
+{{featured article}}
+{{Prod blp}}
+{{Use American English}}
+{{Infobox actor}}
+Hello", "Title"), "Use mdy dates starting at top");
+        }
+
+        [Test]
         public void MoveDeletionProtection()
         {
             string deletiontag = @"{{Prod blp}}", dablink = @"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}", 
