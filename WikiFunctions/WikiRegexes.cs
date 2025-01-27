@@ -1152,7 +1152,13 @@ namespace WikiFunctions
         /// Matches infoboxes, group 1 being the template name of the infobox
         /// </summary>
         public static readonly Regex InfoBox = new Regex(@"(?:{{[\s_]*)(?:[Tt]emplate[\s_]*:[\s_]*)?([Ii]nfobox(?:[\s_]+[^{}\|\s][^{}\|]+?)?|[^{}\|]+?[Ii]nfobox)\s*\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
-        
+
+        /// <summary>
+        /// Matches {{DISPLAYTITLE}}, {{Lowercase title}}, {{Italic title}} and their redirects
+        /// </summary>
+        // "Miscapitalization", ""Lowercase-user", ""Techlim", ""User lowercase", ""Lower case", ""Lowercase", ""Lower case title", ""Lower-case title", ""Lowercasetitle", ""Smalltitle", ""Uncapitalized title", ""Uncapitalised title", ""Redirect lowercase title", ""Redirect Lowercase title", ""Lot"
+        public static readonly Regex DisplayLowerCaseItalicTitle = new Regex(@"{{ *([Dd]ISPLAYTITLE||[Dd]isplay[ -]?title) *:[^{}]+}}|" + Tools.NestedTemplateRegex(new[] { "Lowercase title", "Miscapitalization", "Lowercase-user", "Techlim", "User lowercase", "Lower case", "Lowercase", "Lower case title", "Lower-case title", "Lowercasetitle", "Smalltitle", "Uncapitalized title", "Uncapitalised title", "Redirect lowercase title", "Redirect Lowercase title", "Lot", "Italic title", "Ital", "Italictitle", "Italicizetitle", "Italicstitle", "Italic title infobox", "Italics title", "Italics", "Italic", "ITALICTITLE", "Italicize title", "Title italic", "Italicizedtitle", "Italicized title", "Italicised title", "Italicisedtitle", "Redirect italic title", "Italtitle" }).ToString());
+
         /// <summary>
         /// Matches people infoxboxes from Category:People infobox templates
         /// </summary>

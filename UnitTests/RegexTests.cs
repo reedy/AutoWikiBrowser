@@ -1401,6 +1401,15 @@ cit"));
 | hello| bye}} ").Groups[1].Value, "Infobox");
         }
 
+        [Test]
+        public void DisplayLowerCaseItalicTitleTests()
+        {
+            Assert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{DISPLAYTITLE:foo}}"), "DISPLAYTITLE");
+            Assert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{Display title:foo}}"), "Display title");
+            Assert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{Displaytitle:foo}}"), "Displaytitle");
+            Assert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{italic title}}"), "italic title");
+            Assert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{lowercase title}}"), "lowercase title");
+        }
 
         [Test]
         public void TemplateEndTests()
