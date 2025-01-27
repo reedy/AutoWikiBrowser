@@ -1211,17 +1211,17 @@ was"));
         [Test]
         public void TemplateRedirectsAcronyms()
         {
-            Dictionary<Regex, string> TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|fb}}, {{tl|foob}} → {{tl|FOO bar}}");
+            Dictionary<Regex, string> theTemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|fb}}, {{tl|foob}} → {{tl|FOO bar}}");
 
             // for acronym templates enforce first letter uppercase
-            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{fb}} was", TemplateRedirects));
-            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{Fb}} was", TemplateRedirects));
-            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{foob}} was", TemplateRedirects));
-            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{Foob}} was", TemplateRedirects));
+            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{fb}} was", theTemplateRedirects));
+            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{Fb}} was", theTemplateRedirects));
+            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{foob}} was", theTemplateRedirects));
+            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{Foob}} was", theTemplateRedirects));
 
-            TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|fb}}, {{tl|foob}} → {{tl|fOO bar}}");
-            Assert.AreEqual("now {{fOO bar}} was", Parsers.TemplateRedirects("now {{fb}} was", TemplateRedirects), "first letter case respected for non-acronym template");
-            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{Fb}} was", TemplateRedirects));
+            theTemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|fb}}, {{tl|foob}} → {{tl|fOO bar}}");
+            Assert.AreEqual("now {{fOO bar}} was", Parsers.TemplateRedirects("now {{fb}} was", theTemplateRedirects), "first letter case respected for non-acronym template");
+            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{Fb}} was", theTemplateRedirects));
         }
 
         [Test]
