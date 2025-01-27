@@ -1035,7 +1035,8 @@ http://example.com }}");
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{||||||||||||||||}}"));
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{|||| |||||||                      ||  |||}}"));
 
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{Template:}}"));
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{Template:}}"), "Template:");
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{Template: }}"), "Template: with space");
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{Template:     |||}}"));
 
             Assert.AreEqual("{{Test}}", Parsers.FixEmptyLinksAndTemplates("{{  }}{{Test}}{{Template: ||}}"));

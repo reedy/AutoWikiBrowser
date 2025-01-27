@@ -746,7 +746,6 @@ namespace WikiFunctions.Parse
                     articleText = WikiRegexes.EmptyLink.Replace(articleText, "");
             }
 
-            if (TemplateExists(GetAllTemplates(articleText), WikiRegexes.EmptyTemplate))
                 articleText = WikiRegexes.EmptyTemplate.Replace(articleText, "");
 
             return articleText;

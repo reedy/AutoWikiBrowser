@@ -30,6 +30,10 @@ namespace UnitTests
             t.Clear();
             t.Add("DISPLAYTITLE");
             Assert.AreEqual(t, Parsers.GetAllTemplates("{{DISPLAYTITLE:foo}}"), "Supports DISPLAYTITLE template");
+
+            t.Clear();
+            t.Add("Template");
+            Assert.AreEqual(t, Parsers.GetAllTemplates("{{Template:}}"), "Supports empty template");
         }
 
         [Test]
@@ -53,6 +57,16 @@ namespace UnitTests
             t.Clear();
             t.Add("{{DISPLAYTITLE:foo}}");
             Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{DISPLAYTITLE:foo}}"), "Supports DISPLAYTITLE template call");
+        }
+
+        [Test]
+        public void TemplateExistsTests()
+        {
+            Assert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{foo}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
+            Assert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{Template:foo}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
+            Assert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{ foo }}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
+            Assert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{foo|p=1}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
+            Assert.IsFalse(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{foo}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo2")));
         }
     }
 }
