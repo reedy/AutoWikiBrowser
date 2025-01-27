@@ -362,6 +362,9 @@ namespace WikiFunctions.Parse
                     if (articleTextTemp.Contains("{{Persondata") && !WikiRegexes.Persondata.IsMatch(articleTextTemp))
                         articleTextTemp = PersondataPODToDEFAULTSORT.Replace(articleTextTemp, @"$1}}$2");
 
+                    // if it's {blah) then see if setting the { to a ( makes it all balance, but not {| which could be wikitables
+                    articleTextTemp = CurlyBraceInsteadOfBracketOpening.Replace(articleTextTemp, "(");
+
                     articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, "$1)");
 
                     // ((Reflist}} --> {{Reflist}} etc.

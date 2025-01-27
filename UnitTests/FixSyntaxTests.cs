@@ -719,6 +719,17 @@ url=a|title=b}}</ref>"));
 
             CiteDeadLink = @"<ref>{{cite web|url=a|title=b {{dead link|date=May 2011}}}}</ref>";
             Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
+
+            string citeReprint = @"{{cite book |last=S |first=G |title=Freedom of the press {reprint) |publisher=New York, Da Capo Press |year=1971 }}";
+            Assert.AreEqual(citeReprint.Replace("{r", "(r"), Parsers.FixSyntax(citeReprint));
+
+            citeReprint = @"{{cite book |last=S |first=G |title=Freedom of the press (in three volumes} |publisher=New York, Da Capo Press |year=1971 }}";
+            Assert.AreEqual(citeReprint.Replace("s}", "s)"), Parsers.FixSyntax(citeReprint));
+
+            citeReprint = @"* {{cite book |last=S |first=G |title=Freedom of the press {reprint) |publisher=New York, Da Capo Press |year=1971 }}
+* {{cite book |last=S |first=G |title=Freedom of the press (reprint} |publisher=New York, Da Capo Press |year=1971 }}";
+
+            Assert.AreEqual(citeReprint.Replace("t}", "t)").Replace("{r", "(r"), Parsers.FixSyntax(citeReprint));
         }
 
         [Test]
