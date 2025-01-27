@@ -305,6 +305,21 @@ Hello", "Title"), "Use mdy dates and American English starting at top");
 {{Prod blp}}
 {{Infobox actor}}
 Hello", "Title"), "featured article starting at top");
+
+            const string correct2 = @"{{Short description|American character}}
+{{other uses}}
+{{featured article}}
+{{Prod blp}}
+{{multiple issues|
+{{Cleanup}}
+{{Expert needed}}
+}}
+{{Use mdy dates}}
+{{Use American English}}
+{{Infobox actor}}
+Hello";
+
+            Assert.AreEqual(correct2, parser2.SortMetaData(correct2, "Title"), "Already correctly ordered with use mdy, use American and MI");
         }
 
         [Test]

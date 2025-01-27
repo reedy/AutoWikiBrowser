@@ -325,7 +325,9 @@ en, sq, ru
                     articleText = MoveTemplate(articleText, WikiRegexes.UseDatesEnglishTemplates);
 
                 // maintenance templates above infoboxes etc., zeroth section only
-                if (TemplateExists(alltemplates, WikiRegexes.MaintenanceTemplates))
+                if (TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
+                    articleText = MoveTemplate(articleText, WikiRegexes.MultipleIssues);
+                else if (TemplateExists(alltemplates, WikiRegexes.MaintenanceTemplates))
                 {
                     string zerothSection = Tools.GetZerothSection(articleText);
                     string restOfArticle = articleText.Substring(zerothSection.Length);
