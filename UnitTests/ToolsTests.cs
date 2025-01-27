@@ -1451,6 +1451,7 @@ There}}"), "handles parameters with newlines");
             Assert.AreEqual("bar [[piped|link]]", Tools.GetTemplateArgument(@"{{abc |  foo  |bar [[piped|link]] }}", 2));
 
             Assert.AreEqual("foo=def", Tools.GetTemplateArgument(@"{{abc|foo=def}}", 1));
+            Assert.AreEqual("section", Tools.GetTemplateArgument(@"{{Cleanup|section|date=May 2024}}", 1));
         }
 
         [Test]

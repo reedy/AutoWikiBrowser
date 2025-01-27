@@ -328,16 +328,7 @@ en, sq, ru
                 if (TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
                     articleText = MoveTemplate(articleText, WikiRegexes.MultipleIssues);
                 else if (TemplateExists(alltemplates, WikiRegexes.MaintenanceTemplates))
-                {
-                    string zerothSection = Tools.GetZerothSection(articleText);
-                    string restOfArticle = articleText.Substring(zerothSection.Length);
-                    zerothSection = MoveMaintenanceTags(zerothSection);
-
-                    if (TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
-                        zerothSection = MoveMultipleIssues(zerothSection);
-
-                    articleText = zerothSection + restOfArticle;
-                }
+                    articleText = MoveTemplate(articleText, WikiRegexes.MaintenanceTemplates);
 
                 // deletion/protection templates above maintenance tags, below dablinks per [[WP:LAYOUT]]
                 if (TemplateExists(alltemplates, WikiRegexes.DeletionProtectionTags))
@@ -677,7 +668,7 @@ en, sq, ru
         }
 
         /// <summary>
-        /// Moves matching templates in the zeroth section to the top of the article (en only)
+        /// Moves matching templates in the zeroth section to the top of the article (en only); ignoring section templates
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="templateRegex">Regex matching the templates to  be moved</param>
@@ -698,17 +689,21 @@ en, sq, ru
 
             string strTemplates = "";
 
-            foreach (Match m in templateRegex.Matches(zerothSection))
+            // extract templates, not section ones
+            List<string> theTemplates = templateRegex.Matches(zerothSection).Cast<Match>().Where(m => Tools.GetTemplateArgument(m.Value, 1) != "section").Select(m => m.Value).ToList();
+
+            // deduplicate tags
+            theTemplates = Parsers.DeduplicateMaintenanceTags(theTemplates);
+
+            foreach (string t in theTemplates)
             {
-                // remove exact duplicate tags
-                if(!strTemplates.Contains(m.Value))
-                    strTemplates += m.Value + "\r\n";
+                strTemplates += t + "\r\n";
 
                 // remove colons before template
-                zerothSection = zerothSection.Replace(":" + m.Value + "\r\n", "");
+                zerothSection = zerothSection.Replace(":" + t + "\r\n", "");
 
                 // additionally, remove whitespace after template
-                zerothSection = Regex.Replace(zerothSection, Regex.Escape(m.Value) + @" *(?:\r\n)?", "");
+                zerothSection = Regex.Replace(zerothSection, Regex.Escape(t) + @" *(?:\r\n)?", "");
             }
 
             articleText = strTemplates + zerothSection + restOfArticle;
@@ -753,73 +748,6 @@ en, sq, ru
                 return articleText;
 
             return originalArticletext;
-        }
-
-        /// <summary>
-        /// Moves maintenance tags to the top of the article text. Deduplicates identical tags
-        /// Does not move tags when only non-infobox templates are above the last tag
-        /// For en-wiki apply this to zeroth section of article only
-        /// </summary>
-        /// <param name="articleText">the article text</param>
-        /// <returns>the modified article text</returns>
-        public static string MoveMaintenanceTags(string articleText)
-        {
-            string originalArticleText = articleText;
-            bool doMove = false;
-            
-            // don't pull tags from new-style {{multiple issues}} template
-            string articleTextNoMI = Tools.ReplaceWithSpaces(articleText, WikiRegexes.MultipleIssues.Matches(articleText));
-            
-            // if all templates removed from articletext before last MaintenanceTemplates match are not infoboxes then do not change anything
-            var maintTemplatesFound = (from Match m in WikiRegexes.MaintenanceTemplates.Matches(articleTextNoMI) select m);
-
-            // return if no MaintenanceTemplates to move
-            if (!maintTemplatesFound.Any())
-                return articleText;
-
-            string articleTextToCheck = articleText.Substring(0, maintTemplatesFound.Select(m => m.Index).Max());
-
-            foreach (Match m in WikiRegexes.NestedTemplates.Matches(articleTextToCheck))
-            {
-                if (Tools.GetTemplateName(m.Value).ToLower().Contains("infobox"))
-                {
-                    doMove = true;
-                    break;
-                }
-
-                articleTextToCheck = articleTextToCheck.Replace(m.Value, "");
-            }
-
-            // work to do if tags to move or duplicate tags
-            if (articleTextToCheck.Trim().Length > 0 || maintTemplatesFound.Count() > Parsers.DeduplicateMaintenanceTags(maintTemplatesFound.Select(m => m.Value).ToList()).Count())
-                doMove = true;
-
-            if (!doMove)
-                return articleText;
-
-            List<string> mt = new List<string>();
-
-            // extract maintenance tags, not section ones
-            articleText = WikiRegexes.MaintenanceTemplates.Replace(articleText, m =>
-            {
-                if (m.Value.Contains("section"))
-                    return m.Value;
-
-                mt.Add(m.Value);
-                return "";
-            });
-
-            if (mt.Any())
-            {
-                string strMaintTags = string.Join("\r\n", Parsers.DeduplicateMaintenanceTags(mt).ToArray());
-                articleText = strMaintTags + "\r\n" + articleText.TrimStart();
-
-                // don't change commented out tags etc.
-                if (!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
-                    return originalArticleText;
-            }
-
-            return articleText;
         }
 
         /// <summary>

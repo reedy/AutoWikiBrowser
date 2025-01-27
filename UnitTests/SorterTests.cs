@@ -320,6 +320,18 @@ Hello", "Title"), "featured article starting at top");
 Hello";
 
             Assert.AreEqual(correct2, parser2.SortMetaData(correct2, "Title"), "Already correctly ordered with use mdy, use American and MI");
+
+            const string correct3 = @"{{Short description|American character with section word}}
+{{other uses}}
+{{featured article}}
+{{Prod blp}}
+{{Cleanup}}
+{{Use mdy dates}}
+{{Use American English}}
+{{Infobox actor}}
+Hello";
+
+            Assert.AreEqual(correct3, parser2.SortMetaData(correct3, "Title"), "Already correctly ordered with use mdy, use American and single maintenance template");
         }
 
         [Test]
@@ -429,51 +441,51 @@ Fred has a dog.
 ";
 
             string e = @"{{Underlinked|date=May 2008}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.MaintenanceTemplates));
 
             e = @"{{underlinked|date=May 2008}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.MaintenanceTemplates));
 
             e = @"{{cleanup|date=May 2008}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e), "template moved when not a section one");
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.MaintenanceTemplates), "template moved when not a section one");
 
             e = @"{{cleanup|section|date=May 2008}}";
-            Assert.AreEqual(d + e, MetaDataSorter.MoveMaintenanceTags(d + e), "section templates not moved");
+            Assert.AreEqual(d + e, MetaDataSorter.MoveTemplate(d + e, WikiRegexes.MaintenanceTemplates), "section templates not moved");
 
             // don't move above other maintenance templates
             string f = @"{{cleanup|date=June 2009}}
 " + e + d;
-            Assert.AreEqual(f, MetaDataSorter.MoveMaintenanceTags(f));
+            Assert.AreEqual(f, MetaDataSorter.MoveTemplate(f, WikiRegexes.MaintenanceTemplates));
 
             string g = @"{{BLP unsourced|date=August 2009|bot=yes}}
 {{Underlinked|date=February 2008}}
 '''Charles M. McKim'''";
 
-            Assert.AreEqual(g, MetaDataSorter.MoveMaintenanceTags(g));
+            Assert.AreEqual(g, MetaDataSorter.MoveTemplate(g, WikiRegexes.MaintenanceTemplates));
 
             // do move above infoboxes
             string h1 = @"{{Infobox foo| sdajklfsdjk | dDJfsdjkl }}", h2 = @"{{Underlinked|date=February 2008}}", h3 = @"'''Charles M. McKim'''";
 
-            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h2 + "\r\n" + h1 + "\r\n" + h3));
-            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h1 + "\r\n" + h2 + "\r\n" + h3));
+            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveTemplate(h2 + "\r\n" + h1 + "\r\n" + h3, WikiRegexes.MaintenanceTemplates));
+            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveTemplate(h1 + "\r\n" + h2 + "\r\n\r\n" + h3, WikiRegexes.MaintenanceTemplates));
 
             // do move above infoboxes
             h2 = @"{{Notability|Web|date=February 2008}}";
 
-            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h2 + "\r\n" + h1 + "\r\n" + h3));
-            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h1 + "\r\n" + h2 + "\r\n" + h3));
+            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveTemplate(h2 + "\r\n" + h1 + "\r\n" + h3, WikiRegexes.MaintenanceTemplates));
+            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveTemplate(h1 + "\r\n" + h2 + "\r\n\r\n" + h3, WikiRegexes.MaintenanceTemplates));
 
             string i1 = @"{{cleanup|date=June 2009}}";
             e = @"{{underlinked|date=May 2008}}";
 
             // move when tags not all at top
-            Assert.AreEqual(e + "\r\n" + i1 + "\r\nfoo\r\n", MetaDataSorter.MoveMaintenanceTags(e + "\r\nfoo\r\n" + i1));
+            Assert.AreEqual(e + "\r\n" + i1 + "\r\nfoo\r\n", MetaDataSorter.MoveTemplate(e + "\r\nfoo\r\n" + i1, WikiRegexes.MaintenanceTemplates));
 
             const string CommentedOut = @"<!---sufficient-?---{{Cleanup|date=January 2010}}--{{Wikify|date=January 2010}}---?--->";
-            Assert.AreEqual(CommentedOut, MetaDataSorter.MoveMaintenanceTags(CommentedOut), "no change to commented out tags");
+            Assert.AreEqual(CommentedOut, MetaDataSorter.MoveTemplate(CommentedOut, WikiRegexes.MaintenanceTemplates), "no change to commented out tags");
 
             const string NewMultipleIssues = @"{{multiple issues|{{Cleanup|date=January 2010}}}}";
-            Assert.AreEqual(NewMultipleIssues, MetaDataSorter.MoveMaintenanceTags(NewMultipleIssues), "don't pull tags from new-style {{multiple issues}}");
+            Assert.AreEqual(NewMultipleIssues, parser2.SortMetaData(NewMultipleIssues, "A"), "don't pull tags from new-style {{multiple issues}}");
 
             // zeroth section only
             const string LaterSection = @"hello
@@ -491,9 +503,9 @@ Fred has a dog.
 [[Category:Dog owners]]
 {{some template}}";
             string e = @"{{Underlinked|date=May 2008}}";
-            Assert.AreEqual(e + "\r\n" + d + "\r\n\r\n", MetaDataSorter.MoveMaintenanceTags(d + "\r\n" + e + "\r\n" + e), "move and dedupe");
+            Assert.AreEqual(e + "\r\n" + d + "\r\n", MetaDataSorter.MoveTemplate(d + "\r\n" + e + "\r\n" + e, WikiRegexes.MaintenanceTemplates), "move and dedupe");
 
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(e + "\r\n" + e + "\r\n" + d), "dedupe when move not required");
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveTemplate(e + "\r\n" + e + "\r\n" + d, WikiRegexes.MaintenanceTemplates), "dedupe when move not required");
         }
 
         [Test]
