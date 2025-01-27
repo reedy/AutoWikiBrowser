@@ -3062,7 +3062,7 @@ Message: {2}
             templateNamespace = Regex.Replace(templateNamespace, @":$", @"[\s_]*:");
 
             return new Regex(@"{{\s*(?::?[\s_]*" + templateNamespace +
-                             @"[\s_]*)?([^\|{}]+?)(?:\s*(?:<!--.*?-->|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)\s*)?\s*(?:\||}})");
+                             @"[\s_]*)?([^\|{}:]+?)(?:\s*(?:<!--.*?-->|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)\s*)?\s*(?:\||:|}})");
         }
 
         /// <summary>

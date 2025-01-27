@@ -26,6 +26,10 @@ namespace UnitTests
 | a= {{ Other2_|}} }} }}"), "Ignore whitespace");
             Assert.AreEqual(t, Parsers.GetAllTemplates(@"{{Foo|bar=1 {{Other
 | a= {{Template:Other2_|}} }} }}"), "Ignore Template: prefix");
+
+            t.Clear();
+            t.Add("DISPLAYTITLE");
+            Assert.AreEqual(t, Parsers.GetAllTemplates("{{DISPLAYTITLE:foo}}"), "Supports DISPLAYTITLE template");
         }
 
         [Test]
@@ -45,6 +49,10 @@ namespace UnitTests
             t.Add("{{foo3=|bar3={{foo4}}}}");
             t.Add("{{foo4}}");
             Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{foo|param={{foo2}} {{foo3=|bar3={{foo4}}}}}}"), "Extracts nested template calls");
+
+            t.Clear();
+            t.Add("{{DISPLAYTITLE:foo}}");
+            Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{DISPLAYTITLE:foo}}"), "Supports DISPLAYTITLE template call");
         }
     }
 }

@@ -2220,6 +2220,8 @@ Start date and age
             Assert.AreEqual(Tools.GetTemplateName(@"{{Foo___one|1=yes}}"), "Foo one", "underscores cleaned");
             Assert.AreEqual(Tools.GetTemplateName(@"{{Foo   one|1=yes}}"), "Foo one", "underscores cleaned");
 
+            Assert.AreEqual(Tools.GetTemplateName(@"{{DISPLAYTITLE:11}}"), "DISPLAYTITLE");
+
             Assert.AreEqual(Tools.GetTemplateName(@""), "");
 
             Variables.NamespacesCaseInsensitive.Remove(Namespace.Template);
