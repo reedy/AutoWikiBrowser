@@ -152,8 +152,8 @@ namespace WikiFunctions.Controls.Lists
                 BeginUpdate();
 
                 // RemoveAt cost product of list size and selected items, cost at least SelectedItems.Count * SelectedIndex
-                // So cost low for single/few selected articles, use if less than cost of RemoveSelectedNew, which is ~Items.Count
-                if ((SelectedItems.Count * Math.Max(SelectedIndex, 1)) < Items.Count)
+                // So cost low for single/few selected articles, use if under 500 items only
+                if (Items.Count < 500)
                 {
                     while (SelectedItems.Count > 0)
                         Items.RemoveAt(SelectedIndex);
