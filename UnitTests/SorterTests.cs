@@ -1340,8 +1340,8 @@ foo";
 {{uncat|date=August 2014}}
 ";
 
-            Assert.AreEqual(@"{{uncat|date=August 2014}}
-[[Category:One]]
+            Assert.AreEqual(@"[[Category:One]]
+{{uncat|date=August 2014}}
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate uncat tags removed");
         }
 
@@ -1416,6 +1416,66 @@ b = @"A
         }
 
         [Test]
+        public void CategoryUncatImproveCat()
+        {
+            string a = @"[[Category:Foo]]
+{{improve categories}}
+";
+
+            Assert.AreEqual(@"[[Category:Foo]]
+{{improve categories}}
+", parser2.Sorter.RemoveCats(ref a, "test"));
+
+            a = @"{{improve categories}}
+[[Category:Foo]]
+";
+            Assert.AreEqual(@"[[Category:Foo]]
+{{improve categories}}
+", parser2.Sorter.RemoveCats(ref a, "test"));
+
+            a = @"{{uncategorized}}
+[[Category:Foo]]
+";
+            Assert.AreEqual(@"[[Category:Foo]]
+{{uncategorized}}
+", parser2.Sorter.RemoveCats(ref a, "test"));
+
+            a = @"{{uncategorized}}
+== Section ==
+[[Category:Foo]]
+";
+            Assert.AreEqual(@"[[Category:Foo]]
+", parser2.Sorter.RemoveCats(ref a, "test"), "Don't pull uncat out of zeroth section");
+
+            a = @"A
+== Section ==
+{{improve categories}}
+== Section 2 ==
+[[Category:Foo]]
+";
+            Assert.AreEqual(@"[[Category:Foo]]
+", parser2.Sorter.RemoveCats(ref a, "test"), "Don't pull {{improve categories}} out of earlier section");
+
+            a = @"A
+== Section ==
+<!--{{improve categories}}-->
+[[Category:Foo]]
+";
+            Assert.AreEqual(@"[[Category:Foo]]
+", parser2.Sorter.RemoveCats(ref a, "test"), "Don't pull commented out template");
+
+            a = @"A
+== Section ==
+{{improve categories}}
+== Section 2 ==
+{{improve categories}}
+[[Category:Foo]]
+";
+            Assert.AreEqual(@"[[Category:Foo]]
+", parser2.Sorter.RemoveCats(ref a, "test"), "Don't pull improve categories if in earlier and last section");
+        }
+
+        [Test]
         public void RemoveCatsKey()
         {
             string cats = @"[[Category:1980 births]]
@@ -1429,9 +1489,9 @@ b = @"A
             // Extract {{Uncategorized}}
             string at = @"Text.
 
-{{Uncategorized}}
 == References ==
-{{reflist}}";
+{{reflist}}
+{{Uncategorized}}";
             Assert.AreEqual(@"{{Uncategorized}}" + "\r\n", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "uncat moved");
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(at));
             at = @"Text.
@@ -1442,9 +1502,9 @@ b = @"A
             Assert.AreEqual("", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "commented out uncat not moved");
             at = @"Text.
 
-{{Uncategorized stub}}
 == References ==
-{{reflist}}";
+{{reflist}}
+{{Uncategorized stub}}";
             Assert.AreEqual(@"{{Uncategorized stub}}" + "\r\n", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "uncat stub moved - redirect to uncat");
             at = @"{{multiple issues|
 {{a}}
@@ -1455,6 +1515,7 @@ b = @"A
 {{reflist}}";
             Assert.IsTrue(parser2.SortMetaData(at, "Andrew Jones").Contains(@"{{multiple issues|
 {{a}}
+{{Uncategorized}}
 {{b}}
 }}"), "no blank line left in MI");
         }

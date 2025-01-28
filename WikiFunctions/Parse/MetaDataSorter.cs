@@ -582,12 +582,26 @@ en, sq, ru
                 defaultSort += "\r\n";
             }
 
-            // Extract any {{uncategorized}} template
-            // remove exact duplicates
-            string uncat = "";
-            if (TemplateExists(Parsers.GetAllTemplates(originalArticleText), WikiRegexes.Uncat) && WikiRegexes.Uncat.IsMatch(articleTextNoComments))
+            // Extract any {{uncategorized}}/{{improve categories}} template, only from last section
+            // extract last section, if present, as text from final heading
+            // if no headings then last section is whole article
+            MatchCollection hc = WikiRegexes.Headings.Matches(articleText);
+            string lastSection = articleText;
+            string lastSectionNoComments = articleTextNoComments;
+            string restOfArticleText = "";
+
+            if (hc.Count > 0)
             {
-                articleText = WikiRegexes.Uncat.Replace(articleText, uncatm =>
+                int h = hc[hc.Count - 1].Index;
+                lastSection = lastSection.Substring(h);
+                lastSectionNoComments = Tools.ReplaceWithSpaces(lastSection, WikiRegexes.Comments.Matches(lastSection));
+                restOfArticleText = articleText.Substring(0, h);
+            }
+
+            string uncat = "";
+            if (UncategorizedImproveCats.IsMatch(lastSectionNoComments) && !UncategorizedImproveCats.IsMatch(restOfArticleText))
+            {
+                articleText = UncategorizedImproveCats.Replace(articleText, uncatm =>
                 {
                     // remove exact duplicates
                     if (!uncat.Contains(uncatm.Value))
@@ -596,6 +610,10 @@ en, sq, ru
                     return "";
                 });
             }
+
+            // per MOS:ORDER {{Improve categories}} or {{Uncategorized}} after cats if in last section
+            if (Variables.IsWikipediaEN)
+                return defaultSort + ListToString(categoryList) + uncat;
 
             return uncat + defaultSort + ListToString(categoryList);
         }
