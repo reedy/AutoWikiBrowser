@@ -475,6 +475,7 @@ en, sq, ru
         private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");
         private static readonly Regex NF = Tools.NestedTemplateRegex("NF");
         private static readonly Regex CatsForDeletion = new Regex(@"\[\[Category:(Pages|Categories|Articles) for deletion\]\]");
+        private static readonly Regex UncategorizedImproveCats = Tools.NestedTemplateRegex(new[] { "Improve categories", "Ci", "Cleanup-cat", "Cleanup cat", "Few categories", "Few cats", "Fewcategories", "Fewcats", "Improve-categories", "Improve-cats", "Improve cats", "Improvecategories", "Improvecats", "More categories", "More category", "Morecat", "Morecategories", "Morecats", "Cat-improve", "Category-improve", "Categories-improve", "Category improve", "Categories improve", "Catimprove", "More cats", "Cat improve", "Additional categories", "Undercategorized", "Undercategorised", "CI", "Undercat", "Improve categorization", "Improve cat", "Uncategorized", "CatNeeded", "Catneeded", "Uncategorised", "Uncat", "Categorize", "Categories needed", "Categoryneeded", "Category needed", "Categories requested", "Nocats", "Categorise", "Nocat", "Uncatstub", "Uncategorisedstub", "Needs cat", "Needs cats", "Cat needed", "Uncategorized stub", "Uncat-stub", "Uncat stub", "Cats needed", "Uncategorizedstub", "Uncategorised stub", "Nocategory", "No category", "No categories", "No cats", "Category requested", "+cat", "Categorízame", "Needs categories", "Ncat", "Noc", "Categories missing", "Missing categories" });
 
         /// <summary>
         /// Extracts DEFAULTSORT + categories from the article text; removes duplicate categories, cleans whitespace and underscores
@@ -581,16 +582,13 @@ en, sq, ru
                 defaultSort += "\r\n";
             }
 
-            // Extract any {{uncategorized}} template, but not uncat stub templates
+            // Extract any {{uncategorized}} template
             // remove exact duplicates
             string uncat = "";
             if (TemplateExists(Parsers.GetAllTemplates(originalArticleText), WikiRegexes.Uncat) && WikiRegexes.Uncat.IsMatch(articleTextNoComments))
             {
                 articleText = WikiRegexes.Uncat.Replace(articleText, uncatm =>
                 {
-                    if (WikiRegexes.PossiblyCommentedStub.IsMatch(uncatm.Value))
-                        return uncatm.Value;
-
                     // remove exact duplicates
                     if (!uncat.Contains(uncatm.Value))
                         uncat += uncatm.Value + "\r\n";

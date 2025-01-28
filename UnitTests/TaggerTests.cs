@@ -176,11 +176,7 @@ namespace UnitTests
             text = parser.Tagger(ShortText + @"{{dead end}}
 {{reflist}}
 {{Uncategorised|date=May 2010}}{{stub}}", "Test", false, out noChange, ref summary);
-            Assert.IsTrue(text.EndsWith(@"{{reflist}}
-
-
-{{Uncategorized stub|date=May 2010}}
-{{stub}}"));
+            Assert.IsTrue(text.Contains(@"{{Uncategorized stub|date=May 2010}}"));
         }
 
         [Test]
