@@ -871,6 +871,10 @@ x
             Assert.AreEqual(uct.Count, 1, "<!-- 2");
             Assert.IsTrue(uct.ContainsKey(11));
 
+            uct = Parsers.UnclosedTags(@"<!--not ended
+<!--  ended -->");
+            Assert.AreEqual(uct.Count, 1, "Comment within unclosed comment");
+
             uct = Parsers.UnclosedTags(@"<gallery> not ended <gallery>bar</gallery>");
             Assert.AreEqual(uct.Count, 1, "gallery 2");
             Assert.IsTrue(uct.ContainsKey(20));

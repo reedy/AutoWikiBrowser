@@ -428,6 +428,9 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        /// <summary>
+        /// Matches math, source, ref, gallery, code, nowiki, pre, small, center, sup, sub tags and wiki comments
+        /// </summary>
         private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<!--|(<\s*/?\s*(?:math|(?:source|ref|gallery)\b[^>]*|code|nowiki|pre|small|center|sup|sub)\s*(?:>|$))", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SmallStart = new Regex(@"<\s*small\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex SmallEnd = new Regex(@"<\s*/\s*small\s*>", RegexOptions.IgnoreCase);
@@ -437,6 +440,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex AnyTag = new Regex(@"<\s*([A-Za-z/][^<>]+)>");
         private static readonly Regex SimpleTagPair = new Regex(@"<([^<>]+)>[^<>]+</\1>");
         private static readonly List<string> MathSourceCodeNowikiPreTagList = new List<string>(new [] {"math", "source", "ref", "gallery", "code", "nowiki", "pre", "small", "center", "sup", "sub"});
+        private static readonly Regex UnclosedNestedComments = new Regex(@"<!--(.*?)(?<!<!--.*<!--.*)-->|<!--([^<]*)-->", RegexOptions.Singleline);
 
         /// <summary>
         ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt;, &lt;pre&gt; &lt;center&gt; &lt;sup&gt; &lt;sub&gt; or &lt;gallery&gt; tags and comments
@@ -492,6 +496,8 @@ namespace WikiFunctions.Parse
             // if here then have some unmatched tags, so do full clear down and search
             // performance of Refs/SourceCode is better if IgnoreCase avoided
             articleText = articleText.ToLower();
+            // use this regex so comments of format <!-- a <!-- b --> that WikiRegexes.UnformattedText sees as a valid comment are matched as just <!-- b --> to leave the first <!-- to be reported as unclosed
+            articleText = Tools.ReplaceWithSpaces(articleText, UnclosedNestedComments);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.GalleryTag, 2);
             articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.Refs.ToString(), RegexOptions.Singleline));
