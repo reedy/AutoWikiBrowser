@@ -398,7 +398,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*");
         private static readonly Regex HorizontalRule = new Regex("----+$");
         private static readonly Regex MultipleTabs = new Regex("  +", RegexOptions.Compiled);
-        private static readonly Regex SpacesThenTwoNewline = new Regex(" +\r\n\r\n", RegexOptions.Compiled);
+        private static readonly Regex SpacesThenTwoNewline = new Regex(@"[ \u00a0]+\r\n\r\n", RegexOptions.Compiled);
         private static readonly Regex WikiListWithMultipleSpaces = new Regex(@"^([\*#]+) +", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedDashes = new Regex(" (—|&#15[01];|&mdash;|&#821[12];|&#x201[34];) ", RegexOptions.Compiled);
         private static readonly Regex NewlinesWithinLists = new Regex(@"(\r\n\*.*)\r\n[\t ]*\r\n\*", RegexOptions.Compiled);
