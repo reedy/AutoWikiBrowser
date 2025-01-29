@@ -1160,10 +1160,10 @@ namespace WikiFunctions
         public static readonly Regex DisplayLowerCaseItalicTitle = new Regex(@"{{ *([Dd]ISPLAYTITLE||[Dd]isplay[ -]?title) *:[^{}]+}}|" + Tools.NestedTemplateRegex(new[] { "Lowercase title", "Miscapitalization", "Lowercase-user", "Techlim", "User lowercase", "Lower case", "Lowercase", "Lower case title", "Lower-case title", "Lowercasetitle", "Smalltitle", "Uncapitalized title", "Uncapitalised title", "Redirect lowercase title", "Redirect Lowercase title", "Lot", "Italic title", "Ital", "Italictitle", "Italicizetitle", "Italicstitle", "Italic title infobox", "Italics title", "Italics", "Italic", "ITALICTITLE", "Italicize title", "Title italic", "Italicizedtitle", "Italicized title", "Italicised title", "Italicisedtitle", "Redirect italic title", "Italtitle" }).ToString());
 
         /// <summary>
-        /// Matches people infoxboxes from Category:People infobox templates
+        /// Matches people infoxboxes from [[Category:People infobox templates]]
         /// </summary>
         public static readonly Regex PeopleInfoboxTemplates = Tools.NestedTemplateRegex(new [] { "Infobox college coach", "Infobox American Indian chief", "Infobox Native American leader", "Infobox Calvinist theologian",
-                                                                                            "Infobox Chinese-language singer and actor", "Infobox Christian leader", "Infobox FBI Ten Most Wanted", "Infobox Jewish leader",
+                                                                                            "Infobox Christian leader", "Infobox FBI Ten Most Wanted", "Infobox Jewish leader",
                                                                                             "Infobox Playboy Cyber Girl", "Infobox Playboy Playmate", "Infobox actor", "Infobox adult biography", "Infobox adult female", "Infobox adult male",
                                                                                             "Infobox architect", "Infobox artist", "Infobox astronaut", "Infobox aviator", "Infobox bishop", "Infobox minister of religion", "Infobox religious biography",
                                                                                             "Infobox cardinal", "Infobox chef", "Infobox chess player", "Infobox clergy", "Infobox comedian",
@@ -1190,10 +1190,10 @@ namespace WikiFunctions
                                                                                             "Infobox politician (general)", "Infobox premier", "Infobox president-elect", "Infobox prime minister-elect", "Infobox representative-elect", "Infobox royalty", "Infobox SCC chief justice", "Infobox SCC puisne justice",
                                                                                             "Infobox secretary-general", "Infobox senator-elect", "Infobox speaker", "Infobox state representative", "Infobox state SC associate justice", "Infobox state SC justice", "Infobox state senator",
                                                                                             "Infobox US associate justice", "Infobox US cabinet official", "Infobox US chief justice", "Infobox US territorial governor", "Infobox vice president", "Infobox US ambassador", "Infobox Eritrea cabinet official",
-                                                                                            "Infobox sportsperson", "Infobox NFL player", "Infobox football biography", "Infobox football official", "Infobox golfer", "Infobox gridiron football person", "Infobox gymnast", "Infobox handball biography,",
+                                                                                            "Infobox sportsperson", "Infobox NFL player", "Infobox football biography", "Infobox football official", "Infobox golfer", "Infobox gridiron football person", "Infobox gymnast", "Infobox handball biography",
                                                                                             "Infobox ice hockey player", "Infobox motorcycle rider", "Infobox rugby biography", "Infobox rugby league biography", "Infobox Rugby Union biography", "Infobox rugby union biography", "Infobox cricketer", "Infobox nobility",
                                                                                             "Infobox noble", "Infobox tennis biography", "Infobox pro football player", "Infobox badminton player", "Infobox basketball official", "Infobox bodybuilder", "Infobox boxer", "Infobox MLB player", "Infobox basketball biography",
-                                                                                            "Infobox NCAA athlete", "Infobox netball biography", "Infobox swimmer", "Infobox WNBA biography", "Infobox Muslim scholar", "Infobox sumo wrestler"}, false);
+                                                                                            "Infobox NCAA athlete", "Infobox netball biography", "Infobox swimmer", "Infobox Muslim scholar", "Infobox sumo wrestler"}, false);
 
         /// <summary>
         /// Matches the {{circa}} template
