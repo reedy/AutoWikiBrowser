@@ -396,7 +396,8 @@ namespace WikiFunctions.Parse
                     articleTextTemp = QuadrupleCurlyBrackets.Replace(articleTextTemp, "$1");
                     
                     // wikilink like [[foo[[
-                    articleTextTemp = WikiLinkDoubleOpening.Replace(articleTextTemp, @"$1]]");
+                    if(WikiLinkDoubleOpening.Matches(articleTextTemp).Cast<Match>().Any(m => m.Index == unbalancedBracket))
+                        articleTextTemp = WikiLinkDoubleOpening.Replace(articleTextTemp, @"$1]]");
 
                     // unclosed cat/interwiki
                     articleTextTemp = UnclosedCatInterwiki.Replace(articleTextTemp, @"$1]]$2");

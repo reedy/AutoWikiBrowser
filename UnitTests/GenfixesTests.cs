@@ -829,6 +829,24 @@ End of.
 
             Assert.AreEqual(ArticleText, t, "No change: ReorderReferences not applied within en-wp genfixes");
         }
+
+        [Test]
+        public void FixUnbalancedBrackets()
+        {
+            const string unfixable = @"Symbolist style: [[he abandoned realism and steered his work towards a more mythical and aestheticizing, almost evasionist tone, as denoted in his decorative plafonds for the [[Cau Ferrat]] of [[Sitges]] in 1896 (''La Pintura'', ''La Poesía'', ''La Música'').<ref name="":19"">{{harvtxt|Hofstätter|1981|p=257}}</ref> With the beginning of the 20th century he moved more towards landscape painting, still with a certain symbolist stamp but with a greater tendency towards realism.<ref>{{harvtxt|Socías|1987|p=45}}</ref>
+[[File:Alexandre_de_Riquer_-_Composition_with_winged_nymph_at_sunrise_-_Google_Art_Project.jpg|left|thumb|''Composition with winged nymph at sunrise'' (1887), by [[Alexandre de Riquer]], [[National Art Museum of Catalonia]], [[Barcelona]]]]
+[[Alexandre de Riquer]] was a painter, engraver, decorator, illustrator and poster artist, as well as a poet and art theorist. He lived for a time in London, where he was influenced by preraphaelitism and the [[Arts & Crafts]] movement. He excelled especially in book illustration (''Crisantemes'', 1899; ''Anyoranses'', 1902) and in the design of [[Ex Libris (bookplate)|ex-libris]], a genre he raised to heights of great quality.<ref>{{harvtxt|Hofstätter|1981|pp=256–257}}</ref>
+[[File:Somni_Joan_Brull.jpg|thumb|''Ensueño'' (1897) by [[Joan Brull]], National Museum of Art of Catalonia, Barcelona]]
+[[Joan Llimona]], founder of the [[Cercle Artístic de Sant Lluc]], leaned towards a mysticism of strong religiosity, as denoted in his paintings for the dome of the camarín of the church of the [[Monastery of Montserrat]] (1898) or the murals of the dining room of the Recolons house in Barcelona (1905).<ref name="":19"" /> Trained at the [[Escola de la Llotja]], he furthered his studies in Italy for four years. His first works were of genre costumbrista, but by 1890 his painting focused on religion, with compositions that combine formal realism with the idealism of the subjects, with a style sometimes compared to [[Jean-François Millet|Millet]] and Puvis de Chavannes.<ref>{{harvtxt|Socías|1987|pp=39–41}}</ref>
+
+==References==
+{{reflist}}";
+            ArticleText = unfixable;
+
+            GenFixes();
+
+            Assert.AreEqual(ArticleText, unfixable, "no change to unfixable square brackets");
+        }
     }
 
     [TestFixture]
