@@ -47,77 +47,77 @@ namespace UnitTests
             bool noChange;
 
             // don't change sorting for single categories
-            Assert.AreEqual("[[Category:Test1|Foooo]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange), "don't change sorting for single categories");
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange),
+                            Is.EqualTo("[[Category:Test1|Foooo]]"), "don't change sorting for single categories");
             Assert.IsTrue(noChange, "don't change sorting for single categories");
 
             // should work
-            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Bar",
-                                                        out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Bar",
+                                                        out noChange),
+                            Is.EqualTo("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}"));
             Assert.IsFalse(noChange);
 
             // ...but don't add DEFAULTSORT if the key equals page title
-            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Foooo",
-                                                        out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Foooo",
+                                                        out noChange),
+                            Is.EqualTo("[[Category:Test1]][[Category:Test2]]"));
             Assert.IsFalse(noChange, "Should detect a change even if it hasn't added a DEFAULTSORT");
 
             // don't change if key is 3 chars or less
-            Assert.AreEqual("[[Category:Test1|Foo]][[Category:Test2|Foo]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foo]][[Category:Test2|Foo]]", "Bar", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foo]][[Category:Test2|Foo]]", "Bar", out noChange),
+                            Is.EqualTo("[[Category:Test1|Foo]][[Category:Test2|Foo]]"));
             Assert.IsTrue(noChange);
 
             // Remove explicit keys equal to page title
-            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2]]", "Foooo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2]]", "Foooo", out noChange),
+                            Is.EqualTo("[[Category:Test1]][[Category:Test2]]"));
             Assert.IsFalse(noChange);
 
             // swap
-            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2|Foooo]]", "Foooo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2|Foooo]]", "Foooo", out noChange),
+                            Is.EqualTo("[[Category:Test1]][[Category:Test2]]"));
             Assert.IsFalse(noChange);
 
             // Borderline condition
-            Assert.AreEqual("[[Category:Test1|Fooooo]][[Category:Test2]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Fooooo]][[Category:Test2]]", "Foooo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Fooooo]][[Category:Test2]]", "Foooo", out noChange),
+                            Is.EqualTo("[[Category:Test1|Fooooo]][[Category:Test2]]"));
             Assert.IsTrue(noChange);
 
             // Don't change anything if there's ambiguity
-            Assert.AreEqual("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Teeest",
-                                                        out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Teeest",
+                                                        out noChange),
+                            Is.EqualTo("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]"));
             Assert.IsTrue(noChange);
             // same thing
-            Assert.AreEqual("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Foooo",
-                                                        out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Foooo",
+                                                        out noChange),
+                            Is.EqualTo("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]"));
             Assert.IsTrue(noChange);
 
             // remove diacritics when generating a key
-            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar",
-                                                        out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar",
+                                                        out noChange),
+                            Is.EqualTo("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}"));
             Assert.IsFalse(noChange);
 
             // should also fix diacritics in existing defaultsorts and remove leading spaces
             // also support mimicking templates: template to magic word conversion, see [[Category:Pages which use a template in place of a magic word]]
-            Assert.AreEqual("{{DEFAULTSORT:Test}}", Parsers.ChangeToDefaultSort("{{defaultsort| Tést}}", "Foo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("{{defaultsort| Tést}}", "Foo", out noChange), Is.EqualTo("{{DEFAULTSORT:Test}}"));
             Assert.IsFalse(noChange);
-            Assert.AreEqual("{{DEFAULTSORT:Test}}", Parsers.ChangeToDefaultSort("{{DEFAULTSORT| Tést}}", "Foo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT| Tést}}", "Foo", out noChange), Is.EqualTo("{{DEFAULTSORT:Test}}"));
             Assert.IsFalse(noChange);
-            Assert.AreEqual("{{DEFAULTSORT:Test}}", Parsers.ChangeToDefaultSort("{{DEFAULTSORT:|Test}}", "Foo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:|Test}}", "Foo", out noChange), Is.EqualTo("{{DEFAULTSORT:Test}}"));
             Assert.IsFalse(noChange);
 
             // shouldn't change whitespace-only sortkeys
-            Assert.AreEqual("{{DEFAULTSORT: \t}}", Parsers.ChangeToDefaultSort("{{DEFAULTSORT: \t}}", "Foo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT: \t}}", "Foo", out noChange), Is.EqualTo("{{DEFAULTSORT: \t}}"));
             Assert.IsTrue(noChange);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#DEFAULTSORT_with_spaces
             // DEFAULTSORT doesn't treat leading spaces the same way as categories do
-            Assert.AreEqual("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar",
-                                                        out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar",
+                                                        out noChange),
+                            Is.EqualTo("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]"));
             Assert.IsTrue(noChange);
 
             // pages with multiple sort specifiers shouldn't be changed
@@ -125,99 +125,99 @@ namespace UnitTests
             Assert.IsTrue(noChange);
 
             // Remove explicitally defined sort keys from categories when the page has defaultsort
-            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]]",
-                            Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Test]]", "Foo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Test]]", "Foo", out noChange),
+                            Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test]]"));
             Assert.IsFalse(noChange);
 
             // Case difference of above
-            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]]",
-                            Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]]", "Foo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]]", "Foo", out noChange),
+                            Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test]]"));
             Assert.IsFalse(noChange);
 
             // No change due to different key
-            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]",
-                            Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]", "Foo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]", "Foo", out noChange),
+                            Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]"));
             Assert.IsTrue(noChange);
 
             // Multiple to be removed
-            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]",
-                            Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Test]][[Category:Bar|test]]", "Foo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Test]][[Category:Bar|test]]", "Foo", out noChange),
+                            Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]"));
             Assert.IsFalse(noChange);
 
             // Multiple with 1 no key
-            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]",
-                            Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo]][[Category:Bar|test]]", "Foo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo]][[Category:Bar|test]]", "Foo", out noChange),
+                            Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]"));
             Assert.IsFalse(noChange);
 
             // Multiple with 1 different key
-            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo|Bar]][[Category:Bar]]",
-                            Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Bar]][[Category:Bar|test]]", "Foo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Bar]][[Category:Bar|test]]", "Foo", out noChange),
+                            Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo|Bar]][[Category:Bar]]"));
             Assert.IsFalse(noChange);
 
             // just removing diacritics in categories is useful
-            Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]",
-                            Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainé, Juan]]", "Hi", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainé, Juan]]", "Hi", out noChange),
+                            Is.EqualTo(@"[[Category:Bronze Wolf awardees|Laine, Juan]]"));
             Assert.IsFalse(noChange);
-            Assert.AreEqual(@"[[Category:Bronze Wolf awardees|LainI, Juan]]",
-                            Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainİ, Juan]]", "Hi", out noChange), "unusual one where lowercase of diacritic is a Latin character");
+            Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainİ, Juan]]", "Hi", out noChange),
+                            Is.EqualTo(@"[[Category:Bronze Wolf awardees|LainI, Juan]]"), "unusual one where lowercase of diacritic is a Latin character");
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]",
-                            Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", "Hi", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", "Hi", out noChange),
+                            Is.EqualTo(@"[[Category:Bronze Wolf awardees|Laine, Juan]]"));
             Assert.IsTrue(noChange);
 
             // remove duplicate defaultsorts
-            Assert.AreEqual(@"foo
-
-[[Category:Businesspeople]]
-
-{{DEFAULTSORT:Phillips, James M.}}
-foo", Parsers.ChangeToDefaultSort(@"foo
+            Assert.That(Parsers.ChangeToDefaultSort(@"foo
 {{DEFAULTSORT:Phillips, James M.}}
 [[Category:Businesspeople]]
 
 {{DEFAULTSORT:Phillips, James M.}}
-foo", "Hi", out noChange));
-
-            Assert.AreEqual(@"foo
+foo", "Hi", out noChange), Is.EqualTo(@"foo
 
 [[Category:Businesspeople]]
 
-
 {{DEFAULTSORT:Phillips, James M.}}
-foo", Parsers.ChangeToDefaultSort(@"foo
+foo"));
+
+            Assert.That(Parsers.ChangeToDefaultSort(@"foo
 {{DEFAULTSORT:Phillips, James M.}}
 [[Category:Businesspeople]]
 
 {{DEFAULTSORT:Phillips, James M.}}
 {{DEFAULTSORT:Phillips, James M.}}
-foo", "Hi", out noChange));
+foo", "Hi", out noChange), Is.EqualTo(@"foo
+
+[[Category:Businesspeople]]
+
+
+{{DEFAULTSORT:Phillips, James M.}}
+foo"));
 
             // don't remove duplicate different defaultsorts
-            Assert.AreEqual(@"foo
+            Assert.That(Parsers.ChangeToDefaultSort(@"foo
 {{DEFAULTSORT:Phillips, James M.}}
 [[Category:Businesspeople]]
 
 {{DEFAULTSORT:Fred}}
-foo", Parsers.ChangeToDefaultSort(@"foo
+foo", "Hi", out noChange), Is.EqualTo(@"foo
 {{DEFAULTSORT:Phillips, James M.}}
 [[Category:Businesspeople]]
 
 {{DEFAULTSORT:Fred}}
-foo", "Hi", out noChange));
+foo"));
 
-            Assert.AreEqual(@"
+            Assert.That(Parsers.ChangeToDefaultSort(@"
+foo {{persondata}}
+[[Category:1910 births|Lahiff, Tommy]]
+[[Category:Australian players of Australian rules football|Lahiff, Tommy]]
+[[Category:Essendon Football Club players|Lahiff, Tommy]]
+", "foo", out noChange, false), Is.EqualTo(@"
 foo {{persondata}}
 [[Category:1910 births]]
 [[Category:Australian players of Australian rules football]]
 [[Category:Essendon Football Club players]]
 
-{{DEFAULTSORT:Lahiff, Tommy}}", Parsers.ChangeToDefaultSort(@"
-foo {{persondata}}
-[[Category:1910 births|Lahiff, Tommy]]
-[[Category:Australian players of Australian rules football|Lahiff, Tommy]]
-[[Category:Essendon Football Club players|Lahiff, Tommy]]
-", "foo", out noChange, false));
+{{DEFAULTSORT:Lahiff, Tommy}}"));
 
             // can't add a DEFAULTSORT using existing cat sortkeys even if restricted, as sortkey case may be changed
             const string a = @"
@@ -226,28 +226,28 @@ foo {{persondata}}
 [[Category:Australian players of Australian rules football|Lahiff, Tommy]]
 [[Category:Essendon Football Club players|Lahiff, Tommy]]
 ";
-            Assert.AreEqual(a, Parsers.ChangeToDefaultSort(a, "foo", out noChange, true));
+            Assert.That(Parsers.ChangeToDefaultSort(a, "foo", out noChange, true), Is.EqualTo(a));
 
-            Assert.AreEqual(@"
+            Assert.That(Parsers.ChangeToDefaultSort(a, "foo", out noChange, false), Is.EqualTo(@"
 foo {{persondata}}
 [[Category:1910 births]]
 [[Category:Australian players of Australian rules football]]
 [[Category:Essendon Football Club players]]
 
-{{DEFAULTSORT:Lahiff, Tommy}}", Parsers.ChangeToDefaultSort(a, "foo", out noChange, false));
+{{DEFAULTSORT:Lahiff, Tommy}}"));
 
             // can't add a DEFAULTSORT using existing cat sortkeys if they're different
-            Assert.AreEqual(@"
+            Assert.That(Parsers.ChangeToDefaultSort(@"
 foo {{persondata}}
 [[Category:1910 births|Lahiff, Tommy]]
 [[Category:Australian players of Australian rules football|Lahiff, Tommy]]
 [[Category:Essendon Football Club players|TOmmy]]
-", Parsers.ChangeToDefaultSort(@"
+", "foo", out noChange, true), Is.EqualTo(@"
 foo {{persondata}}
 [[Category:1910 births|Lahiff, Tommy]]
 [[Category:Australian players of Australian rules football|Lahiff, Tommy]]
 [[Category:Essendon Football Club players|TOmmy]]
-", "foo", out noChange, true));
+"));
 
             // restricted
             const string r1 = @"[[Category:Franks]]
@@ -255,42 +255,42 @@ foo {{persondata}}
 [[Category:Frankish people]]
 [[Category:811 deaths]]
 [[Category:9th-century rulers]]";
-            Assert.AreEqual(r1, Parsers.ChangeToDefaultSort(r1, "foo", out noChange, true));
+            Assert.That(Parsers.ChangeToDefaultSort(r1, "foo", out noChange, true), Is.EqualTo(r1));
 
             // namespace not used in DEFAULTSORT key
-            Assert.AreEqual(@"foo
+            Assert.That(Parsers.ChangeToDefaultSort(@"foo
+[[Category:All foos]]", "Category:Special foŏs", out noChange, false), Is.EqualTo(@"foo
 [[Category:All foos]]
-{{DEFAULTSORT:Special foos}}", Parsers.ChangeToDefaultSort(@"foo
-[[Category:All foos]]", "Category:Special foŏs", out noChange, false));
+{{DEFAULTSORT:Special foos}}"));
 
-            Assert.AreEqual(@"foo
+            Assert.That(Parsers.ChangeToDefaultSort(@"foo
+[[Category:All foos]]
+[[Category:All foos2]]", "Rail in İzmir", out noChange, false), Is.EqualTo(@"foo
 [[Category:All foos]]
 [[Category:All foos2]]
-{{DEFAULTSORT:Rail in Izmir}}", Parsers.ChangeToDefaultSort(@"foo
-[[Category:All foos]]
-[[Category:All foos2]]", "Rail in İzmir", out noChange, false));
+{{DEFAULTSORT:Rail in Izmir}}"));
 
             // hyphen in title becomes a minus in DEFAULTSORT key
-            Assert.AreEqual(@"foo
-{{DEFAULTSORT:Women's Circuit (July-September)}}", Parsers.ChangeToDefaultSort(@"foo
-{{DEFAULTSORT:Women's Circuit (July–September)}}", "Women's Circuit (July–September)", out noChange, false));
+            Assert.That(Parsers.ChangeToDefaultSort(@"foo
+{{DEFAULTSORT:Women's Circuit (July–September)}}", "Women's Circuit (July–September)", out noChange, false), Is.EqualTo(@"foo
+{{DEFAULTSORT:Women's Circuit (July-September)}}"));
 
             // skip when nonclude on page
             const string NoInclude = @"[[Category:Test1|Foooo]][[Category:Test2|Foooo]] <noinclude>foo</noinclude>";
-            Assert.AreEqual(NoInclude,
-                            Parsers.ChangeToDefaultSort(NoInclude, "Bar",
-                                                        out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort(NoInclude, "Bar",
+                                                        out noChange),
+                            Is.EqualTo(NoInclude));
             Assert.IsTrue(noChange);
 
             Variables.UnicodeCategoryCollation = true;
-            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooô}}",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar",
-                                                        out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar",
+                                                        out noChange),
+                            Is.EqualTo("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooô}}"));
             Assert.IsFalse(noChange, "retain diacritics when generating a key if uca collation is on");
 
-            Assert.AreEqual(@"[[Category:Test1]][[Category:Test2]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2]]", "Foooô",
-                                                        out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2]]", "Foooô",
+                                                        out noChange),
+                            Is.EqualTo(@"[[Category:Test1]][[Category:Test2]]"));
             Assert.IsTrue(noChange, "No change when defaultsort not needed when uca collation on");
             Variables.UnicodeCategoryCollation = false;
         }
@@ -311,31 +311,31 @@ foo {{persondata}}
             bool noChange;
             const string CInsensitive = @"x [[Category:Foo]]";
 
-            Assert.AreEqual(CInsensitive, Parsers.ChangeToDefaultSort(CInsensitive, "BAR", out noChange), "no change when defaultsort only differs to article title by case");
+            Assert.That(Parsers.ChangeToDefaultSort(CInsensitive, "BAR", out noChange), Is.EqualTo(CInsensitive), "no change when defaultsort only differs to article title by case");
             Assert.IsTrue(noChange);
 
-            Assert.AreEqual(CInsensitive, Parsers.ChangeToDefaultSort(CInsensitive, "Bar", out noChange), "no change when defaultsort only differs to article title by case");
+            Assert.That(Parsers.ChangeToDefaultSort(CInsensitive, "Bar", out noChange), Is.EqualTo(CInsensitive), "no change when defaultsort only differs to article title by case");
             Assert.IsTrue(noChange);
 
-            Assert.AreEqual(CInsensitive, Parsers.ChangeToDefaultSort(CInsensitive, "Bar foo", out noChange), "no change when defaultsort only differs to article title by case");
+            Assert.That(Parsers.ChangeToDefaultSort(CInsensitive, "Bar foo", out noChange), Is.EqualTo(CInsensitive), "no change when defaultsort only differs to article title by case");
             Assert.IsTrue(noChange);
 
-            Assert.AreEqual(CInsensitive, Parsers.ChangeToDefaultSort(CInsensitive, "Bar (foo)", out noChange), "no change when defaultsort only differs to article title by case");
+            Assert.That(Parsers.ChangeToDefaultSort(CInsensitive, "Bar (foo)", out noChange), Is.EqualTo(CInsensitive), "no change when defaultsort only differs to article title by case");
             Assert.IsTrue(noChange);
 
             string CInsensitive2 = @"{{DEFAULTSORT:Bar}} [[Category:Foo]]";
 
-            Assert.AreEqual(CInsensitive2, Parsers.ChangeToDefaultSort(CInsensitive2, "BAR", out noChange), "no change when existing defaultsort only differs to article title by case");
+            Assert.That(Parsers.ChangeToDefaultSort(CInsensitive2, "BAR", out noChange), Is.EqualTo(CInsensitive2), "no change when existing defaultsort only differs to article title by case");
             Assert.IsTrue(noChange);
 
             CInsensitive2 = @"{{DEFAULTSORT:bar}} [[Category:Foo]]";
 
-            Assert.AreEqual(CInsensitive2, Parsers.ChangeToDefaultSort(CInsensitive2, "BAR", out noChange), "no change when existing defaultsort only differs to article title by case");
+            Assert.That(Parsers.ChangeToDefaultSort(CInsensitive2, "BAR", out noChange), Is.EqualTo(CInsensitive2), "no change when existing defaultsort only differs to article title by case");
             Assert.IsTrue(noChange);
 
             CInsensitive2 = @"{{DEFAULTSORT:BAR}} [[Category:Foo]]";
 
-            Assert.AreEqual(CInsensitive2, Parsers.ChangeToDefaultSort(CInsensitive2, "BAR", out noChange), "no change when existing defaultsort only differs to article title by case");
+            Assert.That(Parsers.ChangeToDefaultSort(CInsensitive2, "BAR", out noChange), Is.EqualTo(CInsensitive2), "no change when existing defaultsort only differs to article title by case");
             Assert.IsTrue(noChange);
         }
 
@@ -344,12 +344,12 @@ foo {{persondata}}
         {
             bool noChange;
 
-            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|{{PAGENAME}}]][[Category:Test2]]", "Foooo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|{{PAGENAME}}]][[Category:Test2]]", "Foooo", out noChange),
+                            Is.EqualTo("[[Category:Test1]][[Category:Test2]]"));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|{{subst:PAGENAME}}]][[Category:Test2]]", "Foooo", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|{{subst:PAGENAME}}]][[Category:Test2]]", "Foooo", out noChange),
+                            Is.EqualTo("[[Category:Test1]][[Category:Test2]]"));
             Assert.IsFalse(noChange);
         }
 
@@ -359,7 +359,7 @@ foo {{persondata}}
             bool noChange;
             const string Multi = "[[Category:Test1|Foooo]][[Category:Test2|Foooo]]\r\n{{DEFAULTSORT:Foooo}}\r\n{{DEFAULTSORTKEY:Foo2oo}}";
 
-            Assert.AreEqual(Multi, Parsers.ChangeToDefaultSort(Multi, "Bar", out noChange), "no change when multiple different defaultsorts");
+            Assert.That(Parsers.ChangeToDefaultSort(Multi, "Bar", out noChange), Is.EqualTo(Multi), "no change when multiple different defaultsorts");
             Assert.IsTrue(noChange);
         }
 
@@ -368,23 +368,23 @@ foo {{persondata}}
         {
             // to test that if a cat's sortkey is the start of the defaultsort key, it's removed too
             bool noChange;
-            Assert.AreEqual(@"{{DEFAULTSORT:Willis, Bobby}}
-[[Category:1999 deaths]]
-[[Category:1942 births]]
-[[Category:Cancer deaths in the United Kingdom]]", Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Willis, Bobby}}
+            Assert.That(Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Willis, Bobby}}
 [[Category:1999 deaths|Willis]]
 [[Category:1942 births]]
-[[Category:Cancer deaths in the United Kingdom]]", "Bobby Willis", out noChange));
+[[Category:Cancer deaths in the United Kingdom]]", "Bobby Willis", out noChange), Is.EqualTo(@"{{DEFAULTSORT:Willis, Bobby}}
+[[Category:1999 deaths]]
+[[Category:1942 births]]
+[[Category:Cancer deaths in the United Kingdom]]"));
 
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual(@"{{DEFAULTSORT:Willis, Bobby}}
-[[Category:1999 deaths]]
-[[Category:1942 births|Foo]]
-[[Category:Cancer deaths in the United Kingdom]]", Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Willis, Bobby}}
+            Assert.That(Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Willis, Bobby}}
 [[Category:1999 deaths|Willis]]
 [[Category:1942 births|Foo]]
-[[Category:Cancer deaths in the United Kingdom]]", "Bobby Willis", out noChange));
+[[Category:Cancer deaths in the United Kingdom]]", "Bobby Willis", out noChange), Is.EqualTo(@"{{DEFAULTSORT:Willis, Bobby}}
+[[Category:1999 deaths]]
+[[Category:1942 births|Foo]]
+[[Category:Cancer deaths in the United Kingdom]]"));
 
             Assert.IsFalse(noChange);
         }
@@ -397,22 +397,22 @@ foo {{persondata}}
             const string a = @"Fred Smith blah [[Category:Living people]]";
             const string b = "\r\n" + @"{{DEFAULTSORT:Smith, Fred}}";
 
-            Assert.AreEqual(a + b, Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange), Is.EqualTo(a + b));
             Assert.IsFalse(noChange);
 
             string a2 = @"Fred Smith blah {{imdb name|id=abc}} [[Category:Living people]]";
 
-            Assert.AreEqual(a2 + b, Parsers.ChangeToDefaultSort(a2, "Fred Smith", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort(a2, "Fred Smith", out noChange), Is.EqualTo(a2 + b));
             Assert.IsFalse(noChange);
 
             // no defaultsort added if restricted defaultsort addition on
-            Assert.AreEqual(a, Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange, true));
+            Assert.That(Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange, true), Is.EqualTo(a));
             Assert.IsTrue(noChange);
 
             const string c = @"Stéphanie Mahieu blah [[Category:Living people]]";
             const string d = "\r\n" + @"{{DEFAULTSORT:Mahieu, Stephanie}}";
 
-            Assert.AreEqual(c + d, Parsers.ChangeToDefaultSort(c, "Stéphanie Mahieu", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort(c, "Stéphanie Mahieu", out noChange), Is.EqualTo(c + d));
             Assert.IsFalse(noChange);
         }
 
@@ -421,31 +421,31 @@ foo {{persondata}}
         {
             bool noChange;
 
-            Assert.AreEqual(@"[[Category:Parishes in Asturias]]
-{{DEFAULTSORT:Abandames}}",
-                            Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]", "Abándames", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]", "Abándames", out noChange),
+                            Is.EqualTo(@"[[Category:Parishes in Asturias]]
+{{DEFAULTSORT:Abandames}}"));
             Assert.IsFalse(noChange);
 
             // no change if a defaultsort already there
-            Assert.AreEqual(@"[[Category:Parishes in Asturias]]
-{{DEFAULTSORT:Bert}}",
-                            Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
-{{DEFAULTSORT:Bert}}", "Abándames", out noChange));
+            Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
+{{DEFAULTSORT:Bert}}", "Abándames", out noChange),
+                            Is.EqualTo(@"[[Category:Parishes in Asturias]]
+{{DEFAULTSORT:Bert}}"));
             Assert.IsTrue(noChange);
 
 
             // category sortkeys are cleaned too
-            Assert.AreEqual(@"[[Category:Parishes of the Azores]]
+            Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores|Agua Retorta]]
+[[Category:São Miguel Island]]", @"Água Retorta", out noChange), Is.EqualTo(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
-{{DEFAULTSORT:Agua Retorta}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores|Agua Retorta]]
-[[Category:São Miguel Island]]", @"Água Retorta", out noChange));
+{{DEFAULTSORT:Agua Retorta}}"));
             Assert.IsFalse(noChange);
 
             // use article name
-            Assert.AreEqual(@"[[Category:Parishes of the Azores]]
+            Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
+[[Category:São Miguel Island]]", @"Água Retorta", out noChange), Is.EqualTo(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
-{{DEFAULTSORT:Agua Retorta}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
-[[Category:São Miguel Island]]", @"Água Retorta", out noChange));
+{{DEFAULTSORT:Agua Retorta}}"));
             Assert.IsFalse(noChange);
         }
 
@@ -642,82 +642,82 @@ foo {{persondata}}
         [Test]
         public void ExternalURLToInternalLink()
         {
-            Assert.AreEqual("", Parsers.ExternalURLToInternalLink(""));
+            Assert.That(Parsers.ExternalURLToInternalLink(""), Is.Empty);
 
-            Assert.AreEqual("https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue",
-                            Parsers.ExternalURLToInternalLink(
-                                "https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue"));
+            Assert.That(Parsers.ExternalURLToInternalLink(
+                                "https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue"),
+                            Is.EqualTo("https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue"));
 
-            Assert.AreEqual("[[w:ru:Foo|Foo]]",
-                            Parsers.ExternalURLToInternalLink("[http://ru.wikipedia.org/wiki/Foo Foo]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://ru.wikipedia.org/wiki/Foo Foo]"),
+                            Is.EqualTo("[[w:ru:Foo|Foo]]"));
 
-            Assert.AreEqual("[[m:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://meta.wikimedia.org/wiki/Test Test]"));
-            Assert.AreEqual("[[commons:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://commons.wikimedia.org/wiki/Test Test]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://meta.wikimedia.org/wiki/Test Test]"),
+                            Is.EqualTo("[[m:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://commons.wikimedia.org/wiki/Test Test]"),
+                            Is.EqualTo("[[commons:Test|Test]]"));
         }
 
         [Test]
         public void ExternalURLToInternalLinkEn()
         {
-            Assert.AreEqual("[[wikt:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wiktionary.org/wiki/Test Test]"));
-            Assert.AreEqual("[[wikt:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wiktionary.org/w/Test Test]"));
-            Assert.AreEqual("[[n:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wikinews.org/wiki/Test Test]"));
-            Assert.AreEqual("[[b:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wikibooks.org/wiki/Test Test]"));
-            Assert.AreEqual("[[q:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wikiquote.org/wiki/Test Test]"));
-            Assert.AreEqual("[[s:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wikisource.org/wiki/Test Test]"));
-            Assert.AreEqual("[[v:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wikiversity.org/wiki/Test Test]"));
-            Assert.AreEqual("[[w:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
-            Assert.AreEqual("[[w:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[https://en.wikipedia.org/wiki/Test Test]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://en.wiktionary.org/wiki/Test Test]"),
+                            Is.EqualTo("[[wikt:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://en.wiktionary.org/w/Test Test]"),
+                            Is.EqualTo("[[wikt:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://en.wikinews.org/wiki/Test Test]"),
+                            Is.EqualTo("[[n:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://en.wikibooks.org/wiki/Test Test]"),
+                            Is.EqualTo("[[b:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://en.wikiquote.org/wiki/Test Test]"),
+                            Is.EqualTo("[[q:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://en.wikisource.org/wiki/Test Test]"),
+                            Is.EqualTo("[[s:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://en.wikiversity.org/wiki/Test Test]"),
+                            Is.EqualTo("[[v:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"),
+                            Is.EqualTo("[[w:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[https://en.wikipedia.org/wiki/Test Test]"),
+                            Is.EqualTo("[[w:Test|Test]]"));
 
-            Assert.AreEqual("[[wikt:fr:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://fr.wiktionary.org/wiki/Test Test]"));
-            Assert.AreEqual("[[w:fr:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://fr.wikipedia.org/wiki/Test Test]"));
-            Assert.AreEqual("[[w:fr:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[https://fr.wikipedia.org/wiki/Test Test]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://fr.wiktionary.org/wiki/Test Test]"),
+                            Is.EqualTo("[[wikt:fr:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://fr.wikipedia.org/wiki/Test Test]"),
+                            Is.EqualTo("[[w:fr:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[https://fr.wikipedia.org/wiki/Test Test]"),
+                            Is.EqualTo("[[w:fr:Test|Test]]"));
 
 #if DEBUG
             Variables.SetProjectLangCode("fr");
-            Assert.AreEqual("[[w:en:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
-            Assert.AreEqual("[[w:en:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[https://en.wikipedia.org/wiki/Test Test]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"),
+                            Is.EqualTo("[[w:en:Test|Test]]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[https://en.wikipedia.org/wiki/Test Test]"),
+                            Is.EqualTo("[[w:en:Test|Test]]"));
             Variables.SetProjectLangCode("en");
-            Assert.AreEqual("[[w:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
+            Assert.That(Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"),
+                            Is.EqualTo("[[w:Test|Test]]"));
 #endif
         }
 
         [Test]
         public void RemoveEmptyComments()
         {
-            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!---->"));
-            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!-- -->"));
+            Assert.That(Parsers.RemoveEmptyComments("<!---->"), Is.Empty);
+            Assert.That(Parsers.RemoveEmptyComments("<!-- -->"), Is.Empty);
 
             // newline comments are used to split wikitext to lines w/o breaking formatting,
             // they should not be removed
-            Assert.AreEqual("<!--\r\n\r\n-->", Parsers.RemoveEmptyComments("<!--\r\n\r\n-->"));
+            Assert.That(Parsers.RemoveEmptyComments("<!--\r\n\r\n-->"), Is.EqualTo("<!--\r\n\r\n-->"));
 
-            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!----><!---->"));
-            Assert.AreEqual("<!--\r\n\r\n-->", Parsers.RemoveEmptyComments("<!--\r\n\r\n--><!---->"));
-            Assert.AreEqual("<!--Test-->", Parsers.RemoveEmptyComments("<!----><!--Test-->"));
-            Assert.AreEqual(" <!--Test-->", Parsers.RemoveEmptyComments("<!----> <!--Test-->"));
-            Assert.AreEqual("<!--Test\r\nfoo--> <!--Test-->", Parsers.RemoveEmptyComments("<!--Test\r\nfoo--> <!--Test-->"));
+            Assert.That(Parsers.RemoveEmptyComments("<!----><!---->"), Is.Empty);
+            Assert.That(Parsers.RemoveEmptyComments("<!--\r\n\r\n--><!---->"), Is.EqualTo("<!--\r\n\r\n-->"));
+            Assert.That(Parsers.RemoveEmptyComments("<!----><!--Test-->"), Is.EqualTo("<!--Test-->"));
+            Assert.That(Parsers.RemoveEmptyComments("<!----> <!--Test-->"), Is.EqualTo(" <!--Test-->"));
+            Assert.That(Parsers.RemoveEmptyComments("<!--Test\r\nfoo--> <!--Test-->"), Is.EqualTo("<!--Test\r\nfoo--> <!--Test-->"));
 
-            Assert.AreEqual("<!--Test-->", Parsers.RemoveEmptyComments("<!--Test-->"));
+            Assert.That(Parsers.RemoveEmptyComments("<!--Test-->"), Is.EqualTo("<!--Test-->"));
 
-            Assert.AreEqual("", Parsers.RemoveEmptyComments(""));
-            Assert.AreEqual("test", Parsers.RemoveEmptyComments("test"));
+            Assert.That(Parsers.RemoveEmptyComments(""), Is.Empty);
+            Assert.That(Parsers.RemoveEmptyComments("test"), Is.EqualTo("test"));
         }
 
         [Test]
@@ -1054,25 +1054,25 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         [Test]
         public void GetTemplateTests()
         {
-            Assert.AreEqual(@"{{foo}}", Parsers.GetTemplate(@"now {{foo}} was here", "foo"));
-            Assert.AreEqual(@"{{Foo}}", Parsers.GetTemplate(@"now {{Foo}} was here", "foo"));
-            Assert.AreEqual(@"{{foo}}", Parsers.GetTemplate(@"now {{foo}} was here", "Foo"));
-            Assert.AreEqual(@"{{foo}}", Parsers.GetTemplate(@"now {{foo}} was here", "[Ff]oo"));
-            Assert.AreEqual(@"{{ foo|bar asdfasdf}}", Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", "foo"));
-            Assert.AreEqual(@"{{ foo |bar asdfasdf}}", Parsers.GetTemplate(@"now {{ foo |bar asdfasdf}} was here", "foo"));
-            Assert.AreEqual(@"{{ foo|bar
-asdfasdf}}", Parsers.GetTemplate(@"now {{ foo|bar
-asdfasdf}} was here", "foo"));
-            Assert.AreEqual(@"{{foo}}", Parsers.GetTemplate(@"now {{foo}} was here {{foo|1}}", "foo"));
+            Assert.That(Parsers.GetTemplate(@"now {{foo}} was here", "foo"), Is.EqualTo(@"{{foo}}"));
+            Assert.That(Parsers.GetTemplate(@"now {{Foo}} was here", "foo"), Is.EqualTo(@"{{Foo}}"));
+            Assert.That(Parsers.GetTemplate(@"now {{foo}} was here", "Foo"), Is.EqualTo(@"{{foo}}"));
+            Assert.That(Parsers.GetTemplate(@"now {{foo}} was here", "[Ff]oo"), Is.EqualTo(@"{{foo}}"));
+            Assert.That(Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", "foo"), Is.EqualTo(@"{{ foo|bar asdfasdf}}"));
+            Assert.That(Parsers.GetTemplate(@"now {{ foo |bar asdfasdf}} was here", "foo"), Is.EqualTo(@"{{ foo |bar asdfasdf}}"));
+            Assert.That(Parsers.GetTemplate(@"now {{ foo|bar
+asdfasdf}} was here", "foo"), Is.EqualTo(@"{{ foo|bar
+asdfasdf}}"));
+            Assert.That(Parsers.GetTemplate(@"now {{foo}} was here {{foo|1}}", "foo"), Is.EqualTo(@"{{foo}}"));
 
-            Assert.AreEqual(@"", Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", "foot"));
-            Assert.AreEqual(@"", Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", ""));
-            Assert.AreEqual(@"", Parsers.GetTemplate(@"", "foo"));
-            Assert.AreEqual(@"", Parsers.GetTemplate(@"now <!--{{foo}} --> was here", "foo"));
-            Assert.AreEqual(@"{{foo<!--comm-->}}", Parsers.GetTemplate(@"now {{foo<!--comm-->}} was here", "foo"));
+            Assert.That(Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", "foot"), Is.Empty);
+            Assert.That(Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", ""), Is.Empty);
+            Assert.That(Parsers.GetTemplate(@"", "foo"), Is.Empty);
+            Assert.That(Parsers.GetTemplate(@"now <!--{{foo}} --> was here", "foo"), Is.Empty);
+            Assert.That(Parsers.GetTemplate(@"now {{foo<!--comm-->}} was here", "foo"), Is.EqualTo(@"{{foo<!--comm-->}}"));
 
-            Assert.AreEqual(@"{{foo  |a={{bar}} here}}", Parsers.GetTemplate(@"now {{foo  |a={{bar}} here}} was here", "foo"));
-            Assert.AreEqual(@"{{foo|bar}}", Parsers.GetTemplate(@"now <!--{{foo|bar}}--> {{foo}} was here", "Foo"));
+            Assert.That(Parsers.GetTemplate(@"now {{foo  |a={{bar}} here}} was here", "foo"), Is.EqualTo(@"{{foo  |a={{bar}} here}}"));
+            Assert.That(Parsers.GetTemplate(@"now <!--{{foo|bar}}--> {{foo}} was here", "Foo"), Is.EqualTo(@"{{foo|bar}}"));
         }
 
         [Test]
@@ -1087,45 +1087,45 @@ asdfasdf}} was here", "foo"));
             foreach (Match m in foo.Matches(text))
                 fred.Add(m);
 
-            Assert.AreEqual(fred.ToString(), Parsers.GetTemplates(text, "foo").ToString());
-            Assert.AreEqual(fred.ToString(), Parsers.GetTemplates(text, "Foo").ToString());
+            Assert.That(Parsers.GetTemplates(text, "foo").ToString(), Is.EqualTo(fred.ToString()));
+            Assert.That(Parsers.GetTemplates(text, "Foo").ToString(), Is.EqualTo(fred.ToString()));
             List<Match> templates = Parsers.GetTemplates(text, "foo");
-            Assert.AreEqual(foo1, templates[0].Value);
-            Assert.AreEqual(foo2, templates[1].Value);
-            Assert.AreEqual(2, templates.Count);
+            Assert.That(templates[0].Value, Is.EqualTo(foo1));
+            Assert.That(templates[1].Value, Is.EqualTo(foo2));
+            Assert.That(templates.Count, Is.EqualTo(2));
 
             // ignores commeted out templates
             templates = Parsers.GetTemplates(text + @" <!-- {{foo|c}} -->", "foo");
-            Assert.AreEqual(foo1, templates[0].Value);
-            Assert.AreEqual(foo2, templates[1].Value);
-            Assert.AreEqual(2, templates.Count);
+            Assert.That(templates[0].Value, Is.EqualTo(foo1));
+            Assert.That(templates[1].Value, Is.EqualTo(foo2));
+            Assert.That(templates.Count, Is.EqualTo(2));
 
             // ignores nowiki templates
             templates = Parsers.GetTemplates(text + @" <nowiki> {{foo|c}} </nowiki>", "foo");
-            Assert.AreEqual(foo1, templates[0].Value);
-            Assert.AreEqual(foo2, templates[1].Value);
-            Assert.AreEqual(2, templates.Count);
+            Assert.That(templates[0].Value, Is.EqualTo(foo1));
+            Assert.That(templates[1].Value, Is.EqualTo(foo2));
+            Assert.That(templates.Count, Is.EqualTo(2));
 
             // nested templates caught
             const string foo3 = @"{{ Foo|bar={{abc}}|beer=y}}";
             templates = Parsers.GetTemplates(@"now " + foo3 + @" there", "foo");
-            Assert.AreEqual(foo3, templates[0].Value);
+            Assert.That(templates[0].Value, Is.EqualTo(foo3));
 
             // whitespace ignored
             const string foo4 = @"{{ Foo }}";
             templates = Parsers.GetTemplates(@"now " + foo4 + @" there", "foo");
-            Assert.AreEqual(foo4, templates[0].Value);
+            Assert.That(templates[0].Value, Is.EqualTo(foo4));
 
             // no matches here
             templates = Parsers.GetTemplates(@"now " + foo3 + @" there", "fo");
-            Assert.AreEqual(0, templates.Count);
+            Assert.That(templates.Count, Is.EqualTo(0));
 
             templates = Parsers.GetTemplates(@"{{test}}", "test");
-            Assert.AreEqual(1, templates.Count);
+            Assert.That(templates.Count, Is.EqualTo(1));
 
             templates = Parsers.GetTemplates(@"{{test}}
 ", "test");
-            Assert.AreEqual(1, templates.Count);
+            Assert.That(templates.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -1138,16 +1138,16 @@ asdfasdf}} was here", "foo"));
 
             // templates with embedded comments caught
             templates = Parsers.GetTemplates(text + " space " + foo2a, "foo");
-            Assert.AreEqual(3, templates.Count);
-            Assert.AreEqual(foo1, templates[0].Value);
-            Assert.AreEqual(foo2, templates[1].Value);
-            Assert.AreEqual(foo2a, templates[2].Value);
+            Assert.That(templates.Count, Is.EqualTo(3));
+            Assert.That(templates[0].Value, Is.EqualTo(foo1));
+            Assert.That(templates[1].Value, Is.EqualTo(foo2));
+            Assert.That(templates[2].Value, Is.EqualTo(foo2a));
 
             templates = Parsers.GetTemplates(text + " space " + foo2b, "foo");
-            Assert.AreEqual(3, templates.Count);
-            Assert.AreEqual(foo1, templates[0].Value);
-            Assert.AreEqual(foo2, templates[1].Value);
-            Assert.AreEqual(foo2b, templates[2].Value);
+            Assert.That(templates.Count, Is.EqualTo(3));
+            Assert.That(templates[0].Value, Is.EqualTo(foo1));
+            Assert.That(templates[1].Value, Is.EqualTo(foo2));
+            Assert.That(templates[2].Value, Is.EqualTo(foo2b));
         }
 
         [Test]
@@ -1160,19 +1160,19 @@ asdfasdf}} was here", "foo"));
 
             // templates with embedded comments caught
             templates = Parsers.GetTemplates(text + " space " + foo2a);
-            Assert.AreEqual(3, templates.Count);
-            Assert.AreEqual(foo1, templates[0].Value);
-            Assert.AreEqual(foo2, templates[1].Value);
-            Assert.AreEqual(foo2a, templates[2].Value);
+            Assert.That(templates.Count, Is.EqualTo(3));
+            Assert.That(templates[0].Value, Is.EqualTo(foo1));
+            Assert.That(templates[1].Value, Is.EqualTo(foo2));
+            Assert.That(templates[2].Value, Is.EqualTo(foo2a));
 
             templates = Parsers.GetTemplates(text + " space " + foo2b);
-            Assert.AreEqual(3, templates.Count);
-            Assert.AreEqual(foo1, templates[0].Value);
-            Assert.AreEqual(foo2, templates[1].Value);
-            Assert.AreEqual(foo2b, templates[2].Value);
+            Assert.That(templates.Count, Is.EqualTo(3));
+            Assert.That(templates[0].Value, Is.EqualTo(foo1));
+            Assert.That(templates[1].Value, Is.EqualTo(foo2));
+            Assert.That(templates[2].Value, Is.EqualTo(foo2b));
 
             templates = Parsers.GetTemplates(@" {{one}} {{two}} {{three|a={{bcd}} |ef=gh}}");
-            Assert.AreEqual(3, templates.Count);
+            Assert.That(templates.Count, Is.EqualTo(3));
         }
 
         [Test]
@@ -1180,12 +1180,12 @@ asdfasdf}} was here", "foo"));
         {
             // https://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
 
-            Assert.AreEqual("foo bar", parser.FixUnicode("foo\x2028bar"));
-            Assert.AreEqual(@"foo
-bar", parser.FixUnicode("foo" + "\r\n" + "\x2028bar"));
-            Assert.AreEqual("foo bar", parser.FixUnicode("foo\x2029bar"));
-            Assert.AreEqual(@"foo
-bar", parser.FixUnicode("foo" + "\r\n" + "\x200B\x200Bbar"));
+            Assert.That(parser.FixUnicode("foo\x2028bar"), Is.EqualTo("foo bar"));
+            Assert.That(parser.FixUnicode("foo" + "\r\n" + "\x2028bar"), Is.EqualTo(@"foo
+bar"));
+            Assert.That(parser.FixUnicode("foo\x2029bar"), Is.EqualTo("foo bar"));
+            Assert.That(parser.FixUnicode("foo" + "\r\n" + "\x200B\x200Bbar"), Is.EqualTo(@"foo
+bar"));
         }
 
         [Test]
@@ -1193,23 +1193,23 @@ bar", parser.FixUnicode("foo" + "\r\n" + "\x200B\x200Bbar"));
         {
             Regex Hello = new Regex(@"{{hello.*?}}");
 
-            Assert.AreEqual(@"Text Expanded template test return<!-- {{hello|2010}} -->", Parsers.SubstUserTemplates(@"Text {{hello|2010}}", "test", Hello), "performs single substitution");
-            Assert.AreEqual(@"Text Expanded template test return<!-- {{hello}} -->", Parsers.SubstUserTemplates(@"Text {{hello}}", "test", Hello), "performs single substitution");
-            Assert.AreEqual(@"Text Expanded template test return<!-- {{hello}} -->
-Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"Text {{hello}}
-{{hello2}}", "test", Hello), "performs multiple subsitutions");
+            Assert.That(Parsers.SubstUserTemplates(@"Text {{hello|2010}}", "test", Hello), Is.EqualTo(@"Text Expanded template test return<!-- {{hello|2010}} -->"), "performs single substitution");
+            Assert.That(Parsers.SubstUserTemplates(@"Text {{hello}}", "test", Hello), Is.EqualTo(@"Text Expanded template test return<!-- {{hello}} -->"), "performs single substitution");
+            Assert.That(Parsers.SubstUserTemplates(@"Text {{hello}}
+{{hello2}}", "test", Hello), Is.EqualTo(@"Text Expanded template test return<!-- {{hello}} -->
+Expanded template test return<!-- {{hello2}} -->"), "performs multiple subsitutions");
 
             const string Bye = @"Text {{bye}}";
-            Assert.AreEqual(Bye, Parsers.SubstUserTemplates(Bye, "test", Hello), "no changes if no matching template");
+            Assert.That(Parsers.SubstUserTemplates(Bye, "test", Hello), Is.EqualTo(Bye), "no changes if no matching template");
 
             const string Subst = @"Now {{{subst:bar}}} text";
-            Assert.AreEqual(Subst, Parsers.SubstUserTemplates(Subst, "test", Hello), "doesn't change {{{subst");
+            Assert.That(Parsers.SubstUserTemplates(Subst, "test", Hello), Is.EqualTo(Subst), "doesn't change {{{subst");
 
             Regex None = null;
-            Assert.AreEqual(Bye, Parsers.SubstUserTemplates(Bye, "test", None), "no changes when user talk page regex is null");
+            Assert.That(Parsers.SubstUserTemplates(Bye, "test", None), Is.EqualTo(Bye), "no changes when user talk page regex is null");
 
             const string T2 = @"Test {{{2|}}}";
-            Assert.AreEqual("Test", Parsers.SubstUserTemplates(T2, "test", Hello), "cleans up the {{{2|}}} template");
+            Assert.That(Parsers.SubstUserTemplates(T2, "test", Hello), Is.EqualTo("Test"), "cleans up the {{{2|}}} template");
         }
 
         [Test]
@@ -1217,34 +1217,34 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         {
             const string Correct = @"{{birth date and age|df=y|1990|05|11}}", CorrectAmerican = @"{{birth date and age|mf=y|1990|05|11}}";
 
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990 (age 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990 (Age 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990, (Age 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990; (Age 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990 (aged 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May [[1990]] (aged 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"[[11 May]] [[1990]] (aged 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"[[11 May]] 1990 (aged 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11th May 1990 (aged 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990 ( aged 21 )"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990    ( aged 21 )"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May, 1990    ( aged 21 )"));
+            Assert.That(Parsers.FormatToBDA(@"11 May 1990 (age 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"11 May 1990 (Age 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"11 May 1990, (Age 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"11 May 1990; (Age 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"11 May 1990 (aged 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"11 May [[1990]] (aged 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"[[11 May]] [[1990]] (aged 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"[[11 May]] 1990 (aged 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"11th May 1990 (aged 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"11 May 1990 ( aged 21 )"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"11 May 1990    ( aged 21 )"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"11 May, 1990    ( aged 21 )"), Is.EqualTo(Correct));
 
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"1990-05-11 (age 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"1990-5-11 (age 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"1990-5-11 <br/>(age 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"1990-5-11 <br>(age 21)"));
-            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"1990-5-11 <br>Age 21"));
+            Assert.That(Parsers.FormatToBDA(@"1990-05-11 (age 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"1990-5-11 (age 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"1990-5-11 <br/>(age 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"1990-5-11 <br>(age 21)"), Is.EqualTo(Correct));
+            Assert.That(Parsers.FormatToBDA(@"1990-5-11 <br>Age 21"), Is.EqualTo(Correct));
 
-            Assert.AreEqual(CorrectAmerican, Parsers.FormatToBDA(@"May 11, 1990 (age 21)"));
-            Assert.AreEqual(CorrectAmerican, Parsers.FormatToBDA(@"May 11 1990 (age 21)"));
-            Assert.AreEqual(CorrectAmerican, Parsers.FormatToBDA(@"May 11th 1990 (age 21)"));
+            Assert.That(Parsers.FormatToBDA(@"May 11, 1990 (age 21)"), Is.EqualTo(CorrectAmerican));
+            Assert.That(Parsers.FormatToBDA(@"May 11 1990 (age 21)"), Is.EqualTo(CorrectAmerican));
+            Assert.That(Parsers.FormatToBDA(@"May 11th 1990 (age 21)"), Is.EqualTo(CorrectAmerican));
 
-            Assert.AreEqual("", Parsers.FormatToBDA(""));
-            Assert.AreEqual("Test", Parsers.FormatToBDA("Test"));
-            Assert.AreEqual("May 11, 1990", Parsers.FormatToBDA("May 11, 1990"));
-            Assert.AreEqual("May 1990 (age 21)", Parsers.FormatToBDA("May 1990 (age 21)"));
-            Assert.AreEqual("May 11, 1990 (Age 21) and some other text", Parsers.FormatToBDA("May 11, 1990 (Age 21) and some other text"));
+            Assert.That(Parsers.FormatToBDA(""), Is.Empty);
+            Assert.That(Parsers.FormatToBDA("Test"), Is.EqualTo("Test"));
+            Assert.That(Parsers.FormatToBDA("May 11, 1990"), Is.EqualTo("May 11, 1990"));
+            Assert.That(Parsers.FormatToBDA("May 1990 (age 21)"), Is.EqualTo("May 1990 (age 21)"));
+            Assert.That(Parsers.FormatToBDA("May 11, 1990 (Age 21) and some other text"), Is.EqualTo("May 11, 1990 (Age 21) and some other text"));
         }
 
         [Test]
@@ -1261,9 +1261,9 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(res.ContainsKey("jtitle"));
             string v;
             res.TryGetValue("volume", out v);
-            Assert.AreEqual(v, "159");
+            Assert.That(v, Is.EqualTo("159"));
             res.TryGetValue("jtitle", out v);
-            Assert.AreEqual(v, "Nature Structural &#38; Molecular Biology");
+            Assert.That(v, Is.EqualTo("Nature Structural &#38; Molecular Biology"));
         }
     }
 }

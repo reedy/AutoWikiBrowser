@@ -12,28 +12,28 @@ namespace UnitTests
         {
             List<string> t = new List<string>();
 
-            Assert.AreEqual(t, Parsers.GetAllTemplates(""));
+            Assert.That(Parsers.GetAllTemplates(""), Is.EqualTo(t));
             t.Add("Foo");
-            Assert.AreEqual(t, Parsers.GetAllTemplates("{{foo}}"), "case converted to first letter upper");
-            Assert.AreEqual(t, Parsers.GetAllTemplates("{{Foo}}"), "uppercase template first letter handled");
-            Assert.AreEqual(t, Parsers.GetAllTemplates("{{Foo}} {{foo}}"), "Templates list deduplicated");
-            Assert.AreEqual(t, Parsers.GetAllTemplates("{{Foo|bar=1}}"), "Support templates with arguments");
+            Assert.That(Parsers.GetAllTemplates("{{foo}}"), Is.EqualTo(t), "case converted to first letter upper");
+            Assert.That(Parsers.GetAllTemplates("{{Foo}}"), Is.EqualTo(t), "uppercase template first letter handled");
+            Assert.That(Parsers.GetAllTemplates("{{Foo}} {{foo}}"), Is.EqualTo(t), "Templates list deduplicated");
+            Assert.That(Parsers.GetAllTemplates("{{Foo|bar=1}}"), Is.EqualTo(t), "Support templates with arguments");
             t.Add("Other");
-            Assert.AreEqual(t, Parsers.GetAllTemplates("{{Foo|bar=1 {{Other}} }}"), "Support nested templates");
+            Assert.That(Parsers.GetAllTemplates("{{Foo|bar=1 {{Other}} }}"), Is.EqualTo(t), "Support nested templates");
             t.Add("Other2");
-            Assert.AreEqual(t, Parsers.GetAllTemplates("{{Foo|bar=1 {{Other| a= {{Other2|}} }} }}"), "Support 2x nested templates");
-            Assert.AreEqual(t, Parsers.GetAllTemplates(@"{{_Foo  |bar=1 {{ Other
-| a= {{ Other2_|}} }} }}"), "Ignore whitespace");
-            Assert.AreEqual(t, Parsers.GetAllTemplates(@"{{Foo|bar=1 {{Other
-| a= {{Template:Other2_|}} }} }}"), "Ignore Template: prefix");
+            Assert.That(Parsers.GetAllTemplates("{{Foo|bar=1 {{Other| a= {{Other2|}} }} }}"), Is.EqualTo(t), "Support 2x nested templates");
+            Assert.That(Parsers.GetAllTemplates(@"{{_Foo  |bar=1 {{ Other
+| a= {{ Other2_|}} }} }}"), Is.EqualTo(t), "Ignore whitespace");
+            Assert.That(Parsers.GetAllTemplates(@"{{Foo|bar=1 {{Other
+| a= {{Template:Other2_|}} }} }}"), Is.EqualTo(t), "Ignore Template: prefix");
 
             t.Clear();
             t.Add("DISPLAYTITLE");
-            Assert.AreEqual(t, Parsers.GetAllTemplates("{{DISPLAYTITLE:foo}}"), "Supports DISPLAYTITLE template");
+            Assert.That(Parsers.GetAllTemplates("{{DISPLAYTITLE:foo}}"), Is.EqualTo(t), "Supports DISPLAYTITLE template");
 
             t.Clear();
             t.Add("Template");
-            Assert.AreEqual(t, Parsers.GetAllTemplates("{{Template:}}"), "Supports empty template");
+            Assert.That(Parsers.GetAllTemplates("{{Template:}}"), Is.EqualTo(t), "Supports empty template");
         }
 
         [Test]
@@ -41,22 +41,22 @@ namespace UnitTests
         {
             List<string> t = new List<string>();
 
-            Assert.AreEqual(t, Parsers.GetAllTemplateDetail(""));
+            Assert.That(Parsers.GetAllTemplateDetail(""), Is.EqualTo(t));
             t.Add("{{foo}}");
-            Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{foo}}"), "Extracts simple template call");
-            Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{foo}} {{foo}}"), "Deduplicates");
+            Assert.That(Parsers.GetAllTemplateDetail("{{foo}}"), Is.EqualTo(t), "Extracts simple template call");
+            Assert.That(Parsers.GetAllTemplateDetail("{{foo}} {{foo}}"), Is.EqualTo(t), "Deduplicates");
             t.Add("{{foo2}}");
-            Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{foo}} {{foo2}}"), "Extracts each distinct template call");
+            Assert.That(Parsers.GetAllTemplateDetail("{{foo}} {{foo2}}"), Is.EqualTo(t), "Extracts each distinct template call");
             t.Clear();
             t.Add("{{foo|param={{foo2}} {{foo3=|bar3={{foo4}}}}}}");
             t.Add("{{foo2}}");
             t.Add("{{foo3=|bar3={{foo4}}}}");
             t.Add("{{foo4}}");
-            Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{foo|param={{foo2}} {{foo3=|bar3={{foo4}}}}}}"), "Extracts nested template calls");
+            Assert.That(Parsers.GetAllTemplateDetail("{{foo|param={{foo2}} {{foo3=|bar3={{foo4}}}}}}"), Is.EqualTo(t), "Extracts nested template calls");
 
             t.Clear();
             t.Add("{{DISPLAYTITLE:foo}}");
-            Assert.AreEqual(t, Parsers.GetAllTemplateDetail("{{DISPLAYTITLE:foo}}"), "Supports DISPLAYTITLE template call");
+            Assert.That(Parsers.GetAllTemplateDetail("{{DISPLAYTITLE:foo}}"), Is.EqualTo(t), "Supports DISPLAYTITLE template call");
         }
 
         [Test]

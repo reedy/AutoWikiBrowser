@@ -79,28 +79,28 @@ namespace UnitTests
         {
             ArticleText = text;
             GenFixes();
-            Assert.AreEqual(expected, ArticleText);
+            Assert.That(ArticleText, Is.EqualTo(expected));
         }
 
         public void AssertNotChanged(string text)
         {
             ArticleText = text;
             GenFixes();
-            Assert.AreEqual(text, ArticleText);
+            Assert.That(ArticleText, Is.EqualTo(text));
         }
 
         public void AssertNotChanged(string text, string articleTitle)
         {
             ArticleText = text;
             GenFixes(articleTitle);
-            Assert.AreEqual(text, ArticleText, "unit test");
+            Assert.That(ArticleText, Is.EqualTo(text), "unit test");
         }
 
         public void AssertNotChanged(string text, string articleTitle, string message)
         {
             ArticleText = text;
             GenFixes(articleTitle);
-            Assert.AreEqual(text, ArticleText, message);
+            Assert.That(ArticleText, Is.EqualTo(text), message);
         }
     }
 
@@ -131,7 +131,7 @@ namespace UnitTests
         {
             ArticleText = @"#REDIRECT [[Action of 12-17 January 1640]]";
             GenFixes("Action of 12–17 January 1640");
-            Assert.AreEqual(ArticleText, @"#REDIRECT [[Action of 12-17 January 1640]] {{R from modification}}");
+            Assert.That(ArticleText, Is.EqualTo(@"#REDIRECT [[Action of 12-17 January 1640]] {{R from modification}}"));
         }
 
         [Test]
@@ -147,7 +147,7 @@ namespace UnitTests
             ArticleText = "[[Image:foo.jpg|Some [[http://some_crap.com]]]]";
             GenFixes();
             // not performing a full comparison due to a bug that should be tested elsewhere
-            StringAssert.StartsWith("[[Image:foo.jpg|Some [http://some_crap.com]]]", ArticleText);
+            Assert.That(ArticleText, Does.StartWith("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
         }
 
         [Test]
@@ -467,7 +467,7 @@ y";
 
             GenFixes("John Smith");
 
-            Assert.AreEqual(@"'''John Smith''' (born 1985) was great.", ArticleText);
+            Assert.That(ArticleText, Is.EqualTo(@"'''John Smith''' (born 1985) was great."));
         }
 
         [Test]
@@ -488,7 +488,7 @@ y";
 
 * Hills  works,<ref name=HerdFly/><ref>{{cite book |last=McDonald }}</ref><ref>{{cite book |last=Gingrich }}</ref><ref>{{cite book |location=Norwalk, CT }}</ref> {{Reflist}}";
             GenFixes("Test");
-            Assert.AreEqual(correct, ArticleText);
+            Assert.That(ArticleText, Is.EqualTo(correct));
 
             // RefsAfterPunctuation
             ArticleText = @"A<ref>ABC</REF>.
@@ -496,10 +496,10 @@ y";
 ==References==
 {{reflist}}";
             GenFixes("Test");
-            Assert.AreEqual(@"A.<ref>ABC</ref>
+            Assert.That(ArticleText, Is.EqualTo(@"A.<ref>ABC</ref>
 
 ==References==
-{{reflist}}", ArticleText);
+{{reflist}}"));
 
             Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
             #endif
@@ -528,7 +528,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
             
             string correct = @"Targ.<ref>[http://www.site.com] Lubawskiego</ref> It adopted {{reflist}}";
 
-            Assert.AreEqual(correct, ArticleText);
+            Assert.That(ArticleText, Is.EqualTo(correct));
         }
 
         [Test]
@@ -547,14 +547,14 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
 {{Reflist}}";
             
             GenFixes("Test");
-            
-            Assert.AreEqual(correct, ArticleText, "References section exists");
+
+            Assert.That(ArticleText, Is.EqualTo(correct), "References section exists");
 
             ArticleText = @"FOOBAR decreases<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/>. It catalyses the removal of a phosphate group from fructose (F-2,6-BP)<ref name=""B""/><ref name=""G""/>:";
 
             GenFixes("Test");
-            
-            Assert.AreEqual(correct, ArticleText, "References section does not exist");
+
+            Assert.That(ArticleText, Is.EqualTo(correct), "References section does not exist");
 
             Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
             #endif
@@ -568,7 +568,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
             Article ar1 = new Article("Hello", " '''Hello''' world text");
             ar1.PerformUniversalGeneralFixes();
             ar1.PerformGeneralFixes(parser, H, S, false, false, false);
-            Assert.AreEqual("'''Hello''' world text", ar1.ArticleText);
+            Assert.That(ar1.ArticleText, Is.EqualTo("'''Hello''' world text"));
         }
 
         [Test]
@@ -587,9 +587,9 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
                 1, parser, false,
                 "Foo",
                 "Foo2", false);
-            Assert.AreEqual(ar2.ArticleText, " Text [[Category:Foo2]]", "Category rename operation");
+            Assert.That(ar2.ArticleText, Is.EqualTo(" Text [[Category:Foo2]]"), "Category rename operation");
             ar2.PerformUniversalGeneralFixes();
-            Assert.AreEqual(ar2.ArticleText, "Text [[Category:Foo2]]", "Universal genfix trim");
+            Assert.That(ar2.ArticleText, Is.EqualTo("Text [[Category:Foo2]]"), "Universal genfix trim");
             ar2.PerformGeneralFixes(parser, H, S, false, false, false);
             Assert.IsFalse(ar2.OnlyGeneralFixesChanged, "Categorisation did cause change");
         }
@@ -609,7 +609,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
 * [http://foo2.com]
 [[Category:A]]";
 
-            Assert.AreEqual(correct, ArticleText, "Clean br at end of lists");
+            Assert.That(ArticleText, Is.EqualTo(correct), "Clean br at end of lists");
 
             ArticleText = @"==External links==
 [http://foo.com]
@@ -621,7 +621,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
 
             GenFixes("Test");
 
-            Assert.AreEqual(correct, ArticleText, "Clean br between list items");
+            Assert.That(ArticleText, Is.EqualTo(correct), "Clean br between list items");
         }
 
         [Test]
@@ -631,7 +631,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
 ==Foo.(here)==
 Foo.(here) is a bar While remaining upright may be the primary goal of beginning riders";
             GenFixes("Foo.(here)");
-            Assert.AreEqual("'''Foo.(here)''' is a bar While remaining upright may be the primary goal of beginning riders", ArticleText);
+            Assert.That(ArticleText, Is.EqualTo("'''Foo.(here)''' is a bar While remaining upright may be the primary goal of beginning riders"));
         }
 
         [Test]
@@ -640,7 +640,7 @@ Foo.(here) is a bar While remaining upright may be the primary goal of beginning
             ArticleText = @"#REDIRECT[[foo|foo]]";
             GenFixes("test");
 
-            Assert.AreEqual(@"#REDIRECT[[foo]]", ArticleText);
+            Assert.That(ArticleText, Is.EqualTo(@"#REDIRECT[[foo]]"));
         }
 
         [Test]
@@ -650,9 +650,9 @@ Foo.(here) is a bar While remaining upright may be the primary goal of beginning
 [[Category:One]]";
             GenFixes("Foé");
 
-            Assert.AreEqual(@"#REDIRECT[[Foo]]
+            Assert.That(ArticleText, Is.EqualTo(@"#REDIRECT[[Foo]]
 [[Category:One]]
-{{DEFAULTSORT:Foe}}", ArticleText);
+{{DEFAULTSORT:Foe}}"));
         }
 
         [Test]
@@ -702,14 +702,14 @@ God.<ref name=""S63"" />
 
              GenFixes();
 
-            Assert.AreEqual(@"Z<ref name = ""Smith63"">Smith (2004), p.&nbsp;63</ref> in all probability.<ref name=""Smith63""/> For.<ref name=""Smith63""/>
+            Assert.That(ArticleText, Is.EqualTo(@"Z<ref name = ""Smith63"">Smith (2004), p.&nbsp;63</ref> in all probability.<ref name=""Smith63""/> For.<ref name=""Smith63""/>
 
 A.<ref name=""Smith63"">Smith (2004), p.&nbsp;63</ref>
 
 God.<ref name=""Smith63""/>
 
 ==References==
-{{reflist|2}}", ArticleText);
+{{reflist|2}}"));
         }
 
         [Test]
@@ -761,7 +761,7 @@ Bar";
             ArticleText = t;
             GenFixes();
 
-            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets in images, Chinese brackets");
+            Assert.That(t, Is.EqualTo(ArticleText), "No change to unbalanced brackets in images, Chinese brackets");
 
             t = @"Foo
 
@@ -770,7 +770,7 @@ Bar";
             ArticleText = t;
             GenFixes();
 
-            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets in images, simple");
+            Assert.That(t, Is.EqualTo(ArticleText), "No change to unbalanced brackets in images, simple");
 
             t = @"Foo
 
@@ -779,21 +779,21 @@ Bar";
             ArticleText = t;
             GenFixes();
 
-            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets in images, simple 2");
+            Assert.That(t, Is.EqualTo(ArticleText), "No change to unbalanced brackets in images, simple 2");
 
             t = @"[[File:Miguel.jpg|x120px|thumb|[[Miguel Enríquez (privateer)|Miguel Enríquez]]]][[File:Demetrio O'Daly.jpg|x120px|thumb|[[Demetrio O'Daly]]]] [[File:Antonio Valero Bernabe.gif|x120px|thumb|[[Antonio Valero de Bernabé]]]] [[File:Manuel Rojas drawing.jpg|x120px|thumb|[[Manuel Rojas (independence leader)|Manuel Rojas]]]] [[File:CIVILWAR,PRSOLDIERsmall2.jpg|x120px|thumb|[[Augusto Rodríguez (soldier)|Augusto Rodríguez]]]] [[File:General Juan Luis Rivera.jpg|x120px|thumb|[[Juan Ríus Rivera]]]] [[File:GenSemidei.jpg|x120px|thumb|[[José Semidei Rodríguez]]]]";
 
             ArticleText = t;
             GenFixes();
 
-            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets in images, 3");
+            Assert.That(t, Is.EqualTo(ArticleText), "No change to unbalanced brackets in images, 3");
 
             t = @"[[File:Mat.jpg|thumb|Same|link=https://en.wikipedia.org/wiki/File:Mat.jpg]]";
 
             ArticleText = t;
             GenFixes();
 
-            Assert.AreEqual(ArticleText, t, "No change to brackets/images, 4");
+            Assert.That(t, Is.EqualTo(ArticleText), "No change to brackets/images, 4");
         }
 
         [Test]
@@ -805,14 +805,14 @@ Bar";
             ArticleText = t;
             GenFixes();
 
-            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets from nowiki");
+            Assert.That(t, Is.EqualTo(ArticleText), "No change to unbalanced brackets from nowiki");
 
             t = @"A <nowiki>[</nowiki>[[sub-creation]]] story.";
 
             ArticleText = t;
             GenFixes();
 
-            Assert.AreEqual(ArticleText, t, "No change to unbalanced brackets from nowiki, 2");
+            Assert.That(t, Is.EqualTo(ArticleText), "No change to unbalanced brackets from nowiki, 2");
         }
 
         [Test]
@@ -827,7 +827,7 @@ End of.
             ArticleText = t;
             GenFixes();
 
-            Assert.AreEqual(ArticleText, t, "No change: ReorderReferences not applied within en-wp genfixes");
+            Assert.That(ArticleText, Is.EqualTo(t), "No change: ReorderReferences not applied within en-wp genfixes");
         }
 
         [Test]
@@ -845,7 +845,7 @@ End of.
 
             GenFixes();
 
-            Assert.AreEqual(ArticleText, unfixable, "no change to unfixable square brackets");
+            Assert.That(ArticleText, Is.EqualTo(unfixable), "no change to unfixable square brackets");
         }
     }
 
@@ -862,7 +862,7 @@ End of.
 
             ArticleText = AllCommented;
             TalkGenFixes();
-            Assert.AreEqual(AllCommented, ArticleText, "no WikiProject banner shell addition when templates all commented out");
+            Assert.That(ArticleText, Is.EqualTo(AllCommented), "no WikiProject banner shell addition when templates all commented out");
 
             string a = @"{{Talk header}}
 {{WikiProject banner shell|1=
@@ -881,7 +881,7 @@ End of.
 {{WikiProject c|text}}";
 
             TalkGenFixes();
-            Assert.AreEqual(a, ArticleText, "Adds WikiProject banner shell below talk header");
+            Assert.That(ArticleText, Is.EqualTo(a), "Adds WikiProject banner shell below talk header");
 
             a = @"{{Talk header}}
 {{WikiProject banner shell|1=
@@ -897,7 +897,7 @@ End of.
 {{WikiProject c|text}}";
 
             TalkGenFixes();
-            Assert.AreEqual(a, ArticleText, "Adds WikiProject banner shell when 3 wikiproject links");
+            Assert.That(ArticleText, Is.EqualTo(a), "Adds WikiProject banner shell when 3 wikiproject links");
 
             ArticleText = @"{{Talk header}}
 {{wikiProject a |text}}
@@ -905,7 +905,7 @@ End of.
 {{wiki project c|text}}";
 
             TalkGenFixes();
-            Assert.AreEqual(a.Replace("WikiProject c", "wiki project c").Replace("WikiProject a", "wikiProject a").Replace("WikiProject d", "wikiProject d"), ArticleText, "Adds WikiProject banner shell when 3 wikiProject links, wikiproject name variations");
+            Assert.That(ArticleText, Is.EqualTo(a.Replace("WikiProject c", "wiki project c").Replace("WikiProject a", "wikiProject a").Replace("WikiProject d", "wikiProject d")), "Adds WikiProject banner shell when 3 wikiProject links, wikiproject name variations");
         }
 
         [Test]
@@ -926,7 +926,7 @@ End of.
 ";
 
             TalkGenFixes();
-            Assert.AreEqual(a, ArticleText, "Adds WikiProject banner shell when 3 wikiproject links, cleans whitespace");
+            Assert.That(ArticleText, Is.EqualTo(a), "Adds WikiProject banner shell when 3 wikiproject links, cleans whitespace");
 
              ArticleText = @"{{WikiProject Biography|living=yes}}
 {{WikiProject a |text}}
@@ -958,7 +958,7 @@ Word.
 Second.";
 
             TalkGenFixes();
-            Assert.AreEqual(a, ArticleText, "Adds WikiProject banner shell when 3 wikiproject links, cleans whitespace");
+            Assert.That(ArticleText, Is.EqualTo(a), "Adds WikiProject banner shell when 3 wikiproject links, cleans whitespace");
         }
     }
 }

@@ -10,9 +10,9 @@ namespace UnitTests
     {
         private static void AssertWords(IList<Word> words, params string[] expected)
         {
-            Assert.AreEqual(expected.Length, words.Count);
+            Assert.That(words.Count, Is.EqualTo(expected.Length));
             for (int i = 0; i < expected.Length; i++)
-                Assert.AreEqual(expected[i], words[i].ToString());
+                Assert.That(words[i].ToString(), Is.EqualTo(expected[i]));
         }
 
         [Test]
@@ -21,44 +21,44 @@ namespace UnitTests
             Word w1 = new Word("", "");
             Word w2 = new Word("", " ");
 
-            Assert.AreEqual("", w1.TheWord);
-            Assert.AreEqual("", w1.Whitespace);
-            Assert.AreEqual("", w1.ToString());
-            Assert.AreEqual("", w2.TheWord);
-            Assert.AreEqual(" ", w2.Whitespace);
-            Assert.AreEqual(" ", w2.ToString());
-            Assert.AreEqual(w1, w2);
-            Assert.AreEqual(w1.GetHashCode(), w2.GetHashCode());
+            Assert.That(w1.TheWord, Is.Empty);
+            Assert.That(w1.Whitespace, Is.Empty);
+            Assert.That(w1.ToString(), Is.Empty);
+            Assert.That(w2.TheWord, Is.Empty);
+            Assert.That(w2.Whitespace, Is.EqualTo(" "));
+            Assert.That(w2.ToString(), Is.EqualTo(" "));
+            Assert.That(w2, Is.EqualTo(w1));
+            Assert.That(w2.GetHashCode(), Is.EqualTo(w1.GetHashCode()));
 
             w1 = new Word("foo", "  ");
             w2 = new Word("foo", "");
-            Assert.AreEqual("foo", w1.TheWord);
-            Assert.AreEqual("foo  ", w1.ToString());
-            Assert.AreEqual("foo", w2.ToString());
-            Assert.AreEqual(w1, w2);
-            Assert.AreEqual(w1.GetHashCode(), w2.GetHashCode());
+            Assert.That(w1.TheWord, Is.EqualTo("foo"));
+            Assert.That(w1.ToString(), Is.EqualTo("foo  "));
+            Assert.That(w2.ToString(), Is.EqualTo("foo"));
+            Assert.That(w2, Is.EqualTo(w1));
+            Assert.That(w2.GetHashCode(), Is.EqualTo(w1.GetHashCode()));
 
             w2 = new Word("Foo", "");
-            Assert.AreNotEqual(w1, w2);
-            Assert.AreNotEqual(w1.GetHashCode(), w2.GetHashCode());
+            Assert.That(w1, Is.Not.EqualTo(w2));
+            Assert.That(w1.GetHashCode(), Is.Not.EqualTo(w2.GetHashCode()));
         }
 
         [Test]
         public void SplitString()
         {
-            CollectionAssert.IsEmpty(Word.SplitString(""));
+            Assert.That(Word.SplitString(""), Is.Empty);
 
             AssertWords(Word.SplitString(" "), " ");
             AssertWords(Word.SplitString("   "), "   ");
 
             List<Word> lst = Word.SplitString("foo");
-            Assert.AreEqual(1, lst.Count);
-            CollectionAssert.AreEqual(Word.SplitString("foo "), lst);
+            Assert.That(lst.Count, Is.EqualTo(1));
+            Assert.That(lst, Is.EqualTo(Word.SplitString("foo ")).AsCollection);
 
             lst = Word.SplitString("foo bar");
             AssertWords(lst, "foo ", "bar");
-            CollectionAssert.AreEqual(Word.SplitString("foo    bar "), lst);
-            CollectionAssert.AreNotEqual(Word.SplitString(" foo bar"), lst);
+            Assert.That(lst, Is.EqualTo(Word.SplitString("foo    bar ")).AsCollection);
+            Assert.That(lst, Is.Not.EqualTo(Word.SplitString(" foo bar")).AsCollection);
 
             lst = Word.SplitString("foo.bar");
             AssertWords(lst, "foo", ".", "bar");
@@ -94,9 +94,9 @@ A1
 A2", @"A1
 A2", 2);
 
-            Assert.AreEqual(@"
+            Assert.That(d.UndoDeletion(0, 0), Is.EqualTo(@"
 A1
-A2", d.UndoDeletion(0, 0), "Undo of delete first blank line");
+A2"), "Undo of delete first blank line");
 
 d = new WikiDiff();
 
@@ -105,9 +105,9 @@ A2
 ", @"A1
 A2", 2);
 
-            Assert.AreEqual(@"A1
+            Assert.That(d.UndoDeletion(2, 2), Is.EqualTo(@"A1
 A2
-", d.UndoDeletion(2, 2), "Undo of delete last blank line");
+"), "Undo of delete last blank line");
         }
 
 
@@ -120,7 +120,7 @@ A2
 A2", @"A1
 A2", 2);
 
-            Assert.AreEqual(@"", diffResult, "No HTML when no change");
+            Assert.That(diffResult, Is.Empty, "No HTML when no change");
 
             diffResult = d.GetDiff(@"A1
 A2", @"A1X
@@ -128,7 +128,7 @@ A2", 2).Replace(System.Environment.NewLine, " ");
 
             diffResult = Regex.Replace(diffResult, @"\s+", " ");
 
-            Assert.AreEqual(@"<tr onclick='window.external.GoTo(0)'> <td colspan='2' class='diff-lineno'>Line 1:</td> <td colspan='2' class='diff-lineno'>Line 1:</td> </tr><tr onclick='window.external.GoTo(0)' ondblclick='window.external.UndoChange(0,0)'> <td>-</td> <td class='diff-deletedline'><span class='diffchange'>A1</span> </td> <td>+</td> <td class='diff-addedline'><span class='diffchange'>A1X</span> </td> </tr><tr onclick='window.external.GoTo(1);'> <td class='diff-marker'> </td> <td class='diff-context'>A2</td> <td class='diff-marker'> </td> <td class='diff-context'>A2</td> </tr>", diffResult, "Standard case: first line changed");
+            Assert.That(diffResult, Is.EqualTo(@"<tr onclick='window.external.GoTo(0)'> <td colspan='2' class='diff-lineno'>Line 1:</td> <td colspan='2' class='diff-lineno'>Line 1:</td> </tr><tr onclick='window.external.GoTo(0)' ondblclick='window.external.UndoChange(0,0)'> <td>-</td> <td class='diff-deletedline'><span class='diffchange'>A1</span> </td> <td>+</td> <td class='diff-addedline'><span class='diffchange'>A1X</span> </td> </tr><tr onclick='window.external.GoTo(1);'> <td class='diff-marker'> </td> <td class='diff-context'>A2</td> <td class='diff-marker'> </td> <td class='diff-context'>A2</td> </tr>"), "Standard case: first line changed");
 
             diffResult = d.GetDiff(@"A1
 A2", @"A1X
@@ -136,14 +136,14 @@ A2X", 2).Replace(System.Environment.NewLine, " ");
 
             diffResult = Regex.Replace(diffResult, @"\s+", " ");
 
-            Assert.AreEqual(@"<tr onclick='window.external.GoTo(0)'> <td colspan='2' class='diff-lineno'>Line 1:</td> <td colspan='2' class='diff-lineno'>Line 1:</td> </tr><tr onclick='window.external.GoTo(0)' ondblclick='window.external.UndoChange(0,0)'> <td>-</td> <td class='diff-deletedline'><span class='diffchange'>A1</span> </td> <td>+</td> <td class='diff-addedline'><span class='diffchange'>A1X</span> </td> </tr><tr onclick='window.external.GoTo(1)' ondblclick='window.external.UndoChange(1,1)'> <td>-</td> <td class='diff-deletedline'><span class='diffchange'>A2</span> </td> <td>+</td> <td class='diff-addedline'><span class='diffchange'>A2X</span> </td> </tr>", diffResult, "Standard case: two lines changed");
+            Assert.That(diffResult, Is.EqualTo(@"<tr onclick='window.external.GoTo(0)'> <td colspan='2' class='diff-lineno'>Line 1:</td> <td colspan='2' class='diff-lineno'>Line 1:</td> </tr><tr onclick='window.external.GoTo(0)' ondblclick='window.external.UndoChange(0,0)'> <td>-</td> <td class='diff-deletedline'><span class='diffchange'>A1</span> </td> <td>+</td> <td class='diff-addedline'><span class='diffchange'>A1X</span> </td> </tr><tr onclick='window.external.GoTo(1)' ondblclick='window.external.UndoChange(1,1)'> <td>-</td> <td class='diff-deletedline'><span class='diffchange'>A2</span> </td> <td>+</td> <td class='diff-addedline'><span class='diffchange'>A2X</span> </td> </tr>"), "Standard case: two lines changed");
 
             diffResult = d.GetDiff(@"A1
 A2", @"A1", 2).Replace(System.Environment.NewLine, " ");
 
             diffResult = Regex.Replace(diffResult, @"\s+", " ");
 
-            Assert.AreEqual(@"<tr onclick='window.external.GoTo(0);'> <td class='diff-marker'> </td> <td class='diff-context'>A1</td> <td class='diff-marker'> </td> <td class='diff-context'>A1</td> </tr><tr> <td>-</td> <td class='diff-deletedline' onclick='window.external.GoTo(1)' ondblclick='window.external.UndoDeletion(1, 1)'>A2 </td> <td> </td> <td> </td> </tr>", diffResult, "Standard case: second line deleted");
+            Assert.That(diffResult, Is.EqualTo(@"<tr onclick='window.external.GoTo(0);'> <td class='diff-marker'> </td> <td class='diff-context'>A1</td> <td class='diff-marker'> </td> <td class='diff-context'>A1</td> </tr><tr> <td>-</td> <td class='diff-deletedline' onclick='window.external.GoTo(1)' ondblclick='window.external.UndoDeletion(1, 1)'>A2 </td> <td> </td> <td> </td> </tr>"), "Standard case: second line deleted");
         }
     }
 }

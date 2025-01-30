@@ -37,171 +37,171 @@ namespace UnitTests
         [Test]
         public void TestStickyLinks()
         {
-            Assert.AreEqual("[[Russian literature]]", Parsers.StickyLinks("[[Russian literature|Russian]] literature"));
-            Assert.AreEqual("[[Russian literature]]", Parsers.StickyLinks("[[Russian literature|Russian]]  literature"));
-            Assert.AreEqual("[[Russian literature]]", Parsers.StickyLinks("[[russian literature|Russian]] literature"));
-            Assert.AreEqual("[[russian literature]]", Parsers.StickyLinks("[[Russian literature|russian]] literature"));
-            Assert.AreEqual("[[Russian literature|Russian]]\nliterature", Parsers.StickyLinks("[[Russian literature|Russian]]\nliterature"));
-            Assert.AreEqual("   [[Russian literature]]  ", Parsers.StickyLinks("   [[Russian literature|Russian]] literature  "));
+            Assert.That(Parsers.StickyLinks("[[Russian literature|Russian]] literature"), Is.EqualTo("[[Russian literature]]"));
+            Assert.That(Parsers.StickyLinks("[[Russian literature|Russian]]  literature"), Is.EqualTo("[[Russian literature]]"));
+            Assert.That(Parsers.StickyLinks("[[russian literature|Russian]] literature"), Is.EqualTo("[[Russian literature]]"));
+            Assert.That(Parsers.StickyLinks("[[Russian literature|russian]] literature"), Is.EqualTo("[[russian literature]]"));
+            Assert.That(Parsers.StickyLinks("[[Russian literature|Russian]]\nliterature"), Is.EqualTo("[[Russian literature|Russian]]\nliterature"));
+            Assert.That(Parsers.StickyLinks("   [[Russian literature|Russian]] literature  "), Is.EqualTo("   [[Russian literature]]  "));
 
-            Assert.AreEqual("[[Russian literature|Russian]] Literature", Parsers.StickyLinks("[[Russian literature|Russian]] Literature"));
+            Assert.That(Parsers.StickyLinks("[[Russian literature|Russian]] Literature"), Is.EqualTo("[[Russian literature|Russian]] Literature"));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Link_de-piping_false_positive
-            Assert.AreEqual("[[Sacramento, California|Sacramento]], California's [[capital city]]",
-                            Parsers.StickyLinks("[[Sacramento, California|Sacramento]], California's [[capital city]]"));
+            Assert.That(Parsers.StickyLinks("[[Sacramento, California|Sacramento]], California's [[capital city]]"),
+                            Is.EqualTo("[[Sacramento, California|Sacramento]], California's [[capital city]]"));
 
-            Assert.AreEqual("[[Russian literature|Russian literature]] was", Parsers.StickyLinks("[[Russian literature|Russian literature]] was"), "bugfix – no exception when pipe same length as target");
+            Assert.That(Parsers.StickyLinks("[[Russian literature|Russian literature]] was"), Is.EqualTo("[[Russian literature|Russian literature]] was"), "bugfix – no exception when pipe same length as target");
         }
 
         [Test]
         public void TestSimplifyLinks()
         {
-            Assert.AreEqual("[[dog]]s", Parsers.SimplifyLinks("[[dog|dogs]]"));
+            Assert.That(Parsers.SimplifyLinks("[[dog|dogs]]"), Is.EqualTo("[[dog]]s"));
 
             // case insensitivity of the first char
-            Assert.AreEqual("[[dog]]s", Parsers.SimplifyLinks("[[Dog|dogs]]"));
-            Assert.AreEqual("[[Dog]]s", Parsers.SimplifyLinks("[[dog|Dogs]]"));
+            Assert.That(Parsers.SimplifyLinks("[[Dog|dogs]]"), Is.EqualTo("[[dog]]s"));
+            Assert.That(Parsers.SimplifyLinks("[[dog|Dogs]]"), Is.EqualTo("[[Dog]]s"));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_8#Wrong_link_simplification_capitalisation
-            Assert.AreEqual("[[dog]]", Parsers.SimplifyLinks("[[Dog|dog]]"));
-            Assert.AreEqual("[[Dog]]", Parsers.SimplifyLinks("[[dog|Dog]]"));
-            Assert.AreEqual("[[Dog]]", Parsers.SimplifyLinks("[[Dog|Dog]]"));
+            Assert.That(Parsers.SimplifyLinks("[[Dog|dog]]"), Is.EqualTo("[[dog]]"));
+            Assert.That(Parsers.SimplifyLinks("[[dog|Dog]]"), Is.EqualTo("[[Dog]]"));
+            Assert.That(Parsers.SimplifyLinks("[[Dog|Dog]]"), Is.EqualTo("[[Dog]]"));
 
-            Assert.AreEqual("[[dog]]s", Parsers.SimplifyLinks("[[Dog|dogs]]"));
-            Assert.AreEqual("[[Dog]]s", Parsers.SimplifyLinks("[[dog|Dogs]]"));
-            Assert.AreEqual("[[Dog]]s", Parsers.SimplifyLinks("[[Dog|Dogs]]"));
-            Assert.AreEqual("#REDIRECT[[Dog]]", Parsers.SimplifyLinks("#REDIRECT[[dog|Dog]]"));
-            Assert.AreEqual("[[funcy dog]]s", Parsers.SimplifyLinks("[[funcy dog|funcy dogs]]"));
+            Assert.That(Parsers.SimplifyLinks("[[Dog|dogs]]"), Is.EqualTo("[[dog]]s"));
+            Assert.That(Parsers.SimplifyLinks("[[dog|Dogs]]"), Is.EqualTo("[[Dog]]s"));
+            Assert.That(Parsers.SimplifyLinks("[[Dog|Dogs]]"), Is.EqualTo("[[Dog]]s"));
+            Assert.That(Parsers.SimplifyLinks("#REDIRECT[[dog|Dog]]"), Is.EqualTo("#REDIRECT[[Dog]]"));
+            Assert.That(Parsers.SimplifyLinks("[[funcy dog|funcy dogs]]"), Is.EqualTo("[[funcy dog]]s"));
 
-            Assert.AreEqual("[[dog]].", Parsers.SimplifyLinks("[[dog|dog.]]"), "point inside wikilink");
-            Assert.AreEqual("[[dog]].", Parsers.SimplifyLinks("[[Dog|dog.]]"), "point inside wikilink");
-            Assert.AreEqual("[[dog]],", Parsers.SimplifyLinks("[[Dog|dog,]]"), "comma inside wikilink");
-            Assert.AreEqual("[[dog]],", Parsers.SimplifyLinks("[[dog|dog,]]"), "comma inside wikilink");
+            Assert.That(Parsers.SimplifyLinks("[[dog|dog.]]"), Is.EqualTo("[[dog]]."), "point inside wikilink");
+            Assert.That(Parsers.SimplifyLinks("[[Dog|dog.]]"), Is.EqualTo("[[dog]]."), "point inside wikilink");
+            Assert.That(Parsers.SimplifyLinks("[[Dog|dog,]]"), Is.EqualTo("[[dog]],"), "comma inside wikilink");
+            Assert.That(Parsers.SimplifyLinks("[[dog|dog,]]"), Is.EqualTo("[[dog]],"), "comma inside wikilink");
 
-            Assert.AreEqual("([[dog]])", Parsers.SimplifyLinks("[[dog|(dog)]]"), "brackets inside wikilink");
+            Assert.That(Parsers.SimplifyLinks("[[dog|(dog)]]"), Is.EqualTo("([[dog]])"), "brackets inside wikilink");
 
-            Assert.AreEqual("[[funcy dog]]", Parsers.SimplifyLinks("[[funcy dog|funcy_dog]]"), "handles underscore in text: text");
-            Assert.AreEqual("[[funcy dog]]", Parsers.SimplifyLinks("[[funcy_dog|funcy dog]]"), "handles underscore in text: target");
-            Assert.AreEqual("[[Funcy dog]]", Parsers.SimplifyLinks("[[funcy_dog|Funcy dog]]"), "handles underscore in text: target");
+            Assert.That(Parsers.SimplifyLinks("[[funcy dog|funcy_dog]]"), Is.EqualTo("[[funcy dog]]"), "handles underscore in text: text");
+            Assert.That(Parsers.SimplifyLinks("[[funcy_dog|funcy dog]]"), Is.EqualTo("[[funcy dog]]"), "handles underscore in text: target");
+            Assert.That(Parsers.SimplifyLinks("[[funcy_dog|Funcy dog]]"), Is.EqualTo("[[Funcy dog]]"), "handles underscore in text: target");
 
             Variables.UnderscoredTitles.Add("Funcy dog");
-            Assert.AreEqual("[[funcy dog|funcy_dog]]", Parsers.SimplifyLinks("[[funcy dog|funcy_dog]]"), "handles underscore in text where article with underscore in title");
+            Assert.That(Parsers.SimplifyLinks("[[funcy dog|funcy_dog]]"), Is.EqualTo("[[funcy dog|funcy_dog]]"), "handles underscore in text where article with underscore in title");
             Variables.UnderscoredTitles.Remove("Funcy dog");
 
             // ...and sensitivity of others
-            Assert.AreEqual("[[dog|dOgs]]", Parsers.SimplifyLinks("[[dog|dOgs]]"));
+            Assert.That(Parsers.SimplifyLinks("[[dog|dOgs]]"), Is.EqualTo("[[dog|dOgs]]"));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Inappropriate_link_compression
-            Assert.AreEqual("[[foo|foo3]]", Parsers.SimplifyLinks("[[foo|foo3]]"));
+            Assert.That(Parsers.SimplifyLinks("[[foo|foo3]]"), Is.EqualTo("[[foo|foo3]]"));
 
             // don't touch suffixes with caps to avoid funky results like
             // https://en.wikipedia.org/w/index.php?diff=195760456
-            Assert.AreEqual("[[FOO|FOOBAR]]", Parsers.SimplifyLinks("[[FOO|FOOBAR]]"));
-            Assert.AreEqual("[[foo|fooBAR]]", Parsers.SimplifyLinks("[[foo|fooBAR]]"));
+            Assert.That(Parsers.SimplifyLinks("[[FOO|FOOBAR]]"), Is.EqualTo("[[FOO|FOOBAR]]"));
+            Assert.That(Parsers.SimplifyLinks("[[foo|fooBAR]]"), Is.EqualTo("[[foo|fooBAR]]"));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_8#Only_one_spurious_space_removed_from_link
-            Assert.AreEqual("[[Elizabeth Gunn]]", Parsers.SimplifyLinks("[[Elizabeth Gunn | Elizabeth Gunn]]"));
-            Assert.AreEqual("[[Big Bend, Texas|Big Bend]]", Parsers.SimplifyLinks("[[Big Bend, Texas | Big Bend]]"));
+            Assert.That(Parsers.SimplifyLinks("[[Elizabeth Gunn | Elizabeth Gunn]]"), Is.EqualTo("[[Elizabeth Gunn]]"));
+            Assert.That(Parsers.SimplifyLinks("[[Big Bend, Texas | Big Bend]]"), Is.EqualTo("[[Big Bend, Texas|Big Bend]]"));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_8#SVN:_general_fixes_removes_whitespace_around_pipes_within_citation_templates
-            Assert.AreEqual("{{foo|[[bar]] | boz}}]]", Parsers.SimplifyLinks("{{foo|[[bar]] | boz}}]]"));
-            Assert.AreEqual("{{foo|[[bar]]\r\n| boz}}]]", Parsers.SimplifyLinks("{{foo|[[bar]]\r\n| boz}}]]"));
+            Assert.That(Parsers.SimplifyLinks("{{foo|[[bar]] | boz}}]]"), Is.EqualTo("{{foo|[[bar]] | boz}}]]"));
+            Assert.That(Parsers.SimplifyLinks("{{foo|[[bar]]\r\n| boz}}]]"), Is.EqualTo("{{foo|[[bar]]\r\n| boz}}]]"));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#General_fixes_remove_spaces_from_category_sortkeys
-            Assert.AreEqual("[[foo|bar]]", Parsers.SimplifyLinks("[[foo| bar]]"));
-            Assert.AreEqual("[[foo|bar]]", Parsers.SimplifyLinks("[[foo| bar ]]"));
-            Assert.AreEqual("[[Category:foo| bar]]", Parsers.SimplifyLinks("[[Category:foo| bar]]"));
-            Assert.AreEqual("[[Category:foo| bar]]", Parsers.SimplifyLinks("[[Category:foo| bar ]]"));
+            Assert.That(Parsers.SimplifyLinks("[[foo| bar]]"), Is.EqualTo("[[foo|bar]]"));
+            Assert.That(Parsers.SimplifyLinks("[[foo| bar ]]"), Is.EqualTo("[[foo|bar]]"));
+            Assert.That(Parsers.SimplifyLinks("[[Category:foo| bar]]"), Is.EqualTo("[[Category:foo| bar]]"));
+            Assert.That(Parsers.SimplifyLinks("[[Category:foo| bar ]]"), Is.EqualTo("[[Category:foo| bar]]"));
 
             // nothing to do here
-            Assert.AreEqual("[[dog|]]", Parsers.SimplifyLinks("[[dog|]]"));
+            Assert.That(Parsers.SimplifyLinks("[[dog|]]"), Is.EqualTo("[[dog|]]"));
 
             const string nochange = @"[[File:T and E.jpg|right|thumbnail|With [[EW|E]] in 2004]]";
-            Assert.AreEqual(nochange, Parsers.SimplifyLinks(nochange));
-            Assert.AreEqual(@"[[File:T and E.jpg|right|thumbnail|With [[dog]]s in 2004]]", Parsers.SimplifyLinks(@"[[File:T and E.jpg|right|thumbnail|With [[dog|dogs]] in 2004]]"), "nested link handling");
+            Assert.That(Parsers.SimplifyLinks(nochange), Is.EqualTo(nochange));
+            Assert.That(Parsers.SimplifyLinks(@"[[File:T and E.jpg|right|thumbnail|With [[dog|dogs]] in 2004]]"), Is.EqualTo(@"[[File:T and E.jpg|right|thumbnail|With [[dog]]s in 2004]]"), "nested link handling");
 
-            Assert.AreEqual(@"[[File:Lego cathedral.JPG|right|thumb|Lego cathedral]]", Parsers.SimplifyLinks(@"[[File:Lego cathedral.JPG | right | thumb | Lego cathedral]]"), "Multiple whitespace cleanup around pipes");
+            Assert.That(Parsers.SimplifyLinks(@"[[File:Lego cathedral.JPG | right | thumb | Lego cathedral]]"), Is.EqualTo(@"[[File:Lego cathedral.JPG|right|thumb|Lego cathedral]]"), "Multiple whitespace cleanup around pipes");
 
-            Assert.AreEqual("[[İstanbul Cup|Istanbul Cup]]", Parsers.SimplifyLinks("[[İstanbul Cup|Istanbul Cup]]"), "No change when diacritics on first letter of page mean lowercase happens to match");
+            Assert.That(Parsers.SimplifyLinks("[[İstanbul Cup|Istanbul Cup]]"), Is.EqualTo("[[İstanbul Cup|Istanbul Cup]]"), "No change when diacritics on first letter of page mean lowercase happens to match");
 
             // https://phabricator.wikimedia.org/T317207
             // Has opening ( in link display text, but no closing )
-            Assert.AreEqual("([[Нью-Мексико]])", Parsers.SimplifyLinks("[[Нью-Мексико|(Нью-Мексико]]"));
+            Assert.That(Parsers.SimplifyLinks("[[Нью-Мексико|(Нью-Мексико]]"), Is.EqualTo("([[Нью-Мексико]])"));
 
             // Trailing ) is outside the link, so the link regex doesn't pick it up; it's now handled separately
-            Assert.AreEqual("([[Ермітаж]])", Parsers.SimplifyLinks("[[Ермітаж|(Ермітаж]])"));
+            Assert.That(Parsers.SimplifyLinks("[[Ермітаж|(Ермітаж]])"), Is.EqualTo("([[Ермітаж]])"));
         }
 
         [Test]
         public void FixDatesHTML()
         {
             // replace <br> and <p> HTML tags tests
-            Assert.AreEqual("\r\n\r\nsome text", parser.FixBrParagraphs("<p>some text"));
-            Assert.AreEqual("\r\n\r\n[[some text|bar]]", parser.FixBrParagraphs("<p>[[some text|bar]]"));
-            Assert.AreEqual("\r\n\r\nsome text\r\n\r\n", parser.FixBrParagraphs("<p>some text</p>"));
-            Assert.AreEqual("\r\n\r\nsome text", parser.FixBrParagraphs("<p> some text"));
-            Assert.AreEqual("\r\n\r\nsome text", parser.FixBrParagraphs("<br><br>some text"));
-            Assert.AreEqual("some text\r\n\r\n", parser.FixBrParagraphs("some text<p>"));
-            Assert.AreEqual("some text\r\n\r\n", parser.FixBrParagraphs("some text<br><br>"));
-            Assert.AreEqual("some text\r\n\r\nword", parser.FixBrParagraphs("some text<br><br>word"));
+            Assert.That(parser.FixBrParagraphs("<p>some text"), Is.EqualTo("\r\n\r\nsome text"));
+            Assert.That(parser.FixBrParagraphs("<p>[[some text|bar]]"), Is.EqualTo("\r\n\r\n[[some text|bar]]"));
+            Assert.That(parser.FixBrParagraphs("<p>some text</p>"), Is.EqualTo("\r\n\r\nsome text\r\n\r\n"));
+            Assert.That(parser.FixBrParagraphs("<p> some text"), Is.EqualTo("\r\n\r\nsome text"));
+            Assert.That(parser.FixBrParagraphs("<br><br>some text"), Is.EqualTo("\r\n\r\nsome text"));
+            Assert.That(parser.FixBrParagraphs("some text<p>"), Is.EqualTo("some text\r\n\r\n"));
+            Assert.That(parser.FixBrParagraphs("some text<br><br>"), Is.EqualTo("some text\r\n\r\n"));
+            Assert.That(parser.FixBrParagraphs("some text<br><br>word"), Is.EqualTo("some text\r\n\r\nword"));
 
             // don't match when in table or blockquote
-            Assert.AreEqual("|<p>some text", parser.FixBrParagraphs("|<p>some text"));
-            Assert.AreEqual("|<br><br>some text", parser.FixBrParagraphs("|<br><br>some text"));
-            Assert.AreEqual("!<p>some text", parser.FixBrParagraphs("!<p>some text"));
-            Assert.AreEqual("!<br><br>some text", parser.FixBrParagraphs("!<br><br>some text"));
+            Assert.That(parser.FixBrParagraphs("|<p>some text"), Is.EqualTo("|<p>some text"));
+            Assert.That(parser.FixBrParagraphs("|<br><br>some text"), Is.EqualTo("|<br><br>some text"));
+            Assert.That(parser.FixBrParagraphs("!<p>some text"), Is.EqualTo("!<p>some text"));
+            Assert.That(parser.FixBrParagraphs("!<br><br>some text"), Is.EqualTo("!<br><br>some text"));
 
             genFixes.AssertNotChanged(@"<blockquote><p>some text</blockquote>");
             genFixes.AssertNotChanged("<blockquote>|<br><br>some text</blockquote>");
 
-            Assert.AreEqual(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}
+            Assert.That(parser.FixBrParagraphs(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}<br><br>  "), Is.EqualTo(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}
 
-", parser.FixBrParagraphs(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}<br><br>  "));
+"));
 
             const string nochange = @"{{cite web | title = Hello April 14 2009 there | date=2011-11-13 }}";
 
-            Assert.AreEqual(nochange, parser.FixBrParagraphs(nochange));
+            Assert.That(parser.FixBrParagraphs(nochange), Is.EqualTo(nochange));
         }
 
         [Test]
         public void FixDatesCommaErrors()
         {
             const string correct1 = @"Retrieved on April 14, 2009 was";
-            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April, 14, 2009 was"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April , 14 , 2009 was"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April , 14 ,2009 was"));
+            Assert.That(parser.FixDatesA(@"Retrieved on April, 14, 2009 was"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"Retrieved on April , 14 , 2009 was"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"Retrieved on April , 14 ,2009 was"), Is.EqualTo(correct1));
 
-            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April 14,2009 was"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April 14 ,2009 was"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April 14 2009 was"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April14,2009 was"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April14, 2009 was"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April14 2009 was"));
-            Assert.AreEqual(correct1, parser.FixDatesA(correct1));
+            Assert.That(parser.FixDatesA(@"Retrieved on April 14,2009 was"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"Retrieved on April 14 ,2009 was"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"Retrieved on April 14 2009 was"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"Retrieved on April14,2009 was"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"Retrieved on April14, 2009 was"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"Retrieved on April14 2009 was"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(correct1), Is.EqualTo(correct1));
 
             // don't change image/link target names
             string image1 = @"now foo [[Image:Foo July 24 2009.png]] was";
-            Assert.AreEqual(image1, parser.FixDatesA(image1));
+            Assert.That(parser.FixDatesA(image1), Is.EqualTo(image1));
             string image2 = @"now foo [[File:Foo July 24 2009.png]] was";
-            Assert.AreEqual(image2, parser.FixDatesA(image2));
+            Assert.That(parser.FixDatesA(image2), Is.EqualTo(image2));
             string link1 = @"now [[July 29 1966, P.N.E.]] was";
-            Assert.AreEqual(link1, parser.FixDatesA(link1));
+            Assert.That(parser.FixDatesA(link1), Is.EqualTo(link1));
 
             const string correct2 = @"Retrieved on 14 April 2009 was";
-            Assert.AreEqual(correct2, parser.FixDatesA(@"Retrieved on 14 April, 2009 was"));
-            Assert.AreEqual(correct2, parser.FixDatesA(@"Retrieved on 14 April , 2009 was"));
-            Assert.AreEqual(correct2, parser.FixDatesA(@"Retrieved on 14 April,  2009 was"));
+            Assert.That(parser.FixDatesA(@"Retrieved on 14 April, 2009 was"), Is.EqualTo(correct2));
+            Assert.That(parser.FixDatesA(@"Retrieved on 14 April , 2009 was"), Is.EqualTo(correct2));
+            Assert.That(parser.FixDatesA(@"Retrieved on 14 April,  2009 was"), Is.EqualTo(correct2));
 
             const string correct3 = @"[[Now]] on 14 April 2009 was";
-            Assert.AreEqual(correct3, parser.FixDatesA(@"[[Now]] on 14 April, 2009 was"));
+            Assert.That(parser.FixDatesA(@"[[Now]] on 14 April, 2009 was"), Is.EqualTo(correct3));
 
             const string nochange1 = @"On 14 April, 2590 people", nochange2 = @"Retrieved on April 142009 was";
-            Assert.AreEqual(nochange1, parser.FixDatesA(nochange1));
-            Assert.AreEqual(nochange2, parser.FixDatesA(nochange2));
+            Assert.That(parser.FixDatesA(nochange1), Is.EqualTo(nochange1));
+            Assert.That(parser.FixDatesA(nochange2), Is.EqualTo(nochange2));
 
-            Assert.AreEqual(@"#####
-'''A''' (1 December 1920 &ndash; 28 May 2013)", parser.FixDatesA(@"#####
-'''A''' (1 December 1920 &ndash; 28 May, 2013)"));
+            Assert.That(parser.FixDatesA(@"#####
+'''A''' (1 December 1920 &ndash; 28 May, 2013)"), Is.EqualTo(@"#####
+'''A''' (1 December 1920 &ndash; 28 May 2013)"));
         }
         
 
@@ -210,14 +210,14 @@ namespace UnitTests
         {
             #if DEBUG
             Variables.SetProjectLangCode("fr");
-            Assert.AreEqual(@"Retrieved on April, 14, 2009 was", parser.FixDatesA(@"Retrieved on April, 14, 2009 was"));
-            Assert.AreEqual(@"from (1900-1933) there", parser.FixDatesB(@"from (1900-1933) there", false, false));
+            Assert.That(parser.FixDatesA(@"Retrieved on April, 14, 2009 was"), Is.EqualTo(@"Retrieved on April, 14, 2009 was"));
+            Assert.That(parser.FixDatesB(@"from (1900-1933) there", false, false), Is.EqualTo(@"from (1900-1933) there"));
 
             Variables.SetProjectLangCode("en");
             const string correct1 = @"Retrieved on April 14, 2009 was";
-            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April, 14, 2009 was"));
+            Assert.That(parser.FixDatesA(@"Retrieved on April, 14, 2009 was"), Is.EqualTo(correct1));
             const string correct = @"from (1900–1933) there";
-            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900-1933) there", false, false));
+            Assert.That(parser.FixDatesB(@"from (1900-1933) there", false, false), Is.EqualTo(correct));
             #endif
         }
 
@@ -225,38 +225,38 @@ namespace UnitTests
         public void FixDatesRanges()
         {
             const string correct1 = @"On 3–17 May 2009 a dog";
-            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3-17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 - 17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 -17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 May-17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 May - 17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 May – 17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 May – 17 May, 2009 a dog"));
+            Assert.That(parser.FixDatesA(@"On 3-17 May 2009 a dog"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"On 3 - 17 May 2009 a dog"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"On 3 -17 May 2009 a dog"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"On 3 May-17 May 2009 a dog"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"On 3 May - 17 May 2009 a dog"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"On 3 May – 17 May 2009 a dog"), Is.EqualTo(correct1));
+            Assert.That(parser.FixDatesA(@"On 3 May – 17 May, 2009 a dog"), Is.EqualTo(correct1));
 
             // American format
             const string correct2 = @"On May 3–17, 2009 a dog";
-            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3-17, 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3-17 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3 - 17 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3   -17 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3 - May 17 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3 - May 17, 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3 – May 17 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3 – May 17, 2009 a dog"));
+            Assert.That(parser.FixDatesA(@"On May 3-17, 2009 a dog"), Is.EqualTo(correct2));
+            Assert.That(parser.FixDatesA(@"On May 3-17 2009 a dog"), Is.EqualTo(correct2));
+            Assert.That(parser.FixDatesA(@"On May 3 - 17 2009 a dog"), Is.EqualTo(correct2));
+            Assert.That(parser.FixDatesA(@"On May 3   -17 2009 a dog"), Is.EqualTo(correct2));
+            Assert.That(parser.FixDatesA(@"On May 3 - May 17 2009 a dog"), Is.EqualTo(correct2));
+            Assert.That(parser.FixDatesA(@"On May 3 - May 17, 2009 a dog"), Is.EqualTo(correct2));
+            Assert.That(parser.FixDatesA(@"On May 3 – May 17 2009 a dog"), Is.EqualTo(correct2));
+            Assert.That(parser.FixDatesA(@"On May 3 – May 17, 2009 a dog"), Is.EqualTo(correct2));
 
             // no change
             const string nochange1 = @"May 17 - 13,009 dogs";
-            Assert.AreEqual(nochange1, parser.FixDatesA(nochange1));
+            Assert.That(parser.FixDatesA(nochange1), Is.EqualTo(nochange1));
 
             const string nochange2 = @"May 2-4-0";
-            Assert.AreEqual(nochange2, parser.FixDatesA(nochange2));
+            Assert.That(parser.FixDatesA(nochange2), Is.EqualTo(nochange2));
 
             // month ranges
             const string correct3 = @"May–June 2010";
-            Assert.AreEqual(correct3, parser.FixDatesA(@"May-June 2010"), "endash set for month range");
-            Assert.AreEqual(correct3, parser.FixDatesA(correct3));
+            Assert.That(parser.FixDatesA(@"May-June 2010"), Is.EqualTo(correct3), "endash set for month range");
+            Assert.That(parser.FixDatesA(correct3), Is.EqualTo(correct3));
 
-            Assert.AreEqual("from 1904 – 11 May 1956 there", parser.FixDatesA("from 1904 – 11 May 1956 there"));
+            Assert.That(parser.FixDatesA("from 1904 – 11 May 1956 there"), Is.EqualTo("from 1904 – 11 May 1956 there"));
 
             // DateRangeToYear: result is spaced endash
             const string DateToYear = @"'''Nowell''' (May 16, 1872 - 1940), was";
@@ -274,21 +274,21 @@ namespace UnitTests
         public void TestFullYearRanges()
         {
             const string correct = @"from (1900–1933) there";
-            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900-1933) there", false, false));
-            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900  –  1933) there", false, false));
-            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 -1933) there", false, false));
-            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 - 1933) there", false, false));
-            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 -  1933) there", false, false));
-            Assert.AreEqual(@"from (1900–1901) there", parser.FixDatesB(@"from (1900 - 1901) there", false, false));
-            Assert.AreEqual(@"from (1900–1933, 2000) there", parser.FixDatesB(@"from (1900-1933, 2000) there", false, false));
-            Assert.AreEqual(@"from (1900–1933, 2000–2002) there", parser.FixDatesB(@"from (1900-1933, 2000-2002) there", false, false));
-            Assert.AreEqual(@"from ( 1900–1933) there", parser.FixDatesB(@"from ( 1900-1933) there", false, false));
+            Assert.That(parser.FixDatesB(@"from (1900-1933) there", false, false), Is.EqualTo(correct));
+            Assert.That(parser.FixDatesB(@"from (1900  –  1933) there", false, false), Is.EqualTo(correct));
+            Assert.That(parser.FixDatesB(@"from (1900 -1933) there", false, false), Is.EqualTo(correct));
+            Assert.That(parser.FixDatesB(@"from (1900 - 1933) there", false, false), Is.EqualTo(correct));
+            Assert.That(parser.FixDatesB(@"from (1900 -  1933) there", false, false), Is.EqualTo(correct));
+            Assert.That(parser.FixDatesB(@"from (1900 - 1901) there", false, false), Is.EqualTo(@"from (1900–1901) there"));
+            Assert.That(parser.FixDatesB(@"from (1900-1933, 2000) there", false, false), Is.EqualTo(@"from (1900–1933, 2000) there"));
+            Assert.That(parser.FixDatesB(@"from (1900-1933, 2000-2002) there", false, false), Is.EqualTo(@"from (1900–1933, 2000–2002) there"));
+            Assert.That(parser.FixDatesB(@"from ( 1900-1933) there", false, false), Is.EqualTo(@"from ( 1900–1933) there"));
 
-            Assert.AreEqual(@"from 1950–1960,", parser.FixDatesB(@"from 1950-1960,", false, false));
-            Assert.AreEqual(@"|1950–1960|", parser.FixDatesB(@"|1950-1960|", false, false));
-            Assert.AreEqual(@"(1950–1960 and 1963–1968)", parser.FixDatesB(@"(1950-1960 and 1963-1968)", false, false));
-            Assert.AreEqual(@"or 1900–1901,", parser.FixDatesB(@"or 1900 - 1901,", false, false));
-            Assert.AreEqual(@"for 1900–1901,", parser.FixDatesB(@"for 1900 - 1901,", false, false));
+            Assert.That(parser.FixDatesB(@"from 1950-1960,", false, false), Is.EqualTo(@"from 1950–1960,"));
+            Assert.That(parser.FixDatesB(@"|1950-1960|", false, false), Is.EqualTo(@"|1950–1960|"));
+            Assert.That(parser.FixDatesB(@"(1950-1960 and 1963-1968)", false, false), Is.EqualTo(@"(1950–1960 and 1963–1968)"));
+            Assert.That(parser.FixDatesB(@"or 1900 - 1901,", false, false), Is.EqualTo(@"or 1900–1901,"));
+            Assert.That(parser.FixDatesB(@"for 1900 - 1901,", false, false), Is.EqualTo(@"for 1900–1901,"));
 
             // no change – not valid date range
             genFixes.AssertNotChanged(@"from (1900–1870) there");
@@ -297,28 +297,28 @@ namespace UnitTests
             genFixes.AssertNotChanged(@"from (1900&ndash;1933) there");
             genFixes.AssertNotChanged(@"from (1900–1933) there");
 
-            Assert.AreEqual(@"now between 1900–1920
-was", parser.FixDatesB(@"now between 1900-1920
-was", false, false));
+            Assert.That(parser.FixDatesB(@"now between 1900-1920
+was", false, false), Is.EqualTo(@"now between 1900–1920
+was"));
 
             string BadRange = @"from 1950-1920,";
-            Assert.AreEqual(BadRange, parser.FixDatesB(BadRange, false, false));
+            Assert.That(parser.FixDatesB(BadRange, false, false), Is.EqualTo(BadRange));
             BadRange = @"from 1950 – 1920,";
-            Assert.AreEqual(BadRange, parser.FixDatesB(BadRange, false, false));
+            Assert.That(parser.FixDatesB(BadRange, false, false), Is.EqualTo(BadRange));
             BadRange = @"from 1980-70,";
-            Assert.AreEqual(BadRange, parser.FixDatesB(BadRange, false, false));
+            Assert.That(parser.FixDatesB(BadRange, false, false), Is.EqualTo(BadRange));
 
             // full date ranges
-            Assert.AreEqual(@"over 1 April 2004 – 5 July 2009.", parser.FixDatesB(@"over 1 April 2004-5 July 2009.", false, false));
-            Assert.AreEqual(@"over April 1, 2004 – July 5, 2009.", parser.FixDatesB(@"over April 1, 2004–July 5, 2009.", false, false));
+            Assert.That(parser.FixDatesB(@"over 1 April 2004-5 July 2009.", false, false), Is.EqualTo(@"over 1 April 2004 – 5 July 2009."));
+            Assert.That(parser.FixDatesB(@"over April 1, 2004–July 5, 2009.", false, false), Is.EqualTo(@"over April 1, 2004 – July 5, 2009."));
         }
 
         [Test]
         public void CircaYearRanges()
         {
-            Assert.AreEqual(@"c. 1950 – 1960,", parser.FixDatesB(@"c. 1950 - 1960,", false, false));
-            Assert.AreEqual(@"ca. 1950 – 1960,", parser.FixDatesB(@"ca. 1950 - 1960,", false, false));
-            Assert.AreEqual(@"circa 1950 – 1960,", parser.FixDatesB(@"circa 1950 - 1960,", false, false));
+            Assert.That(parser.FixDatesB(@"c. 1950 - 1960,", false, false), Is.EqualTo(@"c. 1950 – 1960,"));
+            Assert.That(parser.FixDatesB(@"ca. 1950 - 1960,", false, false), Is.EqualTo(@"ca. 1950 – 1960,"));
+            Assert.That(parser.FixDatesB(@"circa 1950 - 1960,", false, false), Is.EqualTo(@"circa 1950 – 1960,"));
 
             // no changes because can't use hidemore and detect the links
             genFixes.AssertNotChanged(@"{{Circa}} 1950 – 1960,");
@@ -339,11 +339,11 @@ was", false, false));
         public void TestYearToPresentRanges()
         {
             const string present = @"from 2002–present was";
-            Assert.AreEqual(present, parser.FixDatesB(@"from 2002-present was", false, false));
-            Assert.AreEqual(present, parser.FixDatesB(@"from 2002 -   present was", false, false));
-            Assert.AreEqual(present, parser.FixDatesB(@"from 2002–present was", false, false));
+            Assert.That(parser.FixDatesB(@"from 2002-present was", false, false), Is.EqualTo(present));
+            Assert.That(parser.FixDatesB(@"from 2002 -   present was", false, false), Is.EqualTo(present));
+            Assert.That(parser.FixDatesB(@"from 2002–present was", false, false), Is.EqualTo(present));
 
-            Assert.AreEqual(@"from 2002–Present was", parser.FixDatesB(@"from 2002-Present was", false, false));
+            Assert.That(parser.FixDatesB(@"from 2002-Present was", false, false), Is.EqualTo(@"from 2002–Present was"));
 
             const string present2 = @"== Members ==
 * [[Nick Hexum]] - Vocals, [[Rhythm Guitar]], Programming (1989 - present)
@@ -352,7 +352,7 @@ was", false, false));
 * [[P-Nut|Aaron Wills]] - [[Bass guitar]] (1989 - present)
 * [[Chad Sexton]] - [[Drum]]s, Programming, Percussion (1989 - present)";
 
-            Assert.AreEqual(present2.Replace(@" - p", @"–p"), parser.FixDatesB(present2, false, false));
+            Assert.That(parser.FixDatesB(present2, false, false), Is.EqualTo(present2.Replace(@" - p", @"–p")));
 
             genFixes.AssertNotChanged(@"* 2000 - presented");
         }
@@ -360,32 +360,32 @@ was", false, false));
         [Test]
         public void TestDateToPresentRanges()
         {
-            Assert.AreEqual(@"from May 2002 – present was", parser.FixDatesB(@"from May 2002 - present was", false, false));
-            Assert.AreEqual(@"from May 2002 – present was", parser.FixDatesB(@"from May 2002-present was", false, false));
-            Assert.AreEqual(@"from May 11, 2002 – present was", parser.FixDatesB(@"from May 11, 2002-present was", false, false));
-            Assert.AreEqual(@"from May 11, 2002 – present was", parser.FixDatesB(@"from May 11, 2002 - present was", false, false));
-            Assert.AreEqual(@"from 2002–present was", parser.FixDatesB(@"from 2002 - present was", false, false), "year range, becomes unspaced");
-            Assert.AreEqual(@"from 2002–present was", parser.FixDatesB(@"from 2002-present was", false, false), "year range, unspaced");
+            Assert.That(parser.FixDatesB(@"from May 2002 - present was", false, false), Is.EqualTo(@"from May 2002 – present was"));
+            Assert.That(parser.FixDatesB(@"from May 2002-present was", false, false), Is.EqualTo(@"from May 2002 – present was"));
+            Assert.That(parser.FixDatesB(@"from May 11, 2002-present was", false, false), Is.EqualTo(@"from May 11, 2002 – present was"));
+            Assert.That(parser.FixDatesB(@"from May 11, 2002 - present was", false, false), Is.EqualTo(@"from May 11, 2002 – present was"));
+            Assert.That(parser.FixDatesB(@"from 2002 - present was", false, false), Is.EqualTo(@"from 2002–present was"), "year range, becomes unspaced");
+            Assert.That(parser.FixDatesB(@"from 2002-present was", false, false), Is.EqualTo(@"from 2002–present was"), "year range, unspaced");
 
-            Assert.AreEqual(@"Deputy-leader 2008-11, 2014–present", parser.FixDatesB(@"Deputy-leader 2008-11, 2014-present", false, false), "Endash unspaced when year to present, ignore previous year range");
+            Assert.That(parser.FixDatesB(@"Deputy-leader 2008-11, 2014-present", false, false), Is.EqualTo(@"Deputy-leader 2008-11, 2014–present"), "Endash unspaced when year to present, ignore previous year range");
         }
 
         [Test]
         public void TestShortenedYearRanges()
         {
             const string correct = @"from (1900–33) there";
-            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900-33) there", false, false));
-            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 -33) there", false, false));
-            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 - 33) there", false, false));
-            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 -  33) there", false, false));
-            Assert.AreEqual(@"from (1900–1901) there", parser.FixDatesB(@"from (1900 - 1901) there", false, false));
-            Assert.AreEqual(@"from (1900–33, 2000) there", parser.FixDatesB(@"from (1900-33, 2000) there", false, false));
-            Assert.AreEqual(@"from (1900–33, 2000–2002) there", parser.FixDatesB(@"from (1900-33, 2000-2002) there", false, false));
-            Assert.AreEqual(@"from ( 1900–33) there", parser.FixDatesB(@"from ( 1900-33) there", false, false));
+            Assert.That(parser.FixDatesB(@"from (1900-33) there", false, false), Is.EqualTo(correct));
+            Assert.That(parser.FixDatesB(@"from (1900 -33) there", false, false), Is.EqualTo(correct));
+            Assert.That(parser.FixDatesB(@"from (1900 - 33) there", false, false), Is.EqualTo(correct));
+            Assert.That(parser.FixDatesB(@"from (1900 -  33) there", false, false), Is.EqualTo(correct));
+            Assert.That(parser.FixDatesB(@"from (1900 - 1901) there", false, false), Is.EqualTo(@"from (1900–1901) there"));
+            Assert.That(parser.FixDatesB(@"from (1900-33, 2000) there", false, false), Is.EqualTo(@"from (1900–33, 2000) there"));
+            Assert.That(parser.FixDatesB(@"from (1900-33, 2000-2002) there", false, false), Is.EqualTo(@"from (1900–33, 2000–2002) there"));
+            Assert.That(parser.FixDatesB(@"from ( 1900-33) there", false, false), Is.EqualTo(@"from ( 1900–33) there"));
 
-            Assert.AreEqual(@"from 1950–60,", parser.FixDatesB(@"from 1950-60,", false, false));
-            Assert.AreEqual(@"x the 2010–11, 2011–12 and 2013–14 x", parser.FixDatesB(@"x the 2010-11, 2011-12 and 2013-14 x", false, false));
-            Assert.AreEqual(@"(1950–60 and 1963–68)", parser.FixDatesB(@"(1950-60 and 1963-68)", false, false));
+            Assert.That(parser.FixDatesB(@"from 1950-60,", false, false), Is.EqualTo(@"from 1950–60,"));
+            Assert.That(parser.FixDatesB(@"x the 2010-11, 2011-12 and 2013-14 x", false, false), Is.EqualTo(@"x the 2010–11, 2011–12 and 2013–14 x"));
+            Assert.That(parser.FixDatesB(@"(1950-60 and 1963-68)", false, false), Is.EqualTo(@"(1950–60 and 1963–68)"));
 
             // no change – not valid date range
             genFixes.AssertNotChanged(@"from (1920–18) there");
@@ -399,49 +399,49 @@ was", false, false));
         [Test]
         public void FixLivingThingsRelatedDates()
         {
-            Assert.AreEqual("test text", Parsers.FixLivingThingsRelatedDates("test text"));
-            Assert.AreEqual("'''John Doe''' (born [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. [[21 February]] [[2008]])"), "b. expanded");
-            Assert.AreEqual(@"'''John O'Doe''' (born [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates(@"'''John O'Doe''' (b. [[21 February]] [[2008]])"), "b. expanded, name has apostrophe");
-            Assert.AreEqual("'''John Doe''' (born 21 February 2008)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. 21 February 2008)"), "non-wikilinked dates supported");
-            Assert.AreEqual("'''John Doe''' (born [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' ([[21 February]] [[2008]]–)"), "dash for born expanded");
-            Assert.AreEqual("'''John O'Doe''' (born [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John O'Doe''' ([[21 February]] [[2008]]–)"), "dash for born expanded, name has apostrophe");
-            Assert.AreEqual("'''John Doe''' (born [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' ([[21 February]] [[2008]] &ndash;)"), "dash for born expanded");
-            Assert.AreEqual("'''John Doe''' (born [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (born: [[21 February]] [[2008]])"), "born: tidied");
-            Assert.AreEqual("'''John Doe''' (born [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (Born: [[21 February]] [[2008]])"), "born: tidied");
-            Assert.AreEqual("'''John Doe''' (born March 6, 2008)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. March 6, 2008)"), "b. expanded");
-            Assert.AreEqual("'''John Doe''' (born 2008)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. 2008)"), "b. expanded");
-            Assert.AreEqual("'''John Doe''' (born 2008)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b.2008)"), "b. expanded");
-            Assert.AreEqual("'''John Doe''' (born 2008)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (born on 2008)"), "born on fixed");
-            Assert.AreEqual("'''John Doe''' (born 2008)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (Born 2008)"), "Born fixed");
-            Assert.AreEqual("'''John Doe''' (born March 6, 2008, London)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. March 6, 2008, London)"), "b. expanded");
-            Assert.AreEqual("'''John Doe''' (born March 6, 2008 in London)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. March 6, 2008 in London)"), "b. expanded");
-            Assert.AreEqual("'''John Doe''' (born March 6, 2008, London)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (born on March 6, 2008, London)"), "born on fixed");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("test text"), Is.EqualTo("test text"));
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. [[21 February]] [[2008]])"), Is.EqualTo("'''John Doe''' (born [[21 February]] [[2008]])"), "b. expanded");
+            Assert.That(Parsers.FixLivingThingsRelatedDates(@"'''John O'Doe''' (b. [[21 February]] [[2008]])"), Is.EqualTo(@"'''John O'Doe''' (born [[21 February]] [[2008]])"), "b. expanded, name has apostrophe");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. 21 February 2008)"), Is.EqualTo("'''John Doe''' (born 21 February 2008)"), "non-wikilinked dates supported");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' ([[21 February]] [[2008]]–)"), Is.EqualTo("'''John Doe''' (born [[21 February]] [[2008]])"), "dash for born expanded");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John O'Doe''' ([[21 February]] [[2008]]–)"), Is.EqualTo("'''John O'Doe''' (born [[21 February]] [[2008]])"), "dash for born expanded, name has apostrophe");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' ([[21 February]] [[2008]] &ndash;)"), Is.EqualTo("'''John Doe''' (born [[21 February]] [[2008]])"), "dash for born expanded");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (born: [[21 February]] [[2008]])"), Is.EqualTo("'''John Doe''' (born [[21 February]] [[2008]])"), "born: tidied");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (Born: [[21 February]] [[2008]])"), Is.EqualTo("'''John Doe''' (born [[21 February]] [[2008]])"), "born: tidied");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. March 6, 2008)"), Is.EqualTo("'''John Doe''' (born March 6, 2008)"), "b. expanded");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. 2008)"), Is.EqualTo("'''John Doe''' (born 2008)"), "b. expanded");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b.2008)"), Is.EqualTo("'''John Doe''' (born 2008)"), "b. expanded");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (born on 2008)"), Is.EqualTo("'''John Doe''' (born 2008)"), "born on fixed");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (Born 2008)"), Is.EqualTo("'''John Doe''' (born 2008)"), "Born fixed");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. March 6, 2008, London)"), Is.EqualTo("'''John Doe''' (born March 6, 2008, London)"), "b. expanded");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. March 6, 2008 in London)"), Is.EqualTo("'''John Doe''' (born March 6, 2008 in London)"), "b. expanded");
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (born on March 6, 2008, London)"), Is.EqualTo("'''John Doe''' (born March 6, 2008, London)"), "born on fixed");
 
-            Assert.AreEqual("'''John Doe''' (died [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d. [[21 February]] [[2008]])"));
-            Assert.AreEqual("'''John Doe''' (died [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d.[[21 February]] [[2008]])"));
-            Assert.AreEqual("'''John Doe''' (died 2008)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d.2008)"));
-            Assert.AreEqual("'''John Doe''' (died February 21, 2008)", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d. February 21, 2008)"));
-            Assert.AreEqual("'''John O'Doe''' (died [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John O'Doe''' (d. [[21 February]] [[2008]])"));
-            Assert.AreEqual("'''Willa Klug Baum''' ([[October 4]], [[1926]] – May 18, 2006)", Parsers.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (born [[October 4]], [[1926]], died May 18, 2006)"));
-            Assert.AreEqual("'''Willa Klug Baum''' (1926 – May 18, 2006)", Parsers.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (b.1926, died May 18, 2006)"));
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d. [[21 February]] [[2008]])"), Is.EqualTo("'''John Doe''' (died [[21 February]] [[2008]])"));
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d.[[21 February]] [[2008]])"), Is.EqualTo("'''John Doe''' (died [[21 February]] [[2008]])"));
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d.2008)"), Is.EqualTo("'''John Doe''' (died 2008)"));
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d. February 21, 2008)"), Is.EqualTo("'''John Doe''' (died February 21, 2008)"));
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''John O'Doe''' (d. [[21 February]] [[2008]])"), Is.EqualTo("'''John O'Doe''' (died [[21 February]] [[2008]])"));
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (born [[October 4]], [[1926]], died May 18, 2006)"), Is.EqualTo("'''Willa Klug Baum''' ([[October 4]], [[1926]] – May 18, 2006)"));
+            Assert.That(Parsers.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (b.1926, died May 18, 2006)"), Is.EqualTo("'''Willa Klug Baum''' (1926 – May 18, 2006)"));
 
             const string Nochange = @"{{Infobox baseball team|
   FormerNames= '''[[Nishi-Nippon Railroad|Nishitetsu]] Clippers''' (1950)<br>'''Nishitetsu Lions''' (1951-1972)<br>'''Taiheiyo Club Lions''' (1973–1976)<br>'''Crown Lighter Lions''' (1977–1978)<br>'''Seibu Lions''' (1979–2007)<br>'''Saitama Seibu Lions''' (2008–)|
   foo=bar }}";
 
-            Assert.AreEqual(Nochange, Parsers.FixLivingThingsRelatedDates(Nochange));
+            Assert.That(Parsers.FixLivingThingsRelatedDates(Nochange), Is.EqualTo(Nochange));
 
             const string Nochange2 = @"*'''[[Luís Godinho Lopes|Luís Filipe Fernandes David Godinho Lopes]]''' (2011–)";
 
-            Assert.AreEqual(Nochange2, Parsers.FixLivingThingsRelatedDates(Nochange2));
+            Assert.That(Parsers.FixLivingThingsRelatedDates(Nochange2), Is.EqualTo(Nochange2));
 
             const string Nochange3 = @"** '''1st''' Andy Brown '''52''' (2008-)";
 
-            Assert.AreEqual(Nochange3, Parsers.FixLivingThingsRelatedDates(Nochange3));
+            Assert.That(Parsers.FixLivingThingsRelatedDates(Nochange3), Is.EqualTo(Nochange3));
 
             const string Nochange4 = @"# '''[[Luís Godinho Lopes|Luís Filipe Fernandes David Godinho Lopes]]''' (2011–)";
 
-            Assert.AreEqual(Nochange4, Parsers.FixLivingThingsRelatedDates(Nochange4));
+            Assert.That(Parsers.FixLivingThingsRelatedDates(Nochange4), Is.EqualTo(Nochange4));
         }
 
         [Test]
@@ -497,13 +497,13 @@ Other (fl. 1645) was also", FloruitTwice = @"'''Foo''' (fl. 55) was a peasant, r
         {
             // must be about a person
             const string a0 = @"'''Fred Smith''' (born 1960) is a bloke.";
-            Assert.AreEqual(a0, Parsers.FixPeopleCategories(a0, "foo"));
+            Assert.That(Parsers.FixPeopleCategories(a0, "foo"), Is.EqualTo(a0));
 
             const string bug1 = @"{{BLP unsourced|date=March 2010}}
 
 '''Z''' (born 2 January{{Year needed|date=January 2010|reason=Fix this date immediately or remove it; it look}} in .";
 
-            Assert.AreEqual(bug1, Parsers.FixPeopleCategories(bug1, "Foo"));
+            Assert.That(Parsers.FixPeopleCategories(bug1, "Foo"), Is.EqualTo(bug1));
         }
 
         [Test]
@@ -511,42 +511,42 @@ Other (fl. 1645) was also", FloruitTwice = @"'''Foo''' (fl. 55) was a peasant, r
         {
             List<string> Year = new List<string>(new[] { "year" });
 
-            Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+            Assert.That(Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |year=1990
-|other=great}} now", Year));
+|other=great}} now", Year), Is.EqualTo(@"1990"));
 
-            Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+            Assert.That(Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  year  =  1990
-|other=great}} now", Year));
+|other=great}} now", Year), Is.EqualTo(@"1990"));
 
-            Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+            Assert.That(Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  1990
-|other=great}} now", Year));
+|other=great}} now", Year), Is.EqualTo(@"1990"));
 
             // no infobox
-            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello now", Year));
+            Assert.That(Parsers.GetInfoBoxFieldValue(@"hello now", Year), Is.Empty);
 
             // field not found
-            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+            Assert.That(Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  1990
-|other=great}} now", new List<string>(new[] { "yearly" })));
+|other=great}} now", new List<string>(new[] { "yearly" })), Is.Empty);
 
             // multiple fields on same line
-            Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+            Assert.That(Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  1990  |some=where
-|other=great}} now", Year));
+|other=great}} now", Year), Is.EqualTo(@"1990"));
 
             // comments/refs
-            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+            Assert.That(Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  <!--1990-->
-|other=great}} now", Year));
+|other=great}} now", Year), Is.Empty);
 
-            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+            Assert.That(Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  <ref>1990</ref>
-|other=great}} now", Year));
-            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+|other=great}} now", Year), Is.Empty);
+            Assert.That(Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  {{efn|1990}}
-|other=great}} now", Year));
+|other=great}} now", Year), Is.Empty);
 
         }
 
@@ -554,153 +554,153 @@ Other (fl. 1645) was also", FloruitTwice = @"'''Foo''' (fl. 55) was a peasant, r
         public void RemoveDuplicateWikiLinks()
         {
             // removes duplicate piped wikilinks on same line
-            Assert.AreEqual(@"now [[foo|bar]] was bar too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[foo|bar]] too"));
-            Assert.AreEqual(@"now [[foo|bar]] was bars too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[foo|bar]]s too"));
+            Assert.That(Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[foo|bar]] too"), Is.EqualTo(@"now [[foo|bar]] was bar too"));
+            Assert.That(Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[foo|bar]]s too"), Is.EqualTo(@"now [[foo|bar]] was bars too"));
 
             // multiline – no change
-            Assert.AreEqual(@"now [[foo|bar]]
-was [[foo|bar]] too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]]
+            Assert.That(Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]]
+was [[foo|bar]] too"), Is.EqualTo(@"now [[foo|bar]]
 was [[foo|bar]] too"));
 
             // case sensitive
-            Assert.AreEqual(@"now [[foo|bar]] was [[Foo|bar]] too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[Foo|bar]] too"));
-            Assert.AreEqual(@"now [[foo bar]] was [[Foo bar]] too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo bar]] was [[Foo bar]] too"));
+            Assert.That(Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[Foo|bar]] too"), Is.EqualTo(@"now [[foo|bar]] was [[Foo|bar]] too"));
+            Assert.That(Parsers.RemoveDuplicateWikiLinks(@"now [[foo bar]] was [[Foo bar]] too"), Is.EqualTo(@"now [[foo bar]] was [[Foo bar]] too"));
 
             // removes duplicate unpiped wikilinks
-            Assert.AreEqual(@"now [[foo bar]] was foo bar too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo bar]] was [[foo bar]] too"));
+            Assert.That(Parsers.RemoveDuplicateWikiLinks(@"now [[foo bar]] was [[foo bar]] too"), Is.EqualTo(@"now [[foo bar]] was foo bar too"));
 
             // no changes
-            Assert.AreEqual(@"now [[foo|bar]] was [[foo]] too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[foo]] too"));
+            Assert.That(Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[foo]] too"), Is.EqualTo(@"now [[foo|bar]] was [[foo]] too"));
         }
 
         [Test]
         public void CanonicalizeTitleRawTests()
         {
-            Assert.AreEqual(@"foo bar", Parsers.CanonicalizeTitleRaw(@"foo_bar"));
-            Assert.AreEqual(@"foo""bar""", Parsers.CanonicalizeTitleRaw(@"foo%22bar%22"));
-            Assert.AreEqual(@"foo+bar", Parsers.CanonicalizeTitleRaw(@"foo+bar"));
-            Assert.AreEqual(@"foo bar", Parsers.CanonicalizeTitleRaw(@"foo_bar", false));
-            Assert.AreEqual(@"foo bar ", Parsers.CanonicalizeTitleRaw(@"foo_bar ", false));
-            Assert.AreEqual(@"foo bar", Parsers.CanonicalizeTitleRaw(@"foo_bar", true));
-            Assert.AreEqual(@"foo bar", Parsers.CanonicalizeTitleRaw(@"foo_bar ", true));
-            Assert.AreEqual(@"foo bar", Parsers.CanonicalizeTitleRaw(@" foo_bar", true));
+            Assert.That(Parsers.CanonicalizeTitleRaw(@"foo_bar"), Is.EqualTo(@"foo bar"));
+            Assert.That(Parsers.CanonicalizeTitleRaw(@"foo%22bar%22"), Is.EqualTo(@"foo""bar"""));
+            Assert.That(Parsers.CanonicalizeTitleRaw(@"foo+bar"), Is.EqualTo(@"foo+bar"));
+            Assert.That(Parsers.CanonicalizeTitleRaw(@"foo_bar", false), Is.EqualTo(@"foo bar"));
+            Assert.That(Parsers.CanonicalizeTitleRaw(@"foo_bar ", false), Is.EqualTo(@"foo bar "));
+            Assert.That(Parsers.CanonicalizeTitleRaw(@"foo_bar", true), Is.EqualTo(@"foo bar"));
+            Assert.That(Parsers.CanonicalizeTitleRaw(@"foo_bar ", true), Is.EqualTo(@"foo bar"));
+            Assert.That(Parsers.CanonicalizeTitleRaw(@" foo_bar", true), Is.EqualTo(@"foo bar"));
 
-            Assert.AreEqual(@"Bugs#If a selflink is also bolded, AWB should", Parsers.CanonicalizeTitleRaw(@"Bugs#If_a_selflink_is_also_bolded%2C_AWB_should"));
+            Assert.That(Parsers.CanonicalizeTitleRaw(@"Bugs#If_a_selflink_is_also_bolded%2C_AWB_should"), Is.EqualTo(@"Bugs#If a selflink is also bolded, AWB should"));
         }
 
         [Test]
         public void RemoveTemplateNamespace()
         {
-            Assert.AreEqual(@"{{foo}}", Parsers.RemoveTemplateNamespace(@"{{Template:foo}}"));
-            Assert.AreEqual(@"{{Foo}}", Parsers.RemoveTemplateNamespace(@"{{Template:Foo}}"));
-            Assert.AreEqual(@"{{foo bar}}", Parsers.RemoveTemplateNamespace(@"{{Template:foo_bar}}"));
-            Assert.AreEqual(@"Template:Foo", Parsers.RemoveTemplateNamespace(@"Template:Foo"), "no change if it is not a real template");
-            Assert.AreEqual(@"[[Template:Foo]]", Parsers.RemoveTemplateNamespace(@"[[Template:Foo]]"), "no change if it is not a real template");
-            Assert.AreEqual(@"{{Clarify|date=May 2014|reason=Use Template:Cite web or similar}}", Parsers.RemoveTemplateNamespace(@"{{Clarify|date=May 2014|reason=Use Template:Cite web or similar}}"), "no change if it is part of a comment");
-            Assert.AreEqual(@"{{Foo|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.RemoveTemplateNamespace(@"{{Template:Foo|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.That(Parsers.RemoveTemplateNamespace(@"{{Template:foo}}"), Is.EqualTo(@"{{foo}}"));
+            Assert.That(Parsers.RemoveTemplateNamespace(@"{{Template:Foo}}"), Is.EqualTo(@"{{Foo}}"));
+            Assert.That(Parsers.RemoveTemplateNamespace(@"{{Template:foo_bar}}"), Is.EqualTo(@"{{foo bar}}"));
+            Assert.That(Parsers.RemoveTemplateNamespace(@"Template:Foo"), Is.EqualTo(@"Template:Foo"), "no change if it is not a real template");
+            Assert.That(Parsers.RemoveTemplateNamespace(@"[[Template:Foo]]"), Is.EqualTo(@"[[Template:Foo]]"), "no change if it is not a real template");
+            Assert.That(Parsers.RemoveTemplateNamespace(@"{{Clarify|date=May 2014|reason=Use Template:Cite web or similar}}"), Is.EqualTo(@"{{Clarify|date=May 2014|reason=Use Template:Cite web or similar}}"), "no change if it is part of a comment");
+            Assert.That(Parsers.RemoveTemplateNamespace(@"{{Template:Foo|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), Is.EqualTo(@"{{Foo|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
         }
 
         [Test]
         public void FixLinkWhitespaceSpacing()
         {
-            Assert.AreEqual("[[Foo]]", Parsers.FixLinkWhitespace("[[Foo]]", "Test"));
-            Assert.AreEqual("[[Foo Bar]]", Parsers.FixLinkWhitespace("[[Foo Bar]]", "Test"));
-            Assert.AreEqual("[[Foo Bar]]", Parsers.FixLinkWhitespace("[[Foo  Bar]]", "Test"));
-            Assert.AreEqual("[[Foo Bar was]]", Parsers.FixLinkWhitespace("[[Foo  Bar  was]]", "Test"), "fixes multiple double spaces in single link");
-            Assert.AreEqual("[[Foo Bar|Bar]]", Parsers.FixLinkWhitespace("[[Foo  Bar|Bar]]", "Test"));
-            Assert.AreEqual("[[64th Fighter Aviation Corps|64th Fighter Aviation Corps]]", Parsers.FixLinkWhitespace("[[64th Fighter Aviation Corps|64th  Fighter Aviation Corps]]", "Test"), "long wikilink double space");
+            Assert.That(Parsers.FixLinkWhitespace("[[Foo]]", "Test"), Is.EqualTo("[[Foo]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[Foo Bar]]", "Test"), Is.EqualTo("[[Foo Bar]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[Foo  Bar]]", "Test"), Is.EqualTo("[[Foo Bar]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[Foo  Bar  was]]", "Test"), Is.EqualTo("[[Foo Bar was]]"), "fixes multiple double spaces in single link");
+            Assert.That(Parsers.FixLinkWhitespace("[[Foo  Bar|Bar]]", "Test"), Is.EqualTo("[[Foo Bar|Bar]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[64th Fighter Aviation Corps|64th  Fighter Aviation Corps]]", "Test"), Is.EqualTo("[[64th Fighter Aviation Corps|64th Fighter Aviation Corps]]"), "long wikilink double space");
 
-            Assert.AreEqual(@"[[Foo]] was", Parsers.FixLinkWhitespace(@"[[      Foo    ]] was", "Test"), "multiple spaces, space after");
-            Assert.AreEqual(@"[[Foo2]] A", Parsers.FixLinkWhitespace(@"[[      Foo2    ]]A", "Test"), "multiple spaces, word after");
-            Assert.AreEqual(@"[[Foo3]]", Parsers.FixLinkWhitespace(@"[[      Foo3]]", "Test"), "multiple spaces only at start");
+            Assert.That(Parsers.FixLinkWhitespace(@"[[      Foo    ]] was", "Test"), Is.EqualTo(@"[[Foo]] was"), "multiple spaces, space after");
+            Assert.That(Parsers.FixLinkWhitespace(@"[[      Foo2    ]]A", "Test"), Is.EqualTo(@"[[Foo2]] A"), "multiple spaces, word after");
+            Assert.That(Parsers.FixLinkWhitespace(@"[[      Foo3]]", "Test"), Is.EqualTo(@"[[Foo3]]"), "multiple spaces only at start");
         }
 
         [Test]
         public void FixLink()
         {
             bool nochange;
-            Assert.AreEqual(@"[[Foo bar]]", Parsers.FixLinks(@"[[Foo_bar]]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[Foo_bar]]", "a", out nochange), Is.EqualTo(@"[[Foo bar]]"));
             Assert.IsFalse(nochange);
 
             const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
-            Assert.AreEqual(doubleApos, Parsers.FixLinks(doubleApos, "a", out nochange));
+            Assert.That(Parsers.FixLinks(doubleApos, "a", out nochange), Is.EqualTo(doubleApos));
 
             Variables.AddUnderscoredTitles(new List<string>(new[] {"Size t", "Mod perl", "Mod mono" }));
 
-            Assert.AreEqual(@"[[size_t]]", Parsers.FixLinks(@"[[size_t]]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[size_t]]", "a", out nochange), Is.EqualTo(@"[[size_t]]"));
             Assert.IsTrue(nochange);
-            Assert.AreEqual(@"[[mod_perl]]", Parsers.FixLinks(@"[[mod_perl]]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[mod_perl]]", "a", out nochange), Is.EqualTo(@"[[mod_perl]]"));
             Assert.IsTrue(nochange);
-            Assert.AreEqual(@"[[mod_mono]]", Parsers.FixLinks(@"[[mod_mono]]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[mod_mono]]", "a", out nochange), Is.EqualTo(@"[[mod_mono]]"));
             Assert.IsTrue(nochange);
-            Assert.AreEqual(@"[[Mod_mono]]", Parsers.FixLinks(@"[[Mod_mono]]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[Mod_mono]]", "a", out nochange), Is.EqualTo(@"[[Mod_mono]]"));
             Assert.IsTrue(nochange);
-            Assert.AreEqual(@"[[E|Mod_mono]]", Parsers.FixLinks(@"[[E|Mod_mono]]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[E|Mod_mono]]", "a", out nochange), Is.EqualTo(@"[[E|Mod_mono]]"));
             Assert.IsTrue(nochange);
-            Assert.AreEqual(@"[[Mod_mono#link]]", Parsers.FixLinks(@"[[Mod_mono#link]]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[Mod_mono#link]]", "a", out nochange), Is.EqualTo(@"[[Mod_mono#link]]"));
             Assert.IsTrue(nochange);
 
-            Assert.AreEqual(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", Parsers.FixLinks(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", "a", out nochange), "Does not break section links with hash and space");
-            Assert.AreEqual(@"[[Foo#nice example|F]]", Parsers.FixLinks(@"[[Foo#nice%20example|F]]", "a", out nochange), "%20 replaced in target");
-            Assert.AreEqual(@"[[Foo|bar]]", Parsers.FixLinks(@"[[Foo|bar|]]", "a", out nochange), "Fixes excess trailing pipe");
-            Assert.AreEqual(@"[[Foo|bar]]", Parsers.FixLinks(@"[[Foo|bar | ]]", "a", out nochange), "Fixes excess trailing pipe");
+            Assert.That(Parsers.FixLinks(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", "a", out nochange), Is.EqualTo(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]"), "Does not break section links with hash and space");
+            Assert.That(Parsers.FixLinks(@"[[Foo#nice%20example|F]]", "a", out nochange), Is.EqualTo(@"[[Foo#nice example|F]]"), "%20 replaced in target");
+            Assert.That(Parsers.FixLinks(@"[[Foo|bar|]]", "a", out nochange), Is.EqualTo(@"[[Foo|bar]]"), "Fixes excess trailing pipe");
+            Assert.That(Parsers.FixLinks(@"[[Foo|bar | ]]", "a", out nochange), Is.EqualTo(@"[[Foo|bar]]"), "Fixes excess trailing pipe");
 
-            Assert.AreEqual(@"[[Foo bar]]", Parsers.FixLinks(@"[[Foo_bar]]", "a", out nochange), "Fixes underscore");
-            Assert.AreEqual(@"[[Foo bar#ab c]]", Parsers.FixLinks(@"[[Foo_bar#ab_c]]", "a", out nochange), "Fixes underscore");
-            Assert.AreEqual(@"[[Mercedes-Benz C-Class#W202 (1993–2000)|Mercedes-Benz C-Class]]", Parsers.FixLinks(@"[[Mercedes-Benz C-Class#W202 %281993%E2%80%932000%29|Mercedes-Benz C-Class]]", "a", out nochange), "Fixes percent encoding");
+            Assert.That(Parsers.FixLinks(@"[[Foo_bar]]", "a", out nochange), Is.EqualTo(@"[[Foo bar]]"), "Fixes underscore");
+            Assert.That(Parsers.FixLinks(@"[[Foo_bar#ab_c]]", "a", out nochange), Is.EqualTo(@"[[Foo bar#ab c]]"), "Fixes underscore");
+            Assert.That(Parsers.FixLinks(@"[[Mercedes-Benz C-Class#W202 %281993%E2%80%932000%29|Mercedes-Benz C-Class]]", "a", out nochange), Is.EqualTo(@"[[Mercedes-Benz C-Class#W202 (1993–2000)|Mercedes-Benz C-Class]]"), "Fixes percent encoding");
 
-            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[foo{{!}}bar]]", "a", out nochange), "Fixes pipe");
-            Assert.AreEqual(@"[[foo|]]", Parsers.FixLinks(@"[[foo{{!}}]]", "a", out nochange), "Fixes pipe");
-            Assert.AreEqual("[[Repeat sign|{{!}}: ]]", Parsers.FixLinks(@"[[Repeat sign|{{!}}: ]]", "a", out nochange), "Do nothing in the only exception");
+            Assert.That(Parsers.FixLinks(@"[[foo{{!}}bar]]", "a", out nochange), Is.EqualTo(@"[[foo|bar]]"), "Fixes pipe");
+            Assert.That(Parsers.FixLinks(@"[[foo{{!}}]]", "a", out nochange), Is.EqualTo(@"[[foo|]]"), "Fixes pipe");
+            Assert.That(Parsers.FixLinks(@"[[Repeat sign|{{!}}: ]]", "a", out nochange), Is.EqualTo("[[Repeat sign|{{!}}: ]]"), "Do nothing in the only exception");
 
-            Assert.AreEqual(@"[[|foo]]", Parsers.FixLinks(@"[[|foo]]", "a", out nochange), "No change if single leading pipe");
-            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[|foo|bar]]", "a", out nochange), "Fixes excess leading pipe");
-            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixLinks(@"[[|  foo|bar]]", "a", out nochange), "Fixes excess leading pipe & whitespace");
-            Assert.AreEqual(@"[[|thumb|300px]]", Parsers.FixLinks(@"[[|thumb|300px]]", "a", out nochange), "Nochange: thumb");
-            Assert.AreEqual(@"[[|thumbnail|300px]]", Parsers.FixLinks(@"[[|thumbnail|300px]]", "a", out nochange), "Nochange: thumbnail");
+            Assert.That(Parsers.FixLinks(@"[[|foo]]", "a", out nochange), Is.EqualTo(@"[[|foo]]"), "No change if single leading pipe");
+            Assert.That(Parsers.FixLinks(@"[[|foo|bar]]", "a", out nochange), Is.EqualTo(@"[[foo|bar]]"), "Fixes excess leading pipe");
+            Assert.That(Parsers.FixLinks(@"[[|  foo|bar]]", "a", out nochange), Is.EqualTo(@"[[foo|bar]]"), "Fixes excess leading pipe & whitespace");
+            Assert.That(Parsers.FixLinks(@"[[|thumb|300px]]", "a", out nochange), Is.EqualTo(@"[[|thumb|300px]]"), "Nochange: thumb");
+            Assert.That(Parsers.FixLinks(@"[[|thumbnail|300px]]", "a", out nochange), Is.EqualTo(@"[[|thumbnail|300px]]"), "Nochange: thumbnail");
 
-            Assert.AreEqual(@"A" + "\r\n", Parsers.FixLinks(@"A
-[[Category:Soldiers|XXX]]", "Category:Soldiers", out nochange), "Category self link");
+            Assert.That(Parsers.FixLinks(@"A
+[[Category:Soldiers|XXX]]", "Category:Soldiers", out nochange), Is.EqualTo(@"A" + "\r\n"), "Category self link");
 
             const string iarchive = @"[[iarchive:a0000camp_y0p5/page/82/mode/2up|Foo]]";
-            Assert.AreEqual(iarchive, Parsers.FixLinks(iarchive, "A", out nochange), "iarchive");
+            Assert.That(Parsers.FixLinks(iarchive, "A", out nochange), Is.EqualTo(iarchive), "iarchive");
         }
 
         [Test]
         public void FixLinkBoldItalic()
         {
             bool nochange;
-            Assert.AreEqual(@"''[[foo|foo]]''", Parsers.FixLinks(@"[[foo|''foo'']]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[foo|''foo'']]", "a", out nochange), Is.EqualTo(@"''[[foo|foo]]''"));
             Assert.IsFalse(nochange);
-            Assert.AreEqual(@"'''[[foo|Foo]]'''", Parsers.FixLinks(@"[[foo|'''Foo''']]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[foo|'''Foo''']]", "a", out nochange), Is.EqualTo(@"'''[[foo|Foo]]'''"));
             Assert.IsFalse(nochange);
-            Assert.AreEqual(@"'''''[[foo|Foo]]'''''", Parsers.FixLinks(@"[[foo|'''''Foo''''']]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[foo|'''''Foo''''']]", "a", out nochange), Is.EqualTo(@"'''''[[foo|Foo]]'''''"));
             Assert.IsFalse(nochange);
 
-            Assert.AreEqual(@"'''[[foo|Foo]]''' ''[[bar|bar]]''", Parsers.FixLinks(@"[[foo|'''Foo''']] [[bar|''bar'']]", "a", out nochange));
-            Assert.AreEqual(@"''[[foo|'''foo''']]''", Parsers.FixLinks(@"''[[foo|'''foo''']]''", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[foo|'''Foo''']] [[bar|''bar'']]", "a", out nochange), Is.EqualTo(@"'''[[foo|Foo]]''' ''[[bar|bar]]''"));
+            Assert.That(Parsers.FixLinks(@"''[[foo|'''foo''']]''", "a", out nochange), Is.EqualTo(@"''[[foo|'''foo''']]''"));
             Assert.IsTrue(nochange);
 
-            Assert.AreEqual(@"'''[[foo|Foo]]''' ''[[foor|bar]]''", Parsers.FixLinks(@"[[foo|'''Foo''']] ''[[foor|bar]]''", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[foo|'''Foo''']] ''[[foor|bar]]''", "a", out nochange), Is.EqualTo(@"'''[[foo|Foo]]''' ''[[foor|bar]]''"));
 
             // No change to single apostrophes
-            Assert.AreEqual(@"[[foo|'bar']]", Parsers.FixLinks(@"[[foo|'bar']]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[foo|'bar']]", "a", out nochange), Is.EqualTo(@"[[foo|'bar']]"));
             Assert.IsTrue(nochange);
 
             // No change if (dodgy) apostrope just after link
-            Assert.AreEqual(@"[[foo|''bar'']]'", Parsers.FixLinks(@"[[foo|''bar'']]'", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[foo|''bar'']]'", "a", out nochange), Is.EqualTo(@"[[foo|''bar'']]'"));
             Assert.IsTrue(nochange);
 
-            Assert.AreEqual(@"[[foo|]]", Parsers.FixLinks(@"[[foo|]]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[foo|]]", "a", out nochange), Is.EqualTo(@"[[foo|]]"));
             Assert.IsTrue(nochange);
-            
-             Assert.AreEqual(@"[[foo|''b'']]", Parsers.FixLinks(@"[[foo|''b'']]", "a", out nochange));
+
+            Assert.That(Parsers.FixLinks(@"[[foo|''b'']]", "a", out nochange), Is.EqualTo(@"[[foo|''b'']]"));
             Assert.IsTrue(nochange);
 
             // No change to part of link text in bold/italics
-            Assert.AreEqual(@"[[foo|A ''bar'']]", Parsers.FixLinks(@"[[foo|A ''bar'']]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[foo|A ''bar'']]", "a", out nochange), Is.EqualTo(@"[[foo|A ''bar'']]"));
             Assert.IsTrue(nochange);
-            Assert.AreEqual(@"[[foo|A '''bar''']]", Parsers.FixLinks(@"[[foo|A '''bar''']]", "a", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[foo|A '''bar''']]", "a", out nochange), Is.EqualTo(@"[[foo|A '''bar''']]"));
             Assert.IsTrue(nochange);
         }
 
@@ -709,20 +709,20 @@ was [[foo|bar]] too"));
         {
             bool nochange;
 
-            Assert.AreEqual(@"[[Foo]]", Parsers.FixLinks(@"[[en:Foo]]", "Bar", out nochange));
-            Assert.AreEqual(@"[[Foo|Bar]]", Parsers.FixLinks(@"[[en:Foo|Bar]]", "T1", out nochange));
+            Assert.That(Parsers.FixLinks(@"[[en:Foo]]", "Bar", out nochange), Is.EqualTo(@"[[Foo]]"));
+            Assert.That(Parsers.FixLinks(@"[[en:Foo|Bar]]", "T1", out nochange), Is.EqualTo(@"[[Foo|Bar]]"));
 
             const string FrIW = @"Now [[fr:Here]]";
-            Assert.AreEqual(FrIW, Parsers.FixLinks(FrIW, "Bar", out nochange));
+            Assert.That(Parsers.FixLinks(FrIW, "Bar", out nochange), Is.EqualTo(FrIW));
             Assert.IsTrue(parser.SortInterwikis);
 
             #if DEBUG
             Variables.SetProjectSimple("en", ProjectEnum.commons);
             const string EnInterwiki = @"[[en:Foo]]";
-            Assert.AreEqual(EnInterwiki, Parsers.FixLinks(EnInterwiki, "Test", out nochange), "en interwiki not changed on commons");
+            Assert.That(Parsers.FixLinks(EnInterwiki, "Test", out nochange), Is.EqualTo(EnInterwiki), "en interwiki not changed on commons");
             
             Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
-            Assert.AreEqual("[[Foo]]", Parsers.FixLinks(EnInterwiki, "Test", out nochange), "self-interwiki converted on en-wiki");
+            Assert.That(Parsers.FixLinks(EnInterwiki, "Test", out nochange), Is.EqualTo("[[Foo]]"), "self-interwiki converted on en-wiki");
             #endif
         }
 
@@ -759,22 +759,22 @@ x
             Dictionary<int, int> uct = new Dictionary<int, int>();
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre>");
-            Assert.AreEqual(uct.Count, 0);
+            Assert.That(uct.Count, Is.EqualTo(0));
 
             uct = Parsers.UnclosedTags(@"<gallery>File:bar</gallery>");
-            Assert.AreEqual(uct.Count, 0);
+            Assert.That(uct.Count, Is.EqualTo(0));
 
             uct = Parsers.UnclosedTags(@"<math>bar</math>");
-            Assert.AreEqual(uct.Count, 0);
+            Assert.That(uct.Count, Is.EqualTo(0));
 
             uct = Parsers.UnclosedTags(@"<math chem>bar</math>");
-            Assert.AreEqual(uct.Count, 0);
+            Assert.That(uct.Count, Is.EqualTo(0));
 
             uct = Parsers.UnclosedTags(@"<source>bar</source> <ref name=Foo>boo</ref>");
-            Assert.AreEqual(uct.Count, 0);
+            Assert.That(uct.Count, Is.EqualTo(0));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name=Foo>boo</ref>");
-            Assert.AreEqual(uct.Count, 0);
+            Assert.That(uct.Count, Is.EqualTo(0));
 
             uct = Parsers.UnclosedTags(@"<source lang=""text"">
 <typename T>
@@ -789,117 +789,117 @@ x
 <std::string, int>
 <int>
 </source>");
-            Assert.AreEqual(uct.Count, 0, "Ignore other tags");
+            Assert.That(uct.Count, Is.EqualTo(0), "Ignore other tags");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <math> not ended");
-            Assert.AreEqual(uct.Count, 1, "math");
+            Assert.That(uct.Count, Is.EqualTo(1), "math");
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(6));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <center> not ended");
-            Assert.AreEqual(uct.Count, 1, "center");
+            Assert.That(uct.Count, Is.EqualTo(1), "center");
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(8));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <center> <center>a</center> not ended");
-            Assert.AreEqual(uct.Count, 1, "center double");
+            Assert.That(uct.Count, Is.EqualTo(1), "center double");
             Assert.IsTrue(uct.ContainsKey(15), "center key");
             Assert.IsTrue(uct.ContainsValue(8), "center value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <sup> <sup>a</sup> not ended");
-            Assert.AreEqual(uct.Count, 1);
+            Assert.That(uct.Count, Is.EqualTo(1));
             Assert.IsTrue(uct.ContainsKey(15), "sup key");
             Assert.IsTrue(uct.ContainsValue(5), "sup value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <sub> <sub>a</sub> not ended");
-            Assert.AreEqual(uct.Count, 1, "sub");
+            Assert.That(uct.Count, Is.EqualTo(1), "sub");
             Assert.IsTrue(uct.ContainsKey(15), "sub key");
             Assert.IsTrue(uct.ContainsValue(5), "sub value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name=<ref name=Foo/> not ended");
-            Assert.AreEqual(uct.Count, 1, "ref");
+            Assert.That(uct.Count, Is.EqualTo(1), "ref");
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(35));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref> not ended");
-            Assert.AreEqual(uct.Count, 1, "ref 2");
+            Assert.That(uct.Count, Is.EqualTo(1), "ref 2");
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(5));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name='foo'> not ended");
-            Assert.AreEqual(uct.Count, 1, "ref name");
+            Assert.That(uct.Count, Is.EqualTo(1), "ref name");
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(16));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <source lang=""bar""> not ended");
-            Assert.AreEqual(uct.Count, 1, "source");
+            Assert.That(uct.Count, Is.EqualTo(1), "source");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <small> not ended");
-            Assert.AreEqual(uct.Count, 1, "small");
+            Assert.That(uct.Count, Is.EqualTo(1), "small");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> < code> not ended");
-            Assert.AreEqual(uct.Count, 1, "code");
+            Assert.That(uct.Count, Is.EqualTo(1), "code");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> < nowiki > not ended");
-            Assert.AreEqual(uct.Count, 1, "nowiki");
+            Assert.That(uct.Count, Is.EqualTo(1), "nowiki");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <pre> not ended");
-            Assert.AreEqual(uct.Count, 1, "pre");
+            Assert.That(uct.Count, Is.EqualTo(1), "pre");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> </pre> not opened");
-            Assert.AreEqual(uct.Count, 1, "/pre");
+            Assert.That(uct.Count, Is.EqualTo(1), "/pre");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <gallery> not ended");
-            Assert.AreEqual(uct.Count, 1, "gallery");
+            Assert.That(uct.Count, Is.EqualTo(1), "gallery");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> </gallery> not opened");
-            Assert.AreEqual(uct.Count, 1, "/gallery");
+            Assert.That(uct.Count, Is.EqualTo(1), "/gallery");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <!-- not ended");
-            Assert.AreEqual(uct.Count, 1, "<!--");
+            Assert.That(uct.Count, Is.EqualTo(1), "<!--");
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<!--bar--> <!-- not ended");
-            Assert.AreEqual(uct.Count, 1, "<!-- 2");
+            Assert.That(uct.Count, Is.EqualTo(1), "<!-- 2");
             Assert.IsTrue(uct.ContainsKey(11));
 
             uct = Parsers.UnclosedTags(@"<!--not ended
 <!--  ended -->");
-            Assert.AreEqual(uct.Count, 1, "Comment within unclosed comment");
+            Assert.That(uct.Count, Is.EqualTo(1), "Comment within unclosed comment");
 
             uct = Parsers.UnclosedTags(@"<gallery> not ended <gallery>bar</gallery>");
-            Assert.AreEqual(uct.Count, 1, "gallery 2");
+            Assert.That(uct.Count, Is.EqualTo(1), "gallery 2");
             Assert.IsTrue(uct.ContainsKey(20));
 
             uct = Parsers.UnclosedTags(@"<gallery other='a'> not ended <gallery other='a'>bar</gallery>");
-            Assert.AreEqual(uct.Count, 1, "gallery param");
+            Assert.That(uct.Count, Is.EqualTo(1), "gallery param");
             Assert.IsTrue(uct.ContainsKey(30));
 
             uct = Parsers.UnclosedTags(@"<gallery>A|<div><small>(1717)</small><br/><small><small>Munich</small></div></gallery>");
-            Assert.AreEqual(uct.Count, 1, "small div");
+            Assert.That(uct.Count, Is.EqualTo(1), "small div");
             Assert.IsTrue(uct.ContainsKey(42));
 
             uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small>");
-            Assert.AreEqual(uct.Count, 12, "multiple unclosed small");
+            Assert.That(uct.Count, Is.EqualTo(12), "multiple unclosed small");
             uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small> <!-- <math> -->");
-            Assert.AreEqual(uct.Count, 12, "multiple unclosed small, ignore comments");
+            Assert.That(uct.Count, Is.EqualTo(12), "multiple unclosed small, ignore comments");
             uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small> <small>></small>");
-            Assert.AreEqual(uct.Count, 14, "multiple unclosed small, but counts tag containing >");
+            Assert.That(uct.Count, Is.EqualTo(14), "multiple unclosed small, but counts tag containing >");
             uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small> <ref name=fo>a</ref> <gallery param=a>b</gallery>");
-            Assert.AreEqual(uct.Count, 12, "multiple unclosed small, don't count ref/gallery with params");
+            Assert.That(uct.Count, Is.EqualTo(12), "multiple unclosed small, don't count ref/gallery with params");
 
             uct = Parsers.UnclosedTags(@"<code>a</code><code>a</code><code>a</code><code>a</code><code>a</code><code>a</code>
 <code>a</code><code>a</code><code>a</code><code>a</code><code>a</code><code>a</code>
 <code> a <some-tag> </code>");
-            Assert.AreEqual(uct.Count, 0, "No unclosed code tags here, don't report code tags just because of another tag");
+            Assert.That(uct.Count, Is.EqualTo(0), "No unclosed code tags here, don't report code tags just because of another tag");
 
             uct = Parsers.UnclosedTags(@"<code> a <'foo'> </code>
 <code> a <'foo'> </code>
@@ -913,7 +913,7 @@ x
 <code> a <'foo'> </code>
 <code> a <'foo'> </code>
 <code> a <'foo'> </code>");
-            Assert.AreEqual(uct.Count, 0, "No unclosed code tags here, ignore what aren't genuine tags");
+            Assert.That(uct.Count, Is.EqualTo(0), "No unclosed code tags here, ignore what aren't genuine tags");
         }
 
         [Test]
@@ -925,159 +925,159 @@ http://example.com/foo
 {{aTemplate|url=
 http://example.com }}");
 
-            StringAssert.Contains("* http://example.com/foo", s);
-            StringAssert.Contains("* [http://example.com foo]", s);
+            Assert.That(s, Does.Contain("* http://example.com/foo"));
+            Assert.That(s, Does.Contain("* [http://example.com foo]"));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_bulleting
-            StringAssert.Contains("\r\nhttp://example.com }}", s);
+            Assert.That(s, Does.Contain("\r\nhttp://example.com }}"));
             
             string NoChange = @"==External links==
 * http://example.com/foo";
-            Assert.AreEqual(NoChange, Parsers.BulletExternalLinks(NoChange));
+            Assert.That(Parsers.BulletExternalLinks(NoChange), Is.EqualTo(NoChange));
         }
 
         [Test]
         public void TestFixLinkWhitespace()
         {
-            Assert.AreEqual("b [[a]] c", Parsers.FixLinkWhitespace("b[[ a ]]c", "foo")); // regexes 1 & 2
-            Assert.AreEqual("b   [[a]]  c", Parsers.FixLinkWhitespace("b   [[ a ]]  c", "foo")); // 4 & 5
+            Assert.That(Parsers.FixLinkWhitespace("b[[ a ]]c", "foo"), Is.EqualTo("b [[a]] c")); // regexes 1 & 2
+            Assert.That(Parsers.FixLinkWhitespace("b   [[ a ]]  c", "foo"), Is.EqualTo("b   [[a]]  c")); // 4 & 5
 
-            Assert.AreEqual("[[a]] b", Parsers.FixLinkWhitespace("[[a ]]b", "foo"));
-            Assert.AreEqual(@"Now
-[[a]] b", Parsers.FixLinkWhitespace(@"Now
-[[a ]]b", "foo"), "wikilink on start of line");
-            Assert.AreEqual("[[a]]" + "\r\n", Parsers.FixLinkWhitespace("[[a ]]" + "\r\n", "foo"));
+            Assert.That(Parsers.FixLinkWhitespace("[[a ]]b", "foo"), Is.EqualTo("[[a]] b"));
+            Assert.That(Parsers.FixLinkWhitespace(@"Now
+[[a ]]b", "foo"), Is.EqualTo(@"Now
+[[a]] b"), "wikilink on start of line");
+            Assert.That(Parsers.FixLinkWhitespace("[[a ]]" + "\r\n", "foo"), Is.EqualTo("[[a]]" + "\r\n"));
 
-            Assert.AreEqual("[[foo bar]]", Parsers.FixLinkWhitespace("[[foo  bar]]", "foot"));
-            Assert.AreEqual("[[foo bar]]", Parsers.FixLinkWhitespace("[[foo  bar]]", ""));
-            Assert.AreEqual("[[foo bar]]", Parsers.FixLinkWhitespace("[[foo     bar]]", "foot"));
-            Assert.AreEqual("dat is [[foo bar]] show!", Parsers.FixLinkWhitespace("dat is [[ foo   bar ]] show!", "foot"));
-            Assert.AreEqual("dat is [[foo bar]] show!", Parsers.FixLinkWhitespace("dat is[[ foo   bar ]]show!", "foot"));
+            Assert.That(Parsers.FixLinkWhitespace("[[foo  bar]]", "foot"), Is.EqualTo("[[foo bar]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[foo  bar]]", ""), Is.EqualTo("[[foo bar]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[foo     bar]]", "foot"), Is.EqualTo("[[foo bar]]"));
+            Assert.That(Parsers.FixLinkWhitespace("dat is [[ foo   bar ]] show!", "foot"), Is.EqualTo("dat is [[foo bar]] show!"));
+            Assert.That(Parsers.FixLinkWhitespace("dat is[[ foo   bar ]]show!", "foot"), Is.EqualTo("dat is [[foo bar]] show!"));
 
-            Assert.AreEqual(@"His [[Tiger Woods#Career]] was", Parsers.FixLinkWhitespace(@"His [[Tiger Woods# Career]] was", "Tiger Woods"));
+            Assert.That(Parsers.FixLinkWhitespace(@"His [[Tiger Woods# Career]] was", "Tiger Woods"), Is.EqualTo(@"His [[Tiger Woods#Career]] was"));
 
             // don't fix when bit before # is not article name
-            Assert.AreNotSame(@"Fred's [[Smith#Career]] was", Parsers.FixLinkWhitespace(@"Fred's [[Smith# Career]] was", "Fred"));
+            Assert.That(Parsers.FixLinkWhitespace(@"Fred's [[Smith# Career]] was", "Fred"), Is.Not.SameAs(@"Fred's [[Smith#Career]] was"));
 
-            Assert.AreEqual(@"[[Category:London| ]]", Parsers.FixLinkWhitespace(@"[[Category:London| ]]", "foo")); // leading space NOT removed from cat sortkey
-            Assert.AreEqual(@"[[Category:Slam poetry| ]] ", Parsers.FixLinkWhitespace(@"[[Category:Slam poetry| ]] ", "foo")); // leading space NOT removed from cat sortkey
+            Assert.That(Parsers.FixLinkWhitespace(@"[[Category:London| ]]", "foo"), Is.EqualTo(@"[[Category:London| ]]")); // leading space NOT removed from cat sortkey
+            Assert.That(Parsers.FixLinkWhitespace(@"[[Category:Slam poetry| ]] ", "foo"), Is.EqualTo(@"[[Category:Slam poetry| ]] ")); // leading space NOT removed from cat sortkey
 
             // shouldn't fix - not enough information
             // Assert.AreEqual("[[ a ]]", Parsers.FixLinkWhitespace("[[ a ]]", "foo"));
             // disabled for the time being to avoid unnecesary clutter
 
-            Assert.AreEqual("[[foo#bar]]", Parsers.FixLinkWhitespace("[[foo #bar]]", "foot"));
-            Assert.AreEqual("[[foo#bar]]", Parsers.FixLinkWhitespace("[[foo # bar]]", "foot"));
-            Assert.AreEqual("[[foo#bar]]", Parsers.FixLinkWhitespace("[[foo# bar]]", "foot"));
-            Assert.AreEqual("[[foo#bar]]te", Parsers.FixLinkWhitespace("[[foo #bar]]te", "foot"));
-            Assert.AreEqual("[[foo#bar|te]]", Parsers.FixLinkWhitespace("[[foo  #bar|te]]", "foot"));
+            Assert.That(Parsers.FixLinkWhitespace("[[foo #bar]]", "foot"), Is.EqualTo("[[foo#bar]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[foo # bar]]", "foot"), Is.EqualTo("[[foo#bar]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[foo# bar]]", "foot"), Is.EqualTo("[[foo#bar]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[foo #bar]]te", "foot"), Is.EqualTo("[[foo#bar]]te"));
+            Assert.That(Parsers.FixLinkWhitespace("[[foo  #bar|te]]", "foot"), Is.EqualTo("[[foo#bar|te]]"));
 
-            Assert.AreEqual(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", Parsers.FixLinkWhitespace(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", "x"), "Does not break section links with hash and space");
+            Assert.That(Parsers.FixLinkWhitespace(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", "x"), Is.EqualTo(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]"), "Does not break section links with hash and space");
 
-            Assert.AreEqual("[[A# code]]", Parsers.FixLinkWhitespace("[[A# code]]", "Test"));
-            Assert.AreEqual("[[C# code]]", Parsers.FixLinkWhitespace("[[C# code]]", "Test"));
-            Assert.AreEqual("[[F# code]]", Parsers.FixLinkWhitespace("[[F# code]]", "Test"));
-            Assert.AreEqual("[[J# code]]", Parsers.FixLinkWhitespace("[[J# code]]", "Test"));
+            Assert.That(Parsers.FixLinkWhitespace("[[A# code]]", "Test"), Is.EqualTo("[[A# code]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[C# code]]", "Test"), Is.EqualTo("[[C# code]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[F# code]]", "Test"), Is.EqualTo("[[F# code]]"));
+            Assert.That(Parsers.FixLinkWhitespace("[[J# code]]", "Test"), Is.EqualTo("[[J# code]]"));
 
-            Assert.AreEqual("<ref>[[abcdef-abcdef-abcdef-abcdef-abcdef-abcdef-abcdef]]</ref>", Parsers.FixLinkWhitespace("<ref>[[ abcdef-abcdef-abcdef-abcdef-abcdef-abcdef-abcdef]]</ref>", "foo"));
+            Assert.That(Parsers.FixLinkWhitespace("<ref>[[ abcdef-abcdef-abcdef-abcdef-abcdef-abcdef-abcdef]]</ref>", "foo"), Is.EqualTo("<ref>[[abcdef-abcdef-abcdef-abcdef-abcdef-abcdef-abcdef]]</ref>"));
         }
 
         [Test]
         public void TestCanonicalizeTitle()
         {
-            Assert.AreEqual("foo bar", Parsers.CanonicalizeTitle("foo_bar"));
-            Assert.AreEqual("foo bar", Parsers.CanonicalizeTitle("foo bar"));
-            Assert.AreEqual("foo (bar)", Parsers.CanonicalizeTitle("foo_%28bar%29"));
-            Assert.AreEqual(@"foo+bar", Parsers.CanonicalizeTitle(@"foo%2Bbar"));
-            Assert.AreEqual("foo (bar)", Parsers.CanonicalizeTitle("foo_(bar)"));
-            Assert.AreEqual("Template:foo bar", Parsers.CanonicalizeTitle("Template:foo_bar"));
-            Assert.AreEqual("W202 (1993–2000)", Parsers.CanonicalizeTitle("W202 %281993%E2%80%932000%29"));
+            Assert.That(Parsers.CanonicalizeTitle("foo_bar"), Is.EqualTo("foo bar"));
+            Assert.That(Parsers.CanonicalizeTitle("foo bar"), Is.EqualTo("foo bar"));
+            Assert.That(Parsers.CanonicalizeTitle("foo_%28bar%29"), Is.EqualTo("foo (bar)"));
+            Assert.That(Parsers.CanonicalizeTitle(@"foo%2Bbar"), Is.EqualTo(@"foo+bar"));
+            Assert.That(Parsers.CanonicalizeTitle("foo_(bar)"), Is.EqualTo("foo (bar)"));
+            Assert.That(Parsers.CanonicalizeTitle("Template:foo_bar"), Is.EqualTo("Template:foo bar"));
+            Assert.That(Parsers.CanonicalizeTitle("W202 %281993%E2%80%932000%29"), Is.EqualTo("W202 (1993–2000)"));
 
-            Assert.AreEqual("foo_bar}}", Parsers.CanonicalizeTitle("foo_bar}}"), "no change to invalid title");
+            Assert.That(Parsers.CanonicalizeTitle("foo_bar}}"), Is.EqualTo("foo_bar}}"), "no change to invalid title");
 
             // it may or may not fix it, but shouldn't break anything
-            StringAssert.Contains("{{bar_boz}}", Parsers.CanonicalizeTitle("foo_bar{{bar_boz}}"));
+            Assert.That(Parsers.CanonicalizeTitle("foo_bar{{bar_boz}}"), Does.Contain("{{bar_boz}}"));
 
             Variables.UnderscoredTitles.Add(@"Foo bar");
-            Assert.AreEqual("foo_bar", Parsers.CanonicalizeTitle("foo_bar"));
-            Assert.AreEqual("Foo_bar", Parsers.CanonicalizeTitle("Foo_bar"));
+            Assert.That(Parsers.CanonicalizeTitle("foo_bar"), Is.EqualTo("foo_bar"));
+            Assert.That(Parsers.CanonicalizeTitle("Foo_bar"), Is.EqualTo("Foo_bar"));
         }
 
         [Test]
         public void CanonicalizeTitleAggressively()
         {
-            Assert.AreEqual("Foo", Parsers.CanonicalizeTitleAggressively("Foo"));
+            Assert.That(Parsers.CanonicalizeTitleAggressively("Foo"), Is.EqualTo("Foo"));
 
-            Assert.AreEqual("Foo (bar)", Parsers.CanonicalizeTitleAggressively("foo_%28bar%29#anchor"));
-            Assert.AreEqual("Wikipedia:Foo", Parsers.CanonicalizeTitleAggressively("project : foo"));
-            Assert.AreEqual("File:Foo.jpg", Parsers.CanonicalizeTitleAggressively("Image: foo.jpg "));
+            Assert.That(Parsers.CanonicalizeTitleAggressively("foo_%28bar%29#anchor"), Is.EqualTo("Foo (bar)"));
+            Assert.That(Parsers.CanonicalizeTitleAggressively("project : foo"), Is.EqualTo("Wikipedia:Foo"));
+            Assert.That(Parsers.CanonicalizeTitleAggressively("Image: foo.jpg "), Is.EqualTo("File:Foo.jpg"));
 
             // a bit of ambiguousness here, but
             // https://en.wikipedia.org/wiki/Wikipedia:AWB/B#Problem_.28on_runecape_wikia.29_with_articles_with_.2B_in_the_name.
-            Assert.AreEqual("Romeo+Juliet", Parsers.CanonicalizeTitleAggressively("Romeo+Juliet"));
+            Assert.That(Parsers.CanonicalizeTitleAggressively("Romeo+Juliet"), Is.EqualTo("Romeo+Juliet"));
 
-            Assert.AreEqual("Foo", Parsers.CanonicalizeTitleAggressively(":Foo"));
-            Assert.AreEqual("Foo", Parsers.CanonicalizeTitleAggressively(": Foo"));
-            Assert.AreEqual(":Foo", Parsers.CanonicalizeTitleAggressively("::Foo"));
-            Assert.AreEqual("User:Foo", Parsers.CanonicalizeTitleAggressively(":user:Foo"));
+            Assert.That(Parsers.CanonicalizeTitleAggressively(":Foo"), Is.EqualTo("Foo"));
+            Assert.That(Parsers.CanonicalizeTitleAggressively(": Foo"), Is.EqualTo("Foo"));
+            Assert.That(Parsers.CanonicalizeTitleAggressively("::Foo"), Is.EqualTo(":Foo"));
+            Assert.That(Parsers.CanonicalizeTitleAggressively(":user:Foo"), Is.EqualTo("User:Foo"));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#List_of_.22User_talk:.22_pages_change_to_list_of_.22Talk:.22_pages_when_started
-            Assert.AreEqual("User talk:Foo", Parsers.CanonicalizeTitleAggressively("User talk:Foo"));
+            Assert.That(Parsers.CanonicalizeTitleAggressively("User talk:Foo"), Is.EqualTo("User talk:Foo"));
         }
 
         [Test]
         public void TestFixEmptyLinksAndTemplates()
         {
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates(""));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates(""), Is.Empty);
 
-            Assert.AreEqual("Test", Parsers.FixEmptyLinksAndTemplates("Test"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("Test"), Is.EqualTo("Test"));
 
-            Assert.AreEqual("{{Test}}", Parsers.FixEmptyLinksAndTemplates("{{Test}}"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("{{Test}}"), Is.EqualTo("{{Test}}"));
 
-            Assert.AreEqual("Test\r\n{{Test}}", Parsers.FixEmptyLinksAndTemplates("Test\r\n{{Test}}"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("Test\r\n{{Test}}"), Is.EqualTo("Test\r\n{{Test}}"));
 
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{}}"));
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{ }}"));
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{|}}"));
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{||||||||||||||||}}"));
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{|||| |||||||                      ||  |||}}"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("{{}}"), Is.Empty);
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("{{ }}"), Is.Empty);
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("{{|}}"), Is.Empty);
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("{{||||||||||||||||}}"), Is.Empty);
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("{{|||| |||||||                      ||  |||}}"), Is.Empty);
 
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{Template:}}"), "Template:");
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{Template: }}"), "Template: with space");
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{Template:     |||}}"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("{{Template:}}"), Is.Empty, "Template:");
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("{{Template: }}"), Is.Empty, "Template: with space");
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("{{Template:     |||}}"), Is.Empty);
 
-            Assert.AreEqual("{{Test}}", Parsers.FixEmptyLinksAndTemplates("{{  }}{{Test}}{{Template: ||}}"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("{{  }}{{Test}}{{Template: ||}}"), Is.EqualTo("{{Test}}"));
 
-            Assert.AreEqual("[[Test]]", Parsers.FixEmptyLinksAndTemplates("[[Test]]"));
-            Assert.AreEqual("[[Test|Bar]]", Parsers.FixEmptyLinksAndTemplates("[[Test|Bar]]"));
-            Assert.AreEqual("[[|Bar]]", Parsers.FixEmptyLinksAndTemplates("[[|Bar]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[Test]]"), Is.EqualTo("[[Test]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[Test|Bar]]"), Is.EqualTo("[[Test|Bar]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[|Bar]]"), Is.EqualTo("[[|Bar]]"));
 
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[]]"));
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[[[  ]]]]"));
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[  ]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[]]"), Is.Empty);
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[[[  ]]]]"), Is.Empty);
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[  ]]"), Is.Empty);
 
-            Assert.AreEqual("[[Category:Test]]", Parsers.FixEmptyLinksAndTemplates("[[Category:Test]]"));
-            Assert.AreEqual("Text [[Category:Test]]", Parsers.FixEmptyLinksAndTemplates("Text [[Category:Test]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[Category:Test]]"), Is.EqualTo("[[Category:Test]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("Text [[Category:Test]]"), Is.EqualTo("Text [[Category:Test]]"));
 
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[Category:]]"));
-            Assert.AreEqual("Text ", Parsers.FixEmptyLinksAndTemplates("Text [[Category:]]"));
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[Category:  ]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[Category:]]"), Is.Empty);
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("Text [[Category:]]"), Is.EqualTo("Text "));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[Category:  ]]"), Is.Empty);
 
-            Assert.AreEqual("[[Image:Test]]", Parsers.FixEmptyLinksAndTemplates("[[Image:Test]]"));
-            Assert.AreEqual("Text [[Image:Test]]", Parsers.FixEmptyLinksAndTemplates("Text [[Image:Test]]"));
-            Assert.AreEqual("[[File:Test]]", Parsers.FixEmptyLinksAndTemplates("[[File:Test]]"));
-            Assert.AreEqual("Text [[File:Test]]", Parsers.FixEmptyLinksAndTemplates("Text [[File:Test]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[Image:Test]]"), Is.EqualTo("[[Image:Test]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("Text [[Image:Test]]"), Is.EqualTo("Text [[Image:Test]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[File:Test]]"), Is.EqualTo("[[File:Test]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("Text [[File:Test]]"), Is.EqualTo("Text [[File:Test]]"));
 
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[Image:]]"));
-            Assert.AreEqual("Text ", Parsers.FixEmptyLinksAndTemplates("Text [[Image:]]"));
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[Image:  ]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[Image:]]"), Is.Empty);
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("Text [[Image:]]"), Is.EqualTo("Text "));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[Image:  ]]"), Is.Empty);
 
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:]]"));
-            Assert.AreEqual("Text ", Parsers.FixEmptyLinksAndTemplates("Text [[File:]]"));
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:  ]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[File:]]"), Is.Empty);
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("Text [[File:]]"), Is.EqualTo("Text "));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[File:  ]]"), Is.Empty);
 
-            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:]][[Image:]]"));
-            Assert.AreEqual("[[File:Test]]", Parsers.FixEmptyLinksAndTemplates("[[File:Test]][[Image:]]"));
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[File:]][[Image:]]"), Is.Empty);
+            Assert.That(Parsers.FixEmptyLinksAndTemplates("[[File:Test]][[Image:]]"), Is.EqualTo("[[File:Test]]"));
         }
     }
 }

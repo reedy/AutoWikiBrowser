@@ -70,22 +70,22 @@ namespace UnitTests
 
         private void AssertFix(string expected, string articleText, string articleTitle)
         {
-            Assert.AreEqual(expected, FixTypos(articleText, articleTitle));
+            Assert.That(FixTypos(articleText, articleTitle), Is.EqualTo(expected));
         }
 
         private void AssertFix(string expected, string articleText)
         {
-            Assert.AreEqual(expected, FixTypos(articleText));
+            Assert.That(FixTypos(articleText), Is.EqualTo(expected));
         }
 
         private void AssertNoFix(string articleText, string articleTitle)
         {
-            Assert.AreEqual(articleText, FixTypos(articleText, articleTitle));
+            Assert.That(FixTypos(articleText, articleTitle), Is.EqualTo(articleText));
         }
 
         private void AssertNoFix(string articleText)
         {
-            Assert.AreEqual(articleText, FixTypos(articleText));
+            Assert.That(FixTypos(articleText), Is.EqualTo(articleText));
         }
         #endregion
 

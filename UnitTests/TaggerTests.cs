@@ -195,7 +195,7 @@ namespace UnitTests
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to more citations needed when no refs 3");
             Assert.IsTrue(text.Contains("more citations needed"), "Unref when no refs 4");
-            Assert.AreEqual(Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex("more citations needed").Match(text).Value, "date"), "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", "Date updated on change of template name");
+            Assert.That(Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex("more citations needed").Match(text).Value, "date"), Is.EqualTo("{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"), "Date updated on change of template name");
 
             text = parser.Tagger(@"{{Multiple issues|{{COI|date= February 2009}}{{unreferenced|date= April 2007}}}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when has refs");
@@ -214,27 +214,27 @@ namespace UnitTests
 
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} {{more citations needed|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref removed when more citations needed");
-            Assert.AreEqual(1, Tools.NestedTemplateRegex("more citations needed").Matches(text).Count);
+            Assert.That(Tools.NestedTemplateRegex("more citations needed").Matches(text).Count, Is.EqualTo(1));
 
             text = parser.Tagger(ShortText + @"==Sec==
 {{unreferenced|section=yes|date=May 2010}} {{more citations needed|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(text), "Unref retained when section template");
 
             text = parser.Tagger(ShortText + @"{{BLP unsourced|date=May 2010}} {{BLP sources|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
-            Assert.AreEqual(0, Tools.NestedTemplateRegex("BLP unsourced").Matches(text).Count);
-            Assert.AreEqual(1, Tools.NestedTemplateRegex("BLP sources").Matches(text).Count);
+            Assert.That(Tools.NestedTemplateRegex("BLP unsourced").Matches(text).Count, Is.EqualTo(0));
+            Assert.That(Tools.NestedTemplateRegex("BLP sources").Matches(text).Count, Is.EqualTo(1));
 
             text = parser.Tagger(ShortText + @"{{BLP unsourced|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
-            Assert.AreEqual(0, Tools.NestedTemplateRegex("BLP unsourced").Matches(text).Count);
-            Assert.AreEqual(1, Tools.NestedTemplateRegex("BLP sources").Matches(text).Count);
+            Assert.That(Tools.NestedTemplateRegex("BLP unsourced").Matches(text).Count, Is.EqualTo(0));
+            Assert.That(Tools.NestedTemplateRegex("BLP sources").Matches(text).Count, Is.EqualTo(1));
 
             text = parser.Tagger(ShortText + @"{{multiple issues|
 {{unreferenced|date=May 2010}}
 {{more citations needed|date=May 2010}}
 }} <ref>foo[[bar]]</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref removed when refimprove");
-            Assert.AreEqual(1, Tools.NestedTemplateRegex("more citations needed").Matches(text).Count);
-            Assert.AreEqual(0, Tools.NestedTemplateRegex("multiple issues").Matches(text).Count, "Multiple issues removed if unref removed ant MI no longer needed");
+            Assert.That(Tools.NestedTemplateRegex("more citations needed").Matches(text).Count, Is.EqualTo(1));
+            Assert.That(Tools.NestedTemplateRegex("multiple issues").Matches(text).Count, Is.EqualTo(0), "Multiple issues removed if unref removed ant MI no longer needed");
         }
 
         [Test]
@@ -302,11 +302,11 @@ namespace UnitTests
  
             text = parser.Tagger(ShortText + Stub + Uncat + Wikify + Orphan + Deadend, "Test", false, out noChange, ref summary);
             // Tagged article, dupe tags shouldn't be added
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Stub), text));
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(UncatStub), text));
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Wikify), text));
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Orphan), text));
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Deadend), text));
+            Assert.That(Tools.RegexMatchCount(Regex.Escape(Stub), text), Is.EqualTo(1));
+            Assert.That(Tools.RegexMatchCount(Regex.Escape(UncatStub), text), Is.EqualTo(1));
+            Assert.That(Tools.RegexMatchCount(Regex.Escape(Wikify), text), Is.EqualTo(1));
+            Assert.That(Tools.RegexMatchCount(Regex.Escape(Orphan), text), Is.EqualTo(1));
+            Assert.That(Tools.RegexMatchCount(Regex.Escape(Deadend), text), Is.EqualTo(1));
 
             text = parser.Tagger(ShortText + Stub, "Test", false, out noChange, ref summary);
             // Stub, existing stub tag
@@ -317,7 +317,7 @@ namespace UnitTests
 
             Assert.IsFalse(text.Contains(Uncat));
 
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Stub), text));
+            Assert.That(Tools.RegexMatchCount(Regex.Escape(Stub), text), Is.EqualTo(1));
 
             text = parser.Tagger(ShortText + ShortText, "Test", false, out noChange, ref summary);
             // Not a stub
@@ -894,8 +894,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             // wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
-            Assert.AreEqual(text, text1, "check whether wikify tag is removed properly");
-            Assert.AreEqual(text1, text2, "check whether stub tag is removed properly");
+            Assert.That(text1, Is.EqualTo(text), "check whether wikify tag is removed properly");
+            Assert.That(text2, Is.EqualTo(text1), "check whether stub tag is removed properly");
 
             text = parser.Tagger("{{wikify|reason=something}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
 
@@ -948,7 +948,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
 [[foo]]", "List of Tests", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text, "[[foo]]");
+            Assert.That(text, Is.EqualTo("[[foo]]"));
 
             // Don't remove when few parameter set
             text = parser.Tagger("{{orphan|few=a}}", "Test", false, out noChange, ref summary);
@@ -960,7 +960,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 }}[[foo]]", "List of Tests", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(text));
-            Assert.AreEqual(text, "[[foo]]");
+            Assert.That(text, Is.EqualTo("[[foo]]"));
 
             Globals.UnitTestBoolValue = true;
 
@@ -985,11 +985,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // Test if orphan tag is removed properly. Use wikilink and disambig to prevent tagging for wikify, deadend and stub
             text = parser.Tagger("{{orphan}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text, "{{orphan}}[[foo]]{{disambig}}");
+            Assert.That(text, Is.EqualTo("{{orphan}}[[foo]]{{disambig}}"));
             
             text = parser.Tagger("{{يتيمة}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text, "[[foo]]{{disambig}}");
+            Assert.That(text, Is.EqualTo("[[foo]]{{disambig}}"));
 
 
             Globals.UnitTestBoolValue = true;
@@ -1015,11 +1015,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // Test if orphan tag is removed properly. Use wikilink and disambig to prevent tagging for wikify, deadend and stub
             text = parser.Tagger("{{orphan}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text, "{{orphan}}[[foo]]{{disambig}}");
+            Assert.That(text, Is.EqualTo("{{orphan}}[[foo]]{{disambig}}"));
             
             text = parser.Tagger("{{يتيمه}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text, "[[foo]]{{disambig}}");
+            Assert.That(text, Is.EqualTo("[[foo]]{{disambig}}"));
 
             Globals.UnitTestBoolValue = true;
             Variables.SetProjectLangCode("en");
@@ -1044,11 +1044,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // Test if orphan tag is removed properly. Use wikilink and disambig to prevent tagging for wikify, deadend and stub
             text = parser.Tagger("{{orphan}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text, "{{orphan}}[[foo]]{{disambig}}");
+            Assert.That(text, Is.EqualTo("{{orphan}}[[foo]]{{disambig}}"));
             
             text = parser.Tagger("{{Föräldralös}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text, "[[foo]]{{disambig}}");
+            Assert.That(text, Is.EqualTo("[[foo]]{{disambig}}"));
 
             Globals.UnitTestBoolValue = true;
             Variables.SetProjectLangCode("en");
@@ -1080,7 +1080,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             // Assert.AreEqual(text,text1,"check whether wikify tag is removed properly");
-            Assert.AreEqual(text1, text2, "check whether stub tag is removed properly");
+            Assert.That(text2, Is.EqualTo(text1), "check whether stub tag is removed properly");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -1111,7 +1111,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             // Assert.AreEqual(text,text1,"check whether wikify tag is removed properly");
-            Assert.AreEqual(text1, text2, "check whether stub tag is removed properly");
+            Assert.That(text2, Is.EqualTo(text1), "check whether stub tag is removed properly");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -1134,7 +1134,13 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsTrue(summary.Contains("removed deadend tag"));
 
             Globals.UnitTestBoolValue = false;
-            Assert.AreEqual(@"{{multiple issues|
+            Assert.That(parser.Tagger(@"{{multiple issues|
+{{dead end|date=September 2012}}
+{{expert-subject|1=History|date=September 2012}}
+{{Unreferenced|date=December 2006}}
+}}
+
+''Now'' [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary), Is.EqualTo(@"{{multiple issues|
 {{expert-subject|1=History|date=September 2012}}
 {{Unreferenced|date=December 2006}}
 }}
@@ -1142,13 +1148,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 ''Now'' [[a]] and [[b]] and [[b]]
 
 
-{{stub}}", parser.Tagger(@"{{multiple issues|
-{{dead end|date=September 2012}}
-{{expert-subject|1=History|date=September 2012}}
-{{Unreferenced|date=December 2006}}
-}}
-
-''Now'' [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary));
+{{stub}}"));
 
             Globals.UnitTestBoolValue = true;
 
@@ -1276,41 +1276,41 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             string correct = @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
 
-            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify}}"), "tags undated tag");
-            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify|date=}}"), "tags undated tag");
-            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify|dates=}}"), "tags undated tag");
-            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify|date}}"), "tags undated tag");
-            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify|Date=}}"), "tags undated tag");
-            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{Template:wikify}}"), "tags undated tag, removes template namespace");
-            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{template:wikify}}"), "tags undated tag, removes template namespace");
-            Assert.AreEqual(correct.Replace("wik", "Wik"), Parsers.TagUpdater(@"{{Wikify}}"), "tags undated tag, keeping existing template case");
+            Assert.That(Parsers.TagUpdater(@"{{wikify}}"), Is.EqualTo(correct), "tags undated tag");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=}}"), Is.EqualTo(correct), "tags undated tag");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|dates=}}"), Is.EqualTo(correct), "tags undated tag");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date}}"), Is.EqualTo(correct), "tags undated tag");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|Date=}}"), Is.EqualTo(correct), "tags undated tag");
+            Assert.That(Parsers.TagUpdater(@"{{Template:wikify}}"), Is.EqualTo(correct), "tags undated tag, removes template namespace");
+            Assert.That(Parsers.TagUpdater(@"{{template:wikify}}"), Is.EqualTo(correct), "tags undated tag, removes template namespace");
+            Assert.That(Parsers.TagUpdater(@"{{Wikify}}"), Is.EqualTo(correct.Replace("wik", "Wik")), "tags undated tag, keeping existing template case");
 
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|Date=May 2010}}"), "corrects Date --> date");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|Date-May 2010}}"), "corrects date- --> date=");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date-=May 2010}}"), "corrects date-= --> date=");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|Date-=May 2010}}"), "corrects date-= --> date=");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date-May 2010}}"), "corrects date- --> date=");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|May 2010}}"), "corrects unnamed date parameter");
-            Assert.AreEqual(@"{{wikify|date=May 2010 }}", Parsers.TagUpdater(@"{{wikify|May 2010 }}"), "corrects unnamed date parameter");
-            Assert.AreEqual(@"{{multiple issues {{wikify|date=May 2010 }} }}", Parsers.TagUpdater(@"{{multiple issues {{wikify|May 2010 }} }}"), "corrects unnamed date parameter, nested template");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|Date=May 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects Date --> date");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|Date-May 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects date- --> date=");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date-=May 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects date-= --> date=");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|Date-=May 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects date-= --> date=");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date-May 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects date- --> date=");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|May 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects unnamed date parameter");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|May 2010 }}"), Is.EqualTo(@"{{wikify|date=May 2010 }}"), "corrects unnamed date parameter");
+            Assert.That(Parsers.TagUpdater(@"{{multiple issues {{wikify|May 2010 }} }}"), Is.EqualTo(@"{{multiple issues {{wikify|date=May 2010 }} }}"), "corrects unnamed date parameter, nested template");
 
-            Assert.AreEqual(@"{{wikify|section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.TagUpdater(@"{{wikify|section}}"), "supports templates with additional arguments");
-            Assert.AreEqual(@"{{wikify|section|other={{foo}} bar|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.TagUpdater(@"{{wikify|section|other={{foo}} bar}}"), "supports templates with additional arguments");
-            Assert.AreEqual(@"{{wikify|section|other={{foo}}|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.TagUpdater(@"{{wikify|section|other={{foo}}}}"), "supports templates with additional arguments");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|section}}"), Is.EqualTo(@"{{wikify|section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "supports templates with additional arguments");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|section|other={{foo}} bar}}"), Is.EqualTo(@"{{wikify|section|other={{foo}} bar|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "supports templates with additional arguments");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|section|other={{foo}}}}"), Is.EqualTo(@"{{wikify|section|other={{foo}}|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "supports templates with additional arguments");
 
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=May, 2010}}"), "removes excess comma");
-            Assert.AreEqual(@"{{wikify|date=May 2, 2010}}", Parsers.TagUpdater(@"{{wikify|date=May 2, 2010}}"), "American date not altered");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=May, 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "removes excess comma");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=May 2, 2010}}"), Is.EqualTo(@"{{wikify|date=May 2, 2010}}"), "American date not altered");
 
             WikiRegexes.DatedTemplates.Clear();
             WikiRegexes.DatedTemplates.Add("Wikify");
-            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify}}"), "first letter casing of template rule does not matter");
+            Assert.That(Parsers.TagUpdater(@"{{wikify}}"), Is.EqualTo(correct), "first letter casing of template rule does not matter");
 
             const string commentedOut = @"<!-- {{wikify}} -->";
-            Assert.AreEqual(commentedOut, Parsers.TagUpdater(commentedOut), "ignores commented out tags");
+            Assert.That(Parsers.TagUpdater(commentedOut), Is.EqualTo(commentedOut), "ignores commented out tags");
 
             WikiRegexes.DatedTemplates.Add("Clarify");
             string nochange = @"{{Clarify|date=May 2014|reason=Use Template:Cite web or similar}}";
-            Assert.AreEqual(nochange, Parsers.TagUpdater(nochange));
+            Assert.That(Parsers.TagUpdater(nochange), Is.EqualTo(nochange));
         }
 
         [Test]
@@ -1318,24 +1318,24 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
             WikiRegexes.DatedTemplates.Add("Dead link");
             WikiRegexes.DatedTemplates.Add("Wikify");
-            Assert.AreEqual(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date=" + System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish) + @"}}</ref>", Parsers.TagUpdater(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link}}</ref>"));
+            Assert.That(Parsers.TagUpdater(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link}}</ref>"), Is.EqualTo(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date=" + System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish) + @"}}</ref>"));
 
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=may 2010}}"), "corrects lower case month name");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=May, 2010}}"), "removes comma between month and year");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=11 May 2010}}"), "removes day in International date");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=07 May 2010}}"), "removes day in International date");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=11 may 2010}}"), "corrects lower case month name, removes day in International date");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=2010-05-13}}"), "corrects lower case month name");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=MAY 2010}}"), "corrects upper case month name");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=MAy 2010}}"), "corrects mixed case month name");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=may 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects lower case month name");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=May, 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "removes comma between month and year");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=11 May 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "removes day in International date");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=07 May 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "removes day in International date");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=11 may 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects lower case month name, removes day in International date");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=2010-05-13}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects lower case month name");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=MAY 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects upper case month name");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=MAy 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "corrects mixed case month name");
 
             const string subst = @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-            Assert.AreEqual(subst, Parsers.TagUpdater(subst), "no change when value is subst month/year");
+            Assert.That(Parsers.TagUpdater(subst), Is.EqualTo(subst), "no change when value is subst month/year");
 
             const string notSubst = @"{{wikify|date={{CURRENTMONTHNAME}} {{CURRENTYEAR}}}}";
-            Assert.AreEqual(notSubst, Parsers.TagUpdater(notSubst), "no change when value is non-subst month/year keywords");
+            Assert.That(Parsers.TagUpdater(notSubst), Is.EqualTo(notSubst), "no change when value is non-subst month/year keywords");
 
-            Assert.AreEqual(@"{{wikify|date=December 2024<!-- primarily from edits on 2024-03-21 by User: -->}}", Parsers.TagUpdater(@"{{wikify|date=December 2024<!-- primarily from edits on 2024-03-21 by User: -->}}"), "Handles comment");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=December 2024<!-- primarily from edits on 2024-03-21 by User: -->}}"), Is.EqualTo(@"{{wikify|date=December 2024<!-- primarily from edits on 2024-03-21 by User: -->}}"), "Handles comment");
         }
 
         [Test]
@@ -1347,12 +1347,12 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
 
-            Assert.AreEqual(@"{{wikify|تاريخ=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=May 2010}}"), "Renames date= when localized");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=May 2010}}"), Is.EqualTo(@"{{wikify|تاريخ=May 2010}}"), "Renames date= when localized");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
 
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=May 2010}}"), "");
+            Assert.That(Parsers.TagUpdater(@"{{wikify|date=May 2010}}"), Is.EqualTo(@"{{wikify|date=May 2010}}"), "");
             #endif
         }
 
@@ -1360,10 +1360,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void General()
         {
             Globals.UnitTestBoolValue = false;
-            Assert.AreEqual("#REDIRECT [[Test]]", parser.Tagger("#REDIRECT [[Test]]", "Test", false, out noChange, ref summary));
+            Assert.That(parser.Tagger("#REDIRECT [[Test]]", "Test", false, out noChange, ref summary), Is.EqualTo("#REDIRECT [[Test]]"));
             Assert.IsTrue(noChange);
 
-            Assert.AreEqual(ShortText, parser.Tagger(ShortText, "Talk:Test", false, out noChange, ref summary));
+            Assert.That(parser.Tagger(ShortText, "Talk:Test", false, out noChange, ref summary), Is.EqualTo(ShortText));
             Assert.IsTrue(noChange);
 
             string text = parser.Tagger("{{Test Template}}", "Test", false, out noChange, ref summary);
@@ -1407,17 +1407,17 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
             string correct = @"{{citation needed|date=May 2010}}";
 
-            Assert.AreEqual(correct, Parsers.Conversions(@"{{citation needed|May 2010|date=May 2010}}"));
-            Assert.AreEqual(correct, Parsers.Conversions(@"{{citation needed|may 2010|date=May 2010}}"));
-            Assert.AreEqual(correct, Parsers.Conversions(@"{{citation needed|  May 2010  |date=May 2010}}"));
-            Assert.AreEqual(correct.Replace("ci", "Ci"), Parsers.Conversions(@"{{Citation needed|May 2010|date=May 2010}}"));
+            Assert.That(Parsers.Conversions(@"{{citation needed|May 2010|date=May 2010}}"), Is.EqualTo(correct));
+            Assert.That(Parsers.Conversions(@"{{citation needed|may 2010|date=May 2010}}"), Is.EqualTo(correct));
+            Assert.That(Parsers.Conversions(@"{{citation needed|  May 2010  |date=May 2010}}"), Is.EqualTo(correct));
+            Assert.That(Parsers.Conversions(@"{{Citation needed|May 2010|date=May 2010}}"), Is.EqualTo(correct.Replace("ci", "Ci")));
         }
 
         [Test]
         public void MultipleIssuesNoTags()
         {
-            Assert.AreEqual("", parser.MultipleIssues("{{multiple issues}}"));
-            Assert.AreEqual("{{Advert|date=May 2012}}", parser.MultipleIssues(@"{{multiple issues}}{{Advert|date=May 2012}}"));
+            Assert.That(parser.MultipleIssues("{{multiple issues}}"), Is.Empty);
+            Assert.That(parser.MultipleIssues(@"{{multiple issues}}{{Advert|date=May 2012}}"), Is.EqualTo("{{Advert|date=May 2012}}"));
         }
 
         [Test]
@@ -1429,7 +1429,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 |cleanup=July 2009
 |wikify=July 2009}}";
 
-            Assert.AreEqual(bug2, Parsers.Conversions(bug2));
+            Assert.That(Parsers.Conversions(bug2), Is.EqualTo(bug2));
 
             const string ManyInSection  = @"==Section==
 {{multiple issues |
@@ -1439,11 +1439,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 {{multiple issues |
 {{refimprove}}
 }}";
-            Assert.AreEqual(ManyInSection, parser.MultipleIssues(ManyInSection));
+            Assert.That(parser.MultipleIssues(ManyInSection), Is.EqualTo(ManyInSection));
 
             const string dupe  = @"{{unreferenced}}
 {{unreferenced}}";
-            Assert.AreEqual(dupe, parser.MultipleIssues(dupe));
+            Assert.That(parser.MultipleIssues(dupe), Is.EqualTo(dupe));
 
             const string LaterInSection = @"Bats.
 
@@ -1457,20 +1457,20 @@ The.
 }}
 
 Chris.";
-            Assert.AreEqual(LaterInSection, parser.MultipleIssues(LaterInSection));
+            Assert.That(parser.MultipleIssues(LaterInSection), Is.EqualTo(LaterInSection));
         }
 
         [Test]
         public void RedirectTaggerModDashes()
         {
             const string correct = @"#REDIRECT:[[Foo–bar]] {{R from modification}}", redirectendash = @"#REDIRECT:[[Foo–bar]]";
-            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectendash, "Foo-bar"));
+            Assert.That(Parsers.RedirectTagger(redirectendash, "Foo-bar"), Is.EqualTo(correct));
 
             // already tagged
-            Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "Foo-bar"));
+            Assert.That(Parsers.RedirectTagger(correct, "Foo-bar"), Is.EqualTo(correct));
 
             // different change
-            Assert.AreEqual(redirectendash, Parsers.RedirectTagger(redirectendash, "Foo barism"));
+            Assert.That(Parsers.RedirectTagger(redirectendash, "Foo barism"), Is.EqualTo(redirectendash));
         }
 
         [Test]
@@ -1479,29 +1479,29 @@ Chris.";
             const string correct = @"#REDIRECT:[[Foo .bar]] {{R from modification}}", redirectpunct = @"#REDIRECT:[[Foo .bar]]";
 
             // removed punct
-            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectpunct, "Foo bar"));
+            Assert.That(Parsers.RedirectTagger(redirectpunct, "Foo bar"), Is.EqualTo(correct));
 
             // different punct
-            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectpunct, "Foo /bar"));
+            Assert.That(Parsers.RedirectTagger(redirectpunct, "Foo /bar"), Is.EqualTo(correct));
 
             // extra punct
-            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectpunct, "Foo ..bar"));
+            Assert.That(Parsers.RedirectTagger(redirectpunct, "Foo ..bar"), Is.EqualTo(correct));
 
             // other changes in addition to punctuation
-            Assert.AreEqual(redirectpunct, Parsers.RedirectTagger(redirectpunct, "Foo ..bar (long)"));
+            Assert.That(Parsers.RedirectTagger(redirectpunct, "Foo ..bar (long)"), Is.EqualTo(redirectpunct));
         }
 
         [Test]
         public void RedirectTaggerDiacr()
         {
             const string correct = @"#REDIRECT:[[Fiancée]] {{R to diacritic}}", redirectaccent = @"#REDIRECT:[[Fiancée]]";
-            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectaccent, "Fiancee"));
+            Assert.That(Parsers.RedirectTagger(redirectaccent, "Fiancee"), Is.EqualTo(correct));
 
             // already tagged
-            Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "Fiancee"));
+            Assert.That(Parsers.RedirectTagger(correct, "Fiancee"), Is.EqualTo(correct));
 
             // different change
-            Assert.AreEqual(redirectaccent, Parsers.RedirectTagger(redirectaccent, "Fiancee-bar"));
+            Assert.That(Parsers.RedirectTagger(redirectaccent, "Fiancee-bar"), Is.EqualTo(redirectaccent));
         }
 
         [Test]
@@ -1511,45 +1511,45 @@ Chris.";
             const string redirecttext2 = @"#REDIRECT:[[foo bar]]";
 
             // skips recursive redirects
-            Assert.AreEqual(redirecttext, Parsers.RedirectTagger(redirecttext, "Foo bar"));
-            Assert.AreEqual(redirecttext2, Parsers.RedirectTagger(redirecttext2, "Foo bar"));
-            Assert.AreEqual(redirecttext, Parsers.RedirectTagger(redirecttext, "foo bar"));
+            Assert.That(Parsers.RedirectTagger(redirecttext, "Foo bar"), Is.EqualTo(redirecttext));
+            Assert.That(Parsers.RedirectTagger(redirecttext2, "Foo bar"), Is.EqualTo(redirecttext2));
+            Assert.That(Parsers.RedirectTagger(redirecttext, "foo bar"), Is.EqualTo(redirecttext));
 
             // skips if not a redirect
             string notredirect = @"Now foo bar";
-            Assert.AreEqual(notredirect, Parsers.RedirectTagger(notredirect, "Foo bar"));
+            Assert.That(Parsers.RedirectTagger(notredirect, "Foo bar"), Is.EqualTo(notredirect));
 
             // don't tag if already tagged
             string alreadytagged = @"#REDIRECT [[Bethune's Gully]] {{R from alternative spelling}}";
 
-            Assert.AreEqual(alreadytagged, Parsers.RedirectTagger(alreadytagged, @"""Bethune's Gully"""));
+            Assert.That(Parsers.RedirectTagger(alreadytagged, @"""Bethune's Gully"""), Is.EqualTo(alreadytagged));
         }
 
         [Test]
         public void RedirectTaggerCapitalisation()
         {
             const string correct = @"#REDIRECT:[[FooBar]] {{R from other capitalisation}}", redirectCap = @"#REDIRECT:[[FooBar]]";
-            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "Foobar"));
-            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "foobar"));
-            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "FOObar"));
+            Assert.That(Parsers.RedirectTagger(redirectCap, "Foobar"), Is.EqualTo(correct));
+            Assert.That(Parsers.RedirectTagger(redirectCap, "foobar"), Is.EqualTo(correct));
+            Assert.That(Parsers.RedirectTagger(redirectCap, "FOObar"), Is.EqualTo(correct));
         }
 
         [Test]
         public void RedirectTaggerOtherNamespace()
         {
-            Assert.AreEqual(@"#REDIRECT:[[Project:FooBar]] {{R to project namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Project:FooBar]]", "FooBar"));
-            Assert.AreEqual(@"#REDIRECT:[[Help:FooBar]] {{R to help namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Help:FooBar]]", "FooBar"));
-            Assert.AreEqual(@"#REDIRECT:[[Portal:FooBar]] {{R to portal namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Portal:FooBar]]", "FooBar"));
-            Assert.AreEqual(@"#REDIRECT:[[Template:FooBar]] {{R to template namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Template:FooBar]]", "FooBar"));
-            Assert.AreEqual(@"#REDIRECT:[[Category:FooBar]] {{R to category namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Category:FooBar]]", "FooBar"));
-            Assert.AreEqual(@"#REDIRECT:[[User:FooBar]] {{R to user namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[User:FooBar]]", "FooBar"));
-            Assert.AreEqual(@"#REDIRECT:[[Talk:FooBar]] {{R to talk namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Talk:FooBar]]", "FooBar"));
-            Assert.AreEqual(@"#REDIRECT:[[Template talk:FooBar]]", Parsers.RedirectTagger(@"#REDIRECT:[[Template talk:FooBar]]", "FooBar"), "No change for unsupported namespace");
+            Assert.That(Parsers.RedirectTagger(@"#REDIRECT:[[Project:FooBar]]", "FooBar"), Is.EqualTo(@"#REDIRECT:[[Project:FooBar]] {{R to project namespace}}"));
+            Assert.That(Parsers.RedirectTagger(@"#REDIRECT:[[Help:FooBar]]", "FooBar"), Is.EqualTo(@"#REDIRECT:[[Help:FooBar]] {{R to help namespace}}"));
+            Assert.That(Parsers.RedirectTagger(@"#REDIRECT:[[Portal:FooBar]]", "FooBar"), Is.EqualTo(@"#REDIRECT:[[Portal:FooBar]] {{R to portal namespace}}"));
+            Assert.That(Parsers.RedirectTagger(@"#REDIRECT:[[Template:FooBar]]", "FooBar"), Is.EqualTo(@"#REDIRECT:[[Template:FooBar]] {{R to template namespace}}"));
+            Assert.That(Parsers.RedirectTagger(@"#REDIRECT:[[Category:FooBar]]", "FooBar"), Is.EqualTo(@"#REDIRECT:[[Category:FooBar]] {{R to category namespace}}"));
+            Assert.That(Parsers.RedirectTagger(@"#REDIRECT:[[User:FooBar]]", "FooBar"), Is.EqualTo(@"#REDIRECT:[[User:FooBar]] {{R to user namespace}}"));
+            Assert.That(Parsers.RedirectTagger(@"#REDIRECT:[[Talk:FooBar]]", "FooBar"), Is.EqualTo(@"#REDIRECT:[[Talk:FooBar]] {{R to talk namespace}}"));
+            Assert.That(Parsers.RedirectTagger(@"#REDIRECT:[[Template talk:FooBar]]", "FooBar"), Is.EqualTo(@"#REDIRECT:[[Template talk:FooBar]]"), "No change for unsupported namespace");
 
             const string correct = @"#REDIRECT:[[Category:FooBar]] {{R to category namespace}}", redirectNam = @"#REDIRECT:[[Category:FooBar]]";
 
-            Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "FooBar"), "No change when already tagged");
-            Assert.AreEqual(redirectNam, Parsers.RedirectTagger(redirectNam, "Template:FooBar"), "Not tagged when redirect not in mainspace");
+            Assert.That(Parsers.RedirectTagger(correct, "FooBar"), Is.EqualTo(correct), "No change when already tagged");
+            Assert.That(Parsers.RedirectTagger(redirectNam, "Template:FooBar"), Is.EqualTo(redirectNam), "Not tagged when redirect not in mainspace");
         }
 
         [Test]
@@ -1557,8 +1557,8 @@ Chris.";
         {
             const string correct = @"#REDIRECT:[[Foo#Bar]] {{R to section}}";
 
-            Assert.AreEqual(correct, Parsers.RedirectTagger(@"#REDIRECT:[[Foo#Bar]]", "Foo"), "Tag r to section");
-            Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "Foo"), "No change when already tagged");
+            Assert.That(Parsers.RedirectTagger(@"#REDIRECT:[[Foo#Bar]]", "Foo"), Is.EqualTo(correct), "Tag r to section");
+            Assert.That(Parsers.RedirectTagger(correct, "Foo"), Is.EqualTo(correct), "No change when already tagged");
         }
 
         [Test]
@@ -1658,28 +1658,28 @@ foo
         public void RegularCategories()
         {
             List<Article> Cats = new List<Article>();
-            Assert.AreEqual(0, Parsers.RegularCategories(Cats).Count);
+            Assert.That(Parsers.RegularCategories(Cats).Count, Is.EqualTo(0));
 
             Cats.Add(new Article("Category:Foo"));
-            Assert.AreEqual(1, Parsers.RegularCategories(Cats).Count);
+            Assert.That(Parsers.RegularCategories(Cats).Count, Is.EqualTo(1));
 
             Cats.Add(new Article("Category:Bar"));
             Cats.Add(new Article("Category:Some stubs"));
             Cats.Add(new Article("Category:A :Stubs"));
             Cats.Add(new Article("Category:Stubs"));
-            Assert.AreEqual(2, Parsers.RegularCategories(Cats).Count);
+            Assert.That(Parsers.RegularCategories(Cats).Count, Is.EqualTo(2));
 
             Cats.Add(new Article("Category:Proposed deletion"));
             Cats.Add(new Article("Category:Foo proposed deletions"));
             Cats.Add(new Article("Category:Foo proposed for deletion"));
             Cats.Add(new Article("Category:Articles created via the Article Wizard"));
-            Assert.AreEqual(2, Parsers.RegularCategories(Cats).Count);
+            Assert.That(Parsers.RegularCategories(Cats).Count, Is.EqualTo(2));
 
             Cats.Clear();
-            Assert.AreEqual(0, Parsers.RegularCategories("").Count);
-            Assert.AreEqual(1, Parsers.RegularCategories("[[Category:Foo]]").Count);
-            Assert.AreEqual(1, Parsers.RegularCategories("[[Category:Foo]] [[Category:Some stubs]]").Count);
-            Assert.AreEqual(1, Parsers.RegularCategories("[[Category:Foo]] <!--[[Category:Bar]]-->").Count);
+            Assert.That(Parsers.RegularCategories("").Count, Is.EqualTo(0));
+            Assert.That(Parsers.RegularCategories("[[Category:Foo]]").Count, Is.EqualTo(1));
+            Assert.That(Parsers.RegularCategories("[[Category:Foo]] [[Category:Some stubs]]").Count, Is.EqualTo(1));
+            Assert.That(Parsers.RegularCategories("[[Category:Foo]] <!--[[Category:Bar]]-->").Count, Is.EqualTo(1));
         }
     }
 }

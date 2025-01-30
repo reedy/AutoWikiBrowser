@@ -38,71 +38,71 @@ namespace UnitTests
         [Test]
         public void TestBrConverter()
         {
-            Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("*a<br>\r\nb"));
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a<br>"), "Br removed at end of list when list is end of text");
-            Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("*a<br><br>\r\nb"));
-            Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("\r\n*a<br>\r\nb"));
-            Assert.AreEqual("foo\r\n*a\r\nb", Parsers.FixSyntax("foo\r\n*a<br>\r\nb"));
+            Assert.That(Parsers.FixSyntax("*a<br>\r\nb"), Is.EqualTo("*a\r\nb"));
+            Assert.That(Parsers.FixSyntax("*a<br>"), Is.EqualTo("*a"), "Br removed at end of list when list is end of text");
+            Assert.That(Parsers.FixSyntax("*a<br><br>\r\nb"), Is.EqualTo("*a\r\nb"));
+            Assert.That(Parsers.FixSyntax("\r\n*a<br>\r\nb"), Is.EqualTo("*a\r\nb"));
+            Assert.That(Parsers.FixSyntax("foo\r\n*a<br>\r\nb"), Is.EqualTo("foo\r\n*a\r\nb"));
             const string correct1 = "foo\r\n*a<br>b";
-            Assert.AreEqual(correct1, Parsers.FixSyntax(correct1), "No change to br tag in middle of list line");
+            Assert.That(Parsers.FixSyntax(correct1), Is.EqualTo(correct1), "No change to br tag in middle of list line");
 
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a<br>\r\n")); // \r\n\ trimmed
+            Assert.That(Parsers.FixSyntax("*a<br>\r\n"), Is.EqualTo("*a")); // \r\n\ trimmed
 
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a<br\\>\r\n"));
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a<br/>\r\n"));
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br\\> \r\n"));
+            Assert.That(Parsers.FixSyntax("*a<br\\>\r\n"), Is.EqualTo("*a"));
+            Assert.That(Parsers.FixSyntax("*a<br/>\r\n"), Is.EqualTo("*a"));
+            Assert.That(Parsers.FixSyntax("*a <br\\> \r\n"), Is.EqualTo("*a"));
 
             // leading (back)slash is hack for incorrectly formatted breaks per
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#br_tags_are_not_always_removed
             // remove <br> from lists (end of list line)
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a </br/> \r\n"));
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a<br\\> \r\n"));
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a <\\br\\>\r\n"));
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a     <br\\>    \r\n"));
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br/>\r\n"));
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br/ >\r\n"));
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br / >\r\n"));
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br / >\t\r\n"),"Contains trailing tabs");
-            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br / >\t\t\r\n"),"Contains trailing tabs");
+            Assert.That(Parsers.FixSyntax("*a </br/> \r\n"), Is.EqualTo("*a"));
+            Assert.That(Parsers.FixSyntax("*a<br\\> \r\n"), Is.EqualTo("*a"));
+            Assert.That(Parsers.FixSyntax("*a <\\br\\>\r\n"), Is.EqualTo("*a"));
+            Assert.That(Parsers.FixSyntax("*a     <br\\>    \r\n"), Is.EqualTo("*a"));
+            Assert.That(Parsers.FixSyntax("*a <br/>\r\n"), Is.EqualTo("*a"));
+            Assert.That(Parsers.FixSyntax("*a <br/ >\r\n"), Is.EqualTo("*a"));
+            Assert.That(Parsers.FixSyntax("*a <br / >\r\n"), Is.EqualTo("*a"));
+            Assert.That(Parsers.FixSyntax("*a <br / >\t\r\n"), Is.EqualTo("*a"), "Contains trailing tabs");
+            Assert.That(Parsers.FixSyntax("*a <br / >\t\t\r\n"), Is.EqualTo("*a"), "Contains trailing tabs");
 
-            Assert.AreEqual("*:#;a\r\n*b", Parsers.FixSyntax("*:#;a<br>\r\n*b"));
-            Assert.AreEqual("###;;;:::***a\r\nb", Parsers.FixSyntax("###;;;:::***a<br />\r\nb"));
-            Assert.AreEqual("*&a\r\nb", Parsers.FixSyntax("*&a<br/>\r\nb"));
-            Assert.AreEqual("*&a\r\nb", Parsers.FixSyntax("*&a<br/>\t\r\nb"));
+            Assert.That(Parsers.FixSyntax("*:#;a<br>\r\n*b"), Is.EqualTo("*:#;a\r\n*b"));
+            Assert.That(Parsers.FixSyntax("###;;;:::***a<br />\r\nb"), Is.EqualTo("###;;;:::***a\r\nb"));
+            Assert.That(Parsers.FixSyntax("*&a<br/>\r\nb"), Is.EqualTo("*&a\r\nb"));
+            Assert.That(Parsers.FixSyntax("*&a<br/>\t\r\nb"), Is.EqualTo("*&a\r\nb"));
 
-            Assert.AreEqual("&*a<br>\r\nb", Parsers.FixSyntax("&*a<br>\r\nb"));
-            Assert.AreEqual("*a\r\n<br>\r\nb", Parsers.FixSyntax("*a\r\n<br>\r\nb"));
+            Assert.That(Parsers.FixSyntax("&*a<br>\r\nb"), Is.EqualTo("&*a<br>\r\nb"));
+            Assert.That(Parsers.FixSyntax("*a\r\n<br>\r\nb"), Is.EqualTo("*a\r\n<br>\r\nb"));
         }
 
         [Test]
         public void BrAfterMaintanceTemplate()
         {
-            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br>"), "br after a maintance template");
-            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br/>"), "br after a maintance template");
-            Assert.AreEqual("{{Orphan|date=September 2015}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}<br />"), "br after a maintance template");
-            Assert.AreEqual("{{Orphan|date=September 2015}}{{Infobox person|name=John<br>Smith}}", Parsers.FixSyntax("{{Orphan|date=September 2015}}{{Infobox person|name=John<br>Smith}}"), "do not affect any other br tags");
-            Assert.AreEqual("{{long ton|37|10}}<br>", Parsers.FixSyntax("{{long ton|37|10}}<br>"), "avoid replacements in after inline templates");
+            Assert.That(Parsers.FixSyntax("{{Orphan|date=September 2015}}<br>"), Is.EqualTo("{{Orphan|date=September 2015}}"), "br after a maintance template");
+            Assert.That(Parsers.FixSyntax("{{Orphan|date=September 2015}}<br/>"), Is.EqualTo("{{Orphan|date=September 2015}}"), "br after a maintance template");
+            Assert.That(Parsers.FixSyntax("{{Orphan|date=September 2015}}<br />"), Is.EqualTo("{{Orphan|date=September 2015}}"), "br after a maintance template");
+            Assert.That(Parsers.FixSyntax("{{Orphan|date=September 2015}}{{Infobox person|name=John<br>Smith}}"), Is.EqualTo("{{Orphan|date=September 2015}}{{Infobox person|name=John<br>Smith}}"), "do not affect any other br tags");
+            Assert.That(Parsers.FixSyntax("{{long ton|37|10}}<br>"), Is.EqualTo("{{long ton|37|10}}<br>"), "avoid replacements in after inline templates");
         }
 
         [Test]
         public void SyntaxRegexListRowBrTagStart()
         {
-            Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br>\r\n*abc"));
-            Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br> \r\n*abc"));
-            Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br/> \r\n*abc"));
-            Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br /> \r\n*abc"));
-            Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br / > \r\n*abc"));
+            Assert.That(parser.FixBrParagraphs("x<br>\r\n*abc"), Is.EqualTo("x\r\n*abc"));
+            Assert.That(parser.FixBrParagraphs("x<br> \r\n*abc"), Is.EqualTo("x\r\n*abc"));
+            Assert.That(parser.FixBrParagraphs("x<br/> \r\n*abc"), Is.EqualTo("x\r\n*abc"));
+            Assert.That(parser.FixBrParagraphs("x<br /> \r\n*abc"), Is.EqualTo("x\r\n*abc"));
+            Assert.That(parser.FixBrParagraphs("x<br / > \r\n*abc"), Is.EqualTo("x\r\n*abc"));
 
             genFixes.AssertNotChanged(@"{{{Foo|
 param=<br>
 **text
 **text1 }}");
 
-            Assert.AreEqual(@"** Blog x
+            Assert.That(parser.FixBrParagraphs(@"** Blog x
+<br>
+<br>
+'''No"), Is.EqualTo(@"** Blog x
 
-'''No", parser.FixBrParagraphs(@"** Blog x
-<br>
-<br>
 '''No"));
         }
 
@@ -110,131 +110,131 @@ param=<br>
         public void TestFixHeadings()
         {
             // breaks if article title is empty
-            Assert.AreEqual("==foo==", Parsers.FixHeadings("=='''foo'''==", "Heading with bold"));
-            Assert.AreEqual("== foo ==", Parsers.FixHeadings("== '''foo''' ==", "Heading with bold and space"));
-            Assert.AreEqual("==  foo  ==", Parsers.FixHeadings("==  '''foo'''  ==", "Heading with bold and more than one space"));
-            StringAssert.StartsWith("==foo==", Parsers.FixHeadings("=='''foo'''==\r\n", "test"));
-            Assert.AreEqual("quux\r\n\r\n==foo==\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"));
-            Assert.AreEqual("quux\r\n\r\n==foo==\r\n\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
+            Assert.That(Parsers.FixHeadings("=='''foo'''==", "Heading with bold"), Is.EqualTo("==foo=="));
+            Assert.That(Parsers.FixHeadings("== '''foo''' ==", "Heading with bold and space"), Is.EqualTo("== foo =="));
+            Assert.That(Parsers.FixHeadings("==  '''foo'''  ==", "Heading with bold and more than one space"), Is.EqualTo("==  foo  =="));
+            Assert.That(Parsers.FixHeadings("=='''foo'''==\r\n", "test"), Does.StartWith("==foo=="));
+            Assert.That(Parsers.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"), Is.EqualTo("quux\r\n\r\n==foo==\r\nbar"));
+            Assert.That(Parsers.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"), Is.EqualTo("quux\r\n\r\n==foo==\r\n\r\nbar"));
 
-            Assert.AreEqual("==foo==", Parsers.FixHeadings("==foo==", "No change"));
-            Assert.AreEqual("== foo ==", Parsers.FixHeadings("== foo ==", "No change"));
+            Assert.That(Parsers.FixHeadings("==foo==", "No change"), Is.EqualTo("==foo=="));
+            Assert.That(Parsers.FixHeadings("== foo ==", "No change"), Is.EqualTo("== foo =="));
 
-            Assert.AreEqual(@"hi.
+            Assert.That(Parsers.FixHeadings(@"hi.
+ ==News==
+Some news here.", "test"), Is.EqualTo(@"hi.
 
 ==News==
-Some news here.", Parsers.FixHeadings(@"hi.
- ==News==
-Some news here.", "test"));
-            Assert.AreEqual(@"hi.
-
-==News place==
-Some news here.", Parsers.FixHeadings(@"hi.
+Some news here."));
+            Assert.That(Parsers.FixHeadings(@"hi.
  ==News place==
-Some news here.", "test"));
-            Assert.AreEqual(@"hi.
+Some news here.", "test"), Is.EqualTo(@"hi.
 
 ==News place==
-Some news here.", Parsers.FixHeadings(@"hi.
+Some news here."));
+            Assert.That(Parsers.FixHeadings(@"hi.
     ==News place==
-Some news here.", "test"));
-            Assert.AreEqual(@"hi.
+Some news here.", "test"), Is.EqualTo(@"hi.
 
 ==News place==
-Some news here.", Parsers.FixHeadings(@"hi.
+Some news here."));
+            Assert.That(Parsers.FixHeadings(@"hi.
 ==News place==
-Some news here.", "test"));
-            Assert.AreEqual(@"hi.
+Some news here.", "test"), Is.EqualTo(@"hi.
 
 ==News place==
-Some news here.", Parsers.FixHeadings(@"hi.
+Some news here."));
+            Assert.That(Parsers.FixHeadings(@"hi.
 
 ==News place==
-Some news here.", "test"), "space trimmed from end of paragraph");
-
-            Assert.AreEqual(@"hi.
+Some news here.", "test"), Is.EqualTo(@"hi.
 
 ==News place==
-Some news here.", Parsers.FixHeadings(@"hi.
+Some news here."), "space trimmed from end of paragraph");
+
+            Assert.That(Parsers.FixHeadings(@"hi.
 <br>
 ==News place==
-Some news here.", "test"), "space trimmed from end of paragraph when br replaces newline");
-
-            Assert.AreEqual(@"hi.
+Some news here.", "test"), Is.EqualTo(@"hi.
 
 ==News place==
-Some news here.", Parsers.FixHeadings(@"hi.
+Some news here."), "space trimmed from end of paragraph when br replaces newline");
+
+            Assert.That(Parsers.FixHeadings(@"hi.
 <br>
 <BR>
 <BR>
 ==News place==
-Some news here.", "test"), "space trimmed from end of paragraph when br replaces newline");
+Some news here.", "test"), Is.EqualTo(@"hi.
+
+==News place==
+Some news here."), "space trimmed from end of paragraph when br replaces newline");
         }
 
         [Test]
         public void TestFixHeadingsRenaming()
         {
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCES==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENSES==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCE==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
-            Assert.AreEqual(@"== References ==", Parsers.FixHeadings(@"== REFERENCES ==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Reference==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Refferences==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Referrences==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Refferrences==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Refrences==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Reffrences==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Refrence==", "a"));
-            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==SOURCES==", "a"));
-            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==sources==", "a"));
-            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==source==", "a"));
-            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==source:==", "a"));
-            Assert.AreEqual(@"== Sources ==", Parsers.FixHeadings(@"== SOURCES ==", "a"));
-            Assert.AreEqual(@"==  Sources  ==", Parsers.FixHeadings(@"==  SOURCES  ==", "a"));
+            Assert.That(Parsers.FixHeadings(@"==REFERENCES==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==REFERENCE:==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==REFERENSES==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==REFERENCE==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==REFERENCE:==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"== REFERENCES ==", "a"), Is.EqualTo(@"== References =="));
+            Assert.That(Parsers.FixHeadings(@"==Reference==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==Refferences==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==Referrences==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==Refferrences==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==Refrences==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==Reffrences==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==Refrence==", "a"), Is.EqualTo(@"==References=="));
+            Assert.That(Parsers.FixHeadings(@"==SOURCES==", "a"), Is.EqualTo(@"==Sources=="));
+            Assert.That(Parsers.FixHeadings(@"==sources==", "a"), Is.EqualTo(@"==Sources=="));
+            Assert.That(Parsers.FixHeadings(@"==source==", "a"), Is.EqualTo(@"==Sources=="));
+            Assert.That(Parsers.FixHeadings(@"==source:==", "a"), Is.EqualTo(@"==Sources=="));
+            Assert.That(Parsers.FixHeadings(@"== SOURCES ==", "a"), Is.EqualTo(@"== Sources =="));
+            Assert.That(Parsers.FixHeadings(@"==  SOURCES  ==", "a"), Is.EqualTo(@"==  Sources  =="));
 
-            Assert.AreEqual(@"==Further reading==
-            bar bar
-            
-==External links==
-*http://foo.com", Parsers.FixHeadings(@"==Further reading==
+            Assert.That(Parsers.FixHeadings(@"==Further reading==
             bar bar
             
 ==External Links==
-*http://foo.com", "a"));
+*http://foo.com", "a"), Is.EqualTo(@"==Further reading==
+            bar bar
+            
+==External links==
+*http://foo.com"));
 
-            Assert.AreEqual(@"some text
+            Assert.That(Parsers.FixHeadings(@"some text
 
-==See also==", Parsers.FixHeadings(@"some text
+==Also see==", "test"), Is.EqualTo(@"some text
 
-==Also see==", "test"), "rename also see to see also section");
+==See also=="), "rename also see to see also section");
 
-            Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Also see==", "test"), "rename also see to see also section");
-            Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Internal links==", "test"), "rename to see also section");
-            Assert.AreEqual(@"==See also==", Parsers.FixHeadings(@"==Related articles==", "test"), "rename to see also section");
-            Assert.AreEqual(@"Foo
-
-==See also==
-Bar", Parsers.FixHeadings(@"Foo
+            Assert.That(Parsers.FixHeadings(@"==Also see==", "test"), Is.EqualTo(@"==See also=="), "rename also see to see also section");
+            Assert.That(Parsers.FixHeadings(@"==Internal links==", "test"), Is.EqualTo(@"==See also=="), "rename to see also section");
+            Assert.That(Parsers.FixHeadings(@"==Related articles==", "test"), Is.EqualTo(@"==See also=="), "rename to see also section");
+            Assert.That(Parsers.FixHeadings(@"Foo
 
 ==See Also==
-Bar", "test"), "See Also capitalization");
-            Assert.AreEqual(@"===Related articles===", Parsers.FixHeadings(@"===Related articles===", "test"), "do nothing if level 3");
-            Assert.AreEqual(@"some text
+Bar", "test"), Is.EqualTo(@"Foo
 
-===Related articles===", Parsers.FixHeadings(@"some text
+==See also==
+Bar"), "See Also capitalization");
+            Assert.That(Parsers.FixHeadings(@"===Related articles===", "test"), Is.EqualTo(@"===Related articles==="), "do nothing if level 3");
+            Assert.That(Parsers.FixHeadings(@"some text
 
-===Related articles===", "test"), "do nothing if level 3");
+===Related articles===", "test"), Is.EqualTo(@"some text
 
-            Assert.AreEqual(@"Foo
+===Related articles==="), "do nothing if level 3");
 
-==External links==
-Bar", Parsers.FixHeadings(@"Foo
+            Assert.That(Parsers.FixHeadings(@"Foo
 
 ==External Links==
-Bar", "test"), "External Links capitalization");
+Bar", "test"), Is.EqualTo(@"Foo
+
+==External links==
+Bar"), "External Links capitalization");
         }
 
         [Test]
@@ -252,141 +252,141 @@ Words there.
 B", "Foo");
             Assert.IsTrue(HeadingEqualTitle.Contains("Foo"), "Heading same as title in later section retained");
 
-            Assert.AreEqual(@"'''The'''.
-
-== History ==
-
-Five", Parsers.FixHeadings(@"'''The'''.
+            Assert.That(Parsers.FixHeadings(@"'''The'''.
 
 == History ==	 
  		 
-Five", "a"));
+Five", "a"), Is.EqualTo(@"'''The'''.
+
+== History ==
+
+Five"));
         }
 
         [Test]
         public void TestFixHeadingsColon()
         {
             // remove colon from end of heading text
-            Assert.AreEqual(@"== hello world ==
-", Parsers.FixHeadings(@"== hello world: ==
-", "a"), "removes colon");
-            Assert.AreEqual(@"== hello world  ==
-", Parsers.FixHeadings(@"== hello world : ==
-", "a"), "removes colon with space");
-            Assert.AreEqual(@"== hello world ==
-", Parsers.FixHeadings(@"=== hello world: ===
-", "a"), "removes colon - header level 3");
-            Assert.AreEqual(@"== hello world ==
+            Assert.That(Parsers.FixHeadings(@"== hello world: ==
+", "a"), Is.EqualTo(@"== hello world ==
+"), "removes colon");
+            Assert.That(Parsers.FixHeadings(@"== hello world : ==
+", "a"), Is.EqualTo(@"== hello world  ==
+"), "removes colon with space");
+            Assert.That(Parsers.FixHeadings(@"=== hello world: ===
+", "a"), Is.EqualTo(@"== hello world ==
+"), "removes colon - header level 3");
+            Assert.That(Parsers.FixHeadings(@"== hello world: ==
+== hello world2: ==
+", "a"), Is.EqualTo(@"== hello world ==
 
 == hello world2 ==
-", Parsers.FixHeadings(@"== hello world: ==
-== hello world2: ==
-", "a"), "removes colons from multiple places");
+"), "removes colons from multiple places");
 
-            Assert.AreEqual(@"== hello world ==
+            Assert.That(Parsers.FixHeadings(@"== hello world: == 
+== hello world2: ==
+", "a"), Is.EqualTo(@"== hello world ==
 
 == hello world2 ==
-", Parsers.FixHeadings(@"== hello world: == 
-== hello world2: ==
-", "a"), "fixes colon in heading when excess whitespace after heading end");
+"), "fixes colon in heading when excess whitespace after heading end");
 
             // no change if colon within heading text
-            Assert.AreEqual(@"== hello:world ==
-", Parsers.FixHeadings(@"== hello:world ==
-", "a"));
+            Assert.That(Parsers.FixHeadings(@"== hello:world ==
+", "a"), Is.EqualTo(@"== hello:world ==
+"));
 
-            Assert.AreEqual(@"== : ==
-", Parsers.FixHeadings(@"== : ==
-", "a"));
-            Assert.AreEqual(@"A
+            Assert.That(Parsers.FixHeadings(@"== : ==
+", "a"), Is.EqualTo(@"== : ==
+"));
+            Assert.That(Parsers.FixHeadings(@"A
+ == hello world: ==
+", "a"), Is.EqualTo(@"A
 
 == hello world ==
-", Parsers.FixHeadings(@"A
- == hello world: ==
-", "a"));
+"));
         }
 
         [Test]
         public void TestFixHeadingsBrRemoval()
         {
-            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo<br>==", "a"));
-            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo<br />==", "a"));
-            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo< BR >==", "a"));
+            Assert.That(Parsers.FixHeadings(@"==Foo<br>==", "a"), Is.EqualTo(@"==Foo=="));
+            Assert.That(Parsers.FixHeadings(@"==Foo<br />==", "a"), Is.EqualTo(@"==Foo=="));
+            Assert.That(Parsers.FixHeadings(@"==Foo< BR >==", "a"), Is.EqualTo(@"==Foo=="));
         }
 
         [Test]
         public void TestFixHeadingsBigRemoval()
         {
-            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==<big>Foo</big>==", "a"));
-            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==<Big>Foo</big>==", "a"));
+            Assert.That(Parsers.FixHeadings(@"==<big>Foo</big>==", "a"), Is.EqualTo(@"==Foo=="));
+            Assert.That(Parsers.FixHeadings(@"==<Big>Foo</big>==", "a"), Is.EqualTo(@"==Foo=="));
         }
 
         [Test]
         public void TestFixHeadingsRemoveTwoLevels()
         {
             // single heading
-            Assert.AreEqual(@"==hello==
-text", Parsers.FixHeadings(@"====hello====
-text", "a"));
+            Assert.That(Parsers.FixHeadings(@"====hello====
+text", "a"), Is.EqualTo(@"==hello==
+text"));
 
             // multiple
-            Assert.AreEqual(@"==hello==
+            Assert.That(Parsers.FixHeadings(@"====hello====
+text
+==== hello2 ====
+texty
+===== hello3 =====
+", "a"), Is.EqualTo(@"==hello==
 text
 
 == hello2 ==
 texty
 
 === hello3 ===
-", Parsers.FixHeadings(@"====hello====
-text
-==== hello2 ====
-texty
-===== hello3 =====
-", "a"));
+"));
 
             // level 1 not altered
-            Assert.AreEqual(@"=level1=
+            Assert.That(Parsers.FixHeadings(@"=level1=
+text
+====hello====
+", "a"), Is.EqualTo(@"=level1=
 text
 
 ==hello==
-", Parsers.FixHeadings(@"=level1=
-text
-====hello====
-", "a"));
+"));
 
             // no changes if already a level two
-            Assert.AreEqual(@"==hi==
+            Assert.That(Parsers.FixHeadings(@"==hi==
 
 ====hello====
-", Parsers.FixHeadings(@"==hi==
+", "a"), Is.EqualTo(@"==hi==
 
 ====hello====
-", "a"));
+"));
 
             // no changes on level 1 only
-            Assert.AreEqual(@"=hello=
-text", Parsers.FixHeadings(@"=hello=
-text", "a"));
+            Assert.That(Parsers.FixHeadings(@"=hello=
+text", "a"), Is.EqualTo(@"=hello=
+text"));
 
             // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
             // single heading
-            Assert.AreEqual(@"==hello==
+            Assert.That(Parsers.FixHeadings(@"====hello====
+text
+==References==
+foo", "a"), Is.EqualTo(@"==hello==
 text
 
 ==References==
-foo", Parsers.FixHeadings(@"====hello====
-text
-==References==
-foo", "a"));
+foo"));
 
-            Assert.AreEqual(@"==hello==
+            Assert.That(Parsers.FixHeadings(@"====hello====
+text
+==External links==
+foo", "a"), Is.EqualTo(@"==hello==
 text
 
 ==External links==
-foo", Parsers.FixHeadings(@"====hello====
-text
-==External links==
-foo", "a"));
+foo"));
 
             Assert.IsTrue(Parsers.FixHeadings(@"====hello====
 text
@@ -400,15 +400,15 @@ text
 ==See also=="));
 
             // no change
-            Assert.AreEqual(@"==hello==
+            Assert.That(Parsers.FixHeadings(@"==hello==
 text
 
 ==References==
-foo", Parsers.FixHeadings(@"==hello==
+foo", "a"), Is.EqualTo(@"==hello==
 text
 
 ==References==
-foo", "a"));
+foo"));
 
             // don't apply where level 3 headings after references/external links/see also
             const string a = @"====hello====
@@ -419,7 +419,7 @@ foo
 
 ===bar===
 foo2";
-            Assert.AreEqual(a, Parsers.FixHeadings(a, "a"));
+            Assert.That(Parsers.FixHeadings(a, "a"), Is.EqualTo(a));
 
             const string a2 = @"text
 
@@ -428,43 +428,43 @@ foo
 
 ===bar===
 foo2";
-            Assert.AreEqual(a2, Parsers.FixHeadings(a2, "a"));
+            Assert.That(Parsers.FixHeadings(a2, "a"), Is.EqualTo(a2));
 
             // only apply on mainspace
-            Assert.AreEqual(@"====hello====
-text", Parsers.FixHeadings(@"====hello====
-text", "Talk:foo"));
+            Assert.That(Parsers.FixHeadings(@"====hello====
+text", "Talk:foo"), Is.EqualTo(@"====hello====
+text"));
         }
 
         [Test]
         public void TestFixHeadingsBoldRemoval()
         {
-            Assert.AreEqual(@"=== Caernarvon 1536-1832 ===", Parsers.FixHeadings(@"=== '''Caernarvon''' 1536-1832 ===", "a"));
-            Assert.AreEqual(@"=== Caernarvon 1536-1832 ===", Parsers.FixHeadings(@"=== <b>Caernarvon</b> 1536-1832 ===", "a"));
-            Assert.AreEqual(@"=== Caernarvon 1536-1832 ===", Parsers.FixHeadings(@"=== <B>Caernarvon</B> 1536-1832 ===", "a"));
-            Assert.AreEqual(@"===Caernarvon 1536-1832===", Parsers.FixHeadings(@"==='''Caernarvon''' 1536-1832===", "a"));
-            Assert.AreEqual(@"=== Caernarvon 1536-1832 ===", Parsers.FixHeadings(@"=== Caernarvon '''1536-1832''' ===", "a"));
-            Assert.AreEqual(@"=== Caernarvon 1536-1832 ===", Parsers.FixHeadings(@"=== '''Caernarvon 1536-1832''' ===", "a"));
-            Assert.AreEqual(@"==== Caernarvon 1536-1832 ====", Parsers.FixHeadings(@"==== '''Caernarvon 1536-1832''' ====", "a"));
+            Assert.That(Parsers.FixHeadings(@"=== '''Caernarvon''' 1536-1832 ===", "a"), Is.EqualTo(@"=== Caernarvon 1536-1832 ==="));
+            Assert.That(Parsers.FixHeadings(@"=== <b>Caernarvon</b> 1536-1832 ===", "a"), Is.EqualTo(@"=== Caernarvon 1536-1832 ==="));
+            Assert.That(Parsers.FixHeadings(@"=== <B>Caernarvon</B> 1536-1832 ===", "a"), Is.EqualTo(@"=== Caernarvon 1536-1832 ==="));
+            Assert.That(Parsers.FixHeadings(@"==='''Caernarvon''' 1536-1832===", "a"), Is.EqualTo(@"===Caernarvon 1536-1832==="));
+            Assert.That(Parsers.FixHeadings(@"=== Caernarvon '''1536-1832''' ===", "a"), Is.EqualTo(@"=== Caernarvon 1536-1832 ==="));
+            Assert.That(Parsers.FixHeadings(@"=== '''Caernarvon 1536-1832''' ===", "a"), Is.EqualTo(@"=== Caernarvon 1536-1832 ==="));
+            Assert.That(Parsers.FixHeadings(@"==== '''Caernarvon 1536-1832''' ====", "a"), Is.EqualTo(@"==== Caernarvon 1536-1832 ===="));
 
             // not at level 1 or 2
-            Assert.AreEqual(@"== '''Caernarvon''' 1536-1832 ==", Parsers.FixHeadings(@"== '''Caernarvon''' 1536-1832 ==", "a"));
-            Assert.AreEqual(@"= '''Caernarvon''' 1536-1832 =", Parsers.FixHeadings(@"= '''Caernarvon''' 1536-1832 =", "a"));
+            Assert.That(Parsers.FixHeadings(@"== '''Caernarvon''' 1536-1832 ==", "a"), Is.EqualTo(@"== '''Caernarvon''' 1536-1832 =="));
+            Assert.That(Parsers.FixHeadings(@"= '''Caernarvon''' 1536-1832 =", "a"), Is.EqualTo(@"= '''Caernarvon''' 1536-1832 ="));
 
-            Assert.AreEqual("==See also==", Parsers.FixHeadings("=='''See Also'''==", "test"), "remove bold and fix casing at once");
+            Assert.That(Parsers.FixHeadings("=='''See Also'''==", "test"), Is.EqualTo("==See also=="), "remove bold and fix casing at once");
 
-            Assert.AreEqual(@"==Header with bold==", Parsers.FixHeadings(@"=='''Header with bold'''==<br/>", "test"));
+            Assert.That(Parsers.FixHeadings(@"=='''Header with bold'''==<br/>", "test"), Is.EqualTo(@"==Header with bold=="));
         }
 
         [Test]
         public void TestFixHeadingsEmpytyBoldRemoval()
         {
-            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==''''''Foo==", "test"), "empty tag in the beginning");
-            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo''''''==", "test"), "empty tag at the end");
-            Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo''' ''' bar==", "test"), "empty tag in the middle");
-            Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== Foo''' ''' bar ==", "test"), "empty tag in the middle and spaces around");
-            Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo'''   ''' bar==", "test"), "more spaces");
-            Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== '''Foo''' ''' bar''' ==", "test"));
+            Assert.That(Parsers.FixHeadings(@"==''''''Foo==", "test"), Is.EqualTo(@"==Foo=="), "empty tag in the beginning");
+            Assert.That(Parsers.FixHeadings(@"==Foo''''''==", "test"), Is.EqualTo(@"==Foo=="), "empty tag at the end");
+            Assert.That(Parsers.FixHeadings(@"==Foo''' ''' bar==", "test"), Is.EqualTo(@"==Foo bar=="), "empty tag in the middle");
+            Assert.That(Parsers.FixHeadings(@"== Foo''' ''' bar ==", "test"), Is.EqualTo(@"== Foo bar =="), "empty tag in the middle and spaces around");
+            Assert.That(Parsers.FixHeadings(@"==Foo'''   ''' bar==", "test"), Is.EqualTo(@"==Foo bar=="), "more spaces");
+            Assert.That(Parsers.FixHeadings(@"== '''Foo''' ''' bar''' ==", "test"), Is.EqualTo(@"== Foo bar =="));
         }
 
         [Test]
@@ -474,104 +474,104 @@ text", "Talk:foo"));
 
 ==1920s==
 Bar";
-            Assert.AreEqual(correct, Parsers.FixHeadings(@"Foo
+            Assert.That(Parsers.FixHeadings(@"Foo
 
 ==1920s==
-Bar", "Test"), "no change when already one blank line");
-            Assert.AreEqual(correct, Parsers.FixHeadings(@"Foo
+Bar", "Test"), Is.EqualTo(correct), "no change when already one blank line");
+            Assert.That(Parsers.FixHeadings(@"Foo
 
 
 ==1920s==
-Bar", "Test"), "fixes excess blank lines");
-            Assert.AreEqual(correct, Parsers.FixHeadings(@"Foo
+Bar", "Test"), Is.EqualTo(correct), "fixes excess blank lines");
+            Assert.That(Parsers.FixHeadings(@"Foo
 ==1920s==
-Bar", "Test"), "inserts blank line if one missing");
+Bar", "Test"), Is.EqualTo(correct), "inserts blank line if one missing");
 
-            Assert.AreEqual(@"====4====
+            Assert.That(Parsers.FixHeadings(@"====4====
+==2==
+text", "Test"), Is.EqualTo(@"====4====
 
 ==2==
-text", Parsers.FixHeadings(@"====4====
-==2==
-text", "Test"), "fixes excess blank lines, sub-heading then heading");
+text"), "fixes excess blank lines, sub-heading then heading");
 
-            Assert.AreEqual(@"==2==
+            Assert.That(Parsers.FixHeadings(@"==2==
 ====4====
-text", Parsers.FixHeadings(@"==2==
+text", "Test"), Is.EqualTo(@"==2==
 ====4====
-text", "Test"), "Don't add blank line between heading and sub-heading");
+text"), "Don't add blank line between heading and sub-heading");
 
-            Assert.AreEqual(@"x
+            Assert.That(Parsers.FixHeadings(@"x
+
+====Major championships====
+==Wins==
+x", "test"), Is.EqualTo(@"x
 
 ====Major championships====
 
 ==Wins==
-x", Parsers.FixHeadings(@"x
+x"));
 
-====Major championships====
-==Wins==
-x", "test"));
-
-            Assert.AreEqual(@"x
+            Assert.That(Parsers.FixHeadings(@"x
 
 ==Major championships==
 ====Wins====
-x", Parsers.FixHeadings(@"x
+x", "test"), Is.EqualTo(@"x
 
 ==Major championships==
 ====Wins====
-x", "test"));
+x"));
 
-            Assert.AreEqual(@"x
+            Assert.That(Parsers.FixHeadings(@"x
+==Major championships==
+====Wins====
+x", "test"), Is.EqualTo(@"x
 
 ==Major championships==
 ====Wins====
-x", Parsers.FixHeadings(@"x
-==Major championships==
-====Wins====
-x", "test"));
+x"));
 
-            Assert.AreEqual(@"==Foo 1==
+            Assert.That(Parsers.FixHeadings(@"==Foo 1==
+x
+===Major championships===
+====Wins====
+x", "test"), Is.EqualTo(@"==Foo 1==
 x
 
 ===Major championships===
 ====Wins====
-x", Parsers.FixHeadings(@"==Foo 1==
-x
-===Major championships===
-====Wins====
-x", "test"));
+x"));
 
-            Assert.AreEqual(@"== Events ==
+            Assert.That(Parsers.FixHeadings(@"== Events ==
+x
+=== By place ===
+==== Roman Empire ====
+x", "test"), Is.EqualTo(@"== Events ==
 x
 
 === By place ===
 ==== Roman Empire ====
-x", Parsers.FixHeadings(@"== Events ==
-x
-=== By place ===
-==== Roman Empire ====
-x", "test"));
+x"));
 
-            Assert.AreEqual(@"x
-
-==Major championships==
-====Wins====
-x", Parsers.FixHeadings(@"x
+            Assert.That(Parsers.FixHeadings(@"x
 ==Major championships==
 ====Wins====	
-x", "test"), "Excess tab whitespace in second header handled");
+x", "test"), Is.EqualTo(@"x
+
+==Major championships==
+====Wins====
+x"), "Excess tab whitespace in second header handled");
 
             const string indented = @"A
  == some code here === and here ==
  Done";
-            Assert.AreEqual(indented, Parsers.FixHeadings(indented, "Test"), "No change to indented text with other == in");
+            Assert.That(Parsers.FixHeadings(indented, "Test"), Is.EqualTo(indented), "No change to indented text with other == in");
 
             string consecutiveSubHeadings = @"==2==
 ===3===
 ====4====
 text";
 
-            Assert.AreEqual(consecutiveSubHeadings, Parsers.FixHeadings(consecutiveSubHeadings, "Test"), "Don't add blank line between heading and sub-heading, consecutive");
+            Assert.That(Parsers.FixHeadings(consecutiveSubHeadings, "Test"), Is.EqualTo(consecutiveSubHeadings), "Don't add blank line between heading and sub-heading, consecutive");
 
             consecutiveSubHeadings = @"==2==
 ===3===
@@ -579,7 +579,7 @@ text";
 =====5=====
 text";
 
-            Assert.AreEqual(consecutiveSubHeadings, Parsers.FixHeadings(consecutiveSubHeadings, "Test"), "Don't add blank line between heading and sub-heading, consecutive x2");
+            Assert.That(Parsers.FixHeadings(consecutiveSubHeadings, "Test"), Is.EqualTo(consecutiveSubHeadings), "Don't add blank line between heading and sub-heading, consecutive x2");
         }
 
         [Test]
@@ -589,7 +589,7 @@ text";
 {{Anchor|Nineteentwenties}}
 ==1920s==
 Bar";
-            Assert.AreEqual(correct, Parsers.FixHeadings(correct, "Test"), "no change to anchor just before L2 heading");
+            Assert.That(Parsers.FixHeadings(correct, "Test"), Is.EqualTo(correct), "no change to anchor just before L2 heading");
 
             correct = @"Foo
 
@@ -598,7 +598,7 @@ Some text.
 {{Anchors|Nineteentwenties}}
 ===1920s===
 Bar";
-            Assert.AreEqual(correct, Parsers.FixHeadings(correct, "Test"), "no change to anchor just before L3 heading");
+            Assert.That(Parsers.FixHeadings(correct, "Test"), Is.EqualTo(correct), "no change to anchor just before L3 heading");
 
             correct = @"Foo
 
@@ -608,7 +608,7 @@ Some text.
 ===1920s===
 
 Bar";
-            Assert.AreEqual(correct, Parsers.FixHeadings(correct, "Test"), "no change to anchor just before L3 heading - newline after");
+            Assert.That(Parsers.FixHeadings(correct, "Test"), Is.EqualTo(correct), "no change to anchor just before L3 heading - newline after");
         }
 
         [Test]
@@ -621,16 +621,16 @@ Bar";
 Bar";
 
             Variables.SetProjectLangCode("fr");
-            Assert.AreEqual(@"Foo
+            Assert.That(Parsers.FixHeadings(@"Foo
 ==1920s==
-Bar", Parsers.FixHeadings(@"Foo
+Bar", "Test"), Is.EqualTo(@"Foo
 ==1920s==
-Bar", "Test"), "No change – not en wiki");
+Bar"), "No change – not en wiki");
 
             Variables.SetProjectLangCode("en");
-            Assert.AreEqual(correct, Parsers.FixHeadings(@"Foo
+            Assert.That(Parsers.FixHeadings(@"Foo
 ==1920s==
-Bar", "Test"), "inserts blank line if one missing");
+Bar", "Test"), Is.EqualTo(correct), "inserts blank line if one missing");
 #endif
         }
 
@@ -661,12 +661,12 @@ Bar", "Test"), "inserts blank line if one missing");
             Assert.IsFalse(Parsers.FixHeadings(@"==General information==
 '''Foo''' great.", "Foo").Contains(@"==General information=="), "Excess heading at start General information");
 
-            Assert.AreEqual(Parsers.FixHeadings(@"==Introduction==
-'''Foo''' great.", "Foo"), @"
-'''Foo''' great.", "Removes unnecessary general headers from start of article");
+            Assert.That(Parsers.FixHeadings(@"==Introduction==
+'''Foo''' great.", "Foo"), Is.EqualTo(@"
+'''Foo''' great."), "Removes unnecessary general headers from start of article");
 
-            Assert.AreEqual(@"Really great", Parsers.FixHeadings(@"==Foo==
-Really great", "Foo"), "Removes heading if it matches pagetitle");
+            Assert.That(Parsers.FixHeadings(@"==Foo==
+Really great", "Foo"), Is.EqualTo(@"Really great"), "Removes heading if it matches pagetitle");
 
             const string L3 = @"Great article
 
@@ -674,23 +674,23 @@ Really great", "Foo"), "Removes heading if it matches pagetitle");
 
 ===Foo===
 Really great";
-            Assert.AreEqual(L3, Parsers.FixHeadings(L3, "Foo"), "Does not remove level 3 heading that matches pagetitle");
+            Assert.That(Parsers.FixHeadings(L3, "Foo"), Is.EqualTo(L3), "Does not remove level 3 heading that matches pagetitle");
 
             const string HeadingNotAtStart = @"Foo is great.
 
 ==Overview==
 Here there";
-            Assert.AreEqual(HeadingNotAtStart, Parsers.FixHeadings(HeadingNotAtStart, "Foo"), "Heading not removed when not at start of article");
+            Assert.That(Parsers.FixHeadings(HeadingNotAtStart, "Foo"), Is.EqualTo(HeadingNotAtStart), "Heading not removed when not at start of article");
 
-            Assert.AreEqual(@"==External links==
-* Foo", Parsers.FixHeadings(@"==Weblinks==
-* Foo", "foo"));
-            Assert.AreEqual(@"==External links==
-* Foo", Parsers.FixHeadings(@"==Outside links==
-* Foo", "foo"));
-            Assert.AreEqual(@"==External links==
-* Foo", Parsers.FixHeadings(@"==external Links==
-* Foo", "foo"));
+            Assert.That(Parsers.FixHeadings(@"==Weblinks==
+* Foo", "foo"), Is.EqualTo(@"==External links==
+* Foo"));
+            Assert.That(Parsers.FixHeadings(@"==Outside links==
+* Foo", "foo"), Is.EqualTo(@"==External links==
+* Foo"));
+            Assert.That(Parsers.FixHeadings(@"==external Links==
+* Foo", "foo"), Is.EqualTo(@"==External links==
+* Foo"));
         }
 
         [Test]
@@ -710,39 +710,39 @@ Here there";
         // TODO: cover everything
         public void TestFixWhitespace()
         {
-            Assert.AreEqual("", Parsers.RemoveWhiteSpace("     "));
-            Assert.AreEqual("a\r\n\r\n b", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n b"));
+            Assert.That(Parsers.RemoveWhiteSpace("     "), Is.Empty);
+            Assert.That(Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n b"), Is.EqualTo("a\r\n\r\n b"));
             // Assert.AreEqual(" a", Parsers.RemoveWhiteSpace(" a")); // fails, but it doesn't seem harmful, at least for
             // WMF projects with their design guidelines
             // Assert.AreEqual(" a", Parsers.RemoveWhiteSpace("\r\n a \r\n")); // same as above
-            Assert.AreEqual("a", Parsers.RemoveWhiteSpace("\r\na \r\n")); // the above errors have effect only on the first line
-            Assert.AreEqual("", Parsers.RemoveWhiteSpace("\r\n"));
-            Assert.AreEqual("", Parsers.RemoveWhiteSpace("\r\n\r\n"));
-            Assert.AreEqual("a\r\nb", Parsers.RemoveWhiteSpace("a\r\nb"));
-            Assert.AreEqual("a\r\n\r\nb", Parsers.RemoveWhiteSpace("a\r\n\r\nb"));
-            Assert.AreEqual("a\r\n\r\nb", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\nb"));
-            Assert.AreEqual("a\r\n\r\nb", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n\r\nb"));
-            Assert.AreEqual("a \r\nb", Parsers.RemoveWhiteSpace("a \r\nb"), "keep space at end of line before single line break, e.g. within infobox parameters");
-            Assert.AreEqual("a\r\n\r\nb", Parsers.RemoveWhiteSpace("a \r\n\r\nb"));
-            Assert.AreEqual("a\r\n\r\nb", Parsers.RemoveWhiteSpace("a\u00a0\r\n\r\nb"), "Unicode U+00A0 NO-BREAK SPACE");
-            Assert.AreEqual("a\r\n\r\n\r\n{{foo stub}}", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n{{foo stub}}"), "two newlines before stub are kept");
+            Assert.That(Parsers.RemoveWhiteSpace("\r\na \r\n"), Is.EqualTo("a")); // the above errors have effect only on the first line
+            Assert.That(Parsers.RemoveWhiteSpace("\r\n"), Is.Empty);
+            Assert.That(Parsers.RemoveWhiteSpace("\r\n\r\n"), Is.Empty);
+            Assert.That(Parsers.RemoveWhiteSpace("a\r\nb"), Is.EqualTo("a\r\nb"));
+            Assert.That(Parsers.RemoveWhiteSpace("a\r\n\r\nb"), Is.EqualTo("a\r\n\r\nb"));
+            Assert.That(Parsers.RemoveWhiteSpace("a\r\n\r\n\r\nb"), Is.EqualTo("a\r\n\r\nb"));
+            Assert.That(Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n\r\nb"), Is.EqualTo("a\r\n\r\nb"));
+            Assert.That(Parsers.RemoveWhiteSpace("a \r\nb"), Is.EqualTo("a \r\nb"), "keep space at end of line before single line break, e.g. within infobox parameters");
+            Assert.That(Parsers.RemoveWhiteSpace("a \r\n\r\nb"), Is.EqualTo("a\r\n\r\nb"));
+            Assert.That(Parsers.RemoveWhiteSpace("a\u00a0\r\n\r\nb"), Is.EqualTo("a\r\n\r\nb"), "Unicode U+00A0 NO-BREAK SPACE");
+            Assert.That(Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n{{foo stub}}"), Is.EqualTo("a\r\n\r\n\r\n{{foo stub}}"), "two newlines before stub are kept");
 
-            Assert.AreEqual("== foo ==\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n==bar"));
-            Assert.AreEqual("== foo ==\r\n\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n==bar"));
-            Assert.AreEqual("== foo ==\r\n\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n\r\n==bar"));
+            Assert.That(Parsers.RemoveWhiteSpace("== foo ==\r\n==bar"), Is.EqualTo("== foo ==\r\n==bar"));
+            Assert.That(Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n==bar"), Is.EqualTo("== foo ==\r\n\r\n==bar"));
+            Assert.That(Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n\r\n==bar"), Is.EqualTo("== foo ==\r\n\r\n==bar"));
 
-            Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/>\r\n\r\nx"));
-            Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/> \r\n\r\nx"));
-            Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/><br/>\r\n\r\nx"));
-            Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a\r\n\r\n<br/>\r\n\r\nx"));
-            Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a\r\n\r\n<br/><br/>\r\n\r\nx"));
-            Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a\r\n\r\n<br/><br/>\r\n\r\nx"));
-            
-            Assert.AreEqual(@"f.
+            Assert.That(Parsers.RemoveWhiteSpace("a<br/>\r\n\r\nx"), Is.EqualTo("a\r\n\r\nx"));
+            Assert.That(Parsers.RemoveWhiteSpace("a<br/> \r\n\r\nx"), Is.EqualTo("a\r\n\r\nx"));
+            Assert.That(Parsers.RemoveWhiteSpace("a<br/><br/>\r\n\r\nx"), Is.EqualTo("a\r\n\r\nx"));
+            Assert.That(Parsers.RemoveWhiteSpace("a\r\n\r\n<br/>\r\n\r\nx"), Is.EqualTo("a\r\n\r\nx"));
+            Assert.That(Parsers.RemoveWhiteSpace("a\r\n\r\n<br/><br/>\r\n\r\nx"), Is.EqualTo("a\r\n\r\nx"));
+            Assert.That(Parsers.RemoveWhiteSpace("a\r\n\r\n<br/><br/>\r\n\r\nx"), Is.EqualTo("a\r\n\r\nx"));
 
-*Rookie", Parsers.RemoveWhiteSpace(@"f.
+            Assert.That(Parsers.RemoveWhiteSpace(@"f.
 <br>
 <br>
+
+*Rookie"), Is.EqualTo(@"f.
 
 *Rookie"));
 
@@ -772,7 +772,7 @@ Here there";
 | length1         =
 }}";
 
-            Assert.AreEqual(TrackList, Parsers.RemoveWhiteSpace(TrackList));
+            Assert.That(Parsers.RemoveWhiteSpace(TrackList), Is.EqualTo(TrackList));
             
             const string BlockQuote = @"<blockquote>
 Friendship betrayal<br />
@@ -780,8 +780,8 @@ They require <br />
 
 Why miserable patient<br />
 </blockquote>";
-            
-            Assert.AreEqual(BlockQuote, Parsers.RemoveWhiteSpace(BlockQuote), "no changes to <br> tags within blockquotes");
+
+            Assert.That(Parsers.RemoveWhiteSpace(BlockQuote), Is.EqualTo(BlockQuote), "no changes to <br> tags within blockquotes");
 
              const string Poem = @"<poem>
 Friendship betrayal
@@ -791,13 +791,13 @@ They require
 Why miserable patient
 </poem>";
 
-            Assert.AreEqual(Poem, Parsers.RemoveWhiteSpace(Poem), "no changes to newlines within poem");
-            Assert.AreEqual("a\r\n\r\nb<poem>A</poem", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\nb<poem>A</poem"), "Changes to newlines OK when poem tags don't contain excess newlines");
+            Assert.That(Parsers.RemoveWhiteSpace(Poem), Is.EqualTo(Poem), "no changes to newlines within poem");
+            Assert.That(Parsers.RemoveWhiteSpace("a\r\n\r\n\r\nb<poem>A</poem"), Is.EqualTo("a\r\n\r\nb<poem>A</poem"), "Changes to newlines OK when poem tags don't contain excess newlines");
 
-            Assert.AreEqual(@"</sup>
-
-Bring",  Parsers.RemoveWhiteSpace(@"</sup>
+            Assert.That(Parsers.RemoveWhiteSpace(@"</sup>
  
+
+Bring"), Is.EqualTo(@"</sup>
 
 Bring"));
         }
@@ -805,30 +805,30 @@ Bring"));
         [Test]
         public void NewlinesinLists()
         {
-            Assert.AreEqual(@"The following items:
-* ab
-* ac", Parsers.RemoveWhiteSpace(@"The following items:
+            Assert.That(Parsers.RemoveWhiteSpace(@"The following items:
 * ab
 
+* ac"), Is.EqualTo(@"The following items:
+* ab
 * ac"));
 
-            Assert.AreEqual(@"The following items:
-* ab
-* ac", Parsers.RemoveWhiteSpace(@"The following items:
+            Assert.That(Parsers.RemoveWhiteSpace(@"The following items:
 * ab
      
+* ac"), Is.EqualTo(@"The following items:
+* ab
 * ac"), "Newlines with spaces cleaned");
 
-            Assert.AreEqual(@"The following items:
-
-* ab
-* ac
-* ad", Parsers.RemoveWhiteSpace(@"The following items:
+            Assert.That(Parsers.RemoveWhiteSpace(@"The following items:
 
 * ab
 
 * ac
 
+* ad"), Is.EqualTo(@"The following items:
+
+* ab
+* ac
 * ad"));
 
             string TwoNewLines = @"The following items:
@@ -840,7 +840,7 @@ Bring"));
 * ba
 * bb";
 
-            Assert.AreEqual(TwoNewLines, Parsers.RemoveWhiteSpace(TwoNewLines), "No change to two or more newlines between list items, could be two separate lists");
+            Assert.That(Parsers.RemoveWhiteSpace(TwoNewLines), Is.EqualTo(TwoNewLines), "No change to two or more newlines between list items, could be two separate lists");
 
             TwoNewLines = @"The following items:
 
@@ -851,88 +851,88 @@ Bring"));
 * [http://www.foo.com ba]
 * bb";
 
-            Assert.AreEqual(TwoNewLines, Parsers.RemoveWhiteSpace(TwoNewLines), "No change to two or more newlines between list items, could be two separate lists");
+            Assert.That(Parsers.RemoveWhiteSpace(TwoNewLines), Is.EqualTo(TwoNewLines), "No change to two or more newlines between list items, could be two separate lists");
         }
 
         [Test]
         public void TestMdashesPageRanges()
         {
-            Assert.AreEqual("pp. 55–57", parser.Mdashes("pp. 55-57", "test"));
-            Assert.AreEqual("pp. 55–57", parser.Mdashes("pp. 55--57", "test"));
-            Assert.AreEqual("pp.&nbsp;55–57", parser.Mdashes("pp.&nbsp;55-57", "test"));
-            Assert.AreEqual("pp. 55 – 57", parser.Mdashes("pp. 55 - 57", "test"));
-            Assert.AreEqual("pp. 55 – 57", parser.Mdashes("Pp. 55 - 57", "test"));
-            Assert.AreEqual("pp 55–57", parser.Mdashes("pp 55-57", "test"));
-            Assert.AreEqual("pp 1155–1157", parser.Mdashes("pp 1155-1157", "test"));
-            Assert.AreEqual("pages= 55–57", parser.Mdashes("pages= 55-57", "test"));
-            Assert.AreEqual("pages = 55–57", parser.Mdashes("pages = 55-57", "test"));
-            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55-57", "test"));
-            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55—57", "test"));
-            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55&#8212;57", "test"));
-            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55&mdash;57", "test"));
+            Assert.That(parser.Mdashes("pp. 55-57", "test"), Is.EqualTo("pp. 55–57"));
+            Assert.That(parser.Mdashes("pp. 55--57", "test"), Is.EqualTo("pp. 55–57"));
+            Assert.That(parser.Mdashes("pp.&nbsp;55-57", "test"), Is.EqualTo("pp.&nbsp;55–57"));
+            Assert.That(parser.Mdashes("pp. 55 - 57", "test"), Is.EqualTo("pp. 55 – 57"));
+            Assert.That(parser.Mdashes("Pp. 55 - 57", "test"), Is.EqualTo("pp. 55 – 57"));
+            Assert.That(parser.Mdashes("pp 55-57", "test"), Is.EqualTo("pp 55–57"));
+            Assert.That(parser.Mdashes("pp 1155-1157", "test"), Is.EqualTo("pp 1155–1157"));
+            Assert.That(parser.Mdashes("pages= 55-57", "test"), Is.EqualTo("pages= 55–57"));
+            Assert.That(parser.Mdashes("pages = 55-57", "test"), Is.EqualTo("pages = 55–57"));
+            Assert.That(parser.Mdashes("pages=55-57", "test"), Is.EqualTo("pages=55–57"));
+            Assert.That(parser.Mdashes("pages=55—57", "test"), Is.EqualTo("pages=55–57"));
+            Assert.That(parser.Mdashes("pages=55&#8212;57", "test"), Is.EqualTo("pages=55–57"));
+            Assert.That(parser.Mdashes("pages=55&mdash;57", "test"), Is.EqualTo("pages=55–57"));
 
             // no change if already correct
-            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55–57", "test"));
+            Assert.That(parser.Mdashes("pages=55–57", "test"), Is.EqualTo("pages=55–57"));
         }
 
         [Test]
         public void TestMdashesOtherRanges()
         {
-            Assert.AreEqual("55–57 miles", parser.Mdashes("55-57 miles", "test"));
-            Assert.AreEqual("55–57 kg", parser.Mdashes("55-57 kg", "test"));
-            Assert.AreEqual("55 – 57 kg", parser.Mdashes("55 - 57 kg", "test"));
-            Assert.AreEqual("55–57 kg", parser.Mdashes(@"55&#8212;57 kg", "test"));
-            Assert.AreEqual("55–57 kg", parser.Mdashes(@"55&mdash;57 kg", "test"));
-            Assert.AreEqual("55–57&nbsp;kg", parser.Mdashes("55-57&nbsp;kg", "test"));
-            Assert.AreEqual("55–57 Hz", parser.Mdashes("55-57 Hz", "test"));
-            Assert.AreEqual("55–57 GHz", parser.Mdashes("55-57 GHz", "test"));
-            Assert.AreEqual("55 – 57 m long", parser.Mdashes("55 - 57 m long", "test"));
-            Assert.AreEqual("55 – 57 feet", parser.Mdashes("55 - 57 feet", "test"));
-            Assert.AreEqual("55 – 57 foot", parser.Mdashes("55 - 57 foot", "test"));
-            Assert.AreEqual("long (55 – 57 in) now", parser.Mdashes("long (55 - 57 in) now", "test"));
+            Assert.That(parser.Mdashes("55-57 miles", "test"), Is.EqualTo("55–57 miles"));
+            Assert.That(parser.Mdashes("55-57 kg", "test"), Is.EqualTo("55–57 kg"));
+            Assert.That(parser.Mdashes("55 - 57 kg", "test"), Is.EqualTo("55 – 57 kg"));
+            Assert.That(parser.Mdashes(@"55&#8212;57 kg", "test"), Is.EqualTo("55–57 kg"));
+            Assert.That(parser.Mdashes(@"55&mdash;57 kg", "test"), Is.EqualTo("55–57 kg"));
+            Assert.That(parser.Mdashes("55-57&nbsp;kg", "test"), Is.EqualTo("55–57&nbsp;kg"));
+            Assert.That(parser.Mdashes("55-57 Hz", "test"), Is.EqualTo("55–57 Hz"));
+            Assert.That(parser.Mdashes("55-57 GHz", "test"), Is.EqualTo("55–57 GHz"));
+            Assert.That(parser.Mdashes("55 - 57 m long", "test"), Is.EqualTo("55 – 57 m long"));
+            Assert.That(parser.Mdashes("55 - 57 feet", "test"), Is.EqualTo("55 – 57 feet"));
+            Assert.That(parser.Mdashes("55 - 57 foot", "test"), Is.EqualTo("55 – 57 foot"));
+            Assert.That(parser.Mdashes("long (55 - 57 in) now", "test"), Is.EqualTo("long (55 – 57 in) now"));
 
-            Assert.AreEqual("55–57 meters", parser.Mdashes("55-57 meters", "test"));
-            Assert.AreEqual("55–57 metres", parser.Mdashes("55-57 metres", "test"));
+            Assert.That(parser.Mdashes("55-57 meters", "test"), Is.EqualTo("55–57 meters"));
+            Assert.That(parser.Mdashes("55-57 metres", "test"), Is.EqualTo("55–57 metres"));
 
             // dimensions, not range
             const string dimensions = @"around 34-24-34 in (86-60-86&nbsp;cm) and";
-            Assert.AreEqual(dimensions, parser.Mdashes(dimensions, "test"));
+            Assert.That(parser.Mdashes(dimensions, "test"), Is.EqualTo(dimensions));
 
-            Assert.AreEqual("$55–57", parser.Mdashes("$55-57", "test"));
-            Assert.AreEqual("$55 – 57", parser.Mdashes("$55 - 57", "test"));
-            Assert.AreEqual("$55–57", parser.Mdashes("$55-57", "test"));
-            Assert.AreEqual("$1155–1157", parser.Mdashes("$1155-1157", "test"));
-            Assert.AreEqual("$55–57", parser.Mdashes("$55&mdash;57", "test"));
-            Assert.AreEqual("$55–57", parser.Mdashes("$55&#8212;57", "test"));
-            Assert.AreEqual("$55–57", parser.Mdashes("$55—57", "test"));
+            Assert.That(parser.Mdashes("$55-57", "test"), Is.EqualTo("$55–57"));
+            Assert.That(parser.Mdashes("$55 - 57", "test"), Is.EqualTo("$55 – 57"));
+            Assert.That(parser.Mdashes("$55-57", "test"), Is.EqualTo("$55–57"));
+            Assert.That(parser.Mdashes("$1155-1157", "test"), Is.EqualTo("$1155–1157"));
+            Assert.That(parser.Mdashes("$55&mdash;57", "test"), Is.EqualTo("$55–57"));
+            Assert.That(parser.Mdashes("$55&#8212;57", "test"), Is.EqualTo("$55–57"));
+            Assert.That(parser.Mdashes("$55—57", "test"), Is.EqualTo("$55–57"));
 
-            Assert.AreEqual("5:17 AM – 5:19 AM", parser.Mdashes("5:17 AM - 5:19 AM", "test"));
-            Assert.AreEqual("5:17 am – 5:19 am", parser.Mdashes("5:17 am - 5:19 am", "test"));
-            Assert.AreEqual("05:17 AM – 05:19 AM", parser.Mdashes("05:17 AM - 05:19 AM", "test"));
-            Assert.AreEqual("11:17 PM – 11:19 PM", parser.Mdashes("11:17 PM - 11:19 PM", "test"));
-            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm - 11:19 pm", "test"));
-            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm &mdash; 11:19 pm", "test"));
-            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm &#8212; 11:19 pm", "test"));
-            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm — 11:19 pm", "test"));
+            Assert.That(parser.Mdashes("5:17 AM - 5:19 AM", "test"), Is.EqualTo("5:17 AM – 5:19 AM"));
+            Assert.That(parser.Mdashes("5:17 am - 5:19 am", "test"), Is.EqualTo("5:17 am – 5:19 am"));
+            Assert.That(parser.Mdashes("05:17 AM - 05:19 AM", "test"), Is.EqualTo("05:17 AM – 05:19 AM"));
+            Assert.That(parser.Mdashes("11:17 PM - 11:19 PM", "test"), Is.EqualTo("11:17 PM – 11:19 PM"));
+            Assert.That(parser.Mdashes("11:17 pm - 11:19 pm", "test"), Is.EqualTo("11:17 pm – 11:19 pm"));
+            Assert.That(parser.Mdashes("11:17 pm &mdash; 11:19 pm", "test"), Is.EqualTo("11:17 pm – 11:19 pm"));
+            Assert.That(parser.Mdashes("11:17 pm &#8212; 11:19 pm", "test"), Is.EqualTo("11:17 pm – 11:19 pm"));
+            Assert.That(parser.Mdashes("11:17 pm — 11:19 pm", "test"), Is.EqualTo("11:17 pm – 11:19 pm"));
 
-            Assert.AreEqual("Aged 5–9", parser.Mdashes("Aged 5–9", "test"));
-            Assert.AreEqual("Aged 5–11", parser.Mdashes("Aged 5–11", "test"));
-            Assert.AreEqual("Aged 5 – 9", parser.Mdashes("Aged 5 – 9", "test"));
-            Assert.AreEqual("Aged 15–19", parser.Mdashes("Aged 15–19", "test"));
-            Assert.AreEqual("Ages 15–19", parser.Mdashes("Ages 15–19", "test"));
-            Assert.AreEqual("Aged 15–19", parser.Mdashes("Aged 15–19", "test"));
+            Assert.That(parser.Mdashes("Aged 5–9", "test"), Is.EqualTo("Aged 5–9"));
+            Assert.That(parser.Mdashes("Aged 5–11", "test"), Is.EqualTo("Aged 5–11"));
+            Assert.That(parser.Mdashes("Aged 5 – 9", "test"), Is.EqualTo("Aged 5 – 9"));
+            Assert.That(parser.Mdashes("Aged 15–19", "test"), Is.EqualTo("Aged 15–19"));
+            Assert.That(parser.Mdashes("Ages 15–19", "test"), Is.EqualTo("Ages 15–19"));
+            Assert.That(parser.Mdashes("Aged 15–19", "test"), Is.EqualTo("Aged 15–19"));
 
-            Assert.AreEqual("(ages 15–18)", parser.Mdashes("(ages 15-18)", "test"));
+            Assert.That(parser.Mdashes("(ages 15-18)", "test"), Is.EqualTo("(ages 15–18)"));
         }
 
         [Test]
         public void TestMdashes()
         {
             // double dash to emdash
-            Assert.AreEqual(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin -- at the end of 2001", "test"));
-            Assert.AreEqual(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet --  Corgan, Sweeney, Pajo and Chamberlin --at the end of 2001", "test"));
-            Assert.AreEqual(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin--at the end of 2001", "test"));
-            Assert.AreEqual("Eugene Ormandy—who later", parser.Mdashes("Eugene Ormandy--who later", "test"));
+            Assert.That(parser.Mdashes(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin -- at the end of 2001", "test"), Is.EqualTo(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001"));
+            Assert.That(parser.Mdashes(@"Djali Zwan made their live debut as a quartet --  Corgan, Sweeney, Pajo and Chamberlin --at the end of 2001", "test"), Is.EqualTo(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001"));
+            Assert.That(parser.Mdashes(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin--at the end of 2001", "test"), Is.EqualTo(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001"));
+            Assert.That(parser.Mdashes("Eugene Ormandy--who later", "test"), Is.EqualTo("Eugene Ormandy—who later"));
             genFixes.AssertChange("[[Eugene Ormandy]]--who later", "[[Eugene Ormandy]]—who later");
 
             genFixes.AssertNotChanged(@"now the domain xn-- was");
@@ -941,153 +941,153 @@ Bring"));
             genFixes.AssertNotChanged(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin -- at the end of 2001", "Template:test");
 
             // precisely two dashes only
-            Assert.AreEqual(@"Djali Zwan made their live debut as a quartet --- Corgan, Sweeney, Pajo and Chamberlin - at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet --- Corgan, Sweeney, Pajo and Chamberlin - at the end of 2001", "test"));
+            Assert.That(parser.Mdashes(@"Djali Zwan made their live debut as a quartet --- Corgan, Sweeney, Pajo and Chamberlin - at the end of 2001", "test"), Is.EqualTo(@"Djali Zwan made their live debut as a quartet --- Corgan, Sweeney, Pajo and Chamberlin - at the end of 2001"));
 
-            Assert.AreEqual("m<sup>−33</sup>", parser.Mdashes("m<sup>-33</sup>", "test")); // hyphen
-            Assert.AreEqual("m<sup>−3324</sup>", parser.Mdashes("m<sup>-3324</sup>", "test")); // hyphen
-            Assert.AreEqual("m<sup>−2</sup>", parser.Mdashes("m<sup>-2</sup>", "test")); // hyphen
-            Assert.AreEqual("m<sup>−2</sup>", parser.Mdashes("m<sup>–2</sup>", "test")); // en-dash
-            Assert.AreEqual("m<sup>−2</sup>", parser.Mdashes("m<sup>—2</sup>", "test")); // em-dash
+            Assert.That(parser.Mdashes("m<sup>-33</sup>", "test"), Is.EqualTo("m<sup>−33</sup>")); // hyphen
+            Assert.That(parser.Mdashes("m<sup>-3324</sup>", "test"), Is.EqualTo("m<sup>−3324</sup>")); // hyphen
+            Assert.That(parser.Mdashes("m<sup>-2</sup>", "test"), Is.EqualTo("m<sup>−2</sup>")); // hyphen
+            Assert.That(parser.Mdashes("m<sup>–2</sup>", "test"), Is.EqualTo("m<sup>−2</sup>")); // en-dash
+            Assert.That(parser.Mdashes("m<sup>—2</sup>", "test"), Is.EqualTo("m<sup>−2</sup>")); // em-dash
 
             // already correct
-            Assert.AreEqual("m<sup>−2</sup>", parser.Mdashes("m<sup>−2</sup>", "test"));
-            Assert.AreEqual("m<sup>2</sup>", parser.Mdashes("m<sup>2</sup>", "test"));
+            Assert.That(parser.Mdashes("m<sup>−2</sup>", "test"), Is.EqualTo("m<sup>−2</sup>"));
+            Assert.That(parser.Mdashes("m<sup>2</sup>", "test"), Is.EqualTo("m<sup>2</sup>"));
 
             // false positive
-            Assert.AreEqual("beaten 55 - 57 in 2004", parser.Mdashes("beaten 55 - 57 in 2004", "test"));
-            Assert.AreEqual("from 1904 – 11 May 1956 there", parser.Mdashes("from 1904 – 11 May 1956 there", "test"));
+            Assert.That(parser.Mdashes("beaten 55 - 57 in 2004", "test"), Is.EqualTo("beaten 55 - 57 in 2004"));
+            Assert.That(parser.Mdashes("from 1904 – 11 May 1956 there", "test"), Is.EqualTo("from 1904 – 11 May 1956 there"));
 
             // two dashes to endash for numeric ranges
-            Assert.AreEqual("55–77", parser.Mdashes("55--77", "test"));
+            Assert.That(parser.Mdashes("55--77", "test"), Is.EqualTo("55–77"));
         }
 
         [Test]
         public void TestTitleDashes()
         {
             // en-dash
-            Assert.AreEqual(@"The Alpher–Bethe–Gamow paper is great.", parser.Mdashes(@"The Alpher-Bethe-Gamow paper is great.", @"Alpher–Bethe–Gamow paper"));
+            Assert.That(parser.Mdashes(@"The Alpher-Bethe-Gamow paper is great.", @"Alpher–Bethe–Gamow paper"), Is.EqualTo(@"The Alpher–Bethe–Gamow paper is great."));
             // em-dash
-            Assert.AreEqual(@"The Alpher—Bethe—Gamow paper is great. The Alpher—Bethe—Gamow paper is old.", parser.Mdashes(@"The Alpher-Bethe-Gamow paper is great. The Alpher-Bethe-Gamow paper is old.", @"Alpher—Bethe—Gamow paper"));
+            Assert.That(parser.Mdashes(@"The Alpher-Bethe-Gamow paper is great. The Alpher-Bethe-Gamow paper is old.", @"Alpher—Bethe—Gamow paper"), Is.EqualTo(@"The Alpher—Bethe—Gamow paper is great. The Alpher—Bethe—Gamow paper is old."));
 
             // all hyphens, no change
-            Assert.AreEqual(@"The Alpher-Bethe-Gamow paper is great.", parser.Mdashes(@"The Alpher-Bethe-Gamow paper is great.", "Alpher-Bethe-Gamow paper"));
+            Assert.That(parser.Mdashes(@"The Alpher-Bethe-Gamow paper is great.", "Alpher-Bethe-Gamow paper"), Is.EqualTo(@"The Alpher-Bethe-Gamow paper is great."));
         }
 
         [Test]
         public void TestBulletListWhitespace()
         {
-            Assert.AreEqual(@"* item
-* item2
-* item3", Parsers.RemoveAllWhiteSpace(@"*    item
+            Assert.That(Parsers.RemoveAllWhiteSpace(@"*    item
 *            item2
+* item3"), Is.EqualTo(@"* item
+* item2
 * item3"));
 
-            Assert.AreEqual(@"# item
-# item2
-# item3", Parsers.RemoveAllWhiteSpace(@"#    item
+            Assert.That(Parsers.RemoveAllWhiteSpace(@"#    item
 #            item2
+# item3"), Is.EqualTo(@"# item
+# item2
 # item3"));
 
-            Assert.AreEqual(@"# item
-# item2
-#item3", Parsers.RemoveAllWhiteSpace(@"#    item
+            Assert.That(Parsers.RemoveAllWhiteSpace(@"#    item
 #            item2
+#item3"), Is.EqualTo(@"# item
+# item2
 #item3"));
         }
 
         [Test]
         public void RemoveAllWhiteSpaceTests()
         {
-            Assert.AreEqual("now a", Parsers.RemoveAllWhiteSpace(@"now a"));
-            Assert.AreEqual(@"now
-* foo", Parsers.RemoveAllWhiteSpace(@"now
+            Assert.That(Parsers.RemoveAllWhiteSpace(@"now a"), Is.EqualTo("now a"));
+            Assert.That(Parsers.RemoveAllWhiteSpace(@"now
 
+* foo"), Is.EqualTo(@"now
 * foo"));
 
-            Assert.AreEqual("now was", Parsers.RemoveAllWhiteSpace(@"now   was"));
+            Assert.That(Parsers.RemoveAllWhiteSpace(@"now   was"), Is.EqualTo("now was"));
 
-            Assert.AreEqual(@"now
-was", Parsers.RemoveAllWhiteSpace(@"now
+            Assert.That(Parsers.RemoveAllWhiteSpace(@"now
+was"), Is.EqualTo(@"now
 was"));
 
-            Assert.AreEqual(@"==hi==
-was", Parsers.RemoveAllWhiteSpace(@"==hi==
+            Assert.That(Parsers.RemoveAllWhiteSpace(@"==hi==
 
+was"), Is.EqualTo(@"==hi==
 was"));
-            Assert.AreEqual(@"18 March 1980 – 12 June 1993", Parsers.RemoveAllWhiteSpace(@"18 March 1980 – 12 June 1993"), "endash spacing not changed, may be correct");
-            Assert.AreEqual(@"in 1980&mdash;very", Parsers.RemoveAllWhiteSpace(@"in 1980 &mdash; very"), "mdash spacing cleaned");
+            Assert.That(Parsers.RemoveAllWhiteSpace(@"18 March 1980 – 12 June 1993"), Is.EqualTo(@"18 March 1980 – 12 June 1993"), "endash spacing not changed, may be correct");
+            Assert.That(Parsers.RemoveAllWhiteSpace(@"in 1980 &mdash; very"), Is.EqualTo(@"in 1980&mdash;very"), "mdash spacing cleaned");
         }
 
         [Test]
         public void FixTemperaturesTests()
         {
-            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5ºC today"));
-            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5ºc today"));
-            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5º C today"));
-            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°C today"));
-            Assert.AreEqual("5&nbsp;°C today", Parsers.FixTemperatures(@"5&nbsp;°C today"));
-            Assert.AreEqual("5&nbsp;°C today", Parsers.FixTemperatures(@"5&nbsp;ºC today"));
-            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°    C today"));
-            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°C today"));
-            Assert.AreEqual("5°F today", Parsers.FixTemperatures(@"5°F today"));
-            Assert.AreEqual("75°F today", Parsers.FixTemperatures(@"75°f today"));
+            Assert.That(Parsers.FixTemperatures(@"5ºC today"), Is.EqualTo("5°C today"));
+            Assert.That(Parsers.FixTemperatures(@"5ºc today"), Is.EqualTo("5°C today"));
+            Assert.That(Parsers.FixTemperatures(@"5º C today"), Is.EqualTo("5°C today"));
+            Assert.That(Parsers.FixTemperatures(@"5°C today"), Is.EqualTo("5°C today"));
+            Assert.That(Parsers.FixTemperatures(@"5&nbsp;°C today"), Is.EqualTo("5&nbsp;°C today"));
+            Assert.That(Parsers.FixTemperatures(@"5&nbsp;ºC today"), Is.EqualTo("5&nbsp;°C today"));
+            Assert.That(Parsers.FixTemperatures(@"5°    C today"), Is.EqualTo("5°C today"));
+            Assert.That(Parsers.FixTemperatures(@"5°C today"), Is.EqualTo("5°C today"));
+            Assert.That(Parsers.FixTemperatures(@"5°F today"), Is.EqualTo("5°F today"));
+            Assert.That(Parsers.FixTemperatures(@"75°f today"), Is.EqualTo("75°F today"));
 
-            Assert.AreEqual("5ºCC", Parsers.FixTemperatures(@"5ºCC"));
+            Assert.That(Parsers.FixTemperatures(@"5ºCC"), Is.EqualTo("5ºCC"));
         }
 
         [Test]
         public void FixOrdinalTests()
         {
-            Assert.AreEqual("1st day at school", Parsers.FixSyntax(@"1<sup>st</sup> day at school"), "1st");
-            Assert.AreEqual("2nd day at school", Parsers.FixSyntax(@"2<sup>nd</sup> day at school"), "2nd");
-            Assert.AreEqual("3rd day at school", Parsers.FixSyntax(@"3<sup>rd</sup> day at school"), "3rd");
-            Assert.AreEqual("4th day at school", Parsers.FixSyntax(@"4<sup>th</sup> day at school"), "4th");
+            Assert.That(Parsers.FixSyntax(@"1<sup>st</sup> day at school"), Is.EqualTo("1st day at school"), "1st");
+            Assert.That(Parsers.FixSyntax(@"2<sup>nd</sup> day at school"), Is.EqualTo("2nd day at school"), "2nd");
+            Assert.That(Parsers.FixSyntax(@"3<sup>rd</sup> day at school"), Is.EqualTo("3rd day at school"), "3rd");
+            Assert.That(Parsers.FixSyntax(@"4<sup>th</sup> day at school"), Is.EqualTo("4th day at school"), "4th");
 
-            Assert.AreEqual("1st day at school", Parsers.FixSyntax(@"1<sup>st </sup> day at school"), "1st with whitespace");
-            Assert.AreEqual("1st day at school", Parsers.FixSyntax(@"1<sup> st </sup> day at school"), "1st with whitespace");        }
+            Assert.That(Parsers.FixSyntax(@"1<sup>st </sup> day at school"), Is.EqualTo("1st day at school"), "1st with whitespace");
+            Assert.That(Parsers.FixSyntax(@"1<sup> st </sup> day at school"), Is.EqualTo("1st day at school"), "1st with whitespace");        }
 
 
         [Test]
         public void FixSmallTags()
         {
             const string s1 = @"<small>foo</small>";
-            Assert.AreEqual(s1, Parsers.FixSyntax(s1));
+            Assert.That(Parsers.FixSyntax(s1), Is.EqualTo(s1));
 
-            Assert.AreEqual(@"<ref>foo</ref>", Parsers.FixSyntax(@"<ref><small>foo</small></ref>"), "removes small from ref tags");
-            Assert.AreEqual(@"<REF>foo</REF>", Parsers.FixSyntax(@"<REF><small>foo</small></REF>"), "removes small from ref tags");
-            Assert.AreEqual(@"<sup>foo</sup>", Parsers.FixSyntax(@"<sup><small>foo</small></sup>"), "removes small from sup tags");
-            Assert.AreEqual(@"<sub>foo</sub>", Parsers.FixSyntax(@"<sub><small>foo</small></sub>"), "removes small from sub tags");
-            Assert.AreEqual(@"<small>a foo b</small>", Parsers.FixSyntax(@"<small>a <small>foo</small> b</small>"), "removes nested small from small tags");
+            Assert.That(Parsers.FixSyntax(@"<ref><small>foo</small></ref>"), Is.EqualTo(@"<ref>foo</ref>"), "removes small from ref tags");
+            Assert.That(Parsers.FixSyntax(@"<REF><small>foo</small></REF>"), Is.EqualTo(@"<REF>foo</REF>"), "removes small from ref tags");
+            Assert.That(Parsers.FixSyntax(@"<sup><small>foo</small></sup>"), Is.EqualTo(@"<sup>foo</sup>"), "removes small from sup tags");
+            Assert.That(Parsers.FixSyntax(@"<sub><small>foo</small></sub>"), Is.EqualTo(@"<sub>foo</sub>"), "removes small from sub tags");
+            Assert.That(Parsers.FixSyntax(@"<small>a <small>foo</small> b</small>"), Is.EqualTo(@"<small>a foo b</small>"), "removes nested small from small tags");
 
-            Assert.AreEqual(@"<ref>foo</ref>", Parsers.FixSyntax(@"<small><ref>foo</ref></small>"), "removes small around ref tags");
-            Assert.AreEqual(@"<REF>foo</REF>", Parsers.FixSyntax(@"<small><REF>foo</REF></small>"), "removes small around ref tags");
-            Assert.AreEqual(@"<sup>foo</sup>", Parsers.FixSyntax(@"<small><sup>foo</sup></small>"), "removes small around sup tags");
-            Assert.AreEqual(@"<sub>foo</sub>", Parsers.FixSyntax(@"<small><sub>foo</sub></small>"), "removes small around sub tags");
+            Assert.That(Parsers.FixSyntax(@"<small><ref>foo</ref></small>"), Is.EqualTo(@"<ref>foo</ref>"), "removes small around ref tags");
+            Assert.That(Parsers.FixSyntax(@"<small><REF>foo</REF></small>"), Is.EqualTo(@"<REF>foo</REF>"), "removes small around ref tags");
+            Assert.That(Parsers.FixSyntax(@"<small><sup>foo</sup></small>"), Is.EqualTo(@"<sup>foo</sup>"), "removes small around sup tags");
+            Assert.That(Parsers.FixSyntax(@"<small><sub>foo</sub></small>"), Is.EqualTo(@"<sub>foo</sub>"), "removes small around sub tags");
 
             const string unclosedTag = @"<ref><small>foo</small></ref> now <small>";
-            Assert.AreEqual(unclosedTag, Parsers.FixSyntax(unclosedTag));
+            Assert.That(Parsers.FixSyntax(unclosedTag), Is.EqualTo(unclosedTag));
             
              const string unclosedTag2 = @"<small>
 {|
 ...<small><ref>foo</ref></small>...
 |}</small>";
-            Assert.AreEqual(unclosedTag2, Parsers.FixSyntax(unclosedTag2), "No change to small tags across table end, implies multiple incorrect small tags");
+            Assert.That(Parsers.FixSyntax(unclosedTag2), Is.EqualTo(unclosedTag2), "No change to small tags across table end, implies multiple incorrect small tags");
 
             const string NoSmall = @"<ref>foo</ref> <small>A</small>";
-            Assert.AreEqual(NoSmall, Parsers.FixSyntax(NoSmall), "No change when no small that should be removed");
+            Assert.That(Parsers.FixSyntax(NoSmall), Is.EqualTo(NoSmall), "No change when no small that should be removed");
         }
 
         [Test]
         public void FixSmallTagsImageDescriptions()
         {
-            Assert.AreEqual(@"[[File:foo.jpg|bar]]", Parsers.FixSyntax(@"[[File:foo.jpg|<small>bar</small>]]"), "removes small from image descriptions");
-            Assert.AreEqual(@"[[File:foo.jpg|thumb|bar]]", Parsers.FixSyntax(@"[[File:foo.jpg|thumb|<small>bar</small>]]"), "removes small from image descriptions when other parameters too");
+            Assert.That(Parsers.FixSyntax(@"[[File:foo.jpg|<small>bar</small>]]"), Is.EqualTo(@"[[File:foo.jpg|bar]]"), "removes small from image descriptions");
+            Assert.That(Parsers.FixSyntax(@"[[File:foo.jpg|thumb|<small>bar</small>]]"), Is.EqualTo(@"[[File:foo.jpg|thumb|bar]]"), "removes small from image descriptions when other parameters too");
 
             const string FileCaptionLegend = @"[[File:foo.jpg|This text is a caption
 {{legend|foo|<small>a</small>}}
 {{legend|foo2|<small>b</small>}}
 ]]";
-            Assert.AreEqual(FileCaptionLegend, Parsers.FixSyntax(FileCaptionLegend), "small tag not removed from legend template");
+            Assert.That(Parsers.FixSyntax(FileCaptionLegend), Is.EqualTo(FileCaptionLegend), "small tag not removed from legend template");
         }
 
         [Test]
@@ -1095,18 +1095,18 @@ was"));
         {
             Dictionary<Regex, string> TemplateRedirects = new Dictionary<Regex, string>();
 
-            Assert.AreEqual(TemplateRedirects, Parsers.LoadTemplateRedirects(""), "returns empty dictionary when no rules present");
+            Assert.That(Parsers.LoadTemplateRedirects(""), Is.EqualTo(TemplateRedirects), "returns empty dictionary when no rules present");
 
             TemplateRedirects.Add(Tools.NestedTemplateRegex("Cn"), "Citation needed");
 
-            Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}} → {{tl|Citation needed}}").Values, "loads single redirect rules");
-            Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}} → '''{{tl|Citation needed}}'''").Values, "loads single redirect rules");
+            Assert.That(Parsers.LoadTemplateRedirects("{{tl|Cn}} → {{tl|Citation needed}}").Values, Is.EqualTo(TemplateRedirects.Values), "loads single redirect rules");
+            Assert.That(Parsers.LoadTemplateRedirects("{{tl|Cn}} → '''{{tl|Citation needed}}'''").Values, Is.EqualTo(TemplateRedirects.Values), "loads single redirect rules");
             Assert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{cn}}"));
 
             TemplateRedirects.Clear();
             TemplateRedirects.Add(Tools.NestedTemplateRegex(new[] { "Cn", "fact" }), "Citation needed");
 
-            Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|Citation needed}}").Values, "loads multiple redirect rules");
+            Assert.That(Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|Citation needed}}").Values, Is.EqualTo(TemplateRedirects.Values), "loads multiple redirect rules");
             Assert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{cn}}"));
             Assert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{fact}}"));
         }
@@ -1116,16 +1116,16 @@ was"));
         {
             List<string> DatedTemplates = new List<string>();
 
-            Assert.AreEqual(DatedTemplates, Parsers.LoadDatedTemplates(""), "returns empty list when no rules present");
+            Assert.That(Parsers.LoadDatedTemplates(""), Is.EqualTo(DatedTemplates), "returns empty list when no rules present");
 
-            Assert.AreEqual(DatedTemplates, Parsers.LoadDatedTemplates("<!--{{tl|wikif-->"), "ignores commented out rules");
+            Assert.That(Parsers.LoadDatedTemplates("<!--{{tl|wikif-->"), Is.EqualTo(DatedTemplates), "ignores commented out rules");
 
             DatedTemplates.Add("Wikify");
-            Assert.AreEqual(DatedTemplates.ToString(), Parsers.LoadDatedTemplates(@"{{tl|wikify}}").ToString(), "loads single rule");
+            Assert.That(Parsers.LoadDatedTemplates(@"{{tl|wikify}}").ToString(), Is.EqualTo(DatedTemplates.ToString()), "loads single rule");
 
             DatedTemplates.Add("Citation needed");
-            Assert.AreEqual(DatedTemplates.ToString(), Parsers.LoadDatedTemplates(@"{{tl|wikify}}
-{{tl|citation needed}}").ToString(), "loads multiple rules");
+            Assert.That(Parsers.LoadDatedTemplates(@"{{tl|wikify}}
+{{tl|citation needed}}").ToString(), Is.EqualTo(DatedTemplates.ToString()), "loads multiple rules");
         }
 
         [Test]
@@ -1133,56 +1133,56 @@ was"));
         {
             Dictionary<Regex, string> TemplateRedirs = new Dictionary<Regex, string>();
             WikiRegexes.AllTemplateRedirects = null;
-            Assert.AreEqual("now {{Cn}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirs), "no change when redirects dictionary not built");
+            Assert.That(Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirs), Is.EqualTo("now {{Cn}} was"), "no change when redirects dictionary not built");
             TemplateRedirs = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|Citation needed}}");
 
-            Assert.AreEqual("now was", Parsers.TemplateRedirects("now was", TemplateRedirs), "no change when no templates in text");
-            Assert.AreEqual("now {{Citation needed}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirs));
-            Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirs));
-            Assert.AreEqual("now {{citation needed}} was{{citation needed}} or", Parsers.TemplateRedirects("now {{cn}} was{{fact}} or", TemplateRedirs), "renames multiple different redirects");
-            Assert.AreEqual("now {{citation needed}} was{{citation needed}} or", Parsers.TemplateRedirects("now {{cn}} was{{cn}} or", TemplateRedirs), "renames multiple redirects");
+            Assert.That(Parsers.TemplateRedirects("now was", TemplateRedirs), Is.EqualTo("now was"), "no change when no templates in text");
+            Assert.That(Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirs), Is.EqualTo("now {{Citation needed}} was"));
+            Assert.That(Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirs), Is.EqualTo("now {{citation needed}} was"));
+            Assert.That(Parsers.TemplateRedirects("now {{cn}} was{{fact}} or", TemplateRedirs), Is.EqualTo("now {{citation needed}} was{{citation needed}} or"), "renames multiple different redirects");
+            Assert.That(Parsers.TemplateRedirects("now {{cn}} was{{cn}} or", TemplateRedirs), Is.EqualTo("now {{citation needed}} was{{citation needed}} or"), "renames multiple redirects");
 
-            Assert.AreEqual(@"now {{one|
-{{citation needed}} 
-}}", Parsers.TemplateRedirects(@"now {{one|
+            Assert.That(Parsers.TemplateRedirects(@"now {{one|
 {{cn}} 
-}}", TemplateRedirs), "renames when template nested");
-
-            Assert.AreEqual(@"now {{citation needed|
+}}", TemplateRedirs), Is.EqualTo(@"now {{one|
 {{citation needed}} 
-}}", Parsers.TemplateRedirects(@"now {{fact|
+}}"), "renames when template nested");
+
+            Assert.That(Parsers.TemplateRedirects(@"now {{fact|
 {{cn}} 
-}}", TemplateRedirs), "renames nested templates, both levels");
-
-            Assert.AreEqual(@"now {{one|
-{{two|
+}}", TemplateRedirs), Is.EqualTo(@"now {{citation needed|
 {{citation needed}} 
-}}}}", Parsers.TemplateRedirects(@"now {{one|
+}}"), "renames nested templates, both levels");
+
+            Assert.That(Parsers.TemplateRedirects(@"now {{one|
 {{two|
 {{cn}} 
-}}}}", TemplateRedirs), "renames when template double nested");
+}}}}", TemplateRedirs), Is.EqualTo(@"now {{one|
+{{two|
+{{citation needed}} 
+}}}}"), "renames when template double nested");
 
             TemplateRedirs = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}");
-            Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirs), "follows case of new template name");
-            Assert.AreEqual("now {{Citation needed}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirs), "follows case of new template name");
+            Assert.That(Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirs), Is.EqualTo("now {{citation needed}} was"), "follows case of new template name");
+            Assert.That(Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirs), Is.EqualTo("now {{Citation needed}} was"), "follows case of new template name");
             
             TemplateRedirs = Parsers.LoadTemplateRedirects(@"{{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}
 {{tl|foo}} → {{tl|bar}}");
-            Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirs), "follows case of new template name");
+            Assert.That(Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirs), Is.EqualTo("now {{citation needed}} was"), "follows case of new template name");
 
             TemplateRedirs = Parsers.LoadTemplateRedirects(@"{{tl|Articleissues}} → {{tl|multiple issues}}
 {{tl|Rewrite}} → {{tl|cleanup-rewrite}}
 {{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}");
 
-            Assert.AreEqual(@"now {{Multiple issues|
-{{Refimprove|date=July 2012}}
-{{Citation style|date=July 2012}}
-{{Cleanup-rewrite|date=July 2012}}
-}} was", Parsers.TemplateRedirects(@"now {{Articleissues|
+            Assert.That(Parsers.TemplateRedirects(@"now {{Articleissues|
 {{Refimprove|date=July 2012}}
 {{Citation style|date=July 2012}}
 {{Rewrite|date=July 2012}}
-}} was", TemplateRedirs), "nested template example");
+}} was", TemplateRedirs), Is.EqualTo(@"now {{Multiple issues|
+{{Refimprove|date=July 2012}}
+{{Citation style|date=July 2012}}
+{{Cleanup-rewrite|date=July 2012}}
+}} was"), "nested template example");
 
             const string A = @"{{Infobox musical artist
 | name       = A
@@ -1192,21 +1192,21 @@ was"));
 | website        = {{URL|a.com}}
 }}";
 
-            Assert.AreEqual(A.Replace(@"{{Cn", @"{{Citation needed"), Parsers.TemplateRedirects(A, TemplateRedirs));
+            Assert.That(Parsers.TemplateRedirects(A, TemplateRedirs), Is.EqualTo(A.Replace(@"{{Cn", @"{{Citation needed")));
             
             string B = @"{{ONE | {{TWO | {{THREE | {{Cn}} }} }} }}";
-            
-            Assert.AreEqual(B.Replace(@"{{Cn", @"{{Citation needed"), Parsers.TemplateRedirects(B, TemplateRedirs));
+
+            Assert.That(Parsers.TemplateRedirects(B, TemplateRedirs), Is.EqualTo(B.Replace(@"{{Cn", @"{{Citation needed")));
 
             TemplateRedirs = Parsers.LoadTemplateRedirects("{{tl|Infobox Play}} → {{tl|Infobox play}}");
-            Assert.AreEqual("{{Infobox play}}", Parsers.TemplateRedirects("{{Infobox_Play}}", TemplateRedirs), "");
+            Assert.That(Parsers.TemplateRedirects("{{Infobox_Play}}", TemplateRedirs), Is.EqualTo("{{Infobox play}}"), "");
 
             // when magic word
             TemplateRedirs = Parsers.LoadTemplateRedirects("{{tl|Display title}}, {{tl|Displaytitle}} → {{tl|DISPLAYTITLE}}");
 
-            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{display title|Foo}} was", TemplateRedirs), "Magic word template redirected and formatted");
-            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{displaytitle|Foo}} was", TemplateRedirs), "Magic word template redirected and formatted");
-            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{Displaytitle|Foo}} was", TemplateRedirs), "Magic word template redirected and formatted");
+            Assert.That(Parsers.TemplateRedirects("now {{display title|Foo}} was", TemplateRedirs), Is.EqualTo("now {{DISPLAYTITLE:Foo}} was"), "Magic word template redirected and formatted");
+            Assert.That(Parsers.TemplateRedirects("now {{displaytitle|Foo}} was", TemplateRedirs), Is.EqualTo("now {{DISPLAYTITLE:Foo}} was"), "Magic word template redirected and formatted");
+            Assert.That(Parsers.TemplateRedirects("now {{Displaytitle|Foo}} was", TemplateRedirs), Is.EqualTo("now {{DISPLAYTITLE:Foo}} was"), "Magic word template redirected and formatted");
         }
 
         [Test]
@@ -1215,14 +1215,14 @@ was"));
             Dictionary<Regex, string> theTemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|fb}}, {{tl|foob}} → {{tl|FOO bar}}");
 
             // for acronym templates enforce first letter uppercase
-            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{fb}} was", theTemplateRedirects));
-            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{Fb}} was", theTemplateRedirects));
-            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{foob}} was", theTemplateRedirects));
-            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{Foob}} was", theTemplateRedirects));
+            Assert.That(Parsers.TemplateRedirects("now {{fb}} was", theTemplateRedirects), Is.EqualTo("now {{FOO bar}} was"));
+            Assert.That(Parsers.TemplateRedirects("now {{Fb}} was", theTemplateRedirects), Is.EqualTo("now {{FOO bar}} was"));
+            Assert.That(Parsers.TemplateRedirects("now {{foob}} was", theTemplateRedirects), Is.EqualTo("now {{FOO bar}} was"));
+            Assert.That(Parsers.TemplateRedirects("now {{Foob}} was", theTemplateRedirects), Is.EqualTo("now {{FOO bar}} was"));
 
             theTemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|fb}}, {{tl|foob}} → {{tl|fOO bar}}");
-            Assert.AreEqual("now {{fOO bar}} was", Parsers.TemplateRedirects("now {{fb}} was", theTemplateRedirects), "first letter case respected for non-acronym template");
-            Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{Fb}} was", theTemplateRedirects));
+            Assert.That(Parsers.TemplateRedirects("now {{fb}} was", theTemplateRedirects), Is.EqualTo("now {{fOO bar}} was"), "first letter case respected for non-acronym template");
+            Assert.That(Parsers.TemplateRedirects("now {{Fb}} was", theTemplateRedirects), Is.EqualTo("now {{FOO bar}} was"));
         }
 
         [Test]
@@ -1231,45 +1231,45 @@ was"));
             List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"{{AWB rename template parameter|cite web|acccessdate|accessdate}}");
 
             const string correct = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}";
-            Assert.AreEqual(correct, Parsers.RenameTemplateParameters(correct.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call");
+            Assert.That(Parsers.RenameTemplateParameters(correct.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), Is.EqualTo(correct), "renames parameter in simple template call");
 
             const string correct2 = @"<ref>{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}</ref><ref>{{cite web | url=http://www.site2.com | title = Testing2 | accessdate = 2 May 2009 }}</ref>";
-            Assert.AreEqual(correct2, Parsers.RenameTemplateParameters(correct2.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call");
+            Assert.That(Parsers.RenameTemplateParameters(correct2.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), Is.EqualTo(correct2), "renames parameter in simple template call");
 
             const string correct2a = @"<ref>{{cite web | url=http://www.site.com | title = Testing |accessdate=20 May 2009 }}</ref><ref>{{cite web | url=http://www.site2.com | title = Testing2 |accessdate=2 May 2009 }}</ref>";
-            Assert.AreEqual(correct2a, Parsers.RenameTemplateParameters(correct2a.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call, unspaced");
+            Assert.That(Parsers.RenameTemplateParameters(correct2a.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), Is.EqualTo(correct2a), "renames parameter in simple template call, unspaced");
 
             const string correct2b = @"<ref>{{cite web | url=http://www.site.com | title = Testing
 |accessdate=20 May 2009 }}</ref><ref>{{cite web | url=http://www.site2.com | title = Testing2 |accessdate=2 May 2009 }}</ref>";
-            Assert.AreEqual(correct2b, Parsers.RenameTemplateParameters(correct2b.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call, newline");
+            Assert.That(Parsers.RenameTemplateParameters(correct2b.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), Is.EqualTo(correct2b), "renames parameter in simple template call, newline");
 
             const string correct3 = @"{{Cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}";
-            Assert.AreEqual(correct3, Parsers.RenameTemplateParameters(correct3.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call, handles first letter casing of template name");
+            Assert.That(Parsers.RenameTemplateParameters(correct3.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), Is.EqualTo(correct3), "renames parameter in simple template call, handles first letter casing of template name");
 
             const string correct4 = @"{{ cite_web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}";
-            Assert.AreEqual(correct4, Parsers.RenameTemplateParameters(correct4.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call, handles underscore in template name");
+            Assert.That(Parsers.RenameTemplateParameters(correct4.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), Is.EqualTo(correct4), "renames parameter in simple template call, handles underscore in template name");
 
             string Dupe = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2012 | acccessdate = 11 June 2012 }}";
-            Assert.AreEqual(Dupe, Parsers.RenameTemplateParameters(Dupe, RenamedTemplateParameters), "no change when target parameter already has a value");
+            Assert.That(Parsers.RenameTemplateParameters(Dupe, RenamedTemplateParameters), Is.EqualTo(Dupe), "no change when target parameter already has a value");
 
             string Dupe2 = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = | acccessdate = 11 June 2012 }}";
-            Assert.AreEqual(@"{{cite web | url=http://www.site.com | title = Testing | accessdate = | accessdate = 11 June 2012 }}", Parsers.RenameTemplateParameters(Dupe2, RenamedTemplateParameters), "changed when target parameter present without value");
+            Assert.That(Parsers.RenameTemplateParameters(Dupe2, RenamedTemplateParameters), Is.EqualTo(@"{{cite web | url=http://www.site.com | title = Testing | accessdate = | accessdate = 11 June 2012 }}"), "changed when target parameter present without value");
 
             const string nested = @"{{reflist|refs={{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}}}";
-            Assert.AreEqual(nested, Parsers.RenameTemplateParameters(nested.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in nested template call");
+            Assert.That(Parsers.RenameTemplateParameters(nested.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), Is.EqualTo(nested), "renames parameter in nested template call");
 
             const string nested2 = @"{{reflist|refs={{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}
 {{cite web | url=http://www.site2.com | title = Testing2 | accessdate = 20 June 2009 }}}}";
-            Assert.AreEqual(nested2, Parsers.RenameTemplateParameters(nested2.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in nested and unnested template calls");
+            Assert.That(Parsers.RenameTemplateParameters(nested2.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), Is.EqualTo(nested2), "renames parameter in nested and unnested template calls");
 
             string nomatch = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}";
-            Assert.AreEqual(nomatch, Parsers.RenameTemplateParameters(nomatch, RenamedTemplateParameters), "No change when no matched parameters");
+            Assert.That(Parsers.RenameTemplateParameters(nomatch, RenamedTemplateParameters), Is.EqualTo(nomatch), "No change when no matched parameters");
 
             nomatch = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }} {{cn}}";
-            Assert.AreEqual(nomatch, Parsers.RenameTemplateParameters(nomatch, RenamedTemplateParameters), "No change when no matched parameters, other template");
+            Assert.That(Parsers.RenameTemplateParameters(nomatch, RenamedTemplateParameters), Is.EqualTo(nomatch), "No change when no matched parameters, other template");
 
             nomatch = @"{{cite news | url=http://www.site.com | title = Testing | acccessdate = 20 May 2009 }}";
-            Assert.AreEqual(nomatch, Parsers.RenameTemplateParameters(nomatch, RenamedTemplateParameters), "No change when no matched templates");
+            Assert.That(Parsers.RenameTemplateParameters(nomatch, RenamedTemplateParameters), Is.EqualTo(nomatch), "No change when no matched templates");
         }
 
         [Test]
@@ -1277,20 +1277,20 @@ was"));
         {
             List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"{{AWB rename template parameter|cite web|acccessdate|accessdate}}");
 
-            Assert.AreEqual(1, RenamedTemplateParameters.Count);
+            Assert.That(RenamedTemplateParameters.Count, Is.EqualTo(1));
 
             foreach (WikiRegexes.TemplateParameters TP in RenamedTemplateParameters)
             {
-                Assert.AreEqual("cite web", TP.TemplateName);
-                Assert.AreEqual("acccessdate", TP.OldParameter);
-                Assert.AreEqual("accessdate", TP.NewParameter);
+                Assert.That(TP.TemplateName, Is.EqualTo("cite web"));
+                Assert.That(TP.OldParameter, Is.EqualTo("acccessdate"));
+                Assert.That(TP.NewParameter, Is.EqualTo("accessdate"));
             }
 
             RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"
 {{AWB rename template parameter|cite web|acccessdate|accessdate}}
 {{AWB rename template parameter|cite web|acessdate|accessdate}}");
 
-            Assert.AreEqual(2, RenamedTemplateParameters.Count);
+            Assert.That(RenamedTemplateParameters.Count, Is.EqualTo(2));
         }
     }
 }

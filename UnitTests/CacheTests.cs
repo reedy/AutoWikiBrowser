@@ -41,7 +41,13 @@ namespace UnitTests
             Cache = new ObjectCache();
         }
 
-        void Reload()
+        [TearDown]
+        public void TearDown()
+        {
+            Cache.Dispose();
+        }
+
+        public void Reload()
         {
             MemoryStream ms = new MemoryStream();
 
@@ -58,7 +64,7 @@ namespace UnitTests
             Assert.IsNull(Cache.Get<int>("foo"));
 
             Cache.Set("foo", "bar");
-            Assert.AreEqual("bar", Cache.Get<string>("foo"));
+            Assert.That(Cache.Get<string>("foo"), Is.EqualTo("bar"));
         }
 
         [Test]
@@ -68,8 +74,8 @@ namespace UnitTests
             Cache.AddType(typeof(int), new TimeSpan(5, 0, 0, 0));
             Cache.Set("foo", 42);
 
-            Assert.AreEqual("bar", Cache.Get<string>("foo"));
-            Assert.AreEqual(42, Cache.Get<int>("foo"));
+            Assert.That(Cache.Get<string>("foo"), Is.EqualTo("bar"));
+            Assert.That(Cache.Get<int>("foo"), Is.EqualTo(42));
         }
 
         [Test]
@@ -80,25 +86,25 @@ namespace UnitTests
 
             // using default expiry time
             Cache.Set("foo", 42);
-            Assert.AreEqual(42, Cache.Get<int>("foo"));
+            Assert.That(Cache.Get<int>("foo"), Is.EqualTo(42));
             Thread.Sleep(60);
             Assert.IsNull(Cache.Get<int>("foo"));
 
             // using explicitly set time, absolute
             Cache.Set("foo", 42, DateTime.Now + expiresSoon);
-            Assert.AreEqual(42, Cache.Get<int>("foo"));
+            Assert.That(Cache.Get<int>("foo"), Is.EqualTo(42));
             Thread.Sleep(60);
             Assert.IsNull(Cache.Get<int>("foo"));
 
             // ...and relative
             Cache.Set("foo", 42, expiresSoon);
-            Assert.AreEqual(42, Cache.Get<int>("foo"));
+            Assert.That(Cache.Get<int>("foo"), Is.EqualTo(42));
             Thread.Sleep(60);
             Assert.IsNull(Cache.Get<int>("foo"));
 
             // also after save/load
             Cache.Set("foo", 42, expiresSoon);
-            Assert.AreEqual(42, Cache.Get<int>("foo"));
+            Assert.That(Cache.Get<int>("foo"), Is.EqualTo(42));
             MemoryStream ms = new MemoryStream();
             Cache.Save(ms);
             ms.Position = 0;
@@ -112,7 +118,7 @@ namespace UnitTests
         {
             Cache.Set("foo", "bar");
             Reload();
-            Assert.AreEqual("bar", Cache.Get<string>("foo"));
+            Assert.That(Cache.Get<string>("foo"), Is.EqualTo("bar"));
         }
 
         [Test]

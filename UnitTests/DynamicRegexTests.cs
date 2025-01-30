@@ -32,10 +32,10 @@ namespace UnitTests
 1910 births]]", "Newline in category name");
             RegexAssert.NoMatch(WikiRegexes.Category, @"[[Category:1910 births
 ]]", "newline in category name 2");
-            Assert.AreEqual("Test now", WikiRegexes.Category.Match("[[Category:Test now]]").Groups[1].Value, "Group 1 is category name");
-            Assert.AreEqual("Test now", WikiRegexes.Category.Match("[[Category: Test now ]]").Groups[1].Value, "Group 1 is category name, trimmed");
-            Assert.AreEqual("", WikiRegexes.Category.Match("[[Category: Test now ]]").Groups[2].Value, "Group 2 is optional sort key");
-            Assert.AreEqual("Bar", WikiRegexes.Category.Match("[[Category: Test now|Bar]]").Groups[2].Value, "Group 2 is sort key");
+            Assert.That(WikiRegexes.Category.Match("[[Category:Test now]]").Groups[1].Value, Is.EqualTo("Test now"), "Group 1 is category name");
+            Assert.That(WikiRegexes.Category.Match("[[Category: Test now ]]").Groups[1].Value, Is.EqualTo("Test now"), "Group 1 is category name, trimmed");
+            Assert.That(WikiRegexes.Category.Match("[[Category: Test now ]]").Groups[2].Value, Is.Empty, "Group 2 is optional sort key");
+            Assert.That(WikiRegexes.Category.Match("[[Category: Test now|Bar]]").Groups[2].Value, Is.EqualTo("Bar"), "Group 2 is sort key");
 
             #if DEBUG
             Variables.SetProjectLangCode("sv");
@@ -99,7 +99,7 @@ namespace UnitTests
 
             string bef = @"[[File:Miguel.jpg|thumb|[[Miguel (privateer)|Miguel]]]] [[File:Demetrio.jpg|thumb|[[Demetrio]]]]";
 
-            Assert.AreEqual(@"_thumb|[[Miguel (privateer)|Miguel]]]] _thumb|[[Demetrio]]]]", WikiRegexes.Images.Replace(bef, "_"), "Image on same line handling");
+            Assert.That(WikiRegexes.Images.Replace(bef, "_"), Is.EqualTo(@"_thumb|[[Miguel (privateer)|Miguel]]]] _thumb|[[Demetrio]]]]"), "Image on same line handling");
         }
         
         [Test]
@@ -201,9 +201,9 @@ File:9th of May_street, Bacău.jpg
 Image:Foo.png|description
 Image:Foo2.png|description2
 </gallery>");
-            
-            Assert.AreEqual(mc[0].Value, "Image:Foo.png|");
-            Assert.AreEqual(mc[1].Value, "Image:Foo2.png|");
+
+            Assert.That(mc[0].Value, Is.EqualTo("Image:Foo.png|"));
+            Assert.That(mc[1].Value, Is.EqualTo("Image:Foo2.png|"));
             
             RegexAssert.IsMatch(WikiRegexes.Images, @"File:Foo.png|description");
             RegexAssert.NoMatch(WikiRegexes.Images, @"<gallery>
@@ -343,9 +343,9 @@ File:9th of May_street, Bacău.jpg
 Image:Foo.png|description
 Image:Foo2.png|description2
 </gallery>");
-            
-            Assert.AreEqual(mc[0].Value, "Image:Foo.png|");
-            Assert.AreEqual(mc[1].Value, "Image:Foo2.png|");
+
+            Assert.That(mc[0].Value, Is.EqualTo("Image:Foo.png|"));
+            Assert.That(mc[1].Value, Is.EqualTo("Image:Foo2.png|"));
             
             RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"File:Foo.png|description");
             RegexAssert.NoMatch(WikiRegexes.ImagesCountOnly, @"<gallery>
@@ -487,9 +487,9 @@ File:9th of May_street, Bacău.jpg
 Image:Foo.png|description
 Image:Foo2.png|description2
 </gallery>");
-            
-            Assert.AreEqual(mc[0].Value, "Image:Foo.png|");
-            Assert.AreEqual(mc[1].Value, "Image:Foo2.png|");
+
+            Assert.That(mc[0].Value, Is.EqualTo("Image:Foo.png|"));
+            Assert.That(mc[1].Value, Is.EqualTo("Image:Foo2.png|"));
             
             RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"File:Foo.png|description");
             RegexAssert.NoMatch(WikiRegexes.ImagesNotTemplates, @"<gallery>
@@ -552,8 +552,8 @@ Image here");
             
             RegexAssert.NoMatch(WikiRegexes.FileNamespaceLink, "[[File:Test.JPG");
             RegexAssert.NoMatch(WikiRegexes.FileNamespaceLink, "[[File Test.JPG]]");
-            
-            Assert.AreEqual(WikiRegexes.FileNamespaceLink.Match(@"[[ File :Test.JPG]]").Groups[1].Value, "Test.JPG");
+
+            Assert.That(WikiRegexes.FileNamespaceLink.Match(@"[[ File :Test.JPG]]").Groups[1].Value, Is.EqualTo("Test.JPG"));
         }
 
         [Test]
@@ -910,23 +910,23 @@ now stubborn}}");
             #if DEBUG
             Variables.SetProjectLangCode("fr");
             WikiRegexes.MakeLangSpecificRegexes();
-            
-            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+
+            Assert.That(WikiRegexes.DateYearMonthParameter, Is.EqualTo(@"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"));
             
             Variables.SetProjectLangCode("sv");
             WikiRegexes.MakeLangSpecificRegexes();
-            
-            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}");
+
+            Assert.That(WikiRegexes.DateYearMonthParameter, Is.EqualTo(@"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}"));
             
             Variables.SetProjectLangCode("zh");
             WikiRegexes.MakeLangSpecificRegexes();
-            
-            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"time={{subst:#time:c}}");
+
+            Assert.That(WikiRegexes.DateYearMonthParameter, Is.EqualTo(@"time={{subst:#time:c}}"));
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
-            
-            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+
+            Assert.That(WikiRegexes.DateYearMonthParameter, Is.EqualTo(@"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"));
             #endif
         }
         
@@ -1010,7 +1010,7 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized stub}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
-            Assert.AreEqual("okategoriserad", WikiRegexes.Uncat.Match(@"{{okategoriserad}}").Groups[1].Value);
+            Assert.That(WikiRegexes.Uncat.Match(@"{{okategoriserad}}").Groups[1].Value, Is.EqualTo("okategoriserad"));
 
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -1277,11 +1277,11 @@ ABC");
         {
             RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"https://en.wikipedia.org/wiki/Foo");
             RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"https://en.wikipedia.org/wiki/Foo_bar");
-            
-            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/wiki/Foo").Groups[1].Value, "Foo");
-            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/w/index.php?title=Foo").Groups[1].Value, "Foo");
-            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/w/index.php/Foo").Groups[1].Value, "Foo");
-            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/w/index.php/Foo bar here").Groups[1].Value, "Foo bar here");
+
+            Assert.That(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/wiki/Foo").Groups[1].Value, Is.EqualTo("Foo"));
+            Assert.That(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/w/index.php?title=Foo").Groups[1].Value, Is.EqualTo("Foo"));
+            Assert.That(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/w/index.php/Foo").Groups[1].Value, Is.EqualTo("Foo"));
+            Assert.That(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/w/index.php/Foo bar here").Groups[1].Value, Is.EqualTo("Foo bar here"));
             
             RegexAssert.NoMatch(WikiRegexes.ExtractTitle, @"https://random.org/wiki/Foo");
             RegexAssert.NoMatch(WikiRegexes.ExtractTitle, @"https://en.wikipedia.org/wikirandom/Foo");
@@ -1328,10 +1328,10 @@ ABC");
         public void MonthsTests()
         {
             Regex mo = new Regex(WikiRegexes.Months);
-            Assert.AreEqual("January", mo.Match(@"in January there").Groups[1].Value);
+            Assert.That(mo.Match(@"in January there").Groups[1].Value, Is.EqualTo("January"));
 
             Regex mong = new Regex(WikiRegexes.MonthsNoGroup);
-            Assert.AreEqual("", mong.Match(@"in January there").Groups[1].Value);
+            Assert.That(mong.Match(@"in January there").Groups[1].Value, Is.Empty);
         }
 
         [Test]
@@ -1345,7 +1345,7 @@ ABC");
 ");
             RegexAssert.NoMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:foo");
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:}}");
-            Assert.AreEqual("", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:}}").Groups["key"].Value);
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:}}").Groups["key"].Value, Is.Empty);
             
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:
 Wangchuck, Tshering Pem}}");
@@ -1353,29 +1353,29 @@ Wangchuck, Tshering Pem}}");
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:
 Wangchuck, Tshering Pem
 }}");
-            
-            Assert.AreEqual("foo", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Groups["key"].Value);
-            
-            Assert.AreEqual("foo", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:
-foo}}").Groups["key"].Value);
-            
-            Assert.AreEqual(@"{{PAGENAME}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:{{PAGENAME}}}}").Groups["key"].Value);
 
-            Assert.AreEqual("{{DEFAULTSORT:foo}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Value);
-            Assert.AreEqual("{{DEFAULTSORT:foo\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo
-now").Value);
-            
-            Assert.AreEqual(@"{{DEFAULTSORT:{{PAGENAME}}}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:{{PAGENAME}}}}").Value);
-            
-            Assert.AreEqual(@"{{DEFAULTSORT:foo]]" + "\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
-pp").Value);
-            Assert.AreEqual(@"{{DEFAULTSORT:foo]]" + "\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Groups["key"].Value, Is.EqualTo("foo"));
+
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:
+foo}}").Groups["key"].Value, Is.EqualTo("foo"));
+
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:{{PAGENAME}}}}").Groups["key"].Value, Is.EqualTo(@"{{PAGENAME}}"));
+
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Value, Is.EqualTo("{{DEFAULTSORT:foo}}"));
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo
+now").Value, Is.EqualTo("{{DEFAULTSORT:foo\r"));
+
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:{{PAGENAME}}}}").Value, Is.EqualTo(@"{{DEFAULTSORT:{{PAGENAME}}}}"));
+
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
+pp").Value, Is.EqualTo(@"{{DEFAULTSORT:foo]]" + "\r"));
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
 pp
 {{x}}
-").Value);
-            Assert.AreEqual(@"{{DEFAULTSORT:foo
-}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo
-}}").Value);
+").Value, Is.EqualTo(@"{{DEFAULTSORT:foo]]" + "\r"));
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo
+}}").Value, Is.EqualTo(@"{{DEFAULTSORT:foo
+}}"));
 
             #if DEBUG
             Variables.SetProjectLangCode("en");
@@ -1385,13 +1385,13 @@ pp
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{DEFAULTSORT:foo}}");
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{dsort:foo}}");
             Variables.MagicWords.Remove("defaultsort");
-            Assert.AreEqual("{{DEFAULTSORT:foo}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}<!--comm-->").Value, "comment after DEFAULTSORT not extracted");
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}<!--comm-->").Value, Is.EqualTo("{{DEFAULTSORT:foo}}"), "comment after DEFAULTSORT not extracted");
 
             Variables.SetProjectLangCode("sv");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.AreEqual("{{DEFAULTSORT:foo}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Value);
-            Assert.AreEqual("{{DEFAULTSORT:foo}} <!--comm-->", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}} <!--comm-->").Value, "comment after DEFAULTSORT allowed for sv-wiki");
-            Assert.AreEqual("{{DEFAULTSORT:foo}}<!--comm-->", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}<!--comm-->").Value, "comment after DEFAULTSORT allowed for sv-wiki");
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Value, Is.EqualTo("{{DEFAULTSORT:foo}}"));
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}} <!--comm-->").Value, Is.EqualTo("{{DEFAULTSORT:foo}} <!--comm-->"), "comment after DEFAULTSORT allowed for sv-wiki");
+            Assert.That(WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}<!--comm-->").Value, Is.EqualTo("{{DEFAULTSORT:foo}}<!--comm-->"), "comment after DEFAULTSORT allowed for sv-wiki");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();

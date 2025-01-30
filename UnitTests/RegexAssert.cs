@@ -93,7 +93,7 @@ namespace UnitTests
 
         public static void NoMatch(Regex regex, string input, string message)
         {
-            new AssertionHelper().Expect(!regex.IsMatch(input), "The string matches the given regex"
+            Assert.IsTrue(!regex.IsMatch(input), "The string matches the given regex"
                 + (message.Length == 0 ? "" : ": " + message));
         }
         #endregion
@@ -182,7 +182,7 @@ namespace UnitTests
             //    string errorMessage = "";
             //    if (message.Length >= 0) errorMessage = message + "";
             // }
-            CollectionAssert.AreEqual(expected, MatchesToStrings(regex.Matches(input)), message);
+            Assert.That(MatchesToStrings(regex.Matches(input)), Is.EqualTo(expected).AsCollection, message);
         }
         #endregion
 
