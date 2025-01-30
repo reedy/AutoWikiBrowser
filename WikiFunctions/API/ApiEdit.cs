@@ -374,7 +374,8 @@ namespace WikiFunctions.API
 
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.ServerCertificateValidationCallback += customXertificateValidation;
-            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol |=
+                SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
 
             HttpWebRequest req = (HttpWebRequest) WebRequest.Create(url);
             req.KeepAlive = true;

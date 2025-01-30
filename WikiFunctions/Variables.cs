@@ -498,7 +498,8 @@ namespace WikiFunctions
         public static HttpWebRequest PrepareWebRequest(string url, string userAgent)
         {
             ServicePointManager.Expect100Continue = false;
-            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol |=
+                SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
 
             HttpWebRequest req = (HttpWebRequest) WebRequest.Create(url);
             req.KeepAlive = true;

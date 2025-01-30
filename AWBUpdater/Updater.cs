@@ -230,7 +230,8 @@ namespace AWBUpdater
             UpdateUI("   Retrieving current version...", true);
             try
             {
-                ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 |
+                                                        SecurityProtocolType.Tls13;
 
                 HttpWebRequest rq = (HttpWebRequest) WebRequest.Create(VERSION_URL);
 
