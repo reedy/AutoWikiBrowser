@@ -13,7 +13,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,7 +42,7 @@
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SemanticVersion, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cf3d9de2a6c185ee, processorArchitecture=MSIL">
-      <HintPath>..\packages\SemanticVersion.2.1.0\lib\net452\SemanticVersion.dll</HintPath>
+      <HintPath>..\packages\SemanticVersion.2.1.0\lib\net462\SemanticVersion.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
