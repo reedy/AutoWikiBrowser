@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SDK Software")]
 [assembly: AssemblyProduct("Kingbotk AWB Plugin")]
-[assembly: AssemblyCopyright("Copyright © Stephen Kennedy, Sam Reed 2008-2018")]
+[assembly: AssemblyCopyright("Copyright © 2008-2025 Stephen Kennedy, Sam Reed, AutoWikiBrowser Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

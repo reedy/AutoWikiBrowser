@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TheTemplator")]
-[assembly: AssemblyCopyright("Copyright © Rick Martin 2009")]
+[assembly: AssemblyCopyright("Copyright © 2009-2025 Rick Martin, AutoWikiBrowser Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

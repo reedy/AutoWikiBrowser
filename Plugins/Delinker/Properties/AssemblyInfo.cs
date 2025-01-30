@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DelinkerPlugin")]
-[assembly: AssemblyCopyright("Copyright © 2010 AutoWikiBrowser Team")]
+[assembly: AssemblyCopyright("Copyright © 2010-2025 AutoWikiBrowser Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
