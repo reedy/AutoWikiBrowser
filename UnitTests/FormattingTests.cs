@@ -25,6 +25,7 @@ Copyright © 2000-2002 Philip A. Craig
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 using WikiFunctions.Parse;
 
@@ -243,14 +244,14 @@ Bar"), "External Links capitalization");
             string HeadingEqualTitle = Parsers.FixHeadings(@"
 ==Foo==
 B", "Foo");
-            Assert.IsFalse(HeadingEqualTitle.Contains("Foo"), "Heading same as title");
+            ClassicAssert.IsFalse(HeadingEqualTitle.Contains("Foo"), "Heading same as title");
 
             HeadingEqualTitle = Parsers.FixHeadings(@"Words here
 ==Section==
 Words there.
 ==Foo==
 B", "Foo");
-            Assert.IsTrue(HeadingEqualTitle.Contains("Foo"), "Heading same as title in later section retained");
+            ClassicAssert.IsTrue(HeadingEqualTitle.Contains("Foo"), "Heading same as title in later section retained");
 
             Assert.That(Parsers.FixHeadings(@"'''The'''.
 
@@ -388,7 +389,7 @@ text
 ==External links==
 foo"));
 
-            Assert.IsTrue(Parsers.FixHeadings(@"====hello====
+            ClassicAssert.IsTrue(Parsers.FixHeadings(@"====hello====
 text
 
 ==See also==
@@ -637,28 +638,28 @@ Bar", "Test"), Is.EqualTo(correct), "inserts blank line if one missing");
         [Test]
         public void TestFixHeadingsBadHeaders()
         {
-            Assert.IsFalse(Parsers.FixHeadings(@"==Introduction==
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"==Introduction==
 '''Foo''' great.", "Foo").Contains(@"==Introduction=="), "Excess heading at start");
-            Assert.IsFalse(Parsers.FixHeadings(@"==Introduction:==
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"==Introduction:==
 '''Foo''' great.", "Foo").Contains(@"==Introduction:=="), "Excess heading at start, with colon");
-            Assert.IsFalse(Parsers.FixHeadings(@"=='''Introduction'''==
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"=='''Introduction'''==
 '''Foo''' great.", "Foo").Contains(@"Introduction"), "Excess heading at start, with bold");
-            Assert.IsFalse(Parsers.FixHeadings(@"=='''Introduction:'''==
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"=='''Introduction:'''==
 '''Foo''' great.", "Foo").Contains(@"=='''Introduction:'''=="), "Excess heading at start, with bold and colon");
-            Assert.IsFalse(Parsers.FixHeadings(@"===Introduction===
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"===Introduction===
 '''Foo''' great.", "Foo").Contains(@"===Introduction==="), "Excess heading at start, level 3");
 
-            Assert.IsFalse(Parsers.FixHeadings(@"==About==
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"==About==
 '''Foo''' great.", "Foo").Contains(@"==About=="), "Excess heading at start About");
-            Assert.IsFalse(Parsers.FixHeadings(@"==Description==
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"==Description==
 '''Foo''' great.", "Foo").Contains(@"==Description=="), "Excess heading at start Description");
-            Assert.IsFalse(Parsers.FixHeadings(@"==Overview==
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"==Overview==
 '''Foo''' great.", "Foo").Contains(@"==Overview=="), "Excess heading at start Overview");
-            Assert.IsFalse(Parsers.FixHeadings(@"==Definition==
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"==Definition==
 '''Foo''' great.", "Foo").Contains(@"==Definition=="), "Excess heading at start Definition");
-            Assert.IsFalse(Parsers.FixHeadings(@"==Profile==
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"==Profile==
 '''Foo''' great.", "Foo").Contains(@"==Profile=="), "Excess heading at start Profile");
-            Assert.IsFalse(Parsers.FixHeadings(@"==General information==
+            ClassicAssert.IsFalse(Parsers.FixHeadings(@"==General information==
 '''Foo''' great.", "Foo").Contains(@"==General information=="), "Excess heading at start General information");
 
             Assert.That(Parsers.FixHeadings(@"==Introduction==
@@ -696,11 +697,11 @@ Here there";
         [Test]
         public void UnbalancedHeadings()
         {
-            Assert.IsTrue(Parsers.FixHeadings(@"==External links=
+            ClassicAssert.IsTrue(Parsers.FixHeadings(@"==External links=
 *Foo", "Bar").Contains(@"==External links=="));
-            Assert.IsTrue(Parsers.FixHeadings(@"==References=
+            ClassicAssert.IsTrue(Parsers.FixHeadings(@"==References=
 {{Reflist}}", "Bar").Contains(@"==References=="));
-            Assert.IsTrue(Parsers.FixHeadings(@"==See also=
+            ClassicAssert.IsTrue(Parsers.FixHeadings(@"==See also=
 *Foo1
 *Foo2", "Bar").Contains(@"==See also=="));
         }
@@ -1101,14 +1102,14 @@ was"));
 
             Assert.That(Parsers.LoadTemplateRedirects("{{tl|Cn}} → {{tl|Citation needed}}").Values, Is.EqualTo(TemplateRedirects.Values), "loads single redirect rules");
             Assert.That(Parsers.LoadTemplateRedirects("{{tl|Cn}} → '''{{tl|Citation needed}}'''").Values, Is.EqualTo(TemplateRedirects.Values), "loads single redirect rules");
-            Assert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{cn}}"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{cn}}"));
 
             TemplateRedirects.Clear();
             TemplateRedirects.Add(Tools.NestedTemplateRegex(new[] { "Cn", "fact" }), "Citation needed");
 
             Assert.That(Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|Citation needed}}").Values, Is.EqualTo(TemplateRedirects.Values), "loads multiple redirect rules");
-            Assert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{cn}}"));
-            Assert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{fact}}"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{cn}}"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{fact}}"));
         }
 
         [Test]

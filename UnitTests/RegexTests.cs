@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using WikiFunctions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace UnitTests
 {
@@ -43,7 +44,7 @@ namespace UnitTests
 
         protected static void TestMatch(Match m, params string[] groups)
         {
-            Assert.GreaterOrEqual(m.Groups.Count, groups.Length, "Too few groups matched");
+            ClassicAssert.GreaterOrEqual(m.Groups.Count, groups.Length, "Too few groups matched");
 
             for (int i = 0; i < groups.Length; i++)
             {
@@ -200,19 +201,19 @@ namespace UnitTests
         [Test]
         public void NamedReferences()
         {
-            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = ""foo"">text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = ""foo""></ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name =foo>text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name=foo>text< / ref >"));
-            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name=foo>te<taga</tag>xt</ref>"), "nested tag support");
-            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = 'foo'>text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = ""foo"">text</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = ""foo""></ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name =foo>text</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name=foo>text< / ref >"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name=foo>te<taga</tag>xt</ref>"), "nested tag support");
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = 'foo'>text</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">text</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">
 {{ cite web|
 title = text |
 work = text
 }}</ref>"), "matches multiple line ref");
-            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">text <br>more</ref>"), "case insensitive matching");
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">text <br>more</ref>"), "case insensitive matching");
 
             Assert.That(WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Value, Is.EqualTo(@"<ref name=""Shul726"">Shul, p. 726</ref>"), "match is not across consecutive references – first condensed");
             Assert.That(WikiRegexes.NamedReferences.Match(@"<ref name=""Shul726"">Shul, p. 726</ref><ref name=""Foo"">foo text</ref>").Value, Is.EqualTo(@"<ref name=""Shul726"">Shul, p. 726</ref>"), "match is not across consecutive references – first full");
@@ -221,22 +222,22 @@ work = text
             Assert.That(WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">
 Shul, p. 726    </ref>").Groups[2].Value, Is.EqualTo(@"Shul726"), "ref value doesn't include leading/trailing whitespace");
 
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo"">text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""fo/o"">text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo"">text<tag>a</tag></ref>"), "matches with nested tags");
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo""></ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref Name =foo>text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name=foo>text< / ref >"));
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name=foo>te<taga</tag>xt</ref>"), "nested tag support");
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = 'foo'>text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"">text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"" />"), "matches condensed named ref");
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"">
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo"">text</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""fo/o"">text</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo"">text<tag>a</tag></ref>"), "matches with nested tags");
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo""></ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref Name =foo>text</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name=foo>text< / ref >"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name=foo>te<taga</tag>xt</ref>"), "nested tag support");
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = 'foo'>text</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"">text</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"" />"), "matches condensed named ref");
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"">
 {{ cite web|
 title = text |
 work = text
 }}</ref>"), "matches multiple line ref");
-            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"">text <br>more</ref>"), "case insensitive matching");
+            ClassicAssert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"">text <br>more</ref>"), "case insensitive matching");
 
             Assert.That(WikiRegexes.NamedReferencesIncludingCondensed.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Value, Is.EqualTo(@"<ref name=""vietnam.ttu.edu""/>"), "match is not across consecutive references – first condensed");
             Assert.That(WikiRegexes.NamedReferencesIncludingCondensed.Match(@"<ref name=""Shul726"">Shul, p. 726</ref>").Groups[2].Value, Is.EqualTo(@"Shul726"), "ref name is group 2");
@@ -248,57 +249,57 @@ Shul, p. 726    </ref>").Groups[2].Value, Is.EqualTo(@"Shul726"), "ref value doe
         [Test]
         public void UnformattedTextTests()
         {
-            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<pre>{{abc}}</pre>"));
-            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<math>{{abc}}</math>"));
-            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<math chem>{{abc}}</math>"));
-            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<chem>{{abc}}</chem>"));
-            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
-            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
-            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<!--{{abc}}-->"));
-            Assert.IsFalse(WikiRegexes.UnformattedText.IsMatch(@"<pre>{{abc}}</nowiki>"), "Does not match unbalanced tags");
+            ClassicAssert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<pre>{{abc}}</pre>"));
+            ClassicAssert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<math>{{abc}}</math>"));
+            ClassicAssert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<math chem>{{abc}}</math>"));
+            ClassicAssert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<chem>{{abc}}</chem>"));
+            ClassicAssert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
+            ClassicAssert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
+            ClassicAssert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<!--{{abc}}-->"));
+            ClassicAssert.IsFalse(WikiRegexes.UnformattedText.IsMatch(@"<pre>{{abc}}</nowiki>"), "Does not match unbalanced tags");
         }
 
         [Test]
         public void AllTags()
         {
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</pre>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math>{{abc}}</math>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<timeline>{{abc}}</timeline>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<cite>{{abc}}</cite>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<blockquote>{{abc}}</blockquote>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<BLOCKQUOTE>{{abc}}</BLOCKQUOTE>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<poem>{{abc}}</poem>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<imagemap>{{abc}}</imagemap>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<noinclude>{{abc}}</noinclude>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<includeonly>{{abc}}</includeonly>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<onlyinclude>{{abc}}</onlyinclude>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<hiero>abc</hiero>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<score>{a,, c, e, a, c e a c' e' a' c'' e'' a'' c''' e''' g''' \bar</score>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</pre>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math>{{abc}}</math>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<timeline>{{abc}}</timeline>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<cite>{{abc}}</cite>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<blockquote>{{abc}}</blockquote>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<BLOCKQUOTE>{{abc}}</BLOCKQUOTE>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<poem>{{abc}}</poem>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<imagemap>{{abc}}</imagemap>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<noinclude>{{abc}}</noinclude>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<includeonly>{{abc}}</includeonly>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<onlyinclude>{{abc}}</onlyinclude>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<hiero>abc</hiero>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<score>{a,, c, e, a, c e a c' e' a' c'' e'' a'' c''' e''' g''' \bar</score>"));
 
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
-            Assert.IsFalse(WikiRegexes.AllTags.IsMatch(@"<!--{{abc}}-->"));
-            Assert.IsFalse(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</nowiki>"), "Does not match unbalanced tags");
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
+            ClassicAssert.IsFalse(WikiRegexes.AllTags.IsMatch(@"<!--{{abc}}-->"));
+            ClassicAssert.IsFalse(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</nowiki>"), "Does not match unbalanced tags");
 
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</pre>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<code>{{abc}}</code>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<source lang=xml>{{abc}}</source>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<source>{{abc}}</source>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math>{{abc}}</math>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<chem>{{abc}}</chem>"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math chem>{{abc}}</math>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</pre>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<code>{{abc}}</code>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<source lang=xml>{{abc}}</source>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<source>{{abc}}</source>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math>{{abc}}</math>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<chem>{{abc}}</chem>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math chem>{{abc}}</math>"));
 
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>now <br> now </pre>"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>now <br> now </pre>"));
 
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre >{{abc}}< / pre >"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre > {{abc}} < / pre >"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre >
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre >{{abc}}< / pre >"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre > {{abc}} < / pre >"));
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre >
 {{abc}}
 < / pre >"));
-            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<
+            ClassicAssert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<
  pre > {{abc}} < / pre
  >"));
             Assert.That(WikiRegexes.AllTags.Match(@"<nowiki>now <math>{{abc}}</math> now </nowiki>").Value, Is.EqualTo("<nowiki>now <math>{{abc}}</math> now </nowiki>"));
@@ -307,38 +308,38 @@ Shul, p. 726    </ref>").Groups[2].Value, Is.EqualTo(@"Shul726"), "ref value doe
         [Test]
         public void SourceCodeTests()
         {
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<code>{{abc}}</code>"));
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<source lang=xml>{{abc}}</source>"));
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""xml"">{{abc}}</syntaxhighlight>"));
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""javascript"">\r\n var x; //defines the variable x</syntaxhighlight>"));
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<source>{{abc}}</source>"));
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<tt>{{abc}}</tt>"));
+            ClassicAssert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<code>{{abc}}</code>"));
+            ClassicAssert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<source lang=xml>{{abc}}</source>"));
+            ClassicAssert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));
+            ClassicAssert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""xml"">{{abc}}</syntaxhighlight>"));
+            ClassicAssert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""javascript"">\r\n var x; //defines the variable x</syntaxhighlight>"));
+            ClassicAssert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<source>{{abc}}</source>"));
+            ClassicAssert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
+            ClassicAssert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<tt>{{abc}}</tt>"));
 
-            Assert.IsFalse(WikiRegexes.SourceCode.IsMatch(@"<math>{{abc}}</math>"));
-            Assert.IsFalse(WikiRegexes.SourceCode.IsMatch(@"<pre>{{abc}}</pre>"));
+            ClassicAssert.IsFalse(WikiRegexes.SourceCode.IsMatch(@"<math>{{abc}}</math>"));
+            ClassicAssert.IsFalse(WikiRegexes.SourceCode.IsMatch(@"<pre>{{abc}}</pre>"));
         }
 
         [Test]
         public void MathPreSourceCodeTests()
         {
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<pre>{{abc}}</pre>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<!--{{abc}}-->"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<code>{{abc}}</code>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<source lang=xml>{{abc}}</source>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=""xml"">{{abc}}</syntaxhighlight>"));
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""javascript"">\r\n var x; //defines the variable x</syntaxhighlight>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<source>{{abc}}</source>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<math>{{abc}}</math>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<chem>{{abc}}</chem>"));
-            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<math chem>{{abc}}</math>"));
-            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<tt>{{abc}}</tt>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<pre>{{abc}}</pre>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<!--{{abc}}-->"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<code>{{abc}}</code>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<source lang=xml>{{abc}}</source>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=""xml"">{{abc}}</syntaxhighlight>"));
+            ClassicAssert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""javascript"">\r\n var x; //defines the variable x</syntaxhighlight>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<source>{{abc}}</source>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<math>{{abc}}</math>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<chem>{{abc}}</chem>"));
+            ClassicAssert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<math chem>{{abc}}</math>"));
+            ClassicAssert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<tt>{{abc}}</tt>"));
 
-            Assert.IsFalse(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
+            ClassicAssert.IsFalse(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
         }
 
         [Test]
@@ -681,20 +682,20 @@ bar</ INCLUDEONLY>");
         [Test]
         public void TemplateName()
         {
-            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Start date and age|1833|7|11}}").Groups[1].Value == "Start date and age");
+            ClassicAssert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Start date and age|1833|7|11}}").Groups[1].Value == "Start date and age");
 
             // whitespace handling
-            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{ Start date and age |1833|7|11}}").Groups[1].Value == "Start date and age");
-            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{
+            ClassicAssert.IsTrue(WikiRegexes.TemplateName.Match(@"{{ Start date and age |1833|7|11}}").Groups[1].Value == "Start date and age");
+            ClassicAssert.IsTrue(WikiRegexes.TemplateName.Match(@"{{
 Start date and age
 |1833|7|11}}").Groups[1].Value == "Start date and age");
 
             // embedded comments
-            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{start date and age <!--comm--> |1833|7|11}}").Groups[1].Value == "start date and age");
-            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{start date and age <!--comm-->}}").Groups[1].Value == "start date and age");
+            ClassicAssert.IsTrue(WikiRegexes.TemplateName.Match(@"{{start date and age <!--comm--> |1833|7|11}}").Groups[1].Value == "start date and age");
+            ClassicAssert.IsTrue(WikiRegexes.TemplateName.Match(@"{{start date and age <!--comm-->}}").Groups[1].Value == "start date and age");
 
             // works on part templates
-            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Start date and age|1833|7|").Groups[1].Value == "Start date and age");
+            ClassicAssert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Start date and age|1833|7|").Groups[1].Value == "Start date and age");
         }
 
         [Test]
@@ -1052,121 +1053,121 @@ foo
 
             // be careful about condensing any of these unit tests, as some of the different quote characters *look* the same, but in fact are different Unicode characters
 
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ""very fast"" ", "1").Contains(@"""very fast"""));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@"""very fast"" ", "1").Contains(@"""very fast"""));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" « very fast » ", "1").Contains(@"« very fast »"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‘very fast‘ ", "1").Contains(@"‘very fast‘"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ’ ", "").Contains(@"’ very fast ’"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast “ ", "").Contains(@"“ very fast “"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ” very fast ” ", "").Contains(@"” very fast ”"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‛ very fast ‛ ", "").Contains(@"‛ very fast ‛"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‟ very fast‟ ", " ").Contains(@"‟ very fast‟"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‹ very fast › ", "").Contains(@"‹ very fast ›"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” ", "").Contains(@"“ very fast ”"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „ very fast „ ", "").Contains(@"„ very fast „"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „ very fast „ ", "").Contains(@"„ very fast „"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‘ very fast ‘ ", "").Contains(@"‘ very fast ‘"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ’ ", "").Contains(@"’ very fast ’"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” ", "").Contains(@"“ very fast ”"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ` very fast ` ", "").Contains(@"` very fast `"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ‘ ", "").Contains(@"’ very fast ‘"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „very
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ""very fast"" ", "1").Contains(@"""very fast"""));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@"""very fast"" ", "1").Contains(@"""very fast"""));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" « very fast » ", "1").Contains(@"« very fast »"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‘very fast‘ ", "1").Contains(@"‘very fast‘"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ’ ", "").Contains(@"’ very fast ’"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast “ ", "").Contains(@"“ very fast “"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ” very fast ” ", "").Contains(@"” very fast ”"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‛ very fast ‛ ", "").Contains(@"‛ very fast ‛"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‟ very fast‟ ", " ").Contains(@"‟ very fast‟"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‹ very fast › ", "").Contains(@"‹ very fast ›"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” ", "").Contains(@"“ very fast ”"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „ very fast „ ", "").Contains(@"„ very fast „"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „ very fast „ ", "").Contains(@"„ very fast „"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‘ very fast ‘ ", "").Contains(@"‘ very fast ‘"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ’ ", "").Contains(@"’ very fast ’"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” ", "").Contains(@"“ very fast ”"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ` very fast ` ", "").Contains(@"` very fast `"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ‘ ", "").Contains(@"’ very fast ‘"));
+            ClassicAssert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „very
 fast„ ", "").Contains(@" „very
 fast„ "));
 
-            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty ", "").Contains("but not pretty"));
-            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty“ ", "").Contains("but not pretty“"));
-            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” and “ very well ” ", "").Contains(" and "));
-            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@"not pretty but “ very fast ” ", "").Contains("not pretty but "));
+            ClassicAssert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty ", "").Contains("but not pretty"));
+            ClassicAssert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty“ ", "").Contains("but not pretty“"));
+            ClassicAssert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” and “ very well ” ", "").Contains(" and "));
+            ClassicAssert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@"not pretty but “ very fast ” ", "").Contains("not pretty but "));
 
             // don't match single quotes, no quotes
-            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" very fast ", "").Contains(@"very fast"));
-            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" 'very fast' ", "").Contains(@"'very fast'"));
-            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ''very fast'' ", "").Contains(@"''very fast''"));
-            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ''very fast'' ", "").Contains(@"''very fast''"));
-            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ,very fast, ", "").Contains(@",very fast,")); // commas
+            ClassicAssert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" very fast ", "").Contains(@"very fast"));
+            ClassicAssert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" 'very fast' ", "").Contains(@"'very fast'"));
+            ClassicAssert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ''very fast'' ", "").Contains(@"''very fast''"));
+            ClassicAssert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ''very fast'' ", "").Contains(@"''very fast''"));
+            ClassicAssert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ,very fast, ", "").Contains(@",very fast,")); // commas
 
             // don't match apostrophes when used within words
-            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@"Now it’s a shame as it’s a", "").Contains(@"Now it’s a shame as it’s a"));
+            ClassicAssert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@"Now it’s a shame as it’s a", "").Contains(@"Now it’s a shame as it’s a"));
         }
 
         [Test]
         public void CurlyDoubleQuotes()
         {
-            Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@" “ very fast ”"));
-            Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@"very fast „"));
+            ClassicAssert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@" “ very fast ”"));
+            ClassicAssert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@"very fast „"));
         }
 
         [Test]
         public void RFromModification()
         {
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from modification}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{ r from modification}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R mod }}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from alternate punctuation}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from alternative punctuation}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from modification}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{ r from modification}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R mod }}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from alternate punctuation}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from alternative punctuation}}"));
         }
 
         [Test]
         public void RFromTitleWithoutDiacritics()
         {
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to accents}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{Redirects from title without diacritics}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{RDiacr}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{r to unicode name}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{ R to unicode}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to unicode  }}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to title with diacritics}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to diacritics}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to diacritic}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from name without diacritics}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from title without diacritics}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from original name without diacritics}}"));
-            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R without diacritics}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to accents}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{Redirects from title without diacritics}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{RDiacr}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{r to unicode name}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{ R to unicode}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to unicode  }}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to title with diacritics}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to diacritics}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to diacritic}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from name without diacritics}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from title without diacritics}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from original name without diacritics}}"));
+            ClassicAssert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R without diacritics}}"));
         }
 
         [Test]
         public void MoreNoFootnotesTests()
         {
-            Assert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{morefootnotes}}"));
-            Assert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{Morefootnotes}}"));
-            Assert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{More footnotes}}"));
-            Assert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{Nofootnotes}}"));
-            Assert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{No footnotes}}"));
-            Assert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{nofootnotes}}"));
-            Assert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{nofootnotes|section}}"));
+            ClassicAssert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{morefootnotes}}"));
+            ClassicAssert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{Morefootnotes}}"));
+            ClassicAssert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{More footnotes}}"));
+            ClassicAssert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{Nofootnotes}}"));
+            ClassicAssert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{No footnotes}}"));
+            ClassicAssert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{nofootnotes}}"));
+            ClassicAssert.IsTrue(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{nofootnotes|section}}"));
 
-            Assert.IsFalse(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{NOFOOTNOTES}}"));
+            ClassicAssert.IsFalse(WikiRegexes.MoreNoFootnotes.IsMatch(@"{{NOFOOTNOTES}}"));
         }
 
         [Test]
         public void ReferencesTemplateTests()
         {
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{reflist}}"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{reflist|2}}"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{Reflist}}"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{ref-list}}"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{Reflink}}"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{reflink}}"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{References}}"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{references}}"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <references/>"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <references />"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <references responsive/>"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <references responsive=""0""/>"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <References />"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{Listaref|2}}"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{ listaref | 2}}"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"<references>
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{reflist}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{reflist|2}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{Reflist}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{ref-list}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{Reflink}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{reflink}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{References}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{references}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <references/>"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <references />"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <references responsive/>"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <references responsive=""0""/>"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <References />"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{Listaref|2}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{ listaref | 2}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"<references>
 <ref name =Fred>Fred</ref> </references>"));
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"<  references >
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"<  references >
 <ref name =Fred>Fred</ref> </  references  >"));
 
-            Assert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref>"));
-            Assert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref name=""F"">Fred</ref>"));
-            Assert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello world"));
+            ClassicAssert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref>"));
+            ClassicAssert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref name=""F"">Fred</ref>"));
+            ClassicAssert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello world"));
 
-            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"{{Reflist|refs=
+            ClassicAssert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"{{Reflist|refs=
 <ref name=modern>{{cite news |first=William }}
         }}"));
         }
@@ -1174,21 +1175,21 @@ fast„ "));
         [Test]
         public void CiteTemplate()
         {
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{ cite web|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Cite web|url=a|title=b and {{foo}} there}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite news|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite book|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite conference|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite manual|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite paper|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite press release|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite encyclopedia|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite AV media|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{vcite2 journal}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite magazine|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite report|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{ cite web|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Cite web|url=a|title=b and {{foo}} there}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite news|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite book|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite conference|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite manual|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite paper|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite press release|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite encyclopedia|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite AV media|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{vcite2 journal}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite magazine|url=a|title=b}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite report|url=a|title=b}}"));
 
             // name derivation
             Assert.That(WikiRegexes.CiteTemplate.Match(@"{{cite web|url=a|title=b}}").Groups[2].Value, Is.EqualTo("cite web"));
@@ -1201,19 +1202,19 @@ fast„ "));
         [Test]
         public void RefAfterReflist()
         {
-            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} <ref>b</ref>"));
-            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== <references/> <ref>b</ref>"));
-            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{Reflist}} <ref>b</ref>"));
-            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflink}} <ref>b</ref>"));
-            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{ref-list}} <ref>b</ref>"));
-            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref>
+            ClassicAssert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} <ref>b</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== <references/> <ref>b</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{Reflist}} <ref>b</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflink}} <ref>b</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{ref-list}} <ref>b</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref>
 ==references== {{reflist}} <ref>b</ref>"));
-            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} blah
+            ClassicAssert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} blah
 <ref>b</ref>"));
-            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref>"));
+            ClassicAssert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref>"));
 
             // this is correct syntax
-            Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}}"));
+            ClassicAssert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}}"));
 
             string bug1 = @"
 ==References==
@@ -1230,154 +1231,154 @@ fast„ "));
 [[pt:Tatamy]]
 [[vo:Tatamy]]";
 
-            Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(bug1));
+            ClassicAssert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(bug1));
         }
 
         [Test]
         public void IbidOpCitation()
         {
-            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"ibid"));
-            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"Ibid"));
-            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"IBID"));
-            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"loc cit"));
-            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"loc.cit"));
-            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"Loc. cit"));
-            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"Loc
+            ClassicAssert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"ibid"));
+            ClassicAssert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"Ibid"));
+            ClassicAssert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"IBID"));
+            ClassicAssert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"loc cit"));
+            ClassicAssert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"loc.cit"));
+            ClassicAssert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"Loc. cit"));
+            ClassicAssert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"Loc
 cit"));
 
-            Assert.IsFalse(WikiRegexes.IbidLocCitation.IsMatch(@"Libid was"));
-            Assert.IsFalse(WikiRegexes.IbidLocCitation.IsMatch(@"The loc was later cit"));
+            ClassicAssert.IsFalse(WikiRegexes.IbidLocCitation.IsMatch(@"Libid was"));
+            ClassicAssert.IsFalse(WikiRegexes.IbidLocCitation.IsMatch(@"The loc was later cit"));
         }
 
         [Test]
         public void Ibid()
         {
-            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid}}"));
-            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ Ibid }}"));
-            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009}}"));
-            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid | date=May 2009}}"));
-            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{Ibid|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009|foo=bar}}"));
-            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ Ibid }}"));
+            ClassicAssert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid | date=May 2009}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{Ibid|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009|foo=bar}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|}}"));
 
-            Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"Libid was"));
-            Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{IBID}}"));
-            Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{Ibidate}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Ibid.IsMatch(@"Libid was"));
+            ClassicAssert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{IBID}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{Ibidate}}"));
         }
 
         [Test]
         public void WikipediaBooks()
         {
-            Assert.IsTrue(WikiRegexes.WikipediaBooks.IsMatch(@"{{Wikipedia-Books}}"));
-            Assert.IsTrue(WikiRegexes.WikipediaBooks.IsMatch(@"{{ Wikipedia books }}"));
-            Assert.IsTrue(WikiRegexes.WikipediaBooks.IsMatch(@"{{Wikipedia books|1=Academy Awards|3=Academy Awards for Best Picture}}"));
+            ClassicAssert.IsTrue(WikiRegexes.WikipediaBooks.IsMatch(@"{{Wikipedia-Books}}"));
+            ClassicAssert.IsTrue(WikiRegexes.WikipediaBooks.IsMatch(@"{{ Wikipedia books }}"));
+            ClassicAssert.IsTrue(WikiRegexes.WikipediaBooks.IsMatch(@"{{Wikipedia books|1=Academy Awards|3=Academy Awards for Best Picture}}"));
         }
 
         [Test]
         public void DablinksTests()
         {
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For|Fred the dancer|Fred (dancer)}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{for|Fred the dancer|Fred (dancer)}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For|Fred the dancer|Fred Smith (dancer)}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect2|Fred the dancer|Fred Smith (dancer)}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For|Fred the dancer|Fred (dancer)}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{for|Fred the dancer|Fred (dancer)}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For|Fred the dancer|Fred Smith (dancer)}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect2|Fred the dancer|Fred Smith (dancer)}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For
     |Fred the dancer
     |Fred (dancer)}}"));
 
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For|
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For|
     Fred the dancer|
     Fred (dancer)}}"));
 
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse|something}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses|something}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses2|something}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse|something}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruses}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other persons}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse|something}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses|something}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses2|something}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse|something}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruses}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other persons}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse
 |something}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{selfref|something}}"));
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Redirect-distinguish|something}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{selfref|something}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Redirect-distinguish|something}}"));
 
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{About-distinguish2}}"), @"{{About-distinguish2}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{About-distinguish}}"), @"{{About-distinguish}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{about2}}"), @"{{about2}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{about}}"), @"{{about}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{distinguish-otheruses2}}"), @"{{distinguish-otheruses2}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{distinguish-otheruses}}"), @"{{distinguish-otheruses}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{distinguish2}}"), @"{{distinguish2}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{distinguish}}"), @"{{distinguish}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{for2}}"), @"{{for2}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{for}}"), @"{{for}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{further2}}"), @"{{further2}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{further}}"), @"{{further}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{hatnote}}"), @"{{hatnote}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other hurricanes}}"), @"{{other hurricanes}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other people2}}"), @"{{other people2}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other people3}}"), @"{{other people3}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other people}}"), @"{{other people}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other places3}}"), @"{{other places3}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other places}}"), @"{{other places}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other ships}}"), @"{{other ships}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other uses of}}"), @"{{other uses of}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other uses2}}"), @"{{other uses2}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other uses}}"), @"{{other uses}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{outline}}"), @"{{outline}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-distinguish2}}"), @"{{redirect-distinguish2}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-distinguish}}"), @"{{redirect-distinguish}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-several}}"), @"{{redirect-several}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-multi}}"), @"{{redirect-multi}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect2}}"), @"{{redirect2}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect3}}"), @"{{redirect3}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect}}"), @"{{redirect}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{see also}}"), @"{{see also}}");
-            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{selfref}}"), @"{{selfref}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{About-distinguish2}}"), @"{{About-distinguish2}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{About-distinguish}}"), @"{{About-distinguish}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{about2}}"), @"{{about2}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{about}}"), @"{{about}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{distinguish-otheruses2}}"), @"{{distinguish-otheruses2}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{distinguish-otheruses}}"), @"{{distinguish-otheruses}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{distinguish2}}"), @"{{distinguish2}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{distinguish}}"), @"{{distinguish}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{for2}}"), @"{{for2}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{for}}"), @"{{for}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{further2}}"), @"{{further2}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{further}}"), @"{{further}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{hatnote}}"), @"{{hatnote}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other hurricanes}}"), @"{{other hurricanes}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other people2}}"), @"{{other people2}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other people3}}"), @"{{other people3}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other people}}"), @"{{other people}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other places3}}"), @"{{other places3}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other places}}"), @"{{other places}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other ships}}"), @"{{other ships}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other uses of}}"), @"{{other uses of}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other uses2}}"), @"{{other uses2}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other uses}}"), @"{{other uses}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{outline}}"), @"{{outline}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-distinguish2}}"), @"{{redirect-distinguish2}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-distinguish}}"), @"{{redirect-distinguish}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-several}}"), @"{{redirect-several}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect-multi}}"), @"{{redirect-multi}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect2}}"), @"{{redirect2}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect3}}"), @"{{redirect3}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{redirect}}"), @"{{redirect}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{see also}}"), @"{{see also}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{selfref}}"), @"{{selfref}}");
 
-            Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{For fake template|Fred the dancer|Fred(dancer)}}"));
-            Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{REDIRECT2|Fred the dancer|Fred Smith (dancer)}}"));
-            Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse2|something}}")); // non-existent
+            ClassicAssert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{For fake template|Fred the dancer|Fred(dancer)}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{REDIRECT2|Fred the dancer|Fred Smith (dancer)}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse2|something}}")); // non-existent
         }
 
         [Test]
         public void SisterLinksTests()
         {
-            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wiktionary}}"));
-            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{ wiktionary }}"));
-            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sisterlinks}}"));
-            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sister links}}"));
-            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sister project links}}"));
-            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikibooks}}"));
-            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikimedia}}"));
-            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikiversity}}"));
+            ClassicAssert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wiktionary}}"));
+            ClassicAssert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{ wiktionary }}"));
+            ClassicAssert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sisterlinks}}"));
+            ClassicAssert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sister links}}"));
+            ClassicAssert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sister project links}}"));
+            ClassicAssert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikibooks}}"));
+            ClassicAssert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikimedia}}"));
+            ClassicAssert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikiversity}}"));
         }
 
         [Test]
         public void Unreferenced()
         {
-            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced}}"));
-            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{  Unreferenced}}"));
-            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced  }}"));
-            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced|date=May 2009}}"));
-            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced stub|date=May 2009}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{  Unreferenced}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced  }}"));
+            ClassicAssert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced|date=May 2009}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced stub|date=May 2009}}"));
 
-            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced-stub}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced-stub}}"));
         }
 
         [Test]
         public void PortalTemplateTests()
         {
-            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal}}"));
-            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Foo}}"));
-            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{ portal}}"));
-            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portal}}"));
-            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Science}}"));
-            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Spaceflight|RocketSunIcon.svg|break=yes}}"));
+            ClassicAssert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal}}"));
+            ClassicAssert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Foo}}"));
+            ClassicAssert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{ portal}}"));
+            ClassicAssert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portal}}"));
+            ClassicAssert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Science}}"));
+            ClassicAssert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Spaceflight|RocketSunIcon.svg|break=yes}}"));
 
-            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{PORTAL}}"));
-            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalos}}"));
-            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalparity}}"));
-            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{Spanish portal|game}}"));
+            ClassicAssert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{PORTAL}}"));
+            ClassicAssert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalos}}"));
+            ClassicAssert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalparity}}"));
+            ClassicAssert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{Spanish portal|game}}"));
         }
 
         [Test]
@@ -1389,13 +1390,13 @@ cit"));
             TestMatch(WikiRegexes.InfoBox, @" {{Infobox hello| bye {{a}} was}} ", @"{{Infobox hello| bye {{a}} was}}", @"Infobox hello");
             TestMatch(WikiRegexes.InfoBox, @" {{hello Infobox| bye {{a}} was}} ", @"{{hello Infobox| bye {{a}} was}}", @"hello Infobox");
             TestMatch(WikiRegexes.InfoBox, @" {{hello_Infobox| bye {{a}} was}} ", @"{{hello_Infobox| bye {{a}} was}}", @"hello_Infobox");
-            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{infobox hello| bye}} "));
-            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Template:infobox hello| bye}} "));
-            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{infobox hello
+            ClassicAssert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{infobox hello| bye}} "));
+            ClassicAssert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Template:infobox hello| bye}} "));
+            ClassicAssert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{infobox hello
 | bye}} "));
-            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Infobox_play| bye}} "));
-            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{some infobox| hello| bye}} "));
-            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Some Infobox| hello| bye}} "));
+            ClassicAssert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Infobox_play| bye}} "));
+            ClassicAssert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{some infobox| hello| bye}} "));
+            ClassicAssert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Some Infobox| hello| bye}} "));
 
             Assert.That(WikiRegexes.InfoBox.Match(@" {{Infobox
 | hello| bye}} ").Groups[1].Value, Is.EqualTo("Infobox"));
@@ -1404,11 +1405,11 @@ cit"));
         [Test]
         public void DisplayLowerCaseItalicTitleTests()
         {
-            Assert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{DISPLAYTITLE:foo}}"), "DISPLAYTITLE");
-            Assert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{Display title:foo}}"), "Display title");
-            Assert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{Displaytitle:foo}}"), "Displaytitle");
-            Assert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{italic title}}"), "italic title");
-            Assert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{lowercase title}}"), "lowercase title");
+            ClassicAssert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{DISPLAYTITLE:foo}}"), "DISPLAYTITLE");
+            ClassicAssert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{Display title:foo}}"), "Display title");
+            ClassicAssert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{Displaytitle:foo}}"), "Displaytitle");
+            ClassicAssert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{italic title}}"), "italic title");
+            ClassicAssert.IsTrue(WikiRegexes.DisplayLowerCaseItalicTitle.IsMatch(@"{{lowercase title}}"), "lowercase title");
         }
 
         [Test]
@@ -1428,11 +1429,11 @@ cit"));
         [Test]
         public void PstylesTests()
         {
-            Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""margin:0px;font-size:100%""><span style=""color:#00ff00"">▪</span> <small>Francophone minorities</small></p>"));
-            Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""font-family:monospace; line-height:130%"">hello</p>"));
-            Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""font-family:monospace; line-height:130%"">hello</P>"));
-            Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""font-family:monospace; line-height:130%"">hello</P>"));
-            Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style = ""font-family:monospace; line-height:130%"">
+            ClassicAssert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""margin:0px;font-size:100%""><span style=""color:#00ff00"">▪</span> <small>Francophone minorities</small></p>"));
+            ClassicAssert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""font-family:monospace; line-height:130%"">hello</p>"));
+            ClassicAssert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""font-family:monospace; line-height:130%"">hello</P>"));
+            ClassicAssert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""font-family:monospace; line-height:130%"">hello</P>"));
+            ClassicAssert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style = ""font-family:monospace; line-height:130%"">
 hello</P>"));
 
         }
@@ -1440,53 +1441,53 @@ hello</P>"));
         [Test]
         public void FirstSection()
         {
-            Assert.IsTrue(WikiRegexes.ZerothSection.IsMatch(@"article"));
-            Assert.IsTrue(WikiRegexes.ZerothSection.IsMatch(@"article ==heading=="));
-            Assert.IsTrue(WikiRegexes.ZerothSection.IsMatch(@"article ===heading==="));
+            ClassicAssert.IsTrue(WikiRegexes.ZerothSection.IsMatch(@"article"));
+            ClassicAssert.IsTrue(WikiRegexes.ZerothSection.IsMatch(@"article ==heading=="));
+            ClassicAssert.IsTrue(WikiRegexes.ZerothSection.IsMatch(@"article ===heading==="));
             Assert.That(WikiRegexes.ZerothSection.Replace(@"article ==heading==", ""), Is.EqualTo("==heading=="));
             Assert.That(WikiRegexes.ZerothSection.Replace(@"{{wikify}}
 {{Infobox hello | bye=yes}}
 article words, '''bold''' blah.
 ==heading== words ==another heading==", ""), Is.EqualTo(@"==heading== words ==another heading=="));
 
-            Assert.IsFalse(WikiRegexes.ZerothSection.IsMatch(@""));
+            ClassicAssert.IsFalse(WikiRegexes.ZerothSection.IsMatch(@""));
         }
 
         [Test]
         public void HeadingLevelTwoTests()
         {
-            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==heading==
 a"));
             Assert.That(WikiRegexes.HeadingLevelTwo.Match(@"article
 ==heading==
 a").Groups[1].Value, Is.EqualTo("heading"));
-            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 == heading ==
 a"));
             Assert.That(WikiRegexes.HeadingLevelTwo.Match(@"article
 == heading ==
 a").Groups[1].Value, Is.EqualTo(" heading "));
-            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 == heading ==
 words"));
-            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==H==
 a"));
-            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==Hi==
 a"));
-            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==Here and=there==
 a"));
 
             // no matches
-            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article ==
+            ClassicAssert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article ==
 heading=="));
-            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
+            ClassicAssert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==heading== words"));
-            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article ===heading=="));
-            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
+            ClassicAssert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article ===heading=="));
+            ClassicAssert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ====heading===
 words"));
         }
@@ -1494,38 +1495,38 @@ words"));
         [Test]
         public void HeadingLevelThreeTests()
         {
-            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
 ===heading===
 a"));
             Assert.That(WikiRegexes.HeadingLevelThree.Match(@"article
 ===heading===
 a").Groups[1].Value, Is.EqualTo("heading"));
-            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
 === heading ===
 a"));
             Assert.That(WikiRegexes.HeadingLevelThree.Match(@"article
 === heading ===
 a").Groups[1].Value, Is.EqualTo(" heading "));
-            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
 === heading ===
 words"));
-            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
 ===H===
 a"));
-            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
 ===Hi===
 a"));
-            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+            ClassicAssert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
 ===Here and=there===
 a"));
 
             // no matches
-            Assert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article ===
+            ClassicAssert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article ===
 heading==="));
-            Assert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+            ClassicAssert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article
 ===heading=== words"));
-            Assert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article ====heading==="));
-            Assert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+            ClassicAssert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article ====heading==="));
+            ClassicAssert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article
 =====heading====
 words"));
         }
@@ -1533,7 +1534,7 @@ words"));
         [Test]
         public void SectionLevelTwoTests()
         {
-            Assert.IsTrue(WikiRegexes.SectionLevelTwo.IsMatch(@"== heading a ==
+            ClassicAssert.IsTrue(WikiRegexes.SectionLevelTwo.IsMatch(@"== heading a ==
 words
 === subsection ===
 words
@@ -1541,15 +1542,15 @@ words2
 == heading b ==
 "));
 
-            Assert.IsFalse(WikiRegexes.SectionLevelTwo.IsMatch(@"=== subsection ===
+            ClassicAssert.IsFalse(WikiRegexes.SectionLevelTwo.IsMatch(@"=== subsection ===
 words
 words2"));
-            Assert.IsFalse(WikiRegexes.SectionLevelTwo.IsMatch(@"=== heading a ==
+            ClassicAssert.IsFalse(WikiRegexes.SectionLevelTwo.IsMatch(@"=== heading a ==
 words
 === subsection ===
 words
 words2"));
-            Assert.IsFalse(WikiRegexes.SectionLevelTwo.IsMatch(@"= heading a =
+            ClassicAssert.IsFalse(WikiRegexes.SectionLevelTwo.IsMatch(@"= heading a =
 words
 === subsection ===
 words
@@ -1559,11 +1560,11 @@ words2"));
         [Test]
         public void ArticleToFirstLevelTwoHeadingTests()
         {
-            Assert.IsTrue(WikiRegexes.ArticleToFirstLevelTwoHeading.IsMatch(@"words
+            ClassicAssert.IsTrue(WikiRegexes.ArticleToFirstLevelTwoHeading.IsMatch(@"words
 == heading a ==
 "));
 
-            Assert.IsFalse(WikiRegexes.ArticleToFirstLevelTwoHeading.IsMatch(@"words
+            ClassicAssert.IsFalse(WikiRegexes.ArticleToFirstLevelTwoHeading.IsMatch(@"words
 === heading a ===
 "));
         }
@@ -1571,40 +1572,40 @@ words2"));
         [Test]
         public void MultipleIssuesTests()
         {
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"), "with space");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues|wikify=May 2008|a=b|c=d}}"), "unspaced");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{multipleissues|wikify=May 2008|a=b|c=d}}"), "unspaced no capitals");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues | wikify=May 2008|a=b|c=d}}"), "with spaces in parameters");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues
+            ClassicAssert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"), "with space");
+            ClassicAssert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues|wikify=May 2008|a=b|c=d}}"), "unspaced");
+            ClassicAssert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{multipleissues|wikify=May 2008|a=b|c=d}}"), "unspaced no capitals");
+            ClassicAssert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues | wikify=May 2008|a=b|c=d}}"), "with spaces in parameters");
+            ClassicAssert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues
            | wikify=May 2008|a=b|c=d}}"), "with break lines");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|}}"), "empty");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues}}"), "empty too");
+            ClassicAssert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|}}"), "empty");
+            ClassicAssert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues}}"), "empty too");
 
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{ multiple issues|wikify=May 2008|a=b|c=d}}"));
+            ClassicAssert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{ multiple issues|wikify=May 2008|a=b|c=d}}"));
 
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{ multiple issues|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|orphan={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|c=d}}"));
+            ClassicAssert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{ multiple issues|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|orphan={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|c=d}}"));
 
             // no matches
-            Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{ARTICLEISSUES }}"));
-            Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{Bert|Multipleissues }}"));
+            ClassicAssert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{ARTICLEISSUES }}"));
+            ClassicAssert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{Bert|Multipleissues }}"));
         }
 
         [Test]
         public void NonDeadEndPageTemplatesTests()
         {
-            Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade|31}}"));
-            Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade BC|31}}"));
-            Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{SCOTUSRow | case name = Arizona v. Inter Tribal Council of Ariz., Inc. | docket = 12-71 | decision date = June 17 | decision year = 2013}}"));
-            Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Portal:Current events/Month Inclusion|2009 February}}"));
+            ClassicAssert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade|31}}"));
+            ClassicAssert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade BC|31}}"));
+            ClassicAssert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{SCOTUSRow | case name = Arizona v. Inter Tribal Council of Ariz., Inc. | docket = 12-71 | decision date = June 17 | decision year = 2013}}"));
+            ClassicAssert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Portal:Current events/Month Inclusion|2009 February}}"));
         }
 
         [Test]
         public void WordApostropheTests()
         {
-            Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel"));
-            Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel's"));
-            Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel’s"), "curly apostrophe");
-            Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Kwakwaka'wakw"));
+            ClassicAssert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel"));
+            ClassicAssert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel's"));
+            ClassicAssert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel’s"), "curly apostrophe");
+            ClassicAssert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Kwakwaka'wakw"));
 
             Assert.That(WikiRegexes.RegexWordApostrophes.Replace(@"Kwakwaka'wakw", ""), Is.Empty);
         }
@@ -1612,60 +1613,60 @@ words2"));
         [Test]
         public void DeathsOrLivingCategoryTests()
         {
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:653 deaths|Honorius]]"), "xxx deaths with sortkey");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:839 deaths]]"), "xxx deaths");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:5th-century BC deaths]]"), "centure BC deaths");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:1209 deaths]]"), "xxxx deaths");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:2018 suicides]]"), "xxxx suicides");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Living people]]"), "living people");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Possibly living people]]"), "possibly living people");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:221 BC deaths]]"), "xxx BC deaths");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death missing]]"), "YOD missing");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death unknown]]"), "YOD unknown");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Date of death unknown]]"), "DOD unknown");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death uncertain]]"), "YOD uncertain");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Missing people]]"), "Mising people");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:People declared dead in absentia]]"), "People declared dead in absentia");
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:839 deaths ]]"), "xxx deaths with space");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:653 deaths|Honorius]]"), "xxx deaths with sortkey");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:839 deaths]]"), "xxx deaths");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:5th-century BC deaths]]"), "centure BC deaths");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:1209 deaths]]"), "xxxx deaths");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:2018 suicides]]"), "xxxx suicides");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Living people]]"), "living people");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Possibly living people]]"), "possibly living people");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:221 BC deaths]]"), "xxx BC deaths");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death missing]]"), "YOD missing");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death unknown]]"), "YOD unknown");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Date of death unknown]]"), "DOD unknown");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death uncertain]]"), "YOD uncertain");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Missing people]]"), "Mising people");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:People declared dead in absentia]]"), "People declared dead in absentia");
+            ClassicAssert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:839 deaths ]]"), "xxx deaths with space");
 
             // no matches
-            Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@""));
-            Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:strange deaths]]"));
-            Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Missing people organizations]]"));
-            Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"1990 deaths"));
+            ClassicAssert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@""));
+            ClassicAssert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:strange deaths]]"));
+            ClassicAssert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Missing people organizations]]"));
+            ClassicAssert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"1990 deaths"));
         }
 
         [Test]
         public void BirthsCategoryTests()
         {
-            Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:12th-century births]]"));
-            Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:1299 births]]"));
-            Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:110 BC births]]"));
-            Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:1st-century births]]"));
+            ClassicAssert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:12th-century births]]"));
+            ClassicAssert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:1299 births]]"));
+            ClassicAssert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:110 BC births]]"));
+            ClassicAssert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:1st-century births]]"));
 
             // no matches
-            Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:strange births]]"));
-            Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"1960 births"));
-            Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@""));
+            ClassicAssert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:strange births]]"));
+            ClassicAssert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"1960 births"));
+            ClassicAssert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@""));
         }
 
         [Test]
         public void PeopleFromCategoryTests()
         {
-            Assert.IsTrue(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People from x]]"));
-            Assert.IsTrue(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People from x|y]]"));
-            Assert.IsFalse(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People who x]]"));
+            ClassicAssert.IsTrue(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People from x]]"));
+            ClassicAssert.IsTrue(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People from x|y]]"));
+            ClassicAssert.IsFalse(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People who x]]"));
         }
 
         [Test]
         public void DateBirthAndAgeTests()
         {
-            Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{Birth date|1972|02|18}}"));
-            Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{Birth date and age|1972|02|18}}"));
-            Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{Birth date| 1972 |02|18}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{Birth date|1972|02|18}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{Birth date and age|1972|02|18}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{Birth date| 1972 |02|18}}"));
 
-            Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{birth date and age|mf=yes|1980|3|9}}"));
-            Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{bda|mf=yes|1980|3|9}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{birth date and age|mf=yes|1980|3|9}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{bda|mf=yes|1980|3|9}}"));
 
             Assert.That(WikiRegexes.DateBirthAndAge.Match(@"{{birth-date|1975}}").Groups[1].Value, Is.EqualTo("1975"), "extract year from birth-date");
             Assert.That(WikiRegexes.DateBirthAndAge.Match(@"{{birth-date|   1975}}").Groups[1].Value, Is.EqualTo("1975"), "spacing");
@@ -1677,11 +1678,11 @@ words2"));
         [Test]
         public void DateDeathAndAgeTests()
         {
-            Assert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{Death date|1972|02|18}}"));
-            Assert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{Death date and age|1972|02|18}}"));
-            Assert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{Death date| 1972 |02|18}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{Death date|1972|02|18}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{Death date and age|1972|02|18}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{Death date| 1972 |02|18}}"));
 
-            Assert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{death date and age|mf=yes|1980|3|9}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{death date and age|mf=yes|1980|3|9}}"));
 
             Assert.That(WikiRegexes.DeathDate.Match(@"{{death-date|1975}}").Groups[1].Value, Is.EqualTo("1975"));
             Assert.That(WikiRegexes.DeathDate.Match(@"{{death-date|   1975}}").Groups[1].Value, Is.EqualTo("1975"));
@@ -1701,24 +1702,24 @@ words2"));
         [Test]
         public void BareExternalLinkTests()
         {
-            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com
+            ClassicAssert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com
 "));
-            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com
+            ClassicAssert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com
 "));
-            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"*   http://www.site.com
+            ClassicAssert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"*   http://www.site.com
 "));
-            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com/great/a.htm
-"));
-
-            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* https://www.site.com
-"));
-            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* ftp://www.site.com
+            ClassicAssert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com/great/a.htm
 "));
 
-
-            Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"* [http://www.site.com text]
+            ClassicAssert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* https://www.site.com
 "));
-            Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"<ref>http://www.site.com</ref>
+            ClassicAssert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* ftp://www.site.com
+"));
+
+
+            ClassicAssert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"* [http://www.site.com text]
+"));
+            ClassicAssert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"<ref>http://www.site.com</ref>
 "));
         }
 
@@ -1751,7 +1752,7 @@ words2"));
 
             TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>Smith, Fred [http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent<!-- Bot generated title -->]</ref>", false);
             TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>[http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent]</ref>", false);
-            Assert.IsTrue(WikiRegexes.BareRefExternalLinkBotGenTitle.IsMatch(@"attack<ref>http://www.news.com.au/heraldsun/story/0,21985,23169580-5006022,00.html</ref> was portrayed"));
+            ClassicAssert.IsTrue(WikiRegexes.BareRefExternalLinkBotGenTitle.IsMatch(@"attack<ref>http://www.news.com.au/heraldsun/story/0,21985,23169580-5006022,00.html</ref> was portrayed"));
 
             Assert.That(WikiRegexes.BareRefExternalLinkBotGenTitle.Match(@"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>").Groups[1].Value, Is.EqualTo(@"http://news.bbc.co.uk/hi/England/story4384.htm"));
             Assert.That(WikiRegexes.BareRefExternalLinkBotGenTitle.Match(@"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]""</ref>").Groups[1].Value, Is.EqualTo(@"http://news.bbc.co.uk/hi/England/story4384.htm"));
@@ -1781,13 +1782,13 @@ words2"));
             Assert.That(WikiRegexes.Italics.Match(@"''f'' nar ''abc''").Groups[1].Value, Is.EqualTo(@"f"));
             Assert.That(WikiRegexes.Bold.Match(@"'''f''' nar '''abc'''").Groups[1].Value, Is.EqualTo(@"f"));
 
-            Assert.IsFalse(WikiRegexes.Italics.IsMatch(@"'''foo'''"));
-            Assert.IsFalse(WikiRegexes.Italics.IsMatch(@"'''''foo'''''"));
-            Assert.IsFalse(WikiRegexes.Bold.IsMatch(@"''foo'''"));
-            Assert.IsFalse(WikiRegexes.Bold.IsMatch(@"''foo''"));
-            Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"''foo''"));
-            Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"'''foo'''"));
-            Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"'''''foo''"));
+            ClassicAssert.IsFalse(WikiRegexes.Italics.IsMatch(@"'''foo'''"));
+            ClassicAssert.IsFalse(WikiRegexes.Italics.IsMatch(@"'''''foo'''''"));
+            ClassicAssert.IsFalse(WikiRegexes.Bold.IsMatch(@"''foo'''"));
+            ClassicAssert.IsFalse(WikiRegexes.Bold.IsMatch(@"''foo''"));
+            ClassicAssert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"''foo''"));
+            ClassicAssert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"'''foo'''"));
+            ClassicAssert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"'''''foo''"));
         }
 
         [Test]
@@ -1805,10 +1806,10 @@ Bert").Groups[2].Value, Is.EqualTo("foo bar\r"));
         [Test]
         public void CircaTemplate()
         {
-            Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{circa}}"));
-            Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{ circa}}"));
-            Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{Circa}}"));
-            Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{circa|foo=yes}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{circa}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{ circa}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{Circa}}"));
+            ClassicAssert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{circa|foo=yes}}"));
         }
 
         [Test]
@@ -1818,15 +1819,15 @@ Bert").Groups[2].Value, Is.EqualTo("foo bar\r"));
 #if DEBUG
             Variables.SetProjectLangCode("fr");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{références}}"));
-            Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references}}"));
-            Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{reflist}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{références}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{reflist}}"));
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{reflist}}"));
-            Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references-small}}"));
-            Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references-2column}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{reflist}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references-small}}"));
+            ClassicAssert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references-2column}}"));
 #endif
         }
 
@@ -1836,41 +1837,41 @@ Bert").Groups[2].Value, Is.EqualTo("foo bar\r"));
 #if DEBUG
             Variables.SetProjectLangCode("simple");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==Related pages=="));
-            Assert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==related pages=="));
-            Assert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==See also=="));
+            ClassicAssert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==Related pages=="));
+            ClassicAssert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==related pages=="));
+            ClassicAssert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==See also=="));
 
-            Assert.IsTrue(WikiRegexes.ExternalLinksHeader.IsMatch(@"==Other websites=="));
-            Assert.IsTrue(WikiRegexes.ExternalLinksHeader.IsMatch(@"==External links=="));
+            ClassicAssert.IsTrue(WikiRegexes.ExternalLinksHeader.IsMatch(@"==Other websites=="));
+            ClassicAssert.IsTrue(WikiRegexes.ExternalLinksHeader.IsMatch(@"==External links=="));
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsFalse(WikiRegexes.SeeAlso.IsMatch(@"==Related pages=="));
-            Assert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==See also=="));
-            Assert.IsTrue(WikiRegexes.ExternalLinksHeader.IsMatch(@"==External links=="));
+            ClassicAssert.IsFalse(WikiRegexes.SeeAlso.IsMatch(@"==Related pages=="));
+            ClassicAssert.IsTrue(WikiRegexes.SeeAlso.IsMatch(@"==See also=="));
+            ClassicAssert.IsTrue(WikiRegexes.ExternalLinksHeader.IsMatch(@"==External links=="));
 #endif
         }
 
         [Test]
         public void SurnameClarificationTemplates()
         {
-            Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay name}}"));
-            Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay_name}}"));
-            Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Chinese name}}"));
-            Assert.IsFalse(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Eastern name order}}"));
+            ClassicAssert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay name}}"));
+            ClassicAssert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay_name}}"));
+            ClassicAssert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Chinese name}}"));
+            ClassicAssert.IsFalse(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Eastern name order}}"));
         }
 
         [Test]
         public void ReversedItalics()
         {
-            Assert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"</i>foo<i>"));
-            Assert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"</i>foo< i >"));
-            Assert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"< /i >foo<i>"));
+            ClassicAssert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"</i>foo<i>"));
+            ClassicAssert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"</i>foo< i >"));
+            ClassicAssert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"< /i >foo<i>"));
             Assert.That(WikiRegexes.ReversedItalics.Match(@"</i>foo<i>").Groups[1].Value, Is.EqualTo("foo"));
 
-            Assert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo</i>"));
-            Assert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo<i>"));
-            Assert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo</i> and <i>foo</i>"));
+            ClassicAssert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo</i>"));
+            ClassicAssert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo<i>"));
+            ClassicAssert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo</i> and <i>foo</i>"));
         }
 
         [Test]
@@ -1878,47 +1879,47 @@ Bert").Groups[2].Value, Is.EqualTo("foo bar\r"));
         {
             const string LC = @"{{Short pages monitor}}<!-- This long comment was added to the page to prevent it from being listed on Special:Shortpages. It and the accompanying monitoring template were generated via Template:Long comment. Please do not remove the monitor template without removing the comment as well.-->";
 
-            Assert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(LC));
-            Assert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(LC.Replace("{{S", "{{s")), "handles template name first letter case insensitive");
-            Assert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(@"{{Short pages monitor}}<!-- any old comment-->"));
+            ClassicAssert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(LC));
+            ClassicAssert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(LC.Replace("{{S", "{{s")), "handles template name first letter case insensitive");
+            ClassicAssert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(@"{{Short pages monitor}}<!-- any old comment-->"));
         }
 
         [Test]
         public void GoodFeaturedArticleTemplates()
         {
-            Assert.IsTrue(WikiRegexes.GoodFeaturedArticleTemplates.IsMatch(@"{{Featured list}}"));
-            Assert.IsTrue(WikiRegexes.GoodFeaturedArticleTemplates.IsMatch(@"{{Featured article}}"));
-            Assert.IsTrue(WikiRegexes.GoodFeaturedArticleTemplates.IsMatch(@"{{Good article}}"));
+            ClassicAssert.IsTrue(WikiRegexes.GoodFeaturedArticleTemplates.IsMatch(@"{{Featured list}}"));
+            ClassicAssert.IsTrue(WikiRegexes.GoodFeaturedArticleTemplates.IsMatch(@"{{Featured article}}"));
+            ClassicAssert.IsTrue(WikiRegexes.GoodFeaturedArticleTemplates.IsMatch(@"{{Good article}}"));
         }
 
         [Test]
         public void UseDatesEnglishTemplates()
         {
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use American English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Antiguan and Barbudan English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Australian English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Bangladeshi English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use British English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Oxford spelling}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Canadian English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Ghanaian English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Hiberno-English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Hong Kong English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Indian English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Jamaican English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Kenyan English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Liberian English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Malaysian English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use New Zealand English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Nigerian English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Pakistani English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Philippine English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Singapore English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use South African English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Sri Lankan English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Tanzanian English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Trinidad and Tobago English}}"));
-            Assert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Ugandan English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use American English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Antiguan and Barbudan English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Australian English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Bangladeshi English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use British English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Oxford spelling}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Canadian English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Ghanaian English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Hiberno-English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Hong Kong English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Indian English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Jamaican English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Kenyan English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Liberian English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Malaysian English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use New Zealand English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Nigerian English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Pakistani English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Philippine English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Singapore English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use South African English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Sri Lankan English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Tanzanian English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Trinidad and Tobago English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Ugandan English}}"));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions.Parse;
 
 namespace UnitTests
@@ -62,11 +63,11 @@ namespace UnitTests
         [Test]
         public void TemplateExistsTests()
         {
-            Assert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{foo}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
-            Assert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{Template:foo}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
-            Assert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{ foo }}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
-            Assert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{foo|p=1}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
-            Assert.IsFalse(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{foo}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo2")));
+            ClassicAssert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{foo}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
+            ClassicAssert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{Template:foo}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
+            ClassicAssert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{ foo }}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
+            ClassicAssert.IsTrue(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{foo|p=1}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo")));
+            ClassicAssert.IsFalse(Parsers.TemplateExists(Parsers.GetAllTemplates(@"{{foo}}"), WikiFunctions.Tools.NestedTemplateRegex("Foo2")));
         }
     }
 }

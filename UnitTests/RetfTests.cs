@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using WikiFunctions.Parse;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace UnitTests
 {
@@ -112,10 +113,10 @@ namespace UnitTests
         public void DetectTypo()
         {
             Typos["foo"] = "bar";
-            Assert.IsTrue(DetectTypo("The foo was"));
-            Assert.IsTrue(DetectTypo("The foo was "));
-            Assert.IsFalse(DetectTypo("The x was"));
-            Assert.IsFalse(DetectTypo("The foo {{sic}} was"));
+            ClassicAssert.IsTrue(DetectTypo("The foo was"));
+            ClassicAssert.IsTrue(DetectTypo("The foo was "));
+            ClassicAssert.IsFalse(DetectTypo("The x was"));
+            ClassicAssert.IsFalse(DetectTypo("The foo {{sic}} was"));
         }
 
         [Test]
@@ -169,12 +170,12 @@ namespace UnitTests
             Typos[@"(?<=ten )bar"] = "BAR";
 
             AssertFix("foo foo", "foo fO0");
-            Assert.IsFalse(Summary.Contains("foo → foo"));
-            Assert.IsFalse(Summary.Contains("2"));            
+            ClassicAssert.IsFalse(Summary.Contains("foo → foo"));
+            ClassicAssert.IsFalse(Summary.Contains("2"));            
             
             AssertFix("ten BAR", "ten bar");
-            Assert.IsTrue(Summary.Contains(@"bar → BAR"), "regex with lookbehind such that regex does not match its own match value still generates edit summary based on match value");
-            Assert.IsFalse(Summary.Contains("ten"), "for regex with lookbehind, edit summary based on match value without groups outside match value");
+            ClassicAssert.IsTrue(Summary.Contains(@"bar → BAR"), "regex with lookbehind such that regex does not match its own match value still generates edit summary based on match value");
+            ClassicAssert.IsFalse(Summary.Contains("ten"), "for regex with lookbehind, edit summary based on match value without groups outside match value");
         }
 
         [Test]

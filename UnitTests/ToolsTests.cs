@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 using WikiFunctions.Parse;
 
@@ -15,38 +16,38 @@ namespace UnitTests
         [Test]
         public void IsValidTitle()
         {
-            Assert.IsTrue(Tools.IsValidTitle("test"));
-            Assert.IsTrue(Tools.IsValidTitle("This is a_test"));
-            Assert.IsTrue(Tools.IsValidTitle("123"));
-            Assert.IsTrue(Tools.IsValidTitle("А & Б сидели на трубе! ة日?"));
+            ClassicAssert.IsTrue(Tools.IsValidTitle("test"));
+            ClassicAssert.IsTrue(Tools.IsValidTitle("This is a_test"));
+            ClassicAssert.IsTrue(Tools.IsValidTitle("123"));
+            ClassicAssert.IsTrue(Tools.IsValidTitle("А & Б сидели на трубе! ة日?"));
 
-            Assert.IsFalse(Tools.IsValidTitle(""), "Empty strings are not supposed to be valid titles");
-            Assert.IsFalse(Tools.IsValidTitle(" "));
-            Assert.IsFalse(Tools.IsValidTitle("%20"));
-            Assert.IsFalse(Tools.IsValidTitle("_"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle(""), "Empty strings are not supposed to be valid titles");
+            ClassicAssert.IsFalse(Tools.IsValidTitle(" "));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("%20"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("_"));
 
-            Assert.IsFalse(Tools.IsValidTitle("[xxx"));
-            Assert.IsFalse(Tools.IsValidTitle("]abc"));
-            Assert.IsFalse(Tools.IsValidTitle("{duh!"));
-            Assert.IsFalse(Tools.IsValidTitle("}yoyo"));
-            Assert.IsFalse(Tools.IsValidTitle("|pwn3d"));
-            Assert.IsFalse(Tools.IsValidTitle("<1337"));
-            Assert.IsFalse(Tools.IsValidTitle(">nooooo"));
-            Assert.IsFalse(Tools.IsValidTitle("#yeee-hooo"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("[xxx"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("]abc"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("{duh!"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("}yoyo"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("|pwn3d"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("<1337"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle(">nooooo"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("#yeee-hooo"));
 
             // Complex titles
-            Assert.IsFalse(Tools.IsValidTitle("[test]#1"));
-            Assert.IsFalse(Tools.IsValidTitle("_ _"), "Titles should be normalised before checking");
-            Assert.IsTrue(Tools.IsValidTitle("http://www.wikipedia.org")); // unfortunately
-            Assert.IsTrue(Tools.IsValidTitle("index.php/Viagra")); // even more unfortunately
-            Assert.IsTrue(Tools.IsValidTitle("index.php?title=foobar"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("[test]#1"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("_ _"), "Titles should be normalised before checking");
+            ClassicAssert.IsTrue(Tools.IsValidTitle("http://www.wikipedia.org")); // unfortunately
+            ClassicAssert.IsTrue(Tools.IsValidTitle("index.php/Viagra")); // even more unfortunately
+            ClassicAssert.IsTrue(Tools.IsValidTitle("index.php?title=foobar"));
 
-            Assert.IsFalse(Tools.IsValidTitle("::Foo"));
-            Assert.IsFalse(Tools.IsValidTitle("User:"));
-            Assert.IsFalse(Tools.IsValidTitle("User::"));
-            Assert.IsFalse(Tools.IsValidTitle("User::Foo"));
-            Assert.IsTrue(Tools.IsValidTitle(":Foo"));
-            Assert.IsTrue(Tools.IsValidTitle(":User:Foo"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("::Foo"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("User:"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("User::"));
+            ClassicAssert.IsFalse(Tools.IsValidTitle("User::Foo"));
+            ClassicAssert.IsTrue(Tools.IsValidTitle(":Foo"));
+            ClassicAssert.IsTrue(Tools.IsValidTitle(":User:Foo"));
         }
 
         [Test]
@@ -63,18 +64,18 @@ namespace UnitTests
         [Test]
         public void RomanNumbers()
         {
-            Assert.IsTrue(Tools.IsRomanNumber("XVII"));
-            Assert.IsTrue(Tools.IsRomanNumber("I"));
-            Assert.IsTrue(Tools.IsRomanNumber("LI"));
-            Assert.IsTrue(Tools.IsRomanNumber("LXXXIII"));
-            Assert.IsTrue(Tools.IsRomanNumber("CCLXXXIII"));
+            ClassicAssert.IsTrue(Tools.IsRomanNumber("XVII"));
+            ClassicAssert.IsTrue(Tools.IsRomanNumber("I"));
+            ClassicAssert.IsTrue(Tools.IsRomanNumber("LI"));
+            ClassicAssert.IsTrue(Tools.IsRomanNumber("LXXXIII"));
+            ClassicAssert.IsTrue(Tools.IsRomanNumber("CCLXXXIII"));
 
-            Assert.IsFalse(Tools.IsRomanNumber("xvii"));
-            Assert.IsFalse(Tools.IsRomanNumber("V II"));
-            Assert.IsFalse(Tools.IsRomanNumber("AAA"));
-            Assert.IsFalse(Tools.IsRomanNumber("123"));
-            Assert.IsFalse(Tools.IsRomanNumber(" "));
-            Assert.IsFalse(Tools.IsRomanNumber(""));
+            ClassicAssert.IsFalse(Tools.IsRomanNumber("xvii"));
+            ClassicAssert.IsFalse(Tools.IsRomanNumber("V II"));
+            ClassicAssert.IsFalse(Tools.IsRomanNumber("AAA"));
+            ClassicAssert.IsFalse(Tools.IsRomanNumber("123"));
+            ClassicAssert.IsFalse(Tools.IsRomanNumber(" "));
+            ClassicAssert.IsFalse(Tools.IsRomanNumber(""));
         }
 
         [Test]
@@ -98,19 +99,19 @@ namespace UnitTests
             Assert.That(Tools.FirstLetterCaseInsensitive(@"[Aa]bc"), Is.EqualTo(@"[Aa]bc"));
 
             Regex r = new Regex(Tools.FirstLetterCaseInsensitive("test"));
-            Assert.IsTrue(r.IsMatch("test 123"));
+            ClassicAssert.IsTrue(r.IsMatch("test 123"));
             Assert.That(r.Match("Test").Value, Is.EqualTo("Test"));
-            Assert.IsFalse(r.IsMatch("tEst"));
+            ClassicAssert.IsFalse(r.IsMatch("tEst"));
 
             r = new Regex(Tools.FirstLetterCaseInsensitive("Test"));
-            Assert.IsTrue(r.IsMatch("test 123"));
+            ClassicAssert.IsTrue(r.IsMatch("test 123"));
             Assert.That(r.Match("Test").Value, Is.EqualTo("Test"));
-            Assert.IsFalse(r.IsMatch("TEst"));
+            ClassicAssert.IsFalse(r.IsMatch("TEst"));
 
             r = new Regex(Tools.FirstLetterCaseInsensitive("#test#"));
-            Assert.IsTrue(r.IsMatch("#test#"));
-            Assert.IsFalse(r.IsMatch("#Test#"));
-            Assert.IsFalse(r.IsMatch("test"));
+            ClassicAssert.IsTrue(r.IsMatch("#test#"));
+            ClassicAssert.IsFalse(r.IsMatch("#Test#"));
+            ClassicAssert.IsFalse(r.IsMatch("test"));
         }
 
         [Test]
@@ -121,27 +122,27 @@ namespace UnitTests
             Assert.That(Tools.AllCaseInsensitive("-"), Is.EqualTo("-"));
 
             Regex r = new Regex(Tools.AllCaseInsensitive("tEsT"));
-            Assert.IsTrue(r.IsMatch("Test 123"));
+            ClassicAssert.IsTrue(r.IsMatch("Test 123"));
             Assert.That(r.Match("Test").Value, Is.EqualTo("Test"));
-            Assert.IsFalse(r.IsMatch("teZt"));
+            ClassicAssert.IsFalse(r.IsMatch("teZt"));
 
             r = new Regex(Tools.AllCaseInsensitive("[test}"));
-            Assert.IsTrue(r.IsMatch("[test}"));
-            Assert.IsTrue(r.IsMatch("[tEsT}"));
-            Assert.IsFalse(r.IsMatch("test"));
+            ClassicAssert.IsTrue(r.IsMatch("[test}"));
+            ClassicAssert.IsTrue(r.IsMatch("[tEsT}"));
+            ClassicAssert.IsFalse(r.IsMatch("test"));
         }
 
         [Test]
         public void CaseInsensitiveStringCompare()
         {
-            Assert.IsTrue(Tools.CaseInsensitiveStringCompare("test", "test"));
-            Assert.IsTrue(Tools.CaseInsensitiveStringCompare("test", "TEST"));
-            Assert.IsTrue(Tools.CaseInsensitiveStringCompare("TEST", "TEST"));
-            Assert.IsTrue(Tools.CaseInsensitiveStringCompare("testDING", "TESTding"));
-            Assert.IsTrue(Tools.CaseInsensitiveStringCompare("sCr1pTkIdDy", "sCr1pTkIdDy"));
+            ClassicAssert.IsTrue(Tools.CaseInsensitiveStringCompare("test", "test"));
+            ClassicAssert.IsTrue(Tools.CaseInsensitiveStringCompare("test", "TEST"));
+            ClassicAssert.IsTrue(Tools.CaseInsensitiveStringCompare("TEST", "TEST"));
+            ClassicAssert.IsTrue(Tools.CaseInsensitiveStringCompare("testDING", "TESTding"));
+            ClassicAssert.IsTrue(Tools.CaseInsensitiveStringCompare("sCr1pTkIdDy", "sCr1pTkIdDy"));
 
-            Assert.IsFalse(Tools.CaseInsensitiveStringCompare("test", "not a test"));
-            Assert.IsFalse(Tools.CaseInsensitiveStringCompare("test ", " test"));
+            ClassicAssert.IsFalse(Tools.CaseInsensitiveStringCompare("test", "not a test"));
+            ClassicAssert.IsFalse(Tools.CaseInsensitiveStringCompare("test ", " test"));
         }
 
         [Test]
@@ -552,38 +553,38 @@ bar"), Is.EqualTo(2));
         [Test]
         public void IsRedirect()
         {
-            Assert.IsTrue(Tools.IsRedirect("#REDIRECT  [[Foo]]"));
-            Assert.IsTrue(Tools.IsRedirect("#REDIRECT  [[Foo|bar]]"));
-            Assert.IsTrue(Tools.IsRedirect("#redirecT[[:Foo]]"));
-            Assert.IsTrue(Tools.IsRedirect("should work!\r\n#REDIRECT [[Foo]]"));
+            ClassicAssert.IsTrue(Tools.IsRedirect("#REDIRECT  [[Foo]]"));
+            ClassicAssert.IsTrue(Tools.IsRedirect("#REDIRECT  [[Foo|bar]]"));
+            ClassicAssert.IsTrue(Tools.IsRedirect("#redirecT[[:Foo]]"));
+            ClassicAssert.IsTrue(Tools.IsRedirect("should work!\r\n#REDIRECT [[Foo]]"));
 
-            Assert.IsFalse(Tools.IsRedirect("#REDIRECT you to [[Hell]]"));
-            Assert.IsFalse(Tools.IsRedirect("REDIRECT [[Foo]]"));
+            ClassicAssert.IsFalse(Tools.IsRedirect("#REDIRECT you to [[Hell]]"));
+            ClassicAssert.IsFalse(Tools.IsRedirect("REDIRECT [[Foo]]"));
 
             // https://en.wikipedia.org/w/index.php?title=Middleton_Lake&diff=246079011&oldid=240299146
-            Assert.IsTrue(Tools.IsRedirect("#REDIRECT:[[Foo]]"));
-            Assert.IsTrue(Tools.IsRedirect("#REDIRECT : [[Foo]]"));
+            ClassicAssert.IsTrue(Tools.IsRedirect("#REDIRECT:[[Foo]]"));
+            ClassicAssert.IsTrue(Tools.IsRedirect("#REDIRECT : [[Foo]]"));
 
-            Assert.IsFalse(Tools.IsRedirect("<nowiki>#REDIRECT  [[Foo]]</nowiki>"));
+            ClassicAssert.IsFalse(Tools.IsRedirect("<nowiki>#REDIRECT  [[Foo]]</nowiki>"));
         }
 
         [Test]
         public void IsRedirectOrSoftRedirect()
         {
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("#REDIRECT  [[Foo]]"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("#redirecT[[:Foo]]"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("should work!\r\n#REDIRECT [[Foo]]"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{soft redirect|Foo}}"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{soft|Foo}}"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{category redirect|Foo}}"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Interwiki redirect|Foo}}"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Userrename|Foo}}"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Commons category redirect|Foo}}"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Deprecated shortcut|Foo}}"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Wikisource redirect|Foo}}"));
-            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Double soft redirect|Foo}}"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("#REDIRECT  [[Foo]]"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("#redirecT[[:Foo]]"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("should work!\r\n#REDIRECT [[Foo]]"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{soft redirect|Foo}}"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{soft|Foo}}"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{category redirect|Foo}}"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Interwiki redirect|Foo}}"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Userrename|Foo}}"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Commons category redirect|Foo}}"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Deprecated shortcut|Foo}}"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Wikisource redirect|Foo}}"));
+            ClassicAssert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{Double soft redirect|Foo}}"));
 
-            Assert.IsFalse(Tools.IsRedirectOrSoftRedirect("{{software|Foo}}"));
+            ClassicAssert.IsFalse(Tools.IsRedirectOrSoftRedirect("{{software|Foo}}"));
         }
 
         [Test]
@@ -655,17 +656,17 @@ In Portugal, this period is also known as the &quot;Portuguese [[Interregnum]]&q
             Assert.That(Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php/foo"), Is.EqualTo("foo"));
 
             // return null if there is something wrong
-            Assert.IsNull(Tools.GetTitleFromURL(""));
-            Assert.IsNull(Tools.GetTitleFromURL("foo"));
-            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org"));
-            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/"));
-            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php?title=foo&action=delete"));
+            ClassicAssert.IsNull(Tools.GetTitleFromURL(""));
+            ClassicAssert.IsNull(Tools.GetTitleFromURL("foo"));
+            ClassicAssert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org"));
+            ClassicAssert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/"));
+            ClassicAssert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php?title=foo&action=delete"));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#list_entries_like:_Index.html.3Fcurid.3D16235168
-            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/index.html?curid=666"));
-            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/foo?action=delete"));
-            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php?title=foo&action=delete"));
-            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php/foo?action=bar"));
+            ClassicAssert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/index.html?curid=666"));
+            ClassicAssert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/foo?action=delete"));
+            ClassicAssert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php?title=foo&action=delete"));
+            ClassicAssert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php/foo?action=bar"));
         }
 
         [Test]
@@ -751,21 +752,21 @@ en.wikipedia.org"));
         [Test]
         public void IsWikimediaProject()
         {
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikipedia));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.commons));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.meta));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.species));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikibooks));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikinews));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikiquote));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikisource));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikiversity));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikivoyage));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wiktionary));
-            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.mediawiki));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikipedia));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.commons));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.meta));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.species));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikibooks));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikinews));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikiquote));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikisource));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikiversity));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikivoyage));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wiktionary));
+            ClassicAssert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.mediawiki));
 
-            Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.custom));
-            Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.wikia));
+            ClassicAssert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.custom));
+            ClassicAssert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.wikia));
             
         }
 
@@ -773,22 +774,22 @@ en.wikipedia.org"));
         public void OrdeOfWikimediaProjects()
         {
             // Be very causious if changing order or Wikimedia Projects
-            Assert.IsTrue(ProjectEnum.commons > ProjectEnum.species);
-            Assert.IsTrue(ProjectEnum.meta > ProjectEnum.commons);
-            Assert.IsTrue(ProjectEnum.mediawiki > ProjectEnum.meta);
-            Assert.IsTrue(ProjectEnum.incubator > ProjectEnum.mediawiki);
-            Assert.IsTrue(ProjectEnum.wikia > ProjectEnum.incubator);
-            Assert.IsTrue(ProjectEnum.custom > ProjectEnum.wikia);
+            ClassicAssert.IsTrue(ProjectEnum.commons > ProjectEnum.species);
+            ClassicAssert.IsTrue(ProjectEnum.meta > ProjectEnum.commons);
+            ClassicAssert.IsTrue(ProjectEnum.mediawiki > ProjectEnum.meta);
+            ClassicAssert.IsTrue(ProjectEnum.incubator > ProjectEnum.mediawiki);
+            ClassicAssert.IsTrue(ProjectEnum.wikia > ProjectEnum.incubator);
+            ClassicAssert.IsTrue(ProjectEnum.custom > ProjectEnum.wikia);
         }
 
         [Test]
         public void StripNamespaceColon()
         {
             string s = Tools.StripNamespaceColon("User:");
-            Assert.IsFalse(s.Contains(":"));
+            ClassicAssert.IsFalse(s.Contains(":"));
 
             s = Tools.StripNamespaceColon("Project:");
-            Assert.IsFalse(s.Contains(":"));
+            ClassicAssert.IsFalse(s.Contains(":"));
         }
 
         [Test]
@@ -827,10 +828,10 @@ en.wikipedia.org"));
 
             foreach (Article a in res)
             {
-                Assert.IsFalse(a.Name.StartsWith("Commons:"));
+                ClassicAssert.IsFalse(a.Name.StartsWith("Commons:"));
                 Assert.That(a.NameSpaceKey, Is.Not.EqualTo(Namespace.MediaWiki));
                 Assert.That(a.NameSpaceKey, Is.Not.EqualTo(Namespace.MediaWikiTalk));
-                Assert.IsTrue(a.NameSpaceKey >= Namespace.Article);
+                ClassicAssert.IsTrue(a.NameSpaceKey >= Namespace.Article);
             }
         }
 
@@ -1122,13 +1123,13 @@ John", "*"), Is.EqualTo(@"* Fred
         [Test]
         public void DateBeforeToday()
         {
-            Assert.IsTrue(Tools.DateBeforeToday("11 May 2009"));
-            Assert.IsTrue(Tools.DateBeforeToday("May 11, 2009"));
-            Assert.IsTrue(Tools.DateBeforeToday("2013-12-31"));
-            Assert.IsTrue(Tools.DateBeforeToday(DateTime.Now.AddDays(-1).ToString(CultureInfo.CurrentCulture)));
+            ClassicAssert.IsTrue(Tools.DateBeforeToday("11 May 2009"));
+            ClassicAssert.IsTrue(Tools.DateBeforeToday("May 11, 2009"));
+            ClassicAssert.IsTrue(Tools.DateBeforeToday("2013-12-31"));
+            ClassicAssert.IsTrue(Tools.DateBeforeToday(DateTime.Now.AddDays(-1).ToString(CultureInfo.CurrentCulture)));
 
-            Assert.IsFalse(Tools.DateBeforeToday(DateTime.Now.AddMonths(1).ToString(CultureInfo.CurrentCulture)));
-            Assert.IsFalse(Tools.DateBeforeToday("foo"));
+            ClassicAssert.IsFalse(Tools.DateBeforeToday(DateTime.Now.AddMonths(1).ToString(CultureInfo.CurrentCulture)));
+            ClassicAssert.IsFalse(Tools.DateBeforeToday("foo"));
         }
 
         [Test]
@@ -1409,21 +1410,21 @@ There}}"), Is.EqualTo(Back), "handles parameters with newlines");
 
             Assert.That(Tools.GetTemplateParametersValues(template, parameters), Is.EqualTo(returned));
 
-            Assert.IsTrue(returned.Count.Equals(0));
+            ClassicAssert.IsTrue(returned.Count.Equals(0));
 
             parameters.Add("title");
             returned.Add("abc");
 
             Assert.That(Tools.GetTemplateParametersValues(template, parameters), Is.EqualTo(returned));
 
-            Assert.IsTrue(returned.Count.Equals(1));
+            ClassicAssert.IsTrue(returned.Count.Equals(1));
 
             parameters.Add("date");
             returned.Add("1 May 2009");
 
             Assert.That(Tools.GetTemplateParametersValues(template, parameters), Is.EqualTo(returned));
 
-            Assert.IsTrue(returned.Count.Equals(2));
+            ClassicAssert.IsTrue(returned.Count.Equals(2));
 
             Assert.That(Tools.GetTemplateParametersValues(template, parameters)[0], Is.EqualTo("abc"));
             Assert.That(Tools.GetTemplateParametersValues(template, parameters)[1], Is.EqualTo("1 May 2009"));
@@ -1433,7 +1434,7 @@ There}}"), Is.EqualTo(Back), "handles parameters with newlines");
 
             Assert.That(Tools.GetTemplateParametersValues(template, parameters), Is.EqualTo(returned));
 
-            Assert.IsTrue(returned.Count.Equals(3), "zero length string added to return list if parameter not found");
+            ClassicAssert.IsTrue(returned.Count.Equals(3), "zero length string added to return list if parameter not found");
 
             Assert.That(string.Join("", returned.ToArray()), Is.EqualTo("abc1 May 2009"));
         }
@@ -1758,7 +1759,7 @@ def
             Params.Clear();
             Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc||second=  def <!--com-->  }}", Params);
             string d = "";
-            Assert.IsTrue(Params.TryGetValue("second", out d));
+            ClassicAssert.IsTrue(Params.TryGetValue("second", out d));
             Assert.That(d, Is.EqualTo("def <!--com-->"), "parameter with space and comment retrieved correctly");
 
             Assert.That(Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second2=def|second2=def}}"), Is.EqualTo(@"{{foo|first=abc|second2=def|second2=def}}"));
@@ -1958,51 +1959,51 @@ valueafter}}"), "newline before populated parameter kept");
             Assert.That(FooTemplate.Match(@"{{ Foo}}").Groups[2].Value, Is.EqualTo(@"Foo"));
             Assert.That(FooTemplate.Match(@"{{ Foo|title=abc}}").Groups[3].Value, Is.EqualTo(@"|title=abc}}"));
 
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{___foo___}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{Foo}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{ foo}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{ foo|}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|title=abc}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{___foo___}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{Foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{ foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{ foo|}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo|title=abc}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo|
 title=abc
 |other=yes}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo
 |title=abc
 |other=yes}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo<!--comm-->|title=abc}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo <!--comm--> |title=abc}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo ⌊⌊⌊⌊0⌋⌋⌋⌋ |title=abc}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo<!--comm-->|title=abc}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo <!--comm--> |title=abc}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo ⌊⌊⌊⌊0⌋⌋⌋⌋ |title=abc}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{
 foo<!--comm-->|title=abc
 }}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={{abc}}}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={{abc}}|last=Fred}}"), "matches nested templates");
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={{abc}}}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={{abc}}|last=Fred}}"), "matches nested templates");
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo|
 title={{abc|fdkjdsfjk=fdaskjlfds
 |fdof=affdsa}}
 |last=Fred}}"), "matches nested parameterised templates");
 
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={abc} def|last=Fred}}"), "matches balanced single curly braces");
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={abc} def|last=Fred}}"), "matches balanced single curly braces");
 
-            Assert.IsFalse(FooTemplate.IsMatch(@"{{foo|title={abc def|last=Fred}}"), "doesn't match unbalanced single curly braces");
+            ClassicAssert.IsFalse(FooTemplate.IsMatch(@"{{foo|title={abc def|last=Fred}}"), "doesn't match unbalanced single curly braces");
 
-            Assert.IsFalse(FooTemplate.IsMatch(@"{{foobar}}"));
-            Assert.IsFalse(FooTemplate.IsMatch(@"{{foo"));
-            Assert.IsFalse(FooTemplate.IsMatch(@"{{foo}"));
-            Assert.IsFalse(FooTemplate.IsMatch(@"{foo}"));
+            ClassicAssert.IsFalse(FooTemplate.IsMatch(@"{{foobar}}"));
+            ClassicAssert.IsFalse(FooTemplate.IsMatch(@"{{foo"));
+            ClassicAssert.IsFalse(FooTemplate.IsMatch(@"{{foo}"));
+            ClassicAssert.IsFalse(FooTemplate.IsMatch(@"{foo}"));
 
             FooTemplate = Tools.NestedTemplateRegex("Foo");
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{Foo}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{ foo}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{Template:foo}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{:Template:foo}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{:Msg:foo}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{Msg:foo}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{_:_Template_:_foo_}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{Foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{ foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{Template:foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{:Template:foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{:Msg:foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{Msg:foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{_:_Template_:_foo_}}"));
 
-            Assert.IsFalse(FooTemplate.IsMatch(@"{{Template foo}}"));
+            ClassicAssert.IsFalse(FooTemplate.IsMatch(@"{{Template foo}}"));
 
             FooTemplate = Tools.NestedTemplateRegex("foo", true);
             Assert.That(FooTemplate.Match(@"{{  foo}}").Groups[1].Value, Is.EqualTo(@"{{  "));
@@ -2012,7 +2013,7 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             
             Variables.NamespacesCaseInsensitive.Remove(Namespace.Template);
             FooTemplate = Tools.NestedTemplateRegex("Foo", true);
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{Template:foo}}"));
+            ClassicAssert.IsTrue(FooTemplate.IsMatch(@"{{Template:foo}}"));
             Variables.NamespacesCaseInsensitive.Add(Namespace.Template, "[Tt]emplate:");
         }
 
@@ -2020,7 +2021,7 @@ title={{abc|fdkjdsfjk=fdaskjlfds
         public void NestedTemplateRegexRTL()
         {
             Regex ArTemplate = Tools.NestedTemplateRegex(@"وصلات قليلة");
-            Assert.IsTrue(ArTemplate.IsMatch(@"{{وصلات قليلة|تاريخ=ديسمبر 2012}}"));
+            ClassicAssert.IsTrue(ArTemplate.IsMatch(@"{{وصلات قليلة|تاريخ=ديسمبر 2012}}"));
             Assert.That(ArTemplate.Replace(@"{{وصلات قليلة|تاريخ=ديسمبر 2012}}", ""), Is.Empty);
             Assert.That(ArTemplate.Replace(@"{{وصلات قليلة|تاريخ=يناير_2009}}", ""), Is.Empty);
         }
@@ -2030,17 +2031,17 @@ title={{abc|fdkjdsfjk=fdaskjlfds
         {
             Regex FooTemplate2 = Tools.NestedTemplateRegex("foo bar");
 
-            Assert.IsTrue(FooTemplate2.IsMatch(@"{{foo bar}}"));
-            Assert.IsTrue(FooTemplate2.IsMatch(@"{{foo_bar}}"));
-            Assert.IsTrue(FooTemplate2.IsMatch(@"{{foo_____bar}}"));
-            Assert.IsTrue(FooTemplate2.IsMatch(@"{{Foo bar}}"));
-            Assert.IsTrue(FooTemplate2.IsMatch(@"{{Foo      bar}}"));
+            ClassicAssert.IsTrue(FooTemplate2.IsMatch(@"{{foo bar}}"));
+            ClassicAssert.IsTrue(FooTemplate2.IsMatch(@"{{foo_bar}}"));
+            ClassicAssert.IsTrue(FooTemplate2.IsMatch(@"{{foo_____bar}}"));
+            ClassicAssert.IsTrue(FooTemplate2.IsMatch(@"{{Foo bar}}"));
+            ClassicAssert.IsTrue(FooTemplate2.IsMatch(@"{{Foo      bar}}"));
 
-            Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo}}"));
-            Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo b_ar}}"));
-            Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo
+            ClassicAssert.IsFalse(FooTemplate2.IsMatch(@"{{foo}}"));
+            ClassicAssert.IsFalse(FooTemplate2.IsMatch(@"{{foo b_ar}}"));
+            ClassicAssert.IsFalse(FooTemplate2.IsMatch(@"{{foo
 bar|text}}"));
-            Assert.IsFalse(Tools.NestedTemplateRegex("birth date").IsMatch(@"{{birth-date|May 11, 1980}}"));
+            ClassicAssert.IsFalse(Tools.NestedTemplateRegex("birth date").IsMatch(@"{{birth-date|May 11, 1980}}"));
         }
 
         [Test]
@@ -2048,7 +2049,7 @@ bar|text}}"));
         {
             Regex FooTemplate2 = Tools.NestedTemplateRegex("");
 
-            Assert.IsNull(FooTemplate2);
+            ClassicAssert.IsNull(FooTemplate2);
         }
 
         [Test]
@@ -2057,7 +2058,7 @@ bar|text}}"));
             List<string> ListOfTemplates = new List<string>();
 
             Regex MultipleTemplatesN = Tools.NestedTemplateRegex(ListOfTemplates);
-            Assert.IsNull(MultipleTemplatesN, "null return if zero-entry list input");
+            ClassicAssert.IsNull(MultipleTemplatesN, "null return if zero-entry list input");
 
             ListOfTemplates.Add(@"Foo");
 
@@ -2073,27 +2074,27 @@ bar|text}}"));
             Assert.That(multipleTemplates.Match(@"{{ Foo|bar={{one}}|he=there}}").Groups[4].Value, Is.EqualTo(@"|bar={{one}}|he=there"), "Group 4 is template from bar to end excluding end }}");
             Assert.That(multipleTemplates.Match(@"{{ Foo|bar={{one}}|he=ther {{e}}}}").Groups[4].Value, Is.EqualTo(@"|bar={{one}}|he=ther {{e}}"), "Group 4 is template from bar to end excluding end }}");
 
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{Foo}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{ foo}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{ foo|}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title=abc}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo|
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{Foo}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{ foo}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{ foo|}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title=abc}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo|
 title=abc
 |other=yes}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo
 |title=abc
 |other=yes}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo<!--comm-->|title=abc}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo <!--comm--> |title=abc}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo<!--comm-->|title=abc}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo <!--comm--> |title=abc}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{
 foo<!--comm-->|title=abc
 }}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title={{abc}}}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title={{abc}}|last=Fred}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title={{abc}}}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title={{abc}}|last=Fred}}"));
 
-            Assert.IsFalse(multipleTemplates.IsMatch(@"{{a}}"));
-            Assert.IsFalse(multipleTemplates.IsMatch(@""));
+            ClassicAssert.IsFalse(multipleTemplates.IsMatch(@"{{a}}"));
+            ClassicAssert.IsFalse(multipleTemplates.IsMatch(@""));
 
             ListOfTemplates.Clear();
             ListOfTemplates.Add(@"Foo ");
@@ -2118,31 +2119,31 @@ foo<!--comm-->|title=abc
             Assert.That(multipleTemplates.Match(@"{{ foo}}").Groups[1].Value, Is.EqualTo(@"{{ "));
             Assert.That(multipleTemplates.Match(@"{{ foo |akjldasf=a}}").Groups[3].Value, Is.EqualTo(@" |akjldasf=a}}"));
 
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{Foo}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{ foo}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{ foo|}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title=abc}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo|
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{Foo}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{ foo}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{ foo|}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title=abc}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo|
 title=abc
 |other=yes}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo
 |title=abc
 |other=yes}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo<!--comm-->|title=abc}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo <!--comm--> |title=abc}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo<!--comm-->|title=abc}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo <!--comm--> |title=abc}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{
 foo<!--comm-->|title=abc
 }}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title={{abc}}}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title={{abc}}|last=Fred}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title={{abc}}}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{foo|title={{abc}}|last=Fred}}"));
 
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{bar}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{ bar}}"));
-            Assert.IsTrue(multipleTemplates.IsMatch(@"{{Bar}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{bar}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{ bar}}"));
+            ClassicAssert.IsTrue(multipleTemplates.IsMatch(@"{{Bar}}"));
 
-            Assert.IsFalse(multipleTemplates.IsMatch(@"{{a}}"));
-            Assert.IsFalse(multipleTemplates.IsMatch(@""));
+            ClassicAssert.IsFalse(multipleTemplates.IsMatch(@"{{a}}"));
+            ClassicAssert.IsFalse(multipleTemplates.IsMatch(@""));
         }
 
         [Test]
@@ -2250,9 +2251,9 @@ Start date and age
         [Test]
         public void IsIP()
         {
-            Assert.IsTrue(Tools.IsIP("192.168.0.1"));
-            Assert.IsTrue(Tools.IsIP("8.8.8.8"));
-            Assert.IsFalse(Tools.IsIP("www.google.com"));
+            ClassicAssert.IsTrue(Tools.IsIP("192.168.0.1"));
+            ClassicAssert.IsTrue(Tools.IsIP("8.8.8.8"));
+            ClassicAssert.IsFalse(Tools.IsIP("www.google.com"));
         }
 
         [Test]
@@ -2310,15 +2311,15 @@ Start date and age
         [Test]
         public void IsSectionOrReasonTemplate()
         {
-            Assert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|reason=foo}}"));
-            Assert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|date=May 2012|reason=foo}}"));
-            Assert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|section|date=May 2012}}"));
-            Assert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|section|date=May 2012}}", ""));
-            Assert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{foo}}", @"{{multiple issues|section=y|POV=May 2012}}"));
+            ClassicAssert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|reason=foo}}"));
+            ClassicAssert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|date=May 2012|reason=foo}}"));
+            ClassicAssert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|section|date=May 2012}}"));
+            ClassicAssert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|section|date=May 2012}}", ""));
+            ClassicAssert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{foo}}", @"{{multiple issues|section=y|POV=May 2012}}"));
             
-            Assert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc|param1=foo}}"));
-            Assert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc|section=foo}}"));
-            Assert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc}}"));
+            ClassicAssert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc|param1=foo}}"));
+            ClassicAssert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc|section=foo}}"));
+            ClassicAssert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc}}"));
         }
         
         [Test]
@@ -2390,17 +2391,17 @@ hello", Tools.NestedTemplateRegex("foo"), true), Is.EqualTo(0));
         [Test]
         public void UnformattedTextNotChanged()
         {
-            Assert.IsTrue(Tools.UnformattedTextNotChanged("", ""));
-            Assert.IsTrue(Tools.UnformattedTextNotChanged("A", "A"));
-            Assert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki>A</nowiki>"));
-            Assert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki> <nowiki>B</nowiki>", "<nowiki>A</nowiki> <nowiki>B</nowiki>"));
-            Assert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki> <nowiki>B</nowiki>", "<nowiki>A</nowiki>"), "Unformatted text entirely removed, true");
-            Assert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", ""), "Unformatted text entirely removed, true");
+            ClassicAssert.IsTrue(Tools.UnformattedTextNotChanged("", ""));
+            ClassicAssert.IsTrue(Tools.UnformattedTextNotChanged("A", "A"));
+            ClassicAssert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki>A</nowiki>"));
+            ClassicAssert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki> <nowiki>B</nowiki>", "<nowiki>A</nowiki> <nowiki>B</nowiki>"));
+            ClassicAssert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki> <nowiki>B</nowiki>", "<nowiki>A</nowiki>"), "Unformatted text entirely removed, true");
+            ClassicAssert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", ""), "Unformatted text entirely removed, true");
 
-            Assert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki> <nowiki>B</nowiki>", "<nowiki>C</nowiki>"));
-            Assert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki></nowiki>"));
-            Assert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki>B</nowiki>"), "Unformatted text changed removed, false");
-            Assert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki></nowiki>B"), "Unformatted text changed (no content) removed, false");
+            ClassicAssert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki> <nowiki>B</nowiki>", "<nowiki>C</nowiki>"));
+            ClassicAssert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki></nowiki>"));
+            ClassicAssert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki>B</nowiki>"), "Unformatted text changed removed, false");
+            ClassicAssert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki></nowiki>B"), "Unformatted text changed (no content) removed, false");
         }
 
         [Test]
@@ -2497,7 +2498,7 @@ hello", Tools.NestedTemplateRegex("foo"), true), Is.EqualTo(0));
             Assert.That(Tools.MakeHumanCatKey("Onewordname", ""), Is.EqualTo("Onewordname"));
             Assert.That(Tools.MakeHumanCatKey("onewordname", ""), Is.EqualTo("onewordname"));
 
-            Assert.IsTrue(Tools.MakeHumanCatKey(@"Friends of the Mission Clinic of Our Lady of Guadalupe, Inc.", "Test").Length > 0);
+            ClassicAssert.IsTrue(Tools.MakeHumanCatKey(@"Friends of the Mission Clinic of Our Lady of Guadalupe, Inc.", "Test").Length > 0);
         }
 
         [Test]
@@ -2667,17 +2668,17 @@ hello", Tools.NestedTemplateRegex("foo"), true), Is.EqualTo(0));
         [Test]
         public void HasDiacritics()
         {
-            Assert.IsTrue(Tools.HasDiacritics("hellõ"));
-            Assert.IsTrue(Tools.HasDiacritics("hellõ there"));
-            Assert.IsTrue(Tools.HasDiacritics("hẽllõ there"));
-            Assert.IsTrue(Tools.HasDiacritics("hẽllo there"));
-            Assert.IsTrue(Tools.HasDiacritics("İzmir"));
+            ClassicAssert.IsTrue(Tools.HasDiacritics("hellõ"));
+            ClassicAssert.IsTrue(Tools.HasDiacritics("hellõ there"));
+            ClassicAssert.IsTrue(Tools.HasDiacritics("hẽllõ there"));
+            ClassicAssert.IsTrue(Tools.HasDiacritics("hẽllo there"));
+            ClassicAssert.IsTrue(Tools.HasDiacritics("İzmir"));
 
-            Assert.IsFalse(Tools.HasDiacritics("hello"));
-            Assert.IsFalse(Tools.HasDiacritics("abcdefghijklmnopqrstuvwxyz"), "standard Latin alphabet");
-            Assert.IsFalse(Tools.HasDiacritics("0123456789"), "digits");
-            Assert.IsFalse(Tools.HasDiacritics(""), "empty string");
-            Assert.IsFalse(Tools.HasDiacritics("   "), "whitespace");
+            ClassicAssert.IsFalse(Tools.HasDiacritics("hello"));
+            ClassicAssert.IsFalse(Tools.HasDiacritics("abcdefghijklmnopqrstuvwxyz"), "standard Latin alphabet");
+            ClassicAssert.IsFalse(Tools.HasDiacritics("0123456789"), "digits");
+            ClassicAssert.IsFalse(Tools.HasDiacritics(""), "empty string");
+            ClassicAssert.IsFalse(Tools.HasDiacritics("   "), "whitespace");
         }
 
         [Test]
@@ -2756,9 +2757,9 @@ hello", Tools.NestedTemplateRegex("foo"), true), Is.EqualTo(0));
 
                 name = Tools.MakeHumanCatKey(name, "");
 
-                Assert.IsFalse(name.Contains("  "), "Sorting key shouldn't contain consecutive spaces - it breaks the sorting ({0})", name);
-                Assert.IsFalse(name.StartsWith(" "), "Sorting key shouldn't start with spaces");
-                Assert.IsFalse(name.EndsWith(" "), "Sorting key shouldn't end with spaces");
+                ClassicAssert.IsFalse(name.Contains("  "), "Sorting key shouldn't contain consecutive spaces - it breaks the sorting ({0})", name);
+                ClassicAssert.IsFalse(name.StartsWith(" "), "Sorting key shouldn't start with spaces");
+                ClassicAssert.IsFalse(name.EndsWith(" "), "Sorting key shouldn't end with spaces");
             }
         }
 

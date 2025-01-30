@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 using WikiFunctions.Controls.Lists;
 using WikiFunctions.Parse;
@@ -176,31 +177,31 @@ abc={{bar}}
         [Test]
         public void HideImages()
         {
-            Assert.IsFalse(Hide(@"[[File:foo.jpg]]").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[File:foo with space and 0004.jpg]]").Contains("foo"), "with space");
-            Assert.IsFalse(Hide(@"[[File:foo.jpeg]]").Contains("foo"), "jpeg");
-            Assert.IsFalse(Hide(@"[[File:foo.JPEG]]").Contains("foo"), "JPEG");
-            Assert.IsFalse(Hide(@"[[Image:foo with space and 0004.jpeg]]").Contains("foo"), "space and jpeg");
-            Assert.IsFalse(Hide(@"[[Image:foo.jpeg]]").Contains("foo"), "Image jpeg");
-            Assert.IsFalse(Hide(@"[[Image:foo with space and 0004.jpg]]").Contains("foo"), "image jpeg space");
-            Assert.IsFalse(Hide(@"[[File:foo.jpg|").Contains("foo"), "To pipe");
-            Assert.IsFalse(Hide(@"[[File:foo with space and 0004.jpg|").Contains("foo"), "Space to pipe");
-            Assert.IsFalse(Hide(@"[[File:foo.jpeg|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[Image:foo with space and 0004.jpeg|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[Image:foo.jpeg|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[Image:foo with SPACE() and 0004.jpg|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[File:foo.gif|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[Image:foo with space and 0004.gif|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[Image:foo.gif|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[Image:foo with SPACE() and 0004.gif|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[File:foo.png|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[Image:foo with space and 0004.png|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[Image:foo_here.png|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[Image:foo with SPACE() and 0004.png|").Contains("foo"), "Standard case");
-            Assert.IsFalse(Hide(@"[[Image:westminster.tube.station.jubilee.arp.jpg|").Contains("westminster.tube.station.jubilee.arp"), "Dot name");
+            ClassicAssert.IsFalse(Hide(@"[[File:foo.jpg]]").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[File:foo with space and 0004.jpg]]").Contains("foo"), "with space");
+            ClassicAssert.IsFalse(Hide(@"[[File:foo.jpeg]]").Contains("foo"), "jpeg");
+            ClassicAssert.IsFalse(Hide(@"[[File:foo.JPEG]]").Contains("foo"), "JPEG");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo with space and 0004.jpeg]]").Contains("foo"), "space and jpeg");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo.jpeg]]").Contains("foo"), "Image jpeg");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo with space and 0004.jpg]]").Contains("foo"), "image jpeg space");
+            ClassicAssert.IsFalse(Hide(@"[[File:foo.jpg|").Contains("foo"), "To pipe");
+            ClassicAssert.IsFalse(Hide(@"[[File:foo with space and 0004.jpg|").Contains("foo"), "Space to pipe");
+            ClassicAssert.IsFalse(Hide(@"[[File:foo.jpeg|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo with space and 0004.jpeg|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo.jpeg|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo with SPACE() and 0004.jpg|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[File:foo.gif|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo with space and 0004.gif|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo.gif|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo with SPACE() and 0004.gif|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[File:foo.png|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo with space and 0004.png|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo_here.png|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[Image:foo with SPACE() and 0004.png|").Contains("foo"), "Standard case");
+            ClassicAssert.IsFalse(Hide(@"[[Image:westminster.tube.station.jubilee.arp.jpg|").Contains("westminster.tube.station.jubilee.arp"), "Dot name");
 
-            Assert.IsTrue(Hide(@"[[File:foo.jpg|thumb|140px|[[Jo]] Assistant [[Ge]]]]").StartsWith("[["), "Retain starting brackets");
-            Assert.IsTrue(Hide(@"[[File:foo.jpg|thumb|140px|[[Jo]] Assistant [[Ge]]]]").Contains(@"thumb|140px|[[Jo]] Assistant [[Ge]]]]"), "Retain ending brackets");
+            ClassicAssert.IsTrue(Hide(@"[[File:foo.jpg|thumb|140px|[[Jo]] Assistant [[Ge]]]]").StartsWith("[["), "Retain starting brackets");
+            ClassicAssert.IsTrue(Hide(@"[[File:foo.jpg|thumb|140px|[[Jo]] Assistant [[Ge]]]]").Contains(@"thumb|140px|[[Jo]] Assistant [[Ge]]]]"), "Retain ending brackets");
 
 
             AssertAllHidden(@"<imagemap>
@@ -208,51 +209,51 @@ File:Blogs001.jpeg|Description
 File:Blogs002.jpeg|Description
 </imagemap>");
 
-            Assert.IsFalse(HideMore(@"[[Category:Foo|abc]]", false).Contains("abc"), "Category sort key always hidden if hiding wikilinks and not leaving target");
-            Assert.IsFalse(HideMore(@"[[Category:Foo|abc]]", true).Contains("abc"), "Category sort key hidden even if keeping targets");
+            ClassicAssert.IsFalse(HideMore(@"[[Category:Foo|abc]]", false).Contains("abc"), "Category sort key always hidden if hiding wikilinks and not leaving target");
+            ClassicAssert.IsFalse(HideMore(@"[[Category:Foo|abc]]", true).Contains("abc"), "Category sort key hidden even if keeping targets");
 
             HideText h = new HideText(true, false, false);
-            Assert.IsTrue(h.HideMore(@"[[Category:Foo|abc]]", false, false).Contains("abc"), "Category sort key kept if keeping wikilinks");
+            ClassicAssert.IsTrue(h.HideMore(@"[[Category:Foo|abc]]", false, false).Contains("abc"), "Category sort key kept if keeping wikilinks");
         }
         
         [Test]
         public void HideImagesLimits()
         {
             // in these ones all but the last | is hidden
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_skyline=442px_-_London_Lead_Image.jpg|"), Hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_skyline=442px_-_London_Lead_Image.jpg <!--comm-->|"), Hidden + " " + Hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_map=London (European Parliament constituency).svg   |"), Hidden + @"   \|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_map=westminster.tube.station.jubilee.arp.jpg|"), Hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|Cover  = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|image_skyline=442px_-_London_Lead_Image.jpg|"), Hidden + @"\|"));
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|image_skyline=442px_-_London_Lead_Image.jpg <!--comm-->|"), Hidden + " " + Hidden + @"\|"));
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|image_map=London (European Parliament constituency).svg   |"), Hidden + @"   \|"));
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|image_map=westminster.tube.station.jubilee.arp.jpg|"), Hidden + @"\|"));
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|Cover  = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|
 image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|Img = BBC_logo1.jpg
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|Img = BBC_logo1.jpg
 |"), Hidden + @"
 \|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"| image name = Fred Astaire.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image2 = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|map = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"| image name = Fred Astaire.jpg |"), Hidden + @" \|"));
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|image2 = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|map = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"|AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
         }
         
         [Test]
         public void HideCiteTitles()
         {
-            Assert.IsTrue(Hide(@"{{cite web| title = foo | date = May 2011").Contains(@"foo"), "Title not hidden if no year");
-            Assert.IsFalse(Hide(@"{{cite web| title = Now September 20 - September 26, 2010 was | date = May 2011").Contains(@"September"), "title hidden when contains year");
-            Assert.IsTrue(Tools.GetTemplateParameterValue(Hide(@"{{cite web| title = September 20 - September 26, 2010 | date = May 2011"), "title").Length > 0, "title parameter has length if hidden");
+            ClassicAssert.IsTrue(Hide(@"{{cite web| title = foo | date = May 2011").Contains(@"foo"), "Title not hidden if no year");
+            ClassicAssert.IsFalse(Hide(@"{{cite web| title = Now September 20 - September 26, 2010 was | date = May 2011").Contains(@"September"), "title hidden when contains year");
+            ClassicAssert.IsTrue(Tools.GetTemplateParameterValue(Hide(@"{{cite web| title = September 20 - September 26, 2010 | date = May 2011"), "title").Length > 0, "title parameter has length if hidden");
 
-            Assert.IsTrue(Hide(@"{{cite web| title = [Now September 20 - September 26, 2010] was | date = May 2011").Contains(@"]"), "title hiding, bracket handling");
+            ClassicAssert.IsTrue(Hide(@"{{cite web| title = [Now September 20 - September 26, 2010] was | date = May 2011").Contains(@"]"), "title hiding, bracket handling");
             
-            Assert.IsTrue(Hide(@"{{cite web| trans_title = foo | date = May 2011").Contains(@"foo"), "trans_title not hidden if no year");
-            Assert.IsFalse(Hide(@"{{cite web| trans_title = Now September 20 - September 26, 2010 was | date = May 2011").Contains(@"September"), "trans_title hidden when contains year");
-            Assert.IsTrue(Tools.GetTemplateParameterValue(Hide(@"{{cite web| trans_title = September 20 - September 26, 2010 | date = May 2011"), "trans_title").Length > 0, "trans_title parameter has length if hidden");
+            ClassicAssert.IsTrue(Hide(@"{{cite web| trans_title = foo | date = May 2011").Contains(@"foo"), "trans_title not hidden if no year");
+            ClassicAssert.IsFalse(Hide(@"{{cite web| trans_title = Now September 20 - September 26, 2010 was | date = May 2011").Contains(@"September"), "trans_title hidden when contains year");
+            ClassicAssert.IsTrue(Tools.GetTemplateParameterValue(Hide(@"{{cite web| trans_title = September 20 - September 26, 2010 | date = May 2011"), "trans_title").Length > 0, "trans_title parameter has length if hidden");
 
             Assert.That(Hide(@"{{cite web | url = www.site.com/a.pdf }}"), Is.EqualTo(@"{{cite web | url = www.site.com/a.pdf }}"), "PDF www URL not hidden");
 
-            Assert.IsFalse(Hide(@"{{cite web| trans_title = Now September 2009 - September 26, 2010 was | date = May 2011").Contains(@"2010"), "2 years");
-            Assert.IsTrue(Hide(@"{{cite web| trans_title = September 26, 2010 was (in three volumes} | date = May 2011").Contains(@"(in three volumes}"), "Don't hide beyond year");
+            ClassicAssert.IsFalse(Hide(@"{{cite web| trans_title = Now September 2009 - September 26, 2010 was | date = May 2011").Contains(@"2010"), "2 years");
+            ClassicAssert.IsTrue(Hide(@"{{cite web| trans_title = September 26, 2010 was (in three volumes} | date = May 2011").Contains(@"(in three volumes}"), "Don't hide beyond year");
         }
         
         [Test]
@@ -276,22 +277,22 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             Assert.That(Hide(Caption5), Is.EqualTo(Caption5));
 
             // in tests below part of string is hidden
-            Assert.IsTrue(Hide(@"[[Image:some image name.JPG|thumb|words with typos]]").EndsWith(@"thumb|words with typos]]"));
-            Assert.IsTrue(Hide(@"[[Image:some image name.JPEG|words with typos]]").EndsWith(@"words with typos]]"));
-            Assert.IsTrue(Hide(@"[[Image:some image name.jpg|thumb|words with typos ]]").EndsWith(@"thumb|words with typos ]]"));
-            Assert.IsTrue(Hide(@"[[Image:some image name.png|20px|words with typos and [[links]] here]]").EndsWith(@"20px|words with typos and [[links]] here]]"));
-            Assert.IsTrue(Hide(@"[[Image:some image name.svg|thumb|words with typos ]]").EndsWith(@"thumb|words with typos ]]"));
-            Assert.IsTrue(Hide(@"[[Image:some_image_name.further words.tiff|thumb|words with typos<ref name=a/>]]").EndsWith(@"thumb|words with typos<ref name=a/>]]"));
-            Assert.IsTrue(Hide(@"[[Image:some_image_name.for a word.png|thumb|words with typo]]").EndsWith(@"thumb|words with typo]]"));
-            Assert.IsTrue(Hide(@"[[Image:some_image_name.png|thumb|words with typo]] Normal words in text").EndsWith(@"thumb|words with typo]] Normal words in text"));
-            Assert.IsTrue(Hide(@"[[Image:some_image_name.png]] Normal words in text").EndsWith(@" Normal words in text"));
-            Assert.IsTrue(Hide(Caption4 + Field1).EndsWith(Field1));
+            ClassicAssert.IsTrue(Hide(@"[[Image:some image name.JPG|thumb|words with typos]]").EndsWith(@"thumb|words with typos]]"));
+            ClassicAssert.IsTrue(Hide(@"[[Image:some image name.JPEG|words with typos]]").EndsWith(@"words with typos]]"));
+            ClassicAssert.IsTrue(Hide(@"[[Image:some image name.jpg|thumb|words with typos ]]").EndsWith(@"thumb|words with typos ]]"));
+            ClassicAssert.IsTrue(Hide(@"[[Image:some image name.png|20px|words with typos and [[links]] here]]").EndsWith(@"20px|words with typos and [[links]] here]]"));
+            ClassicAssert.IsTrue(Hide(@"[[Image:some image name.svg|thumb|words with typos ]]").EndsWith(@"thumb|words with typos ]]"));
+            ClassicAssert.IsTrue(Hide(@"[[Image:some_image_name.further words.tiff|thumb|words with typos<ref name=a/>]]").EndsWith(@"thumb|words with typos<ref name=a/>]]"));
+            ClassicAssert.IsTrue(Hide(@"[[Image:some_image_name.for a word.png|thumb|words with typo]]").EndsWith(@"thumb|words with typo]]"));
+            ClassicAssert.IsTrue(Hide(@"[[Image:some_image_name.png|thumb|words with typo]] Normal words in text").EndsWith(@"thumb|words with typo]] Normal words in text"));
+            ClassicAssert.IsTrue(Hide(@"[[Image:some_image_name.png]] Normal words in text").EndsWith(@" Normal words in text"));
+            ClassicAssert.IsTrue(Hide(Caption4 + Field1).EndsWith(Field1));
         }
         
         [Test]
         public void HideImagesMisc()
         {
-            Assert.IsFalse(HideMore(@"{{Drugbox|
+            ClassicAssert.IsFalse(HideMore(@"{{Drugbox|
    |IUPAC_name = 6-chloro-1,1-dioxo-2''H''-1,2,4-benzothiadiazine-7-sulfonamide
    | image=Chlorothiazide.svg
    | image2=Chlorothiazide-from-xtal-3D-balls.png
@@ -342,10 +343,10 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             Assert.That(HideMore(Caption5), Is.EqualTo(Caption5));
 
             // in tests below part of string is hidden
-            Assert.IsTrue(HideMore(@"[[Image:some_image_name.png]] Normal words in text").EndsWith(@" Normal words in text"));
-            Assert.IsTrue(HideMore(Caption4 + Field1).EndsWith(Field1));
+            ClassicAssert.IsTrue(HideMore(@"[[Image:some_image_name.png]] Normal words in text").EndsWith(@" Normal words in text"));
+            ClassicAssert.IsTrue(HideMore(Caption4 + Field1).EndsWith(Field1));
 
-            Assert.IsFalse(HideMore(@"{{Drugbox|
+            ClassicAssert.IsFalse(HideMore(@"{{Drugbox|
    |IUPAC_name = 6-chloro-1,1-dioxo-2''H''-1,2,4-benzothiadiazine-7-sulfonamide
    | image=Chlorothiazide.svg
    | image2=Chlorothiazide-from-xtal-3D-balls.png
@@ -360,27 +361,27 @@ File:Blogs002.jpeg|Description
         [Test]
         public void HideGalleries()
         {
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 Image:quux.JPEG|text
 </gallery>"), @"<gallery>
 " + Hidden + @"|text
 </gallery>"), "Simple case: one image link with namespace hidden, description retained");
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 quux.JPEG|text
 </gallery>"), @"<gallery>
 " + Hidden + @"|text
 </gallery>"), "One image link without namespace hidden, description retained");
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 quux.JPEG|
 </gallery>"), @"<gallery>
 " + Hidden + @"|
 </gallery>"), "One image link without namespace hidden, blank description");
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 quux.JPEG
 </gallery>"), @"<gallery>
 " + Hidden + @"
 </gallery>"), "One image link without namespace hidden, no description ");
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 Image:foo.png|a bar
 Image:quux.JPEG|text
 </gallery>"), @"<gallery>
@@ -388,12 +389,12 @@ Image:quux.JPEG|text
 " + Hidden + @"|text
 </gallery>"), "Multiple image links hidden");
 
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery param=""a"">
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<gallery param=""a"">
 Image:quux.svg|text
 </gallery>"), @"<gallery param=""a"">
 " + Hidden + @"|text
 </gallery>"), "Images hidden within gallery tags with parameters");
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<Gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<Gallery>
 Image:foo.png|a bar
 Image:quux.JPEG|text
 </gallery>"), @"<Gallery>
@@ -401,28 +402,28 @@ Image:quux.JPEG|text
 " + Hidden + @"|text
 </gallery>"), "gallery tag casing");
 
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 Image:foo
 Image:quux.JPEG|text
 </gallery>"), @"<gallery>
 Image:foo
 " + Hidden + @"|text
 </gallery>"), "Image link without file extension not hidden");
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 File:foo.png
 File:9th of quux.JPEG|text
 </gallery>"), @"<gallery>
 " + Hidden + @"
 " + Hidden + @"|text
 </gallery>"), "image without description hidden OK");
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 File:bar ă foo.jpg|text1
 File:9th of May, ățuux.JPEG|text2
 </gallery>"), @"<gallery>
 " + Hidden + @"|text1
 " + Hidden + @"|text2
 </gallery>"), "special characters in image name handled OK");
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 File:foo1.jpg|[[foobar]] barbar
 File:foo2.jpg|Winter Festival
 Image:Foo3.jpg|Bar, detail
@@ -434,7 +435,7 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
 " + Hidden + "|" + Hidden + @" Street
 </gallery>"), "Wiki formatting within image description handled OK");
 
-            Assert.IsTrue(Regex.IsMatch(Hide(@"<gallery>
+            ClassicAssert.IsTrue(Regex.IsMatch(Hide(@"<gallery>
 quux.JPEG|text
 </gallery>"), @"<gallery>
 " + Hidden + @"|text
@@ -449,11 +450,11 @@ quux.JPEG|text
             AssertAllHiddenMore("[//foo.com bar]", true, "External link Protocol-relative URL"); 
             AssertAllHiddenMore("[http://foo [bar]", true, "External link unbalanced bracket");
             AssertAllHiddenMore("[[ru:Link]]", true, "Possible interwiki, hidemore");
-            Assert.IsFalse(Hide(@"[[ru:Link]]", true, true, true).Contains("Link"), "Possible interwiki, hide");
+            ClassicAssert.IsFalse(Hide(@"[[ru:Link]]", true, true, true).Contains("Link"), "Possible interwiki, hide");
             
-            Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="), "cite template URL");
-            Assert.IsTrue(Hide(@"date=April 2010|url=//w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="), "Protocol-relative URL");
-            Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"}}"), "Cite template URL, }} retention");
+            ClassicAssert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="), "cite template URL");
+            ClassicAssert.IsTrue(Hide(@"date=April 2010|url=//w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="), "Protocol-relative URL");
+            ClassicAssert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"}}"), "Cite template URL, }} retention");
         }
         
         [Test]
@@ -472,8 +473,8 @@ quux.JPEG|text
             AssertAllHiddenMore("news://www.foo.com/asdfasdf/asdf.htm", true);
             AssertAllHiddenMore("svn://www.foo.com/asdfasdf/asdf.htm", true);
             
-            Assert.IsFalse(HideMore(@"http://foo.com/asdfasdf/asdf.htm", true, false, false).Contains("asdf"));
-            Assert.IsTrue(HideMore(@"http://foo.com/asdfasdf/asdf.htm", false, false, false).Contains("asdf"));
+            ClassicAssert.IsFalse(HideMore(@"http://foo.com/asdfasdf/asdf.htm", true, false, false).Contains("asdf"));
+            ClassicAssert.IsTrue(HideMore(@"http://foo.com/asdfasdf/asdf.htm", false, false, false).Contains("asdf"));
         }
 
         [Test]
@@ -539,11 +540,11 @@ quux.JPEG|text
             Article a = new Article("A");
             Article b = new Article("A");
             b = null;
-            Assert.IsFalse(a.Equals(null));
+            ClassicAssert.IsFalse(a.Equals(null));
             b = new Article("A");
             Assert.That(a.ToString(), Is.EqualTo("A"));
             Assert.That(a.Name, Is.EqualTo("A"));
-            Assert.IsFalse(a != b);
+            ClassicAssert.IsFalse(a != b);
 
             Assert.That(a.URLEncodedName, Is.EqualTo("A"));
             Assert.That(a.DisplayTitle, Is.EqualTo(null));
@@ -569,13 +570,13 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
             Article a = new Article("A", "ABC");
             Parsers p = new Parsers(500, true);
             a.AutoTag(p, true, true);
-            Assert.IsFalse(a.NoArticleTextChanged);
+            ClassicAssert.IsFalse(a.NoArticleTextChanged);
 
             a = new Article("A", LongText);
             Globals.UnitTestIntValue = 1;
             Globals.UnitTestBoolValue = false;
             a.AutoTag(p, true, true);
-            Assert.IsTrue(a.NoArticleTextChanged);
+            ClassicAssert.IsTrue(a.NoArticleTextChanged);
             #endif
         }
 
@@ -584,7 +585,7 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
         {
             Article a = new Article("A", "{{dead link}}");
             Assert.That(a.DeadLinks().Count, Is.EqualTo(1));
-            Assert.IsTrue(a.HasDeadLinks);
+            ClassicAssert.IsTrue(a.HasDeadLinks);
             
             a = new Article("A", "<small>");
             Assert.That(a.UnclosedTags().Count, Is.EqualTo(1));
@@ -633,45 +634,45 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
         public void Properties()
         {
             Article a = new Article("A", "ABC");
-            Assert.IsFalse(a.ArticleIsAboutAPerson);
+            ClassicAssert.IsFalse(a.ArticleIsAboutAPerson);
             
             a = new Article("A");
-            Assert.IsFalse(a.HasDiacriticsInTitle);
+            ClassicAssert.IsFalse(a.HasDiacriticsInTitle);
             
             a = new Article("Aé");
-            Assert.IsTrue(a.HasDiacriticsInTitle);
+            ClassicAssert.IsTrue(a.HasDiacriticsInTitle);
             
-            Assert.IsTrue(a.IsStub);
+            ClassicAssert.IsTrue(a.IsStub);
             
             a = new Article("A", "ABC");
-            Assert.IsFalse(a.HasStubTemplate);
-            Assert.IsFalse(a.HasInfoBox);
-            Assert.IsFalse(a.HasSicTag);
-            Assert.IsFalse(a.IsInUse);
-            Assert.IsFalse(a.HasTargetLessLinks);
-            Assert.IsFalse(a.HasDoublePipeLinks);
-            Assert.IsFalse(a.HasMorefootnotesAndManyReferences);
-            Assert.IsFalse(a.IsDisambiguationPage);
-            Assert.IsFalse(a.IsDisambiguationPageWithRefs);
-            Assert.IsFalse(a.IsSIAPage);
-            Assert.IsFalse(a.HasRefAfterReflist);
-            Assert.IsFalse(a.HasNamedReferences);
-            Assert.IsFalse(a.HasBareReferences);
-            Assert.IsFalse(a.HasAmbiguousCiteTemplateDates);
-            Assert.IsFalse(a.HasSeeAlsoAfterNotesReferencesOrExternalLinks);
-            Assert.IsFalse(a.IsMissingReferencesDisplay);
-            Assert.IsFalse(a.IsRedirect);
+            ClassicAssert.IsFalse(a.HasStubTemplate);
+            ClassicAssert.IsFalse(a.HasInfoBox);
+            ClassicAssert.IsFalse(a.HasSicTag);
+            ClassicAssert.IsFalse(a.IsInUse);
+            ClassicAssert.IsFalse(a.HasTargetLessLinks);
+            ClassicAssert.IsFalse(a.HasDoublePipeLinks);
+            ClassicAssert.IsFalse(a.HasMorefootnotesAndManyReferences);
+            ClassicAssert.IsFalse(a.IsDisambiguationPage);
+            ClassicAssert.IsFalse(a.IsDisambiguationPageWithRefs);
+            ClassicAssert.IsFalse(a.IsSIAPage);
+            ClassicAssert.IsFalse(a.HasRefAfterReflist);
+            ClassicAssert.IsFalse(a.HasNamedReferences);
+            ClassicAssert.IsFalse(a.HasBareReferences);
+            ClassicAssert.IsFalse(a.HasAmbiguousCiteTemplateDates);
+            ClassicAssert.IsFalse(a.HasSeeAlsoAfterNotesReferencesOrExternalLinks);
+            ClassicAssert.IsFalse(a.IsMissingReferencesDisplay);
+            ClassicAssert.IsFalse(a.IsRedirect);
         }
         
         [Test]
         public void CanDoGeneralFixes()
         {
             Article a = new Article("A", "ABC");
-            Assert.IsTrue(a.CanDoGeneralFixes);
+            ClassicAssert.IsTrue(a.CanDoGeneralFixes);
             
-            Assert.IsFalse(a.CanDoTalkGeneralFixes);
+            ClassicAssert.IsFalse(a.CanDoTalkGeneralFixes);
             a = new Article("Talk:A", "ABC");
-            Assert.IsTrue(a.CanDoTalkGeneralFixes);
+            ClassicAssert.IsTrue(a.CanDoTalkGeneralFixes);
         }
 
         [Test]
@@ -696,24 +697,24 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
         {
             Article a = new Article("A", "ABC");
             a.AWBChangeArticleText("test", "ABC D", false);
-            Assert.IsFalse(a.OnlyWhiteSpaceChanged);
-            Assert.IsFalse(a.OnlyCasingChanged);
+            ClassicAssert.IsFalse(a.OnlyWhiteSpaceChanged);
+            ClassicAssert.IsFalse(a.OnlyCasingChanged);
 
             a = new Article("A", "ABC");
             a.AWBChangeArticleText("test", "AB C", false);
-            Assert.IsTrue(a.OnlyWhiteSpaceChanged);
-            Assert.IsTrue(a.OnlyWhiteSpaceAndCasingChanged);
-            Assert.IsFalse(a.OnlyCasingChanged);
-            Assert.IsFalse(a.NoArticleTextChanged);
+            ClassicAssert.IsTrue(a.OnlyWhiteSpaceChanged);
+            ClassicAssert.IsTrue(a.OnlyWhiteSpaceAndCasingChanged);
+            ClassicAssert.IsFalse(a.OnlyCasingChanged);
+            ClassicAssert.IsFalse(a.NoArticleTextChanged);
 
             a = new Article("A", "ABC");
             a.AWBChangeArticleText("test", "ABc", false);
-            Assert.IsTrue(a.OnlyCasingChanged);
+            ClassicAssert.IsTrue(a.OnlyCasingChanged);
 
             a = new Article("A", "ABC");
             a.AWBChangeArticleText("test", "ABC", false);
-            Assert.IsTrue(a.NoArticleTextChanged);
-            Assert.IsFalse(a.OnlyMinorGeneralFixesChanged);
+            ClassicAssert.IsTrue(a.NoArticleTextChanged);
+            ClassicAssert.IsFalse(a.OnlyMinorGeneralFixesChanged);
         }
 
         [Test]
@@ -792,12 +793,12 @@ There [was.");
                                                                                  false); // multiline
             
             Article a = new Article("A", "Now foo\nbar");
-            Assert.IsTrue(notContainsComparer.Matches(a), "does not contain comparer");
-            Assert.IsTrue(containsComparer.Matches(a), "it contains comparer");
+            ClassicAssert.IsTrue(notContainsComparer.Matches(a), "does not contain comparer");
+            ClassicAssert.IsTrue(containsComparer.Matches(a), "it contains comparer");
             
             a = new Article("A", @"Now foo-bar");
-            Assert.IsFalse(notContainsComparer.Matches(a), "not contains is false");
-            Assert.IsFalse(containsComparer.Matches(a), "contains is false");
+            ClassicAssert.IsFalse(notContainsComparer.Matches(a), "not contains is false");
+            ClassicAssert.IsFalse(containsComparer.Matches(a), "contains is false");
         }
 
         [Test]
@@ -862,7 +863,7 @@ http://www.site.com
 
 [[Category:A]]");
             a.BulletExternalLinks(false);
-            Assert.IsTrue(a.ArticleText.Contains("* http://www.site.com"));
+            ClassicAssert.IsTrue(a.ArticleText.Contains("* http://www.site.com"));
             
              a = new Article("a", @"A
 ==External links==
@@ -870,7 +871,7 @@ http://www.site.com
 
 [[Category:A]]");
             a.BulletExternalLinks(true);
-            Assert.IsTrue(a.ArticleText.Contains("* http://www.site.com"));
+            ClassicAssert.IsTrue(a.ArticleText.Contains("* http://www.site.com"));
             
             a = new Article("a", @"A
 ==External links==
@@ -878,7 +879,7 @@ http://www.site.com
 
 [[Category:A]]");
             a.BulletExternalLinks(true);
-            Assert.IsTrue(a.ArticleText.Contains("* http://www.site.com"));
+            ClassicAssert.IsTrue(a.ArticleText.Contains("* http://www.site.com"));
         }
         
         [Test]
@@ -886,19 +887,19 @@ http://www.site.com
         {
             Article a = new Article("a", @"A [[_B ]]");
             a.FixLinks(false);
-            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+            ClassicAssert.IsTrue(a.ArticleText.Contains("[[B]]"));
             
             a = new Article("a", @"A [[ B_]]");
             a.FixLinks(true);
-            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+            ClassicAssert.IsTrue(a.ArticleText.Contains("[[B]]"));
             
             a = new Article("a", @"A [[B]]");
             a.FixLinks(true);
-            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+            ClassicAssert.IsTrue(a.ArticleText.Contains("[[B]]"));
             
             a = new Article("a", @"A [[B]]");
             a.FixLinks(false);
-            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+            ClassicAssert.IsTrue(a.ArticleText.Contains("[[B]]"));
         }
         
         [Test]
@@ -907,7 +908,7 @@ http://www.site.com
             Parsers Parser = new Parsers();
             Article a = new Article("a", @"A [[B]]");
             a.CiteTemplateDates(Parser, true);
-            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+            ClassicAssert.IsTrue(a.ArticleText.Contains("[[B]]"));
         }
         
         [Test]
@@ -916,7 +917,7 @@ http://www.site.com
             Parsers Parser = new Parsers();
             Article a = new Article("a", @"A [[B]]");
             a.EmboldenTitles(Parser, true);
-            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+            ClassicAssert.IsTrue(a.ArticleText.Contains("[[B]]"));
         }
     }
 
@@ -978,94 +979,94 @@ http://www.site.com
         [Test]
         public void IsTalk()
         {
-            Assert.IsTrue(Namespace.IsTalk(Namespace.Talk));
-            Assert.IsTrue(Namespace.IsTalk(Namespace.UserTalk));
+            ClassicAssert.IsTrue(Namespace.IsTalk(Namespace.Talk));
+            ClassicAssert.IsTrue(Namespace.IsTalk(Namespace.UserTalk));
 
-            Assert.IsFalse(Namespace.IsTalk(Namespace.User));
-            Assert.IsFalse(Namespace.IsTalk(Namespace.Project));
+            ClassicAssert.IsFalse(Namespace.IsTalk(Namespace.User));
+            ClassicAssert.IsFalse(Namespace.IsTalk(Namespace.Project));
 
-            Assert.IsFalse(Namespace.IsTalk(Namespace.Special));
-            Assert.IsFalse(Namespace.IsTalk(Namespace.Media));
+            ClassicAssert.IsFalse(Namespace.IsTalk(Namespace.Special));
+            ClassicAssert.IsFalse(Namespace.IsTalk(Namespace.Media));
 
-            Assert.IsTrue(Namespace.IsTalk("Talk:Test"));
-            Assert.IsTrue(Namespace.IsTalk("User talk:Test"));
+            ClassicAssert.IsTrue(Namespace.IsTalk("Talk:Test"));
+            ClassicAssert.IsTrue(Namespace.IsTalk("User talk:Test"));
 
-            Assert.IsFalse(Namespace.IsTalk("Test"));
-            Assert.IsFalse(Namespace.IsTalk("User:Test"));
+            ClassicAssert.IsFalse(Namespace.IsTalk("Test"));
+            ClassicAssert.IsFalse(Namespace.IsTalk("User:Test"));
         }
 
         [Test]
         public void IsMainSpace()
         {
-            Assert.IsTrue(Namespace.IsMainSpace(Namespace.Article));
-            Assert.IsFalse(Namespace.IsMainSpace(Namespace.Talk));
+            ClassicAssert.IsTrue(Namespace.IsMainSpace(Namespace.Article));
+            ClassicAssert.IsFalse(Namespace.IsMainSpace(Namespace.Talk));
 
-            Assert.IsTrue(Namespace.IsMainSpace("Test"));
+            ClassicAssert.IsTrue(Namespace.IsMainSpace("Test"));
 
-            Assert.IsFalse(Namespace.IsMainSpace("User:"));
-            Assert.IsFalse(Namespace.IsMainSpace("Talk:Test"));
-            Assert.IsFalse(Namespace.IsMainSpace("User:Test"));
-            Assert.IsFalse(Namespace.IsMainSpace("User talk:Test"));
+            ClassicAssert.IsFalse(Namespace.IsMainSpace("User:"));
+            ClassicAssert.IsFalse(Namespace.IsMainSpace("Talk:Test"));
+            ClassicAssert.IsFalse(Namespace.IsMainSpace("User:Test"));
+            ClassicAssert.IsFalse(Namespace.IsMainSpace("User talk:Test"));
 
-            Assert.IsFalse(Namespace.IsMainSpace("File:Test"));
-            Assert.IsFalse(Namespace.IsMainSpace("Image:Test"));
-            Assert.IsFalse(Namespace.IsMainSpace("Book talk:Math"));
+            ClassicAssert.IsFalse(Namespace.IsMainSpace("File:Test"));
+            ClassicAssert.IsFalse(Namespace.IsMainSpace("Image:Test"));
+            ClassicAssert.IsFalse(Namespace.IsMainSpace("Book talk:Math"));
         }
 
         [Test]
         public void IsImportant()
         {
-            Assert.IsTrue(Namespace.IsImportant("Test"));
-            Assert.IsTrue(Namespace.IsImportant("File:Test.jpg"));
-            Assert.IsTrue(Namespace.IsImportant("Template:Test"));
-            Assert.IsTrue(Namespace.IsImportant("Category:Test"));
+            ClassicAssert.IsTrue(Namespace.IsImportant("Test"));
+            ClassicAssert.IsTrue(Namespace.IsImportant("File:Test.jpg"));
+            ClassicAssert.IsTrue(Namespace.IsImportant("Template:Test"));
+            ClassicAssert.IsTrue(Namespace.IsImportant("Category:Test"));
 
-            Assert.IsFalse(Namespace.IsImportant("Talk:Test"));
-            Assert.IsFalse(Namespace.IsImportant("File talk:Test"));
-            Assert.IsFalse(Namespace.IsImportant("Template talk:Test"));
-            Assert.IsFalse(Namespace.IsImportant("Category talk:Test"));
-            Assert.IsFalse(Namespace.IsImportant("User:Test"));
+            ClassicAssert.IsFalse(Namespace.IsImportant("Talk:Test"));
+            ClassicAssert.IsFalse(Namespace.IsImportant("File talk:Test"));
+            ClassicAssert.IsFalse(Namespace.IsImportant("Template talk:Test"));
+            ClassicAssert.IsFalse(Namespace.IsImportant("Category talk:Test"));
+            ClassicAssert.IsFalse(Namespace.IsImportant("User:Test"));
         }
 
         [Test]
         public void IsUserSpace()
         {
-            Assert.IsTrue(Namespace.IsUserSpace("User:Test"));
-            Assert.IsTrue(Namespace.IsUserSpace("User talk:Test"));
+            ClassicAssert.IsTrue(Namespace.IsUserSpace("User:Test"));
+            ClassicAssert.IsTrue(Namespace.IsUserSpace("User talk:Test"));
 
-            Assert.IsFalse(Namespace.IsUserSpace("User"));
-            Assert.IsFalse(Namespace.IsUserSpace("Test"));
-            Assert.IsFalse(Namespace.IsUserSpace("Project:User"));
+            ClassicAssert.IsFalse(Namespace.IsUserSpace("User"));
+            ClassicAssert.IsFalse(Namespace.IsUserSpace("Test"));
+            ClassicAssert.IsFalse(Namespace.IsUserSpace("Project:User"));
         }
 
         [Test]
         public void IsUserTalk()
         {
-            Assert.IsTrue(Namespace.IsUserTalk("User talk:Test"));
+            ClassicAssert.IsTrue(Namespace.IsUserTalk("User talk:Test"));
 
-            Assert.IsFalse(Namespace.IsUserTalk("User:Test"));
-            Assert.IsFalse(Namespace.IsUserTalk("Test"));
-            Assert.IsFalse(Namespace.IsUserTalk("Project:User"));
+            ClassicAssert.IsFalse(Namespace.IsUserTalk("User:Test"));
+            ClassicAssert.IsFalse(Namespace.IsUserTalk("Test"));
+            ClassicAssert.IsFalse(Namespace.IsUserTalk("Project:User"));
         }
 
         [Test]
         public void IsUserPage()
         {
-            Assert.IsTrue(Namespace.IsUserPage("User:Test"));
+            ClassicAssert.IsTrue(Namespace.IsUserPage("User:Test"));
 
-            Assert.IsFalse(Namespace.IsUserPage("User talk:Test"));
-            Assert.IsFalse(Namespace.IsUserPage("Test"));
-            Assert.IsFalse(Namespace.IsUserPage("Project:User"));
+            ClassicAssert.IsFalse(Namespace.IsUserPage("User talk:Test"));
+            ClassicAssert.IsFalse(Namespace.IsUserPage("Test"));
+            ClassicAssert.IsFalse(Namespace.IsUserPage("Project:User"));
         }
 
         [Test]
         public void IsSpecial()
         {
-            Assert.IsTrue(Namespace.IsSpecial(Namespace.Media));
-            Assert.IsTrue(Namespace.IsSpecial(Namespace.Special));
+            ClassicAssert.IsTrue(Namespace.IsSpecial(Namespace.Media));
+            ClassicAssert.IsTrue(Namespace.IsSpecial(Namespace.Special));
 
-            Assert.IsFalse(Namespace.IsSpecial(Namespace.Article));
-            Assert.IsFalse(Namespace.IsSpecial(Namespace.TemplateTalk));
+            ClassicAssert.IsFalse(Namespace.IsSpecial(Namespace.Article));
+            ClassicAssert.IsFalse(Namespace.IsSpecial(Namespace.TemplateTalk));
         }
 
         [Test]
@@ -1086,19 +1087,19 @@ http://www.site.com
         [Test]
         public void Verify()
         {
-            Assert.IsTrue(Namespace.VerifyNamespaces(Variables.CanonicalNamespaces));
+            ClassicAssert.IsTrue(Namespace.VerifyNamespaces(Variables.CanonicalNamespaces));
 
             var ns = new Dictionary<int, string>(Variables.CanonicalNamespaces);
             
             ns[0] = "";
-            Assert.IsFalse(Namespace.VerifyNamespaces(ns));
+            ClassicAssert.IsFalse(Namespace.VerifyNamespaces(ns));
 
             ns.Remove(0);
             ns[1] = "Talk";
-            Assert.IsFalse(Namespace.VerifyNamespaces(ns));
+            ClassicAssert.IsFalse(Namespace.VerifyNamespaces(ns));
             
             ns.Remove(1);
-            Assert.IsFalse(Namespace.VerifyNamespaces(ns));
+            ClassicAssert.IsFalse(Namespace.VerifyNamespaces(ns));
         }
     }
 
@@ -1633,8 +1634,8 @@ Hello world comment."));
             
             TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
-            Assert.IsTrue(articleTextIn.Contains(@"==Foo bar=="));
-            Assert.IsFalse(articleTextIn.Contains(@"==Untitled=="));
+            ClassicAssert.IsTrue(articleTextIn.Contains(@"==Foo bar=="));
+            ClassicAssert.IsFalse(articleTextIn.Contains(@"==Untitled=="));
             
             articleTextIn = comment;
 
@@ -2023,10 +2024,10 @@ bar
 ==Section==
 {{Template:Bar}}";
             
-            Assert.IsFalse(TalkPageFixes.ProcessTalkPage(ref T1, DEFAULTSORT.NoChange));
+            ClassicAssert.IsFalse(TalkPageFixes.ProcessTalkPage(ref T1, DEFAULTSORT.NoChange));
             Assert.That(T1, Is.EqualTo("{{Foo}}"), "template namespace removed");
             
-            Assert.IsFalse(TalkPageFixes.ProcessTalkPage(ref T2, DEFAULTSORT.NoChange));
+            ClassicAssert.IsFalse(TalkPageFixes.ProcessTalkPage(ref T2, DEFAULTSORT.NoChange));
             Assert.That(T2, Is.EqualTo(@"{{Foo}}
 ==Section==
 {{Template:Bar}}"), "changes only made in zeroth section");
@@ -2121,47 +2122,47 @@ bar
         public void TemplateUsedInText()
         {
             // casing
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"bert}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("bert", @"Bert}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("bert", @"bert}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"bert}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("bert", @"Bert}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("bert", @"bert}} was great"));
             
             // spacing
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert }} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @" Bert}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert|fo=yes}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert }} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @" Bert}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert|fo=yes}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert
 |fo=yes}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert |fo=yes}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @" Bert|fo=yes}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert |fo=yes}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @" Bert|fo=yes}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"
     Bert|fo=yes}} was great"));
             
             // comments
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert|fo=yes}} was <!--great-->"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"<!--thing--> Bert }} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert<!--thing-->}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert<!--thing-->|foo=bar}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert|fo=yes}} was <!--great-->"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"<!--thing--> Bert }} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert<!--thing-->}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert<!--thing-->|foo=bar}} was great"));
             
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("", @"Bert}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("", @"Bert}} was great"));
             
             // underscores
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert Li", @"Bert Li}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert Li", @"Bert   Li}} was great"));
-            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert Li", @"Bert_Li}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert Li", @"Bert Li}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert Li", @"Bert   Li}} was great"));
+            ClassicAssert.IsTrue(InTemplateRule.TemplateUsedInText("Bert Li", @"Bert_Li}} was great"));
         }
         
         [Test]
         public void TemplateUsedInTextNoMatches()
         {
-            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"{{Bert}} was great"));
-            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"Bert was great"));
-            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"[[Bert]] was great"));
-            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"Tim}} was great"));
-            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"BERT}} was great"));
-            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert Li", @"BertLi}} was great"));
+            ClassicAssert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"{{Bert}} was great"));
+            ClassicAssert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"Bert was great"));
+            ClassicAssert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"[[Bert]] was great"));
+            ClassicAssert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"Tim}} was great"));
+            ClassicAssert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"BERT}} was great"));
+            ClassicAssert.IsFalse(InTemplateRule.TemplateUsedInText("Bert Li", @"BertLi}} was great"));
             
-            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"<!--Bert}}--> was great"));
+            ClassicAssert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"<!--Bert}}--> was great"));
         }
     }
     
@@ -2243,7 +2244,7 @@ bar
             LMakerLarge.RemoveListDuplicates();
 
             Assert.That(LMakerLarge.Count, Is.EqualTo(big - 1), "Duplicate removed");
-            Assert.IsTrue(LMakerLarge.Contains(new Article("1")), "First instance of article retained");
+            ClassicAssert.IsTrue(LMakerLarge.Contains(new Article("1")), "First instance of article retained");
         }
 
         [Test]
@@ -2351,19 +2352,19 @@ bar
             ListComparer.CompareLists(LMaker, articles, lb1, lb2, lb3);
             
             // unique in 1
-            Assert.IsTrue(lb1.Items.Contains("B"));
-            Assert.IsTrue(lb1.Items.Contains("C"));
-            Assert.IsFalse(lb1.Items.Contains("A"));
+            ClassicAssert.IsTrue(lb1.Items.Contains("B"));
+            ClassicAssert.IsTrue(lb1.Items.Contains("C"));
+            ClassicAssert.IsFalse(lb1.Items.Contains("A"));
             Assert.That(lb1.Items.Count, Is.EqualTo(2));
 
             // unique in 2
-            Assert.IsFalse(lb2.Items.Contains("A"));
-            Assert.IsTrue(lb2.Items.Contains("D"));
-            Assert.IsTrue(lb2.Items.Contains("E"));
+            ClassicAssert.IsFalse(lb2.Items.Contains("A"));
+            ClassicAssert.IsTrue(lb2.Items.Contains("D"));
+            ClassicAssert.IsTrue(lb2.Items.Contains("E"));
             Assert.That(lb2.Items.Count, Is.EqualTo(2));
 
             // common to both
-            Assert.IsTrue(lb3.Items.Contains("A"));
+            ClassicAssert.IsTrue(lb3.Items.Contains("A"));
             Assert.That(lb3.Items.Count, Is.EqualTo(1));
         }
         
@@ -2393,15 +2394,15 @@ bar
             ListComparer.CompareLists(LMakerC10K, articlesC, lb1, lb2, lb3);
             
             // unique in 1
-            Assert.IsTrue(lb1.Items.Contains("A"));
-            Assert.IsTrue(lb1.Items.Contains("B"));
+            ClassicAssert.IsTrue(lb1.Items.Contains("A"));
+            ClassicAssert.IsTrue(lb1.Items.Contains("B"));
             
             // unique in 2
-            Assert.IsTrue(lb2.Items.Contains("C"));
-            Assert.IsTrue(lb2.Items.Contains("D"));
+            ClassicAssert.IsTrue(lb2.Items.Contains("C"));
+            ClassicAssert.IsTrue(lb2.Items.Contains("D"));
             
             // common to both
-            Assert.IsTrue(lb3.Items.Contains("1"));
+            ClassicAssert.IsTrue(lb3.Items.Contains("1"));
             Assert.That(lb3.Items.Count, Is.EqualTo(big));
         }
     }
@@ -2450,9 +2451,9 @@ bar
                 lbArticles.SetSelected(1, true);
                 lbArticles.RemoveSelected(true);
             }
-            Assert.IsFalse(lbArticles.Items.Contains(new Article("1")));
-            Assert.IsFalse(lbArticles.Items.Contains(new Article("3")));
-            Assert.IsTrue(lbArticles.Items.Contains(new Article("2")));
+            ClassicAssert.IsFalse(lbArticles.Items.Contains(new Article("1")));
+            ClassicAssert.IsFalse(lbArticles.Items.Contains(new Article("3")));
+            ClassicAssert.IsTrue(lbArticles.Items.Contains(new Article("2")));
 
             lbArticles.Items.Clear();
             for (int i = 0; i < 10; i++)
@@ -2466,9 +2467,9 @@ bar
                 lbArticles.RemoveSelected(true);
             }
 
-            Assert.IsFalse(lbArticles.Items.Contains(new Article("1")));
-            Assert.IsFalse(lbArticles.Items.Contains(new Article("5")));
-            Assert.IsTrue(lbArticles.Items.Contains(new Article("2")));
+            ClassicAssert.IsFalse(lbArticles.Items.Contains(new Article("1")));
+            ClassicAssert.IsFalse(lbArticles.Items.Contains(new Article("5")));
+            ClassicAssert.IsTrue(lbArticles.Items.Contains(new Article("2")));
 
             lbArticles.Items.Clear();
             lbArticles.Items.Add(new Article("A"));
@@ -2513,11 +2514,11 @@ bar
             bool changemade = false;
 
             Assert.That(fr.PerformFindAndReplace(r, "the was", "Test", out changemade), Is.EqualTo("the was"));
-            Assert.IsFalse(changemade);
+            ClassicAssert.IsFalse(changemade);
             Assert.That(fr.ReplacedSummary, Is.EqualTo(null), "No match: no edit summary");
 
             Assert.That(fr.PerformFindAndReplace(r, "the foo was", "Test", out changemade), Is.EqualTo("the bar was"));
-            Assert.IsTrue(changemade);
+            ClassicAssert.IsTrue(changemade);
             Assert.That(fr.ReplacedSummary, Is.EqualTo("foo" + FindandReplace.Arrow + "bar"), "One match: a to b");
             
             fr = new FindandReplace();
@@ -2537,20 +2538,20 @@ bar
             changemade = false;
 
             Assert.That(fr.PerformFindAndReplace(r, "the foot was or foo was", "Test", out changemade), Is.EqualTo("the bar was or bar was"));
-            Assert.IsTrue(changemade);
+            ClassicAssert.IsTrue(changemade);
             Assert.That(fr.ReplacedSummary, Is.EqualTo("foot" + FindandReplace.Arrow + "bar (2)"), "Different matches, match text of first used");
             
             r = new Replacement("fooo?", "foo", true, true, true, true, RegexOptions.None, "");
             fr = new FindandReplace();
             changemade = false;
             Assert.That(fr.PerformFindAndReplace(r, "the foo was a fooo it", "Test", out changemade), Is.EqualTo("the foo was a foo it"));
-            Assert.IsTrue(changemade);
+            ClassicAssert.IsTrue(changemade);
             Assert.That(fr.ReplacedSummary, Is.EqualTo("fooo" + FindandReplace.Arrow + "foo"), "No-change match ignored");
             
             fr = new FindandReplace();
             changemade = false;
             Assert.That(fr.PerformFindAndReplace(r, "the foo was", "Test", out changemade), Is.EqualTo("the foo was"));
-            Assert.IsFalse(changemade, "only match is no-change on replace, so no change made");
+            ClassicAssert.IsFalse(changemade, "only match is no-change on replace, so no change made");
             Assert.That(fr.ReplacedSummary, Is.EqualTo(null), "Only match is No-change match, no edit summary");
         }
 
@@ -2563,12 +2564,12 @@ bar
             bool changemade = false;
 
             Assert.That(fr.PerformFindAndReplace(r, "the foo\nwas", "Test", out changemade), Is.EqualTo("the bar was"));
-            Assert.IsTrue(changemade);
+            ClassicAssert.IsTrue(changemade);
             
             // not regex
             r = new Replacement("foo\n", "bar ", false, true, true, true, RegexOptions.None, "");
             Assert.That(fr.PerformFindAndReplace(r, "the foo\nwas", "Test", out changemade), Is.EqualTo("the bar was"));
-            Assert.IsTrue(changemade);
+            ClassicAssert.IsTrue(changemade);
         }
         
         [Test]
@@ -2581,12 +2582,12 @@ bar
             bool changemade = false;
 
             Assert.That(fr.PerformFindAndReplace(r, "the was", "Test", out changemade), Is.EqualTo("the was"));
-            Assert.IsFalse(changemade);
+            ClassicAssert.IsFalse(changemade);
             Assert.That(fr.ReplacedSummary, Is.EqualTo(null), "No match: no edit summary");
             Assert.That(fr.RemovedSummary, Is.EqualTo(null), "No match: no edit summary");
 
             Assert.That(fr.PerformFindAndReplace(r, "the foo was", "Test", out changemade), Is.EqualTo("the  was"));
-            Assert.IsTrue(changemade);
+            ClassicAssert.IsTrue(changemade);
             Assert.That(fr.RemovedSummary, Is.EqualTo("foo"), "One match: removed a");
             
             fr = new FindandReplace();
@@ -2600,7 +2601,7 @@ bar
             changemade = false;
 
             Assert.That(fr.PerformFindAndReplace(r, "the foot was or foo was", "Test", out changemade), Is.EqualTo("the  was or  was"));
-            Assert.IsTrue(changemade);
+            ClassicAssert.IsTrue(changemade);
             Assert.That(fr.RemovedSummary, Is.EqualTo("foot (2)"), "Different matches, match text of first used");
         }
         
@@ -2613,34 +2614,34 @@ bar
             FindandReplace fr = new FindandReplace();
 
             fr.AddNew(r);
-            Assert.IsTrue(fr.HasAfterProcessingReplacements);
-            Assert.IsTrue(fr.HasProcessingReplacements(true));
-            Assert.IsFalse(fr.HasProcessingReplacements(false));
+            ClassicAssert.IsTrue(fr.HasAfterProcessingReplacements);
+            ClassicAssert.IsTrue(fr.HasProcessingReplacements(true));
+            ClassicAssert.IsFalse(fr.HasProcessingReplacements(false));
 
             fr.AddNew(r2);
-            Assert.IsTrue(fr.HasAfterProcessingReplacements);
-            Assert.IsTrue(fr.HasProcessingReplacements(true));
-            Assert.IsTrue(fr.HasProcessingReplacements(false));
+            ClassicAssert.IsTrue(fr.HasAfterProcessingReplacements);
+            ClassicAssert.IsTrue(fr.HasProcessingReplacements(true));
+            ClassicAssert.IsTrue(fr.HasProcessingReplacements(false));
 
             fr.Clear();
             fr.AddNew(r2);
-            Assert.IsFalse(fr.HasAfterProcessingReplacements);
-            Assert.IsFalse(fr.HasProcessingReplacements(true));
-            Assert.IsTrue(fr.HasProcessingReplacements(false));
+            ClassicAssert.IsFalse(fr.HasAfterProcessingReplacements);
+            ClassicAssert.IsFalse(fr.HasProcessingReplacements(true));
+            ClassicAssert.IsTrue(fr.HasProcessingReplacements(false));
 
             // all false when no enabled rules
             fr.Clear();
             fr.AddNew(r2Disabled);
-            Assert.IsFalse(fr.HasAfterProcessingReplacements);
-            Assert.IsFalse(fr.HasProcessingReplacements(true));
-            Assert.IsFalse(fr.HasProcessingReplacements(false));
+            ClassicAssert.IsFalse(fr.HasAfterProcessingReplacements);
+            ClassicAssert.IsFalse(fr.HasProcessingReplacements(true));
+            ClassicAssert.IsFalse(fr.HasProcessingReplacements(false));
 
             fr.Clear();
             List<Replacement> l = new List<Replacement>();
             l.Add(r);
             l.Add(r2);
             fr.AddNew(l);
-            Assert.IsTrue(fr.HasReplacements);
+            ClassicAssert.IsTrue(fr.HasReplacements);
             Assert.That(l, Is.EqualTo(fr.GetList()));
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 
 namespace UnitTests
@@ -734,47 +735,47 @@ now stubborn}}");
         [Test]
         public void OrphanTests()
         {
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan| date = May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan | date = May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=May 2008}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan| date = May 2008}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan | date = May 2008}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphanblahblah}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphanblahblah}}"));
             
             #if DEBUG
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{يتيمة}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{يتيمة}}"));
             
             Variables.SetProjectLangCode("arz");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{يتيمه}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{يتيمه}}"));
 
             Variables.SetProjectLangCode("hy");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Որբ}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Որբ}}"));
 
             Variables.SetProjectLangCode("ru");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=февраль 2016}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{изолированная статья}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Сирота}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=февраль 2016}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{изолированная статья}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Сирота}}"));
 
             Variables.SetProjectLangCode("sv");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{föräldralös}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Föräldralös}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{föräldralös}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Föräldralös}}"));
             
             Variables.SetProjectLangCode("zh");
             WikiRegexes.MakeLangSpecificRegexes();
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|time=2014-03-07}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|time=2014-03-07}}"));
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -784,46 +785,46 @@ now stubborn}}");
         [Test]
         public void WikifyTests()
         {
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{underlinked}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date=March 2009}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{underlinked|date=March 2009}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Wikify}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Wikify|date=March 2009}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{underlinked}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date=March 2009}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{underlinked|date=March 2009}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Wikify}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Wikify|date=March 2009}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikifyworldblah}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikifyworldblah}}"));
             
             #if DEBUG
             Variables.SetProjectLangCode("sv");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{ickewiki}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{ickewiki}}"));
             
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
 
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{وصلات قليلة}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{وصلات قليلة}}"));
 
             Variables.SetProjectLangCode("arz");
             WikiRegexes.MakeLangSpecificRegexes();
 
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{ويكى}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{ويكى}}"));
 
             Variables.SetProjectLangCode("hy");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Վիքիֆիկացում}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Վիքիֆիկացում}}"));
 
             Variables.SetProjectLangCode("ru");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{underlinked}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{underlinked}}"));
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -833,50 +834,50 @@ now stubborn}}");
         [Test]
         public void DeadEndTests()
         {
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Deadend}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{deadend}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internallinks}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Internal links}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Internal links|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{nuevointernallinks}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Nuevointernallinks}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep|date=May 2008|Foobar}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Deadend}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{deadend}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|date=May 2008}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internallinks}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Internal links}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Internal links|date=May 2008}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{nuevointernallinks}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Nuevointernallinks}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep|date=May 2008|Foobar}}"));
 
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
             #if DEBUG
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"), "ar dead end");
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"), "ar dead end");
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{نهاية مسدودة}}"), "ar dead end");
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"), "ar dead end");
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"), "ar dead end");
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{نهاية مسدودة}}"), "ar dead end");
             
             Variables.SetProjectLangCode("arz");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"), "arz dead end");
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"), "arz dead end");
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{نهايه مسدوده}}"), "arz dead end");
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"), "arz dead end");
+            ClassicAssert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"), "arz dead end");
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{نهايه مسدوده}}"), "arz dead end");
 
             Variables.SetProjectLangCode("hy");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"), "hy dead end");
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"), "hy dead end");
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Փակ}}"), "hy dead end");
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"), "hy dead end");
+            ClassicAssert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"), "hy dead end");
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Փակ}}"), "hy dead end");
 
             Variables.SetProjectLangCode("ru");
             WikiRegexes.MakeLangSpecificRegexes();
 
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"), "ru dead end");
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"), "ru dead end");
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Tупиковая статья}}"), "ru dead end");
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"), "ru dead end");
+            ClassicAssert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"), "ru dead end");
+            ClassicAssert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Tупиковая статья}}"), "ru dead end");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -886,19 +887,19 @@ now stubborn}}");
         [Test]
         public void InUseTests()
         {
-            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{in use}}"));
-            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{inuse}}"));
-            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{in creation}}"));
-            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{GOCEinuse}}"));
-            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{GOCE in use}}"));
+            ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{in use}}"));
+            ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{inuse}}"));
+            ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{in creation}}"));
+            ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{GOCEinuse}}"));
+            ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{GOCE in use}}"));
 
 #if DEBUG
             Variables.SetProjectLangCode("el");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{σε χρήση}}"), "σε χρήση");
-            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{inuse}}"));
-            Assert.IsFalse(WikiRegexes.InUse.IsMatch(@"{{goceinuse}}"), "goceinuse is en-only");            
+            ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{σε χρήση}}"), "σε χρήση");
+            ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{inuse}}"));
+            ClassicAssert.IsFalse(WikiRegexes.InUse.IsMatch(@"{{goceinuse}}"), "goceinuse is en-only");            
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
@@ -933,97 +934,97 @@ now stubborn}}");
         [Test]
         public void UncatTests()
         {
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat|date=January 2009}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date = May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat|date=January 2009}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date=May 2008}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised|date=May 2008}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date=May 2008}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date = May 2008}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             
-            Assert.IsTrue(WikiRegexes.Uncat.Match(@"{{Uncat}}").Groups[1].Value.Equals("Uncat"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.Match(@"{{Uncat}}").Groups[1].Value.Equals("Uncat"));
 
             // all the other redirects
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Classify}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{CatNeeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Catneeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorize}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categoryneeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category requested}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories requested}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocats}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorise}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat-date}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized-date}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cats}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cats needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cat needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{classify}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorize}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categoryneeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category requested}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories requested}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocats}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorise}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat-date}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized-date}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cats}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cats needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cat needed}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Classify}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{CatNeeded}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Catneeded}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorize}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories needed}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categoryneeded}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category needed}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category requested}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories requested}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocats}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorise}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocat}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat-date}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized-date}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cat}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cats}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cats needed}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cat needed}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{classify}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorize}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories needed}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categoryneeded}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category needed}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category requested}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories requested}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocats}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorise}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocat}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat-date}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized-date}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cat}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cats}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cats needed}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cat needed}}"));
             
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorizedstub}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized stub}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorizedstub}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized stub}}"));
 
             // no match
-            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template}}"));
-            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template|foo=bar}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template}}"));
+            ClassicAssert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template|foo=bar}}"));
 
             // language variation
             #if DEBUG
             Variables.SetProjectLangCode("sv");
             WikiRegexes.MakeLangSpecificRegexes();
 
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad|datum=May-2013}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad|datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Okategoriserad}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorizedstub}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized stub}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad|datum=May-2013}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad|datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Okategoriserad}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorizedstub}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized stub}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
             Assert.That(WikiRegexes.Uncat.Match(@"{{okategoriserad}}").Groups[1].Value, Is.EqualTo("okategoriserad"));
 
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
 
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{غير مصنف}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{غير مصنفة}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{بذرة غير مصنفة}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{غير مصنف}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{غير مصنفة}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{بذرة غير مصنفة}}"));
 
             Variables.SetProjectLangCode("arz");
             WikiRegexes.MakeLangSpecificRegexes();
 
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{مش متصنفه}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{تقاوى مش متصنفه}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{مش متصنفه}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{تقاوى مش متصنفه}}"));
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -1483,9 +1484,9 @@ pp
         [Test]
         public void LinkFGAs()
         {
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link GA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+            ClassicAssert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FA|ar}}"));
+            ClassicAssert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link GA|ar}}"));
+            ClassicAssert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
         }
     }
 }

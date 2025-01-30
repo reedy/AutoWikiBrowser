@@ -1,6 +1,7 @@
 ﻿using WikiFunctions;
 using WikiFunctions.Parse;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace UnitTests
 {
@@ -64,19 +65,19 @@ namespace UnitTests
             string stub = @"{{foo stub}}", articleTextBack = "", articletext = stub + " " + stub;
             articleTextBack = parser2.SortMetaData(articletext, "test");
 
-            Assert.IsTrue(WikiRegexes.Stub.Matches(articleTextBack).Count == 1);
+            ClassicAssert.IsTrue(WikiRegexes.Stub.Matches(articleTextBack).Count == 1);
 
             // don't remove if different capitalisation
             articletext = stub + " " + @"{{fOO stub}}";
             articleTextBack = parser2.SortMetaData(articletext, "test");
 
-            Assert.IsTrue(WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
+            ClassicAssert.IsTrue(WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
 
             // ignore stubs in comments
             articletext = stub + " " + @"<!--{{foo stub}}-->";
             articleTextBack = parser2.SortMetaData(articletext, "test");
 
-            Assert.IsTrue(WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
+            ClassicAssert.IsTrue(WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
 
             // remove {{stub}} if more detailed stub
             string s = "{{foo}}{{stub}}{{foo-stub}}";
@@ -1104,7 +1105,7 @@ blah";
             string l = i + j + @"
 <!--foo-->";
             Assert.That(parser2.Sorter.RemoveCats(ref l, "test"), Is.EqualTo(j + "\r\n"), "comment after cat");
-            Assert.IsTrue(l.Contains("\r\n" + @"<!--foo-->"), "comment after cat 2");
+            ClassicAssert.IsTrue(l.Contains("\r\n" + @"<!--foo-->"), "comment after cat 2");
 
             const string m = @"[[Category:American women writers]]
 [[Category:Autism activists]]
@@ -1175,7 +1176,7 @@ text
 [[Category:Living People]]
 foo";
 
-            Assert.IsFalse(parser2.Sorter.RemoveCats(ref bug2, "test").Contains(@"[[Category:Living People]]"), "commented out and not");
+            ClassicAssert.IsFalse(parser2.Sorter.RemoveCats(ref bug2, "test").Contains(@"[[Category:Living People]]"), "commented out and not");
 
             string nw = @"[[Category:American women writers]]
 [[Category:Autism activists]]
@@ -1185,7 +1186,7 @@ foo";
 [[Category:Parents of people on the autistic spectrum]]";
 
             Assert.That(parser2.Sorter.RemoveCats(ref nw, "test"), Is.Empty, "nowiki cats");
-            Assert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"), "cat after nowiki");
+            ClassicAssert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"), "cat after nowiki");
 
             string iw1 = @"[[Category:Hampshire|  ]]
 [[Category:Articles including recorded pronunciations (UK English)]]
@@ -1196,7 +1197,7 @@ foo";
             string iwall = iw1 + iw2;
 
             Assert.That(parser2.Sorter.RemoveCats(ref iwall, "test"), Is.EqualTo(iw1 + "\r\n"), "don't pull the interwiki comment");
-            Assert.IsTrue(iwall.Contains(@"<!--interwiki-->"), "don't pull the interwiki comment");
+            ClassicAssert.IsTrue(iwall.Contains(@"<!--interwiki-->"), "don't pull the interwiki comment");
 
             string writers = @"[[Category:Writers from Alabama]]
 [[Category:Writers from North Carolina]]
@@ -1517,7 +1518,7 @@ b = @"A
 {{reflist}}
 {{Uncategorized}}";
             Assert.That(parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), Is.EqualTo(@"{{Uncategorized}}" + "\r\n"), "uncat moved");
-            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(at));
+            ClassicAssert.IsFalse(WikiRegexes.Uncat.IsMatch(at));
             at = @"Text.
 
 <!--{{Uncategorized}}-->
@@ -1537,7 +1538,7 @@ b = @"A
 }}
 == References ==
 {{reflist}}";
-            Assert.IsTrue(parser2.SortMetaData(at, "Andrew Jones").Contains(@"{{multiple issues|
+            ClassicAssert.IsTrue(parser2.SortMetaData(at, "Andrew Jones").Contains(@"{{multiple issues|
 {{a}}
 {{Uncategorized}}
 {{b}}

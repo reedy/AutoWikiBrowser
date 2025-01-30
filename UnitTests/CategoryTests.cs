@@ -23,6 +23,7 @@ Copyright © 2000-2002 Philip A. Craig
  */
 
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 using WikiFunctions.Parse;
 
@@ -712,7 +713,7 @@ died 2002
 
             Assert.That(Parsers.FixPeopleCategories(Over20Refs, "test"), Is.EqualTo(Over20Refs), "no change when over 20 refs and no exiting birth/death/living cat");
 
-            Assert.IsTrue(Parsers.FixPeopleCategories(Over20Refs + @" [[Category:Living people]]", "test").Contains(@"[[Category:1980 births]]"), "can add cat when over 20 refs and living people cat already");
+            ClassicAssert.IsTrue(Parsers.FixPeopleCategories(Over20Refs + @" [[Category:Living people]]", "test").Contains(@"[[Category:1980 births]]"), "can add cat when over 20 refs and living people cat already");
         }
 
         [Test]
@@ -791,17 +792,17 @@ died 2002
         [Test]
         public void CategoryMatch()
         {
-            Assert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990 births"));
-            Assert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births ]]", @"1990 births"));
-            Assert.IsTrue(Parsers.CategoryMatch(@"foo [[Category: 1990 births  ]]", @"1990 births"));
-            Assert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 Births]]", @"1990 births"));
-            Assert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990 Births"));
-            Assert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births|foo]]", @"1990 births"));
-            Assert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births | foo]]", @"1990 births"));
-            Assert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:Year of birth missing|Foo, bar]]", "Year of birth missing"));
+            ClassicAssert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990 births"));
+            ClassicAssert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births ]]", @"1990 births"));
+            ClassicAssert.IsTrue(Parsers.CategoryMatch(@"foo [[Category: 1990 births  ]]", @"1990 births"));
+            ClassicAssert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 Births]]", @"1990 births"));
+            ClassicAssert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990 Births"));
+            ClassicAssert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births|foo]]", @"1990 births"));
+            ClassicAssert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births | foo]]", @"1990 births"));
+            ClassicAssert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:Year of birth missing|Foo, bar]]", "Year of birth missing"));
 
-            Assert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990"));
-            Assert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990_births]]", @"1990 births"));
+            ClassicAssert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990"));
+            ClassicAssert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990_births]]", @"1990 births"));
         }
 
         [Test]

@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 
 namespace UnitTests
@@ -13,28 +14,28 @@ namespace UnitTests
             // too long
             StringBuilder sb = new StringBuilder(300);
             for (int i = 0; i < 256; i++) sb.Append('x');
-            Assert.IsFalse(Summary.IsCorrect(sb.ToString()));
+            ClassicAssert.IsFalse(Summary.IsCorrect(sb.ToString()));
 
             // no wikilinks
-            Assert.IsTrue(Summary.IsCorrect(""));
-            Assert.IsTrue(Summary.IsCorrect("test"));
-            Assert.IsTrue(Summary.IsCorrect("["));
-            Assert.IsTrue(Summary.IsCorrect("]"));
-            Assert.IsTrue(Summary.IsCorrect("[test]"));
-            Assert.IsTrue(Summary.IsCorrect("[test]]"));
-            Assert.IsTrue(Summary.IsCorrect("[[]]"));
+            ClassicAssert.IsTrue(Summary.IsCorrect(""));
+            ClassicAssert.IsTrue(Summary.IsCorrect("test"));
+            ClassicAssert.IsTrue(Summary.IsCorrect("["));
+            ClassicAssert.IsTrue(Summary.IsCorrect("]"));
+            ClassicAssert.IsTrue(Summary.IsCorrect("[test]"));
+            ClassicAssert.IsTrue(Summary.IsCorrect("[test]]"));
+            ClassicAssert.IsTrue(Summary.IsCorrect("[[]]"));
 
             // correctly (sort of..) terminated wikilinks
-            Assert.IsTrue(Summary.IsCorrect("[[test]]"));
-            Assert.IsTrue(Summary.IsCorrect("[[test]] [[foo]]"));
+            ClassicAssert.IsTrue(Summary.IsCorrect("[[test]]"));
+            ClassicAssert.IsTrue(Summary.IsCorrect("[[test]] [[foo]]"));
 
             // broken wikilinks, should be found to be invalid
-            Assert.IsFalse(Summary.IsCorrect("[["));
-            Assert.IsFalse(Summary.IsCorrect("[[["));
-            Assert.IsFalse(Summary.IsCorrect("[[test]"));
-            Assert.IsFalse(Summary.IsCorrect("[[test]] [["));
-            Assert.IsFalse(Summary.IsCorrect("[[123456789 123456789 123456789 1[[WP:AWB]]"));
-            Assert.IsFalse(Summary.IsCorrect("[[foo[[]]]"));
+            ClassicAssert.IsFalse(Summary.IsCorrect("[["));
+            ClassicAssert.IsFalse(Summary.IsCorrect("[[["));
+            ClassicAssert.IsFalse(Summary.IsCorrect("[[test]"));
+            ClassicAssert.IsFalse(Summary.IsCorrect("[[test]] [["));
+            ClassicAssert.IsFalse(Summary.IsCorrect("[[123456789 123456789 123456789 1[[WP:AWB]]"));
+            ClassicAssert.IsFalse(Summary.IsCorrect("[[foo[[]]]"));
         }
 
         [Test]

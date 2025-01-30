@@ -27,6 +27,7 @@ using WikiFunctions;
 using WikiFunctions.Parse;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using NUnit.Framework.Legacy;
 
 namespace UnitTests
 {
@@ -49,122 +50,122 @@ namespace UnitTests
             // don't change sorting for single categories
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange),
                             Is.EqualTo("[[Category:Test1|Foooo]]"), "don't change sorting for single categories");
-            Assert.IsTrue(noChange, "don't change sorting for single categories");
+            ClassicAssert.IsTrue(noChange, "don't change sorting for single categories");
 
             // should work
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Bar",
                                                         out noChange),
                             Is.EqualTo("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // ...but don't add DEFAULTSORT if the key equals page title
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Foooo",
                                                         out noChange),
                             Is.EqualTo("[[Category:Test1]][[Category:Test2]]"));
-            Assert.IsFalse(noChange, "Should detect a change even if it hasn't added a DEFAULTSORT");
+            ClassicAssert.IsFalse(noChange, "Should detect a change even if it hasn't added a DEFAULTSORT");
 
             // don't change if key is 3 chars or less
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foo]][[Category:Test2|Foo]]", "Bar", out noChange),
                             Is.EqualTo("[[Category:Test1|Foo]][[Category:Test2|Foo]]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             // Remove explicit keys equal to page title
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2]]", "Foooo", out noChange),
                             Is.EqualTo("[[Category:Test1]][[Category:Test2]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // swap
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2|Foooo]]", "Foooo", out noChange),
                             Is.EqualTo("[[Category:Test1]][[Category:Test2]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // Borderline condition
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Fooooo]][[Category:Test2]]", "Foooo", out noChange),
                             Is.EqualTo("[[Category:Test1|Fooooo]][[Category:Test2]]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             // Don't change anything if there's ambiguity
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Teeest",
                                                         out noChange),
                             Is.EqualTo("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
             // same thing
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Foooo",
                                                         out noChange),
                             Is.EqualTo("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             // remove diacritics when generating a key
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar",
                                                         out noChange),
                             Is.EqualTo("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // should also fix diacritics in existing defaultsorts and remove leading spaces
             // also support mimicking templates: template to magic word conversion, see [[Category:Pages which use a template in place of a magic word]]
             Assert.That(Parsers.ChangeToDefaultSort("{{defaultsort| Tést}}", "Foo", out noChange), Is.EqualTo("{{DEFAULTSORT:Test}}"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
             Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT| Tést}}", "Foo", out noChange), Is.EqualTo("{{DEFAULTSORT:Test}}"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
             Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:|Test}}", "Foo", out noChange), Is.EqualTo("{{DEFAULTSORT:Test}}"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // shouldn't change whitespace-only sortkeys
             Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT: \t}}", "Foo", out noChange), Is.EqualTo("{{DEFAULTSORT: \t}}"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#DEFAULTSORT_with_spaces
             // DEFAULTSORT doesn't treat leading spaces the same way as categories do
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar",
                                                         out noChange),
                             Is.EqualTo("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             // pages with multiple sort specifiers shouldn't be changed
             Parsers.ChangeToDefaultSort("{{defaultsort| Tést}}{{DEFAULTSORT: Tést}}", "Foo", out noChange);
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             // Remove explicitally defined sort keys from categories when the page has defaultsort
             Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Test]]", "Foo", out noChange),
                             Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // Case difference of above
             Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]]", "Foo", out noChange),
                             Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // No change due to different key
             Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]", "Foo", out noChange),
                             Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             // Multiple to be removed
             Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Test]][[Category:Bar|test]]", "Foo", out noChange),
                             Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // Multiple with 1 no key
             Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo]][[Category:Bar|test]]", "Foo", out noChange),
                             Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // Multiple with 1 different key
             Assert.That(Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Bar]][[Category:Bar|test]]", "Foo", out noChange),
                             Is.EqualTo("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo|Bar]][[Category:Bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // just removing diacritics in categories is useful
             Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainé, Juan]]", "Hi", out noChange),
                             Is.EqualTo(@"[[Category:Bronze Wolf awardees|Laine, Juan]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
             Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainİ, Juan]]", "Hi", out noChange),
                             Is.EqualTo(@"[[Category:Bronze Wolf awardees|LainI, Juan]]"), "unusual one where lowercase of diacritic is a Latin character");
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", "Hi", out noChange),
                             Is.EqualTo(@"[[Category:Bronze Wolf awardees|Laine, Juan]]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             // remove duplicate defaultsorts
             Assert.That(Parsers.ChangeToDefaultSort(@"foo
@@ -280,28 +281,28 @@ foo {{persondata}}
             Assert.That(Parsers.ChangeToDefaultSort(NoInclude, "Bar",
                                                         out noChange),
                             Is.EqualTo(NoInclude));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             Variables.UnicodeCategoryCollation = true;
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar",
                                                         out noChange),
                             Is.EqualTo("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooô}}"));
-            Assert.IsFalse(noChange, "retain diacritics when generating a key if uca collation is on");
+            ClassicAssert.IsFalse(noChange, "retain diacritics when generating a key if uca collation is on");
 
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2]]", "Foooô",
                                                         out noChange),
                             Is.EqualTo(@"[[Category:Test1]][[Category:Test2]]"));
-            Assert.IsTrue(noChange, "No change when defaultsort not needed when uca collation on");
+            ClassicAssert.IsTrue(noChange, "No change when defaultsort not needed when uca collation on");
             Variables.UnicodeCategoryCollation = false;
         }
 
         [Test]
         public void MissingDefaultSort()
         {
-            Assert.IsFalse(Parsers.MissingDefaultSort(@"A", @"A"));
-            Assert.IsFalse(Parsers.MissingDefaultSort(@"A {{DEFAULTSORT:A}}", @"A {{DEFAULTSORT:A}}"));
-            Assert.IsFalse(Parsers.MissingDefaultSort(@"A {{DEFAULTSORT:A}} [[category:A]]", @"A"));
-            Assert.IsTrue(Parsers.MissingDefaultSort(@"A
+            ClassicAssert.IsFalse(Parsers.MissingDefaultSort(@"A", @"A"));
+            ClassicAssert.IsFalse(Parsers.MissingDefaultSort(@"A {{DEFAULTSORT:A}}", @"A {{DEFAULTSORT:A}}"));
+            ClassicAssert.IsFalse(Parsers.MissingDefaultSort(@"A {{DEFAULTSORT:A}} [[category:A]]", @"A"));
+            ClassicAssert.IsTrue(Parsers.MissingDefaultSort(@"A
 [[Category:1910 births]]", @"John Smith"));
         }
 
@@ -312,31 +313,31 @@ foo {{persondata}}
             const string CInsensitive = @"x [[Category:Foo]]";
 
             Assert.That(Parsers.ChangeToDefaultSort(CInsensitive, "BAR", out noChange), Is.EqualTo(CInsensitive), "no change when defaultsort only differs to article title by case");
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             Assert.That(Parsers.ChangeToDefaultSort(CInsensitive, "Bar", out noChange), Is.EqualTo(CInsensitive), "no change when defaultsort only differs to article title by case");
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             Assert.That(Parsers.ChangeToDefaultSort(CInsensitive, "Bar foo", out noChange), Is.EqualTo(CInsensitive), "no change when defaultsort only differs to article title by case");
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             Assert.That(Parsers.ChangeToDefaultSort(CInsensitive, "Bar (foo)", out noChange), Is.EqualTo(CInsensitive), "no change when defaultsort only differs to article title by case");
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             string CInsensitive2 = @"{{DEFAULTSORT:Bar}} [[Category:Foo]]";
 
             Assert.That(Parsers.ChangeToDefaultSort(CInsensitive2, "BAR", out noChange), Is.EqualTo(CInsensitive2), "no change when existing defaultsort only differs to article title by case");
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             CInsensitive2 = @"{{DEFAULTSORT:bar}} [[Category:Foo]]";
 
             Assert.That(Parsers.ChangeToDefaultSort(CInsensitive2, "BAR", out noChange), Is.EqualTo(CInsensitive2), "no change when existing defaultsort only differs to article title by case");
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             CInsensitive2 = @"{{DEFAULTSORT:BAR}} [[Category:Foo]]";
 
             Assert.That(Parsers.ChangeToDefaultSort(CInsensitive2, "BAR", out noChange), Is.EqualTo(CInsensitive2), "no change when existing defaultsort only differs to article title by case");
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
         }
 
         [Test]
@@ -346,11 +347,11 @@ foo {{persondata}}
 
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|{{PAGENAME}}]][[Category:Test2]]", "Foooo", out noChange),
                             Is.EqualTo("[[Category:Test1]][[Category:Test2]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ChangeToDefaultSort("[[Category:Test1|{{subst:PAGENAME}}]][[Category:Test2]]", "Foooo", out noChange),
                             Is.EqualTo("[[Category:Test1]][[Category:Test2]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
         }
 
         [Test]
@@ -360,7 +361,7 @@ foo {{persondata}}
             const string Multi = "[[Category:Test1|Foooo]][[Category:Test2|Foooo]]\r\n{{DEFAULTSORT:Foooo}}\r\n{{DEFAULTSORTKEY:Foo2oo}}";
 
             Assert.That(Parsers.ChangeToDefaultSort(Multi, "Bar", out noChange), Is.EqualTo(Multi), "no change when multiple different defaultsorts");
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
         }
 
         [Test]
@@ -376,7 +377,7 @@ foo {{persondata}}
 [[Category:1942 births]]
 [[Category:Cancer deaths in the United Kingdom]]"));
 
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Willis, Bobby}}
 [[Category:1999 deaths|Willis]]
@@ -386,7 +387,7 @@ foo {{persondata}}
 [[Category:1942 births|Foo]]
 [[Category:Cancer deaths in the United Kingdom]]"));
 
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
         }
 
         [Test]
@@ -398,22 +399,22 @@ foo {{persondata}}
             const string b = "\r\n" + @"{{DEFAULTSORT:Smith, Fred}}";
 
             Assert.That(Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange), Is.EqualTo(a + b));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             string a2 = @"Fred Smith blah {{imdb name|id=abc}} [[Category:Living people]]";
 
             Assert.That(Parsers.ChangeToDefaultSort(a2, "Fred Smith", out noChange), Is.EqualTo(a2 + b));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // no defaultsort added if restricted defaultsort addition on
             Assert.That(Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange, true), Is.EqualTo(a));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             const string c = @"Stéphanie Mahieu blah [[Category:Living people]]";
             const string d = "\r\n" + @"{{DEFAULTSORT:Mahieu, Stephanie}}";
 
             Assert.That(Parsers.ChangeToDefaultSort(c, "Stéphanie Mahieu", out noChange), Is.EqualTo(c + d));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
         }
 
         [Test]
@@ -424,14 +425,14 @@ foo {{persondata}}
             Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]", "Abándames", out noChange),
                             Is.EqualTo(@"[[Category:Parishes in Asturias]]
 {{DEFAULTSORT:Abandames}}"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // no change if a defaultsort already there
             Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
 {{DEFAULTSORT:Bert}}", "Abándames", out noChange),
                             Is.EqualTo(@"[[Category:Parishes in Asturias]]
 {{DEFAULTSORT:Bert}}"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
 
             // category sortkeys are cleaned too
@@ -439,177 +440,177 @@ foo {{persondata}}
 [[Category:São Miguel Island]]", @"Água Retorta", out noChange), Is.EqualTo(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
 {{DEFAULTSORT:Agua Retorta}}"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // use article name
             Assert.That(Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]", @"Água Retorta", out noChange), Is.EqualTo(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
 {{DEFAULTSORT:Agua Retorta}}"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
         }
 
         [Test]
         public void TestIsArticleAboutAPerson()
         {
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo {{infobox person|name=smith}}", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 deaths]]", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 births]]", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people]]", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Year of birth missing (living people)]]", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people|Smith]]", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo {{infobox person|name=smith}}", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 deaths]]", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 births]]", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people]]", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Year of birth missing (living people)]]", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people|Smith]]", "foo"));
 
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people]] [[Category:Living people]]", "foo"), "duplicate categories removed, so okay");
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people]] [[Category:Living people]]", "foo"), "duplicate categories removed, so okay");
 
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{England-bio-stub}}", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{Switzerland-politician-stub}}", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Some words {{death date and age|1960|01|9}}", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{RefimproveBLP}}", "foo"),"BLP template");
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "foo"),"BLP sources template");
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "16 and pregnant"),"BLP sources template");
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP unsourced section|foo=bar}}", "foo"),"BLP unsourced template");
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{England-bio-stub}}", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{Switzerland-politician-stub}}", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"Some words {{death date and age|1960|01|9}}", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{RefimproveBLP}}", "foo"),"BLP template");
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "foo"),"BLP sources template");
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "16 and pregnant"),"BLP sources template");
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP unsourced section|foo=bar}}", "foo"),"BLP unsourced template");
 
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox actor|name=smith}}", "Category:foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "List of foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Lists of foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' [[Category:Missing people organizations]]", "Foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Deaths in 2004"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "First Assembly of X"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Pierre Schaeffer bibliography"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Adoption of x"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo (family)"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo (x family)"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo (x team)"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo (publisher)"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo haunting"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo martyrs"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo quartet"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo team"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo twins"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Attack on x"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Suicide of x"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Presidency of x"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Governor of x"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Mayoralty of x"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "First presidency of x"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "2004 something"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "2004–09 something"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo discography"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo children"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo murders"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo, bar and other"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo & other"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo, bar, and Other"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo One and Other People"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo groups"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "The Foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo people"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo campaign"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo rebellion"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo native"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo center"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Second Foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo x families"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Brothers Foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "X from Y"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo brothers"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo Sisters"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "X Service"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo (artists)"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo x families (bar)"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "X in Y"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo campaign, 2000"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Atlanta murders of 1979–1981"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Death rates in the 20th century"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Birth rates in the 20th century"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Death rates in the 1st century"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Death rates in the 2nd century"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Death rates in the 3nd century"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 deaths]] and [[Category:1905 deaths]]", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{infobox some organization|foo=bar}} {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Some noble families]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Noble families]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X teams and stables]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:German families]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:German x families]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X diaspora in y]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Baronies x]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Groups x]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X royal families]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X nicknames]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X pageants]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X groups]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X magazines]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Positions x]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X troupes]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X y groups]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 establishments in X]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X gods]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Companies foo]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Surnames]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X musical groups]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X bands]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X music groups]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X titles]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Performing groups]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X ethnic groups]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X artist groups in]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Musical groups established in 2000]] {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{infobox television|bye=a}} {{refimproveBLP}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{England-bio-stub}} {{sia}}", "Foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox actor|name=smith}}", "Category:foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "List of foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Lists of foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' [[Category:Missing people organizations]]", "Foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Deaths in 2004"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "First Assembly of X"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Pierre Schaeffer bibliography"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Adoption of x"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo (family)"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo (x family)"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo (x team)"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo (publisher)"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo haunting"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo martyrs"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo quartet"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo team"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo twins"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Attack on x"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Suicide of x"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Presidency of x"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Governor of x"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Mayoralty of x"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "First presidency of x"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "2004 something"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "2004–09 something"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo discography"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo children"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo murders"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo, bar and other"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo & other"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo, bar, and Other"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo One and Other People"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo groups"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "The Foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo people"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo campaign"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo rebellion"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo native"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo center"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Second Foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo x families"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Brothers Foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "X from Y"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo brothers"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo Sisters"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "X Service"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo (artists)"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo x families (bar)"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "X in Y"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Foo campaign, 2000"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Atlanta murders of 1979–1981"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Death rates in the 20th century"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Birth rates in the 20th century"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Death rates in the 1st century"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Death rates in the 2nd century"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "Death rates in the 3nd century"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 deaths]] and [[Category:1905 deaths]]", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{infobox some organization|foo=bar}} {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Some noble families]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Noble families]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X teams and stables]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:German families]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:German x families]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X diaspora in y]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Baronies x]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Groups x]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X royal families]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X nicknames]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X pageants]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X groups]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X magazines]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Positions x]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X troupes]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X y groups]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 establishments in X]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X gods]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Companies foo]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Surnames]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X musical groups]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X bands]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X music groups]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X titles]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Performing groups]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X ethnic groups]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:X artist groups in]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Musical groups established in 2000]] {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{infobox television|bye=a}} {{refimproveBLP}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{England-bio-stub}} {{sia}}", "Foo"));
 
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Afrikaner people]] {{foo-bio-stub}}", "foo"),"category about people");
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Afrikaner people]] {{foo-bio-stub}}", "foo"),"category about people");
 
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox settlement}} {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{italic title}} {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox racehorse}} {{foo-bio-stub}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox named horse}} {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox settlement}} {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{italic title}} {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox racehorse}} {{foo-bio-stub}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox named horse}} {{foo-bio-stub}}", "foo"));
 
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Married couples]] {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 animal births]] {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Comedy duos]] {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Comedy trios]] {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Foo Comedy duos]] {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{In-universe}} {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{in-universe}} {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox political party}} {{birth date and age|1974|11|26}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Articles about multiple people]] {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Fictional blah]] {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character]] {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character|character]] {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{dab}} {{infoxbox actor|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Internet memes]] {{bda|1980|11|11}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Military animals]] {{bda|1980|11|11}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Married couples]] {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 animal births]] {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Comedy duos]] {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Comedy trios]] {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Foo Comedy duos]] {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{In-universe}} {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{in-universe}} {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox political party}} {{birth date and age|1974|11|26}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Articles about multiple people]] {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Fictional blah]] {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character]] {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character|character]] {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{dab}} {{infoxbox actor|name=smith}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Internet memes]] {{bda|1980|11|11}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Military animals]] {{bda|1980|11|11}}", "foo"));
 
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox Musical artist|Background=group_or_band}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox Musical artist|background=group_or_band}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox musical artist|Background=group_or_band}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox Musical artist|Background=classical_ensemble}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{Infobox Chinese-language singer and actor|currentmembers=A, B}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox Band|Background=group_or_band}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox Musical artist|Background=band}}", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox musical artist|Background=other}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox Musical artist|Background=group_or_band}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox Musical artist|background=group_or_band}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox musical artist|Background=group_or_band}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox Musical artist|Background=classical_ensemble}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{Infobox Chinese-language singer and actor|currentmembers=A, B}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox Band|Background=group_or_band}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox Musical artist|Background=band}}", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 births]] {{infobox musical artist|Background=other}}", "foo"));
 
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{infobox person|name=smith}} Foo {{infobox person|name=smith2}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{death date|2002}} {{death date|2005}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{infobox person|name=smith}} Foo {{infobox person|name=smith2}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{death date|2002}} {{death date|2005}}", "foo"));
 
             // multiple different birth dates means not about one person
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{nat fs player|no=1|pos=GK|name=[[Meg]]|age={{Birth date|1956|01|01}} ({{Age at date|1956|01|01|1995|6|5}})|caps=|club=|clubnat=}}
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{nat fs player|no=1|pos=GK|name=[[Meg]]|age={{Birth date|1956|01|01}} ({{Age at date|1956|01|01|1995|6|5}})|caps=|club=|clubnat=}}
 {{nat fs player|no=2|pos=MF|name=[[Valeria]]|age={{Birth date|1968|09|03}} ({{Age at date|1968|09|03|1995|6|5}})|caps=|club=|clubnat=}}", "foo"));
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"{{infobox actor|no=1|pos=GK|name=[[Meg]]|age={{Birth date|1956|01|01}} }} {{Birth date|1956|01|01}}", "foo"));
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"{{infobox actor|no=1|pos=GK|name=[[Meg]]|age={{Birth date|1956|01|01}} }} {{Birth date|1956|01|01}}", "foo"));
 
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{see also|Fred}} Fred Smith is great == foo == {{infoxbox actor}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{Main|Fred}} Fred Smith is great == foo == {{infoxbox actor}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{see also|Fred}} Fred Smith is great == foo == {{infoxbox actor}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{Main|Fred}} Fred Smith is great == foo == {{infoxbox actor}}", "foo"));
 
             // link in bold in zeroth section to somewhere else is no good
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''military career of [[Napoleon Bonaparte]]''' == foo == {{birth date|2008|11|11}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''military career of [[Napoleon Bonaparte]]''' == foo == {{birth date|2008|11|11}}", "foo"));
 
             // 'characters' category means fictional person
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"foo [[Category:227 characters]] {{infoxbox actor}}", "foo"));
+            ClassicAssert.IsFalse(Parsers.IsArticleAboutAPerson(@"foo [[Category:227 characters]] {{infoxbox actor}}", "foo"));
 
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Margaret Sidney''' was the [[pseudonym]] of American author '''Harriett Mulford Stone''' (June 22, 1844–August 2, 1924).
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Margaret Sidney''' was the [[pseudonym]] of American author '''Harriett Mulford Stone''' (June 22, 1844–August 2, 1924).
 [[Category:1844 births]]", "foo"),"births category");
             
             string AR = @"{{Infobox rugby biography
@@ -635,7 +636,7 @@ foo {{persondata}}
 ==References==
 {{Reflist}}
 ";
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(AR, "Opeti Fonua"),"Infobox about a person");
+            ClassicAssert.IsTrue(Parsers.IsArticleAboutAPerson(AR, "Opeti Fonua"),"Infobox about a person");
             
         }
 
@@ -723,50 +724,50 @@ foo {{persondata}}
         [Test]
         public void HasSicTagTests()
         {
-            Assert.IsTrue(Parsers.HasSicTag("now helo [sic] there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo [sic!] there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo[sic] there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo (sic) there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo (sic!) there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo {sic} there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo [Sic] there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo [ Sic ] there"));
-            Assert.IsTrue(Parsers.HasSicTag("now {{sic|helo}} there"));
-            Assert.IsTrue(Parsers.HasSicTag("now {{sic|hel|o}} there"));
-            Assert.IsTrue(Parsers.HasSicTag("now {{typo|helo}} there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo <!--[sic]-->there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo [sic] there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo [sic!] there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo[sic] there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo (sic) there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo (sic!) there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo {sic} there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo [Sic] there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo [ Sic ] there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now {{sic|helo}} there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now {{sic|hel|o}} there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now {{typo|helo}} there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo <!--[sic]-->there"));
 
-            Assert.IsFalse(Parsers.HasSicTag("now sickened by"));
-            Assert.IsFalse(Parsers.HasSicTag("sic transit gloria mundi"));
-            Assert.IsFalse(Parsers.HasSicTag("The Sound Information Company (SIC) is"));
+            ClassicAssert.IsFalse(Parsers.HasSicTag("now sickened by"));
+            ClassicAssert.IsFalse(Parsers.HasSicTag("sic transit gloria mundi"));
+            ClassicAssert.IsFalse(Parsers.HasSicTag("The Sound Information Company (SIC) is"));
         }
 
         [Test]
         public void HasMorefootnotesAndManyReferencesTests()
         {
-            Assert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref>
+            ClassicAssert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref>
 ==References==
 {{reflist}}
 {{nofootnotes}}"));
 
-            Assert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref>
+            ClassicAssert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref>
 ==References==
 {{reflist}}
 {{morefootnotes}}"));
 
-            Assert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref name=A>A</ref> <ref name=B>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref>
+            ClassicAssert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref name=A>A</ref> <ref name=B>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref>
 ==References==
 {{reflist}}
 {{Morefootnotes}}"));
 
             // not enough references
-            Assert.IsFalse(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref>
+            ClassicAssert.IsFalse(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref>
 ==References==
 {{reflist}}
 {{nofootnotes}}"));
 
             // no {{nofootnotes}}
-            Assert.IsFalse(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref name=A>A</ref> <ref name=B>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref>
+            ClassicAssert.IsFalse(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref name=A>A</ref> <ref name=B>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref>
 ==References==
 {{reflist}}"));
         }
@@ -774,22 +775,22 @@ foo {{persondata}}
         [Test]
         public void HasRefAfterReflistTest()
         {
-            Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref>b</ref>"));
-            Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref>
+            ClassicAssert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref>b</ref>"));
+            ClassicAssert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref>
 ==references== {{reflist}} <ref>b</ref>"));
-            Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref>"));
+            ClassicAssert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref>"));
 
             // this is correct syntax
-            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}}"));
-            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah.(Jones 2000)"));
+            ClassicAssert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}}"));
+            ClassicAssert.IsFalse(Parsers.HasRefAfterReflist(@"blah.(Jones 2000)"));
             // ignores commented out refs
-            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <!--<ref>b</ref>-->"));
+            ClassicAssert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <!--<ref>b</ref>-->"));
 
             // the second template means this is okay too
-            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref> {{reflist}}"));
+            ClassicAssert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref> {{reflist}}"));
 
             // 'r' in argument means no embedded <ref></ref>
-            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist|refs=<ref>abc</ref>}}"));
+            ClassicAssert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist|refs=<ref>abc</ref>}}"));
             string bug1 = @"
 ==References==
 <references />
@@ -804,49 +805,49 @@ foo {{persondata}}
 [[nl:Tatamy]]
 [[pt:Tatamy]]
 [[vo:Tatamy]]";
-            Assert.IsFalse(Parsers.HasRefAfterReflist(bug1));
+            ClassicAssert.IsFalse(Parsers.HasRefAfterReflist(bug1));
 
             #if DEBUG
             Variables.SetProjectLangCode("fr");
 
-            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref>
+            ClassicAssert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref>
 ==references== {{reflist}} <ref>b</ref>"));
             Variables.SetProjectLangCode("en");
             #endif
 
-            Assert.IsFalse(Parsers.HasRefAfterReflist(@""));
+            ClassicAssert.IsFalse(Parsers.HasRefAfterReflist(@""));
         }
 
         [Test]
         public void HasInUseTagTests()
         {
-            Assert.IsTrue(Parsers.IsInUse("{{inuse}} Hello world"));
-            Assert.IsTrue(Parsers.IsInUse("{{in creation}} Hello world"));
-            Assert.IsTrue(Parsers.IsInUse("{{increation}} Hello world"));
-            Assert.IsTrue(Parsers.IsInUse("{{ inuse  }} Hello world"));
-            Assert.IsTrue(Parsers.IsInUse("{{Inuse}} Hello world"));
-            Assert.IsTrue(Parsers.IsInUse("Hello {{inuse}} Hello world"));
-            Assert.IsTrue(Parsers.IsInUse("{{inuse|5 minutes}} Hello world"));
-            Assert.IsTrue(Parsers.IsInUse("{{In use}} Hello world"));
-            Assert.IsTrue(Parsers.IsInUse("{{in use|5 minutes}} Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("{{inuse}} Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("{{in creation}} Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("{{increation}} Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("{{ inuse  }} Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("{{Inuse}} Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("Hello {{inuse}} Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("{{inuse|5 minutes}} Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("{{In use}} Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("{{in use|5 minutes}} Hello world"));
 
 
             // ignore commented inuse
-            Assert.IsFalse(Parsers.IsInUse("<!--{{inuse}}--> Hello world"));
-            Assert.IsFalse(Parsers.IsInUse("<nowiki>{{inuse}}</nowiki> Hello world"));
-            Assert.IsFalse(Parsers.IsInUse("<nowiki>{{in use}}</nowiki> Hello world"));
-            Assert.IsTrue(Parsers.IsInUse("<!--{{inuse}}--> {{inuse|5 minutes}} Hello world"));
-            Assert.IsTrue(Parsers.IsInUse("<!--{{inuse}}--> {{in use|5 minutes}} Hello world"));
+            ClassicAssert.IsFalse(Parsers.IsInUse("<!--{{inuse}}--> Hello world"));
+            ClassicAssert.IsFalse(Parsers.IsInUse("<nowiki>{{inuse}}</nowiki> Hello world"));
+            ClassicAssert.IsFalse(Parsers.IsInUse("<nowiki>{{in use}}</nowiki> Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("<!--{{inuse}}--> {{inuse|5 minutes}} Hello world"));
+            ClassicAssert.IsTrue(Parsers.IsInUse("<!--{{inuse}}--> {{in use|5 minutes}} Hello world"));
 
-            Assert.IsFalse(Parsers.IsInUse("{{INUSE}} Hello world")); // no such template
+            ClassicAssert.IsFalse(Parsers.IsInUse("{{INUSE}} Hello world")); // no such template
 
 #if DEBUG
             Variables.SetProjectLangCode("el");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(Parsers.IsInUse("{{Σε χρήση}} Hello world"), "σε χρήση");
-            Assert.IsTrue(Parsers.IsInUse("{{inuse}} Hello world"), "inuse");
-            Assert.IsFalse(Parsers.IsInUse("{{goceinuse}} Hello world"), "goceinuse is en-only");
+            ClassicAssert.IsTrue(Parsers.IsInUse("{{Σε χρήση}} Hello world"), "σε χρήση");
+            ClassicAssert.IsTrue(Parsers.IsInUse("{{inuse}} Hello world"), "inuse");
+            ClassicAssert.IsFalse(Parsers.IsInUse("{{goceinuse}} Hello world"), "goceinuse is en-only");
 
 #endif
         }
@@ -854,34 +855,34 @@ foo {{persondata}}
         [Test]
         public void IsMissingReferencesDisplayTests()
         {
-            Assert.IsTrue(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref>"));
-            Assert.IsTrue(Parsers.IsMissingReferencesDisplay(@"Hello<ref name=""F"">Fred</ref>"));
+            ClassicAssert.IsTrue(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref>"));
+            ClassicAssert.IsTrue(Parsers.IsMissingReferencesDisplay(@"Hello<ref name=""F"">Fred</ref>"));
 
             // {{GR}} provides an embedded <ref></ref> if its argument is a decimal
-            Assert.IsTrue(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|4}}"));
+            ClassicAssert.IsTrue(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|4}}"));
 
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello"));
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{reflist}}"));
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{Reflist}}"));
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{Reflist
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{reflist}}"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{Reflist}}"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{Reflist
 |refs = 
 {{cite news | title = A { hello }}
 }}"), "Unbalanced brackets within cite template in reflist does not affect logic");
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{ref-list}}"));
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{reflink}}"));
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{references}}"));
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> <references/>"));
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|4}} <references/>"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{ref-list}}"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{reflink}}"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{references}}"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> <references/>"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|4}} <references/>"));
 
             // this specifies to {{GR}} not to embed <ref></ref>
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|r4}}"));
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|India}}"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|r4}}"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|India}}"));
 
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"{{Reflist|refs=
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"{{Reflist|refs=
 <ref name=modern>{{cite news |first=William }}
         }}"));
 
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref group=X>Fred</ref>"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref group=X>Fred</ref>"));
         }
 
         [Test]
@@ -890,8 +891,8 @@ foo {{persondata}}
 #if DEBUG
             Variables.SetProjectLangCode("fr");
 
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref>"));
-            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref name=""F"">Fred</ref>"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref>"));
+            ClassicAssert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref name=""F"">Fred</ref>"));
 
             Variables.SetProjectLangCode("en");
 #endif
@@ -900,17 +901,17 @@ foo {{persondata}}
         [Test]
         public void InfoboxTests()
         {
-            Assert.IsTrue(Parsers.HasInfobox(@"{{Infobox fish | name = Bert }} ''Bert'' is a good fish."));
-            Assert.IsTrue(Parsers.HasInfobox(@"{{Infobox
+            ClassicAssert.IsTrue(Parsers.HasInfobox(@"{{Infobox fish | name = Bert }} ''Bert'' is a good fish."));
+            ClassicAssert.IsTrue(Parsers.HasInfobox(@"{{Infobox
 fish | name = Bert }} ''Bert'' is a good fish."));
-            Assert.IsTrue(Parsers.HasInfobox(@"{{infobox fish | name = Bert }} ''Bert'' is a good fish."));
-            Assert.IsTrue(Parsers.HasInfobox(@"{{ infobox fish | name = Bert }} ''Bert'' is a good fish."));
-            Assert.IsTrue(Parsers.HasInfobox(@"{{ infobox fish | name = Bert }} ''Bert'' is a good <!--fish-->."));
+            ClassicAssert.IsTrue(Parsers.HasInfobox(@"{{infobox fish | name = Bert }} ''Bert'' is a good fish."));
+            ClassicAssert.IsTrue(Parsers.HasInfobox(@"{{ infobox fish | name = Bert }} ''Bert'' is a good fish."));
+            ClassicAssert.IsTrue(Parsers.HasInfobox(@"{{ infobox fish | name = Bert }} ''Bert'' is a good <!--fish-->."));
 
-            Assert.IsFalse(Parsers.HasInfobox(@"{{INFOBOX fish | name = Bert }} ''Bert'' is a good fish."));
-            Assert.IsFalse(Parsers.HasInfobox(@"{{infoboxfish | name = Bert }} ''Bert'' is a good fish."));
-            Assert.IsFalse(Parsers.HasInfobox(@"<!--{{infobox fish | name = Bert }}--> ''Bert'' is a good fish."));
-            Assert.IsFalse(Parsers.HasInfobox(@"<nowiki>{{infobox fish | name = Bert }}</nowiki> ''Bert'' is a good fish."));
+            ClassicAssert.IsFalse(Parsers.HasInfobox(@"{{INFOBOX fish | name = Bert }} ''Bert'' is a good fish."));
+            ClassicAssert.IsFalse(Parsers.HasInfobox(@"{{infoboxfish | name = Bert }} ''Bert'' is a good fish."));
+            ClassicAssert.IsFalse(Parsers.HasInfobox(@"<!--{{infobox fish | name = Bert }}--> ''Bert'' is a good fish."));
+            ClassicAssert.IsFalse(Parsers.HasInfobox(@"<nowiki>{{infobox fish | name = Bert }}</nowiki> ''Bert'' is a good fish."));
         }
 
         [Test]
@@ -918,20 +919,20 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         {
 #if DEBUG
             Variables.SetProjectLangCode("fr");
-            Assert.IsFalse(Parsers.HasInfobox(@"{{Infobox fish | name = Bert }} ''Bert'' is a good fish."));
-            Assert.IsFalse(Parsers.HasInfobox(@"{{INFOBOX fish | name = Bert }} ''Bert'' is a good fish."));
+            ClassicAssert.IsFalse(Parsers.HasInfobox(@"{{Infobox fish | name = Bert }} ''Bert'' is a good fish."));
+            ClassicAssert.IsFalse(Parsers.HasInfobox(@"{{INFOBOX fish | name = Bert }} ''Bert'' is a good fish."));
             Variables.SetProjectLangCode("en");
-            Assert.IsTrue(Parsers.HasInfobox(@"{{Infobox fish | name = Bert }} ''Bert'' is a good fish."));
+            ClassicAssert.IsTrue(Parsers.HasInfobox(@"{{Infobox fish | name = Bert }} ''Bert'' is a good fish."));
 #endif
         }
 
         [Test]
         public void HasStubTemplate()
         {
-            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{foo stub}}"));
-            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{foo-stub}}"));
+            ClassicAssert.IsTrue(Parsers.HasStubTemplate(@"foo {{foo stub}}"));
+            ClassicAssert.IsTrue(Parsers.HasStubTemplate(@"foo {{foo-stub}}"));
 
-            Assert.IsFalse(Parsers.HasStubTemplate(@"foo {{foo tubs}}"));
+            ClassicAssert.IsFalse(Parsers.HasStubTemplate(@"foo {{foo tubs}}"));
         }
 
         [Test]
@@ -941,8 +942,8 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ممثل}}"), "actor stub");
-            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ألمانيا}}"), "germany stub");
+            ClassicAssert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ممثل}}"), "actor stub");
+            ClassicAssert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ألمانيا}}"), "germany stub");
             
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
@@ -952,15 +953,15 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         [Test]
         public void IsStub()
         {
-            Assert.IsTrue(Parsers.IsStub(@"foo {{foo stub}}"));
-            Assert.IsTrue(Parsers.IsStub(@"foo {{foo-stub}}"));
+            ClassicAssert.IsTrue(Parsers.IsStub(@"foo {{foo stub}}"));
+            ClassicAssert.IsTrue(Parsers.IsStub(@"foo {{foo-stub}}"));
 
             // short article
-            Assert.IsTrue(Parsers.IsStub(@"foo {{foo tubs}}"));
+            ClassicAssert.IsTrue(Parsers.IsStub(@"foo {{foo tubs}}"));
 
             const string a = @"fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
             const string b = a + a + a + a + a + a;
-            Assert.IsFalse(Parsers.IsStub(b + b + b + b));
+            ClassicAssert.IsFalse(Parsers.IsStub(b + b + b + b));
         }
 
         [Test]
@@ -968,14 +969,14 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         {
 #if DEBUG
             Variables.SetProjectLangCode("ar");
-            Assert.IsTrue(Parsers.IsStub(@"foo {{بذرة ممثل}}"));
+            ClassicAssert.IsTrue(Parsers.IsStub(@"foo {{بذرة ممثل}}"));
 
             // short article
-            Assert.IsTrue(Parsers.IsStub(@"foo {{foo tubs}}"));
+            ClassicAssert.IsTrue(Parsers.IsStub(@"foo {{foo tubs}}"));
 
             const string a = @"fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
             const string b = a + a + a + a + a + a;
-            Assert.IsFalse(Parsers.IsStub(b + b + b + b));
+            ClassicAssert.IsFalse(Parsers.IsStub(b + b + b + b));
             Variables.SetProjectLangCode("en");
 #endif
         }
@@ -985,14 +986,14 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         {
 #if DEBUG
             Variables.SetProjectLangCode("arz");
-            Assert.IsTrue(Parsers.IsStub(@"foo {{بذرة}}"));
+            ClassicAssert.IsTrue(Parsers.IsStub(@"foo {{بذرة}}"));
 
             // short article
-            Assert.IsTrue(Parsers.IsStub(@"foo {{foo tubs}}"));
+            ClassicAssert.IsTrue(Parsers.IsStub(@"foo {{foo tubs}}"));
 
             const string a = @"fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
             const string b = a + a + a + a + a + a;
-            Assert.IsFalse(Parsers.IsStub(b + b + b + b));
+            ClassicAssert.IsFalse(Parsers.IsStub(b + b + b + b));
             Variables.SetProjectLangCode("en");
 #endif
         }
@@ -1000,55 +1001,55 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         [Test]
         public void NoBotsTests()
         {
-            Assert.IsTrue(Parsers.CheckNoBots("", ""));
-            Assert.IsTrue(Parsers.CheckNoBots("{{test}}", ""));
-            Assert.IsTrue(Parsers.CheckNoBots("lol, test", ""));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("", ""));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("{{test}}", ""));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("lol, test", ""));
 
-            Assert.IsTrue(Parsers.CheckNoBots("{{bots}}", ""));
-            Assert.IsTrue(Parsers.CheckNoBots("{{bots|allow=awb}}", ""));
-            Assert.IsTrue(Parsers.CheckNoBots("{{bots|allow=test}}", "test"));
-            Assert.IsTrue(Parsers.CheckNoBots("{{bots|allow=user,test}}", "test"));
-            Assert.IsTrue(Parsers.CheckNoBots("{{bots|deny=none}}", ""));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("{{bots}}", ""));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("{{bots|allow=awb}}", ""));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("{{bots|allow=test}}", "test"));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("{{bots|allow=user,test}}", "test"));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("{{bots|deny=none}}", ""));
 
-            Assert.IsTrue(Parsers.CheckNoBots("{{bots|deny=Xenobot Mk V}}", "Xenobot"));
-            Assert.IsTrue(Parsers.CheckNoBots("{{bots|deny=Xenobot}}", "Xenobot Mk V"));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("{{bots|deny=Xenobot Mk V}}", "Xenobot"));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("{{bots|deny=Xenobot}}", "Xenobot Mk V"));
 
-            Assert.IsFalse(Parsers.CheckNoBots("{{nobots}}", ""));
-            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=all}}", ""));
-            Assert.IsFalse(Parsers.CheckNoBots("<!--comm-->{{bots|deny=all}}", ""));
-            Assert.IsFalse(Parsers.CheckNoBots(@"<!--comm
+            ClassicAssert.IsFalse(Parsers.CheckNoBots("{{nobots}}", ""));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots("{{bots|deny=all}}", ""));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots("<!--comm-->{{bots|deny=all}}", ""));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots(@"<!--comm
 -->{{bots|deny=all}}", ""));
-            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb}}", ""));
-            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb,test}}", ""));
-            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb,test}}", "test"));
-            Assert.IsFalse(Parsers.CheckNoBots("{{nobots|deny=awb,test}}", "test"));
-            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=test}}", "test"));
-            Assert.IsFalse(Parsers.CheckNoBots("{{bots|allow=none}}", ""));
-            Assert.IsFalse(Parsers.CheckNoBots(@"{{bots|deny=AWB, MenoBot, MenoBot II}}", "AWB and other bots"));
-            Assert.IsTrue(Parsers.CheckNoBots("<!-- comm {{bots|deny=all}} -->", ""));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb}}", ""));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb,test}}", ""));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb,test}}", "test"));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots("{{nobots|deny=awb,test}}", "test"));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots("{{bots|deny=test}}", "test"));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots("{{bots|allow=none}}", ""));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots(@"{{bots|deny=AWB, MenoBot, MenoBot II}}", "AWB and other bots"));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots("<!-- comm {{bots|deny=all}} -->", ""));
 
-            Assert.IsFalse(Parsers.CheckNoBots(@"{{bots|allow=MiszaBot III,SineBot}}", "otherBot"));
-            Assert.IsTrue(Parsers.CheckNoBots(@"{{bots|allow=MiszaBot III,SineBot}}", "SineBot"));
-            Assert.IsTrue(Parsers.CheckNoBots(@"{{bots|allow=MiszaBot III,SineBot, AWB}}", "SomeotherBot, AWB last"));
-            Assert.IsTrue(Parsers.CheckNoBots(@"{{bots|allow=AWB, MiszaBot III,SineBot}}", "SomeotherBot, AWB first"));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots(@"{{bots|allow=MiszaBot III,SineBot}}", "otherBot"));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots(@"{{bots|allow=MiszaBot III,SineBot}}", "SineBot"));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots(@"{{bots|allow=MiszaBot III,SineBot, AWB}}", "SomeotherBot, AWB last"));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots(@"{{bots|allow=AWB, MiszaBot III,SineBot}}", "SomeotherBot, AWB first"));
 
             /* prospective future changes to bots template
-            Assert.IsTrue(Parsers.CheckNoBots(@"{{bots|deny=all|allow=MiszaBot III,SineBot}}", "SineBot"));
-            Assert.IsTrue(Parsers.CheckNoBots(@"{{bots|deny=all|allow=MiszaBot III,SineBot}}", "MiszaBot III"));
-            Assert.IsFalse(Parsers.CheckNoBots(@"{{bots|deny=all|allow=MiszaBot III,SineBot}}", "OtherBot")); */
+            ClassicAssert.IsTrue(Parsers.CheckNoBots(@"{{bots|deny=all|allow=MiszaBot III,SineBot}}", "SineBot"));
+            ClassicAssert.IsTrue(Parsers.CheckNoBots(@"{{bots|deny=all|allow=MiszaBot III,SineBot}}", "MiszaBot III"));
+            ClassicAssert.IsFalse(Parsers.CheckNoBots(@"{{bots|deny=all|allow=MiszaBot III,SineBot}}", "OtherBot")); */
         }
 
         [Test]
         public void NoIncludeIncludeOnlyProgrammingElement()
         {
-            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"<noinclude>blah</noinclude>"));
-            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"<includeonly>blah</includeonly>"));
-            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"<onlyinclude>blah</onlyinclude>"));
-            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"{{{1}}}"));
-            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"{{{3}}}"));
+            ClassicAssert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"<noinclude>blah</noinclude>"));
+            ClassicAssert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"<includeonly>blah</includeonly>"));
+            ClassicAssert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"<onlyinclude>blah</onlyinclude>"));
+            ClassicAssert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"{{{1}}}"));
+            ClassicAssert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"{{{3}}}"));
 
-            Assert.IsFalse(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"hello"));
-            Assert.IsFalse(Parsers.NoIncludeIncludeOnlyProgrammingElement(@""));
+            ClassicAssert.IsFalse(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"hello"));
+            ClassicAssert.IsFalse(Parsers.NoIncludeIncludeOnlyProgrammingElement(@""));
         }
 
         [Test]
@@ -1252,13 +1253,13 @@ Expanded template test return<!-- {{hello2}} -->"), "performs multiple subsituti
         {
             string data1 = @"""coins"": ""ctx_ver=Z39.88-2004&amp;rft_id=info%3Adoi%2Fhttp%3A%2F%2Fdx.doi.org%2F10.1007%2Fs11046-005-4332-4&amp;rfr_id=info%3Asid%2Fcrossref.org%3Asearch&amp;rft.atitle=Morphological+alterations+in+toxigenic+Aspergillus+parasiticus+exposed+to+neem+%28Azadirachta+indica%29+leaf+and+seed+aqueous+extracts&amp;rft.jtitle=Nature+Structural+%26%2338%3B+Molecular+Biology&amp;rft.date=2005&amp;rft.volume=159&amp;rft.issue=4&amp;rft.spage=565&amp;rft.epage=570&amp;rft.aufirst=Mehdi&amp;rft.aulast=Razzaghi-Abyaneh&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.au=Mehdi+Razzaghi-Abyaneh&amp;rft.au=+Abdolamir+Allameh&amp;rft.au=+Taki+Tiraihi&amp;rft.au=+Masoomeh+Shams-Ghahfarokhi&amp;rft.au=+Mehdi+Ghorbanian""";
             Dictionary<string, string> res = Parsers.ExtractCOinS(data1);
-            Assert.IsTrue(res.ContainsKey("volume"));
-            Assert.IsTrue(res.ContainsKey("issue"));
-            Assert.IsTrue(res.ContainsKey("spage"));
-            Assert.IsTrue(res.ContainsKey("aulast"));
-            Assert.IsTrue(res.ContainsKey("atitle"));
-            Assert.IsTrue(res.ContainsKey("date"));
-            Assert.IsTrue(res.ContainsKey("jtitle"));
+            ClassicAssert.IsTrue(res.ContainsKey("volume"));
+            ClassicAssert.IsTrue(res.ContainsKey("issue"));
+            ClassicAssert.IsTrue(res.ContainsKey("spage"));
+            ClassicAssert.IsTrue(res.ContainsKey("aulast"));
+            ClassicAssert.IsTrue(res.ContainsKey("atitle"));
+            ClassicAssert.IsTrue(res.ContainsKey("date"));
+            ClassicAssert.IsTrue(res.ContainsKey("jtitle"));
             string v;
             res.TryGetValue("volume", out v);
             Assert.That(v, Is.EqualTo("159"));

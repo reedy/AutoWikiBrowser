@@ -23,6 +23,7 @@ Copyright © 2000-2002 Philip A. Craig
  */
 
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 using WikiFunctions.Parse;
 
@@ -306,9 +307,9 @@ complementary and alternative medicine: evidence is a better friend than power. 
         [Test]
         public void FixSyntaxSubstRefTags()
         {
-            Assert.IsFalse(Parsers.FixSyntax(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}</ref>").Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"), "subst converted within ref tags");
+            ClassicAssert.IsFalse(Parsers.FixSyntax(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}</ref>").Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"), "subst converted within ref tags");
             Assert.That(Parsers.FixSyntax(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}</ref>"), Is.EqualTo(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date=" + System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish) + @"}}</ref>"));
-            Assert.IsTrue(Parsers.FixSyntax(@"* {{cite web | title=foo| url=http://www.site.com }} {{dead link|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}").Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"), "subst not converted when outside ref tags");
+            ClassicAssert.IsTrue(Parsers.FixSyntax(@"* {{cite web | title=foo| url=http://www.site.com }} {{dead link|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}").Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"), "subst not converted when outside ref tags");
 
             Assert.That(Parsers.FixSyntax(@"<gallery>
  Foo.JPG |Foo great{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
@@ -1171,7 +1172,7 @@ now"));
 
             Assert.That(Parsers.FixSyntax("[somelink]]"), Is.EqualTo("[[somelink]]"));
             Assert.That(Parsers.FixSyntax("[[somelink]"), Is.EqualTo("[[somelink]]"));
-            Assert.AreNotEqual("[[somelink]]", Parsers.FixSyntax("[somelink]"));
+            Assert.That(Parsers.FixSyntax("[somelink]"), Is.Not.EqualTo("[[somelink]]"));
             Assert.That(Parsers.FixSyntax("[[somelink|]"), Is.EqualTo("[[somelink]]"));
 
             // double pipe

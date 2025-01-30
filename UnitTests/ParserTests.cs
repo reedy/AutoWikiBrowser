@@ -25,6 +25,7 @@ Copyright © 2000-2002 Philip A. Craig
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 using WikiFunctions.Parse;
 
@@ -277,36 +278,36 @@ When DST ends in central Europe, clocks retreat from 03:00 CEST to 02:00 CET. Ot
             bool noChange;
 
             Assert.That(Parsers.RemoveImage("Foo.jpg", "[[Image:Foo.jpg]]", false, "", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage("Foo.jpg", "[[:Image:Foo.jpg]]", false, "", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage("foo.jpg", "[[Image: foo.jpg]]", false, "", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage("Foo, bar", "[[File:foo%2C_bar|quux]]", false, "", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage("Foo%2C_bar", "[[File:foo, bar|quux]]", false, "", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage("foo.jpg", "[[Media:foo.jpg]]", false, "", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage("foo.jpg", "[[:media : foo.jpg]]", false, "", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage("foo", "{{infobox|image=foo}}", false, "", out noChange),
                             Is.EqualTo("{{infobox|image=}}"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage("foo", "{{infobox|image=foo|other=bar}}", false, "", out noChange),
                             Is.EqualTo("{{infobox|image=|other=bar}}"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage("Foo, bar", "[[File:foo%2C_bar|quux [[here]] there]]", false, "", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage(@"Image:Bar.jpg", @"<gallery>
 Image:foo.jpg
@@ -331,10 +332,10 @@ Image:foo.jpg
 </gallery>"));
 
             Assert.That(Parsers.RemoveImage("FOO.jpg", "[[Media:foo.jpg]]", false, "", out noChange), Is.EqualTo("[[Media:foo.jpg]]"), "image name is case sensitive");
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             Assert.That(Parsers.RemoveImage("", "[[Media:foo.jpg]]", false, "", out noChange), Is.EqualTo("[[Media:foo.jpg]]"), "no change when blank image name input");
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
         }
 
         [Test]
@@ -344,12 +345,12 @@ Image:foo.jpg
 
             Assert.That(Parsers.RemoveImage("Foo, bar", @"[[File:foo%2C_bar|quux [[here]]
 there]]", false, "", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveImage("Foo, bar", @"[[File:foo%2C_bar|quux [[here]] there]] [[now]]", false, "", out noChange), Is.EqualTo(" [[now]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
             Assert.That(Parsers.RemoveImage("Foo, bar", @"[[File:foo%2C_bar|quux there]] [[now]]", false, "", out noChange), Is.EqualTo(" [[now]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
         }
 
         [Test]
@@ -359,26 +360,26 @@ there]]", false, "", out noChange), Is.Empty);
 
             // just in case...
             Assert.That(Parsers.ReplaceImage("", "", "", out noChange), Is.Empty);
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             Assert.That(Parsers.ReplaceImage("foo", "bar", "[[File:Foo]]", out noChange), Is.EqualTo("[[File:bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // preserve namespace
             Assert.That(Parsers.ReplaceImage("foo", "bar", "[[image:Foo]]", out noChange), Is.EqualTo("[[Image:bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // pipes, non-canonical NS casing
             Assert.That(Parsers.ReplaceImage("Foo%2C_bar", "bar", "[[FIle:foo, bar|boz!|666px]]", out noChange),
                             Is.EqualTo("[[File:bar|boz!|666px]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReplaceImage("foo", "bar", "[[Media:foo]]", out noChange), Is.EqualTo("[[Media:bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // normalising Media: is not yet supported, see TODO in BasicImprovements()
             Assert.That(Parsers.ReplaceImage("foo", "bar", "[[:media : foo]]", out noChange), Is.EqualTo("[[:media:bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
         }
     }
 
@@ -392,22 +393,22 @@ there]]", false, "", out noChange), Is.Empty);
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
         public void DontEmboldenImagesAndTemplates()
         {
-            Assert.IsFalse(parser.BoldTitle("[[Image:Foo.jpg]]", "Foo", out noChangeBack).Contains("'''Foo'''"));
-            Assert.IsFalse(parser.BoldTitle("{{Foo}}", "Foo", out noChangeBack).Contains("'''Foo'''"));
-            Assert.IsFalse(parser.BoldTitle("{{template| Foo is a bar}}", "Foo", out noChangeBack).Contains("'''Foo'''"));
+            ClassicAssert.IsFalse(parser.BoldTitle("[[Image:Foo.jpg]]", "Foo", out noChangeBack).Contains("'''Foo'''"));
+            ClassicAssert.IsFalse(parser.BoldTitle("{{Foo}}", "Foo", out noChangeBack).Contains("'''Foo'''"));
+            ClassicAssert.IsFalse(parser.BoldTitle("{{template| Foo is a bar}}", "Foo", out noChangeBack).Contains("'''Foo'''"));
         }
 
         [Test]
         public void DatesNotChanged()
         {
             Assert.That(parser.BoldTitle(@"May 31 is a great day", "May 31", out noChangeBack), Is.EqualTo(@"May 31 is a great day"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             Assert.That(parser.BoldTitle(@"March 1 is a great day", "March 1", out noChangeBack), Is.EqualTo(@"March 1 is a great day"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             Assert.That(parser.BoldTitle(@"31 May is a great day", "31 May", out noChangeBack), Is.EqualTo(@"31 May is a great day"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
         }
 
         [Test]
@@ -415,70 +416,70 @@ there]]", false, "", out noChange), Is.Empty);
         {
             Assert.That(parser.BoldTitle("Foo is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
         }
 
         [Test]
         public void DontChangeIfAlreadyBold()
         {
             Assert.That(parser.BoldTitle("'''Foo''' is this one", "Foo", out noChangeBack), Is.EqualTo("'''Foo''' is this one"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
             Assert.That(parser.BoldTitle("Foo is a bar, '''Foo''' moar", "Foo", out noChangeBack), Is.EqualTo("Foo is a bar, '''Foo''' moar"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
             Assert.That(parser.BoldTitle(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", "Foo", out noChangeBack), Is.EqualTo(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
             Assert.That(parser.BoldTitle(@"{{Infobox
 | age=11}} '''John David Smith''' is a bar", "John Smith", out noChangeBack), Is.EqualTo(@"{{Infobox
 | age=11}} '''John David Smith''' is a bar"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             // bold earlier in body of article
             Assert.That(parser.BoldTitle(@"{{Infobox| age=11}} '''John David Smith''' is a bar, John Smith", "John Smith", out noChangeBack), Is.EqualTo(@"{{Infobox| age=11}} '''John David Smith''' is a bar, John Smith"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
             Assert.That(parser.BoldTitle(@"{{Infobox
 | age=11}}{{box2}}} '''John David Smith''' is a bar", "John Smith", out noChangeBack), Is.EqualTo(@"{{Infobox
 | age=11}}{{box2}}} '''John David Smith''' is a bar"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             Assert.That(parser.BoldTitle("'''Now''' Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("'''Now''' Foo is a bar While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             // won't change if italics either
             Assert.That(parser.BoldTitle("''Foo'' is this one", "Foo", out noChangeBack), Is.EqualTo("''Foo'' is this one"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             Assert.That(parser.BoldTitle(@"{{Infobox martial art| website      = }}
 {{Nihongo|'''Aikido'''|???|aikido}} is a. Aikido was", "Aikido", out noChangeBack), Is.EqualTo(@"{{Infobox martial art| website      = }}
 {{Nihongo|'''Aikido'''|???|aikido}} is a. Aikido was"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             Assert.That(parser.BoldTitle(@"{{Infobox martial art| name='''Aikido'''| website      = }}
 Aikido was", "Aikido", out noChangeBack), Is.EqualTo(@"{{Infobox martial art| name='''Aikido'''| website      = }}
 '''Aikido''' was"), "Bold text in infobox ignored");
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             // images then bold
             const string NoChangeImages = @"[[Image:098098889899899889089980890890.png|2390823424890243 23980324 234098234980]] [[Image:098098889899899889089980890890.png|2390823424890243 23980324 234098234980]]
             [[Image:098098889899899889089980890890.png|2390823424890243 23980324 234098234980]] [[Image:098098889899899889089980890890.png|2390823424890243 23980324 234098234980]]
 '''A''' was. Foo One here";
             Assert.That(parser.BoldTitle(NoChangeImages, "Foo One", out noChangeBack), Is.EqualTo(NoChangeImages));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             Assert.That(parser.BoldTitle("{{year article header}} Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("{{year article header}} Foo is a bar While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             Assert.That(parser.BoldTitle("{{bio}} Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                 Is.EqualTo("{{bio}} Foo is a bar While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             Assert.That(parser.BoldTitle("<dfn>Foo</dfn> is this one", "Foo", out noChangeBack), Is.EqualTo("<dfn>Foo</dfn> is this one"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
         }
 
         [Test]
@@ -504,38 +505,38 @@ Aikido was", "Aikido", out noChangeBack), Is.EqualTo(@"{{Infobox martial art| na
         {
             Assert.That(parser.BoldTitle("Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle("Foo (here) is a bar While remaining upright may be the primary goal of beginning riders", "Foo (here)", out noChangeBack),
                             Is.EqualTo("'''Foo''' (here) is a bar While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle("Foo.(here) is a bar While remaining upright may be the primary goal of beginning riders", "Foo.(here)", out noChangeBack),
                             Is.EqualTo("'''Foo.(here)''' is a bar While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             // only first instance bolded
             Assert.That(parser.BoldTitle("Foo is a bar While remaining upright may be the primary goal of beginning riders Foo", "Foo", out noChangeBack),
                             Is.EqualTo("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders Foo"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle(@"The Foo is a bar While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo(@"The '''Foo''' is a bar While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle("Foo in the wild is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", "Foo in the wild", out noChangeBack),
                             Is.EqualTo("'''Foo in the wild''' is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle("Foo is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("'''Foo''' is a bar, Foo moar While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle("F^o^o is a bar While remaining upright may be the primary goal of beginning riders", "F^o^o", out noChangeBack),
                             Is.EqualTo("'''F^o^o''' is a bar While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle(@"{{Infobox | name = Foo | age=11}}
 Foo is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
@@ -545,26 +546,26 @@ While remaining upright may be the primary goal of beginning riders", "Foo", out
 '''Foo''' is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             // immediately after infobox – 5% rule does not apply
             Assert.That(parser.BoldTitle(@"{{Infobox abc| name = Foo | age=11}}
 Foo is a bar", "Foo", out noChangeBack), Is.EqualTo(@"{{Infobox abc| name = Foo | age=11}}
 '''Foo''' is a bar"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             // brackets excluded from bolding
             Assert.That(parser.BoldTitle("Foo (Band album) is a CD While remaining upright may be the primary goal of beginning riders", "Foo (Band album)", out noChangeBack),
                             Is.EqualTo("'''Foo''' (Band album) is a CD While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             // non-changes
             Assert.That(parser.BoldTitle("Fooo is a bar", "Foo", out noChangeBack), Is.EqualTo("Fooo is a bar"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
             const string ImageBold = @"[[Image...]]
 '''Something''' is a bar";
             Assert.That(parser.BoldTitle(ImageBold, "Foo", out noChangeBack), Is.EqualTo(ImageBold));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             Assert.That(parser.BoldTitle(@"Foo is a '''bar''' While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
@@ -574,12 +575,12 @@ While remaining upright may be the primary goal of beginning riders", "Foo", out
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders")); // bold within first 5% of article
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             // no delinking when existing in bold, even if in template
             Assert.That(parser.BoldTitle(@"{{unicode|'''Ł̣'''}} ([[Lower case|minuscule]]: {{unicode|'''ł̣'''}}) is a letter of the [[Latin alphabet]], derived from [[Ł̣]] with a diacritical", @"Ł̣", out noChangeBack),
                             Is.EqualTo(@"{{unicode|'''Ł̣'''}} ([[Lower case|minuscule]]: {{unicode|'''ł̣'''}}) is a letter of the [[Latin alphabet]], derived from [[Ł̣]] with a diacritical"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             // image descriptions NOT bolded:
             Assert.That(parser.BoldTitle(@"[[Image:1.JPEG|Now Smith here]] Now Smith here While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
@@ -589,7 +590,7 @@ While remaining upright may be the primary goal of beginning riders", "Smith", o
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle(@"{{unreferenced|date=November 2010}}
 Vodafone Qatar started", "Vodafone Qatar", out noChangeBack), Is.EqualTo(@"{{unreferenced|date=November 2010}}
@@ -601,27 +602,27 @@ Vodafone Qatar started", "Vodafone Qatar", out noChangeBack), Is.EqualTo(@"{{unr
         {
             Assert.That(parser.BoldTitle("[[Foo]] is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle("[[Foo]] is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("'''Foo''' is a bar, Foo moar While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle("Foo is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("Foo is a bar, now '''Foo''' here While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle("Foo is a bar, now [[foo]] here While remaining upright may be the primary goal of beginning riders, foo here", "Foo", out noChangeBack),
                             Is.EqualTo("Foo is a bar, now '''foo''' here While remaining upright may be the primary goal of beginning riders, foo here"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
             Assert.That(parser.BoldTitle("[[Foo]] is a [[bar]] While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("'''Foo''' is a [[bar]] While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             // no change
             Assert.That(parser.BoldTitle("'''Foo''' is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack),
                             Is.EqualTo("'''Foo''' is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             // limitation: can't hide image descriptions without hiding the self links too:
             Assert.That(parser.BoldTitle(@"[[Image:Head of serpent column.jpg|250px|thumb|[[Kukulkan]] at the base of the west face of the northern stairway of [[El Castillo, Chichen Itza]]]]
@@ -665,7 +666,7 @@ The Yucatec form of the name is formed from the word"));
         {
             Assert.That(parser.BoldTitle(@"[[Michael Bavaro]] is a [[filmmaker]] based in [[Manhattan]]. While remaining upright may be the primary goal of beginning riders, a bike must lean in order to maintain balance", "Michael Bavaro", out noChangeBack),
                             Is.EqualTo(@"'''Michael Bavaro''' is a [[filmmaker]] based in [[Manhattan]]. While remaining upright may be the primary goal of beginning riders, a bike must lean in order to maintain balance"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             Assert.That(parser.BoldTitle(@"{{Unreferenced|date=October 2007}}
 Steve Cook is a songwriter for Sovereign Grace. While remaining upright may be the primary goal of beginning riders. While remaining upright may be the primary goal of beginning riders
@@ -675,7 +676,7 @@ While remaining upright may be the primary goal of beginning riders While remain
 '''Steve Cook''' is a songwriter for Sovereign Grace. While remaining upright may be the primary goal of beginning riders. While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             // boldtitle delinks all self links in lead section
             Assert.That(parser.BoldTitle(@"{{Unreferenced|date=October 2007}}
@@ -686,7 +687,7 @@ While remaining upright may be the primary goal of beginning riders While remain
 '''Steve Cook''' is a songwriter for Sovereign Grace. While remaining upright may be the primary goal of beginning riders. While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders '''Steve Cook'''
 While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Piped_self-link_delinking_bug
             Assert.That(Parsers.FixLinks(parser.BoldTitle(@"The 2009 Indian Premier League While remaining upright may be the primary goal of beginning riders
@@ -898,40 +899,40 @@ See also: [[Foo]]"), Is.EqualTo(@"A==Sec==
         {
             bool noChangeBack;
             Assert.That(Parsers.FixLinks(@"'''Foo''' is great. [[Foo]] is cool", "Foo", out noChangeBack), Is.EqualTo(@"'''Foo''' is great. Foo is cool"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
             Assert.That(Parsers.FixLinks(@"'''Foo''' is great. [[Foo]] is cool and [[foo]] now", "Foo", out noChangeBack), Is.EqualTo(@"'''Foo''' is great. Foo is cool and foo now"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
             Assert.That(Parsers.FixLinks(@"'''Foo''' is great. [[Foo]] is cool and [[foo|bar]] now", "Foo", out noChangeBack), Is.EqualTo(@"'''Foo''' is great. Foo is cool and bar now"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
             Assert.That(Parsers.FixLinks(@"'''Foo''' is great. [[Foo|Bar]] is cool", "Foo", out noChangeBack), Is.EqualTo(@"'''Foo''' is great. Bar is cool"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
             Assert.That(Parsers.FixLinks(@"'''Foo bar''' is great. [[Foo bar]] is cool", "Foo bar", out noChangeBack), Is.EqualTo(@"'''Foo bar''' is great. Foo bar is cool"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
             Assert.That(Parsers.FixLinks(@"'''Foo bar''' is great. [[Foo_bar]] is cool", "Foo bar", out noChangeBack), Is.EqualTo(@"'''Foo bar''' is great. Foo bar is cool"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
             Assert.That(Parsers.FixLinks(@"'''Foo''' is great. Foo is cool.{{cite web|url=a|title=b|publisher=[[Foo]]}}", "Foo", out noChangeBack), Is.EqualTo(@"'''Foo''' is great. Foo is cool.{{cite web|url=a|title=b|publisher=Foo}}"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             // no support for delinking self section links
             Assert.That(Parsers.FixLinks(@"'''Foo''' is great. [[Foo#Bar|Bar]] is cool", "Foo", out noChangeBack), Is.EqualTo(@"'''Foo''' is great. [[Foo#Bar|Bar]] is cool"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             Assert.That(Parsers.FixLinks(@"'''the''' extreme [[anti-cult movement|anti-cult activist]]s resort", "Anti-cult movement", out noChangeBack), Is.EqualTo(@"'''the''' extreme anti-cult activists resort"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
             Assert.That(Parsers.FixLinks(@"'''the''' extreme [[Anti-cult movement|anti-cult activist]]s resort", "Anti-cult movement", out noChangeBack), Is.EqualTo(@"'''the''' extreme anti-cult activists resort"));
-            Assert.IsFalse(noChangeBack);
+            ClassicAssert.IsFalse(noChangeBack);
 
             // don't apply within imagemaps
             Assert.That(Parsers.FixLinks(@"<imagemap> [[foo]] </imagemap>", "foo", out noChangeBack), Is.EqualTo(@"<imagemap> [[foo]] </imagemap>"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             // don't apply within {{taxobox color}}
             Assert.That(Parsers.FixLinks(@"{{taxobox color| [[foo]] }}", "foo", out noChangeBack), Is.EqualTo(@"{{taxobox color| [[foo]] }}"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             // don't apply if has a noinclude etc.
             Assert.That(Parsers.FixLinks(@"<noinclude> [[foo]] </noinclude>", "foo", out noChangeBack), Is.EqualTo(@"<noinclude> [[foo]] </noinclude>"));
-            Assert.IsTrue(noChangeBack);
+            ClassicAssert.IsTrue(noChangeBack);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_13#Incorrect_delinking_of_article_title
             Assert.That(Parsers.FixLinks("[[foo bar]]", "Foo bar", out noChangeBack), Is.EqualTo("foo bar"));
@@ -1072,13 +1073,13 @@ See also: [[Foo]]"), Is.EqualTo(@"A==Sec==
         [Test]
         public void BareReferencesTests()
         {
-            Assert.IsTrue(Parsers.HasBareReferences(@"
+            ClassicAssert.IsTrue(Parsers.HasBareReferences(@"
 foo
 ==References==
 * http://www.site.com
 "));
 
-            Assert.IsTrue(Parsers.HasBareReferences(@"
+            ClassicAssert.IsTrue(Parsers.HasBareReferences(@"
 foo
 ==References==
 * http://www.site.com
@@ -1086,7 +1087,7 @@ foo
 * http://www.site2.com
 "));
 
-            Assert.IsTrue(Parsers.HasBareReferences(@"
+            ClassicAssert.IsTrue(Parsers.HasBareReferences(@"
 foo
 ==References==
 * [http://www.site.com/site a site]
@@ -1095,7 +1096,7 @@ foo
 * http://www.site2.com
 "));
 
-            Assert.IsTrue(Parsers.HasBareReferences(@"
+            ClassicAssert.IsTrue(Parsers.HasBareReferences(@"
 foo
 ==References==
 * http://www.site.com
@@ -1104,7 +1105,7 @@ foo
 * http://www.site2.com
 "));
 
-            Assert.IsTrue(Parsers.HasBareReferences(@"
+            ClassicAssert.IsTrue(Parsers.HasBareReferences(@"
 foo
 ==External links==
 * http://www.site2.com
@@ -1113,7 +1114,7 @@ foo
 * [http://www.site.com/site a site]
 "));
 
-            Assert.IsFalse(Parsers.HasBareReferences(@"
+            ClassicAssert.IsFalse(Parsers.HasBareReferences(@"
 foo
 ==References==
 * [http://www.site.com/site a site]
@@ -1121,15 +1122,15 @@ foo
 * http://www.site2.com
 "));
 
-            Assert.IsFalse(Parsers.HasBareReferences(@"
+            ClassicAssert.IsFalse(Parsers.HasBareReferences(@"
 foo
 * [http://www.site.com/site a site]
 ==External links==
 * http://www.site2.com
 "));
 
-            Assert.IsFalse(Parsers.HasBareReferences(@""));
-            Assert.IsFalse(Parsers.HasBareReferences(@"foo"));
+            ClassicAssert.IsFalse(Parsers.HasBareReferences(@""));
+            ClassicAssert.IsFalse(Parsers.HasBareReferences(@"foo"));
         }
 
         [Test]
@@ -1556,27 +1557,27 @@ Text";
             bool noChange;
 
             Assert.That(parser.AddCategory("Foo", "", "bar", out noChange), Is.EqualTo("\r\n\r\n[[Category:Foo]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(parser.AddCategory("Foo", "bar", "bar", out noChange), Is.EqualTo("bar\r\n\r\n[[Category:Foo]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(parser.AddCategory("Bar", "test[[Category:Foo|bar]]", "foo", out noChange),
                             Is.EqualTo("test\r\n\r\n[[Category:Foo|bar]]\r\n[[Category:Bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // shouldn't add if category already exists
             Assert.That(parser.AddCategory("Foo", "[[Category:Foo]]", "bar", out noChange), Is.EqualTo("[[Category:Foo]]"));
-            Assert.IsTrue(noChange);
-            Assert.IsTrue(Regex.IsMatch(parser.AddCategory("Foo bar", "[[Category:Foo_bar]]", "bar", out noChange), @"\[\[Category:Foo[ _]bar\]\]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
+            ClassicAssert.IsTrue(Regex.IsMatch(parser.AddCategory("Foo bar", "[[Category:Foo_bar]]", "bar", out noChange), @"\[\[Category:Foo[ _]bar\]\]"));
+            ClassicAssert.IsTrue(noChange);
 
             Assert.That(parser.AddCategory("Foo bar", "[[category : foo_bar%20|quux]]", "bar", out noChange), Is.EqualTo("[[category : foo_bar%20|quux]]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
 
             Assert.That(parser.AddCategory("Foo", "test", "Template:foo", out noChange),
                             Is.EqualTo("test<noinclude>\r\n[[Category:Foo]]\r\n</noinclude>"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // don't change cosmetic whitespace when adding a category
             const string Newlineheading = @"==Persian==
@@ -1591,40 +1592,40 @@ Text";
             bool noChange;
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo]]", out noChange), Is.EqualTo("[[Category:Bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
             // addresses special case in Tools.FirstLetterCaseInsensitive
             Assert.That(Parsers.ReCategoriser("-Foo bar-", "Bar", "[[Category:-Foo bar-]]", out noChange), Is.EqualTo("[[Category:Bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
             Assert.That(Parsers.ReCategoriser("Foo", "-Bar II-", "[[Category:Foo]]", out noChange), Is.EqualTo("[[Category:-Bar II-]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[ catEgory: Foo]]", out noChange), Is.EqualTo("[[Category:Bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[Category:foo]]", out noChange), Is.EqualTo("[[Category:Bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|boz]]", out noChange), Is.EqualTo("[[Category:Bar|boz]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReCategoriser("foo? Bar!", "Bar", "[[ category:Foo?_Bar! | boz]]", out noChange), Is.EqualTo("[[Category:Bar| boz]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", @"[[Category:Boz]]
 [[Category:foo]]
 [[Category:Quux]]", out noChange), Is.EqualTo(@"[[Category:Boz]]
 [[Category:Bar]]
 [[Category:Quux]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "test[[Category:Foo]]test", out noChange), Is.EqualTo("test[[Category:Bar]]test"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[Category:Fooo]]", out noChange), Is.EqualTo("[[Category:Fooo]]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
         }
 
         [Test]
@@ -1633,23 +1634,23 @@ Text";
             bool noChange;
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key]]", out noChange), Is.EqualTo("[[Category:Bar|key]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key here]]", out noChange), Is.EqualTo("[[Category:Bar|key here]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key]]", out noChange, false), Is.EqualTo("[[Category:Bar|key]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key]]", out noChange, true), Is.EqualTo("[[Category:Bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key here]]", out noChange, true), Is.EqualTo("[[Category:Bar]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             //
             Assert.That(Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key]] [[Category:Bar|key]]", out noChange), Is.EqualTo(" [[Category:Bar|key]]"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
         }
 
         [Test]
@@ -1658,33 +1659,33 @@ Text";
             bool noChange;
 
             Assert.That(Parsers.RemoveCategory("Foo", "[[Category:Foo]]", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
             // addresses special case in Tools.FirstLetterCaseInsensitive
             Assert.That(Parsers.RemoveCategory("-Foo bar-", "[[Category:-Foo bar-]]", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveCategory("Foo", "[[ category: foo | bar]]", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveCategory("Foo", "[[Category:Foo|]]", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveCategory("Foo", " [[Category:Foo]] ", out noChange), Is.EqualTo("  "));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveCategory("Foo", "[[Category:Foo]]\r\n", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveCategory("Foo", "[[Category:Foo]]\r\n\r\n", out noChange), Is.EqualTo("\r\n"));
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveCategory("Foo? Bar!", "[[Category:Foo?_Bar!|boz]]", out noChange), Is.Empty);
-            Assert.IsFalse(noChange);
+            ClassicAssert.IsFalse(noChange);
 
             Assert.That(Parsers.RemoveCategory("Foo", "[[Category:Fooo]]", out noChange), Is.EqualTo("[[Category:Fooo]]"));
-            Assert.IsTrue(noChange);
+            ClassicAssert.IsTrue(noChange);
         }
     }
 
@@ -1727,7 +1728,7 @@ Text";
             Assert.That(Parsers.Conversions(@"{{Unreferenced|date=May 2010|auto=yes}}"), Is.EqualTo(@"{{Unreferenced|date=May 2010}}"));
             Assert.That(Parsers.Conversions(@"{{Unreferenced|date=May 2010|auto=YES}}"), Is.EqualTo(@"{{Unreferenced|date=May 2010}}"));
 
-            Assert.IsTrue(Parsers.Conversions(@"{{unreferenced|date=October 2011}}
+            ClassicAssert.IsTrue(Parsers.Conversions(@"{{unreferenced|date=October 2011}}
 '''Gretchen F''' known as is a Filipina model.
 
 ==Reference==
@@ -2839,17 +2840,17 @@ Text
         [Test]
         public void HasSicTag()
         {
-            Assert.IsTrue(Parsers.HasSicTag("now helo [sic] there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo[sic] there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo (sic) there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo {sic} there"));
-            Assert.IsTrue(Parsers.HasSicTag("now helo [Sic] there"));
-            Assert.IsTrue(Parsers.HasSicTag("now {{sic|helo}} there"));
-            Assert.IsTrue(Parsers.HasSicTag("now {{sic|hel|o}} there"));
-            Assert.IsTrue(Parsers.HasSicTag("now {{typo|helo}} there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo [sic] there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo[sic] there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo (sic) there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo {sic} there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now helo [Sic] there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now {{sic|helo}} there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now {{sic|hel|o}} there"));
+            ClassicAssert.IsTrue(Parsers.HasSicTag("now {{typo|helo}} there"));
 
-            Assert.IsFalse(Parsers.HasSicTag("now sickened by"));
-            Assert.IsFalse(Parsers.HasSicTag("now helo sic there"));
+            ClassicAssert.IsFalse(Parsers.HasSicTag("now sickened by"));
+            ClassicAssert.IsFalse(Parsers.HasSicTag("now helo sic there"));
         }
     }
 }

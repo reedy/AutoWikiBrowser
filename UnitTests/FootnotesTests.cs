@@ -24,6 +24,7 @@ Copyright © 2000-2002 Philip A. Craig
 
 using System.Collections.Generic;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 using WikiFunctions.Parse;
 
@@ -75,9 +76,9 @@ namespace UnitTests
                             Is.EqualTo("{{Reflist|2}}"));
 
             // evil don't do's
-            Assert.IsFalse(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
+            ClassicAssert.IsFalse(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
 <references/></div>* some other ref</div>").Contains("{{Reflist"));
-            Assert.IsFalse(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
+            ClassicAssert.IsFalse(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
 <references/></div>").Contains("{{Reflist"));
 
             Assert.That(Parsers.FixReferenceListTags(@"<div class=""references-small"" style=""-moz-column-count:2; column-count:2;"">
@@ -529,7 +530,7 @@ End of.";
             const string infobox = @"{{infobox foo | badparam=A<ref name=Fred>The Honourable Fred Smith, 2002</ref> | otherparam = yes}}", rest = @"Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref>
 ==References==
 {{reflist}}";
-            Assert.IsTrue(Parsers.DuplicateNamedReferences(infobox + "\r\n" + rest).Contains(rest), "Ref that was declared in template not condensed");
+            ClassicAssert.IsTrue(Parsers.DuplicateNamedReferences(infobox + "\r\n" + rest).Contains(rest), "Ref that was declared in template not condensed");
 
             Assert.That(Parsers.DuplicateNamedReferences(@"{{infobox foo | badparam=A<ref name=Fred /> | otherparam = yes}}
 Now.<ref name=Fred>The Honourable Fred Smith, 2002</ref> And.<ref name=Fred>The Honourable Fred Smith, 2002</ref>
@@ -670,12 +671,12 @@ A<ref name=""Wang"">{{cite journal |authors=Wang X |title=Recurrent |journal=Nat
         [Test]
         public void HasNamedReferences()
         {
-            Assert.IsTrue(Parsers.HasNamedReferences(@"now <ref name=foo />"));
-            Assert.IsTrue(Parsers.HasNamedReferences(@"now <ref name=""foo"" />"));
-            Assert.IsFalse(Parsers.HasNamedReferences(@"now <ref name=foo>foo</ref>"));
-            Assert.IsFalse(Parsers.HasNamedReferences(@"now <ref name=""foo"">bar</ref>"));
-            Assert.IsFalse(Parsers.HasNamedReferences(@"now <ref>foo</ref>"));
-            Assert.IsFalse(Parsers.HasNamedReferences(@"now <!--<ref name = foo>foo</ref>-->"));
+            ClassicAssert.IsTrue(Parsers.HasNamedReferences(@"now <ref name=foo />"));
+            ClassicAssert.IsTrue(Parsers.HasNamedReferences(@"now <ref name=""foo"" />"));
+            ClassicAssert.IsFalse(Parsers.HasNamedReferences(@"now <ref name=foo>foo</ref>"));
+            ClassicAssert.IsFalse(Parsers.HasNamedReferences(@"now <ref name=""foo"">bar</ref>"));
+            ClassicAssert.IsFalse(Parsers.HasNamedReferences(@"now <ref>foo</ref>"));
+            ClassicAssert.IsFalse(Parsers.HasNamedReferences(@"now <!--<ref name = foo>foo</ref>-->"));
         }
 
         [Test]

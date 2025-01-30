@@ -26,6 +26,7 @@ using System;
 using System.IO;
 using System.Threading;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 
 namespace UnitTests
@@ -61,7 +62,7 @@ namespace UnitTests
         [Test]
         public void GetAndSet()
         {
-            Assert.IsNull(Cache.Get<int>("foo"));
+            ClassicAssert.IsNull(Cache.Get<int>("foo"));
 
             Cache.Set("foo", "bar");
             Assert.That(Cache.Get<string>("foo"), Is.EqualTo("bar"));
@@ -88,19 +89,19 @@ namespace UnitTests
             Cache.Set("foo", 42);
             Assert.That(Cache.Get<int>("foo"), Is.EqualTo(42));
             Thread.Sleep(60);
-            Assert.IsNull(Cache.Get<int>("foo"));
+            ClassicAssert.IsNull(Cache.Get<int>("foo"));
 
             // using explicitly set time, absolute
             Cache.Set("foo", 42, DateTime.Now + expiresSoon);
             Assert.That(Cache.Get<int>("foo"), Is.EqualTo(42));
             Thread.Sleep(60);
-            Assert.IsNull(Cache.Get<int>("foo"));
+            ClassicAssert.IsNull(Cache.Get<int>("foo"));
 
             // ...and relative
             Cache.Set("foo", 42, expiresSoon);
             Assert.That(Cache.Get<int>("foo"), Is.EqualTo(42));
             Thread.Sleep(60);
-            Assert.IsNull(Cache.Get<int>("foo"));
+            ClassicAssert.IsNull(Cache.Get<int>("foo"));
 
             // also after save/load
             Cache.Set("foo", 42, expiresSoon);
@@ -110,7 +111,7 @@ namespace UnitTests
             ms.Position = 0;
             Thread.Sleep(60);
             Cache.Load(ms);
-            Assert.IsNull(Cache.Get<int>("foo"));
+            ClassicAssert.IsNull(Cache.Get<int>("foo"));
         }
 
         [Test]
@@ -133,7 +134,7 @@ namespace UnitTests
             Cache.Set("boz", "quux");
 
             Cache.Load(ms);
-            Assert.IsNull(Cache.Get<string>("boz"));
+            ClassicAssert.IsNull(Cache.Get<string>("boz"));
         }
 
         [Test]
@@ -163,7 +164,7 @@ namespace UnitTests
         [Test]
         public void PresetCachesCreated()
         {
-            Assert.IsNotNull(ObjectCache.Global);
+            ClassicAssert.IsNotNull(ObjectCache.Global);
         }
     }
 }

@@ -26,6 +26,7 @@
 using System;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace UnitTests
 {
@@ -93,7 +94,7 @@ namespace UnitTests
 
         public static void NoMatch(Regex regex, string input, string message)
         {
-            Assert.IsTrue(!regex.IsMatch(input), "The string matches the given regex"
+            ClassicAssert.IsTrue(!regex.IsMatch(input), "The string matches the given regex"
                 + (message.Length == 0 ? "" : ": " + message));
         }
         #endregion

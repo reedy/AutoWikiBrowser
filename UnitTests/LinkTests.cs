@@ -24,6 +24,7 @@ Copyright © 2000-2002 Philip A. Craig
 
 using System.Collections.Generic;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 using WikiFunctions.Parse;
 
@@ -620,7 +621,7 @@ was [[foo|bar]] too"));
         {
             bool nochange;
             Assert.That(Parsers.FixLinks(@"[[Foo_bar]]", "a", out nochange), Is.EqualTo(@"[[Foo bar]]"));
-            Assert.IsFalse(nochange);
+            ClassicAssert.IsFalse(nochange);
 
             const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
             Assert.That(Parsers.FixLinks(doubleApos, "a", out nochange), Is.EqualTo(doubleApos));
@@ -628,17 +629,17 @@ was [[foo|bar]] too"));
             Variables.AddUnderscoredTitles(new List<string>(new[] {"Size t", "Mod perl", "Mod mono" }));
 
             Assert.That(Parsers.FixLinks(@"[[size_t]]", "a", out nochange), Is.EqualTo(@"[[size_t]]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
             Assert.That(Parsers.FixLinks(@"[[mod_perl]]", "a", out nochange), Is.EqualTo(@"[[mod_perl]]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
             Assert.That(Parsers.FixLinks(@"[[mod_mono]]", "a", out nochange), Is.EqualTo(@"[[mod_mono]]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
             Assert.That(Parsers.FixLinks(@"[[Mod_mono]]", "a", out nochange), Is.EqualTo(@"[[Mod_mono]]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
             Assert.That(Parsers.FixLinks(@"[[E|Mod_mono]]", "a", out nochange), Is.EqualTo(@"[[E|Mod_mono]]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
             Assert.That(Parsers.FixLinks(@"[[Mod_mono#link]]", "a", out nochange), Is.EqualTo(@"[[Mod_mono#link]]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
 
             Assert.That(Parsers.FixLinks(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", "a", out nochange), Is.EqualTo(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]"), "Does not break section links with hash and space");
             Assert.That(Parsers.FixLinks(@"[[Foo#nice%20example|F]]", "a", out nochange), Is.EqualTo(@"[[Foo#nice example|F]]"), "%20 replaced in target");
@@ -671,37 +672,37 @@ was [[foo|bar]] too"));
         {
             bool nochange;
             Assert.That(Parsers.FixLinks(@"[[foo|''foo'']]", "a", out nochange), Is.EqualTo(@"''[[foo|foo]]''"));
-            Assert.IsFalse(nochange);
+            ClassicAssert.IsFalse(nochange);
             Assert.That(Parsers.FixLinks(@"[[foo|'''Foo''']]", "a", out nochange), Is.EqualTo(@"'''[[foo|Foo]]'''"));
-            Assert.IsFalse(nochange);
+            ClassicAssert.IsFalse(nochange);
             Assert.That(Parsers.FixLinks(@"[[foo|'''''Foo''''']]", "a", out nochange), Is.EqualTo(@"'''''[[foo|Foo]]'''''"));
-            Assert.IsFalse(nochange);
+            ClassicAssert.IsFalse(nochange);
 
             Assert.That(Parsers.FixLinks(@"[[foo|'''Foo''']] [[bar|''bar'']]", "a", out nochange), Is.EqualTo(@"'''[[foo|Foo]]''' ''[[bar|bar]]''"));
             Assert.That(Parsers.FixLinks(@"''[[foo|'''foo''']]''", "a", out nochange), Is.EqualTo(@"''[[foo|'''foo''']]''"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
 
             Assert.That(Parsers.FixLinks(@"[[foo|'''Foo''']] ''[[foor|bar]]''", "a", out nochange), Is.EqualTo(@"'''[[foo|Foo]]''' ''[[foor|bar]]''"));
 
             // No change to single apostrophes
             Assert.That(Parsers.FixLinks(@"[[foo|'bar']]", "a", out nochange), Is.EqualTo(@"[[foo|'bar']]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
 
             // No change if (dodgy) apostrope just after link
             Assert.That(Parsers.FixLinks(@"[[foo|''bar'']]'", "a", out nochange), Is.EqualTo(@"[[foo|''bar'']]'"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
 
             Assert.That(Parsers.FixLinks(@"[[foo|]]", "a", out nochange), Is.EqualTo(@"[[foo|]]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
 
             Assert.That(Parsers.FixLinks(@"[[foo|''b'']]", "a", out nochange), Is.EqualTo(@"[[foo|''b'']]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
 
             // No change to part of link text in bold/italics
             Assert.That(Parsers.FixLinks(@"[[foo|A ''bar'']]", "a", out nochange), Is.EqualTo(@"[[foo|A ''bar'']]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
             Assert.That(Parsers.FixLinks(@"[[foo|A '''bar''']]", "a", out nochange), Is.EqualTo(@"[[foo|A '''bar''']]"));
-            Assert.IsTrue(nochange);
+            ClassicAssert.IsTrue(nochange);
         }
 
         [Test]
@@ -714,7 +715,7 @@ was [[foo|bar]] too"));
 
             const string FrIW = @"Now [[fr:Here]]";
             Assert.That(Parsers.FixLinks(FrIW, "Bar", out nochange), Is.EqualTo(FrIW));
-            Assert.IsTrue(parser.SortInterwikis);
+            ClassicAssert.IsTrue(parser.SortInterwikis);
 
             #if DEBUG
             Variables.SetProjectSimple("en", ProjectEnum.commons);
@@ -742,15 +743,15 @@ x
 ", notes4 = @"==== Notes ====
 x
 ";
-            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(""), "Empty string check");
-            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + seeAlso), "Only see also");
-            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + seeAlso + extlinks), "see also external links");
+            ClassicAssert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(""), "Empty string check");
+            ClassicAssert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + seeAlso), "Only see also");
+            ClassicAssert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + seeAlso + extlinks), "see also external links");
 
-            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + extlinks + seeAlso), "external links then see also");
-            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + notes + seeAlso), "notes then see also");
-            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + references + seeAlso), "refs then see also");
-            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + references + seeAlso + notes), "refs then see also then notes");
-            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + notes4 + seeAlso), "L4 notes ignored");
+            ClassicAssert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + extlinks + seeAlso), "external links then see also");
+            ClassicAssert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + notes + seeAlso), "notes then see also");
+            ClassicAssert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + references + seeAlso), "refs then see also");
+            ClassicAssert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + references + seeAlso + notes), "refs then see also then notes");
+            ClassicAssert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + notes4 + seeAlso), "L4 notes ignored");
         }
 
         [Test]
@@ -793,83 +794,83 @@ x
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <math> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "math");
-            Assert.IsTrue(uct.ContainsKey(15));
-            Assert.IsTrue(uct.ContainsValue(6));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsValue(6));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <center> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "center");
-            Assert.IsTrue(uct.ContainsKey(15));
-            Assert.IsTrue(uct.ContainsValue(8));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsValue(8));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <center> <center>a</center> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "center double");
-            Assert.IsTrue(uct.ContainsKey(15), "center key");
-            Assert.IsTrue(uct.ContainsValue(8), "center value");
+            ClassicAssert.IsTrue(uct.ContainsKey(15), "center key");
+            ClassicAssert.IsTrue(uct.ContainsValue(8), "center value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <sup> <sup>a</sup> not ended");
             Assert.That(uct.Count, Is.EqualTo(1));
-            Assert.IsTrue(uct.ContainsKey(15), "sup key");
-            Assert.IsTrue(uct.ContainsValue(5), "sup value");
+            ClassicAssert.IsTrue(uct.ContainsKey(15), "sup key");
+            ClassicAssert.IsTrue(uct.ContainsValue(5), "sup value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <sub> <sub>a</sub> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "sub");
-            Assert.IsTrue(uct.ContainsKey(15), "sub key");
-            Assert.IsTrue(uct.ContainsValue(5), "sub value");
+            ClassicAssert.IsTrue(uct.ContainsKey(15), "sub key");
+            ClassicAssert.IsTrue(uct.ContainsValue(5), "sub value");
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name=<ref name=Foo/> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "ref");
-            Assert.IsTrue(uct.ContainsKey(15));
-            Assert.IsTrue(uct.ContainsValue(35));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsValue(35));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "ref 2");
-            Assert.IsTrue(uct.ContainsKey(15));
-            Assert.IsTrue(uct.ContainsValue(5));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsValue(5));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name='foo'> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "ref name");
-            Assert.IsTrue(uct.ContainsKey(15));
-            Assert.IsTrue(uct.ContainsValue(16));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsValue(16));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <source lang=""bar""> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "source");
-            Assert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <small> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "small");
-            Assert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> < code> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "code");
-            Assert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> < nowiki > not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "nowiki");
-            Assert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <pre> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "pre");
-            Assert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> </pre> not opened");
             Assert.That(uct.Count, Is.EqualTo(1), "/pre");
-            Assert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <gallery> not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "gallery");
-            Assert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> </gallery> not opened");
             Assert.That(uct.Count, Is.EqualTo(1), "/gallery");
-            Assert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <!-- not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "<!--");
-            Assert.IsTrue(uct.ContainsKey(15));
+            ClassicAssert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<!--bar--> <!-- not ended");
             Assert.That(uct.Count, Is.EqualTo(1), "<!-- 2");
-            Assert.IsTrue(uct.ContainsKey(11));
+            ClassicAssert.IsTrue(uct.ContainsKey(11));
 
             uct = Parsers.UnclosedTags(@"<!--not ended
 <!--  ended -->");
@@ -877,15 +878,15 @@ x
 
             uct = Parsers.UnclosedTags(@"<gallery> not ended <gallery>bar</gallery>");
             Assert.That(uct.Count, Is.EqualTo(1), "gallery 2");
-            Assert.IsTrue(uct.ContainsKey(20));
+            ClassicAssert.IsTrue(uct.ContainsKey(20));
 
             uct = Parsers.UnclosedTags(@"<gallery other='a'> not ended <gallery other='a'>bar</gallery>");
             Assert.That(uct.Count, Is.EqualTo(1), "gallery param");
-            Assert.IsTrue(uct.ContainsKey(30));
+            ClassicAssert.IsTrue(uct.ContainsKey(30));
 
             uct = Parsers.UnclosedTags(@"<gallery>A|<div><small>(1717)</small><br/><small><small>Munich</small></div></gallery>");
             Assert.That(uct.Count, Is.EqualTo(1), "small div");
-            Assert.IsTrue(uct.ContainsKey(42));
+            ClassicAssert.IsTrue(uct.ContainsKey(42));
 
             uct = Parsers.UnclosedTags(@"<small><small><small><small><small><small><small><small><small><small><small><small>");
             Assert.That(uct.Count, Is.EqualTo(12), "multiple unclosed small");

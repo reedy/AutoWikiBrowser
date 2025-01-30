@@ -25,6 +25,7 @@ Copyright © 2000-2002 Philip A. Craig
 // Don't add tests for separate functions here
 
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using WikiFunctions;
 using WikiFunctions.Parse;
 
@@ -420,7 +421,7 @@ Minor bug";
             WikiRegexes.TemplateRedirects = Parsers.LoadTemplateRedirects(@"{{tl|NPOV}} → {{tl|POV}}");
             GenFixes("A");
 
-            Assert.IsTrue(ArticleText.Contains(@"{{Multiple issues|
+            ClassicAssert.IsTrue(ArticleText.Contains(@"{{Multiple issues|
 {{POV|date=May 2016}}
 {{Orphan|date=May 2016}}
 {{Dead end|date=May 2016}}
@@ -516,7 +517,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
 ==References==
 {{reflist}}";
             GenFixes("Test");
-            Assert.IsTrue(ArticleText.Contains(@"<ref name=""XXL Mag"">") && ArticleText.Contains(@"<ref name=""XXL Mag""/>"), "Fix the ref quote errors, then merge them");
+            ClassicAssert.IsTrue(ArticleText.Contains(@"<ref name=""XXL Mag"">") && ArticleText.Contains(@"<ref name=""XXL Mag""/>"), "Fix the ref quote errors, then merge them");
         }
         
         [Test]
@@ -579,7 +580,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
             Article ar1 = new Article("Hello", " '''Hello''' world text");
             ar1.PerformUniversalGeneralFixes();
             ar1.PerformGeneralFixes(parser, H, S, false, false, false);
-            Assert.IsTrue(ar1.OnlyGeneralFixesChanged, "Universal genfixes made change");
+            ClassicAssert.IsTrue(ar1.OnlyGeneralFixesChanged, "Universal genfixes made change");
 
             // Categorization and then universal genfix
             Article ar2 = new Article("Category:Hello", " Text [[Category:Foo]]");
@@ -591,7 +592,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
             ar2.PerformUniversalGeneralFixes();
             Assert.That(ar2.ArticleText, Is.EqualTo("Text [[Category:Foo2]]"), "Universal genfix trim");
             ar2.PerformGeneralFixes(parser, H, S, false, false, false);
-            Assert.IsFalse(ar2.OnlyGeneralFixesChanged, "Categorisation did cause change");
+            ClassicAssert.IsFalse(ar2.OnlyGeneralFixesChanged, "Categorisation did cause change");
         }
 
         [Test]
@@ -663,9 +664,9 @@ Foo.(here) is a bar While remaining upright may be the primary goal of beginning
             
             GenFixes("John Smith");
             
-            Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"), "birth category");
-            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"), "living people");
-            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Smith, John}}"), "human name defaultsort");
+            ClassicAssert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"), "birth category");
+            ClassicAssert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"), "living people");
+            ClassicAssert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Smith, John}}"), "human name defaultsort");
         }
 
         [Test]
@@ -676,16 +677,16 @@ Foo.(here) is a bar While remaining upright may be the primary goal of beginning
             
             GenFixes("Cecilia Uddén");
             
-            Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"), "birth category");
-            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"), "living people");
-            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Udden, Cecilia}}"), "human name defaultsort without special characters");
+            ClassicAssert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"), "birth category");
+            ClassicAssert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"), "living people");
+            ClassicAssert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Udden, Cecilia}}"), "human name defaultsort without special characters");
 
             ArticleText = @"{{infobox person}}
 '''İbrahim Smith''' (born 12 April 1991) is great.";
 
             GenFixes("İbrahim Smith");
 
-            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Ibrahim Smith}}"), "human name defaultsort (diacritics removed)");
+            ClassicAssert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Ibrahim Smith}}"), "human name defaultsort (diacritics removed)");
         }
 
         [Test]
@@ -743,8 +744,8 @@ God.<ref name=""Smith63""/>
 
             GenFixes();
 
-            Assert.IsFalse(ArticleText.Contains(@"{Multiple issues"));
-            Assert.IsTrue(ArticleText.Contains(@"Category:Living people"));
+            ClassicAssert.IsFalse(ArticleText.Contains(@"{Multiple issues"));
+            ClassicAssert.IsTrue(ArticleText.Contains(@"Category:Living people"));
         }
 
         [Test]
