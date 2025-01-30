@@ -420,6 +420,30 @@ Hello";
 '''macOS''', originally.";
 
             Assert.AreEqual(correct8, parser2.SortMetaData(correct8, "MacOS"), "Already correct - {{lowercase title}} after infobox");
+
+            const string noinclude = @"
+==Heading==
+<noinclude>something</noinclude>
+Text";
+            Assert.AreEqual(correct + noinclude, parser2.SortMetaData(@"{{Use mdy dates}}
+{{Use American English}}
+{{Short description|American character}}
+{{other uses}}
+{{featured article}}
+{{Prod blp}}
+{{Infobox actor}}
+Hello" + noinclude, "Title"), "Zeroth section still sorted OK if later section has noinclude");
+
+            const string zerothWithNoInclude = @"{{Use mdy dates}}
+{{Use American English}}
+{{Short description|American character}}
+{{other uses}}
+{{featured article}}
+{{Prod blp}}
+{{Infobox actor}}
+<noinclude>something</noinclude>
+Hello";
+            Assert.AreEqual(zerothWithNoInclude, parser2.SortMetaData(zerothWithNoInclude, "Title"), "Zeroth section NOT sorted if has noinclude");
         }
 
         [Test]

@@ -286,6 +286,21 @@ en, sq, ru
             if (Namespace.Determine(articleTitle) == Namespace.Template || Namespace.Determine(articleTitle) == Namespace.Module) // Don't sort on templates/modules
                 return articleText;
 
+            // sort zeroth section
+            if (Namespace.IsMainSpace(articleTitle) && !Tools.IsRedirect(articleText))
+            {
+                string zerothSection = Tools.GetZerothSection(articleText);
+                string restOfArticle = articleText.Substring(zerothSection.Length);
+
+                if(!Parsers.NoIncludeIncludeOnlyProgrammingElement(zerothSection))
+                    articleText = SortZerothSection(zerothSection) + restOfArticle;
+            }
+
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Substituted_templates
+            // if article contains some substituted template stuff, sorting the data may mess it up (further)
+            if (Namespace.IsMainSpace(articleTitle) && Parsers.NoIncludeIncludeOnlyProgrammingElement(articleText))
+                return articleText;
+
             // Performance: get all the templates so "move template" functions below only called when template(s) present in article
             List<string> alltemplates = Parsers.GetAllTemplates(articleText);
 
@@ -320,41 +335,6 @@ en, sq, ru
 
             if (Namespace.IsMainSpace(articleTitle) && !Tools.IsRedirect(articleText))
             {
-                bool moveDisplayLowerCaseItalicTitle = DisplayLowerCaseItalicTitleNeedsMoving(articleText);
-
-                // Templates relating to English variety and date format after maintenance templates, per [[WP:LAYOUT]]
-                if (TemplateExists(alltemplates, WikiRegexes.UseDatesEnglishTemplates))
-                    articleText = MoveTemplate(articleText, WikiRegexes.UseDatesEnglishTemplates);
-
-                // maintenance templates above infoboxes etc., zeroth section only
-                if (TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
-                    articleText = MoveTemplate(articleText, WikiRegexes.MultipleIssues);
-                else if (TemplateExists(alltemplates, WikiRegexes.MaintenanceTemplates))
-                    articleText = MoveTemplate(articleText, WikiRegexes.MaintenanceTemplates);
-
-                // deletion/protection templates above maintenance tags, below dablinks per [[WP:LAYOUT]]
-                if (TemplateExists(alltemplates, WikiRegexes.DeletionProtectionTags))
-                    articleText = MoveTemplate(articleText, WikiRegexes.DeletionProtectionTags);
-
-                // featured article templates above deletion/protection templates [[WP:LAYOUT]]
-                if (TemplateExists(alltemplates, WikiRegexes.GoodFeaturedArticleTemplates))
-                    articleText = MoveTemplate(articleText, WikiRegexes.GoodFeaturedArticleTemplates);
-
-                // Hatnotes/Dablinks above maintance tags per [[WP:LAYOUT]]
-                // if have {{hatnote group}} then move that not the individual dablinks
-                if (TemplateExists(alltemplates, HatnoteGroup))
-                    articleText = MoveTemplate(articleText, HatnoteGroup);
-                else if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
-                    articleText = MoveTemplate(articleText, WikiRegexes.Dablinks);
-
-                // {{DISPLAYTITLE}}, {{Lowercase title}}, {{Italic title}} above hatnotes per [[MOS:ORDER]] if not being kept directly above, or after an infobox
-                if(moveDisplayLowerCaseItalicTitle)
-                    articleText = MoveTemplate(articleText, WikiRegexes.DisplayLowerCaseItalicTitle);
-
-                // {{short description}} above dablinks per [[MOS:ORDER]]
-                if (TemplateExists(alltemplates, WikiRegexes.ShortDescriptionTemplate))
-                    articleText = MoveTemplate(articleText, WikiRegexes.ShortDescriptionTemplate);
-
                 if (Variables.LangCode.Equals("en"))
                 {
                     if (TemplateExists(alltemplates, WikiRegexes.PortalTemplate))
@@ -431,6 +411,51 @@ en, sq, ru
 
             // Only trim start on Category namespace, restore any saved short page monitor text
             return (Namespace.Determine(articleTitle) == Namespace.Category ?  articleText.Trim() : articleText.TrimEnd()) + shortPagesMonitor;
+        }
+
+        /// <summary>
+        /// Sorts article meta data - zeroth section per [[MOS:ORDER]]
+        /// </summary>
+        /// <param name="zerothSection">The wiki text of the zeroth section of the article.</param>
+        internal string SortZerothSection(string zerothSection)
+        {
+            bool moveDisplayLowerCaseItalicTitle = DisplayLowerCaseItalicTitleNeedsMoving(zerothSection);
+            List<string> alltemplates = Parsers.GetAllTemplates(zerothSection);
+
+            // Templates relating to English variety and date format after maintenance templates, per [[MOS:ORDER]]
+            if (TemplateExists(alltemplates, WikiRegexes.UseDatesEnglishTemplates))
+                zerothSection = MoveTemplate(zerothSection, WikiRegexes.UseDatesEnglishTemplates);
+
+            // maintenance templates above infoboxes etc., zeroth section only
+            if (TemplateExists(alltemplates, WikiRegexes.MultipleIssues))
+                zerothSection = MoveTemplate(zerothSection, WikiRegexes.MultipleIssues);
+            else if (TemplateExists(alltemplates, WikiRegexes.MaintenanceTemplates))
+                zerothSection = MoveTemplate(zerothSection, WikiRegexes.MaintenanceTemplates);
+
+            // deletion/protection templates above maintenance tags, below dablinks per [[MOS:ORDER]]
+            if (TemplateExists(alltemplates, WikiRegexes.DeletionProtectionTags))
+                zerothSection = MoveTemplate(zerothSection, WikiRegexes.DeletionProtectionTags);
+
+            // featured article templates above deletion/protection templates [[MOS:ORDER]]
+            if (TemplateExists(alltemplates, WikiRegexes.GoodFeaturedArticleTemplates))
+                zerothSection = MoveTemplate(zerothSection, WikiRegexes.GoodFeaturedArticleTemplates);
+
+            // Hatnotes/Dablinks above maintance tags per [[MOS:ORDER]]
+            // if have {{hatnote group}} then move that not the individual dablinks
+            if (TemplateExists(alltemplates, HatnoteGroup))
+                zerothSection = MoveTemplate(zerothSection, HatnoteGroup);
+            else if (TemplateExists(alltemplates, WikiRegexes.Dablinks))
+                zerothSection = MoveTemplate(zerothSection, WikiRegexes.Dablinks);
+
+            // {{DISPLAYTITLE}}, {{Lowercase title}}, {{Italic title}} above hatnotes per [[MOS:ORDER]] if not being kept directly above, or after an infobox
+            if (moveDisplayLowerCaseItalicTitle)
+                zerothSection = MoveTemplate(zerothSection, WikiRegexes.DisplayLowerCaseItalicTitle);
+
+            // {{short description}} above dablinks per [[MOS:ORDER]]
+            if (TemplateExists(alltemplates, WikiRegexes.ShortDescriptionTemplate))
+                zerothSection = MoveTemplate(zerothSection, WikiRegexes.ShortDescriptionTemplate);
+
+            return zerothSection;
         }
 
         /// <summary>

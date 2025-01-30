@@ -53,11 +53,6 @@ namespace WikiFunctions.Parse
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Substituted_templates
-            // if article contains some substituted template stuff, sorting the data may mess it up (further)
-            if (Namespace.IsMainSpace(articleTitle) && NoIncludeIncludeOnlyProgrammingElement(articleText))
-                return articleText;
-
             return (Variables.IsWikimediaProject) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
