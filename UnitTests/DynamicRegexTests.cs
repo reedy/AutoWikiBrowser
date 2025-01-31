@@ -892,6 +892,7 @@ now stubborn}}");
             ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{in creation}}"));
             ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{GOCEinuse}}"));
             ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{GOCE in use}}"));
+            ClassicAssert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{edited}}"));
 
 #if DEBUG
             Variables.SetProjectLangCode("el");
