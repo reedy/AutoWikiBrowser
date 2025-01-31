@@ -1311,6 +1311,7 @@ cit"));
             ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{distinguish}}"), @"{{distinguish}}");
             ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{for2}}"), @"{{for2}}");
             ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{for}}"), @"{{for}}");
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{for-multi}}"), @"{{for-multi}}");
             ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{further2}}"), @"{{further2}}");
             ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{further}}"), @"{{further}}");
             ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{hatnote}}"), @"{{hatnote}}");
