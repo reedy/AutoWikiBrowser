@@ -714,6 +714,9 @@ namespace WikiFunctions
         /// </summary>
         public static Regex Category;
 
+        /// <summary>
+        /// Matches categories including commented out, optionally with comment after
+        /// </summary>
         public static Regex RemoveCatsAllCats;
 
         /// <summary>
