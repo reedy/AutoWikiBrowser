@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogControl));
             this.btnAddSkippedToList = new System.Windows.Forms.Button();
             this.btnClearIgnored = new System.Windows.Forms.Button();
             this.btnSaveIgnored = new System.Windows.Forms.Button();
@@ -59,70 +58,101 @@
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lvIgnored = new WikiFunctions.Controls.NoFlickerExtendedListView();
-            this.colIgnoreArticle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colIgnoreTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSkippedBy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSkipReason = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
+            this.colIgnoreTime = new System.Windows.Forms.ColumnHeader();
+            this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
+            this.colSkipReason = new System.Windows.Forms.ColumnHeader();
             this.lvSaved = new WikiFunctions.Controls.NoFlickerExtendedListView();
-            this.colSuccessSave = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colSuccessTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
+            this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
             this.btnAddSuccessToList = new System.Windows.Forms.Button();
             this.mnuListView.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAddSkippedToList
             // 
-            resources.ApplyResources(this.btnAddSkippedToList, "btnAddSkippedToList");
+            this.btnAddSkippedToList.Location = new System.Drawing.Point(87, 310);
             this.btnAddSkippedToList.Name = "btnAddSkippedToList";
+            this.btnAddSkippedToList.Size = new System.Drawing.Size(75, 24);
+            this.btnAddSkippedToList.TabIndex = 19;
+            this.btnAddSkippedToList.Text = "Add all to list";
             this.btnAddSkippedToList.UseVisualStyleBackColor = true;
             this.btnAddSkippedToList.Click += new System.EventHandler(this.btnAddToList_Click);
+            this.btnAddSkippedToList.Enabled = false;
             // 
             // btnClearIgnored
             // 
-            resources.ApplyResources(this.btnClearIgnored, "btnClearIgnored");
+            this.btnClearIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearIgnored.Location = new System.Drawing.Point(177, 310);
             this.btnClearIgnored.Name = "btnClearIgnored";
+            this.btnClearIgnored.Size = new System.Drawing.Size(75, 24);
+            this.btnClearIgnored.TabIndex = 18;
+            this.btnClearIgnored.Text = "Clear";
             this.btnClearIgnored.UseVisualStyleBackColor = true;
             this.btnClearIgnored.Click += new System.EventHandler(this.btnClearIgnored_Click);
+            this.btnClearIgnored.Enabled = false;
             // 
             // btnSaveIgnored
             // 
-            resources.ApplyResources(this.btnSaveIgnored, "btnSaveIgnored");
+            this.btnSaveIgnored.Location = new System.Drawing.Point(6, 310);
             this.btnSaveIgnored.Name = "btnSaveIgnored";
+            this.btnSaveIgnored.Size = new System.Drawing.Size(75, 24);
+            this.btnSaveIgnored.TabIndex = 17;
+            this.btnSaveIgnored.Text = "Save log";
             this.btnSaveIgnored.UseVisualStyleBackColor = true;
             this.btnSaveIgnored.Click += new System.EventHandler(this.btnSaveIgnored_Click);
+            this.btnSaveIgnored.Enabled = false;
             // 
             // btnClearSaved
             // 
-            resources.ApplyResources(this.btnClearSaved, "btnClearSaved");
+            this.btnClearSaved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearSaved.Location = new System.Drawing.Point(177, 137);
             this.btnClearSaved.Name = "btnClearSaved";
+            this.btnClearSaved.Size = new System.Drawing.Size(75, 24);
+            this.btnClearSaved.TabIndex = 16;
+            this.btnClearSaved.Text = "Clear";
             this.btnClearSaved.UseVisualStyleBackColor = true;
             this.btnClearSaved.Click += new System.EventHandler(this.btnClearSaved_Click);
+            this.btnClearSaved.Enabled = false;
             // 
             // btnSaveSaved
             // 
-            resources.ApplyResources(this.btnSaveSaved, "btnSaveSaved");
+            this.btnSaveSaved.Location = new System.Drawing.Point(6, 137);
             this.btnSaveSaved.Name = "btnSaveSaved";
+            this.btnSaveSaved.Size = new System.Drawing.Size(75, 24);
+            this.btnSaveSaved.TabIndex = 15;
+            this.btnSaveSaved.Text = "Save log";
             this.btnSaveSaved.UseVisualStyleBackColor = true;
             this.btnSaveSaved.Click += new System.EventHandler(this.btnSaveSaved_Click);
+            this.btnSaveSaved.Enabled = false;
             // 
             // label8
             // 
-            resources.ApplyResources(this.label8, "label8");
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 171);
             this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(49, 13);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Skipped: 0";
             // 
             // label7
             // 
-            resources.ApplyResources(this.label7, "label7");
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 0);
             this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(101, 13);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "Successfully saved: 0";
             // 
             // saveListDialog
             // 
             this.saveListDialog.DefaultExt = "txt";
-            resources.ApplyResources(this.saveListDialog, "saveListDialog");
+            this.saveListDialog.Filter = "Plain text file|*.txt|Text file with wiki markup|*.txt|Text file with annotated w" +
+                "iki markup|*.txt";
+            this.saveListDialog.Title = "Save article list";
             // 
             // mnuListView
             // 
-            this.mnuListView.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.mnuListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addSelectedToArticleListToolStripMenuItem,
             this.toolStripSeparator2,
@@ -144,120 +174,144 @@
             this.clearToolStripMenuItem,
             this.resetToolStripMenuItem});
             this.mnuListView.Name = "mnuListView";
-            resources.ApplyResources(this.mnuListView, "mnuListView");
+            this.mnuListView.Size = new System.Drawing.Size(204, 304);
             this.mnuListView.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListView_Opening);
             // 
             // addSelectedToArticleListToolStripMenuItem
             // 
             this.addSelectedToArticleListToolStripMenuItem.Name = "addSelectedToArticleListToolStripMenuItem";
-            resources.ApplyResources(this.addSelectedToArticleListToolStripMenuItem, "addSelectedToArticleListToolStripMenuItem");
+            this.addSelectedToArticleListToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.addSelectedToArticleListToolStripMenuItem.Text = "Add selected to page list";
             this.addSelectedToArticleListToolStripMenuItem.Click += new System.EventHandler(this.addSelectedToArticleListToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            this.toolStripSeparator2.Size = new System.Drawing.Size(200, 6);
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            resources.ApplyResources(this.cutToolStripMenuItem, "cutToolStripMenuItem");
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.cutToolStripMenuItem.Text = "Cut";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            resources.ApplyResources(this.copyToolStripMenuItem, "copyToolStripMenuItem");
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
+            this.toolStripSeparator5.Size = new System.Drawing.Size(200, 6);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            resources.ApplyResources(this.removeToolStripMenuItem, "removeToolStripMenuItem");
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            this.removeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
+            this.toolStripSeparator3.Size = new System.Drawing.Size(200, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            resources.ApplyResources(this.selectAllToolStripMenuItem, "selectAllToolStripMenuItem");
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.selectAllToolStripMenuItem.Text = "Select all";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             // 
             // selectNoneToolStripMenuItem
             // 
             this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
-            resources.ApplyResources(this.selectNoneToolStripMenuItem, "selectNoneToolStripMenuItem");
+            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.selectNoneToolStripMenuItem.Text = "Select none";
             this.selectNoneToolStripMenuItem.Click += new System.EventHandler(this.selectNoneToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
+            this.toolStripSeparator4.Size = new System.Drawing.Size(200, 6);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            resources.ApplyResources(this.openInBrowserToolStripMenuItem, "openInBrowserToolStripMenuItem");
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.openInBrowserToolStripMenuItem.Text = "Open in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            this.openInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                | System.Windows.Forms.Keys.P)));
             // 
             // openHistoryInBrowserToolStripMenuItem
             // 
             this.openHistoryInBrowserToolStripMenuItem.Name = "openHistoryInBrowserToolStripMenuItem";
-            resources.ApplyResources(this.openHistoryInBrowserToolStripMenuItem, "openHistoryInBrowserToolStripMenuItem");
+            this.openHistoryInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.openHistoryInBrowserToolStripMenuItem.Text = "Open history in browser";
             this.openHistoryInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openHistoryInBrowserToolStripMenuItem_Click);
+            this.openHistoryInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                | System.Windows.Forms.Keys.H)));
             // 
             // openDiffInBrowserToolStripMenuItem
             // 
             this.openDiffInBrowserToolStripMenuItem.Name = "openDiffInBrowserToolStripMenuItem";
-            resources.ApplyResources(this.openDiffInBrowserToolStripMenuItem, "openDiffInBrowserToolStripMenuItem");
+            this.openDiffInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.openDiffInBrowserToolStripMenuItem.Text = "Open diff in browser";
             this.openDiffInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openDiffInBrowserToolStripMenuItem_Click);
+            this.openDiffInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                | System.Windows.Forms.Keys.D)));
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            this.toolStripSeparator1.Size = new System.Drawing.Size(200, 6);
             // 
             // filterShowOnlySelectedToolStripMenuItem
             // 
             this.filterShowOnlySelectedToolStripMenuItem.Name = "filterShowOnlySelectedToolStripMenuItem";
-            resources.ApplyResources(this.filterShowOnlySelectedToolStripMenuItem, "filterShowOnlySelectedToolStripMenuItem");
+            this.filterShowOnlySelectedToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.filterShowOnlySelectedToolStripMenuItem.Text = "Filter: Show only";
             this.filterShowOnlySelectedToolStripMenuItem.Click += new System.EventHandler(this.filterShowOnlySelectedToolStripMenuItem_Click_1);
             // 
             // filterExcludeToolStripMenuItem
             // 
             this.filterExcludeToolStripMenuItem.Name = "filterExcludeToolStripMenuItem";
-            resources.ApplyResources(this.filterExcludeToolStripMenuItem, "filterExcludeToolStripMenuItem");
+            this.filterExcludeToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.filterExcludeToolStripMenuItem.Text = "Filter: Exclude";
             this.filterExcludeToolStripMenuItem.Click += new System.EventHandler(this.filterExcludeToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
+            this.toolStripSeparator6.Size = new System.Drawing.Size(200, 6);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            resources.ApplyResources(this.clearToolStripMenuItem, "clearToolStripMenuItem");
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            resources.ApplyResources(this.resetToolStripMenuItem, "resetToolStripMenuItem");
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.resetToolStripMenuItem.Text = "Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // lvIgnored
             // 
-            resources.ApplyResources(this.lvIgnored, "lvIgnored");
+            this.lvIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lvIgnored.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colIgnoreArticle,
             this.colIgnoreTime,
@@ -266,69 +320,83 @@
             this.lvIgnored.ComparerFactory = this.lvIgnored;
             this.lvIgnored.ContextMenuStrip = this.mnuListView;
             this.lvIgnored.FullRowSelect = true;
-            this.lvIgnored.HideSelection = false;
+            this.lvIgnored.Location = new System.Drawing.Point(3, 187);
             this.lvIgnored.Name = "lvIgnored";
             this.lvIgnored.ShowItemToolTips = true;
+            this.lvIgnored.Size = new System.Drawing.Size(249, 115);
             this.lvIgnored.SortColumnsOnClick = true;
+            this.lvIgnored.TabIndex = 21;
             this.lvIgnored.UseCompatibleStateImageBehavior = false;
             this.lvIgnored.View = System.Windows.Forms.View.Details;
             this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            this.lvIgnored.MouseLeave += new System.EventHandler(this.LogLists_MouseLeave);
             this.lvIgnored.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LogLists_MouseMove);
+            this.lvIgnored.MouseLeave += new System.EventHandler(this.LogLists_MouseLeave);
             // 
             // colIgnoreArticle
             // 
-            resources.ApplyResources(this.colIgnoreArticle, "colIgnoreArticle");
+            this.colIgnoreArticle.Text = "Page";
+            this.colIgnoreArticle.Width = 48;
             // 
             // colIgnoreTime
             // 
-            resources.ApplyResources(this.colIgnoreTime, "colIgnoreTime");
+            this.colIgnoreTime.Text = "Time";
+            this.colIgnoreTime.Width = 42;
             // 
             // colSkippedBy
             // 
-            resources.ApplyResources(this.colSkippedBy, "colSkippedBy");
+            this.colSkippedBy.Text = "Skipped By";
+            this.colSkippedBy.Width = 70;
             // 
             // colSkipReason
             // 
-            resources.ApplyResources(this.colSkipReason, "colSkipReason");
+            this.colSkipReason.Text = "Skip Reason";
+            this.colSkipReason.Width = 81;
             // 
             // lvSaved
             // 
-            resources.ApplyResources(this.lvSaved, "lvSaved");
+            this.lvSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colSuccessSave,
             this.colSuccessTime});
             this.lvSaved.ComparerFactory = this.lvSaved;
             this.lvSaved.ContextMenuStrip = this.mnuListView;
             this.lvSaved.FullRowSelect = true;
-            this.lvSaved.HideSelection = false;
+            this.lvSaved.Location = new System.Drawing.Point(3, 16);
             this.lvSaved.Name = "lvSaved";
             this.lvSaved.ShowItemToolTips = true;
+            this.lvSaved.Size = new System.Drawing.Size(249, 115);
             this.lvSaved.SortColumnsOnClick = true;
+            this.lvSaved.TabIndex = 20;
             this.lvSaved.UseCompatibleStateImageBehavior = false;
             this.lvSaved.View = System.Windows.Forms.View.Details;
             this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            this.lvSaved.MouseLeave += new System.EventHandler(this.LogLists_MouseLeave);
             this.lvSaved.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LogLists_MouseMove);
+            this.lvSaved.MouseLeave += new System.EventHandler(this.LogLists_MouseLeave);
             // 
             // colSuccessSave
             // 
-            resources.ApplyResources(this.colSuccessSave, "colSuccessSave");
+            this.colSuccessSave.Text = "Page";
+            this.colSuccessSave.Width = 171;
             // 
             // colSuccessTime
             // 
-            resources.ApplyResources(this.colSuccessTime, "colSuccessTime");
+            this.colSuccessTime.Text = "Time";
             // 
             // btnAddSuccessToList
             // 
-            resources.ApplyResources(this.btnAddSuccessToList, "btnAddSuccessToList");
+            this.btnAddSuccessToList.Location = new System.Drawing.Point(87, 137);
             this.btnAddSuccessToList.Name = "btnAddSuccessToList";
+            this.btnAddSuccessToList.Size = new System.Drawing.Size(75, 24);
+            this.btnAddSuccessToList.TabIndex = 22;
+            this.btnAddSuccessToList.Text = "Add all to list";
             this.btnAddSuccessToList.UseVisualStyleBackColor = true;
             this.btnAddSuccessToList.Click += new System.EventHandler(this.btnAddSuccessToList_Click);
+            this.btnAddSuccessToList.Enabled = false;
             // 
             // LogControl
             // 
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnAddSuccessToList);
             this.Controls.Add(this.label7);
@@ -341,6 +409,7 @@
             this.Controls.Add(this.btnClearSaved);
             this.Controls.Add(this.btnAddSkippedToList);
             this.Name = "LogControl";
+            this.Size = new System.Drawing.Size(257, 341);
             this.mnuListView.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

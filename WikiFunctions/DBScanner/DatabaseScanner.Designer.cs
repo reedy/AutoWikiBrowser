@@ -187,7 +187,6 @@ namespace WikiFunctions.DBScanner
             this.flwHelpLinks.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabConvert.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -195,29 +194,46 @@ namespace WikiFunctions.DBScanner
             // 
             // txtList
             // 
-            resources.ApplyResources(this.txtList, "txtList");
+            this.txtList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtList.Location = new System.Drawing.Point(3, 51);
+            this.txtList.MaxLength = 0;
+            this.txtList.Multiline = true;
             this.txtList.Name = "txtList";
+            this.txtList.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtList.Size = new System.Drawing.Size(276, 189);
+            this.txtList.TabIndex = 7;
+            this.txtList.WordWrap = false;
             // 
             // openXMLDialog
             // 
             this.openXMLDialog.FileName = "current or articles XML file";
-            resources.ApplyResources(this.openXMLDialog, "openXMLDialog");
+            this.openXMLDialog.Filter = "XML file|*.xml";
+            this.openXMLDialog.Title = "Open \"current\" or \"Pages\" XML file";
             // 
             // saveFileDialog
             // 
             this.saveFileDialog.DefaultExt = "txt";
-            resources.ApplyResources(this.saveFileDialog, "saveFileDialog");
+            this.saveFileDialog.Filter = "Text file|*.txt";
             // 
             // gbText
             // 
             this.gbText.Controls.Add(this.tableLayoutPanel3);
-            resources.ApplyResources(this.gbText, "gbText");
+            this.gbText.Location = new System.Drawing.Point(3, 3);
             this.gbText.Name = "gbText";
+            this.gbText.Size = new System.Drawing.Size(277, 141);
+            this.gbText.TabIndex = 1;
             this.gbText.TabStop = false;
+            this.gbText.Text = "Te&xt";
             // 
             // tableLayoutPanel3
             // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.Controls.Add(this.chkArticleDoesContain, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.txtArticleDoesContain, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.chkArticleDoesNotContain, 0, 1);
@@ -227,76 +243,137 @@ namespace WikiFunctions.DBScanner
             this.tableLayoutPanel3.Controls.Add(this.chkSingle, 2, 2);
             this.tableLayoutPanel3.Controls.Add(this.chkMulti, 2, 3);
             this.tableLayoutPanel3.Controls.Add(this.chkIgnoreComments, 1, 4);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(271, 125);
+            this.tableLayoutPanel3.TabIndex = 0;
             // 
             // chkArticleDoesContain
             // 
-            resources.ApplyResources(this.chkArticleDoesContain, "chkArticleDoesContain");
+            this.chkArticleDoesContain.AutoSize = true;
+            this.chkArticleDoesContain.Location = new System.Drawing.Point(3, 3);
             this.chkArticleDoesContain.Name = "chkArticleDoesContain";
+            this.chkArticleDoesContain.Size = new System.Drawing.Size(70, 17);
+            this.chkArticleDoesContain.TabIndex = 0;
+            this.chkArticleDoesContain.Text = "&Contains:";
             this.chkArticleDoesContain.CheckedChanged += new System.EventHandler(this.chkDoesContain_CheckedChanged);
             // 
             // txtArticleDoesContain
             // 
-            resources.ApplyResources(this.txtArticleDoesContain, "txtArticleDoesContain");
+            this.txtArticleDoesContain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel3.SetColumnSpan(this.txtArticleDoesContain, 2);
+            this.txtArticleDoesContain.Enabled = false;
+            this.txtArticleDoesContain.Location = new System.Drawing.Point(98, 3);
+            this.txtArticleDoesContain.MaxLength = 0;
             this.txtArticleDoesContain.Name = "txtArticleDoesContain";
+            this.txtArticleDoesContain.Size = new System.Drawing.Size(171, 20);
+            this.txtArticleDoesContain.TabIndex = 1;
             // 
             // chkArticleDoesNotContain
             // 
-            resources.ApplyResources(this.chkArticleDoesNotContain, "chkArticleDoesNotContain");
+            this.chkArticleDoesNotContain.AutoSize = true;
+            this.chkArticleDoesNotContain.Location = new System.Drawing.Point(3, 29);
             this.chkArticleDoesNotContain.Name = "chkArticleDoesNotContain";
+            this.chkArticleDoesNotContain.Size = new System.Drawing.Size(89, 17);
+            this.chkArticleDoesNotContain.TabIndex = 2;
+            this.chkArticleDoesNotContain.Text = "&Not contains:";
             this.chkArticleDoesNotContain.CheckedChanged += new System.EventHandler(this.chkDoesNotContain_CheckedChanged);
             // 
             // txtArticleDoesNotContain
             // 
-            resources.ApplyResources(this.txtArticleDoesNotContain, "txtArticleDoesNotContain");
+            this.txtArticleDoesNotContain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel3.SetColumnSpan(this.txtArticleDoesNotContain, 2);
+            this.txtArticleDoesNotContain.Enabled = false;
+            this.txtArticleDoesNotContain.Location = new System.Drawing.Point(98, 29);
+            this.txtArticleDoesNotContain.MaxLength = 0;
             this.txtArticleDoesNotContain.Name = "txtArticleDoesNotContain";
+            this.txtArticleDoesNotContain.Size = new System.Drawing.Size(171, 20);
+            this.txtArticleDoesNotContain.TabIndex = 3;
             // 
             // chkArticleRegex
             // 
-            resources.ApplyResources(this.chkArticleRegex, "chkArticleRegex");
+            this.chkArticleRegex.AutoSize = true;
+            this.chkArticleRegex.Location = new System.Drawing.Point(98, 55);
             this.chkArticleRegex.Name = "chkArticleRegex";
+            this.chkArticleRegex.Size = new System.Drawing.Size(57, 17);
+            this.chkArticleRegex.TabIndex = 4;
+            this.chkArticleRegex.Text = "&Regex";
             this.chkArticleRegex.CheckedChanged += new System.EventHandler(this.chkRegex_CheckedChanged);
             // 
             // chkArticleCaseSensitive
             // 
-            resources.ApplyResources(this.chkArticleCaseSensitive, "chkArticleCaseSensitive");
+            this.chkArticleCaseSensitive.AutoSize = true;
+            this.chkArticleCaseSensitive.Location = new System.Drawing.Point(98, 78);
             this.chkArticleCaseSensitive.Name = "chkArticleCaseSensitive";
-            this.tooltip.SetToolTip(this.chkArticleCaseSensitive, resources.GetString("chkArticleCaseSensitive.ToolTip"));
+            this.chkArticleCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkArticleCaseSensitive.TabIndex = 5;
+            this.chkArticleCaseSensitive.Text = "Case &sensitive";
+            this.tooltip.SetToolTip(this.chkArticleCaseSensitive, "Enables case sensitivity");
             // 
             // chkSingle
             // 
-            resources.ApplyResources(this.chkSingle, "chkSingle");
+            this.chkSingle.AutoSize = true;
+            this.chkSingle.Enabled = false;
+            this.chkSingle.Location = new System.Drawing.Point(198, 55);
             this.chkSingle.Name = "chkSingle";
-            this.tooltip.SetToolTip(this.chkSingle, resources.GetString("chkSingle.ToolTip"));
+            this.chkSingle.Size = new System.Drawing.Size(71, 17);
+            this.chkSingle.TabIndex = 6;
+            this.chkSingle.Text = "S&ingleline";
+            this.tooltip.SetToolTip(this.chkSingle, "Changes meaning of \".\"  so it matches all characters, as opposed to all apart fro" +
+                    "m newlines");
             // 
             // chkMulti
             // 
-            resources.ApplyResources(this.chkMulti, "chkMulti");
+            this.chkMulti.AutoSize = true;
+            this.chkMulti.Enabled = false;
+            this.chkMulti.Location = new System.Drawing.Point(198, 78);
             this.chkMulti.Name = "chkMulti";
-            this.tooltip.SetToolTip(this.chkMulti, resources.GetString("chkMulti.ToolTip"));
+            this.chkMulti.Size = new System.Drawing.Size(64, 17);
+            this.chkMulti.TabIndex = 7;
+            this.chkMulti.Text = "&Multiline";
+            this.tooltip.SetToolTip(this.chkMulti, "Changes meaning of \"^\" and \"$\" so they represent the beginning and end respective" +
+                    "ly of every line, rather just of the entire string");
             // 
             // chkIgnoreComments
             // 
-            resources.ApplyResources(this.chkIgnoreComments, "chkIgnoreComments");
+            this.chkIgnoreComments.AutoSize = true;
             this.tableLayoutPanel3.SetColumnSpan(this.chkIgnoreComments, 2);
+            this.chkIgnoreComments.Location = new System.Drawing.Point(98, 101);
             this.chkIgnoreComments.Name = "chkIgnoreComments";
+            this.chkIgnoreComments.Size = new System.Drawing.Size(140, 17);
+            this.chkIgnoreComments.TabIndex = 18;
+            this.chkIgnoreComments.Text = "Ignore <!-- comments -->";
             this.chkIgnoreComments.UseVisualStyleBackColor = true;
             // 
             // lblLength
             // 
-            resources.ApplyResources(this.lblLength, "lblLength");
+            this.lblLength.AutoSize = true;
+            this.lblLength.Location = new System.Drawing.Point(6, 20);
             this.lblLength.Name = "lblLength";
+            this.lblLength.Size = new System.Drawing.Size(61, 13);
+            this.lblLength.TabIndex = 8;
+            this.lblLength.Text = "C&haracters:";
+            this.lblLength.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // nudLength
             // 
-            resources.ApplyResources(this.nudLength, "nudLength");
+            this.nudLength.Enabled = false;
             this.nudLength.Increment = new decimal(new int[] {
             500,
             0,
             0,
             0});
+            this.nudLength.Location = new System.Drawing.Point(155, 17);
             this.nudLength.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -308,6 +385,10 @@ namespace WikiFunctions.DBScanner
             0,
             0});
             this.nudLength.Name = "nudLength";
+            this.nudLength.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.nudLength.Size = new System.Drawing.Size(60, 20);
+            this.nudLength.TabIndex = 10;
+            this.nudLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudLength.Value = new decimal(new int[] {
             1000,
             0,
@@ -319,33 +400,43 @@ namespace WikiFunctions.DBScanner
             this.cmboLength.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboLength.FormattingEnabled = true;
             this.cmboLength.Items.AddRange(new object[] {
-            resources.GetString("cmboLength.Items"),
-            resources.GetString("cmboLength.Items1"),
-            resources.GetString("cmboLength.Items2")});
-            resources.ApplyResources(this.cmboLength, "cmboLength");
+            "not counted",
+            "at least",
+            "at most"});
+            this.cmboLength.Location = new System.Drawing.Point(69, 17);
             this.cmboLength.Name = "cmboLength";
+            this.cmboLength.Size = new System.Drawing.Size(80, 21);
+            this.cmboLength.TabIndex = 9;
             this.cmboLength.SelectedIndexChanged += new System.EventHandler(this.cmboLength_SelectedIndexChanged);
             // 
             // lblLinks
             // 
-            resources.ApplyResources(this.lblLinks, "lblLinks");
+            this.lblLinks.AutoSize = true;
+            this.lblLinks.Location = new System.Drawing.Point(6, 46);
             this.lblLinks.Name = "lblLinks";
+            this.lblLinks.Size = new System.Drawing.Size(35, 13);
+            this.lblLinks.TabIndex = 11;
+            this.lblLinks.Text = "&Links:";
+            this.lblLinks.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // cmboLinks
             // 
             this.cmboLinks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboLinks.FormattingEnabled = true;
             this.cmboLinks.Items.AddRange(new object[] {
-            resources.GetString("cmboLinks.Items"),
-            resources.GetString("cmboLinks.Items1"),
-            resources.GetString("cmboLinks.Items2")});
-            resources.ApplyResources(this.cmboLinks, "cmboLinks");
+            "not counted",
+            "at least",
+            "at most"});
+            this.cmboLinks.Location = new System.Drawing.Point(69, 43);
             this.cmboLinks.Name = "cmboLinks";
+            this.cmboLinks.Size = new System.Drawing.Size(80, 21);
+            this.cmboLinks.TabIndex = 12;
             this.cmboLinks.SelectedIndexChanged += new System.EventHandler(this.cmboLinks_SelectedIndexChanged);
             // 
             // nudLinks
             // 
-            resources.ApplyResources(this.nudLinks, "nudLinks");
+            this.nudLinks.Enabled = false;
+            this.nudLinks.Location = new System.Drawing.Point(155, 44);
             this.nudLinks.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -357,6 +448,9 @@ namespace WikiFunctions.DBScanner
             0,
             0});
             this.nudLinks.Name = "nudLinks";
+            this.nudLinks.Size = new System.Drawing.Size(60, 20);
+            this.nudLinks.TabIndex = 13;
+            this.nudLinks.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudLinks.Value = new decimal(new int[] {
             5,
             0,
@@ -365,35 +459,46 @@ namespace WikiFunctions.DBScanner
             // 
             // lblWords
             // 
-            resources.ApplyResources(this.lblWords, "lblWords");
+            this.lblWords.AutoSize = true;
+            this.lblWords.Location = new System.Drawing.Point(6, 73);
             this.lblWords.Name = "lblWords";
+            this.lblWords.Size = new System.Drawing.Size(41, 13);
+            this.lblWords.TabIndex = 14;
+            this.lblWords.Text = "&Words:";
+            this.lblWords.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // cmboWords
             // 
             this.cmboWords.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboWords.FormattingEnabled = true;
             this.cmboWords.Items.AddRange(new object[] {
-            resources.GetString("cmboWords.Items"),
-            resources.GetString("cmboWords.Items1"),
-            resources.GetString("cmboWords.Items2")});
-            resources.ApplyResources(this.cmboWords, "cmboWords");
+            "not counted",
+            "at least",
+            "at most"});
+            this.cmboWords.Location = new System.Drawing.Point(69, 70);
             this.cmboWords.Name = "cmboWords";
+            this.cmboWords.Size = new System.Drawing.Size(80, 21);
+            this.cmboWords.TabIndex = 15;
             this.cmboWords.SelectedIndexChanged += new System.EventHandler(this.cmboWords_SelectedIndexChanged);
             // 
             // nudWords
             // 
-            resources.ApplyResources(this.nudWords, "nudWords");
+            this.nudWords.Enabled = false;
             this.nudWords.Increment = new decimal(new int[] {
             100,
             0,
             0,
             0});
+            this.nudWords.Location = new System.Drawing.Point(154, 70);
             this.nudWords.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
             this.nudWords.Name = "nudWords";
+            this.nudWords.Size = new System.Drawing.Size(60, 20);
+            this.nudWords.TabIndex = 16;
+            this.nudWords.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudWords.Value = new decimal(new int[] {
             200,
             0,
@@ -402,7 +507,8 @@ namespace WikiFunctions.DBScanner
             // 
             // nudHeadingSpace
             // 
-            resources.ApplyResources(this.nudHeadingSpace, "nudHeadingSpace");
+            this.nudHeadingSpace.Enabled = false;
+            this.nudHeadingSpace.Location = new System.Drawing.Point(127, 5);
             this.nudHeadingSpace.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -414,6 +520,8 @@ namespace WikiFunctions.DBScanner
             0,
             0});
             this.nudHeadingSpace.Name = "nudHeadingSpace";
+            this.nudHeadingSpace.Size = new System.Drawing.Size(43, 20);
+            this.nudHeadingSpace.TabIndex = 1;
             this.nudHeadingSpace.Value = new decimal(new int[] {
             25,
             0,
@@ -422,114 +530,181 @@ namespace WikiFunctions.DBScanner
             // 
             // chkHeading
             // 
-            resources.ApplyResources(this.chkHeading, "chkHeading");
+            this.chkHeading.AutoSize = true;
+            this.chkHeading.Location = new System.Drawing.Point(3, 6);
             this.chkHeading.Name = "chkHeading";
-            this.tooltip.SetToolTip(this.chkHeading, resources.GetString("chkHeading.ToolTip"));
+            this.chkHeading.Size = new System.Drawing.Size(115, 17);
+            this.chkHeading.TabIndex = 0;
+            this.chkHeading.Text = "Add &heading every";
+            this.tooltip.SetToolTip(this.chkHeading, "Add numbered heading");
             this.chkHeading.CheckedChanged += new System.EventHandler(this.chkHeading_CheckedChanged);
             // 
             // btnClear
             // 
-            resources.ApplyResources(this.btnClear, "btnClear");
+            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClear.Location = new System.Drawing.Point(201, 246);
             this.btnClear.Name = "btnClear";
-            this.tooltip.SetToolTip(this.btnClear, resources.GetString("btnClear.ToolTip"));
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 10;
+            this.btnClear.Text = "Clear";
+            this.tooltip.SetToolTip(this.btnClear, "Clear");
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnCopy
             // 
-            resources.ApplyResources(this.btnCopy, "btnCopy");
+            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCopy.Location = new System.Drawing.Point(6, 246);
             this.btnCopy.Name = "btnCopy";
-            this.tooltip.SetToolTip(this.btnCopy, resources.GetString("btnCopy.ToolTip"));
+            this.btnCopy.Size = new System.Drawing.Size(75, 23);
+            this.btnCopy.TabIndex = 8;
+            this.btnCopy.Text = "Copy";
+            this.tooltip.SetToolTip(this.btnCopy, "Copy to clipboard");
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // btnTransfer
             // 
-            resources.ApplyResources(this.btnTransfer, "btnTransfer");
+            this.btnTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTransfer.Location = new System.Drawing.Point(201, 3);
             this.btnTransfer.Name = "btnTransfer";
-            this.tooltip.SetToolTip(this.btnTransfer, resources.GetString("btnTransfer.ToolTip"));
+            this.btnTransfer.Size = new System.Drawing.Size(75, 23);
+            this.btnTransfer.TabIndex = 2;
+            this.btnTransfer.Text = "Ma&ke";
+            this.tooltip.SetToolTip(this.btnTransfer, "Turn list into wiki formatted text, which can be saved or copied.");
             this.btnTransfer.Click += new System.EventHandler(this.btnTransfer_Click);
             // 
             // btnClearList
             // 
-            resources.ApplyResources(this.btnClearList, "btnClearList");
+            this.btnClearList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearList.Location = new System.Drawing.Point(227, 278);
             this.btnClearList.Name = "btnClearList";
-            this.tooltip.SetToolTip(this.btnClearList, resources.GetString("btnClearList.ToolTip"));
+            this.btnClearList.Size = new System.Drawing.Size(75, 23);
+            this.btnClearList.TabIndex = 3;
+            this.btnClearList.Text = "Clear";
+            this.tooltip.SetToolTip(this.btnClearList, "Clear the list");
             this.btnClearList.Click += new System.EventHandler(this.lbClear_Click);
             // 
             // chkNoBold
             // 
-            resources.ApplyResources(this.chkNoBold, "chkNoBold");
+            this.chkNoBold.AutoSize = true;
+            this.chkNoBold.Location = new System.Drawing.Point(3, 3);
             this.chkNoBold.Name = "chkNoBold";
-            this.tooltip.SetToolTip(this.chkNoBold, resources.GetString("chkNoBold.ToolTip"));
+            this.chkNoBold.Size = new System.Drawing.Size(158, 17);
+            this.chkNoBold.TabIndex = 0;
+            this.chkNoBold.Text = "Has title AWB will embolden";
+            this.tooltip.SetToolTip(this.chkNoBold, "AWB \'\'\'emboldens\'\'\' the title when appropriate");
             // 
             // chkCiteTemplateDates
             // 
-            resources.ApplyResources(this.chkCiteTemplateDates, "chkCiteTemplateDates");
+            this.chkCiteTemplateDates.AutoSize = true;
+            this.chkCiteTemplateDates.Location = new System.Drawing.Point(167, 95);
             this.chkCiteTemplateDates.Name = "chkCiteTemplateDates";
-            this.tooltip.SetToolTip(this.chkCiteTemplateDates, resources.GetString("chkCiteTemplateDates.ToolTip"));
+            this.chkCiteTemplateDates.Size = new System.Drawing.Size(148, 17);
+            this.chkCiteTemplateDates.TabIndex = 7;
+            this.chkCiteTemplateDates.Text = "Citation dates AWB will fix";
+            this.tooltip.SetToolTip(this.chkCiteTemplateDates, "AWB fixes various errors in dates within the citation family of templates");
             // 
             // chkReorderReferences
             // 
-            resources.ApplyResources(this.chkReorderReferences, "chkReorderReferences");
+            this.chkReorderReferences.AutoSize = true;
+            this.chkReorderReferences.Location = new System.Drawing.Point(321, 26);
             this.chkReorderReferences.Name = "chkReorderReferences";
-            this.tooltip.SetToolTip(this.chkReorderReferences, resources.GetString("chkReorderReferences.ToolTip"));
+            this.chkReorderReferences.Size = new System.Drawing.Size(129, 17);
+            this.chkReorderReferences.TabIndex = 7;
+            this.chkReorderReferences.Text = "References to reorder";
+            this.tooltip.SetToolTip(this.chkReorderReferences, "AWB reorders consecutive references to be in numercial order");
             // 
             // chkPeopleCategories
             // 
-            resources.ApplyResources(this.chkPeopleCategories, "chkPeopleCategories");
+            this.chkPeopleCategories.AutoSize = true;
+            this.chkPeopleCategories.Location = new System.Drawing.Point(167, 3);
             this.chkPeopleCategories.Name = "chkPeopleCategories";
-            this.tooltip.SetToolTip(this.chkPeopleCategories, resources.GetString("chkPeopleCategories.ToolTip"));
+            this.chkPeopleCategories.Size = new System.Drawing.Size(138, 17);
+            this.chkPeopleCategories.TabIndex = 10;
+            this.chkPeopleCategories.Text = "Human birth/death cats";
+            this.tooltip.SetToolTip(this.chkPeopleCategories, "AWB can add/correct birth & death categories for articles about people");
             // 
             // chkUnbalancedBrackets
             // 
-            resources.ApplyResources(this.chkUnbalancedBrackets, "chkUnbalancedBrackets");
+            this.chkUnbalancedBrackets.AutoSize = true;
+            this.chkUnbalancedBrackets.Location = new System.Drawing.Point(321, 3);
             this.chkUnbalancedBrackets.Name = "chkUnbalancedBrackets";
-            this.tooltip.SetToolTip(this.chkUnbalancedBrackets, resources.GetString("chkUnbalancedBrackets.ToolTip"));
+            this.chkUnbalancedBrackets.Size = new System.Drawing.Size(128, 17);
+            this.chkUnbalancedBrackets.TabIndex = 9;
+            this.chkUnbalancedBrackets.Text = "Unbalanced brackets";
+            this.tooltip.SetToolTip(this.chkUnbalancedBrackets, "AWB identifies unbalanced brackets and is able to fix many of them automatically");
             // 
             // chkBadLinks
             // 
-            resources.ApplyResources(this.chkBadLinks, "chkBadLinks");
+            this.chkBadLinks.AutoSize = true;
+            this.chkBadLinks.Location = new System.Drawing.Point(3, 49);
             this.chkBadLinks.Name = "chkBadLinks";
-            this.tooltip.SetToolTip(this.chkBadLinks, resources.GetString("chkBadLinks.ToolTip"));
+            this.chkBadLinks.Size = new System.Drawing.Size(148, 17);
+            this.chkBadLinks.TabIndex = 4;
+            this.chkBadLinks.Text = "Has bad links AWB will fix";
+            this.tooltip.SetToolTip(this.chkBadLinks, "AWB fixes bad links, such as wrong syntax and URL coding");
             // 
             // chkHasHTML
             // 
-            resources.ApplyResources(this.chkHasHTML, "chkHasHTML");
+            this.chkHasHTML.AutoSize = true;
+            this.chkHasHTML.Location = new System.Drawing.Point(3, 72);
             this.chkHasHTML.Name = "chkHasHTML";
-            this.tooltip.SetToolTip(this.chkHasHTML, resources.GetString("chkHasHTML.ToolTip"));
+            this.chkHasHTML.Size = new System.Drawing.Size(114, 17);
+            this.chkHasHTML.TabIndex = 6;
+            this.chkHasHTML.Text = "Has HTML entities";
+            this.tooltip.SetToolTip(this.chkHasHTML, "AWB replaces HTML entities with unicode");
             // 
             // chkHeaderError
             // 
-            resources.ApplyResources(this.chkHeaderError, "chkHeaderError");
+            this.chkHeaderError.AutoSize = true;
+            this.chkHeaderError.Location = new System.Drawing.Point(167, 72);
             this.chkHeaderError.Name = "chkHeaderError";
-            this.tooltip.SetToolTip(this.chkHeaderError, resources.GetString("chkHeaderError.ToolTip"));
+            this.chkHeaderError.Size = new System.Drawing.Size(86, 17);
+            this.chkHeaderError.TabIndex = 5;
+            this.chkHeaderError.Text = "Section error";
+            this.tooltip.SetToolTip(this.chkHeaderError, "AWB fixes common mis-capitalisation in headings");
             // 
             // chkUnbulletedLinks
             // 
-            resources.ApplyResources(this.chkUnbulletedLinks, "chkUnbulletedLinks");
+            this.chkUnbulletedLinks.AutoSize = true;
+            this.chkUnbulletedLinks.Location = new System.Drawing.Point(3, 95);
             this.chkUnbulletedLinks.Name = "chkUnbulletedLinks";
-            this.tooltip.SetToolTip(this.chkUnbulletedLinks, resources.GetString("chkUnbulletedLinks.ToolTip"));
+            this.chkUnbulletedLinks.Size = new System.Drawing.Size(101, 17);
+            this.chkUnbulletedLinks.TabIndex = 8;
+            this.chkUnbulletedLinks.Text = "Unbulleted links";
+            this.tooltip.SetToolTip(this.chkUnbulletedLinks, "AWB bullets links in external links sections");
             // 
             // chkABCHeader
             // 
-            resources.ApplyResources(this.chkABCHeader, "chkABCHeader");
+            this.chkABCHeader.AutoSize = true;
+            this.chkABCHeader.Location = new System.Drawing.Point(3, 29);
             this.chkABCHeader.Name = "chkABCHeader";
-            this.tooltip.SetToolTip(this.chkABCHeader, resources.GetString("chkABCHeader.ToolTip"));
+            this.chkABCHeader.Size = new System.Drawing.Size(133, 17);
+            this.chkABCHeader.TabIndex = 3;
+            this.chkABCHeader.Text = "Alpha&betised headings";
+            this.tooltip.SetToolTip(this.chkABCHeader, "Add alphabetised heading, list must be alphabetised first");
             this.chkABCHeader.CheckedChanged += new System.EventHandler(this.chkABCHeader_CheckedChanged);
             // 
             // txtStartFrom
             // 
-            resources.ApplyResources(this.txtStartFrom, "txtStartFrom");
+            this.txtStartFrom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtStartFrom.Location = new System.Drawing.Point(94, 140);
             this.txtStartFrom.Name = "txtStartFrom";
-            this.tooltip.SetToolTip(this.txtStartFrom, resources.GetString("txtStartFrom.ToolTip"));
+            this.txtStartFrom.Size = new System.Drawing.Size(172, 20);
+            this.txtStartFrom.TabIndex = 3;
+            this.tooltip.SetToolTip(this.txtStartFrom, "Page to start scanning from, leave blank to start at beginning");
             // 
             // chkSimpleLinks
             // 
-            resources.ApplyResources(this.chkSimpleLinks, "chkSimpleLinks");
+            this.chkSimpleLinks.AutoSize = true;
+            this.chkSimpleLinks.Location = new System.Drawing.Point(3, 26);
             this.chkSimpleLinks.Name = "chkSimpleLinks";
+            this.chkSimpleLinks.Size = new System.Drawing.Size(150, 17);
+            this.chkSimpleLinks.TabIndex = 2;
+            this.chkSimpleLinks.Text = "Has links AWB will simplify";
             // 
             // ArticlesListBoxContextMenu
             // 
-            this.ArticlesListBoxContextMenu.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.ArticlesListBoxContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openInBrowserToolStripMenuItem,
             this.openRevisionInBrowserToolStripMenuItem,
@@ -537,35 +712,43 @@ namespace WikiFunctions.DBScanner
             this.copyToolStripMenuItem,
             this.removeToolStripMenuItem});
             this.ArticlesListBoxContextMenu.Name = "contextMenuStrip1";
-            resources.ApplyResources(this.ArticlesListBoxContextMenu, "ArticlesListBoxContextMenu");
+            this.ArticlesListBoxContextMenu.Size = new System.Drawing.Size(206, 98);
             this.ArticlesListBoxContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            resources.ApplyResources(this.openInBrowserToolStripMenuItem, "openInBrowserToolStripMenuItem");
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.openInBrowserToolStripMenuItem.Text = "&Open in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // openRevisionInBrowserToolStripMenuItem
             // 
-            resources.ApplyResources(this.openRevisionInBrowserToolStripMenuItem, "openRevisionInBrowserToolStripMenuItem");
+            this.openRevisionInBrowserToolStripMenuItem.Enabled = false;
             this.openRevisionInBrowserToolStripMenuItem.Name = "openRevisionInBrowserToolStripMenuItem";
+            this.openRevisionInBrowserToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.openRevisionInBrowserToolStripMenuItem.Text = "Open revision in browser";
+            this.openRevisionInBrowserToolStripMenuItem.Visible = false;
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            this.toolStripSeparator1.Size = new System.Drawing.Size(202, 6);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            resources.ApplyResources(this.copyToolStripMenuItem, "copyToolStripMenuItem");
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            resources.ApplyResources(this.removeToolStripMenuItem, "removeToolStripMenuItem");
+            this.removeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.removeToolStripMenuItem.Text = "&Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // gbOutput
@@ -574,48 +757,75 @@ namespace WikiFunctions.DBScanner
             this.gbOutput.Controls.Add(this.lbArticles);
             this.gbOutput.Controls.Add(this.btnFilter);
             this.gbOutput.Controls.Add(this.btnClearList);
-            resources.ApplyResources(this.gbOutput, "gbOutput");
+            this.gbOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbOutput.Location = new System.Drawing.Point(0, 0);
             this.gbOutput.Name = "gbOutput";
+            this.gbOutput.Size = new System.Drawing.Size(308, 307);
+            this.gbOutput.TabIndex = 0;
             this.gbOutput.TabStop = false;
+            this.gbOutput.Text = "Results";
             // 
             // btnSaveArticleList
             // 
-            resources.ApplyResources(this.btnSaveArticleList, "btnSaveArticleList");
+            this.btnSaveArticleList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveArticleList.Location = new System.Drawing.Point(146, 278);
             this.btnSaveArticleList.Name = "btnSaveArticleList";
+            this.btnSaveArticleList.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveArticleList.TabIndex = 2;
+            this.btnSaveArticleList.Text = "Save";
             this.btnSaveArticleList.Click += new System.EventHandler(this.btnSaveArticleList_Click);
             // 
             // lbArticles
             // 
-            resources.ApplyResources(this.lbArticles, "lbArticles");
+            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
             this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(6, 19);
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(296, 251);
+            this.lbArticles.TabIndex = 0;
             // 
             // btnFilter
             // 
-            resources.ApplyResources(this.btnFilter, "btnFilter");
+            this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnFilter.Location = new System.Drawing.Point(6, 278);
             this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(75, 23);
+            this.btnFilter.TabIndex = 1;
+            this.btnFilter.Text = "&Filter";
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
             // lblStartFrom
             // 
-            resources.ApplyResources(this.lblStartFrom, "lblStartFrom");
+            this.lblStartFrom.AutoSize = true;
+            this.lblStartFrom.Location = new System.Drawing.Point(6, 143);
             this.lblStartFrom.Name = "lblStartFrom";
+            this.lblStartFrom.Size = new System.Drawing.Size(82, 13);
+            this.lblStartFrom.TabIndex = 2;
+            this.lblStartFrom.Text = "Start from p&age:";
             // 
             // lblLimitResutls
             // 
-            resources.ApplyResources(this.lblLimitResutls, "lblLimitResutls");
+            this.lblLimitResutls.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblLimitResutls.AutoSize = true;
+            this.lblLimitResutls.Location = new System.Drawing.Point(331, 142);
             this.lblLimitResutls.Name = "lblLimitResutls";
+            this.lblLimitResutls.Size = new System.Drawing.Size(76, 13);
+            this.lblLimitResutls.TabIndex = 2;
+            this.lblLimitResutls.Text = "Limit results to:";
             // 
             // nudLimitResults
             // 
-            resources.ApplyResources(this.nudLimitResults, "nudLimitResults");
+            this.nudLimitResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nudLimitResults.Increment = new decimal(new int[] {
             1000,
             0,
             0,
             0});
+            this.nudLimitResults.Location = new System.Drawing.Point(413, 140);
             this.nudLimitResults.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -627,6 +837,9 @@ namespace WikiFunctions.DBScanner
             0,
             0});
             this.nudLimitResults.Name = "nudLimitResults";
+            this.nudLimitResults.Size = new System.Drawing.Size(93, 20);
+            this.nudLimitResults.TabIndex = 3;
+            this.nudLimitResults.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudLimitResults.Value = new decimal(new int[] {
             30000,
             0,
@@ -636,68 +849,94 @@ namespace WikiFunctions.DBScanner
             // 
             // btnStart
             // 
-            resources.ApplyResources(this.btnStart, "btnStart");
+            this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStart.Location = new System.Drawing.Point(549, 40);
             this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.TabIndex = 1;
+            this.btnStart.Text = "Start";
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnSaveTxtList
             // 
-            resources.ApplyResources(this.btnSaveTxtList, "btnSaveTxtList");
+            this.btnSaveTxtList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveTxtList.Location = new System.Drawing.Point(120, 246);
             this.btnSaveTxtList.Name = "btnSaveTxtList";
+            this.btnSaveTxtList.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveTxtList.TabIndex = 9;
+            this.btnSaveTxtList.Text = "Save";
             this.btnSaveTxtList.Click += new System.EventHandler(this.btnSaveTxtList_Click);
             // 
             // lblListType
             // 
-            resources.ApplyResources(this.lblListType, "lblListType");
+            this.lblListType.AutoSize = true;
+            this.lblListType.Location = new System.Drawing.Point(157, 30);
             this.lblListType.Name = "lblListType";
+            this.lblListType.Size = new System.Drawing.Size(46, 13);
+            this.lblListType.TabIndex = 4;
+            this.lblListType.Text = "&List type";
             // 
             // rdoBullet
             // 
-            resources.ApplyResources(this.rdoBullet, "rdoBullet");
+            this.rdoBullet.AutoSize = true;
+            this.rdoBullet.Location = new System.Drawing.Point(247, 28);
             this.rdoBullet.Name = "rdoBullet";
+            this.rdoBullet.Size = new System.Drawing.Size(29, 17);
+            this.rdoBullet.TabIndex = 6;
+            this.rdoBullet.Text = "*";
             // 
             // rdoHash
             // 
-            resources.ApplyResources(this.rdoHash, "rdoHash");
+            this.rdoHash.AutoSize = true;
             this.rdoHash.Checked = true;
+            this.rdoHash.Location = new System.Drawing.Point(209, 28);
             this.rdoHash.Name = "rdoHash";
+            this.rdoHash.Size = new System.Drawing.Size(32, 17);
+            this.rdoHash.TabIndex = 5;
             this.rdoHash.TabStop = true;
+            this.rdoHash.Text = "#";
             // 
             // statusStrip
             // 
-            this.statusStrip.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.progressBar,
             this.lblPercentageComplete,
             this.lblCount,
             this.toolStripStatusLabel1,
             this.threadPriorityButton});
-            resources.ApplyResources(this.statusStrip, "statusStrip");
+            this.statusStrip.Location = new System.Drawing.Point(0, 528);
             this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(636, 22);
             this.statusStrip.SizingGrip = false;
+            this.statusStrip.TabIndex = 5;
+            this.statusStrip.Text = "status";
             // 
             // progressBar
             // 
             this.progressBar.Maximum = 200;
             this.progressBar.Name = "progressBar";
-            resources.ApplyResources(this.progressBar, "progressBar");
+            this.progressBar.Size = new System.Drawing.Size(150, 16);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
             // lblPercentageComplete
             // 
             this.lblPercentageComplete.Name = "lblPercentageComplete";
-            resources.ApplyResources(this.lblPercentageComplete, "lblPercentageComplete");
+            this.lblPercentageComplete.Size = new System.Drawing.Size(23, 17);
+            this.lblPercentageComplete.Text = "0%";
             // 
             // lblCount
             // 
-            resources.ApplyResources(this.lblCount, "lblCount");
+            this.lblCount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(263, 17);
             this.lblCount.Spring = true;
+            this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(88, 17);
+            this.toolStripStatusLabel1.Text = "Thread priority:";
             // 
             // threadPriorityButton
             // 
@@ -708,27 +947,32 @@ namespace WikiFunctions.DBScanner
             this.belowNormalToolStripMenuItem,
             this.lowestToolStripMenuItem});
             this.threadPriorityButton.Name = "threadPriorityButton";
-            resources.ApplyResources(this.threadPriorityButton, "threadPriorityButton");
+            this.threadPriorityButton.Size = new System.Drawing.Size(95, 20);
+            this.threadPriorityButton.Text = "Below Normal";
+            this.threadPriorityButton.ToolTipText = "Thread Priority";
             // 
             // highestToolStripMenuItem
             // 
             this.highestToolStripMenuItem.CheckOnClick = true;
             this.highestToolStripMenuItem.Name = "highestToolStripMenuItem";
-            resources.ApplyResources(this.highestToolStripMenuItem, "highestToolStripMenuItem");
+            this.highestToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.highestToolStripMenuItem.Text = "&High";
             this.highestToolStripMenuItem.Click += new System.EventHandler(this.highestToolStripMenuItem_Click);
             // 
             // aboveNormalToolStripMenuItem
             // 
             this.aboveNormalToolStripMenuItem.CheckOnClick = true;
             this.aboveNormalToolStripMenuItem.Name = "aboveNormalToolStripMenuItem";
-            resources.ApplyResources(this.aboveNormalToolStripMenuItem, "aboveNormalToolStripMenuItem");
+            this.aboveNormalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.aboveNormalToolStripMenuItem.Text = "&Above Normal";
             this.aboveNormalToolStripMenuItem.Click += new System.EventHandler(this.aboveNormalToolStripMenuItem_Click);
             // 
             // normalToolStripMenuItem
             // 
             this.normalToolStripMenuItem.CheckOnClick = true;
             this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            resources.ApplyResources(this.normalToolStripMenuItem, "normalToolStripMenuItem");
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.normalToolStripMenuItem.Text = "&Normal";
             this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
             // 
             // belowNormalToolStripMenuItem
@@ -737,14 +981,16 @@ namespace WikiFunctions.DBScanner
             this.belowNormalToolStripMenuItem.CheckOnClick = true;
             this.belowNormalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.belowNormalToolStripMenuItem.Name = "belowNormalToolStripMenuItem";
-            resources.ApplyResources(this.belowNormalToolStripMenuItem, "belowNormalToolStripMenuItem");
+            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.belowNormalToolStripMenuItem.Text = "&Below Normal";
             this.belowNormalToolStripMenuItem.Click += new System.EventHandler(this.belowNormalToolStripMenuItem_Click);
             // 
             // lowestToolStripMenuItem
             // 
             this.lowestToolStripMenuItem.CheckOnClick = true;
             this.lowestToolStripMenuItem.Name = "lowestToolStripMenuItem";
-            resources.ApplyResources(this.lowestToolStripMenuItem, "lowestToolStripMenuItem");
+            this.lowestToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.lowestToolStripMenuItem.Text = "&Low";
             this.lowestToolStripMenuItem.Click += new System.EventHandler(this.lowestToolStripMenuItem_Click);
             // 
             // timerProgessUpdate
@@ -755,9 +1001,13 @@ namespace WikiFunctions.DBScanner
             // gbAWBSpecific
             // 
             this.gbAWBSpecific.Controls.Add(this.flwAWB);
-            resources.ApplyResources(this.gbAWBSpecific, "gbAWBSpecific");
+            this.gbAWBSpecific.Location = new System.Drawing.Point(3, 3);
             this.gbAWBSpecific.Name = "gbAWBSpecific";
+            this.gbAWBSpecific.Padding = new System.Windows.Forms.Padding(2);
+            this.gbAWBSpecific.Size = new System.Drawing.Size(503, 131);
+            this.gbAWBSpecific.TabIndex = 3;
             this.gbAWBSpecific.TabStop = false;
+            this.gbAWBSpecific.Text = "A&WB specific";
             // 
             // flwAWB
             // 
@@ -773,23 +1023,35 @@ namespace WikiFunctions.DBScanner
             this.flwAWB.Controls.Add(this.chkCiteTemplateDates);
             this.flwAWB.Controls.Add(this.chkUnbalancedBrackets);
             this.flwAWB.Controls.Add(this.chkReorderReferences);
-            resources.ApplyResources(this.flwAWB, "flwAWB");
+            this.flwAWB.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flwAWB.Location = new System.Drawing.Point(3, 13);
             this.flwAWB.Name = "flwAWB";
+            this.flwAWB.Size = new System.Drawing.Size(500, 118);
+            this.flwAWB.TabIndex = 5;
             // 
             // chkTypo
             // 
-            resources.ApplyResources(this.chkTypo, "chkTypo");
+            this.chkTypo.AutoSize = true;
+            this.chkTypo.Location = new System.Drawing.Point(167, 26);
             this.chkTypo.Name = "chkTypo";
+            this.chkTypo.Size = new System.Drawing.Size(50, 17);
+            this.chkTypo.TabIndex = 1;
+            this.chkTypo.Text = "Typo";
             // 
             // chkDefaultSort
             // 
-            resources.ApplyResources(this.chkDefaultSort, "chkDefaultSort");
+            this.chkDefaultSort.AutoSize = true;
+            this.chkDefaultSort.Location = new System.Drawing.Point(167, 49);
             this.chkDefaultSort.Name = "chkDefaultSort";
+            this.chkDefaultSort.Size = new System.Drawing.Size(129, 17);
+            this.chkDefaultSort.TabIndex = 3;
+            this.chkDefaultSort.Text = "Missing {{defaultsort}}";
             this.chkDefaultSort.UseVisualStyleBackColor = true;
             // 
             // tbParameters
             // 
-            resources.ApplyResources(this.tbParameters, "tbParameters");
+            this.tbParameters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tbParameters.Controls.Add(this.tabDump);
             this.tbParameters.Controls.Add(this.tabNamespace);
             this.tbParameters.Controls.Add(this.tabTitle);
@@ -798,8 +1060,11 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.Controls.Add(this.tabAWB);
             this.tbParameters.Controls.Add(this.tabRestrict);
             this.tbParameters.Controls.Add(this.tabPage1);
+            this.tbParameters.Location = new System.Drawing.Point(13, 12);
             this.tbParameters.Name = "tbParameters";
             this.tbParameters.SelectedIndex = 0;
+            this.tbParameters.Size = new System.Drawing.Size(531, 191);
+            this.tbParameters.TabIndex = 0;
             // 
             // tabDump
             // 
@@ -814,136 +1079,233 @@ namespace WikiFunctions.DBScanner
             this.tabDump.Controls.Add(this.btnBrowse);
             this.tabDump.Controls.Add(this.txtDumpLocation);
             this.tabDump.Controls.Add(this.lblDBDump);
-            resources.ApplyResources(this.tabDump, "tabDump");
+            this.tabDump.Location = new System.Drawing.Point(4, 22);
             this.tabDump.Name = "tabDump";
+            this.tabDump.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDump.Size = new System.Drawing.Size(523, 165);
+            this.tabDump.TabIndex = 0;
+            this.tabDump.Text = "Database";
             this.tabDump.UseVisualStyleBackColor = true;
             // 
             // txtCase
             // 
-            resources.ApplyResources(this.txtCase, "txtCase");
+            this.txtCase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCase.Location = new System.Drawing.Point(89, 110);
             this.txtCase.Name = "txtCase";
             this.txtCase.ReadOnly = true;
+            this.txtCase.Size = new System.Drawing.Size(414, 20);
+            this.txtCase.TabIndex = 10;
             // 
             // lblCase
             // 
-            resources.ApplyResources(this.lblCase, "lblCase");
+            this.lblCase.AutoSize = true;
+            this.lblCase.Location = new System.Drawing.Point(6, 113);
             this.lblCase.Name = "lblCase";
+            this.lblCase.Size = new System.Drawing.Size(34, 13);
+            this.lblCase.TabIndex = 9;
+            this.lblCase.Text = "&Case:";
             // 
             // txtGenerator
             // 
-            resources.ApplyResources(this.txtGenerator, "txtGenerator");
+            this.txtGenerator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtGenerator.Location = new System.Drawing.Point(89, 84);
             this.txtGenerator.Name = "txtGenerator";
             this.txtGenerator.ReadOnly = true;
+            this.txtGenerator.Size = new System.Drawing.Size(414, 20);
+            this.txtGenerator.TabIndex = 8;
             // 
             // lblGenerator
             // 
-            resources.ApplyResources(this.lblGenerator, "lblGenerator");
+            this.lblGenerator.AutoSize = true;
+            this.lblGenerator.Location = new System.Drawing.Point(6, 87);
             this.lblGenerator.Name = "lblGenerator";
+            this.lblGenerator.Size = new System.Drawing.Size(57, 13);
+            this.lblGenerator.TabIndex = 7;
+            this.lblGenerator.Text = "&Generator:";
             // 
             // lnkBase
             // 
-            resources.ApplyResources(this.lnkBase, "lnkBase");
+            this.lnkBase.AutoSize = true;
+            this.lnkBase.Location = new System.Drawing.Point(88, 61);
             this.lnkBase.Name = "lnkBase";
+            this.lnkBase.Size = new System.Drawing.Size(0, 13);
+            this.lnkBase.TabIndex = 6;
             this.lnkBase.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkBase_LinkClicked);
             // 
             // lblBase
             // 
-            resources.ApplyResources(this.lblBase, "lblBase");
+            this.lblBase.AutoSize = true;
+            this.lblBase.Location = new System.Drawing.Point(6, 64);
             this.lblBase.Name = "lblBase";
+            this.lblBase.Size = new System.Drawing.Size(34, 13);
+            this.lblBase.TabIndex = 5;
+            this.lblBase.Text = "Base:";
             // 
             // txtSitename
             // 
-            resources.ApplyResources(this.txtSitename, "txtSitename");
+            this.txtSitename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSitename.Location = new System.Drawing.Point(89, 32);
             this.txtSitename.Name = "txtSitename";
             this.txtSitename.ReadOnly = true;
+            this.txtSitename.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.txtSitename.Size = new System.Drawing.Size(414, 20);
+            this.txtSitename.TabIndex = 4;
             // 
             // lblSitename
             // 
-            resources.ApplyResources(this.lblSitename, "lblSitename");
+            this.lblSitename.AutoSize = true;
+            this.lblSitename.Location = new System.Drawing.Point(6, 35);
             this.lblSitename.Name = "lblSitename";
+            this.lblSitename.Size = new System.Drawing.Size(57, 13);
+            this.lblSitename.TabIndex = 3;
+            this.lblSitename.Text = "Site &name:";
             // 
             // btnBrowse
             // 
-            resources.ApplyResources(this.btnBrowse, "btnBrowse");
+            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowse.Location = new System.Drawing.Point(428, 4);
             this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(75, 23);
+            this.btnBrowse.TabIndex = 2;
+            this.btnBrowse.Text = "Br&owse...";
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // txtDumpLocation
             // 
-            resources.ApplyResources(this.txtDumpLocation, "txtDumpLocation");
+            this.txtDumpLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDumpLocation.Location = new System.Drawing.Point(89, 6);
             this.txtDumpLocation.Name = "txtDumpLocation";
+            this.txtDumpLocation.Size = new System.Drawing.Size(333, 20);
+            this.txtDumpLocation.TabIndex = 1;
             // 
             // lblDBDump
             // 
-            resources.ApplyResources(this.lblDBDump, "lblDBDump");
+            this.lblDBDump.AutoSize = true;
+            this.lblDBDump.Location = new System.Drawing.Point(6, 9);
             this.lblDBDump.Name = "lblDBDump";
+            this.lblDBDump.Size = new System.Drawing.Size(72, 13);
+            this.lblDBDump.TabIndex = 0;
+            this.lblDBDump.Text = "&Database file:";
             // 
             // tabNamespace
             // 
             this.tabNamespace.Controls.Add(this.pageNamespaces);
-            resources.ApplyResources(this.tabNamespace, "tabNamespace");
+            this.tabNamespace.Location = new System.Drawing.Point(4, 22);
             this.tabNamespace.Name = "tabNamespace";
+            this.tabNamespace.Padding = new System.Windows.Forms.Padding(3);
+            this.tabNamespace.Size = new System.Drawing.Size(523, 165);
+            this.tabNamespace.TabIndex = 1;
+            this.tabNamespace.Text = "Namespace";
             this.tabNamespace.UseVisualStyleBackColor = true;
             // 
             // pageNamespaces
             // 
-            resources.ApplyResources(this.pageNamespaces, "pageNamespaces");
+            this.pageNamespaces.Location = new System.Drawing.Point(6, 6);
             this.pageNamespaces.Name = "pageNamespaces";
+            this.pageNamespaces.Size = new System.Drawing.Size(297, 162);
+            this.pageNamespaces.TabIndex = 0;
             // 
             // tabTitle
             // 
             this.tabTitle.Controls.Add(this.tableLayoutPanel2);
-            resources.ApplyResources(this.tabTitle, "tabTitle");
+            this.tabTitle.Location = new System.Drawing.Point(4, 22);
             this.tabTitle.Name = "tabTitle";
+            this.tabTitle.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTitle.Size = new System.Drawing.Size(523, 165);
+            this.tabTitle.TabIndex = 6;
+            this.tabTitle.Text = "Title";
             this.tabTitle.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel2
             // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.Controls.Add(this.chkTitleCaseSensitive, 2, 2);
             this.tableLayoutPanel2.Controls.Add(this.chkTitleContains, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.chkTitleRegex, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.txtTitleContains, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.chkTitleDoesNotContain, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.txtTitleNotContains, 1, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(517, 159);
+            this.tableLayoutPanel2.TabIndex = 7;
             // 
             // chkTitleCaseSensitive
             // 
-            resources.ApplyResources(this.chkTitleCaseSensitive, "chkTitleCaseSensitive");
+            this.chkTitleCaseSensitive.AutoSize = true;
             this.chkTitleCaseSensitive.Checked = true;
             this.chkTitleCaseSensitive.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkTitleCaseSensitive.Location = new System.Drawing.Point(158, 55);
             this.chkTitleCaseSensitive.Name = "chkTitleCaseSensitive";
+            this.chkTitleCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkTitleCaseSensitive.TabIndex = 5;
+            this.chkTitleCaseSensitive.Text = "Case &sensitive";
             // 
             // chkTitleContains
             // 
-            resources.ApplyResources(this.chkTitleContains, "chkTitleContains");
+            this.chkTitleContains.AutoSize = true;
+            this.chkTitleContains.Location = new System.Drawing.Point(3, 3);
+            this.chkTitleContains.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.chkTitleContains.Name = "chkTitleContains";
+            this.chkTitleContains.Size = new System.Drawing.Size(70, 17);
+            this.chkTitleContains.TabIndex = 0;
+            this.chkTitleContains.Text = "&Contains:";
             this.chkTitleContains.CheckedChanged += new System.EventHandler(this.chkTitleContains_CheckedChanged);
             // 
             // chkTitleRegex
             // 
-            resources.ApplyResources(this.chkTitleRegex, "chkTitleRegex");
+            this.chkTitleRegex.AutoSize = true;
+            this.chkTitleRegex.Location = new System.Drawing.Point(95, 55);
             this.chkTitleRegex.Name = "chkTitleRegex";
+            this.chkTitleRegex.Size = new System.Drawing.Size(57, 17);
+            this.chkTitleRegex.TabIndex = 4;
+            this.chkTitleRegex.Text = "&Regex";
             // 
             // txtTitleContains
             // 
-            resources.ApplyResources(this.txtTitleContains, "txtTitleContains");
+            this.txtTitleContains.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.txtTitleContains, 2);
+            this.txtTitleContains.Enabled = false;
+            this.txtTitleContains.Location = new System.Drawing.Point(95, 3);
             this.txtTitleContains.Name = "txtTitleContains";
+            this.txtTitleContains.Size = new System.Drawing.Size(419, 20);
+            this.txtTitleContains.TabIndex = 1;
             this.txtTitleContains.Leave += new System.EventHandler(this.txtTitleContains_Leave);
             // 
             // chkTitleDoesNotContain
             // 
-            resources.ApplyResources(this.chkTitleDoesNotContain, "chkTitleDoesNotContain");
+            this.chkTitleDoesNotContain.AutoSize = true;
+            this.chkTitleDoesNotContain.Location = new System.Drawing.Point(3, 29);
+            this.chkTitleDoesNotContain.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.chkTitleDoesNotContain.Name = "chkTitleDoesNotContain";
+            this.chkTitleDoesNotContain.Size = new System.Drawing.Size(89, 17);
+            this.chkTitleDoesNotContain.TabIndex = 2;
+            this.chkTitleDoesNotContain.Text = "&Not contains:";
             this.chkTitleDoesNotContain.CheckedChanged += new System.EventHandler(this.chkTitleDoesNotContain_CheckedChanged);
             // 
             // txtTitleNotContains
             // 
-            resources.ApplyResources(this.txtTitleNotContains, "txtTitleNotContains");
+            this.txtTitleNotContains.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.txtTitleNotContains, 2);
+            this.txtTitleNotContains.Enabled = false;
+            this.txtTitleNotContains.Location = new System.Drawing.Point(95, 29);
             this.txtTitleNotContains.Name = "txtTitleNotContains";
+            this.txtTitleNotContains.Size = new System.Drawing.Size(419, 20);
+            this.txtTitleNotContains.TabIndex = 3;
             this.txtTitleNotContains.Leave += new System.EventHandler(this.txtTitleNotContains_Leave);
             // 
             // tabRev
@@ -953,48 +1315,74 @@ namespace WikiFunctions.DBScanner
             this.tabRev.Controls.Add(this.dtpFrom);
             this.tabRev.Controls.Add(this.lblEndDate);
             this.tabRev.Controls.Add(this.dtpTo);
-            resources.ApplyResources(this.tabRev, "tabRev");
+            this.tabRev.Location = new System.Drawing.Point(4, 22);
             this.tabRev.Name = "tabRev";
+            this.tabRev.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRev.Size = new System.Drawing.Size(523, 165);
+            this.tabRev.TabIndex = 4;
+            this.tabRev.Text = "Revision";
             this.tabRev.UseVisualStyleBackColor = true;
             // 
             // chkSearchDates
             // 
-            resources.ApplyResources(this.chkSearchDates, "chkSearchDates");
+            this.chkSearchDates.AutoSize = true;
+            this.chkSearchDates.Location = new System.Drawing.Point(6, 6);
             this.chkSearchDates.Name = "chkSearchDates";
+            this.chkSearchDates.Size = new System.Drawing.Size(84, 17);
+            this.chkSearchDates.TabIndex = 9;
+            this.chkSearchDates.Text = "&Search date";
             this.chkSearchDates.CheckedChanged += new System.EventHandler(this.chkSearchDates_CheckedChanged);
             // 
             // lblDate
             // 
-            resources.ApplyResources(this.lblDate, "lblDate");
+            this.lblDate.AutoSize = true;
+            this.lblDate.Location = new System.Drawing.Point(22, 35);
             this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(33, 13);
+            this.lblDate.TabIndex = 6;
+            this.lblDate.Text = "&From:";
             // 
             // dtpFrom
             // 
-            resources.ApplyResources(this.dtpFrom, "dtpFrom");
+            this.dtpFrom.Enabled = false;
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFrom.Location = new System.Drawing.Point(58, 29);
             this.dtpFrom.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dtpFrom.Name = "dtpFrom";
+            this.dtpFrom.Size = new System.Drawing.Size(88, 20);
+            this.dtpFrom.TabIndex = 7;
             this.dtpFrom.Value = new System.DateTime(2008, 1, 1, 0, 0, 0, 0);
             // 
             // lblEndDate
             // 
-            resources.ApplyResources(this.lblEndDate, "lblEndDate");
+            this.lblEndDate.AutoSize = true;
+            this.lblEndDate.Location = new System.Drawing.Point(22, 59);
             this.lblEndDate.Name = "lblEndDate";
+            this.lblEndDate.Size = new System.Drawing.Size(23, 13);
+            this.lblEndDate.TabIndex = 8;
+            this.lblEndDate.Text = "&To:";
             // 
             // dtpTo
             // 
             this.dtpTo.Checked = false;
-            resources.ApplyResources(this.dtpTo, "dtpTo");
+            this.dtpTo.Enabled = false;
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpTo.Location = new System.Drawing.Point(58, 55);
             this.dtpTo.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dtpTo.Name = "dtpTo";
+            this.dtpTo.Size = new System.Drawing.Size(88, 20);
+            this.dtpTo.TabIndex = 5;
             // 
             // tabText
             // 
             this.tabText.Controls.Add(this.gbProperties);
             this.tabText.Controls.Add(this.gbText);
-            resources.ApplyResources(this.tabText, "tabText");
+            this.tabText.Location = new System.Drawing.Point(4, 22);
             this.tabText.Name = "tabText";
+            this.tabText.Padding = new System.Windows.Forms.Padding(3);
+            this.tabText.Size = new System.Drawing.Size(523, 165);
+            this.tabText.TabIndex = 2;
+            this.tabText.Text = "Text";
             this.tabText.UseVisualStyleBackColor = true;
             // 
             // gbProperties
@@ -1009,16 +1397,23 @@ namespace WikiFunctions.DBScanner
             this.gbProperties.Controls.Add(this.lblLength);
             this.gbProperties.Controls.Add(this.cmboLength);
             this.gbProperties.Controls.Add(this.nudLength);
-            resources.ApplyResources(this.gbProperties, "gbProperties");
+            this.gbProperties.Location = new System.Drawing.Point(288, 3);
             this.gbProperties.Name = "gbProperties";
+            this.gbProperties.Size = new System.Drawing.Size(218, 141);
+            this.gbProperties.TabIndex = 18;
             this.gbProperties.TabStop = false;
+            this.gbProperties.Text = "Page properties";
             // 
             // chkIgnoreRedirects
             // 
-            resources.ApplyResources(this.chkIgnoreRedirects, "chkIgnoreRedirects");
+            this.chkIgnoreRedirects.AutoSize = true;
             this.chkIgnoreRedirects.Checked = true;
             this.chkIgnoreRedirects.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkIgnoreRedirects.Location = new System.Drawing.Point(69, 97);
             this.chkIgnoreRedirects.Name = "chkIgnoreRedirects";
+            this.chkIgnoreRedirects.Size = new System.Drawing.Size(99, 17);
+            this.chkIgnoreRedirects.TabIndex = 17;
+            this.chkIgnoreRedirects.Text = "Ignore redirects";
             this.chkIgnoreRedirects.UseVisualStyleBackColor = true;
             // 
             // tabAWB
@@ -1028,37 +1423,56 @@ namespace WikiFunctions.DBScanner
             this.tabAWB.Controls.Add(this.lblStartFrom);
             this.tabAWB.Controls.Add(this.txtStartFrom);
             this.tabAWB.Controls.Add(this.lblLimitResutls);
-            resources.ApplyResources(this.tabAWB, "tabAWB");
+            this.tabAWB.Location = new System.Drawing.Point(4, 22);
             this.tabAWB.Name = "tabAWB";
+            this.tabAWB.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAWB.Size = new System.Drawing.Size(523, 165);
+            this.tabAWB.TabIndex = 3;
+            this.tabAWB.Text = "Searching";
             this.tabAWB.UseVisualStyleBackColor = true;
             // 
             // tabRestrict
             // 
             this.tabRestrict.Controls.Add(this.chkProtection);
             this.tabRestrict.Controls.Add(this.MoveDelete);
-            resources.ApplyResources(this.tabRestrict, "tabRestrict");
+            this.tabRestrict.Location = new System.Drawing.Point(4, 22);
             this.tabRestrict.Name = "tabRestrict";
+            this.tabRestrict.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRestrict.Size = new System.Drawing.Size(523, 165);
+            this.tabRestrict.TabIndex = 5;
+            this.tabRestrict.Text = "Restriction";
             this.tabRestrict.UseVisualStyleBackColor = true;
             // 
             // chkProtection
             // 
-            resources.ApplyResources(this.chkProtection, "chkProtection");
+            this.chkProtection.AutoSize = true;
+            this.chkProtection.Location = new System.Drawing.Point(6, 6);
             this.chkProtection.Name = "chkProtection";
+            this.chkProtection.Size = new System.Drawing.Size(105, 17);
+            this.chkProtection.TabIndex = 1;
+            this.chkProtection.Text = "Check restriction";
             this.chkProtection.UseVisualStyleBackColor = true;
             this.chkProtection.CheckedChanged += new System.EventHandler(this.chkProtection_CheckedChanged);
             // 
             // MoveDelete
             // 
             this.MoveDelete.EditProtectionLevel = "";
-            resources.ApplyResources(this.MoveDelete, "MoveDelete");
+            this.MoveDelete.Enabled = false;
+            this.MoveDelete.Location = new System.Drawing.Point(6, 29);
             this.MoveDelete.MoveProtectionLevel = "";
             this.MoveDelete.Name = "MoveDelete";
+            this.MoveDelete.Size = new System.Drawing.Size(311, 101);
+            this.MoveDelete.TabIndex = 0;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.flwHelpLinks);
-            resources.ApplyResources(this.tabPage1, "tabPage1");
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(523, 165);
+            this.tabPage1.TabIndex = 7;
+            this.tabPage1.Text = "Help";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // flwHelpLinks
@@ -1068,81 +1482,115 @@ namespace WikiFunctions.DBScanner
             this.flwHelpLinks.Controls.Add(this.lnkWikiaDumps);
             this.flwHelpLinks.Controls.Add(this.lnkGenDump);
             this.flwHelpLinks.Controls.Add(this.lnkWikiPage);
-            resources.ApplyResources(this.flwHelpLinks, "flwHelpLinks");
+            this.flwHelpLinks.Location = new System.Drawing.Point(6, 10);
             this.flwHelpLinks.Name = "flwHelpLinks";
+            this.flwHelpLinks.Size = new System.Drawing.Size(423, 19);
+            this.flwHelpLinks.TabIndex = 16;
             // 
             // lblAlso
             // 
-            resources.ApplyResources(this.lblAlso, "lblAlso");
+            this.lblAlso.AutoSize = true;
+            this.lblAlso.Location = new System.Drawing.Point(3, 0);
             this.lblAlso.Name = "lblAlso";
+            this.lblAlso.Size = new System.Drawing.Size(51, 13);
+            this.lblAlso.TabIndex = 11;
+            this.lblAlso.Text = "See also:";
             // 
             // lnkWmfDumps
             // 
-            resources.ApplyResources(this.lnkWmfDumps, "lnkWmfDumps");
+            this.lnkWmfDumps.AutoSize = true;
+            this.lnkWmfDumps.Location = new System.Drawing.Point(60, 0);
             this.lnkWmfDumps.Name = "lnkWmfDumps";
+            this.lnkWmfDumps.Size = new System.Drawing.Size(67, 13);
+            this.lnkWmfDumps.TabIndex = 12;
             this.lnkWmfDumps.TabStop = true;
+            this.lnkWmfDumps.Text = "WMF dumps";
             this.lnkWmfDumps.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWmfDumps_LinkClicked);
             // 
             // lnkWikiaDumps
             // 
-            resources.ApplyResources(this.lnkWikiaDumps, "lnkWikiaDumps");
+            this.lnkWikiaDumps.AutoSize = true;
+            this.lnkWikiaDumps.Location = new System.Drawing.Point(133, 0);
             this.lnkWikiaDumps.Name = "lnkWikiaDumps";
+            this.lnkWikiaDumps.Size = new System.Drawing.Size(68, 13);
+            this.lnkWikiaDumps.TabIndex = 13;
             this.lnkWikiaDumps.TabStop = true;
+            this.lnkWikiaDumps.Text = "Wikia dumps";
             this.lnkWikiaDumps.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWikiaDumps_LinkClicked);
             // 
             // lnkGenDump
             // 
-            resources.ApplyResources(this.lnkGenDump, "lnkGenDump");
+            this.lnkGenDump.AutoSize = true;
+            this.lnkGenDump.Location = new System.Drawing.Point(207, 0);
             this.lnkGenDump.Name = "lnkGenDump";
+            this.lnkGenDump.Size = new System.Drawing.Size(142, 13);
+            this.lnkGenDump.TabIndex = 14;
             this.lnkGenDump.TabStop = true;
+            this.lnkGenDump.Text = "Generating Database dumps";
             this.lnkGenDump.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkGenDump_LinkClicked);
             // 
             // lnkWikiPage
             // 
-            resources.ApplyResources(this.lnkWikiPage, "lnkWikiPage");
+            this.lnkWikiPage.AutoSize = true;
+            this.lnkWikiPage.Location = new System.Drawing.Point(355, 0);
             this.lnkWikiPage.Name = "lnkWikiPage";
+            this.lnkWikiPage.Size = new System.Drawing.Size(55, 13);
+            this.lnkWikiPage.TabIndex = 15;
             this.lnkWikiPage.TabStop = true;
+            this.lnkWikiPage.Text = "Wiki page";
             this.lnkWikiPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWikiPage_LinkClicked);
             // 
             // btnReset
             // 
-            resources.ApplyResources(this.btnReset, "btnReset");
+            this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReset.Location = new System.Drawing.Point(549, 98);
             this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 3;
+            this.btnReset.Text = "Reset";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(138, 22);
+            this.toolStripMenuItem2.Text = "&High";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(138, 22);
+            this.toolStripMenuItem3.Text = "&AboveNormal";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            resources.ApplyResources(this.toolStripMenuItem4, "toolStripMenuItem4");
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(138, 22);
+            this.toolStripMenuItem4.Text = "&Normal";
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Checked = true;
             this.toolStripMenuItem5.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            resources.ApplyResources(this.toolStripMenuItem5, "toolStripMenuItem5");
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(138, 22);
+            this.toolStripMenuItem5.Text = "&BellowNormal";
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            resources.ApplyResources(this.toolStripMenuItem6, "toolStripMenuItem6");
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(138, 22);
+            this.toolStripMenuItem6.Text = "&Low";
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabConvert);
-            resources.ApplyResources(this.tabControl1, "tabControl1");
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(290, 307);
+            this.tabControl1.TabIndex = 5;
             // 
             // tabConvert
             // 
@@ -1157,20 +1605,29 @@ namespace WikiFunctions.DBScanner
             this.tabConvert.Controls.Add(this.btnClear);
             this.tabConvert.Controls.Add(this.btnTransfer);
             this.tabConvert.Controls.Add(this.btnCopy);
-            resources.ApplyResources(this.tabConvert, "tabConvert");
+            this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
+            this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
+            this.tabConvert.Size = new System.Drawing.Size(282, 281);
+            this.tabConvert.TabIndex = 1;
+            this.tabConvert.Text = "Convert";
             this.tabConvert.UseVisualStyleBackColor = true;
             // 
             // btnPause
             // 
-            resources.ApplyResources(this.btnPause, "btnPause");
+            this.btnPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPause.Enabled = false;
+            this.btnPause.Location = new System.Drawing.Point(550, 69);
             this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(74, 23);
+            this.btnPause.TabIndex = 2;
+            this.btnPause.Text = "&Pause";
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
             // splitContainer1
             // 
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.Location = new System.Drawing.Point(12, 209);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -1180,12 +1637,16 @@ namespace WikiFunctions.DBScanner
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer1.Size = new System.Drawing.Size(602, 307);
+            this.splitContainer1.SplitterDistance = 308;
+            this.splitContainer1.TabIndex = 5;
             // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(636, 550);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.splitContainer1);
@@ -1193,8 +1654,12 @@ namespace WikiFunctions.DBScanner
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnReset);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(642, 575);
             this.Name = "DatabaseScanner";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Database Scanner";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DatabaseScanner_FormClosing);
             this.Load += new System.EventHandler(this.DatabaseScanner_Load);
             this.gbText.ResumeLayout(false);
@@ -1236,7 +1701,6 @@ namespace WikiFunctions.DBScanner
             this.tabConvert.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1251,6 +1715,7 @@ namespace WikiFunctions.DBScanner
         private System.Windows.Forms.GroupBox gbText;
         private Button btnClear;
         private Button btnCopy;
+        private ToolTip tooltip;
         private CheckBox chkHeading;
         private NumericUpDown nudHeadingSpace;
         private Button btnTransfer;
@@ -1373,6 +1838,5 @@ namespace WikiFunctions.DBScanner
         private ToolStripStatusLabel lblPercentageComplete;
         private WikiFunctions.Controls.NamespacesControl pageNamespaces;
         private TabPage tabPage1;
-        private Controls.AWBToolTip tooltip;
     }
 }
