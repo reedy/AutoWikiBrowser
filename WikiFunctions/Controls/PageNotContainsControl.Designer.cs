@@ -28,33 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PageNotContainsControl));
             this.SuspendLayout();
             // 
             // chkCaseSensitive
             // 
-            this.toolTip1.SetToolTip(this.chkCaseSensitive, "Makes \"Doesn\'t contain\" matches case-sensitive");
+            this.toolTip1.SetToolTip(this.chkCaseSensitive, resources.GetString("chkCaseSensitive.ToolTip"));
             // 
             // chkAfterProcessing
             // 
-            this.toolTip1.SetToolTip(this.chkAfterProcessing, "Apply the \"Doesn\'t contain\" check after processing the page");
+            this.toolTip1.SetToolTip(this.chkAfterProcessing, resources.GetString("chkAfterProcessing.ToolTip"));
             // 
             // chkIsRegex
             // 
-            this.toolTip1.SetToolTip(this.chkIsRegex, "Enables regular expressions for \"Doesn\'t contain\"");
+            this.toolTip1.SetToolTip(this.chkIsRegex, resources.GetString("chkIsRegex.ToolTip"));
             // 
             // txtContains
             // 
-            this.toolTip1.SetToolTip(this.txtContains, "Skip pages that don\'t contain this text");
+            resources.ApplyResources(this.txtContains, "txtContains");
+            this.toolTip1.SetToolTip(this.txtContains, resources.GetString("txtContains.ToolTip"));
             // 
             // chkContains
             // 
-            this.chkContains.Size = new System.Drawing.Size(107, 17);
-            this.chkContains.Text = "Doesn\'t contain:";
-            this.toolTip1.SetToolTip(this.chkContains, "Skip pages that don\'t contain this text");
+            resources.ApplyResources(this.chkContains, "chkContains");
+            this.toolTip1.SetToolTip(this.chkContains, resources.GetString("chkContains.ToolTip"));
             // 
             // PageNotContainsControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "PageNotContainsControl";
             this.ResumeLayout(false);

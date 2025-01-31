@@ -65,6 +65,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DelinkerSettingsForm.resx">
       <DependentUpon>DelinkerSettingsForm.cs</DependentUpon>
       <SubType>Designer</SubType>

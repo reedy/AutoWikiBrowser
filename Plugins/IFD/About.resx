@@ -117,100 +117,87 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&gt;&gt;lblMadeBy.Name" xml:space="preserve">
+    <value>lblMadeBy</value>
+  </data>
+  <data name="&gt;&gt;lblMadeBy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblMadeBy.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblMadeBy.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="chkCaseSensitive.ToolTip" xml:space="preserve">
-    <value>Makes "Doesn't contain" matches case-sensitive</value>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>The AWB Team: Bluemoose (retired), MaxSem, Mets501, Reedy Boy, Kingboyk, Martinp23, and others</value>
   </data>
-  <data name="&gt;&gt;chkCaseSensitive.Name" xml:space="preserve">
-    <value>chkCaseSensitive</value>
+  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
+    <value>linkLabel1</value>
   </data>
-  <data name="&gt;&gt;chkCaseSensitive.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chkCaseSensitive.Parent" xml:space="preserve">
+  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;chkCaseSensitive.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
-  <data name="chkAfterProcessing.ToolTip" xml:space="preserve">
-    <value>Apply the "Doesn't contain" check after processing the page</value>
+  <data name="&gt;&gt;okButton.Name" xml:space="preserve">
+    <value>okButton</value>
   </data>
-  <data name="&gt;&gt;chkAfterProcessing.Name" xml:space="preserve">
-    <value>chkAfterProcessing</value>
+  <data name="&gt;&gt;okButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chkAfterProcessing.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkAfterProcessing.Parent" xml:space="preserve">
+  <data name="&gt;&gt;okButton.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;chkAfterProcessing.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;okButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="chkIsRegex.ToolTip" xml:space="preserve">
-    <value>Enables regular expressions for "Doesn't contain"</value>
+  <data name="textBoxDescription.Text" xml:space="preserve">
+    <value>Copyright (c) 2006-2024 Martin Richards, Max Semenik, Sam Reed and Stephen Kennedy, et al. Please refer to source code headers for author details and copyright claims.
+
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the license, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301,  USA.</value>
   </data>
-  <data name="&gt;&gt;chkIsRegex.Name" xml:space="preserve">
-    <value>chkIsRegex</value>
+  <data name="&gt;&gt;textBoxDescription.Name" xml:space="preserve">
+    <value>textBoxDescription</value>
   </data>
-  <data name="&gt;&gt;chkIsRegex.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;textBoxDescription.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chkIsRegex.Parent" xml:space="preserve">
+  <data name="&gt;&gt;textBoxDescription.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;chkIsRegex.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;textBoxDescription.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="txtContains.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>21, 17, 21, 17</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="txtContains.Size" type="System.Drawing.Size, System.Drawing">
-    <value>404, 95</value>
+  <data name="lblVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 32</value>
   </data>
-  <data name="txtContains.ToolTip" xml:space="preserve">
-    <value>Skip pages that don't contain this text</value>
+  <data name="lblVersion.Text" xml:space="preserve">
+    <value>Version 6.3.1.2</value>
   </data>
-  <data name="&gt;&gt;txtContains.Name" xml:space="preserve">
-    <value>txtContains</value>
+  <data name="&gt;&gt;lblVersion.Name" xml:space="preserve">
+    <value>lblVersion</value>
   </data>
-  <data name="&gt;&gt;txtContains.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;lblVersion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;txtContains.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblVersion.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;txtContains.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="chkContains.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>21, 17, 21, 17</value>
-  </data>
-  <data name="chkContains.Size" type="System.Drawing.Size, System.Drawing">
-    <value>285, 41</value>
-  </data>
-  <data name="chkContains.Text" xml:space="preserve">
-    <value>Doesn't contain:</value>
-  </data>
-  <data name="chkContains.ToolTip" xml:space="preserve">
-    <value>Skip pages that don't contain this text</value>
-  </data>
-  <data name="&gt;&gt;chkContains.Name" xml:space="preserve">
-    <value>chkContains</value>
-  </data>
-  <data name="&gt;&gt;chkContains.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkContains.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;chkContains.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;lblVersion.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -218,8 +205,8 @@
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>16, 31</value>
   </data>
-  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>21, 17, 21, 17</value>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>779, 451</value>
   </data>
   <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
     <value>toolTip1</value>
@@ -228,9 +215,9 @@
     <value>WikiFunctions.Controls.AWBToolTip, WikiFunctions, Version=6.3.1.2, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>PageNotContainsControl</value>
+    <value>AboutBox</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>WikiFunctions.Controls.PageContainsControl, WikiFunctions, Version=6.3.1.2, Culture=neutral, PublicKeyToken=null</value>
+    <value>WikiFunctions.Controls.AboutBox, WikiFunctions, Version=6.3.1.2, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

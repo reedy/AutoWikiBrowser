@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpecialPageListProvider));
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.cboNamespace = new System.Windows.Forms.ComboBox();
@@ -40,95 +41,61 @@
             // 
             // btnOk
             // 
-            this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            resources.ApplyResources(this.btnOk, "btnOk");
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(108, 94);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 0;
-            this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(189, 94);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 1;
-            this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // cboNamespace
             // 
-            this.cboNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.cboNamespace, "cboNamespace");
             this.cboNamespace.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboNamespace.FormattingEnabled = true;
-            this.cboNamespace.Location = new System.Drawing.Point(98, 65);
             this.cboNamespace.Name = "cboNamespace";
-            this.cboNamespace.Size = new System.Drawing.Size(166, 21);
-            this.cboNamespace.TabIndex = 9;
             // 
             // lblNamespace
             // 
-            this.lblNamespace.AutoSize = true;
-            this.lblNamespace.Location = new System.Drawing.Point(12, 68);
+            resources.ApplyResources(this.lblNamespace, "lblNamespace");
             this.lblNamespace.Name = "lblNamespace";
-            this.lblNamespace.Size = new System.Drawing.Size(67, 13);
-            this.lblNamespace.TabIndex = 10;
-            this.lblNamespace.Text = "&Namespace:";
             // 
             // lblSource
             // 
-            this.lblSource.AutoSize = true;
-            this.lblSource.Location = new System.Drawing.Point(12, 15);
+            resources.ApplyResources(this.lblSource, "lblSource");
             this.lblSource.Name = "lblSource";
-            this.lblSource.Size = new System.Drawing.Size(44, 13);
-            this.lblSource.TabIndex = 11;
-            this.lblSource.Text = "&Source:";
             // 
             // txtPages
             // 
-            this.txtPages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPages.Location = new System.Drawing.Point(98, 39);
+            resources.ApplyResources(this.txtPages, "txtPages");
             this.txtPages.Name = "txtPages";
-            this.txtPages.Size = new System.Drawing.Size(166, 20);
-            this.txtPages.TabIndex = 12;
             // 
             // cmboSourceSelect
             // 
-            this.cmboSourceSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.cmboSourceSelect, "cmboSourceSelect");
             this.cmboSourceSelect.DropDownHeight = 250;
             this.cmboSourceSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboSourceSelect.FormattingEnabled = true;
-            this.cmboSourceSelect.IntegralHeight = false;
-            this.cmboSourceSelect.Location = new System.Drawing.Point(98, 12);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
-            this.cmboSourceSelect.Size = new System.Drawing.Size(166, 21);
             this.cmboSourceSelect.Sorted = true;
-            this.cmboSourceSelect.TabIndex = 14;
             this.cmboSourceSelect.SelectedIndexChanged += new System.EventHandler(this.cmboSourceSelect_SelectedIndexChanged);
             // 
             // lblPages
             // 
-            this.lblPages.AutoSize = true;
-            this.lblPages.Location = new System.Drawing.Point(12, 42);
+            resources.ApplyResources(this.lblPages, "lblPages");
             this.lblPages.Name = "lblPages";
-            this.lblPages.Size = new System.Drawing.Size(40, 13);
-            this.lblPages.TabIndex = 15;
-            this.lblPages.Text = "&Pages:";
             // 
             // SpecialPageListProvider
             // 
             this.AcceptButton = this.btnOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(276, 129);
             this.Controls.Add(this.lblPages);
             this.Controls.Add(this.cmboSourceSelect);
             this.Controls.Add(this.btnCancel);
@@ -138,10 +105,7 @@
             this.Controls.Add(this.txtPages);
             this.Controls.Add(this.lblSource);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.MaximumSize = new System.Drawing.Size(1000, 168);
-            this.MinimumSize = new System.Drawing.Size(292, 168);
             this.Name = "SpecialPageListProvider";
-            this.Text = "Special Pages";
             this.Load += new System.EventHandler(this.SpecialPageListProvider_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -64,6 +64,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IfdOptions.resx">
       <DependentUpon>IfdOptions.cs</DependentUpon>
       <SubType>Designer</SubType>

@@ -49,6 +49,7 @@ namespace WikiFunctions.Parse
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindandReplace));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -109,9 +110,7 @@ namespace WikiFunctions.Parse
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.dataGridView1, "dataGridView1");
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -127,21 +126,16 @@ namespace WikiFunctions.Parse
             this.Comment});
             this.dataGridView1.ContextMenuStrip = this.FindAndReplaceContextMenu;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 80);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(717, 290);
-            this.dataGridView1.TabIndex = 1;
             this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             // 
             // find
             // 
             this.find.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.find.FillWeight = 92.50688F;
-            this.find.HeaderText = "Find";
-            this.find.MinimumWidth = 45;
+            resources.ApplyResources(this.find, "find");
             this.find.Name = "find";
             this.find.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.find.Width = 98;
             // 
             // replace
             // 
@@ -149,103 +143,92 @@ namespace WikiFunctions.Parse
             dataGridViewCellStyle1.NullValue = null;
             this.replace.DefaultCellStyle = dataGridViewCellStyle1;
             this.replace.FillWeight = 87.66718F;
-            this.replace.HeaderText = "Replace with";
-            this.replace.MinimumWidth = 45;
+            resources.ApplyResources(this.replace, "replace");
             this.replace.Name = "replace";
-            this.replace.Width = 92;
             // 
             // casesensitive
             // 
             this.casesensitive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.casesensitive.FalseValue = false;
             this.casesensitive.FillWeight = 71.79286F;
-            this.casesensitive.HeaderText = "CaseSensitive";
+            resources.ApplyResources(this.casesensitive, "casesensitive");
             this.casesensitive.Name = "casesensitive";
             this.casesensitive.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.casesensitive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.casesensitive.TrueValue = true;
-            this.casesensitive.Width = 75;
             // 
             // regex
             // 
             this.regex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.regex.FalseValue = false;
             this.regex.FillWeight = 131.5755F;
-            this.regex.HeaderText = "Regex";
+            resources.ApplyResources(this.regex, "regex");
             this.regex.Name = "regex";
             this.regex.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.regex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.regex.TrueValue = true;
-            this.regex.Width = 40;
             // 
             // multi
             // 
             this.multi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.multi.FalseValue = false;
             this.multi.FillWeight = 150.1532F;
-            this.multi.HeaderText = "MultiLine";
+            resources.ApplyResources(this.multi, "multi");
             this.multi.Name = "multi";
             this.multi.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.multi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.multi.TrueValue = true;
-            this.multi.Width = 50;
             // 
             // single
             // 
             this.single.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.single.FalseValue = false;
             this.single.FillWeight = 173.4641F;
-            this.single.HeaderText = "SingleLine";
+            resources.ApplyResources(this.single, "single");
             this.single.Name = "single";
             this.single.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.single.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.single.TrueValue = true;
-            this.single.Width = 58;
             // 
             // Minor
             // 
             this.Minor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Minor.FalseValue = false;
-            this.Minor.HeaderText = "Minor";
+            resources.ApplyResources(this.Minor, "Minor");
             this.Minor.Name = "Minor";
             this.Minor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Minor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Minor.TrueValue = true;
-            this.Minor.Width = 50;
             // 
             // BeforeOrAfter
             // 
             this.BeforeOrAfter.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.BeforeOrAfter.FalseValue = false;
-            this.BeforeOrAfter.HeaderText = "After fixes";
+            resources.ApplyResources(this.BeforeOrAfter, "BeforeOrAfter");
             this.BeforeOrAfter.Name = "BeforeOrAfter";
             this.BeforeOrAfter.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.BeforeOrAfter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.BeforeOrAfter.ToolTipText = "Run this Find & Replace before (unchecked) or after (checked) general and typo fi" +
-    "xes";
             this.BeforeOrAfter.TrueValue = true;
-            this.BeforeOrAfter.Width = 80;
             // 
             // enabled
             // 
             this.enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.enabled.FalseValue = false;
-            this.enabled.HeaderText = "Enabled";
+            resources.ApplyResources(this.enabled, "enabled");
             this.enabled.Name = "enabled";
             this.enabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.enabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.enabled.TrueValue = true;
-            this.enabled.Width = 50;
             // 
             // Comment
             // 
             this.Comment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Comment.HeaderText = "Comment";
+            resources.ApplyResources(this.Comment, "Comment");
             this.Comment.Name = "Comment";
-            this.Comment.Width = 98;
             // 
             // FindAndReplaceContextMenu
             // 
+            this.FindAndReplaceContextMenu.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.FindAndReplaceContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addRowToolStripMenuItem,
             this.deleteRowToolStripMenuItem,
@@ -274,328 +257,253 @@ namespace WikiFunctions.Parse
             this.uncheckAllBeforeOrAfterToolStripMenuItem,
             this.disableAllToolStripMenuItem});
             this.FindAndReplaceContextMenu.Name = "FindAndReplaceContextMenu";
-            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(239, 512);
+            resources.ApplyResources(this.FindAndReplaceContextMenu, "FindAndReplaceContextMenu");
             this.FindAndReplaceContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FindAndReplaceContextMenu_Opening);
             // 
             // addRowToolStripMenuItem
             // 
             this.addRowToolStripMenuItem.Name = "addRowToolStripMenuItem";
-            this.addRowToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Insert;
-            this.addRowToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.addRowToolStripMenuItem.Text = "Insert row";
+            resources.ApplyResources(this.addRowToolStripMenuItem, "addRowToolStripMenuItem");
             this.addRowToolStripMenuItem.Click += new System.EventHandler(this.addRowToolStripMenuItem_Click);
             // 
             // deleteRowToolStripMenuItem
             // 
             this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
-            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.deleteRowToolStripMenuItem.Text = "Delete row";
+            resources.ApplyResources(this.deleteRowToolStripMenuItem, "deleteRowToolStripMenuItem");
             this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.deleteRowToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             // 
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.testRegexToolStripMenuItem.Text = "Test regex...";
+            resources.ApplyResources(this.testRegexToolStripMenuItem, "testRegexToolStripMenuItem");
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
             // 
             // createRetfRuleToolStripMenuItem
             // 
             this.createRetfRuleToolStripMenuItem.Name = "createRetfRuleToolStripMenuItem";
-            this.createRetfRuleToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.createRetfRuleToolStripMenuItem.Text = "Copy as a RETF rule";
+            resources.ApplyResources(this.createRetfRuleToolStripMenuItem, "createRetfRuleToolStripMenuItem");
             this.createRetfRuleToolStripMenuItem.Click += new System.EventHandler(this.createRetfRuleToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(235, 6);
+            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
             // 
             // moveToTopToolStripMenuItem
             // 
             this.moveToTopToolStripMenuItem.Name = "moveToTopToolStripMenuItem";
-            this.moveToTopToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.moveToTopToolStripMenuItem.Text = "Move to top";
+            resources.ApplyResources(this.moveToTopToolStripMenuItem, "moveToTopToolStripMenuItem");
             this.moveToTopToolStripMenuItem.Click += new System.EventHandler(this.moveToTopToolStripMenuItem_Click);
             // 
             // moveUpToolStripMenuItem
             // 
             this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
-            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.moveUpToolStripMenuItem.Text = "Move up";
+            resources.ApplyResources(this.moveUpToolStripMenuItem, "moveUpToolStripMenuItem");
             this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.moveUpToolStripMenuItem_Click);
             // 
             // moveDownToolStripMenuItem
             // 
             this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
-            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.moveDownToolStripMenuItem.Text = "Move down";
+            resources.ApplyResources(this.moveDownToolStripMenuItem, "moveDownToolStripMenuItem");
             this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.moveDownToolStripMenuItem_Click);
             // 
             // moveToBottomToolStripMenuItem
             // 
             this.moveToBottomToolStripMenuItem.Name = "moveToBottomToolStripMenuItem";
-            this.moveToBottomToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.moveToBottomToolStripMenuItem.Text = "Move to bottom";
+            resources.ApplyResources(this.moveToBottomToolStripMenuItem, "moveToBottomToolStripMenuItem");
             this.moveToBottomToolStripMenuItem.Click += new System.EventHandler(this.moveToBottomToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(235, 6);
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             // 
             // allCaseSensitiveToolStripMenuItem
             // 
             this.allCaseSensitiveToolStripMenuItem.Name = "allCaseSensitiveToolStripMenuItem";
-            this.allCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.allCaseSensitiveToolStripMenuItem.Text = "Check all case sensitive";
+            resources.ApplyResources(this.allCaseSensitiveToolStripMenuItem, "allCaseSensitiveToolStripMenuItem");
             this.allCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.allCaseSensitiveToolStripMenuItem_Click);
             // 
             // checkAllMinorToolStripMenuItem
             // 
             this.checkAllMinorToolStripMenuItem.Name = "checkAllMinorToolStripMenuItem";
-            this.checkAllMinorToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.checkAllMinorToolStripMenuItem.Text = "Check all minor";
+            resources.ApplyResources(this.checkAllMinorToolStripMenuItem, "checkAllMinorToolStripMenuItem");
             this.checkAllMinorToolStripMenuItem.Click += new System.EventHandler(this.checkAllMinorToolStripMenuItem_Click);
             // 
             // checkAllMultlineToolStripMenuItem
             // 
             this.checkAllMultlineToolStripMenuItem.Name = "checkAllMultlineToolStripMenuItem";
-            this.checkAllMultlineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.checkAllMultlineToolStripMenuItem.Text = "Check all multline";
+            resources.ApplyResources(this.checkAllMultlineToolStripMenuItem, "checkAllMultlineToolStripMenuItem");
             this.checkAllMultlineToolStripMenuItem.Click += new System.EventHandler(this.checkAllMultlineToolStripMenuItem_Click);
             // 
             // checkAllRegularExpressionsToolStripMenuItem
             // 
             this.checkAllRegularExpressionsToolStripMenuItem.Name = "checkAllRegularExpressionsToolStripMenuItem";
-            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.checkAllRegularExpressionsToolStripMenuItem.Text = "Check all regular expressions";
+            resources.ApplyResources(this.checkAllRegularExpressionsToolStripMenuItem, "checkAllRegularExpressionsToolStripMenuItem");
             this.checkAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.checkAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // checkAllSinglelineToolStripMenuItem
             // 
             this.checkAllSinglelineToolStripMenuItem.Name = "checkAllSinglelineToolStripMenuItem";
-            this.checkAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.checkAllSinglelineToolStripMenuItem.Text = "Check all singleline";
+            resources.ApplyResources(this.checkAllSinglelineToolStripMenuItem, "checkAllSinglelineToolStripMenuItem");
             this.checkAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.checkAllSinglelineToolStripMenuItem_Click);
             // 
             // checkAllBeforeOrAfterToolStripMenuItem
             // 
             this.checkAllBeforeOrAfterToolStripMenuItem.Name = "checkAllBeforeOrAfterToolStripMenuItem";
-            this.checkAllBeforeOrAfterToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.checkAllBeforeOrAfterToolStripMenuItem.Text = "Check all after fixes";
+            resources.ApplyResources(this.checkAllBeforeOrAfterToolStripMenuItem, "checkAllBeforeOrAfterToolStripMenuItem");
             this.checkAllBeforeOrAfterToolStripMenuItem.Click += new System.EventHandler(this.checkAllBeforeOrAfterToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.enableAllToolStripMenuItem.Text = "Enable all";
+            resources.ApplyResources(this.enableAllToolStripMenuItem, "enableAllToolStripMenuItem");
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(235, 6);
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             // 
             // uncheckAllCaseSensitiveToolStripMenuItem
             // 
             this.uncheckAllCaseSensitiveToolStripMenuItem.Name = "uncheckAllCaseSensitiveToolStripMenuItem";
-            this.uncheckAllCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.uncheckAllCaseSensitiveToolStripMenuItem.Text = "Uncheck all case sensitive";
+            resources.ApplyResources(this.uncheckAllCaseSensitiveToolStripMenuItem, "uncheckAllCaseSensitiveToolStripMenuItem");
             this.uncheckAllCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllCaseSensitiveToolStripMenuItem_Click);
             // 
             // uncheckAllMinorToolStripMenuItem
             // 
             this.uncheckAllMinorToolStripMenuItem.Name = "uncheckAllMinorToolStripMenuItem";
-            this.uncheckAllMinorToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.uncheckAllMinorToolStripMenuItem.Text = "Uncheck all minor";
+            resources.ApplyResources(this.uncheckAllMinorToolStripMenuItem, "uncheckAllMinorToolStripMenuItem");
             this.uncheckAllMinorToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllMinorToolStripMenuItem_Click);
             // 
             // uncheckAllMultilineToolStripMenuItem
             // 
             this.uncheckAllMultilineToolStripMenuItem.Name = "uncheckAllMultilineToolStripMenuItem";
-            this.uncheckAllMultilineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.uncheckAllMultilineToolStripMenuItem.Text = "Uncheck all multiline";
+            resources.ApplyResources(this.uncheckAllMultilineToolStripMenuItem, "uncheckAllMultilineToolStripMenuItem");
             this.uncheckAllMultilineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllMultilineToolStripMenuItem_Click);
             // 
             // uncheckAllRegularExpressionsToolStripMenuItem
             // 
             this.uncheckAllRegularExpressionsToolStripMenuItem.Name = "uncheckAllRegularExpressionsToolStripMenuItem";
-            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.uncheckAllRegularExpressionsToolStripMenuItem.Text = "Uncheck all regular expressions";
+            resources.ApplyResources(this.uncheckAllRegularExpressionsToolStripMenuItem, "uncheckAllRegularExpressionsToolStripMenuItem");
             this.uncheckAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // uncheckAllSinglelineToolStripMenuItem
             // 
             this.uncheckAllSinglelineToolStripMenuItem.Name = "uncheckAllSinglelineToolStripMenuItem";
-            this.uncheckAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.uncheckAllSinglelineToolStripMenuItem.Text = "Uncheck all singleline";
+            resources.ApplyResources(this.uncheckAllSinglelineToolStripMenuItem, "uncheckAllSinglelineToolStripMenuItem");
             this.uncheckAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllSinglelineToolStripMenuItem_Click);
             // 
             // uncheckAllBeforeOrAfterToolStripMenuItem
             // 
             this.uncheckAllBeforeOrAfterToolStripMenuItem.Name = "uncheckAllBeforeOrAfterToolStripMenuItem";
-            this.uncheckAllBeforeOrAfterToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.uncheckAllBeforeOrAfterToolStripMenuItem.Text = "Uncheck all after fixes";
+            resources.ApplyResources(this.uncheckAllBeforeOrAfterToolStripMenuItem, "uncheckAllBeforeOrAfterToolStripMenuItem");
             this.uncheckAllBeforeOrAfterToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllBeforeOrAfterToolStripMenuItem_Click);
             // 
             // disableAllToolStripMenuItem
             // 
             this.disableAllToolStripMenuItem.Name = "disableAllToolStripMenuItem";
-            this.disableAllToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.disableAllToolStripMenuItem.Text = "Disable all";
+            resources.ApplyResources(this.disableAllToolStripMenuItem, "disableAllToolStripMenuItem");
             this.disableAllToolStripMenuItem.Click += new System.EventHandler(this.disableAllToolStripMenuItem_Click);
             // 
             // btnDone
             // 
-            this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.btnDone, "btnDone");
             this.btnDone.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnDone.Location = new System.Drawing.Point(573, 6);
             this.btnDone.Name = "btnDone";
-            this.btnDone.Size = new System.Drawing.Size(75, 23);
-            this.btnDone.TabIndex = 2;
-            this.btnDone.Text = "&OK";
             this.btnDone.UseVisualStyleBackColor = true;
             this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
             // 
             // lnkWpRE
             // 
-            this.lnkWpRE.AutoSize = true;
-            this.lnkWpRE.LinkArea = new System.Windows.Forms.LinkArea(4, 32);
-            this.lnkWpRE.Location = new System.Drawing.Point(12, 59);
+            resources.ApplyResources(this.lnkWpRE, "lnkWpRE");
             this.lnkWpRE.Name = "lnkWpRE";
-            this.lnkWpRE.Size = new System.Drawing.Size(194, 17);
-            this.lnkWpRE.TabIndex = 9;
             this.lnkWpRE.TabStop = true;
-            this.lnkWpRE.Text = "See regular expressions on Wikipedia";
             this.lnkWpRE.UseCompatibleTextRendering = true;
             this.lnkWpRE.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // btnClear
             // 
-            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(654, 35);
+            resources.ApplyResources(this.btnClear, "btnClear");
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(75, 23);
-            this.btnClear.TabIndex = 10;
-            this.btnClear.Text = "&Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // chkIgnoreLinks
             // 
-            this.chkIgnoreLinks.AutoSize = true;
-            this.chkIgnoreLinks.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.chkIgnoreLinks, "chkIgnoreLinks");
             this.chkIgnoreLinks.Name = "chkIgnoreLinks";
-            this.chkIgnoreLinks.Size = new System.Drawing.Size(321, 17);
-            this.chkIgnoreLinks.TabIndex = 14;
-            this.chkIgnoreLinks.Text = "Ignore &external/interwiki links, images, nowiki, math and <!-- -->";
-            this.toolTip1.SetToolTip(this.chkIgnoreLinks, "Find and replacements will not be made in external/interwiki links, images, <nowi" +
-        "ki>. <math>, <chem> and <!-- comments -->");
+            this.toolTip1.SetToolTip(this.chkIgnoreLinks, resources.GetString("chkIgnoreLinks.ToolTip"));
             this.chkIgnoreLinks.UseVisualStyleBackColor = true;
             // 
             // chkAddToSummary
             // 
-            this.chkAddToSummary.AutoSize = true;
+            resources.ApplyResources(this.chkAddToSummary, "chkAddToSummary");
             this.chkAddToSummary.Checked = true;
             this.chkAddToSummary.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAddToSummary.Location = new System.Drawing.Point(363, 10);
-            this.chkAddToSummary.MinimumSize = new System.Drawing.Size(190, 20);
             this.chkAddToSummary.Name = "chkAddToSummary";
-            this.chkAddToSummary.Size = new System.Drawing.Size(190, 20);
-            this.chkAddToSummary.TabIndex = 16;
-            this.chkAddToSummary.Text = "Add &replacements to edit summary";
-            this.toolTip1.SetToolTip(this.chkAddToSummary, "Appends information about replacements made to the edit summary");
+            this.toolTip1.SetToolTip(this.chkAddToSummary, resources.GetString("chkAddToSummary.ToolTip"));
             this.chkAddToSummary.UseVisualStyleBackColor = true;
             // 
             // chkIgnoreMore
             // 
-            this.chkIgnoreMore.AutoSize = true;
-            this.chkIgnoreMore.Location = new System.Drawing.Point(12, 35);
+            resources.ApplyResources(this.chkIgnoreMore, "chkIgnoreMore");
             this.chkIgnoreMore.Name = "chkIgnoreMore";
-            this.chkIgnoreMore.Size = new System.Drawing.Size(254, 17);
-            this.chkIgnoreMore.TabIndex = 18;
-            this.chkIgnoreMore.Text = "Ignore &templates, refs, link targets, and headings";
-            this.toolTip1.SetToolTip(this.chkIgnoreMore, "Find and replacements will not be made in templates, <source>, <cite>, quotes and" +
-        " headings");
+            this.toolTip1.SetToolTip(this.chkIgnoreMore, resources.GetString("chkIgnoreMore.ToolTip"));
             this.chkIgnoreMore.UseVisualStyleBackColor = true;
             this.chkIgnoreMore.CheckedChanged += new System.EventHandler(this.chkIgnoreMore_CheckedChanged);
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(363, 56);
+            resources.ApplyResources(this.txtSearch, "txtSearch");
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(179, 20);
-            this.txtSearch.TabIndex = 19;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearch_KeyPress);
             // 
             // btnSearch
             // 
-            this.btnSearch.Enabled = false;
-            this.btnSearch.Location = new System.Drawing.Point(548, 54);
+            resources.ApplyResources(this.btnSearch, "btnSearch");
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(34, 23);
-            this.btnSearch.TabIndex = 20;
-            this.btnSearch.Text = "&Go";
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(313, 59);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 21;
-            this.label1.Text = "&Search:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(203, 59);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(23, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "/ in";
             // 
             // lblMsdn
             // 
-            this.lblMsdn.AutoSize = true;
-            this.lblMsdn.Location = new System.Drawing.Point(223, 59);
+            resources.ApplyResources(this.lblMsdn, "lblMsdn");
             this.lblMsdn.Name = "lblMsdn";
-            this.lblMsdn.Size = new System.Drawing.Size(39, 13);
-            this.lblMsdn.TabIndex = 23;
             this.lblMsdn.TabStop = true;
-            this.lblMsdn.Text = "MSDN";
             this.lblMsdn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblMsdn_LinkClicked);
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(654, 6);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 24;
-            this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // FindandReplace
             // 
             this.AcceptButton = this.btnDone;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(741, 382);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblMsdn);
             this.Controls.Add(this.label2);
@@ -609,11 +517,8 @@ namespace WikiFunctions.Parse
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lnkWpRE);
             this.Controls.Add(this.btnDone);
-            this.MinimumSize = new System.Drawing.Size(757, 250);
             this.Name = "FindandReplace";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Find & Replace";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindandReplace_FormClosing);
             this.Shown += new System.EventHandler(this.FindandReplace_Shown);
             this.VisibleChanged += new System.EventHandler(this.FindandReplace_VisibleChanged);
