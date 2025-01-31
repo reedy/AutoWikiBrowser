@@ -1920,6 +1920,7 @@ Bert").Groups[2].Value, Is.EqualTo("foo bar\r"));
             ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Tanzanian English}}"));
             ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Trinidad and Tobago English}}"));
             ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{Use Ugandan English}}"));
+            ClassicAssert.IsTrue(WikiRegexes.UseDatesEnglishTemplates.IsMatch("{{EngvarB}}"));
         }
     }
 }
