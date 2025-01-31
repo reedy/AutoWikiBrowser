@@ -30,6 +30,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShutdownNotification));
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.txtPrompt = new System.Windows.Forms.TextBox();
@@ -40,45 +41,30 @@
             // btnOk
             // 
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(87, 76);
+            resources.ApplyResources(this.btnOk, "btnOk");
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 1;
-            this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(168, 76);
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // txtPrompt
             // 
             this.txtPrompt.BackColor = System.Drawing.SystemColors.Control;
             this.txtPrompt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPrompt.Location = new System.Drawing.Point(12, 12);
-            this.txtPrompt.Multiline = true;
+            resources.ApplyResources(this.txtPrompt, "txtPrompt");
             this.txtPrompt.Name = "txtPrompt";
-            this.txtPrompt.Size = new System.Drawing.Size(306, 61);
-            this.txtPrompt.TabIndex = 3;
-            this.txtPrompt.Text = "AutoWikiBrowser has finished processing all pages and has been set to {0}. If you" +
-                " would like to stop this, press cancel. Ok will {0} the computer now. ";
             // 
             // lblTimer
             // 
-            this.lblTimer.AutoSize = true;
-            this.lblTimer.Location = new System.Drawing.Point(77, 60);
+            resources.ApplyResources(this.lblTimer, "lblTimer");
             this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(176, 13);
-            this.lblTimer.TabIndex = 4;
-            this.lblTimer.Text = "Time until <ShutdownType>: <time>";
             // 
-            // CountdownTimer
+            // countdownTimer
             // 
             this.countdownTimer.Enabled = true;
             this.countdownTimer.Interval = 1000;
@@ -87,10 +73,9 @@
             // ShutdownNotification
             // 
             this.AcceptButton = this.btnOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(330, 110);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -102,8 +87,6 @@
             this.Name = "ShutdownNotification";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Shutdown notification";
             this.ResumeLayout(false);
             this.PerformLayout();
 

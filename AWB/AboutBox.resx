@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -117,4 +117,729 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="txtWarning.Location" type="System.Drawing.Point, System.Drawing">
+    <value>624, 231</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="txtWarning.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>16, 7, 8, 7</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="txtWarning.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="txtWarning.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Both</value>
+  </data>
+  <data name="txtWarning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>671, 374</value>
+  </data>
+  <data name="txtWarning.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="txtWarning.Text" xml:space="preserve">
+    <value>WarningMessage</value>
+  </data>
+  <data name="&gt;&gt;txtWarning.Name" xml:space="preserve">
+    <value>txtWarning</value>
+  </data>
+  <data name="&gt;&gt;txtWarning.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtWarning.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;txtWarning.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1101, 630</value>
+  </data>
+  <data name="okButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="okButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 55</value>
+  </data>
+  <data name="okButton.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="okButton.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="&gt;&gt;okButton.Name" xml:space="preserve">
+    <value>okButton</value>
+  </data>
+  <data name="&gt;&gt;okButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;okButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;okButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="linkAWBPage.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 18pt</value>
+  </data>
+  <data name="linkAWBPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 21</value>
+  </data>
+  <data name="linkAWBPage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="linkAWBPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>525, 69</value>
+  </data>
+  <data name="linkAWBPage.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="linkAWBPage.Text" xml:space="preserve">
+    <value>AutoWikiBrowser</value>
+  </data>
+  <data name="&gt;&gt;linkAWBPage.Name" xml:space="preserve">
+    <value>linkAWBPage</value>
+  </data>
+  <data name="&gt;&gt;linkAWBPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkAWBPage.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;linkAWBPage.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="lblDevs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 300</value>
+  </data>
+  <data name="lblDevs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="lblDevs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>464, 31</value>
+  </data>
+  <data name="lblDevs.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lblDevs.Text" xml:space="preserve">
+    <value>Now developed and maintained by:</value>
+  </data>
+  <data name="&gt;&gt;lblDevs.Name" xml:space="preserve">
+    <value>lblDevs</value>
+  </data>
+  <data name="&gt;&gt;lblDevs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDevs.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblDevs.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="lblAWBVersion.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblAWBVersion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 0</value>
+  </data>
+  <data name="lblAWBVersion.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="lblAWBVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 32</value>
+  </data>
+  <data name="lblAWBVersion.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblAWBVersion.Text" xml:space="preserve">
+    <value>Version: </value>
+  </data>
+  <data name="&gt;&gt;lblAWBVersion.Name" xml:space="preserve">
+    <value>lblAWBVersion</value>
+  </data>
+  <data name="&gt;&gt;lblAWBVersion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblAWBVersion.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;lblAWBVersion.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblDetails.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 541</value>
+  </data>
+  <data name="lblDetails.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="lblDetails.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 31</value>
+  </data>
+  <data name="lblDetails.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="lblDetails.Text" xml:space="preserve">
+    <value>Details:</value>
+  </data>
+  <data name="&gt;&gt;lblDetails.Name" xml:space="preserve">
+    <value>lblDetails</value>
+  </data>
+  <data name="&gt;&gt;lblDetails.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDetails.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblDetails.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="lblOriginalDevs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 193</value>
+  </data>
+  <data name="lblOriginalDevs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="lblOriginalDevs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>267, 31</value>
+  </data>
+  <data name="lblOriginalDevs.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblOriginalDevs.Text" xml:space="preserve">
+    <value>Original developers:</value>
+  </data>
+  <data name="&gt;&gt;lblOriginalDevs.Name" xml:space="preserve">
+    <value>lblOriginalDevs</value>
+  </data>
+  <data name="&gt;&gt;lblOriginalDevs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblOriginalDevs.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblOriginalDevs.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="UsageStatsLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="UsageStatsLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 32</value>
+  </data>
+  <data name="UsageStatsLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="UsageStatsLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 32</value>
+  </data>
+  <data name="UsageStatsLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="UsageStatsLabel.Text" xml:space="preserve">
+    <value>Usage statistics</value>
+  </data>
+  <data name="&gt;&gt;UsageStatsLabel.Name" xml:space="preserve">
+    <value>UsageStatsLabel</value>
+  </data>
+  <data name="&gt;&gt;UsageStatsLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UsageStatsLabel.Parent" xml:space="preserve">
+    <value>flowLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;UsageStatsLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblRevision.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRevision.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 32</value>
+  </data>
+  <data name="lblRevision.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="lblRevision.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 32</value>
+  </data>
+  <data name="lblRevision.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lblRevision.Text" xml:space="preserve">
+    <value>SVN: </value>
+  </data>
+  <data name="&gt;&gt;lblRevision.Name" xml:space="preserve">
+    <value>lblRevision</value>
+  </data>
+  <data name="&gt;&gt;lblRevision.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRevision.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;lblRevision.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="MagioladitisLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="MagioladitisLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 0</value>
+  </data>
+  <data name="MagioladitisLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="MagioladitisLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>168, 32</value>
+  </data>
+  <data name="MagioladitisLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="MagioladitisLabel.Text" xml:space="preserve">
+    <value>Magioladitis</value>
+  </data>
+  <data name="&gt;&gt;MagioladitisLabel.Name" xml:space="preserve">
+    <value>MagioladitisLabel</value>
+  </data>
+  <data name="&gt;&gt;MagioladitisLabel.Type" xml:space="preserve">
+    <value>WikiFunctions.Controls.DeveloperLinkLabel, WikiFunctions, Version=6.3.1.2, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;MagioladitisLabel.Parent" xml:space="preserve">
+    <value>flwDevs</value>
+  </data>
+  <data name="&gt;&gt;MagioladitisLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="MaxSemLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="MaxSemLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 32</value>
+  </data>
+  <data name="MaxSemLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="MaxSemLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 32</value>
+  </data>
+  <data name="MaxSemLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="MaxSemLabel.Text" xml:space="preserve">
+    <value>MaxSem</value>
+  </data>
+  <data name="&gt;&gt;MaxSemLabel.Name" xml:space="preserve">
+    <value>MaxSemLabel</value>
+  </data>
+  <data name="&gt;&gt;MaxSemLabel.Type" xml:space="preserve">
+    <value>WikiFunctions.Controls.DeveloperLinkLabel, WikiFunctions, Version=6.3.1.2, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;MaxSemLabel.Parent" xml:space="preserve">
+    <value>flwDevs</value>
+  </data>
+  <data name="&gt;&gt;MaxSemLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ReedyLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ReedyLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 64</value>
+  </data>
+  <data name="ReedyLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="ReedyLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 32</value>
+  </data>
+  <data name="ReedyLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="ReedyLabel.Text" xml:space="preserve">
+    <value>Reedy</value>
+  </data>
+  <data name="&gt;&gt;ReedyLabel.Name" xml:space="preserve">
+    <value>ReedyLabel</value>
+  </data>
+  <data name="&gt;&gt;ReedyLabel.Type" xml:space="preserve">
+    <value>WikiFunctions.Controls.DeveloperLinkLabel, WikiFunctions, Version=6.3.1.2, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ReedyLabel.Parent" xml:space="preserve">
+    <value>flwDevs</value>
+  </data>
+  <data name="&gt;&gt;ReedyLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RjLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RjLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 0</value>
+  </data>
+  <data name="RjLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="RjLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 32</value>
+  </data>
+  <data name="RjLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="RjLabel.Text" xml:space="preserve">
+    <value>Rjwilmsi</value>
+  </data>
+  <data name="&gt;&gt;RjLabel.Name" xml:space="preserve">
+    <value>RjLabel</value>
+  </data>
+  <data name="&gt;&gt;RjLabel.Type" xml:space="preserve">
+    <value>WikiFunctions.Controls.DeveloperLinkLabel, WikiFunctions, Version=6.3.1.2, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;RjLabel.Parent" xml:space="preserve">
+    <value>flwDevs</value>
+  </data>
+  <data name="&gt;&gt;RjLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="flwDevs.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="flwDevs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 339</value>
+  </data>
+  <data name="flwDevs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="flwDevs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>533, 114</value>
+  </data>
+  <data name="flwDevs.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;flwDevs.Name" xml:space="preserve">
+    <value>flwDevs</value>
+  </data>
+  <data name="&gt;&gt;flwDevs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flwDevs.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;flwDevs.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="BluemooseLink.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="BluemooseLink.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 0</value>
+  </data>
+  <data name="BluemooseLink.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="BluemooseLink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 32</value>
+  </data>
+  <data name="BluemooseLink.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="BluemooseLink.Text" xml:space="preserve">
+    <value>Bluemoose</value>
+  </data>
+  <data name="&gt;&gt;BluemooseLink.Name" xml:space="preserve">
+    <value>BluemooseLink</value>
+  </data>
+  <data name="&gt;&gt;BluemooseLink.Type" xml:space="preserve">
+    <value>WikiFunctions.Controls.DeveloperLinkLabel, WikiFunctions, Version=6.3.1.2, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BluemooseLink.Parent" xml:space="preserve">
+    <value>flwOriginalDevs</value>
+  </data>
+  <data name="&gt;&gt;BluemooseLink.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LigulemLink.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LigulemLink.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 0</value>
+  </data>
+  <data name="LigulemLink.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="LigulemLink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 32</value>
+  </data>
+  <data name="LigulemLink.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="LigulemLink.Text" xml:space="preserve">
+    <value>Ligulem</value>
+  </data>
+  <data name="&gt;&gt;LigulemLink.Name" xml:space="preserve">
+    <value>LigulemLink</value>
+  </data>
+  <data name="&gt;&gt;LigulemLink.Type" xml:space="preserve">
+    <value>WikiFunctions.Controls.DeveloperLinkLabel, WikiFunctions, Version=6.3.1.2, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;LigulemLink.Parent" xml:space="preserve">
+    <value>flwOriginalDevs</value>
+  </data>
+  <data name="&gt;&gt;LigulemLink.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="flwOriginalDevs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 231</value>
+  </data>
+  <data name="flwOriginalDevs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="flwOriginalDevs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>533, 52</value>
+  </data>
+  <data name="flwOriginalDevs.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;flwOriginalDevs.Name" xml:space="preserve">
+    <value>flwOriginalDevs</value>
+  </data>
+  <data name="&gt;&gt;flwOriginalDevs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flwOriginalDevs.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;flwOriginalDevs.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="linkPhabricator.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkPhabricator.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 0</value>
+  </data>
+  <data name="linkPhabricator.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="linkPhabricator.Size" type="System.Drawing.Size, System.Drawing">
+    <value>419, 32</value>
+  </data>
+  <data name="linkPhabricator.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="linkPhabricator.Text" xml:space="preserve">
+    <value>Phabricator (bugs and requests)</value>
+  </data>
+  <data name="&gt;&gt;linkPhabricator.Name" xml:space="preserve">
+    <value>linkPhabricator</value>
+  </data>
+  <data name="&gt;&gt;linkPhabricator.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkPhabricator.Parent" xml:space="preserve">
+    <value>flowLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;linkPhabricator.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="flowLayoutPanel3.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="flowLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 579</value>
+  </data>
+  <data name="flowLayoutPanel3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="flowLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>533, 105</value>
+  </data>
+  <data name="flowLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel3.Name" xml:space="preserve">
+    <value>flowLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel3.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="flowLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowLayoutPanel1.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 98</value>
+  </data>
+  <data name="flowLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>576, 88</value>
+  </data>
+  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="kingboykLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="kingboykLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 0</value>
+  </data>
+  <data name="kingboykLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="kingboykLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 32</value>
+  </data>
+  <data name="kingboykLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="kingboykLabel.Text" xml:space="preserve">
+    <value>Kingboyk</value>
+  </data>
+  <data name="&gt;&gt;kingboykLabel.Name" xml:space="preserve">
+    <value>kingboykLabel</value>
+  </data>
+  <data name="&gt;&gt;kingboykLabel.Type" xml:space="preserve">
+    <value>WikiFunctions.Controls.DeveloperLinkLabel, WikiFunctions, Version=6.3.1.2, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;kingboykLabel.Parent" xml:space="preserve">
+    <value>flowLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;kingboykLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="flowLayoutPanel2.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="flowLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 498</value>
+  </data>
+  <data name="flowLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="flowLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>533, 36</value>
+  </data>
+  <data name="flowLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.Name" xml:space="preserve">
+    <value>flowLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblContribs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 460</value>
+  </data>
+  <data name="lblContribs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="lblContribs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>464, 31</value>
+  </data>
+  <data name="lblContribs.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="lblContribs.Text" xml:space="preserve">
+    <value>Contributors and past developers:</value>
+  </data>
+  <data name="&gt;&gt;lblContribs.Name" xml:space="preserve">
+    <value>lblContribs</value>
+  </data>
+  <data name="&gt;&gt;lblContribs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblContribs.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblContribs.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="txtVersions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>632, 98</value>
+  </data>
+  <data name="txtVersions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>16, 7, 8, 7</value>
+  </data>
+  <data name="txtVersions.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="txtVersions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>663, 114</value>
+  </data>
+  <data name="txtVersions.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="txtVersions.Text" xml:space="preserve">
+    <value>Internet Explorer version:
+.NET version:
+Windows version:</value>
+  </data>
+  <data name="&gt;&gt;txtVersions.Name" xml:space="preserve">
+    <value>txtVersions</value>
+  </data>
+  <data name="&gt;&gt;txtVersions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtVersions.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;txtVersions.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>16, 31</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>1333, 713</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>24, 21, 24, 21</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterParent</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>AboutBox</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

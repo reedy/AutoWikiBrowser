@@ -46,6 +46,7 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox));
             this.txtWarning = new System.Windows.Forms.TextBox();
             this.okButton = new System.Windows.Forms.Button();
             this.linkAWBPage = new System.Windows.Forms.LinkLabel();
@@ -79,95 +80,61 @@ namespace AutoWikiBrowser
             // 
             // txtWarning
             // 
-            this.txtWarning.Location = new System.Drawing.Point(234, 97);
-            this.txtWarning.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.txtWarning.Multiline = true;
+            resources.ApplyResources(this.txtWarning, "txtWarning");
             this.txtWarning.Name = "txtWarning";
             this.txtWarning.ReadOnly = true;
-            this.txtWarning.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtWarning.Size = new System.Drawing.Size(254, 159);
-            this.txtWarning.TabIndex = 10;
             this.txtWarning.TabStop = false;
-            this.txtWarning.Text = "WarningMessage";
             // 
             // okButton
             // 
             this.okButton.BackColor = System.Drawing.SystemColors.Control;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(413, 264);
+            resources.ApplyResources(this.okButton, "okButton");
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 0;
-            this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = false;
             this.okButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // linkAWBPage
             // 
-            this.linkAWBPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkAWBPage.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this.linkAWBPage, "linkAWBPage");
             this.linkAWBPage.Name = "linkAWBPage";
-            this.linkAWBPage.Size = new System.Drawing.Size(197, 29);
-            this.linkAWBPage.TabIndex = 1;
             this.linkAWBPage.TabStop = true;
-            this.linkAWBPage.Text = "AutoWikiBrowser";
             this.linkAWBPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkAWBPage_LinkClicked);
             // 
             // lblDevs
             // 
             this.lblDevs.BackColor = System.Drawing.Color.Transparent;
-            this.lblDevs.Location = new System.Drawing.Point(9, 126);
+            resources.ApplyResources(this.lblDevs, "lblDevs");
             this.lblDevs.Name = "lblDevs";
-            this.lblDevs.Size = new System.Drawing.Size(174, 13);
-            this.lblDevs.TabIndex = 5;
-            this.lblDevs.Text = "Now developed and maintained by:";
             // 
             // lblAWBVersion
             // 
-            this.lblAWBVersion.AutoSize = true;
-            this.lblAWBVersion.Location = new System.Drawing.Point(3, 0);
+            resources.ApplyResources(this.lblAWBVersion, "lblAWBVersion");
             this.lblAWBVersion.Name = "lblAWBVersion";
-            this.lblAWBVersion.Size = new System.Drawing.Size(48, 13);
-            this.lblAWBVersion.TabIndex = 0;
-            this.lblAWBVersion.Text = "Version: ";
             // 
             // lblDetails
             // 
             this.lblDetails.BackColor = System.Drawing.Color.Transparent;
-            this.lblDetails.Location = new System.Drawing.Point(12, 227);
+            resources.ApplyResources(this.lblDetails, "lblDetails");
             this.lblDetails.Name = "lblDetails";
-            this.lblDetails.Size = new System.Drawing.Size(42, 13);
-            this.lblDetails.TabIndex = 7;
-            this.lblDetails.Text = "Details:";
             // 
             // lblOriginalDevs
             // 
             this.lblOriginalDevs.BackColor = System.Drawing.Color.Transparent;
-            this.lblOriginalDevs.Location = new System.Drawing.Point(7, 81);
+            resources.ApplyResources(this.lblOriginalDevs, "lblOriginalDevs");
             this.lblOriginalDevs.Name = "lblOriginalDevs";
-            this.lblOriginalDevs.Size = new System.Drawing.Size(100, 13);
-            this.lblOriginalDevs.TabIndex = 3;
-            this.lblOriginalDevs.Text = "Original developers:";
             // 
             // UsageStatsLabel
             // 
-            this.UsageStatsLabel.AutoSize = true;
-            this.UsageStatsLabel.Location = new System.Drawing.Point(3, 13);
+            resources.ApplyResources(this.UsageStatsLabel, "UsageStatsLabel");
             this.UsageStatsLabel.Name = "UsageStatsLabel";
-            this.UsageStatsLabel.Size = new System.Drawing.Size(81, 13);
-            this.UsageStatsLabel.TabIndex = 2;
             this.UsageStatsLabel.TabStop = true;
-            this.UsageStatsLabel.Text = "Usage statistics";
             this.UsageStatsLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.UsageStatsLabel_LinkClicked);
             // 
             // lblRevision
             // 
-            this.lblRevision.AutoSize = true;
-            this.lblRevision.Location = new System.Drawing.Point(3, 13);
+            resources.ApplyResources(this.lblRevision, "lblRevision");
             this.lblRevision.Name = "lblRevision";
-            this.lblRevision.Size = new System.Drawing.Size(35, 13);
-            this.lblRevision.TabIndex = 1;
-            this.lblRevision.Text = "SVN: ";
             // 
             // flwDevs
             // 
@@ -175,167 +142,111 @@ namespace AutoWikiBrowser
             this.flwDevs.Controls.Add(this.MaxSemLabel);
             this.flwDevs.Controls.Add(this.ReedyLabel);
             this.flwDevs.Controls.Add(this.RjLabel);
-            this.flwDevs.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flwDevs.Location = new System.Drawing.Point(28, 142);
+            resources.ApplyResources(this.flwDevs, "flwDevs");
             this.flwDevs.Name = "flwDevs";
-            this.flwDevs.Size = new System.Drawing.Size(200, 48);
-            this.flwDevs.TabIndex = 6;
             // 
             // MagioladitisLabel
             // 
-            this.MagioladitisLabel.AutoSize = true;
-            this.MagioladitisLabel.Location = new System.Drawing.Point(3, 0);
+            resources.ApplyResources(this.MagioladitisLabel, "MagioladitisLabel");
             this.MagioladitisLabel.Name = "MagioladitisLabel";
-            this.MagioladitisLabel.Size = new System.Drawing.Size(62, 13);
-            this.MagioladitisLabel.TabIndex = 38;
             this.MagioladitisLabel.TabStop = true;
-            this.MagioladitisLabel.Text = "Magioladitis";
             this.MagioladitisLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Magioladitis;
             // 
             // MaxSemLabel
             // 
-            this.MaxSemLabel.AutoSize = true;
-            this.MaxSemLabel.Location = new System.Drawing.Point(3, 13);
+            resources.ApplyResources(this.MaxSemLabel, "MaxSemLabel");
             this.MaxSemLabel.Name = "MaxSemLabel";
-            this.MaxSemLabel.Size = new System.Drawing.Size(48, 13);
-            this.MaxSemLabel.TabIndex = 38;
             this.MaxSemLabel.TabStop = true;
-            this.MaxSemLabel.Text = "MaxSem";
             this.MaxSemLabel.WhichDeveloper = WikiFunctions.Controls.Developers.MaxSem;
             // 
             // ReedyLabel
             // 
-            this.ReedyLabel.AutoSize = true;
-            this.ReedyLabel.Location = new System.Drawing.Point(3, 26);
+            resources.ApplyResources(this.ReedyLabel, "ReedyLabel");
             this.ReedyLabel.Name = "ReedyLabel";
-            this.ReedyLabel.Size = new System.Drawing.Size(38, 13);
-            this.ReedyLabel.TabIndex = 37;
             this.ReedyLabel.TabStop = true;
-            this.ReedyLabel.Text = "Reedy";
             this.ReedyLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Reedy;
             // 
             // RjLabel
             // 
-            this.RjLabel.AutoSize = true;
-            this.RjLabel.Location = new System.Drawing.Point(71, 0);
+            resources.ApplyResources(this.RjLabel, "RjLabel");
             this.RjLabel.Name = "RjLabel";
-            this.RjLabel.Size = new System.Drawing.Size(44, 13);
-            this.RjLabel.TabIndex = 39;
             this.RjLabel.TabStop = true;
-            this.RjLabel.Text = "Rjwilmsi";
             this.RjLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Rjwilmsi;
             // 
             // flwOriginalDevs
             // 
             this.flwOriginalDevs.Controls.Add(this.BluemooseLink);
             this.flwOriginalDevs.Controls.Add(this.LigulemLink);
-            this.flwOriginalDevs.Location = new System.Drawing.Point(28, 97);
+            resources.ApplyResources(this.flwOriginalDevs, "flwOriginalDevs");
             this.flwOriginalDevs.Name = "flwOriginalDevs";
-            this.flwOriginalDevs.Size = new System.Drawing.Size(200, 22);
-            this.flwOriginalDevs.TabIndex = 4;
             // 
             // BluemooseLink
             // 
-            this.BluemooseLink.AutoSize = true;
-            this.BluemooseLink.Location = new System.Drawing.Point(3, 0);
+            resources.ApplyResources(this.BluemooseLink, "BluemooseLink");
             this.BluemooseLink.Name = "BluemooseLink";
-            this.BluemooseLink.Size = new System.Drawing.Size(59, 13);
-            this.BluemooseLink.TabIndex = 3;
             this.BluemooseLink.TabStop = true;
-            this.BluemooseLink.Text = "Bluemoose";
             // 
             // LigulemLink
             // 
-            this.LigulemLink.AutoSize = true;
-            this.LigulemLink.Location = new System.Drawing.Point(68, 0);
+            resources.ApplyResources(this.LigulemLink, "LigulemLink");
             this.LigulemLink.Name = "LigulemLink";
-            this.LigulemLink.Size = new System.Drawing.Size(43, 13);
-            this.LigulemLink.TabIndex = 4;
             this.LigulemLink.TabStop = true;
-            this.LigulemLink.Text = "Ligulem";
             this.LigulemLink.WhichDeveloper = WikiFunctions.Controls.Developers.Ligulem;
             // 
             // flowLayoutPanel3
             // 
             this.flowLayoutPanel3.Controls.Add(this.linkPhabricator);
             this.flowLayoutPanel3.Controls.Add(this.UsageStatsLabel);
-            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(28, 243);
+            resources.ApplyResources(this.flowLayoutPanel3, "flowLayoutPanel3");
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(200, 44);
-            this.flowLayoutPanel3.TabIndex = 8;
             // 
             // linkPhabricator
             // 
-            this.linkPhabricator.AutoSize = true;
-            this.linkPhabricator.Location = new System.Drawing.Point(3, 0);
+            resources.ApplyResources(this.linkPhabricator, "linkPhabricator");
             this.linkPhabricator.Name = "linkPhabricator";
-            this.linkPhabricator.Size = new System.Drawing.Size(157, 13);
-            this.linkPhabricator.TabIndex = 14;
             this.linkPhabricator.TabStop = true;
-            this.linkPhabricator.Text = "Phabricator (bugs and requests)";
             this.linkPhabricator.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkPhabricator_LinkClicked);
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.AutoSize = true;
+            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Controls.Add(this.lblAWBVersion);
             this.flowLayoutPanel1.Controls.Add(this.lblRevision);
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 41);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(216, 37);
-            this.flowLayoutPanel1.TabIndex = 2;
             // 
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.Controls.Add(this.kingboykLabel);
-            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(28, 209);
+            resources.ApplyResources(this.flowLayoutPanel2, "flowLayoutPanel2");
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(200, 15);
-            this.flowLayoutPanel2.TabIndex = 12;
             // 
             // kingboykLabel
             // 
-            this.kingboykLabel.AutoSize = true;
-            this.kingboykLabel.Location = new System.Drawing.Point(3, 0);
+            resources.ApplyResources(this.kingboykLabel, "kingboykLabel");
             this.kingboykLabel.Name = "kingboykLabel";
-            this.kingboykLabel.Size = new System.Drawing.Size(51, 13);
-            this.kingboykLabel.TabIndex = 38;
             this.kingboykLabel.TabStop = true;
-            this.kingboykLabel.Text = "Kingboyk";
             this.kingboykLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Kingboyk;
             // 
             // lblContribs
             // 
             this.lblContribs.BackColor = System.Drawing.Color.Transparent;
-            this.lblContribs.Location = new System.Drawing.Point(9, 193);
+            resources.ApplyResources(this.lblContribs, "lblContribs");
             this.lblContribs.Name = "lblContribs";
-            this.lblContribs.Size = new System.Drawing.Size(174, 13);
-            this.lblContribs.TabIndex = 11;
-            this.lblContribs.Text = "Contributors and past developers:";
             // 
             // txtVersions
             // 
-            this.txtVersions.Location = new System.Drawing.Point(237, 41);
-            this.txtVersions.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.txtVersions.Multiline = true;
+            resources.ApplyResources(this.txtVersions, "txtVersions");
             this.txtVersions.Name = "txtVersions";
             this.txtVersions.ReadOnly = true;
-            this.txtVersions.Size = new System.Drawing.Size(251, 50);
-            this.txtVersions.TabIndex = 13;
             this.txtVersions.TabStop = false;
-            this.txtVersions.Text = "Internet Explorer version:\r\n.NET version:\r\nWindows version:";
             // 
             // AboutBox
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(255)))), ((int)(((byte)(200)))));
             this.CancelButton = this.okButton;
-            this.ClientSize = new System.Drawing.Size(500, 299);
             this.Controls.Add(this.txtVersions);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.lblContribs);
@@ -353,12 +264,9 @@ namespace AutoWikiBrowser
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutBox";
-            this.Padding = new System.Windows.Forms.Padding(9);
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "About";
             this.TopMost = true;
             this.flwDevs.ResumeLayout(false);
             this.flwDevs.PerformLayout();

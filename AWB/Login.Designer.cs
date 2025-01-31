@@ -28,6 +28,7 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.lblDescription = new System.Windows.Forms.Label();
             this.lblUsername = new System.Windows.Forms.Label();
@@ -38,62 +39,42 @@ namespace AutoWikiBrowser
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(93, 62);
+            resources.ApplyResources(this.txtUsername, "txtUsername");
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(152, 20);
-            this.txtUsername.TabIndex = 0;
             this.txtUsername.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormOnKeyUp);
             // 
             // lblDescription
             // 
-            this.lblDescription.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this.lblDescription, "lblDescription");
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(260, 39);
-            this.lblDescription.TabIndex = 1;
-            this.lblDescription.Text = "This wiki is protected using HTTP AUTH. Please login to proceed.";
             // 
             // lblUsername
             // 
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(23, 62);
+            resources.ApplyResources(this.lblUsername, "lblUsername");
             this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(58, 13);
-            this.lblUsername.TabIndex = 2;
-            this.lblUsername.Text = "Username:";
             // 
             // lblPassword
             // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(23, 95);
+            resources.ApplyResources(this.lblPassword, "lblPassword");
             this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(56, 13);
-            this.lblPassword.TabIndex = 4;
-            this.lblPassword.Text = "Password:";
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(93, 95);
+            resources.ApplyResources(this.txtPassword, "txtPassword");
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(153, 20);
-            this.txtPassword.TabIndex = 3;
             this.txtPassword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormOnKeyUp);
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(170, 140);
+            resources.ApplyResources(this.btnLogin, "btnLogin");
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(75, 23);
-            this.btnLogin.TabIndex = 5;
-            this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // Login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(259, 175);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.txtPassword);
@@ -104,8 +85,6 @@ namespace AutoWikiBrowser
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Login";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Login";
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormOnKeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();
