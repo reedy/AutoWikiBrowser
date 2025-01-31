@@ -78,6 +78,8 @@ namespace UnitTests
             Assert.That(Parsers.SimplifyLinks("[[Dog|dog.]]"), Is.EqualTo("[[dog]]."), "point inside wikilink");
             Assert.That(Parsers.SimplifyLinks("[[Dog|dog,]]"), Is.EqualTo("[[dog]],"), "comma inside wikilink");
             Assert.That(Parsers.SimplifyLinks("[[dog|dog,]]"), Is.EqualTo("[[dog]],"), "comma inside wikilink");
+            
+            Assert.That(Parsers.SimplifyLinks("([[dog|dogs)]]"), Is.EqualTo("([[dog]]s)"), "Bracket half inside wikilink");
 
             Assert.That(Parsers.SimplifyLinks("[[dog|(dog)]]"), Is.EqualTo("([[dog]])"), "brackets inside wikilink");
 

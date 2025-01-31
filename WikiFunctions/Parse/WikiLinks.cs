@@ -288,6 +288,9 @@ namespace WikiFunctions.Parse
         /// <returns>The simplified article text.</returns>
         public static string SimplifyLinks(string articleText)
         {
+            // T377260 ([[dog|dogs)]] --> ([[dog]]s)
+            articleText = Regex.Replace(articleText, @"(\(\[\[[^[\]\(\)]+\|[^[\]\(\)]+) *\) *\]\]", "$1]])");
+            
             // Performance: first get a list of unique links to avoid processing duplicate links more than once
             List<string> pipedLinks = Tools.DeduplicateList(GetAllWikiLinks(articleText)).FindAll(link => link.Contains("|"));
 
