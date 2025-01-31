@@ -227,7 +227,7 @@ a");
             AssertChange("<p>", ""); // trimmed by whitespace optimiser
             AssertChange("a</p>b", "a\r\n\r\nb");
             AssertChange("<p>a</p>b", "a\r\n\r\nb");
-            AssertChange("a\r\n<p>b", "a\r\n\r\n\r\nb");
+            AssertChange("a\r\n<p>b", "a\r\n\r\nb");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Clean_up_deformats_tables_removing_.3C_p_.3E_tags
             AssertNotChanged("| a<p>b");
@@ -397,9 +397,6 @@ W.<ref>[http://www.millerbrands.co.uk]. 0.</ref> T
 {{Notability|1=Music|date=September 2010}}
 {{Advert|date=December 2007}}
 }}
-
-
-
 
 '''Band''' is.
 
@@ -601,6 +598,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
             ArticleText = @"==External links==
 [http://foo.com]</br>
 [http://foo2.com]</br>
+
 [[Category:A]]";
 
             GenFixes("Test");
@@ -608,6 +606,7 @@ C.<ref name=”XXL Mag”>{{cite web|url=http://www.somesite.com/online/?p=70413
             string correct = @"==External links==
 * [http://foo.com]
 * [http://foo2.com]
+
 [[Category:A]]";
 
             Assert.That(ArticleText, Is.EqualTo(correct), "Clean br at end of lists");
@@ -652,8 +651,9 @@ Foo.(here) is a bar While remaining upright may be the primary goal of beginning
             GenFixes("Foé");
 
             Assert.That(ArticleText, Is.EqualTo(@"#REDIRECT[[Foo]]
-[[Category:One]]
-{{DEFAULTSORT:Foe}}"));
+
+{{DEFAULTSORT:Foe}}
+[[Category:One]]"));
         }
 
         [Test]

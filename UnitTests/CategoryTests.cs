@@ -38,12 +38,15 @@ namespace UnitTests
         public void TestYearRangesCategories()
         {
             genFixes.AssertNotChanged(@"now foo
+
 [[Category:Abc (2004-present)]]");
             
             genFixes.AssertChange(@"now abc (2004-present) was
 now foo
+
 [[Category:Abc (2004-present)]]", @"now abc (2004–present) was
 now foo
+
 [[Category:Abc (2004-present)]]");
         }
 

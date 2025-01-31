@@ -1563,15 +1563,12 @@ namespace WikiFunctions
             // run whether redirect or not, must be after FixPeopleCategories
             SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
             Variables.Profiler.Profile("SetDefaultSort");
+            
+            // pass unhidden text to MetaDataSorter so that it can allow for comments around persondata, categories etc.
+            AWBChangeArticleText("Sort meta data",
+                                 parsers.SortMetaData(ArticleText, Name), true);
 
-            if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
-            {
-                // pass unhidden text to MetaDataSorter so that it can allow for comments around persondata, categories etc.
-                AWBChangeArticleText("Sort meta data",
-                                     parsers.SortMetaData(ArticleText, Name), true);
-
-                Variables.Profiler.Profile("SortMetaData");
-            }
+            Variables.Profiler.Profile("SortMetaData");
 
             AfterGeneralFixesTextChanged();
 
