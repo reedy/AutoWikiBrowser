@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserPassword));
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.lblText = new System.Windows.Forms.Label();
@@ -35,37 +36,26 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(12, 28);
+            resources.ApplyResources(this.txtPassword, "txtPassword");
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '●';
-            this.txtPassword.Size = new System.Drawing.Size(174, 20);
-            this.txtPassword.TabIndex = 0;
             // 
             // btnOk
             // 
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(62, 54);
+            resources.ApplyResources(this.btnOk, "btnOk");
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 1;
-            this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // lblText
             // 
-            this.lblText.AutoSize = true;
-            this.lblText.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this.lblText, "lblText");
             this.lblText.Name = "lblText";
-            this.lblText.Size = new System.Drawing.Size(115, 13);
-            this.lblText.TabIndex = 2;
-            this.lblText.Text = "Enter password for {0}:";
             // 
             // UserPassword
             // 
             this.AcceptButton = this.btnOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(198, 84);
             this.Controls.Add(this.lblText);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtPassword);
@@ -73,8 +63,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UserPassword";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Password";
             this.ResumeLayout(false);
             this.PerformLayout();
 

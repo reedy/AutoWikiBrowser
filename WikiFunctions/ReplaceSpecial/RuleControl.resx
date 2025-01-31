@@ -112,12 +112,1095 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="contextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="RuleGroupBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="RuleGroupBox.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="RuleTabControl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="ReplaceSplit.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ReplaceSplit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ReplaceSplit.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="ReplaceSplit.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="ReplaceTextbox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="ReplaceTextbox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Courier New, 9pt</value>
+  </data>
+  <data name="ReplaceTextbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 14</value>
+  </data>
+  <data name="ReplaceTextbox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ReplaceTextbox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ReplaceTextbox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Both</value>
+  </data>
+  <data name="ReplaceTextbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1039, 281</value>
+  </data>
+  <data name="ReplaceTextbox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="ReplaceTextbox.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;ReplaceTextbox.Name" xml:space="preserve">
+    <value>ReplaceTextbox</value>
+  </data>
+  <data name="&gt;&gt;ReplaceTextbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplaceTextbox.Parent" xml:space="preserve">
+    <value>ReplaceSplit.Panel1</value>
+  </data>
+  <data name="&gt;&gt;ReplaceTextbox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Panel1.Name" xml:space="preserve">
+    <value>ReplaceSplit.Panel1</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Panel1.Parent" xml:space="preserve">
+    <value>ReplaceSplit</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 0</value>
+  </data>
+  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>267, 31</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Replace &amp;with:</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>ReplaceSplit.Panel2</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="WithTextbox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="WithTextbox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Courier New, 9pt</value>
+  </data>
+  <data name="WithTextbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 36</value>
+  </data>
+  <data name="WithTextbox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="WithTextbox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="WithTextbox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Both</value>
+  </data>
+  <data name="WithTextbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1041, 246</value>
+  </data>
+  <data name="WithTextbox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="WithTextbox.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;WithTextbox.Name" xml:space="preserve">
+    <value>WithTextbox</value>
+  </data>
+  <data name="&gt;&gt;WithTextbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;WithTextbox.Parent" xml:space="preserve">
+    <value>ReplaceSplit.Panel2</value>
+  </data>
+  <data name="&gt;&gt;WithTextbox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Panel2.Name" xml:space="preserve">
+    <value>ReplaceSplit.Panel2</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Panel2.Parent" xml:space="preserve">
+    <value>ReplaceSplit</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ReplaceSplit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1069, 594</value>
+  </data>
+  <data name="ReplaceSplit.SplitterDistance" type="System.Int32, mscorlib">
+    <value>300</value>
+  </data>
+  <data name="ReplaceSplit.SplitterWidth" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="ReplaceSplit.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Name" xml:space="preserve">
+    <value>ReplaceSplit</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.Parent" xml:space="preserve">
+    <value>ReplaceTabPage</value>
+  </data>
+  <data name="&gt;&gt;ReplaceSplit.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ReplaceIsCaseSensitiveCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="ReplaceIsCaseSensitiveCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ReplaceIsCaseSensitiveCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 668</value>
+  </data>
+  <data name="ReplaceIsCaseSensitiveCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="ReplaceIsCaseSensitiveCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>237, 36</value>
+  </data>
+  <data name="ReplaceIsCaseSensitiveCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ReplaceIsCaseSensitiveCheckBox.Text" xml:space="preserve">
+    <value>Case sens&amp;itive</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsCaseSensitiveCheckBox.Name" xml:space="preserve">
+    <value>ReplaceIsCaseSensitiveCheckBox</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsCaseSensitiveCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsCaseSensitiveCheckBox.Parent" xml:space="preserve">
+    <value>ReplaceTabPage</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsCaseSensitiveCheckBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ReplaceIsRegexCheckbox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="ReplaceIsRegexCheckbox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ReplaceIsRegexCheckbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 613</value>
+  </data>
+  <data name="ReplaceIsRegexCheckbox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="ReplaceIsRegexCheckbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 36</value>
+  </data>
+  <data name="ReplaceIsRegexCheckbox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ReplaceIsRegexCheckbox.Text" xml:space="preserve">
+    <value>&amp;Regular expression</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsRegexCheckbox.Name" xml:space="preserve">
+    <value>ReplaceIsRegexCheckbox</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsRegexCheckbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsRegexCheckbox.Parent" xml:space="preserve">
+    <value>ReplaceTabPage</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsRegexCheckbox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ReplaceIsMultilineCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="ReplaceIsMultilineCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ReplaceIsMultilineCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>333, 613</value>
+  </data>
+  <data name="ReplaceIsMultilineCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="ReplaceIsMultilineCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 36</value>
+  </data>
+  <data name="ReplaceIsMultilineCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="ReplaceIsMultilineCheckBox.Text" xml:space="preserve">
+    <value>&amp;Multiline</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsMultilineCheckBox.Name" xml:space="preserve">
+    <value>ReplaceIsMultilineCheckBox</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsMultilineCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsMultilineCheckBox.Parent" xml:space="preserve">
+    <value>ReplaceTabPage</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsMultilineCheckBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ReplaceIsSinglelineCheckbox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="ReplaceIsSinglelineCheckbox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ReplaceIsSinglelineCheckbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>333, 668</value>
+  </data>
+  <data name="ReplaceIsSinglelineCheckbox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="ReplaceIsSinglelineCheckbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 36</value>
+  </data>
+  <data name="ReplaceIsSinglelineCheckbox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="ReplaceIsSinglelineCheckbox.Text" xml:space="preserve">
+    <value>&amp;Singleline</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsSinglelineCheckbox.Name" xml:space="preserve">
+    <value>ReplaceIsSinglelineCheckbox</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsSinglelineCheckbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsSinglelineCheckbox.Parent" xml:space="preserve">
+    <value>ReplaceTabPage</value>
+  </data>
+  <data name="&gt;&gt;ReplaceIsSinglelineCheckbox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label5.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>557, 610</value>
+  </data>
+  <data name="label5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 32</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Apply No. of times</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>ReplaceTabPage</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="NumberOfTimesUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="NumberOfTimesUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>565, 656</value>
+  </data>
+  <data name="NumberOfTimesUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="NumberOfTimesUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 38</value>
+  </data>
+  <data name="NumberOfTimesUpDown.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;NumberOfTimesUpDown.Name" xml:space="preserve">
+    <value>NumberOfTimesUpDown</value>
+  </data>
+  <data name="&gt;&gt;NumberOfTimesUpDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NumberOfTimesUpDown.Parent" xml:space="preserve">
+    <value>ReplaceTabPage</value>
+  </data>
+  <data name="&gt;&gt;NumberOfTimesUpDown.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="TestFind.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="TestFind.Location" type="System.Drawing.Point, System.Drawing">
+    <value>853, 649</value>
+  </data>
+  <data name="TestFind.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="TestFind.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 55</value>
+  </data>
+  <data name="TestFind.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="TestFind.Text" xml:space="preserve">
+    <value>&amp;Test...</value>
+  </data>
+  <data name="&gt;&gt;TestFind.Name" xml:space="preserve">
+    <value>TestFind</value>
+  </data>
+  <data name="&gt;&gt;TestFind.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TestFind.Parent" xml:space="preserve">
+    <value>ReplaceTabPage</value>
+  </data>
+  <data name="&gt;&gt;TestFind.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="ReplaceTabPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 48</value>
+  </data>
+  <data name="ReplaceTabPage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="ReplaceTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="ReplaceTabPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1071, 722</value>
+  </data>
+  <data name="ReplaceTabPage.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="ReplaceTabPage.Text" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="&gt;&gt;ReplaceTabPage.Name" xml:space="preserve">
+    <value>ReplaceTabPage</value>
+  </data>
+  <data name="&gt;&gt;ReplaceTabPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplaceTabPage.Parent" xml:space="preserve">
+    <value>RuleTabControl</value>
+  </data>
+  <data name="&gt;&gt;ReplaceTabPage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="IfSplit.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="IfSplit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="IfSplit.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="IfSplit.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="HasMatchLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="HasMatchLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 7</value>
+  </data>
+  <data name="HasMatchLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="HasMatchLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 32</value>
+  </data>
+  <data name="HasMatchLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="HasMatchLabel.Text" xml:space="preserve">
+    <value>&amp;Contains</value>
+  </data>
+  <data name="&gt;&gt;HasMatchLabel.Name" xml:space="preserve">
+    <value>HasMatchLabel</value>
+  </data>
+  <data name="&gt;&gt;HasMatchLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HasMatchLabel.Parent" xml:space="preserve">
+    <value>IfSplit.Panel1</value>
+  </data>
+  <data name="&gt;&gt;HasMatchLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="IfContainsTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="IfContainsTextBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Courier New, 9pt</value>
+  </data>
+  <data name="IfContainsTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 45</value>
+  </data>
+  <data name="IfContainsTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="IfContainsTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="IfContainsTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Both</value>
+  </data>
+  <data name="IfContainsTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1039, 250</value>
+  </data>
+  <data name="IfContainsTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="IfContainsTextBox.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;IfContainsTextBox.Name" xml:space="preserve">
+    <value>IfContainsTextBox</value>
+  </data>
+  <data name="&gt;&gt;IfContainsTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfContainsTextBox.Parent" xml:space="preserve">
+    <value>IfSplit.Panel1</value>
+  </data>
+  <data name="&gt;&gt;IfContainsTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Panel1.Name" xml:space="preserve">
+    <value>IfSplit.Panel1</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Panel1.Parent" xml:space="preserve">
+    <value>IfSplit</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="IfNotContainsLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 0</value>
+  </data>
+  <data name="IfNotContainsLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="IfNotContainsLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>267, 31</value>
+  </data>
+  <data name="IfNotContainsLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="IfNotContainsLabel.Text" xml:space="preserve">
+    <value>&amp;Not contains</value>
+  </data>
+  <data name="&gt;&gt;IfNotContainsLabel.Name" xml:space="preserve">
+    <value>IfNotContainsLabel</value>
+  </data>
+  <data name="&gt;&gt;IfNotContainsLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfNotContainsLabel.Parent" xml:space="preserve">
+    <value>IfSplit.Panel2</value>
+  </data>
+  <data name="&gt;&gt;IfNotContainsLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="IfNotContainsTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="IfNotContainsTextBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Courier New, 9pt</value>
+  </data>
+  <data name="IfNotContainsTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 36</value>
+  </data>
+  <data name="IfNotContainsTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="IfNotContainsTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="IfNotContainsTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Both</value>
+  </data>
+  <data name="IfNotContainsTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1041, 246</value>
+  </data>
+  <data name="IfNotContainsTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="IfNotContainsTextBox.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;IfNotContainsTextBox.Name" xml:space="preserve">
+    <value>IfNotContainsTextBox</value>
+  </data>
+  <data name="&gt;&gt;IfNotContainsTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfNotContainsTextBox.Parent" xml:space="preserve">
+    <value>IfSplit.Panel2</value>
+  </data>
+  <data name="&gt;&gt;IfNotContainsTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Panel2.Name" xml:space="preserve">
+    <value>IfSplit.Panel2</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Panel2.Parent" xml:space="preserve">
+    <value>IfSplit</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="IfSplit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1069, 594</value>
+  </data>
+  <data name="IfSplit.SplitterDistance" type="System.Int32, mscorlib">
+    <value>300</value>
+  </data>
+  <data name="IfSplit.SplitterWidth" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="IfSplit.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Name" xml:space="preserve">
+    <value>IfSplit</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.Parent" xml:space="preserve">
+    <value>IfTabPage</value>
+  </data>
+  <data name="&gt;&gt;IfSplit.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="IfIsSinglelineCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="IfIsSinglelineCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="IfIsSinglelineCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>333, 668</value>
+  </data>
+  <data name="IfIsSinglelineCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="IfIsSinglelineCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 36</value>
+  </data>
+  <data name="IfIsSinglelineCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="IfIsSinglelineCheckBox.Text" xml:space="preserve">
+    <value>&amp;Singleline</value>
+  </data>
+  <data name="&gt;&gt;IfIsSinglelineCheckBox.Name" xml:space="preserve">
+    <value>IfIsSinglelineCheckBox</value>
+  </data>
+  <data name="&gt;&gt;IfIsSinglelineCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfIsSinglelineCheckBox.Parent" xml:space="preserve">
+    <value>IfTabPage</value>
+  </data>
+  <data name="&gt;&gt;IfIsSinglelineCheckBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="IfIsMultilineCheckbox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="IfIsMultilineCheckbox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="IfIsMultilineCheckbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>333, 613</value>
+  </data>
+  <data name="IfIsMultilineCheckbox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="IfIsMultilineCheckbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 36</value>
+  </data>
+  <data name="IfIsMultilineCheckbox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="IfIsMultilineCheckbox.Text" xml:space="preserve">
+    <value>&amp;Multiline</value>
+  </data>
+  <data name="&gt;&gt;IfIsMultilineCheckbox.Name" xml:space="preserve">
+    <value>IfIsMultilineCheckbox</value>
+  </data>
+  <data name="&gt;&gt;IfIsMultilineCheckbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfIsMultilineCheckbox.Parent" xml:space="preserve">
+    <value>IfTabPage</value>
+  </data>
+  <data name="&gt;&gt;IfIsMultilineCheckbox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="IfIsCaseSensitiveCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="IfIsCaseSensitiveCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="IfIsCaseSensitiveCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 668</value>
+  </data>
+  <data name="IfIsCaseSensitiveCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="IfIsCaseSensitiveCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>237, 36</value>
+  </data>
+  <data name="IfIsCaseSensitiveCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="IfIsCaseSensitiveCheckBox.Text" xml:space="preserve">
+    <value>Case sens&amp;itive</value>
+  </data>
+  <data name="&gt;&gt;IfIsCaseSensitiveCheckBox.Name" xml:space="preserve">
+    <value>IfIsCaseSensitiveCheckBox</value>
+  </data>
+  <data name="&gt;&gt;IfIsCaseSensitiveCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfIsCaseSensitiveCheckBox.Parent" xml:space="preserve">
+    <value>IfTabPage</value>
+  </data>
+  <data name="&gt;&gt;IfIsCaseSensitiveCheckBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="IfIsRegexCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="IfIsRegexCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="IfIsRegexCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 613</value>
+  </data>
+  <data name="IfIsRegexCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="IfIsRegexCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 36</value>
+  </data>
+  <data name="IfIsRegexCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="IfIsRegexCheckBox.Text" xml:space="preserve">
+    <value>&amp;Regular expression</value>
+  </data>
+  <data name="&gt;&gt;IfIsRegexCheckBox.Name" xml:space="preserve">
+    <value>IfIsRegexCheckBox</value>
+  </data>
+  <data name="&gt;&gt;IfIsRegexCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfIsRegexCheckBox.Parent" xml:space="preserve">
+    <value>IfTabPage</value>
+  </data>
+  <data name="&gt;&gt;IfIsRegexCheckBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="TestIf.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="TestIf.Location" type="System.Drawing.Point, System.Drawing">
+    <value>853, 649</value>
+  </data>
+  <data name="TestIf.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="TestIf.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 55</value>
+  </data>
+  <data name="TestIf.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="TestIf.Text" xml:space="preserve">
+    <value>&amp;Test...</value>
+  </data>
+  <data name="&gt;&gt;TestIf.Name" xml:space="preserve">
+    <value>TestIf</value>
+  </data>
+  <data name="&gt;&gt;TestIf.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TestIf.Parent" xml:space="preserve">
+    <value>IfTabPage</value>
+  </data>
+  <data name="&gt;&gt;TestIf.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="IfTabPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 48</value>
+  </data>
+  <data name="IfTabPage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="IfTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="IfTabPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1071, 722</value>
+  </data>
+  <data name="IfTabPage.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="IfTabPage.Text" xml:space="preserve">
+    <value>If</value>
+  </data>
+  <data name="&gt;&gt;IfTabPage.Name" xml:space="preserve">
+    <value>IfTabPage</value>
+  </data>
+  <data name="&gt;&gt;IfTabPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IfTabPage.Parent" xml:space="preserve">
+    <value>RuleTabControl</value>
+  </data>
+  <data name="&gt;&gt;IfTabPage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RuleTabControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 172</value>
+  </data>
+  <data name="RuleTabControl.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="RuleTabControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1091, 780</value>
+  </data>
+  <data name="RuleTabControl.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;RuleTabControl.Name" xml:space="preserve">
+    <value>RuleTabControl</value>
+  </data>
+  <data name="&gt;&gt;RuleTabControl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RuleTabControl.Parent" xml:space="preserve">
+    <value>RuleGroupBox</value>
+  </data>
+  <data name="&gt;&gt;RuleTabControl.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 52</value>
+  </data>
+  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 32</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>RuleGroupBox</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="NameTextbox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="NameTextbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 45</value>
+  </data>
+  <data name="NameTextbox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="NameTextbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>799, 38</value>
+  </data>
+  <data name="NameTextbox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;NameTextbox.Name" xml:space="preserve">
+    <value>NameTextbox</value>
+  </data>
+  <data name="&gt;&gt;NameTextbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NameTextbox.Parent" xml:space="preserve">
+    <value>RuleGroupBox</value>
+  </data>
+  <data name="&gt;&gt;NameTextbox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 114</value>
+  </data>
+  <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 32</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>T&amp;ype</value>
+  </data>
+  <data name="label4.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>RuleGroupBox</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="RuleTypeCombobox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="RuleTypeCombobox.Items" xml:space="preserve">
+    <value>Entire text</value>
+  </data>
+  <data name="RuleTypeCombobox.Items1" xml:space="preserve">
+    <value>Inside templates {{..}}</value>
+  </data>
+  <data name="RuleTypeCombobox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 107</value>
+  </data>
+  <data name="RuleTypeCombobox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="RuleTypeCombobox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>799, 39</value>
+  </data>
+  <data name="RuleTypeCombobox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;RuleTypeCombobox.Name" xml:space="preserve">
+    <value>RuleTypeCombobox</value>
+  </data>
+  <data name="&gt;&gt;RuleTypeCombobox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RuleTypeCombobox.Parent" xml:space="preserve">
+    <value>RuleGroupBox</value>
+  </data>
+  <data name="&gt;&gt;RuleTypeCombobox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RuleEnabledCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="RuleEnabledCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RuleEnabledCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>962, 50</value>
+  </data>
+  <data name="RuleEnabledCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="RuleEnabledCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 36</value>
+  </data>
+  <data name="RuleEnabledCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="RuleEnabledCheckBox.Text" xml:space="preserve">
+    <value>&amp;Enabled</value>
+  </data>
+  <data name="&gt;&gt;RuleEnabledCheckBox.Name" xml:space="preserve">
+    <value>RuleEnabledCheckBox</value>
+  </data>
+  <data name="&gt;&gt;RuleEnabledCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RuleEnabledCheckBox.Parent" xml:space="preserve">
+    <value>RuleGroupBox</value>
+  </data>
+  <data name="&gt;&gt;RuleEnabledCheckBox.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RuleGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 7</value>
+  </data>
+  <data name="RuleGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="RuleGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="RuleGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1136, 966</value>
+  </data>
+  <data name="RuleGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="RuleGroupBox.Text" xml:space="preserve">
+    <value>Find and replace</value>
+  </data>
+  <data name="&gt;&gt;RuleGroupBox.Name" xml:space="preserve">
+    <value>RuleGroupBox</value>
+  </data>
+  <data name="&gt;&gt;RuleGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RuleGroupBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;RuleGroupBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="contextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="testIfContainsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 48</value>
+  </data>
+  <data name="testIfContainsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Test if contains...</value>
+  </data>
+  <data name="testIfNotContainsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 48</value>
+  </data>
+  <data name="testIfNotContainsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Test if not contains..</value>
+  </data>
+  <data name="contextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>359, 100</value>
+  </data>
+  <data name="&gt;&gt;contextMenu.Name" xml:space="preserve">
+    <value>contextMenu</value>
+  </data>
+  <data name="&gt;&gt;contextMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>16, 31</value>
+  </data>
+  <data name="$this.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1160, 990</value>
+  </data>
+  <data name="&gt;&gt;testIfContainsToolStripMenuItem.Name" xml:space="preserve">
+    <value>testIfContainsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;testIfContainsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;testIfNotContainsToolStripMenuItem.Name" xml:space="preserve">
+    <value>testIfNotContainsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;testIfNotContainsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>RuleControl</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

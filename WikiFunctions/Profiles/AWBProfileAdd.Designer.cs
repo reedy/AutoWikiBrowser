@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AWBProfileAdd));
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -46,139 +47,91 @@
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(76, 6);
+            resources.ApplyResources(this.txtUsername, "txtUsername");
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(244, 20);
-            this.txtUsername.TabIndex = 1;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "&Username:";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 65);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "&Password:";
             // 
             // txtPassword
             // 
-            this.txtPassword.Enabled = false;
-            this.txtPassword.Location = new System.Drawing.Point(74, 62);
+            resources.ApplyResources(this.txtPassword, "txtPassword");
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '●';
-            this.txtPassword.Size = new System.Drawing.Size(244, 20);
-            this.txtPassword.TabIndex = 4;
             // 
             // chkSavePassword
             // 
-            this.chkSavePassword.AutoSize = true;
-            this.chkSavePassword.Location = new System.Drawing.Point(15, 45);
+            resources.ApplyResources(this.chkSavePassword, "chkSavePassword");
             this.chkSavePassword.Name = "chkSavePassword";
-            this.chkSavePassword.Size = new System.Drawing.Size(106, 17);
-            this.chkSavePassword.TabIndex = 2;
-            this.chkSavePassword.Text = "&Save Password?";
             this.chkSavePassword.UseVisualStyleBackColor = true;
             this.chkSavePassword.CheckedChanged += new System.EventHandler(this.chkSavePassword_CheckedChanged);
             // 
             // txtNotes
             // 
-            this.txtNotes.Location = new System.Drawing.Point(74, 143);
+            resources.ApplyResources(this.txtNotes, "txtNotes");
             this.txtNotes.Name = "txtNotes";
-            this.txtNotes.Size = new System.Drawing.Size(244, 20);
-            this.txtNotes.TabIndex = 11;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 146);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 13);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "&Notes:";
             // 
             // btnOK
             // 
-            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.btnOK, "btnOK");
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(154, 169);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(78, 23);
-            this.btnOK.TabIndex = 12;
-            this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // chkDefaultSettings
             // 
-            this.chkDefaultSettings.AutoSize = true;
-            this.chkDefaultSettings.Location = new System.Drawing.Point(15, 99);
+            resources.ApplyResources(this.chkDefaultSettings, "chkDefaultSettings");
             this.chkDefaultSettings.Name = "chkDefaultSettings";
-            this.chkDefaultSettings.Size = new System.Drawing.Size(136, 17);
-            this.chkDefaultSettings.TabIndex = 5;
-            this.chkDefaultSettings.Text = "Select &default settings?";
             this.chkDefaultSettings.UseVisualStyleBackColor = true;
             this.chkDefaultSettings.CheckedChanged += new System.EventHandler(this.chkDefaultSettings_CheckedChanged);
             // 
             // txtPath
             // 
-            this.txtPath.Enabled = false;
-            this.txtPath.Location = new System.Drawing.Point(74, 116);
+            resources.ApplyResources(this.txtPath, "txtPath");
             this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(163, 20);
-            this.txtPath.TabIndex = 7;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 119);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(32, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "&Path:";
             // 
             // openDefaultFile
             // 
             this.openDefaultFile.DefaultExt = "xml";
-            this.openDefaultFile.Filter = "XML files|*.xml";
+            resources.ApplyResources(this.openDefaultFile, "openDefaultFile");
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(240, 169);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(78, 23);
-            this.btnCancel.TabIndex = 13;
-            this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Enabled = false;
-            this.btnBrowse.Location = new System.Drawing.Point(243, 114);
+            resources.ApplyResources(this.btnBrowse, "btnBrowse");
             this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowse.TabIndex = 8;
-            this.btnBrowse.Text = "&Browse...";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // AWBProfileAdd
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(330, 204);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.label4);
@@ -198,8 +151,6 @@
             this.Name = "AWBProfileAdd";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Add new profile";
             this.Load += new System.EventHandler(this.AWBProfileAdd_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

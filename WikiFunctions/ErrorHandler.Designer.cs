@@ -42,112 +42,72 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 9);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(255, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "The program has encountered the following problem:";
             // 
             // btnClose
             // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.btnClose, "btnClose");
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(262, 415);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(110, 23);
-            this.btnClose.TabIndex = 4;
-            this.btnClose.Text = "Continue working";
             this.btnClose.UseVisualStyleBackColor = true;
             // 
             // txtDetails
             // 
-            this.txtDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.txtDetails, "txtDetails");
             this.txtDetails.BackColor = System.Drawing.SystemColors.Control;
-            this.txtDetails.Location = new System.Drawing.Point(15, 228);
-            this.txtDetails.Multiline = true;
             this.txtDetails.Name = "txtDetails";
             this.txtDetails.ReadOnly = true;
-            this.txtDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDetails.Size = new System.Drawing.Size(358, 181);
-            this.txtDetails.TabIndex = 5;
             // 
             // btnCopy
             // 
-            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnCopy.Location = new System.Drawing.Point(12, 415);
+            resources.ApplyResources(this.btnCopy, "btnCopy");
             this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(110, 23);
-            this.btnCopy.TabIndex = 6;
-            this.btnCopy.Text = "&Copy to clipboard";
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // txtError
             // 
             this.txtError.BackColor = System.Drawing.SystemColors.Control;
-            this.txtError.Location = new System.Drawing.Point(15, 25);
-            this.txtError.Multiline = true;
+            resources.ApplyResources(this.txtError, "txtError");
             this.txtError.Name = "txtError";
             this.txtError.ReadOnly = true;
-            this.txtError.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtError.Size = new System.Drawing.Size(358, 70);
-            this.txtError.TabIndex = 7;
             // 
             // linkLabel1
             // 
             this.linkLabel1.DisabledLinkColor = System.Drawing.SystemColors.ControlText;
-            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(102, 11);
-            this.linkLabel1.Location = new System.Drawing.Point(12, 104);
+            resources.ApplyResources(this.linkLabel1, "linkLabel1");
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(364, 76);
-            this.linkLabel1.TabIndex = 8;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = resources.GetString("linkLabel1.Text");
             this.linkLabel1.UseCompatibleTextRendering = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 195);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Heading:";
             // 
             // txtSubject
             // 
             this.txtSubject.BackColor = System.Drawing.SystemColors.Control;
-            this.txtSubject.Location = new System.Drawing.Point(68, 183);
-            this.txtSubject.Multiline = true;
+            resources.ApplyResources(this.txtSubject, "txtSubject");
             this.txtSubject.Name = "txtSubject";
             this.txtSubject.ReadOnly = true;
-            this.txtSubject.Size = new System.Drawing.Size(305, 39);
-            this.txtSubject.TabIndex = 10;
             // 
             // btnPhab
             // 
-            this.btnPhab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPhab.Location = new System.Drawing.Point(137, 415);
+            resources.ApplyResources(this.btnPhab, "btnPhab");
             this.btnPhab.Name = "btnPhab";
-            this.btnPhab.Size = new System.Drawing.Size(110, 23);
-            this.btnPhab.TabIndex = 11;
-            this.btnPhab.Text = "Create task";
             this.btnPhab.UseVisualStyleBackColor = true;
             this.btnPhab.Click += new System.EventHandler(this.btnPhab_Click);
             // 
             // ErrorHandler
             // 
             this.AcceptButton = this.btnClose;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(385, 450);
             this.Controls.Add(this.btnPhab);
             this.Controls.Add(this.txtSubject);
             this.Controls.Add(this.label2);
@@ -158,10 +118,7 @@
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(401, 489);
             this.Name = "ErrorHandler";
-            this.Text = "Program error";
             this.Load += new System.EventHandler(this.ErrorHandler_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

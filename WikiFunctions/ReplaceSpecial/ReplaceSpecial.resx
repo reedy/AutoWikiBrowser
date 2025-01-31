@@ -112,16 +112,20 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="UpButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="UpButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsNAAALDQHtB8AsAAACuUlE
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsMAAALDAE/QCLIAAACuUlE
         QVQ4T5WSfSzUcRzHPx4S/+Aof4h1ZGuaYiYxz1qbnctTO3dpSMp5KD1cKDnZUksbW9tJw6YwanTNlMud
         u3DLKSpNybQ7lbGQ9ID8od79jrO2KOu1ff74fj/v12fffb9fWhVz2kzOFG7sZnyIqSRmFUYW5GDo/gMb
         8raNt60PKQucTLqXgPQ2ITLaUpHYHI8gScA4S8CqJivyMKT/wItOBFT7Iq87Bxc0eRCrT6P0WQmKey4i
@@ -135,6 +139,34 @@
         1myCq4h6Gct+Sf7Nhi18qhEoTCDWuuDG1D60zuVANpOFyokI5A45IabF6Ac7miqZrPWSsgrmLPJ1iaRL
         AQUk51RQH6ec+vzz6YFzOBWaWjKf/j+wYcrJUCz9xkqIfgEJUPVl4hmrewAAAABJRU5ErkJggg==
 </value>
+  </data>
+  <data name="UpButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>492, 0</value>
+  </data>
+  <data name="UpButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="UpButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 55</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="UpButton.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;UpButton.Name" xml:space="preserve">
+    <value>UpButton</value>
+  </data>
+  <data name="&gt;&gt;UpButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UpButton.Parent" xml:space="preserve">
+    <value>splitContainer.Panel1</value>
+  </data>
+  <data name="&gt;&gt;UpButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="DownButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
   </data>
   <data name="DownButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -154,13 +186,757 @@
         Mo0WB/6F6De2i+7px3tRLwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <metadata name="TreeViewContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="DownButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>492, 69</value>
+  </data>
+  <data name="DownButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="DownButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 55</value>
+  </data>
+  <data name="DownButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;DownButton.Name" xml:space="preserve">
+    <value>DownButton</value>
+  </data>
+  <data name="&gt;&gt;DownButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DownButton.Parent" xml:space="preserve">
+    <value>splitContainer.Panel1</value>
+  </data>
+  <data name="&gt;&gt;DownButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="DeleteButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="DeleteButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>477, 930</value>
+  </data>
+  <data name="DeleteButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="DeleteButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 55</value>
+  </data>
+  <data name="DeleteButton.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="DeleteButton.Text" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="&gt;&gt;DeleteButton.Name" xml:space="preserve">
+    <value>DeleteButton</value>
+  </data>
+  <data name="&gt;&gt;DeleteButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DeleteButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;DeleteButton.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="NewRuleButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="NewRuleButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 930</value>
+  </data>
+  <data name="NewRuleButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="NewRuleButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 55</value>
+  </data>
+  <data name="NewRuleButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="NewRuleButton.Text" xml:space="preserve">
+    <value>New &amp;Rule</value>
+  </data>
+  <data name="&gt;&gt;NewRuleButton.Name" xml:space="preserve">
+    <value>NewRuleButton</value>
+  </data>
+  <data name="&gt;&gt;NewRuleButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewRuleButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;NewRuleButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="OkButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="OkButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1493, 930</value>
+  </data>
+  <data name="OkButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="OkButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 55</value>
+  </data>
+  <data name="OkButton.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="OkButton.Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="&gt;&gt;OkButton.Name" xml:space="preserve">
+    <value>OkButton</value>
+  </data>
+  <data name="&gt;&gt;OkButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OkButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OkButton.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="RulesTreeView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <metadata name="TreeViewContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>2, -2</value>
   </metadata>
-  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="NewRuleContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 48</value>
+  </data>
+  <data name="NewRuleContextMenuItem.Text" xml:space="preserve">
+    <value>New &amp;Rule</value>
+  </data>
+  <data name="NewSubruleContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 48</value>
+  </data>
+  <data name="NewSubruleContextMenuItem.Text" xml:space="preserve">
+    <value>New &amp;Subrule</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 6</value>
+  </data>
+  <data name="CutContextMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Ctrl+X</value>
+  </data>
+  <data name="CutContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 48</value>
+  </data>
+  <data name="CutContextMenuItem.Text" xml:space="preserve">
+    <value>Cu&amp;t</value>
+  </data>
+  <data name="CopyContextMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Ctrl+C</value>
+  </data>
+  <data name="CopyContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 48</value>
+  </data>
+  <data name="CopyContextMenuItem.Text" xml:space="preserve">
+    <value>&amp;Copy</value>
+  </data>
+  <data name="PasteContextMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Ctrl+V</value>
+  </data>
+  <data name="PasteContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 48</value>
+  </data>
+  <data name="PasteContextMenuItem.Text" xml:space="preserve">
+    <value>&amp;Paste</value>
+  </data>
+  <data name="DeleteContextMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Del</value>
+  </data>
+  <data name="DeleteContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 48</value>
+  </data>
+  <data name="DeleteContextMenuItem.Text" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 6</value>
+  </data>
+  <data name="expandAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 48</value>
+  </data>
+  <data name="expandAllToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Expand all</value>
+  </data>
+  <data name="collapseAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 48</value>
+  </data>
+  <data name="collapseAllToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Collapse all</value>
+  </data>
+  <data name="TreeViewContextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 400</value>
+  </data>
+  <data name="&gt;&gt;TreeViewContextMenu.Name" xml:space="preserve">
+    <value>TreeViewContextMenu</value>
+  </data>
+  <data name="&gt;&gt;TreeViewContextMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="RulesTreeView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 7</value>
+  </data>
+  <data name="RulesTreeView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="RulesTreeView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>462, 851</value>
+  </data>
+  <data name="RulesTreeView.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;RulesTreeView.Name" xml:space="preserve">
+    <value>RulesTreeView</value>
+  </data>
+  <data name="&gt;&gt;RulesTreeView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RulesTreeView.Parent" xml:space="preserve">
+    <value>splitContainer.Panel1</value>
+  </data>
+  <data name="&gt;&gt;RulesTreeView.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>165, -2</value>
   </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="NewRuleMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+N</value>
+  </data>
+  <data name="NewRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 54</value>
+  </data>
+  <data name="NewRuleMenuItem.Text" xml:space="preserve">
+    <value>&amp;Find and replace</value>
+  </data>
+  <data name="NewInTemplateRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 54</value>
+  </data>
+  <data name="NewInTemplateRuleMenuItem.Text" xml:space="preserve">
+    <value>In template &amp;call</value>
+  </data>
+  <data name="NewTemplateParameterRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 54</value>
+  </data>
+  <data name="NewTemplateParameterRuleMenuItem.Text" xml:space="preserve">
+    <value>Template &amp;parameter</value>
+  </data>
+  <data name="NewMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>285, 54</value>
+  </data>
+  <data name="NewMenu.Text" xml:space="preserve">
+    <value>&amp;Rule</value>
+  </data>
+  <data name="NewSubruleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>449, 54</value>
+  </data>
+  <data name="NewSubruleMenuItem.Text" xml:space="preserve">
+    <value>&amp;Find and replace</value>
+  </data>
+  <data name="NewSubruleInTemplateCallMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>449, 54</value>
+  </data>
+  <data name="NewSubruleInTemplateCallMenuItem.Text" xml:space="preserve">
+    <value>In template &amp;call</value>
+  </data>
+  <data name="NewSubruleTemplateParameterMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>449, 54</value>
+  </data>
+  <data name="NewSubruleTemplateParameterMenuItem.Text" xml:space="preserve">
+    <value>Template &amp;parameter</value>
+  </data>
+  <data name="NewSubruleMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>285, 54</value>
+  </data>
+  <data name="NewSubruleMenu.Text" xml:space="preserve">
+    <value>&amp;Subrule</value>
+  </data>
+  <data name="RuleMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 45</value>
+  </data>
+  <data name="RuleMenu.Text" xml:space="preserve">
+    <value>&amp;New</value>
+  </data>
+  <data name="UndoMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UndoMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Z</value>
+  </data>
+  <data name="UndoMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 54</value>
+  </data>
+  <data name="UndoMenuItem.Text" xml:space="preserve">
+    <value>&amp;Undo</value>
+  </data>
+  <data name="RedoMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RedoMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Y</value>
+  </data>
+  <data name="RedoMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 54</value>
+  </data>
+  <data name="RedoMenuItem.Text" xml:space="preserve">
+    <value>&amp;Redo</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>433, 6</value>
+  </data>
+  <data name="CutMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Ctrl+X</value>
+  </data>
+  <data name="CutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 54</value>
+  </data>
+  <data name="CutMenuItem.Text" xml:space="preserve">
+    <value>Cu&amp;t</value>
+  </data>
+  <data name="CopyMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Ctrl+C</value>
+  </data>
+  <data name="CopyMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 54</value>
+  </data>
+  <data name="CopyMenuItem.Text" xml:space="preserve">
+    <value>&amp;Copy</value>
+  </data>
+  <data name="PasteMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Ctrl+V</value>
+  </data>
+  <data name="PasteMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 54</value>
+  </data>
+  <data name="PasteMenuItem.Text" xml:space="preserve">
+    <value>&amp;Paste</value>
+  </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>433, 6</value>
+  </data>
+  <data name="DeleteMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Del</value>
+  </data>
+  <data name="DeleteMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 54</value>
+  </data>
+  <data name="DeleteMenuItem.Text" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>433, 6</value>
+  </data>
+  <data name="refreshColoursToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F5</value>
+  </data>
+  <data name="refreshColoursToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 54</value>
+  </data>
+  <data name="refreshColoursToolStripMenuItem.Text" xml:space="preserve">
+    <value>Re&amp;fresh colours</value>
+  </data>
+  <data name="EditMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 45</value>
+  </data>
+  <data name="EditMenu.Text" xml:space="preserve">
+    <value>R&amp;ule</value>
+  </data>
+  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="menuStrip1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>16, 5, 0, 5</value>
+  </data>
+  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1739, 55</value>
+  </data>
+  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="menuStrip1.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="NewSubruleButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="NewSubruleButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 930</value>
+  </data>
+  <data name="NewSubruleButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="NewSubruleButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 55</value>
+  </data>
+  <data name="NewSubruleButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="NewSubruleButton.Text" xml:space="preserve">
+    <value>New &amp;Subrule</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleButton.Name" xml:space="preserve">
+    <value>NewSubruleButton</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleButton.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="NoRuleSelectedLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NoRuleSelectedLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>445, 463</value>
+  </data>
+  <data name="NoRuleSelectedLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 8, 0</value>
+  </data>
+  <data name="NoRuleSelectedLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>230, 32</value>
+  </data>
+  <data name="NoRuleSelectedLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="NoRuleSelectedLabel.Text" xml:space="preserve">
+    <value>No Rule selected</value>
+  </data>
+  <data name="&gt;&gt;NoRuleSelectedLabel.Name" xml:space="preserve">
+    <value>NoRuleSelectedLabel</value>
+  </data>
+  <data name="&gt;&gt;NoRuleSelectedLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NoRuleSelectedLabel.Parent" xml:space="preserve">
+    <value>RuleControlSpace</value>
+  </data>
+  <data name="&gt;&gt;NoRuleSelectedLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RuleControlSpace.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="RuleControlSpace.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="RuleControlSpace.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="RuleControlSpace.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1158, 863</value>
+  </data>
+  <data name="RuleControlSpace.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;RuleControlSpace.Name" xml:space="preserve">
+    <value>RuleControlSpace</value>
+  </data>
+  <data name="&gt;&gt;RuleControlSpace.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RuleControlSpace.Parent" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;RuleControlSpace.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitContainer.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="splitContainer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 57</value>
+  </data>
+  <data name="splitContainer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel1.Name" xml:space="preserve">
+    <value>splitContainer.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel1.Parent" xml:space="preserve">
+    <value>splitContainer</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitContainer.Panel1MinSize" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel2.Name" xml:space="preserve">
+    <value>splitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel2.Parent" xml:space="preserve">
+    <value>splitContainer</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainer.Panel2MinSize" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="splitContainer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1731, 863</value>
+  </data>
+  <data name="splitContainer.SplitterDistance" type="System.Int32, mscorlib">
+    <value>562</value>
+  </data>
+  <data name="splitContainer.SplitterWidth" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="splitContainer.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Name" xml:space="preserve">
+    <value>splitContainer</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;splitContainer.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>25</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>16, 31</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>1739, 1002</value>
+  </data>
+  <data name="$this.Location" type="System.Drawing.Point, System.Drawing">
+    <value>634, 1000</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 7, 8, 7</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>1728, 832</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Replace Special</value>
+  </data>
+  <data name="&gt;&gt;NewRuleContextMenuItem.Name" xml:space="preserve">
+    <value>NewRuleContextMenuItem</value>
+  </data>
+  <data name="&gt;&gt;NewRuleContextMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleContextMenuItem.Name" xml:space="preserve">
+    <value>NewSubruleContextMenuItem</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleContextMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CutContextMenuItem.Name" xml:space="preserve">
+    <value>CutContextMenuItem</value>
+  </data>
+  <data name="&gt;&gt;CutContextMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CopyContextMenuItem.Name" xml:space="preserve">
+    <value>CopyContextMenuItem</value>
+  </data>
+  <data name="&gt;&gt;CopyContextMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PasteContextMenuItem.Name" xml:space="preserve">
+    <value>PasteContextMenuItem</value>
+  </data>
+  <data name="&gt;&gt;PasteContextMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DeleteContextMenuItem.Name" xml:space="preserve">
+    <value>DeleteContextMenuItem</value>
+  </data>
+  <data name="&gt;&gt;DeleteContextMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator4.Name" xml:space="preserve">
+    <value>toolStripSeparator4</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;expandAllToolStripMenuItem.Name" xml:space="preserve">
+    <value>expandAllToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;expandAllToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;collapseAllToolStripMenuItem.Name" xml:space="preserve">
+    <value>collapseAllToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;collapseAllToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RuleMenu.Name" xml:space="preserve">
+    <value>RuleMenu</value>
+  </data>
+  <data name="&gt;&gt;RuleMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewMenu.Name" xml:space="preserve">
+    <value>NewMenu</value>
+  </data>
+  <data name="&gt;&gt;NewMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewRuleMenuItem.Name" xml:space="preserve">
+    <value>NewRuleMenuItem</value>
+  </data>
+  <data name="&gt;&gt;NewRuleMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewInTemplateRuleMenuItem.Name" xml:space="preserve">
+    <value>NewInTemplateRuleMenuItem</value>
+  </data>
+  <data name="&gt;&gt;NewInTemplateRuleMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewTemplateParameterRuleMenuItem.Name" xml:space="preserve">
+    <value>NewTemplateParameterRuleMenuItem</value>
+  </data>
+  <data name="&gt;&gt;NewTemplateParameterRuleMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleMenu.Name" xml:space="preserve">
+    <value>NewSubruleMenu</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleMenuItem.Name" xml:space="preserve">
+    <value>NewSubruleMenuItem</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleInTemplateCallMenuItem.Name" xml:space="preserve">
+    <value>NewSubruleInTemplateCallMenuItem</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleInTemplateCallMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleTemplateParameterMenuItem.Name" xml:space="preserve">
+    <value>NewSubruleTemplateParameterMenuItem</value>
+  </data>
+  <data name="&gt;&gt;NewSubruleTemplateParameterMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EditMenu.Name" xml:space="preserve">
+    <value>EditMenu</value>
+  </data>
+  <data name="&gt;&gt;EditMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UndoMenuItem.Name" xml:space="preserve">
+    <value>UndoMenuItem</value>
+  </data>
+  <data name="&gt;&gt;UndoMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RedoMenuItem.Name" xml:space="preserve">
+    <value>RedoMenuItem</value>
+  </data>
+  <data name="&gt;&gt;RedoMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
+    <value>toolStripSeparator2</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CutMenuItem.Name" xml:space="preserve">
+    <value>CutMenuItem</value>
+  </data>
+  <data name="&gt;&gt;CutMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CopyMenuItem.Name" xml:space="preserve">
+    <value>CopyMenuItem</value>
+  </data>
+  <data name="&gt;&gt;CopyMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PasteMenuItem.Name" xml:space="preserve">
+    <value>PasteMenuItem</value>
+  </data>
+  <data name="&gt;&gt;PasteMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator5.Name" xml:space="preserve">
+    <value>toolStripSeparator5</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DeleteMenuItem.Name" xml:space="preserve">
+    <value>DeleteMenuItem</value>
+  </data>
+  <data name="&gt;&gt;DeleteMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator3.Name" xml:space="preserve">
+    <value>toolStripSeparator3</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;refreshColoursToolStripMenuItem.Name" xml:space="preserve">
+    <value>refreshColoursToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;refreshColoursToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ReplaceSpecial</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
