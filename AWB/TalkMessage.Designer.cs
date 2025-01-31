@@ -28,37 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TalkMessage));
             this.btnDefault = new System.Windows.Forms.Button();
             this.lblNewMsg = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnDefault
             // 
-            this.btnDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            resources.ApplyResources(this.btnDefault, "btnDefault");
             this.btnDefault.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.btnDefault.Location = new System.Drawing.Point(37, 34);
             this.btnDefault.Name = "btnDefault";
-            this.btnDefault.Size = new System.Drawing.Size(97, 23);
-            this.btnDefault.TabIndex = 1;
-            this.btnDefault.Text = "&View";
             this.btnDefault.UseVisualStyleBackColor = true;
             // 
             // lblNewMsg
             // 
-            this.lblNewMsg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblNewMsg.Location = new System.Drawing.Point(20, 9);
+            resources.ApplyResources(this.lblNewMsg, "lblNewMsg");
             this.lblNewMsg.Name = "lblNewMsg";
-            this.lblNewMsg.Size = new System.Drawing.Size(131, 16);
-            this.lblNewMsg.TabIndex = 2;
-            this.lblNewMsg.Text = "You have new messages.";
             // 
             // TalkMessage
             // 
             this.AcceptButton = this.btnDefault;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(170, 69);
             this.ControlBox = false;
             this.Controls.Add(this.lblNewMsg);
             this.Controls.Add(this.btnDefault);
@@ -67,8 +58,6 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "New messages";
             this.TopMost = true;
             this.ResumeLayout(false);
 
