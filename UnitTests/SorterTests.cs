@@ -1760,6 +1760,12 @@ second comment <!-- [[it:CN]] -->";
 [[fr:Canadien National]]";
             // TODO: Seemingly broken during UnitTest migration
             // Assert.That(parser2.Sorter.Interwikis(ref a), Is.EqualTo(a + "\r\n"), "first letter casing retained for jbo-wiki links");
+
+            string i = @"{{Canadianmetros|
+[[it:CN]]
+[[sv:CN]]
+}}";
+            Assert.That(parser2.Sorter.Interwikis(ref i), Is.Empty, "interwikis not taken out of templates");
         }
 
         [Test]

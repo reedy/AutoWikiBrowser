@@ -1170,12 +1170,14 @@ en, sq, ru
 
             List<Match> goodMatches = new List<Match>();
             List<string> interWikiListLinksOnly = new List<string>();
+            List<string> allTemplates = Parsers.GetAllTemplateDetail(articleText);
 
             foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(articleText))
             {
                 string site = m.Groups[1].Value.Trim().ToLower();
                 
-                if (!PossibleInterwikis.Contains(site))
+                // ignore interwikis in template calls
+                if (!PossibleInterwikis.Contains(site) || allTemplates.Any((t => t.Contains((m.Value)))))
                     continue;
 
                 if (unformattedText.Contains(m.Value))
