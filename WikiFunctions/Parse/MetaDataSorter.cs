@@ -539,10 +539,17 @@ en, sq, ru
 
             if (cq.Success)
             {
+                List<string> allUnformatted = (from Match m in WikiRegexes.UnformattedText.Matches(articleText)
+                    select m.Value).ToList();
+                
                 int cutoff = Math.Max(0, cq.Index - 500);
                 string cut = articleText.Substring(cutoff);
                 cut = WikiRegexes.RemoveCatsAllCats.Replace(cut, m =>
                 {
+                    // don't pull cats from wiki comments/unformatted text regions
+                    if (allUnformatted.Any(u => u.Contains(m.Value.Trim()) && !u.Equals((m.Value.Trim()))))
+                        return m.Value;
+                    
                     if (!CatsForDeletion.IsMatch(m.Value))
                         categoryList.Add(m.Value.Trim());
 
@@ -552,13 +559,6 @@ en, sq, ru
 
                     return "";
                 });
-
-                // if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
-                if (!Tools.UnformattedTextNotChanged(originalArticleText.Substring(cutoff), cut))
-                {
-                    articleText = originalArticleText;
-                    return "";
-                }
 
                 if (AddCatKey)
                     categoryList = CatKeyer(categoryList, articleTitle);

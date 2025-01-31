@@ -1176,17 +1176,28 @@ text
 [[Category:Living People]]
 foo";
 
-            ClassicAssert.IsFalse(parser2.Sorter.RemoveCats(ref bug2, "test").Contains(@"[[Category:Living People]]"), "commented out and not");
+            ClassicAssert.IsFalse(parser2.Sorter.RemoveCats(ref bug2, "test").Contains(@"[[Category:1941 births]]"), "commented out and not");
 
-            string nw = @"[[Category:American women writers]]
-[[Category:Autism activists]]
-<nowiki>
-[[Category:LGBT people from the United States]]
+            string nw = @"Hello
+<nowiki>[[Category:LGBT people from the United States]]
 [[Category:LGBT television personalities]]</nowiki>
+
+[[Category:American women writers]]
+[[Category:Autism activists]]
 [[Category:Parents of people on the autistic spectrum]]";
 
-            Assert.That(parser2.Sorter.RemoveCats(ref nw, "test"), Is.Empty, "nowiki cats");
-            ClassicAssert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"), "cat after nowiki");
+            Assert.That(parser2.Sorter.RemoveCats(ref nw, "test"), Is.EqualTo(@"[[Category:American women writers]]
+[[Category:Autism activists]]
+[[Category:Parents of people on the autistic spectrum]]
+"), "Don't pull cats from nowiki");
+            nw = @"Hello
+<nowiki>[[Category:LGBT people from the United States]]
+[[Category:LGBT television personalities]]</nowiki>
+
+[[Category:American women writers]]
+[[Category:Autism activists]]
+[[Category:Parents of people on the autistic spectrum]]";
+            ClassicAssert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"), "Don't pull cats from nowiki 2");
 
             string iw1 = @"[[Category:Hampshire|  ]]
 [[Category:Articles including recorded pronunciations (UK English)]]
@@ -1227,6 +1238,35 @@ foo";
 [[Category:Foo2]]
  -->";
             Assert.That(parser2.Sorter.RemoveCats(ref comm, "test"), Is.Empty, "Don't move commented out cats, large comment");
+
+            string longComment = @"Hello
+<!--{{Navboxes
+|title=Candinho managerial positions
+|list1=
+{{Esporte Clube São Bento managers}}
+{{Clube Atlético Juventus managers}}
+{{Al-Hilal FC managers}}
+{{Grêmio Foot-Ball Porto Alegrense managers}}
+{{Santos Futebol Clube managers}}
+{{Clube de Regatas do Flamengo managers}}
+{{Fluminense Football Club managers}}
+{{Esporte Clube Bahia managers}}
+{{Clube Atlético Bragantino managers}}
+{{Guarani Futebol Clube managers}}
+{{Esporte Clube Vitória managers}}
+{{Sport Club Corinthians Paulista managers}}
+{{Associação Portuguesa de Desportos managers}}
+{{Goiás Esporte Clube managers}}
+{{Al-Ittihad managers}}
+{{Brazil national football team managers}}
+{{Sociedade Esportiva Palmeiras managers}}
+}} [[Category:Pages where template include size is exceeded]]-->
+
+{{DEFAULTSORT:Candinho}}
+[[Category:1945 births]]
+[[Category:Living people]]";
+            
+            ClassicAssert.IsFalse(parser2.Sorter.RemoveCats(ref longComment, "test").Contains(@"[[Category:Pages where template include size is exceeded]]"), "Don't pull out of long comment section");
         }
 
         [Test]
