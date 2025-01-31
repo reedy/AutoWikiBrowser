@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IfdOptions));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkAddToSummary = new System.Windows.Forms.CheckBox();
             this.chkComment = new System.Windows.Forms.CheckBox();
             this.chkSkip = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -43,11 +45,11 @@
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnClearBacklog = new System.Windows.Forms.Button();
-            this.chkAddToSummary = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -55,127 +57,89 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.chkAddToSummary);
             this.groupBox1.Controls.Add(this.chkComment);
             this.groupBox1.Controls.Add(this.chkSkip);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(446, 69);
-            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Options";
+            // 
+            // chkAddToSummary
+            // 
+            resources.ApplyResources(this.chkAddToSummary, "chkAddToSummary");
+            this.chkAddToSummary.Checked = true;
+            this.chkAddToSummary.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAddToSummary.Name = "chkAddToSummary";
+            this.chkAddToSummary.UseVisualStyleBackColor = true;
             // 
             // chkComment
             // 
-            this.chkComment.AutoSize = true;
-            this.chkComment.Location = new System.Drawing.Point(6, 42);
+            resources.ApplyResources(this.chkComment, "chkComment");
             this.chkComment.Name = "chkComment";
-            this.chkComment.Size = new System.Drawing.Size(212, 17);
-            this.chkComment.TabIndex = 2;
-            this.chkComment.Text = "&Comment out rather than delete Image?";
             this.chkComment.UseVisualStyleBackColor = true;
             // 
             // chkSkip
             // 
-            this.chkSkip.AutoSize = true;
-            this.chkSkip.Location = new System.Drawing.Point(6, 19);
+            resources.ApplyResources(this.chkSkip, "chkSkip");
             this.chkSkip.Name = "chkSkip";
-            this.chkSkip.Size = new System.Drawing.Size(195, 17);
-            this.chkSkip.TabIndex = 1;
-            this.chkSkip.Text = "&Skip when no image changes made";
             this.chkSkip.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.txtBacklog);
-            this.groupBox2.Location = new System.Drawing.Point(6, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(538, 127);
-            this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "&Backlog text";
             // 
             // txtBacklog
             // 
             this.txtBacklog.AcceptsReturn = true;
             this.txtBacklog.AllowDrop = true;
-            this.txtBacklog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBacklog.Location = new System.Drawing.Point(6, 19);
-            this.txtBacklog.MaxLength = 2147483647;
-            this.txtBacklog.Multiline = true;
+            resources.ApplyResources(this.txtBacklog, "txtBacklog");
             this.txtBacklog.Name = "txtBacklog";
-            this.txtBacklog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBacklog.Size = new System.Drawing.Size(526, 102);
-            this.txtBacklog.TabIndex = 0;
             this.txtBacklog.TextChanged += new System.EventHandler(this.txtBacklog_TextChanged);
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.Grid);
-            this.groupBox3.Location = new System.Drawing.Point(6, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(538, 159);
-            this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "&Images";
             // 
             // Grid
             // 
-            this.Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.Grid, "Grid");
             this.Grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.From,
             this.To});
-            this.Grid.Location = new System.Drawing.Point(6, 19);
             this.Grid.Name = "Grid";
             this.Grid.ReadOnly = true;
-            this.Grid.Size = new System.Drawing.Size(526, 134);
-            this.Grid.TabIndex = 0;
             // 
             // From
             // 
-            this.From.HeaderText = "From";
+            resources.ApplyResources(this.From, "From");
             this.From.Name = "From";
             this.From.ReadOnly = true;
             // 
             // To
             // 
-            this.To.HeaderText = "To";
+            resources.ApplyResources(this.To, "To");
             this.To.Name = "To";
             this.To.ReadOnly = true;
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(484, 395);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 3;
-            this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOk
             // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(403, 395);
+            resources.ApplyResources(this.btnOk, "btnOk");
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 2;
-            this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
@@ -186,12 +150,8 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(12, 87);
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
             this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
@@ -200,51 +160,29 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer1.Size = new System.Drawing.Size(547, 302);
-            this.splitContainer1.SplitterDistance = 133;
-            this.splitContainer1.TabIndex = 1;
             // 
             // btnClearBacklog
             // 
-            this.btnClearBacklog.Location = new System.Drawing.Point(464, 58);
+            resources.ApplyResources(this.btnClearBacklog, "btnClearBacklog");
             this.btnClearBacklog.Name = "btnClearBacklog";
-            this.btnClearBacklog.Size = new System.Drawing.Size(95, 23);
-            this.btnClearBacklog.TabIndex = 7;
-            this.btnClearBacklog.Text = "Clear Backlog";
             this.btnClearBacklog.UseVisualStyleBackColor = true;
             this.btnClearBacklog.Click += new System.EventHandler(this.btnClearBacklog_Click);
-            // 
-            // chkAddToSummary
-            // 
-            this.chkAddToSummary.AutoSize = true;
-            this.chkAddToSummary.Checked = true;
-            this.chkAddToSummary.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAddToSummary.Location = new System.Drawing.Point(224, 17);
-            this.chkAddToSummary.MinimumSize = new System.Drawing.Size(190, 20);
-            this.chkAddToSummary.Name = "chkAddToSummary";
-            this.chkAddToSummary.Size = new System.Drawing.Size(190, 20);
-            this.chkAddToSummary.TabIndex = 17;
-            this.chkAddToSummary.Text = "Add &replacements to edit summary";
-            this.chkAddToSummary.UseVisualStyleBackColor = true;
             // 
             // IfdOptions
             // 
             this.AcceptButton = this.btnOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(571, 430);
             this.Controls.Add(this.btnClearBacklog);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.MinimumSize = new System.Drawing.Size(255, 294);
             this.Name = "IfdOptions";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "IFD";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -253,6 +191,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 

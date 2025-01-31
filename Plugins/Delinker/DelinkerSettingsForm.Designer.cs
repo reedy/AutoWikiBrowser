@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             this.OK = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.Link = new System.Windows.Forms.TextBox();
@@ -41,84 +42,54 @@
             // 
             // OK
             // 
-            this.OK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.OK, "OK");
             this.OK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OK.Location = new System.Drawing.Point(244, 96);
             this.OK.Name = "OK";
-            this.OK.Size = new System.Drawing.Size(75, 23);
-            this.OK.TabIndex = 7;
-            this.OK.Text = "OK";
             this.OK.UseVisualStyleBackColor = true;
             this.OK.Click += new System.EventHandler(this.OK_Click);
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 19);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "&Link to remove:";
             // 
             // Link
             // 
-            this.Link.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Link.Location = new System.Drawing.Point(98, 15);
+            resources.ApplyResources(this.Link, "Link");
             this.Link.Name = "Link";
-            this.Link.Size = new System.Drawing.Size(302, 22);
-            this.Link.TabIndex = 1;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(242, 38);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(158, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Must be properly regex-escaped";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Skip
             // 
-            this.Skip.AutoSize = true;
-            this.Skip.Location = new System.Drawing.Point(15, 57);
+            resources.ApplyResources(this.Skip, "Skip");
             this.Skip.Name = "Skip";
-            this.Skip.Size = new System.Drawing.Size(156, 17);
-            this.Skip.TabIndex = 5;
-            this.Skip.Text = "&Skip if no links are removed";
-            this.toolTip1.SetToolTip(this.Skip, "Automatically skips page if no links removed");
+            this.toolTip1.SetToolTip(this.Skip, resources.GetString("Skip.ToolTip"));
             this.Skip.UseVisualStyleBackColor = true;
             // 
             // Cancel
             // 
-            this.Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.Cancel, "Cancel");
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel.Location = new System.Drawing.Point(325, 96);
             this.Cancel.Name = "Cancel";
-            this.Cancel.Size = new System.Drawing.Size(75, 23);
-            this.Cancel.TabIndex = 8;
-            this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
             // 
             // RemoveSections
             // 
-            this.RemoveSections.AutoSize = true;
-            this.RemoveSections.Location = new System.Drawing.Point(15, 80);
+            resources.ApplyResources(this.RemoveSections, "RemoveSections");
             this.RemoveSections.Name = "RemoveSections";
-            this.RemoveSections.Size = new System.Drawing.Size(212, 17);
-            this.RemoveSections.TabIndex = 6;
-            this.RemoveSections.Text = "&Remove emptied external links sections";
-            this.toolTip1.SetToolTip(this.RemoveSections, "Removes emptied external links sections. It has effect only in enwiki, dewiki and" +
-                        " ruwiki");
+            this.toolTip1.SetToolTip(this.RemoveSections, resources.GetString("RemoveSections.ToolTip"));
             this.RemoveSections.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
             // 
             this.AcceptButton = this.OK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel;
-            this.ClientSize = new System.Drawing.Size(411, 126);
             this.Controls.Add(this.RemoveSections);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.Skip);
@@ -132,11 +103,10 @@
             this.Name = "SettingsForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Delinker settings";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
