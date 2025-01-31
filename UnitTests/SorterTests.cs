@@ -1758,8 +1758,11 @@ second comment <!-- [[it:CN]] -->";
             a = @"[[de:Canadian National Railway]]
 [[jbo:canadian National]]
 [[fr:Canadien National]]";
-            // TODO: Seemingly broken during UnitTest migration
-            // Assert.That(parser2.Sorter.Interwikis(ref a), Is.EqualTo(a + "\r\n"), "first letter casing retained for jbo-wiki links");
+
+             Assert.That(parser2.Sorter.Interwikis(ref a), Is.EqualTo(@"[[de:Canadian National Railway]]
+[[jbo:canadian National]]
+[[fr:Canadien National]]
+"), "first letter casing retained for jbo-wiki links");
 
             string i = @"{{Canadianmetros|
 [[it:CN]]
