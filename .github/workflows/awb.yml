@@ -15,8 +15,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
-      - name: Restore NuGet
+      - name: Setup NuGet
         uses: nuget/setup-nuget@v2
+      - name: Restore NuGet
         run: nuget restore 'AutoWikiBrowser no plugins.sln'
       - name: Build
         run: |
