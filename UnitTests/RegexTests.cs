@@ -1300,6 +1300,7 @@ cit"));
 |something}}"));
             ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{selfref|something}}"));
             ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Redirect-distinguish|something}}"));
+            ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Redirect-distinguish-text|something}}"));
 
             ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{About-distinguish2}}"), @"{{About-distinguish2}}");
             ClassicAssert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{About-distinguish}}"), @"{{About-distinguish}}");
