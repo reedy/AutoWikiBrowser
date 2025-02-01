@@ -441,7 +441,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex AnyTag = new Regex(@"<\s*([A-Za-z/][^<>]+)>");
         private static readonly Regex SimpleTagPair = new Regex(@"<([^<>]+)>[^<>]+</\1>");
         private static readonly List<string> MathSourceCodeNowikiPreTagList = new List<string>(new [] {"math", "source", "ref", "gallery", "code", "nowiki", "pre", "small", "center", "sup", "sub"});
-        private static readonly Regex UnclosedNestedComments = new Regex(@"<!--(.*?)(?<!<!--.*<!--.*)-->|<!--([^<]*)-->", RegexOptions.Singleline);
+        private static readonly Regex UnclosedNestedComments = new Regex(@"<!--(.*?)(?<!<!--.*<!--.*)-->|<!--([^<]*)-->");
 
         /// <summary>
         ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt;, &lt;pre&gt; &lt;center&gt; &lt;sup&gt; &lt;sub&gt; or &lt;gallery&gt; tags and comments
