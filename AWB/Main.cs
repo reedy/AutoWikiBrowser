@@ -1860,33 +1860,43 @@ namespace AutoWikiBrowser
 
             try
             {
-                if (webBrowser.Document == null)
-                {
-                    Tools.WriteDebug("GetDiff", "GetDiff called but webBrowser.Document null");
-                    return;
-                }
-
-                webBrowser.Document.OpenNew(false);
-                webBrowser.Document.MouseMove -= Document_MouseMove;
+                string diffHtml = "";
                 if (TheArticle.OriginalArticleText.Equals(txtEdit.Text))
                 {
-                    webBrowser.Document.Write(
-                        @"<h2 style='padding-top: .5em;
+                    diffHtml = @"<h2 style='padding-top: .5em;
 padding-bottom: .17em;
 border-bottom: 1px solid #aaa;
-font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to the next page.</p>");
+font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to the next page.</p>";
+
                 }
                 else
                 {
                     // when less than 10 edits show user help info on double click to undo etc.
-                    webBrowser.Document.Write("<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
-                                              + "<html><head>" +
-                                              WikiDiff.DiffHead() + @"</head><body>" +
-                                              ((NumberOfEdits < 10)
-                                               ? WikiDiff.TableHeader
-                                               : WikiDiff.TableHeaderNoMessages) +
-                                              Diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
-                                              "</table></body></html>");
+                    diffHtml = "<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
+                               + "<html><head>" +
+                               WikiDiff.DiffHead() + @"</head><body>" +
+                               ((NumberOfEdits < 10)
+                                   ? WikiDiff.TableHeader
+                                   : WikiDiff.TableHeaderNoMessages) +
+                               Diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
+                               "</table></body></html>";
+                }
+
+                // no webbrowser available under Mono so write diff to file instead
+                if (Globals.UsingMono)
+                {
+                    Tools.WriteTextFile(diffHtml, "Diff.html", false);
+                }
+                else if (webBrowser.Document == null)
+                {
+                    Tools.WriteDebug("GetDiff", "GetDiff called but webBrowser.Document null");
+                    return;
+                }
+                else
+                {
+                    webBrowser.Document.OpenNew(false);
+                    webBrowser.Document.MouseMove -= Document_MouseMove;
+                    webBrowser.Document.Write(diffHtml);
                 }
 
                 txtEdit.Focus();
