@@ -22,8 +22,8 @@ jobs:
       - name: Build
         run: |
             MSBuild.exe $Env:GITHUB_WORKSPACE\'AutoWikiBrowser no plugins.sln' /p:Configuration=Release
-      - name: Upload artifacts
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.windows-version }}
+          name: AutoWikiBrowser-${{ github.sha }}
           path: AWB/bin/Release
