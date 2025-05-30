@@ -1576,32 +1576,14 @@ Message: {2}
             OpenURLInBrowser(Variables.NonPrettifiedURL(title));
         }
 
-        private static string WineBrowserPath;
         /// <summary>
-        /// Error supressed URL opener in default browser (Windows) or Firefox/Chromium/Konqueror for Wine
+        /// Error supressed URL opener in default browser
         /// </summary>
         public static void OpenURLInBrowser(string url)
         {
-            // For Wine use attempt to dynamically determine available browser, caching result
-            if (WineBrowserPath == null)
-            {
-                if (File.Exists("/usr/bin/firefox"))
-                    WineBrowserPath = "/usr/bin/firefox";
-                else if (File.Exists("/usr/bin/chromium-browser"))
-                    WineBrowserPath = "/usr/bin/chromium-browser";
-                else if (File.Exists("/usr/bin/konqueror"))
-                    WineBrowserPath = "/usr/bin/konqueror";
-                else WineBrowserPath = ""; // Windows, or Wine and none of these browsers available
-            }
             try
             {
-                if (!Globals.UnitTestMode)
-                {
-                    if (WineBrowserPath.Length > 0) // Wine
-                        System.Diagnostics.Process.Start(WineBrowserPath, url);
-                    else // Windows
-                        System.Diagnostics.Process.Start(url);
-                }
+                System.Diagnostics.Process.Start(url);
             }
             catch { }
         }
