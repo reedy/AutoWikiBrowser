@@ -1583,7 +1583,10 @@ Message: {2}
         {
             try
             {
-                System.Diagnostics.Process.Start(url);
+                if (!Globals.UnitTestMode)
+                {
+                    System.Diagnostics.Process.Start(url);
+                }
             }
             catch { }
         }
