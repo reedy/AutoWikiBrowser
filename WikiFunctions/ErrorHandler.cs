@@ -42,6 +42,7 @@ namespace WikiFunctions
         private static bool HandleKnownExceptions(Exception ex)
         {
             Tools.WriteDebug("HandleKnownExceptions", ex.StackTrace);
+            Exception exceptionOfInterest;
             // invalid regex - only ArgumentException, without subclasses
             if (ex is ArgumentException &&
                 (ex.StackTrace.Contains("System.Text.RegularExpressions") ||
@@ -58,10 +59,13 @@ namespace WikiFunctions
                     "Unsupported culture");
             }
             // network access error
-            else if (ex is System.Net.WebException || ex.InnerException is System.Net.WebException)
+            else if ((exceptionOfInterest = ex) is System.Net.WebException || 
+                (exceptionOfInterest = ex.InnerException) is System.Net.WebException)
             {
-                // if AWB starts up offline we'll hit here, so provide clear network related message
-                string msg = ex.Message.StartsWith(@"The type initializer for") ? ex.InnerException.Message : ex.Message;
+                string msg = exceptionOfInterest.Message;
+
+                if (exceptionOfInterest.HResult != 0)
+                    msg += string.Format(" (HRESULT 0x{0:X})", exceptionOfInterest.HResult);
 
                 MessageBox.Show(msg, "Network access error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
